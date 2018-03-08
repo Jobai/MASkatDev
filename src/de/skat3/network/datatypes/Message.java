@@ -43,6 +43,11 @@ public abstract class Message implements Serializable {
     // TODO Auto-generated constructor stub
     this.messageType = messageType;
   }
+
+  public MessageType getType() {
+    // TODO Auto-generated method stub
+    return messageType;
+  }
   
   
 
