@@ -7,6 +7,7 @@
  *          (c) 2018 All Rights Reserved. -------------------------
  */
 /**
+ * Includes all network client related classes.
  * @author Jonas Bauer
  *
  */
