@@ -11,7 +11,9 @@
 
 package de.skat3.network.datatypes;
 
+import de.skat3.network.datatypes.SubType;
 import java.io.Serializable;
+
 
 /**
  * @author Jonas Bauer
@@ -26,6 +28,7 @@ public abstract class Message implements Serializable {
   private MessageType messageType;
   private String sender;
   private String receiver;
+  private SubType subType;
   
   /**
    * @author Jonas Bauer
@@ -37,6 +40,7 @@ public abstract class Message implements Serializable {
     this.messageType = messageType;
     this.sender = sender;
     this.receiver = receiver;
+   
   }
 
   public Message(MessageType messageType) {
@@ -47,6 +51,11 @@ public abstract class Message implements Serializable {
   public MessageType getType() {
     // TODO Auto-generated method stub
     return messageType;
+  }
+
+  public SubType getSubType() {
+    // TODO Auto-generated method stub
+    return subType;
   }
   
   

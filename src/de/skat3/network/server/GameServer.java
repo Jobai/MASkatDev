@@ -59,10 +59,20 @@ public class GameServer extends Thread {
 
 
   }
-  
-  public void stopServer()
-  {
-    //TODO
+
+  public void stopServer() {
+    if (!this.serverSocket.isClosed()) {
+      try {
+        this.serverSocket.close();
+        logger.info("Server stopped!");
+      } catch (SocketException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    
   }
 
   /**
@@ -71,7 +81,7 @@ public class GameServer extends Thread {
    */
   public static void main(String[] args) {
     // TODO Auto-generated method stub
-    
+
     GameServer gs = new GameServer();
 
   }
