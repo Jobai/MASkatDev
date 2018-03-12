@@ -16,7 +16,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
-
+                                         
 /**
  * Controls the basic server work flow of receiving connections.
  * 
@@ -27,7 +27,7 @@ public class GameServer extends Thread {
 
   private static Logger logger = Logger.getLogger("de.skat3.network.server");
   public static ArrayList<GameServerProtocol> threadList;
-  public static int port;
+  public static int port = 42;
   private ServerSocket serverSocket;
 
   public GameServer() {

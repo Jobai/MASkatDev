@@ -85,7 +85,9 @@ public class GameServerProtocol extends Thread {
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
       } catch (IOException e) {
-        e.printStackTrace();
+        logger.log(Level.WARNING, "Connection Error! Possibly ungracefully closed by Client! [Client:" + socket.getInetAddress() + "] \n" + e.getMessage(), e);
+        closeConnection();
+        
         // TODO KILL THIS THREAD
       }
     }
@@ -140,6 +142,7 @@ public class GameServerProtocol extends Thread {
       toClient.close();
       fromClient.close();
       socket.close();
+      GameServer.threadList.remove(this);
       logger.info("Server closed a connection");
       this.interrupt();
     } catch (IOException e) {
@@ -149,6 +152,11 @@ public class GameServerProtocol extends Thread {
 
 
 
+  }
+  
+  private void cleanUp(){
+    GameServer.threadList.remove(this);
+    closeConnection();
   }
 
 
