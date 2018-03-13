@@ -27,7 +27,7 @@ public class GameServer extends Thread {
 
   private static Logger logger = Logger.getLogger("de.skat3.network.server");
   public static ArrayList<GameServerProtocol> threadList;
-  public static int port = 42;
+  public static int port = 2018;
   private ServerSocket serverSocket;
 
   public GameServer() {
@@ -36,7 +36,7 @@ public class GameServer extends Thread {
   }
 
   public void run() {
-    try (ServerSocket server = new ServerSocket(port)) {
+    try (ServerSocket server = new ServerSocket(port, 0, Inet4Address.getLocalHost())) {
       logger
           .info("Server started on " + Inet4Address.getLocalHost().getHostAddress() + ": " + port);
 

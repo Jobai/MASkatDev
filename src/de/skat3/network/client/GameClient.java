@@ -27,8 +27,9 @@ import de.skat3.network.datatypes.SubType;
  */
 public class GameClient {
 
-  String hostAdress = "localhost";
-  int port = 42;
+  String hostAdress = "134.155.206.203";
+  //134.155.206.203";
+  int port = 2018;
   Socket s;
   ObjectOutputStream toSever;
   ObjectInputStream fromServer;
