@@ -23,7 +23,7 @@
 		<ImageView fitHeight="700.0" fitWidth="1300.0" opacity="0.73"
 			pickOnBounds="true">
 			<image>
-				<Image url="@../../../../../res/bg.png" />
+				<Image url="@../../../../../resources/guifiles/bg.png" />
 			</image>
 		</ImageView>
 		<Pane layoutY="97.0" prefHeight="35.0" prefWidth="1326.0">
