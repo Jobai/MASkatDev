@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
+import de.skat3.network.datatypes.MessageChat;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.datatypes.SubType;
 
@@ -33,6 +34,7 @@ public class GameClient {
   ObjectInputStream fromServer;
   Logger logger = Logger.getLogger("de.skat3.network.client");
   StreamListener sl;
+  ClientLogicHandler clh;
 
 
 
@@ -44,6 +46,7 @@ public class GameClient {
   public GameClient(String hostAdress, int port) {
     this.hostAdress = hostAdress;
     this.port = port;
+    this.clh = new ClientLogicHandler(this);
   }
 
 
@@ -83,7 +86,7 @@ public class GameClient {
         this.closeConnection();
         break;
       case CHAT_MESSAGE:
-        this.handleChatMessage(m);
+        this.handleChatMessage((MessageChat) m);
         break;
       case ANWSER_ACTION:
         throw new AssertionError();
@@ -91,7 +94,7 @@ public class GameClient {
         this.handleCommandAction(m, st);
         break;
       case COMMAND_INFO:
-        this.handleCommandAction(m, st); //XXX
+        this.handleCommandAction(m, st); // XXX
         break;
       default:
         throw new AssertionError();
@@ -102,55 +105,60 @@ public class GameClient {
 
   private void handleCommandAction(Message m, SubType st) {
     // TODO Auto-generated method stub
-    
-    
+
+
     CommandType ct = (CommandType) st;
-    switch(ct){
+    switch (ct) {
       case BID_INFO:
-        ClientLogicHandler.bidInfoHandler(m);
+        clh.bidInfoHandler(m);
         break;
       case BID_REDO:
-        ClientLogicHandler.bidRedoHandler(m);
+        clh.bidRedoHandler(m);
         break;
       case BID_REQUEST:
-        ClientLogicHandler.bidRequestHandler(m);
+        clh.bidRequestHandler(m);
         break;
       case PLAY_INFO:
-        ClientLogicHandler.playInfoHandler(m);
+        clh.playInfoHandler(m);
         break;
       case PLAY_REDO:
-        ClientLogicHandler.playRedoHandler(m);
+        clh.playRedoHandler(m);
         break;
       case PLAY_REQUEST:
-        ClientLogicHandler.playRequestHandler(m);
+        clh.playRequestHandler(m);
         break;
       case TRICK_INFO:
-        ClientLogicHandler.trickInfoHandler(m);
+        clh.trickInfoHandler(m);
         break;
       case ROUND_INFO:
-        ClientLogicHandler.roundInfoHandler(m);
+        clh.roundInfoHandler(m);
         break;
       case MATCH_INFO:
-        ClientLogicHandler.matchInfoHandler(m);
+        clh.matchInfoHandler(m);
         break;
       case GAME_INFO:
-        ClientLogicHandler.gameInfoHandler(m);
+        clh.gameInfoHandler(m);
         break;
+      default:
+        throw new AssertionError();
+      
     }
 
   }
 
+  //
+  //
+  // private void handleCommandInfo(Message m, SubType st) {
+  // // TODO Auto-generated method stub
+  //
+  // }
 
 
-  private void handleCommandInfo(Message m, SubType st) {
+
+  private void handleChatMessage(MessageChat m) {
     // TODO Auto-generated method stub
-
-  }
-
-
-
-  private void handleChatMessage(Message m) {
-    // TODO Auto-generated method stub
+    
+    logger.log(Level.FINE, "Got Chatmessage" + m.message);
 
   }
 
@@ -159,6 +167,15 @@ public class GameClient {
   private void closeConnection() {
     // TODO Auto-generated method stub
 
+  }
+
+  public void sendToServer(Message m) {
+    try {
+      toSever.writeObject(m);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
 
@@ -172,6 +189,12 @@ public class GameClient {
 
     GameClient gc = new GameClient("localhost", 42);
     gc.connect();
+    
+    for(int i = 0; i < 100; i++)
+    {
+      gc.clh.sendChatMessage("Test  Message" + i);
+    }
+  
 
   }
 

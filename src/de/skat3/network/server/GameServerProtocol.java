@@ -66,7 +66,7 @@ public class GameServerProtocol extends Thread {
             this.closeConnection();
             break;
           case CHAT_MESSAGE:
-            this.relayChat(m);
+            this.relayChat((MessageChat) m);
             break;
           case ANWSER_ACTION:
             this.handleAnswer(m);
@@ -100,8 +100,9 @@ public class GameServerProtocol extends Thread {
 
   }
 
-  private void relayChat(Message m) {
+  private void relayChat(MessageChat m) {
     // TODO Auto-generated method stub
+    logger.log(Level.FINE, "Got ChatMessage: " + m.message);
     
     MessageChat oldM = (MessageChat) m;
     
