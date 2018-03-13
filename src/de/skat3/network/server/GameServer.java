@@ -36,7 +36,7 @@ public class GameServer extends Thread {
   }
 
   public void run() {
-    try (ServerSocket server = new ServerSocket(port, 0, Inet4Address.getLocalHost())) {
+    try (ServerSocket server = new ServerSocket(port)) {
       logger
           .info("Server started on " + Inet4Address.getLocalHost().getHostAddress() + ": " + port);
 

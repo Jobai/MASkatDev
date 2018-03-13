@@ -27,9 +27,9 @@ import de.skat3.network.datatypes.SubType;
  */
 public class GameClient {
 
-  String hostAdress = "134.155.206.203";
-  //134.155.206.203";
-  int port = 2018;
+  String hostAdress;
+  // 134.155.206.203";
+  int port;
   Socket s;
   ObjectOutputStream toSever;
   ObjectInputStream fromServer;
@@ -142,7 +142,7 @@ public class GameClient {
         break;
       default:
         throw new AssertionError();
-      
+
     }
 
   }
@@ -158,7 +158,7 @@ public class GameClient {
 
   private void handleChatMessage(MessageChat m) {
     // TODO Auto-generated method stub
-    
+
     logger.log(Level.FINE, "Got Chatmessage" + m.message);
 
   }
@@ -188,14 +188,13 @@ public class GameClient {
   public static void main(String[] args) {
     // TODO Auto-generated method stub
 
-    GameClient gc = new GameClient("localhost", 42);
+    GameClient gc = new GameClient("134.155.220.176", 2018);
     gc.connect();
-    
-    for(int i = 0; i < 100; i++)
-    {
+
+    for (int i = 0; i < 100; i++) {
       gc.clh.sendChatMessage("Test  Message" + i);
     }
-  
+
 
   }
 
