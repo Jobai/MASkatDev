@@ -95,6 +95,8 @@ public class GameServerProtocol extends Thread {
 
   private void handleAnswer(Message m) {
     // TODO Auto-generated method stub
+    
+    GameLogicHandler.handleAnswer(m);
 
   }
 

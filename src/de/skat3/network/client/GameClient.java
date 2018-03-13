@@ -15,6 +15,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.datatypes.SubType;
@@ -90,7 +91,7 @@ public class GameClient {
         this.handleCommandAction(m, st);
         break;
       case COMMAND_INFO:
-        this.handleCommandInfo(m, st);
+        this.handleCommandAction(m, st); //XXX
         break;
       default:
         throw new AssertionError();
@@ -101,6 +102,41 @@ public class GameClient {
 
   private void handleCommandAction(Message m, SubType st) {
     // TODO Auto-generated method stub
+    
+    
+    CommandType ct = (CommandType) st;
+    switch(ct){
+      case BID_INFO:
+        ClientLogicHandler.bidInfoHandler(m);
+        break;
+      case BID_REDO:
+        ClientLogicHandler.bidRedoHandler(m);
+        break;
+      case BID_REQUEST:
+        ClientLogicHandler.bidRequestHandler(m);
+        break;
+      case PLAY_INFO:
+        ClientLogicHandler.playInfoHandler(m);
+        break;
+      case PLAY_REDO:
+        ClientLogicHandler.playRedoHandler(m);
+        break;
+      case PLAY_REQUEST:
+        ClientLogicHandler.playRequestHandler(m);
+        break;
+      case TRICK_INFO:
+        ClientLogicHandler.trickInfoHandler(m);
+        break;
+      case ROUND_INFO:
+        ClientLogicHandler.roundInfoHandler(m);
+        break;
+      case MATCH_INFO:
+        ClientLogicHandler.matchInfoHandler(m);
+        break;
+      case GAME_INFO:
+        ClientLogicHandler.gameInfoHandler(m);
+        break;
+    }
 
   }
 
