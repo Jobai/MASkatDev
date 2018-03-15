@@ -9,9 +9,11 @@ import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -35,6 +37,8 @@ public class MenuFrameController {
   public Button optionsMenuButton;
   @FXML
   public Rectangle menuNameLine;
+  @FXML
+  public ImageView backgroundImage;
 
   // Menus
 
@@ -49,6 +53,8 @@ public class MenuFrameController {
 
   public void showSingleplayerMenu() {
     // this.changeMenus(this.singleplayerMenu);
+   
+    
     this.startMenuUnderlineAnimation(singleplayerMenuButton);
   }
 
@@ -156,6 +162,11 @@ public class MenuFrameController {
     this.multiplayerMenu = new MultiplayerMenu();
     this.statsMenu = new StatsMenu();
     this.optionsMenu = new OptionsMenu();
+    
+//    Stage s = (Stage) mainPane.getScene().getWindow();
+//    System.out.println(s.widthProperty());
+//    this.backgroundImage.fitWidthProperty().bind( s.widthProperty() );
+//    this.backgroundImage.fitHeightProperty().bind( s.heightProperty());
     // code first initilizing of the singleplayer without an animation when the
     // programm starts.
   }

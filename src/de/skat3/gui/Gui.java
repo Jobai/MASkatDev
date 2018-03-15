@@ -37,11 +37,20 @@ public class Gui extends Application {
     this.initializeComponents();
     this.mainStage.setScene(this.menuFrame.getScene());
     this.mainStage.show();
+    this.delayedInitialize();
   }
 
   private void initializeComponents() {
     // size stuff. These are not the max values...s
-
+    this.mainStage.setMinWidth(1280);
+    this.mainStage.setMinHeight(720);
+    this.mainStage.setMaximized(true);
     this.menuFrame = new MenuFrame();
+  }
+  
+  private void delayedInitialize() {
+    this.menuFrame.getController().backgroundImage.fitWidthProperty().bind(this.mainStage.widthProperty());
+    this.menuFrame.getController().backgroundImage.fitHeightProperty().bind(this.mainStage.heightProperty());
+
   }
 }
