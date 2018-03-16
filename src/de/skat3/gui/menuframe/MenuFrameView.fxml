@@ -20,7 +20,7 @@
 				<Region />
 			</root>
 		</SubScene>
-		<ImageView fx:id="backgroundImage" opacity="0.73" pickOnBounds="true">
+		<ImageView fx:id="backgroundImage" fitHeight="720.0" fitWidth="1280.0" opacity="0.73" pickOnBounds="true">
 			<image>
 				<Image url="@../../../../../resources/guifiles/bg.png" />
 			</image>
@@ -62,5 +62,17 @@
 				<MenuItem mnemonicParsing="false" text="Action 2" />
 			</items>
 		</MenuButton>
+      <AnchorPane layoutY="141.0" prefHeight="581.0" prefWidth="1280.0" AnchorPane.topAnchor="141.0">
+         <children>
+            <Button layoutX="115.0" layoutY="126.0" mnemonicParsing="false" prefHeight="305.0" prefWidth="419.0" style="-fx-background-color: transparent; -fx-border-color: #000000;" text="Single Game">
+               <font>
+                  <Font size="48.0" />
+               </font></Button>
+            <Button layoutX="629.0" layoutY="126.0" mnemonicParsing="false" prefHeight="305.0" prefWidth="419.0" style="-fx-background-color: transparent; -fx-border-color: #000000;" text="Training Mode">
+               <font>
+                  <Font size="48.0" />
+               </font></Button>
+         </children>
+      </AnchorPane>
 	</children>
 </AnchorPane>
