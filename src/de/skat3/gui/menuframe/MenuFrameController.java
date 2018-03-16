@@ -195,9 +195,12 @@ public class MenuFrameController {
       slideOut.setOnFinished(e -> {
         this.mainPane.getChildren().remove(this.activeMenu.getPane());
         this.activeMenu = newMenu;
+        AnchorPane.setBottomAnchor(newMenu.getPane(), 0.0);
+        AnchorPane.setLeftAnchor(newMenu.getPane(), 0.0);
+        AnchorPane.setRightAnchor(newMenu.getPane(), 0.0);
+        AnchorPane.setTopAnchor(newMenu.getPane(), 141.0);
         this.mainPane.setDisable(false);
       });
-
     }
   }
 
