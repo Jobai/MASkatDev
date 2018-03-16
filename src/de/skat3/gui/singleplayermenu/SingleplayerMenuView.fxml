@@ -2,10 +2,10 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane layoutY="141.0" prefHeight="581.0" prefWidth="1280.0"
-	AnchorPane.topAnchor="141.0"
-	fx:controller="de.skat3.gui.singleplayermenu.SingleplayerMenuController">
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.singleplayermenu.SingleplayerMenuController">
 	<children>
 		<Button layoutX="115.0" layoutY="126.0" mnemonicParsing="false"
 			prefHeight="305.0" prefWidth="419.0"

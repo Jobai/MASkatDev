@@ -7,4 +7,8 @@ public class GuiController implements GuiInterface {
     this.gui = gui;
   }
   
+  public void blockInput(boolean value) {
+    this.gui.getMainStage().getScene().getRoot().setDisable(value);
+  }
+  
 }

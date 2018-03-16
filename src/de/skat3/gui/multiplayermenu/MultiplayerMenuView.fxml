@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="de.skat3.gui.multiplayermenu.MultiplayerMenuController">
-	<!-- TODO Add Nodes -->
+<AnchorPane layoutY="141.0" prefHeight="581.0" prefWidth="1280.0"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.multiplayermenu.MultiplayerMenuController">
+	<children>
+		<Button layoutX="115.0" layoutY="126.0" mnemonicParsing="false"
+			prefHeight="305.0" prefWidth="419.0"
+			style="-fx-background-color: transparent; -fx-border-color: #000000;"
+			text="Join">
+			<font>
+				<Font size="48.0" />
+			</font>
+		</Button>
+		<Button layoutX="629.0" layoutY="126.0" mnemonicParsing="false"
+			prefHeight="305.0" prefWidth="419.0"
+			style="-fx-background-color: transparent; -fx-border-color: #000000;"
+			text="Host">
+			<font>
+				<Font size="48.0" />
+			</font>
+		</Button>
+	</children>
 </AnchorPane>
 

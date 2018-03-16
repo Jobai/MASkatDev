@@ -47,10 +47,16 @@ public class Gui extends Application {
     this.mainStage.setMaximized(true);
     this.menuFrame = new MenuFrame();
   }
-  
-  private void delayedInitialize() {
-    this.menuFrame.getController().backgroundImage.fitWidthProperty().bind(this.mainStage.widthProperty());
-    this.menuFrame.getController().backgroundImage.fitHeightProperty().bind(this.mainStage.heightProperty());
 
+  private void delayedInitialize() {
+    this.menuFrame.getController().backgroundImage.fitWidthProperty()
+        .bind(this.mainStage.widthProperty());
+    this.menuFrame.getController().backgroundImage.fitHeightProperty()
+        .bind(this.mainStage.heightProperty());
+    this.menuFrame.getController().delayedInitialize();
+  }
+  
+  public Stage getMainStage() {
+    return this.mainStage;
   }
 }

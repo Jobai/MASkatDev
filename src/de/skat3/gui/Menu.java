@@ -1,5 +1,7 @@
 package de.skat3.gui;
 
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 /**
@@ -9,7 +11,7 @@ import javafx.scene.layout.Pane;
  */
 public abstract class Menu {
   private int rank;
-  private Pane pane;
+  private AnchorPane pane;
 
   /**
    * @param rank Postion in the menu frame starting from the left. Has to be unique.
@@ -18,14 +20,14 @@ public abstract class Menu {
     this.rank = rank;
   }
 
-  protected void setPane(Pane pane) {
+  protected void setPane(AnchorPane pane) {
     this.pane = pane;
   }
 
   /**
    * @return the Pane which represents the Menu.
    */
-  public Pane getPane() {
+  public AnchorPane getPane() {
     return this.pane;
   }
 
