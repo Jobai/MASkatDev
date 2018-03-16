@@ -3,10 +3,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.Button?>
 
-<AnchorPane id="mainPane" prefHeight="600" prefWidth="400"
-	style="-fx-background-color: #043543;" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane layoutY="141.0" prefHeight="581.0" prefWidth="1280.0"
+	AnchorPane.topAnchor="141.0"
 	fx:controller="de.skat3.gui.singleplayermenu.SingleplayerMenuController">
 	<children>
+		<Button layoutX="115.0" layoutY="126.0" mnemonicParsing="false"
+			prefHeight="305.0" prefWidth="419.0"
+			style="-fx-background-color: transparent; -fx-border-color: #000000;"
+			text="Single Game">
+			<font>
+				<Font size="48.0" />
+			</font>
+		</Button>
+		<Button layoutX="629.0" layoutY="126.0" mnemonicParsing="false"
+			prefHeight="305.0" prefWidth="419.0"
+			style="-fx-background-color: transparent; -fx-border-color: #000000;"
+			text="Training Mode">
+			<font>
+				<Font size="48.0" />
+			</font>
+		</Button>
 	</children>
 </AnchorPane>
-
