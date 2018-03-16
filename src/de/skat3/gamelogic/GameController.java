@@ -41,7 +41,7 @@ public class GameController {
     } else {
       this.rotatePlayers();
     }
-      new RoundInstance(players);
+    new RoundInstance(players);
 
   }
 
