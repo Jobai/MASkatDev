@@ -1,5 +1,7 @@
 package de.skat3.gamelogic;
 
+import javafx.embed.swing.JFXPanel;
+
 public class CardDeck {
 
   private Card[] cards = new Card[Suit.length * Value.length];
@@ -14,11 +16,18 @@ public class CardDeck {
     }
   }
 
-  public static void main(String[] args) {
-    CardDeck a = new CardDeck();
-    for (Card c : a.cards) {
-      System.out.println(c.toString());
-    }
-
+  Card[] getCards() {
+    return this.cards;
   }
+
+  Card getCard(String s) {
+    for (Card c : this.cards) {
+      if (c.toString().equals(s)) {
+        return c;
+      }
+    }
+    System.err.println("Ungueltige Karte, "+s);
+    return null;
+  }
+
 }
