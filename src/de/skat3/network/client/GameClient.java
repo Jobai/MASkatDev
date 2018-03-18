@@ -48,6 +48,7 @@ public class GameClient {
     this.hostAdress = hostAdress;
     this.port = port;
     this.clh = new ClientLogicHandler(this);
+    logger.setLevel(Level.ALL);
   }
 
 
@@ -159,7 +160,7 @@ public class GameClient {
   private void handleChatMessage(MessageChat m) {
     // TODO Auto-generated method stub
 
-    logger.log(Level.FINE, "Got Chatmessage" + m.message);
+    logger.log(Level.INFO, "Got Chatmessage" + m.message);
 
   }
 
@@ -173,6 +174,7 @@ public class GameClient {
   public void sendToServer(Message m) {
     try {
       toSever.writeObject(m);
+      logger.log(Level.INFO, "tried to send");
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -191,7 +193,8 @@ public class GameClient {
     GameClient gc = new GameClient("134.155.220.176", 2018);
     gc.connect();
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 1; i <= 1000000; i++) {
+      
       gc.clh.sendChatMessage("Test  Message" + i);
     }
 
