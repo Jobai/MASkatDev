@@ -5,4 +5,4 @@
  * @author adomonel
  *
  */
-package de.skat3.gui;
+package de.skat3.gui.matchfield;
