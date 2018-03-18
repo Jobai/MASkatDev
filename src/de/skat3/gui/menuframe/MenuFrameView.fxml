@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.SubScene?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPane" prefHeight="720" prefWidth="1280"
+	style="-fx-min-width: 1280; -fx-min-height: 720;"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.menuframe.MenuFrameController">
+	<children>
+		<SubScene fx:id="subMenu" height="569.0" layoutY="132.0"
+			width="1300.0">
+			<root>
+				<Region />
+			</root>
+		</SubScene>
+		<ImageView fx:id="backgroundImage" fitHeight="720.0"
+			fitWidth="1280.0" opacity="0.73" pickOnBounds="true">
+			<image>
+				<Image url="@../../../../../resources/guifiles/bg.png" />
+			</image>
+		</ImageView>
+		<AnchorPane layoutY="97.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="97.0">
+			<children>
+				<Rectangle fx:id="menuNameLine" arcHeight="5.0" arcWidth="5.0"
+					fill="DODGERBLUE" height="2.0" mouseTransparent="true" stroke="BLACK"
+					strokeType="INSIDE" translateX="58.0" translateY="30.0" width="130.0" />
+				<Pane prefHeight="35.0" prefWidth="1332.0"
+					style="-fx-background-color: #000000; -fx-opacity: 20%;"
+					AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+					AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+				<HBox prefHeight="25.0" prefWidth="1332.0">
+					<children>
+						<Button fx:id="singleplayerMenuButton" mnemonicParsing="false"
+							onAction="#showSingleplayerMenu" onMouseEntered="#handleStartButtonAnimation"
+							onMouseExited="#handleEndButtonAnimation" prefHeight="35.0"
+							prefWidth="246.0" style="-fx-background-color: transparent;"
+							text="SINGLEPLAYER" textFill="#353535">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Button>
+						<Button fx:id="multiplayerMenuButton" mnemonicParsing="false"
+							onAction="#showMultiplayerMenu" onMouseEntered="#handleStartButtonAnimation"
+							onMouseExited="#handleEndButtonAnimation" prefHeight="35.0"
+							prefWidth="249.0" style="-fx-background-color: transparent;"
+							text="MULTIPLAYER" textFill="#353535">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Button>
+						<Button fx:id="statsMenuButton" mnemonicParsing="false"
+							onAction="#showStatsMenu" onMouseEntered="#handleStartButtonAnimation"
+							onMouseExited="#handleEndButtonAnimation" prefHeight="35.0"
+							prefWidth="197.0" style="-fx-background-color: transparent;"
+							text="STATS" textFill="#353535">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Button>
+						<Button fx:id="optionsMenuButton" minWidth="68.0"
+							mnemonicParsing="false" onAction="#showOptionsMenu"
+							onMouseEntered="#handleStartButtonAnimation" onMouseExited="#handleEndButtonAnimation"
+							prefHeight="35.0" prefWidth="130.0"
+							style="-fx-background-color: transparent; -fx-min-width: 100;"
+							text="OPTIONS" textFill="#353535">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Button>
+					</children>
+				</HBox>
+			</children>
+		</AnchorPane>
+		<Pane layoutY="97.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="97.0" />
+		<MenuButton layoutX="915.0" layoutY="14.0" mnemonicParsing="false"
+			prefHeight="56.0" prefWidth="360.0"
+			style="-fx-background-color: transparent; -fx-border-color: #000000;"
+			text="MenuButton" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0">
+			<items>
+				<MenuItem mnemonicParsing="false" text="Action 1" />
+				<MenuItem mnemonicParsing="false" text="Action 2" />
+			</items>
+		</MenuButton>
+	</children>
+</AnchorPane>
