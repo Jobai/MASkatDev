@@ -26,7 +26,7 @@ public class CardDeck {
         return c;
       }
     }
-    System.err.println("Ungueltige Karte, "+s);
+    System.err.println("Ungueltige Karte, " + s);
     return null;
   }
 

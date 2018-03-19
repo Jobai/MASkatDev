@@ -10,6 +10,8 @@
  */
 package de.skat3.network;
 
+import de.skat3.gamelogic.Card;
+
 /**
  * @author Jonas Bauer
  *

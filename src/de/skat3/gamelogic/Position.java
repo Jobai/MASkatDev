@@ -1,4 +1,4 @@
-package de.skat3.main;
+package de.skat3.gamelogic;
 
 public enum Position {
 
