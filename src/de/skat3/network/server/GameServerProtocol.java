@@ -36,11 +36,14 @@ public class GameServerProtocol extends Thread {
   private ObjectInputStream fromClient;
   
   Player playerProfile;
+  public ServerLogicController slc;
   
   
 
   public GameServerProtocol(Socket socket) {
     // TODO Auto-generated constructor stub
+    
+    
     this.socket = socket;
 
     try {
@@ -134,7 +137,7 @@ public class GameServerProtocol extends Thread {
   }
   
 
-  private void sendMessage(Message message) {
+  void sendMessage(Message message) {
     try {
       toClient.writeObject(message);
       logger.fine("send message");
@@ -176,33 +179,6 @@ public class GameServerProtocol extends Thread {
   
   
 
-  public void sendToPlayer(Player player, MessageCommand mc) {
-    // TODO Auto-generated method stub
-    
-    for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
-      if (gameServerProtocol.playerProfile.equals(player))  //FIXME this wont work. Just need to compare UUID not the complemte object! -JB
-      {
-        gameServerProtocol.sendMessage(mc);
-        return;
-      }
-    }
-    logger.warning("send To Player FAILED!");
-    
-  }
-  
-  public void broadcastMessage(MessageCommand mc) {
-    // TODO Auto-generated method stub
-    logger.log(Level.FINE, "Got ChatMessage: " );
- 
-    
-
-    for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
-      gameServerProtocol.sendMessage(mc);
-    }
-
-    
-
-  }
 
 
   // TODO Functions that handels the different scenarios
