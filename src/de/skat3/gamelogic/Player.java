@@ -16,8 +16,6 @@ public class Player {
   }
 
   public UUID getUUID() {
-    return this.uuid;
-  }
 
   void setHand(Hand hand) {
     this.hand = hand;
