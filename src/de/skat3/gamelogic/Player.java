@@ -9,12 +9,15 @@ public class Player {
   Hand hand;
   ArrayList<Card> wonTricks;
   Position position;
-  UUID uuid;
+  private UUID uuid;
 
   public Player() {
     this.uuid = UUID.randomUUID();
   }
 
+  UUID getUUID() {
+    return this.uuid;
+  }
 
   void setHand(Hand hand) {
     this.hand = hand;

@@ -2,10 +2,12 @@ package de.skat3.gamelogic;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import de.skat3.network.server.ServerLogicController;
 import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
 
 public class RoundInstance {
 
+  ServerLogicController slc;
   Player[] players;
   Player solo;
   Player[] team;
@@ -25,7 +27,8 @@ public class RoundInstance {
    * 
    * @param players the three current players
    */
-  public RoundInstance(Player[] players) {
+  public RoundInstance(ServerLogicController slc, Player[] players) {
+    this.slc = slc;
     this.players = new Player[3];
     kontra = false;
     rekontra = false;
@@ -52,7 +55,7 @@ public class RoundInstance {
 
   private void notifyPlayers() {
     for (int i = 0; i < players.length; i++) {
-      // sendHandToPlayer(r.players[i]);
+      slc.sendStartHandtoPlayer(this.players[i]);
     }
 
   }

@@ -5,4 +5,5 @@ public class CurrentGameState {
   
   Player[] players;
   Card[] trick;
+  
 }
