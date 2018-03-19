@@ -15,6 +15,7 @@ public class Card {
   private Value value;
   private ImageView view;
   private boolean playable;
+  private int trickValue;
 
   /**
    * Represents a single card.
@@ -22,9 +23,40 @@ public class Card {
   public Card(Suit suit, Value value) {
     this.suit = suit;
     this.value = value;
+    this.addTrickValue();
+
+
     String imageUrl = "cardImages/" + this.getUrl() + ".png";
 
     // this.view = new ImageView(new Image(imageUrl));
+  }
+
+
+  void addTrickValue() {
+    switch (this.value) {
+      case SEVEN:
+      case EIGHT:
+      case NINE:
+        this.trickValue = 0;
+        break;
+      case QUEEN:
+        this.trickValue = 3;
+        break;
+      case KING:
+        this.trickValue = 4;
+        break;
+      case TEN:
+        this.trickValue = 10;
+        break;
+      case ACE:
+        this.trickValue = 11;
+        break;
+      case JACK:
+        this.trickValue = 2;
+        break;
+      default: System.out.println("Error in addTrickValue");
+        break;
+    }
   }
 
   Suit getSuit() {
@@ -45,8 +77,8 @@ public class Card {
    * @param c current contract
    * @return true if the card is a trump card.
    */
-  boolean isTrump(Contract c) {
-    switch (c) {
+  boolean isTrump(Contract contract) {
+    switch (contract) {
       case DIAMONDS:
         return (this.suit.equals(Suit.DIAMONDS) || this.isJack()) ? true : false;
       case HEARTS:
@@ -113,9 +145,9 @@ public class Card {
 
   }
 
-  boolean equals(Card c) {
+  boolean equals(Card card) {
 
-    return (this.value == c.value && this.suit == c.suit) ? true : false;
+    return (this.value == card.value && this.suit == card.suit) ? true : false;
 
   }
 

@@ -13,7 +13,7 @@ public class LocalGameState {
   Card[] skat;
   ArrayList<String> chatMessages;
   
-  void updateLocalGameState() {
-    
-  }
+//  void updateLocalGameState() {
+//    
+//  }
 }

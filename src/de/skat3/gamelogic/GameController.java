@@ -3,45 +3,60 @@ package de.skat3.gamelogic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
+import de.skat3.network.ServerLogicController;
 
-public class GameController {
+public class GameController implements GameLogicInterface {
 
 
   boolean gameActive;
+  ServerLogicController slc;
   int gameId;
   int numberOfPlayers;
   Player dealer;
-  Player[] players; // just the players
+  Player[] players; // only the players
   Player[] allPlayers; // players and dealer
-  ArrayList<String> chatMessages;
   ServerGameState serverGameState;
+  int numberOfRounds;
+  boolean firstRound;
+  boolean kontraRekontraEnabled;
+  int timer;
+  GameThread gameThread;
   static final CardDeck deck = new CardDeck();
+  RoundInstance roundInstance;
 
   /**
    * 
    * @param players
    */
-  public GameController(Player[] players) {
+  public GameController(ServerLogicController slc, Player[] players, int timer,
+      boolean kontraRekontraEnabled) {
+    this.slc = slc;
     this.gameActive = true;
+    this.firstRound = true;
+    this.timer = timer;
+    this.kontraRekontraEnabled = kontraRekontraEnabled;
     this.gameId = 0; // TODO
     this.numberOfPlayers = players.length;
+    this.numberOfRounds = 0;
     this.players = new Player[3];
     this.allPlayers = new Player[numberOfPlayers];
     for (int i = 0; i < players.length; i++) {
       this.allPlayers[i] = players[i];
     }
-    chatMessages = new ArrayList<String>();
+    this.gameThread = new GameThread(this);
+    this.gameThread.start();
 
 
   }
 
-  void startNewRound(boolean firstRound) {
+  void startNewRound() {
     if (firstRound) {
+      this.firstRound = false;
       this.determineDealer();
     } else {
       this.rotatePlayers();
     }
-    new RoundInstance(players);
+    this.roundInstance = new RoundInstance(players);
 
   }
 
@@ -86,6 +101,40 @@ public class GameController {
 
   Player getDealer() {
     return this.dealer;
+  }
+
+  @Override
+  public void notifyLogicofPlayedCard(Card card) {
+    this.roundInstance.addCardtoTrick(card);
+    this.roundInstance.notifyRoundInstance();
+
+  }
+
+  @Override
+  public void notifyLogicofBid(boolean b) {
+    this.roundInstance.setBid(b);
+    this.roundInstance.notifyRoundInstance();
+
+  }
+
+  @Override
+  public void notifyLogicofContract(Contract contract) {
+    this.roundInstance.contract = contract;
+    // broadcastContract(contract);
+    this.roundInstance.notifyRoundInstance();
+
+  }
+
+  @Override
+  public void notifyLogicofKontra() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void notifyLogicofRecontra() {
+    // TODO Auto-generated method stub
+
   }
 }
 
