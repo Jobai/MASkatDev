@@ -1,9 +1,10 @@
 package de.skat3.gamelogic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Player {
+public class Player implements Serializable {
 
   boolean isSolo;
   Hand hand;
@@ -21,6 +22,9 @@ public class Player {
 
   void setHand(Hand hand) {
     this.hand = hand;
+  }
+  public Hand getHand() {
+    return this.hand;
   }
 
   /**

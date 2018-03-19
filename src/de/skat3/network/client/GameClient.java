@@ -54,6 +54,7 @@ public class GameClient {
     this.clh = new ClientLogicHandler(this);
     this.player = player;
     logger.setLevel(Level.ALL);
+    this.connect();
   }
 
 
@@ -124,6 +125,7 @@ public class GameClient {
 
   private void handleCommandAction(Message m, SubType st) {
     // TODO Auto-generated method stub
+    logger.info("Handeling!");
 
 
     CommandType ct = (CommandType) st;

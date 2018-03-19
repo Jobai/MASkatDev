@@ -1,12 +1,14 @@
 package de.skat3.network.datatypes;
 
+import java.io.Serializable;
+
 /**
  * @author Jonas Bauer
  * 
  * 
  *
  */
-public class MessageChat extends Message {
+public class MessageChat extends Message implements Serializable{
 
   /**
    * 

@@ -58,6 +58,11 @@ public abstract class Message implements Serializable {
     // TODO Auto-generated method stub
     return subType;
   }
+
+  public void setSubType(SubType st) {
+    // TODO Auto-generated method stub
+    this.subType = st;
+  }
   
   
 

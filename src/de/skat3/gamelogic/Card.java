@@ -3,13 +3,14 @@ package de.skat3.gamelogic;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Card {
+public class Card implements Serializable{
 
   private Suit suit;
   private Value value;

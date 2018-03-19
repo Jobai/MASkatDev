@@ -7,6 +7,7 @@ import de.skat3.network.server.GameServer;
 
 public class SkatMain {
 
+  public static MainController mainController = new MainController();
   public static LocalGameState lgs = new LocalGameState();
 
   public static void main(String[] args) {
@@ -26,7 +27,12 @@ public class SkatMain {
     GameController gameController =
         new GameController(gm.getSeverLogicController(),players, 0, false);
     
-    
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     
   }
 }

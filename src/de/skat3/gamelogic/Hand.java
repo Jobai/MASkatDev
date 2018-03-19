@@ -1,6 +1,8 @@
 package de.skat3.gamelogic;
 
-public class Hand {
+import java.io.Serializable;
+
+public class Hand implements Serializable{
 
   Card[] hand;
 

@@ -55,6 +55,7 @@ public class RoundInstance {
 
   private void notifyPlayers() {
     for (int i = 0; i < players.length; i++) {
+      System.out.println("Aufgerufen, Logik");
       slc.sendStartHandtoPlayer(this.players[i]);
     }
 
@@ -183,7 +184,8 @@ public class RoundInstance {
       Player currentWinner = null;
       boolean initialBidding = true;
       while (position < BiddingValues.values.length) {
-        // callForBid(bid, BiddingValues.values[position]);
+        System.out.println("Warte auf Gebot");
+        this.slc.callForBid(bid, BiddingValues.values[position]);
         lock.wait();
         if (this.bidAccepted) {
           currentWinner = bid;
@@ -194,7 +196,7 @@ public class RoundInstance {
             continue;
           }
         }
-        // callForBid(respond, BiddingValues.values[position]);
+        this.slc.callForBid(respond, BiddingValues.values[position]);
         lock.wait();
         if (this.bidAccepted) {
           currentWinner = respond;

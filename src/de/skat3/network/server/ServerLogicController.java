@@ -70,6 +70,7 @@ public class ServerLogicController implements ServerLogicInterface {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.BID_REQUEST);
     mc.gameState = (Integer) biddingValue;
+    mc.payload = player;
     gs.sendToPlayer(player, mc);
   }
 

@@ -8,15 +8,15 @@ public class LocalGameState {
 
   boolean gameActive;
   int gameId;
-  Player[] players;
+  Player localClient;
   Card[] trick;
   Card[] skat;
   ArrayList<String> chatMessages;
-  
-  
+ 
   
   public void setPlayer(Player player) {
-    this.players[0] = player;
+    this.localClient = player;
+    System.out.println(player.getHand());
   }
 //  void updateLocalGameState() {
 //    

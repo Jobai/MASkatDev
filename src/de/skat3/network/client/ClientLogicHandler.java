@@ -38,6 +38,11 @@ public class ClientLogicHandler {
   //tell GUI
   public  void bidRequestHandler(Message m) {
     // TODO Auto-generated method stub
+    Player p = (Player) m.payload; 
+    int b = (int) ((MessageCommand) m).gameState;
+    SkatMain.mainController.bidRequest(b);
+    
+    
     
   }
 
@@ -67,8 +72,9 @@ public class ClientLogicHandler {
 
   public  void roundInfoHandler(Message m) {
     // TODO Auto-generated method stub
+    System.out.println("AUFGERUFEN");
     MessageCommand mc = (MessageCommand) m;
-    SkatMain.lgs.setPlayer((Player) mc.gameState);
+    SkatMain.mainController.setHand((Player) mc.gameState);
     
   }
 
@@ -79,6 +85,9 @@ public class ClientLogicHandler {
 
   public  void gameInfoHandler(Message m) {
     // TODO Auto-generated method stub
+    System.out.println("AUFGERUFEN");
+    MessageCommand mc = (MessageCommand) m;
+    SkatMain.lgs.setPlayer((Player) mc.gameState);
     
   }
   
