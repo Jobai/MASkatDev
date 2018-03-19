@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane layoutY="141.0" prefHeight="581.0" prefWidth="1280.0"
-	xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.singleplayermenu.SingleplayerMenuController">
+<AnchorPane layoutY="141.0" prefHeight="581.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.singleplayermenu.SingleplayerMenuController">
 	<children>
-		<Button layoutX="115.0" layoutY="126.0" mnemonicParsing="false"
-			prefHeight="305.0" prefWidth="419.0"
-			style="-fx-background-color: transparent; -fx-border-color: #000000;"
-			text="Single Game">
+		<Button id="glass-grey" layoutX="115.0" layoutY="126.0" mnemonicParsing="false" prefHeight="305.0" prefWidth="419.0" stylesheets="@ButtonStyle.css" text="Single Game" AnchorPane.leftAnchor="115.0" AnchorPane.topAnchor="126.0">
 			<font>
 				<Font size="48.0" />
 			</font>
 		</Button>
-		<Button layoutX="629.0" layoutY="126.0" mnemonicParsing="false"
-			prefHeight="305.0" prefWidth="419.0"
-			style="-fx-background-color: transparent; -fx-border-color: #000000;"
-			text="Training Mode">
+		<Button id="glass-grey" layoutX="629.0" layoutY="126.0" mnemonicParsing="false" prefHeight="305.0" prefWidth="419.0" stylesheets="@ButtonStyle.css" text="Training Mode" AnchorPane.topAnchor="126.0">
 			<font>
 				<Font size="48.0" />
 			</font>
