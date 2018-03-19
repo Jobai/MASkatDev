@@ -3,11 +3,13 @@ package de.skat3.gamelogic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
+import de.skat3.network.ServerLogicController;
 
 public class GameController implements GameLogicInterface {
 
 
   boolean gameActive;
+  ServerLogicController slc;
   int gameId;
   int numberOfPlayers;
   Player dealer;
@@ -26,7 +28,9 @@ public class GameController implements GameLogicInterface {
    * 
    * @param players
    */
-  public GameController(Player[] players, int timer, boolean kontraRekontraEnabled) {
+  public GameController(ServerLogicController slc, Player[] players, int timer,
+      boolean kontraRekontraEnabled) {
+    this.slc = slc;
     this.gameActive = true;
     this.firstRound = true;
     this.timer = timer;
