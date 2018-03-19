@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -10,15 +11,23 @@
 
 <AnchorPane layoutY="141.0" prefHeight="581.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.singleplayermenu.SingleplayerMenuController">
 	<children>
-		<Button id="glass-grey" layoutX="115.0" layoutY="126.0" mnemonicParsing="false" prefHeight="305.0" prefWidth="419.0" stylesheets="@ButtonStyle.css" text="Single Game" AnchorPane.leftAnchor="115.0" AnchorPane.topAnchor="126.0">
-			<font>
-				<Font size="48.0" />
-			</font>
-		</Button>
-		<Button id="glass-grey" layoutX="629.0" layoutY="126.0" mnemonicParsing="false" prefHeight="305.0" prefWidth="419.0" stylesheets="@ButtonStyle.css" text="Training Mode" AnchorPane.topAnchor="126.0">
-			<font>
-				<Font size="48.0" />
-			</font>
-		</Button>
+      <Button layoutX="25.0" layoutY="14.0" mnemonicParsing="false" onAction="#startSinglePlayerGame" prefHeight="485.0" prefWidth="495.0" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="528.0" fitWidth="533.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../resources/guifiles/single_game_button.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button layoutX="590.0" layoutY="14.0" mnemonicParsing="false" onAction="#startTrainingMode" prefHeight="510.0" prefWidth="510.0" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="529.0" fitWidth="561.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../resources/guifiles/training_mode_button.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
 	</children>
 </AnchorPane>

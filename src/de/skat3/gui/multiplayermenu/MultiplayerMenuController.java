@@ -17,7 +17,7 @@ public class MultiplayerMenuController {
 	public Button refreshButton;
 
 	public MultiplayerMenuController() {
-		//refreshButton.setGraphic(new ImageView("@/resources/guifiles/refresh.png"));
+		//refreshButton = new Button("", new ImageView("../../../../../../../Downloads/test.png"));
 	}
 	
 }
