@@ -1,7 +1,10 @@
 package de.skat3.network.client;
 
+import de.skat3.gamelogic.Player;
+import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
+import de.skat3.network.datatypes.MessageCommand;
 
 public class ClientLogicHandler {
   
@@ -64,6 +67,8 @@ public class ClientLogicHandler {
 
   public  void roundInfoHandler(Message m) {
     // TODO Auto-generated method stub
+    MessageCommand mc = (MessageCommand) m;
+    SkatMain.lgs.setPlayer((Player) mc.gameState);
     
   }
 

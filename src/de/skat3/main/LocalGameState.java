@@ -15,7 +15,7 @@ public class LocalGameState {
   
   
   
-  void setPlayer(Player player) {
+  public void setPlayer(Player player) {
     this.players[0] = player;
   }
 //  void updateLocalGameState() {

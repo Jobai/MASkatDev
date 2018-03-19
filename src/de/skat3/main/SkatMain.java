@@ -7,7 +7,7 @@ import de.skat3.network.server.GameServer;
 
 public class SkatMain {
 
-  static LocalGameState lgs = new LocalGameState();
+  public static LocalGameState lgs = new LocalGameState();
 
   public static void main(String[] args) {
 
