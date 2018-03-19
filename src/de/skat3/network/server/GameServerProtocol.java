@@ -70,7 +70,7 @@ public class GameServerProtocol extends Thread {
 
         switch (mt) {
           case CONNECTION_OPEN:
-            this.openConnection();
+            this.openConnection(m);
             break; // TODO
           case CONNECTION_CLOSE:
             this.closeConnection();
@@ -103,8 +103,10 @@ public class GameServerProtocol extends Thread {
     }
   }
 
-  private void openConnection() {
+  private void openConnection(Message m) {
     // TODO Auto-generated method stub
+    
+    this.playerProfile = (Player) m.payload;
     
   }
 

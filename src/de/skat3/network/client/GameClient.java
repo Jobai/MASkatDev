@@ -15,9 +15,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import de.skat3.gamelogic.Player;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
+import de.skat3.network.datatypes.MessageConnection;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.datatypes.SubType;
 
@@ -36,6 +38,8 @@ public class GameClient {
   Logger logger = Logger.getLogger("de.skat3.network.client");
   StreamListener sl;
   ClientLogicHandler clh;
+  
+  Player player;
 
 
 
@@ -44,10 +48,11 @@ public class GameClient {
    * @param hostAdress
    * @param port
    */
-  public GameClient(String hostAdress, int port) {
+  public GameClient(String hostAdress, int port, Player player) {
     this.hostAdress = hostAdress;
     this.port = port;
     this.clh = new ClientLogicHandler(this);
+    this.player = player;
     logger.setLevel(Level.ALL);
   }
 
@@ -61,6 +66,7 @@ public class GameClient {
       sl = new StreamListener(this);
       sl.start();
       logger.info("Connection to " + hostAdress + ":" + port + " succesfull!");
+      openConnection();
     } catch (UnknownHostException e) {
       // TODO Auto-generated catch block
       logger.log(Level.SEVERE, "Host not found! Connection failed!", e);
@@ -72,6 +78,17 @@ public class GameClient {
     }
 
   }
+
+  private void openConnection() {
+    // TODO Auto-generated method stub
+    
+    MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
+    mc.payload = player;
+    sendToServer(mc);
+    
+  }
+
+
 
   void clientProtocolHandler(Object o) {
     Object receivedObject = o;
@@ -190,7 +207,7 @@ public class GameClient {
   public static void main(String[] args) {
     // TODO Auto-generated method stub
 
-    GameClient gc = new GameClient("134.155.220.176", 2018);
+    GameClient gc = new GameClient("134.155.220.176", 2018, null);
     gc.connect();
 
     for (int i = 1; i <= 1000000; i++) {

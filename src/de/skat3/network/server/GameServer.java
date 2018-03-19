@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import de.skat3.gamelogic.Player;
 import de.skat3.network.datatypes.MessageCommand;
-                                         
+
 /**
  * Controls the basic server work flow of receiving connections.
  * 
@@ -32,16 +32,16 @@ public class GameServer extends Thread {
   public static ArrayList<GameServerProtocol> threadList;
   public static int port = 2018;
   private ServerSocket serverSocket;
-  
+
   private ServerLogicController slc;
-  
+
 
   public GameServer() {
     logger.setLevel(Level.ALL);
     logger.fine("test fine");
     threadList = new ArrayList<GameServerProtocol>();
     slc = new ServerLogicController(3, this);
-    
+
     this.start();
   }
 
@@ -82,43 +82,41 @@ public class GameServer extends Thread {
         e.printStackTrace();
       }
     }
-    
+
   }
-  
-  public ServerLogicController getSeverLogicController()
-  {
+
+  public ServerLogicController getSeverLogicController() {
     return this.slc;
-    
+
   }
-  
-  
-  
-  
+
+
+
   public void sendToPlayer(Player player, MessageCommand mc) {
     // TODO Auto-generated method stub
-    
+
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
-      if (gameServerProtocol.playerProfile.equals(player))  //FIXME this wont work. Just need to compare UUID not the complemte object! -JB
+      if (gameServerProtocol.playerProfile.getUUID() == player.getUUID())
       {
         gameServerProtocol.sendMessage(mc);
         return;
       }
     }
     logger.warning("send To Player FAILED!");
-    
+
   }
-  
+
   public void broadcastMessage(MessageCommand mc) {
     // TODO Auto-generated method stub
-    logger.log(Level.FINE, "Got ChatMessage: " );
- 
-    
+    logger.log(Level.FINE, "Got ChatMessage: ");
+
+
 
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       gameServerProtocol.sendMessage(mc);
     }
 
-    
+
 
   }
 

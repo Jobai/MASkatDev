@@ -29,6 +29,7 @@ public abstract class Message implements Serializable {
   private String sender;
   private String receiver;
   private SubType subType;
+  public Object payload;
   
   /**
    * @author Jonas Bauer
