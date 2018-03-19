@@ -110,17 +110,18 @@ public class GameController implements GameLogicInterface {
   }
 
   @Override
-  public void notifyLogicofBid(boolean b) {
-    this.roundInstance.setBid(b);
+  public void notifyLogicofBid(boolean accepted) {
+    this.roundInstance.setBid(accepted);
     this.roundInstance.notifyRoundInstance();
 
   }
 
   @Override
-  public void notifyLogicofContract(Contract contract) {
+  public void notifyLogicofContract(Contract contract,AdditionalMulipliers additionMultipliers) {
     this.roundInstance.contract = contract;
     // broadcastContract(contract);
     this.roundInstance.notifyRoundInstance();
+    this.roundInstance.setAdditionalMultipliers(additionMultipliers);
 
   }
 
@@ -130,10 +131,11 @@ public class GameController implements GameLogicInterface {
 
   }
 
-  @Override
-  public void notifyLogicofRecontra() {
-    // TODO Auto-generated method stub
 
+  @Override
+  public void notifyLogicofRekontra() {
+    // TODO Auto-generated method stub
+    
   }
 }
 

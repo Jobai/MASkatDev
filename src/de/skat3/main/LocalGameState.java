@@ -13,8 +13,6 @@ public class LocalGameState {
   Card[] skat;
   ArrayList<String> chatMessages;
   
-  
-  
   public void setPlayer(Player player) {
     this.players[0] = player;
   }

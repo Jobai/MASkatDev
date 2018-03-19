@@ -54,6 +54,7 @@ public class GameClient {
     this.clh = new ClientLogicHandler(this);
     this.player = player;
     logger.setLevel(Level.ALL);
+    this.connect();
   }
 
 

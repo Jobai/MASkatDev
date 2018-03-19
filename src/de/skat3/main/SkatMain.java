@@ -23,8 +23,8 @@ public class SkatMain {
     Player[] players = {kai,bot1,bot2};
     
     
-    GameController gameController =
-        new GameController(gm.getSeverLogicController(),players, 0, false);
+    //GameController gameController =
+       // new GameController(gm.getSeverLogicController(),players, 0, false);
     
     
     

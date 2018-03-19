@@ -3,7 +3,6 @@ package de.skat3.gamelogic;
 import java.util.ArrayList;
 import java.util.Collections;
 import de.skat3.network.server.ServerLogicController;
-import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
 
 public class RoundInstance {
 
@@ -14,6 +13,7 @@ public class RoundInstance {
   Card[] trick;
   Card[] skat;
   Contract contract;
+  AdditionalMulipliers addtionalMultipliers;
   RoundInstanceThread roundInstanceThread;
   boolean kontra;
   boolean rekontra;
@@ -326,6 +326,11 @@ public class RoundInstance {
 
     }
 
+  }
+
+  public void setAdditionalMultipliers(AdditionalMulipliers additionMultipliers) {
+    this.addtionalMultipliers = additionMultipliers;
+    
   }
 }
 

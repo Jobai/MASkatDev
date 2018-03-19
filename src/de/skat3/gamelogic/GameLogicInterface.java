@@ -4,11 +4,11 @@ public interface GameLogicInterface {
 
   public void notifyLogicofPlayedCard(Card card);
 
-  public void notifyLogicofBid(boolean b);
+  public void notifyLogicofBid(boolean accepted);
 
-  public void notifyLogicofContract(Contract contract);
+  public void notifyLogicofContract(Contract contract,AdditionalMulipliers additionMultipliers);
 
   public void notifyLogicofKontra();
 
-  public void notifyLogicofRecontra();
+  public void notifyLogicofRekontra();
 }

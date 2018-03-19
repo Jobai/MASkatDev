@@ -105,7 +105,7 @@ public class GameServerProtocol extends Thread {
 
   private void openConnection(Message m) {
     // TODO Auto-generated method stub
-    
+    //TODO DO GUI STUFF
     this.playerProfile = (Player) m.payload;
     
   }
