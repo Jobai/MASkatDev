@@ -1,7 +1,7 @@
 package de.skat3.gamelogic;
 
 import java.util.ArrayList;
-import de.skat3.main.Position;
+import java.util.UUID;
 
 public class Player {
 
@@ -9,8 +9,11 @@ public class Player {
   Hand hand;
   ArrayList<Card> wonTricks;
   Position position;
+  UUID uuid;
 
-  public Player() {}
+  public Player() {
+    this.uuid = UUID.randomUUID();
+  }
 
 
   void setHand(Hand hand) {
@@ -25,5 +28,24 @@ public class Player {
   public void setPosition(int position) {
     this.position = Position.values()[position];
 
+  }
+
+
+  public void setSolo() {
+    this.isSolo = true;
+
+  }
+
+  /**
+   * 
+   * @param p
+   * @return
+   */
+  public boolean equals(Player p) {
+    if (this.uuid == p.uuid) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -15,6 +15,11 @@ public class Hand {
     }
   }
 
+
+  Card[] getCards() {
+    return this.hand;
+  }
+
   void sort() {
     this.sort(null);
   }
@@ -59,6 +64,7 @@ public class Hand {
     }
   }
 
+  // TODO optimieren, optimieren!!
   int calcGameValue(Contract c) {
     int contractValue = -1;
     String game = "";
@@ -167,6 +173,9 @@ public class Hand {
 
   }
 
+  /**
+   * Returns a list of all cards in the current hand.
+   */
   public String toString() {
     String st = "CARDS: ";
     for (int i = 0; i < this.hand.length; i++) {
@@ -179,4 +188,40 @@ public class Hand {
     }
     return st;
   }
+
+  /**
+   * Removes the card from the current hand.
+   * 
+   * @param card the card that should be removed.
+   */
+  public void remove(Card card) {
+    Card[] temp = new Card[this.hand.length - 1];
+    int skipped = 0;
+    for (int i = 0; i < temp.length; i++) {
+      if (this.hand[i].equals(card)) {
+        skipped = 1;
+      }
+      if (i + skipped < this.hand.length) {
+        temp[i] = this.hand[i + skipped];
+      }
+    }
+
+    this.hand = temp;
+  }
+
+  /**
+   * 
+   * @param skat
+   */
+  // public void addSkat(Card[] skat,Contract c) {
+  // Card[] handWithSkat = new Card[12];
+  // for (int i = 0; i < this.hand.length; i++) {
+  // handWithSkat[i] = this.getCards()[i];
+  // }
+  // handWithSkat[10] = skat[0];
+  // handWithSkat[11] = skat[1];
+  // Hand hand = new Hand(handWithSkat);
+  // this.hand = handWithSkat;
+  //
+  // }
 }
