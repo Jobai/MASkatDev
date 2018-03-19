@@ -96,7 +96,7 @@ public class GameServer extends Thread {
     // TODO Auto-generated method stub
 
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
-      if (gameServerProtocol.playerProfile.getUUID() == player.getUUID())
+      if (gameServerProtocol.playerProfile.getUuid() == player.getUuid())
       {
         gameServerProtocol.sendMessage(mc);
         return;

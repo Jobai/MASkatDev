@@ -55,7 +55,7 @@ public class GameController implements GameLogicInterface {
     } else {
       this.rotatePlayers();
     }
-    this.roundInstance = new RoundInstance(players);
+    this.roundInstance = new RoundInstance(slc, this.players);
 
   }
 

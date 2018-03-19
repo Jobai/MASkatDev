@@ -15,7 +15,9 @@ public class Player {
     this.uuid = UUID.randomUUID();
   }
 
-  public UUID getUUID() {
+  public UUID getUuid() {
+    return this.uuid;
+  }
 
   void setHand(Hand hand) {
     this.hand = hand;
