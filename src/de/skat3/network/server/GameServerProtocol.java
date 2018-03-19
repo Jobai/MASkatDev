@@ -15,8 +15,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import de.skat3.gamelogic.Player;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
+import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.datatypes.SubType;
 
@@ -32,6 +34,10 @@ public class GameServerProtocol extends Thread {
   Socket socket;
   private ObjectOutputStream toClient;
   private ObjectInputStream fromClient;
+  
+  Player playerProfile;
+  
+  
 
   public GameServerProtocol(Socket socket) {
     // TODO Auto-generated constructor stub
@@ -61,6 +67,7 @@ public class GameServerProtocol extends Thread {
 
         switch (mt) {
           case CONNECTION_OPEN:
+            this.openConnection();
             break; // TODO
           case CONNECTION_CLOSE:
             this.closeConnection();
@@ -91,6 +98,11 @@ public class GameServerProtocol extends Thread {
         // TODO KILL THIS THREAD
       }
     }
+  }
+
+  private void openConnection() {
+    // TODO Auto-generated method stub
+    
   }
 
   private void handleAnswer(Message m) {
@@ -160,6 +172,36 @@ public class GameServerProtocol extends Thread {
   private void cleanUp(){
     GameServer.threadList.remove(this);
     closeConnection();
+  }
+  
+  
+
+  public void sendToPlayer(Player player, MessageCommand mc) {
+    // TODO Auto-generated method stub
+    
+    for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
+      if (gameServerProtocol.playerProfile.equals(player))  //FIXME this wont work. Just need to compare UUID not the complemte object! -JB
+      {
+        gameServerProtocol.sendMessage(mc);
+        return;
+      }
+    }
+    logger.warning("send To Player FAILED!");
+    
+  }
+  
+  public void broadcastMessage(MessageCommand mc) {
+    // TODO Auto-generated method stub
+    logger.log(Level.FINE, "Got ChatMessage: " );
+ 
+    
+
+    for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
+      gameServerProtocol.sendMessage(mc);
+    }
+
+    
+
   }
 
 

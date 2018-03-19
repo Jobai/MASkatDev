@@ -14,7 +14,7 @@ import de.skat3.gamelogic.Card;
 
 /**
  * @author Jonas Bauer
- *
+ * Methodes that are called by the GUI during the Matchphase
  */
 public interface ClientNetworkInterface {
   
