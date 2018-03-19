@@ -6,15 +6,15 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
-package de.skat3.network;
+package de.skat3.network.server;
 
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
+import de.skat3.network.ServerLogicInterface;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageType;
-import de.skat3.network.server.GameServerProtocol;
 
 /**
  * @author Jonas Bauer
@@ -28,7 +28,7 @@ public class ServerLogicController implements ServerLogicInterface {
   int maxPlayer;
 
   //
-  GameServerProtocol gsp;
+  GameServer gs;
 
 
 
@@ -37,9 +37,9 @@ public class ServerLogicController implements ServerLogicInterface {
    * @param maxPlayer
    * @param gsp
    */
-  public ServerLogicController(int maxPlayer, GameServerProtocol gsp) {
+  public ServerLogicController(int maxPlayer, GameServer gs) {
     this.maxPlayer = maxPlayer;
-    this.gsp = gsp;
+    this.gs = gs;
     this.connectedPlayer = 0;
     this.serverMatchMode = 0;
   }
@@ -55,7 +55,7 @@ public class ServerLogicController implements ServerLogicInterface {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_INFO, player.toString(), CommandType.GAME_INFO);
     mc.gameState = player;
-    gsp.sendToPlayer(player, mc);
+    gs.sendToPlayer(player, mc);
 
   }
 
@@ -70,7 +70,7 @@ public class ServerLogicController implements ServerLogicInterface {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.BID_REQUEST);
     mc.gameState = (Integer) biddingValue;
-    gsp.sendToPlayer(player, mc);
+    gs.sendToPlayer(player, mc);
   }
 
   /*
@@ -84,7 +84,7 @@ public class ServerLogicController implements ServerLogicInterface {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.PLAY_REQUEST);
 
-    gsp.sendToPlayer(player, mc);
+    gs.sendToPlayer(player, mc);
   }
 
   /*
@@ -98,7 +98,7 @@ public class ServerLogicController implements ServerLogicInterface {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_ACTION, "ALL", CommandType.GAME_INFO);
 
-    gsp.broadcastMessage(mc);
+    gs.broadcastMessage(mc);
 
   }
 
