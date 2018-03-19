@@ -3,8 +3,7 @@ package de.skat3.gamelogic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
-import de.skat3.network.ServerLogicController;
-
+import de.skat3.network.server.ServerLogicController;
 public class GameController implements GameLogicInterface {
 
 
