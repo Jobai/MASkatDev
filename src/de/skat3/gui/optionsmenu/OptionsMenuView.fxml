@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+
+<AnchorPane id="mainPane" prefHeight="600" prefWidth="400"
+	style="-fx-background-color: #043543;" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.skat3.gui.optionsmenu.OptionsMenuController">
+	<children>
+	</children>
+
+</AnchorPane>
+
