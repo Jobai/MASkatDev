@@ -361,14 +361,14 @@ public class RoundInstance {
       for (int i = 0; i < this.soloPlayerStartHand.getAmountOfCards(); i++) {
         this.soloPlayerStartHand.hand[i] = this.solo.hand.hand[i];
       }
-      // ask for hand game
+      this.slc.callforHandOption(this.solo);
       this.lock.wait();
 
-      // this.slc.sendSkatToPlayer(this.solo,this.skat);
+      this.slc.sendSkatToPlayer(this.solo,this.skat);
       this.lock.wait(); // notified by notifyLogicOfNewSkat(Card[] skat);
 
 
-      // slc.startContractSelection(winner);
+      this.slc.callForContract(this.solo);
       this.lock.wait(); // Waits for the winner to select a contract, notified by
       // notifyLogicofContract()
 

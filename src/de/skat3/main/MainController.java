@@ -3,7 +3,6 @@ package de.skat3.main;
 import java.util.ArrayList;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
-import de.skat3.gamelogic.CurrentGameState;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 
