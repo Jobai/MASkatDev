@@ -94,10 +94,6 @@ public class MainController implements MainControllerInterface {
     
   }
   
-  public void updateGameState(CurrentGameState currentGameState) {
-    
-  }
-  //called for every change in the actual play of the game.
   
   
   public void handGameRequest() {
@@ -112,7 +108,7 @@ public class MainController implements MainControllerInterface {
     //TODO add additionmultipliers
   }
   
-  public void broadcastResults(Result result) {
+  public void showResults(Result result) {
     
   }
   

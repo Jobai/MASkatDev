@@ -2,12 +2,12 @@ package de.skat3.gamelogic;
 
 import java.io.Serializable;
 
-public class Hand implements Serializable{
+public class Hand implements Serializable {
 
   Card[] hand;
 
   /**
-   * Represents up to twelve cards that a player has currently on his hand.
+   * Represents up to ten cards that a player has currently on his hand.
    */
   public Hand(Card[] cards) {
 
@@ -16,10 +16,17 @@ public class Hand implements Serializable{
       this.hand[i] = cards[i];
     }
   }
+  public Hand() {
+    this.hand = new Card[10];
+  }
 
 
   Card[] getCards() {
     return this.hand;
+  }
+
+  int getAmountOfCards() {
+    return this.hand.length;
   }
 
   void sort() {
@@ -66,26 +73,21 @@ public class Hand implements Serializable{
     }
   }
 
-  // TODO optimieren, optimieren!!
-  int calcGameValue(Contract c) {
+  //TODO skat
+  int calcGameValue(Contract contract, Card[] skat) {
     int contractValue = -1;
-    String game = "";
-    switch (c) {
+    switch (contract) {
       case DIAMONDS:
         contractValue = 9;
-        game = "DIAMONDS";
         break;
       case HEARTS:
         contractValue = 10;
-        game = "HEARTS";
         break;
       case SPADES:
         contractValue = 11;
-        game = "SPADES";
         break;
       case CLUBS:
         contractValue = 12;
-        game = "CLUBS";
         break;
       case GRAND:
         contractValue = 24;
@@ -96,7 +98,7 @@ public class Hand implements Serializable{
         break;
 
     }
-    int consecutiveMatadors = 1;
+    int consecutiveMatadors = 0;
     CardDeck deck = GameController.deck;
 
 
@@ -109,7 +111,8 @@ public class Hand implements Serializable{
           if (this.contains(deck.getCard("JACK OF DIAMONDS"))) {
             consecutiveMatadors++;
             for (int i = Value.length - 2; i >= 0; i--) {
-              if (this.contains(deck.getCard(Value.values()[i].name() + " OF " + game))) {
+              if (this.contains(
+                  deck.getCard(Value.values()[i].name() + " OF " + contract.toString()))) {
                 consecutiveMatadors++;
               } else {
                 break;
@@ -127,7 +130,8 @@ public class Hand implements Serializable{
           if (!this.contains(deck.getCard("JACK OF DIAMONDS"))) {
             consecutiveMatadors++;
             for (int i = Value.length - 2; i >= 0; i--) {
-              if (!this.contains(deck.getCard(Value.values()[i].name() + " OF " + game))) {
+              if (!this.contains(
+                  deck.getCard(Value.values()[i].name() + " OF " + contract.toString()))) {
                 consecutiveMatadors++;
               } else {
                 break;
@@ -137,7 +141,7 @@ public class Hand implements Serializable{
         }
       }
     }
-    return consecutiveMatadors * contractValue;
+    return consecutiveMatadors;
 
   }
 
@@ -211,19 +215,4 @@ public class Hand implements Serializable{
     this.hand = temp;
   }
 
-  /**
-   * 
-   * @param skat
-   */
-  // public void addSkat(Card[] skat,Contract c) {
-  // Card[] handWithSkat = new Card[12];
-  // for (int i = 0; i < this.hand.length; i++) {
-  // handWithSkat[i] = this.getCards()[i];
-  // }
-  // handWithSkat[10] = skat[0];
-  // handWithSkat[11] = skat[1];
-  // Hand hand = new Hand(handWithSkat);
-  // this.hand = handWithSkat;
-  //
-  // }
 }

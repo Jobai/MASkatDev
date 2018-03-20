@@ -59,6 +59,10 @@ public class Card implements Serializable{
         break;
     }
   }
+  
+  int getTrickValue() {
+    return this.trickValue;
+  }
 
   Suit getSuit() {
     return this.suit;

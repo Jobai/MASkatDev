@@ -1,8 +1,8 @@
 package de.skat3.gamelogic;
 
+import de.skat3.network.server.ServerLogicController;
 import java.util.ArrayList;
 import java.util.Collections;
-import de.skat3.network.server.ServerLogicController;
 
 public class RoundInstance {
 
@@ -12,13 +12,16 @@ public class RoundInstance {
   Player[] team;
   Card[] trick;
   Card[] skat;
+  Card[] originalSkat;
+  Hand soloPlayerStartHand;
   Contract contract;
+  boolean handGame;
   AdditionalMulipliers addtionalMultipliers;
   RoundInstanceThread roundInstanceThread;
   boolean kontra;
   boolean rekontra;
   boolean bidAccepted;
-  int trickcount = 0;
+  int trickcount;
   Object lock = new Object();
 
 
@@ -30,8 +33,10 @@ public class RoundInstance {
   public RoundInstance(ServerLogicController slc, Player[] players) {
     this.slc = slc;
     this.players = new Player[3];
-    kontra = false;
-    rekontra = false;
+    this.kontra = false;
+    this.rekontra = false;
+    this.trickcount = 0;
+    this.soloPlayerStartHand = new Hand();
     for (int i = 0; i < players.length; i++) {
       this.players[i] = players[i];
     }
@@ -135,11 +140,11 @@ public class RoundInstance {
   }
 
   Card getSecondCard() {
-    return this.trick[0];
+    return this.trick[1];
   }
 
   Card getThirdCard() {
-    return this.trick[0];
+    return this.trick[2];
   }
 
   Player[] getTeamPlayer() {
@@ -166,8 +171,10 @@ public class RoundInstance {
    */
   public void setSkat(Card[] skat) {
     this.skat = new Card[skat.length];
+    this.originalSkat = new Card[skat.length];
     for (int i = 0; i < skat.length; i++) {
       this.skat[i] = skat[i];
+      this.originalSkat[i] = skat[i];
     }
 
   }
@@ -240,15 +247,20 @@ public class RoundInstance {
       this.trick = new Card[3];
 
       for (int i = 0; i < 10; i++) {
-        // notifyPlayer(this.players[0])
+        //
+        
+        slc.callForPlay(this.players[0]);
         this.lock.wait();
-        // update
-        // notifyPlayer(this.players[1])
+        slc.sendPlayedCard(this.players[0], this.trick[0]);
+        
+        slc.callForPlay(this.players[1]);
         this.lock.wait();
-        // update
-        // notifyPlayer(this.players[2])
-        // cause delay in gui or here
+        slc.sendPlayedCard(this.players[1], this.trick[1]);
+
+        slc.callForPlay(this.players[2]);
         this.lock.wait();
+        slc.sendPlayedCard(this.players[2], this.trick[2]);
+        Thread.sleep(2500); //delay for visuals
         Player trickWinner = this.determineTrickWinner();
         for (Card c : this.trick) {
           if (trickWinner.isSolo) {
@@ -258,16 +270,45 @@ public class RoundInstance {
             this.team[1].wonTricks.add(c);
           }
         }
+        slc.broadcastTrickResult(trickWinner);
         this.rotatePlayers(trickWinner);
-        // notify players of new round
-        this.lock.wait();
       }
       this.determineGameWinner();
 
     }
   }
 
+
   private void determineGameWinner() {
+    int contractValue;
+    switch (contract) {
+      case DIAMONDS:
+        contractValue = 9;
+        break;
+      case HEARTS:
+        contractValue = 10;
+        break;
+      case SPADES:
+        contractValue = 11;
+        break;
+      case CLUBS:
+        contractValue = 12;
+        break;
+      case GRAND:
+        contractValue = 24;
+        break;
+      case NULL:
+        contractValue = 23;
+      default:
+        break;
+
+    }
+    int pointsSoloPlayer = 0;
+    int baseValue = 0;
+    for (Card c : this.solo.wonTricks) {
+      pointsSoloPlayer += c.getTrickValue();
+    }
+    
 
 
   }
@@ -317,13 +358,20 @@ public class RoundInstance {
       winner.setSolo();
       this.solo = winner;
       this.team = this.getTeamPlayer();
+      for (int i = 0; i < this.soloPlayerStartHand.getAmountOfCards(); i++) {
+        this.soloPlayerStartHand.hand[i] = this.solo.hand.hand[i];
+      }
       // ask for hand game
       this.lock.wait();
 
+      // this.slc.sendSkatToPlayer(this.solo,this.skat);
+      this.lock.wait(); // notified by notifyLogicOfNewSkat(Card[] skat);
 
-      // startContractSelection(winner);
+
+      // slc.startContractSelection(winner);
       this.lock.wait(); // Waits for the winner to select a contract, notified by
       // notifyLogicofContract()
+
 
 
     }
@@ -332,7 +380,7 @@ public class RoundInstance {
 
   public void setAdditionalMultipliers(AdditionalMulipliers additionMultipliers) {
     this.addtionalMultipliers = additionMultipliers;
-    
+
   }
 }
 

@@ -1,9 +1,9 @@
 package de.skat3.gamelogic;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.concurrent.ThreadLocalRandom;
 import de.skat3.network.server.ServerLogicController;
+import java.util.concurrent.ThreadLocalRandom;
+
+
 public class GameController implements GameLogicInterface {
 
 
@@ -117,25 +117,42 @@ public class GameController implements GameLogicInterface {
   }
 
   @Override
-  public void notifyLogicofContract(Contract contract,AdditionalMulipliers additionMultipliers) {
+  public void notifyLogicofContract(Contract contract, AdditionalMulipliers additionMultipliers) {
     this.roundInstance.contract = contract;
     // broadcastContract(contract);
-    this.roundInstance.notifyRoundInstance();
     this.roundInstance.setAdditionalMultipliers(additionMultipliers);
+    this.roundInstance.notifyRoundInstance();
+  }
+
+  @Override
+  public void notifyLogicofKontra(boolean accepted) {
+    this.roundInstance.kontra = accepted;
+    this.roundInstance.notifyRoundInstance();
+
+  }
+
+
+  @Override
+  public void notifyLogicofRekontra(boolean accepted) {
+    this.roundInstance.rekontra = accepted;
+    this.roundInstance.notifyRoundInstance();
 
   }
 
   @Override
-  public void notifyLogicofKontra() {
-    // TODO Auto-generated method stub
+  public void notifyLogicOfHandGame(boolean accepted) {
+    this.roundInstance.handGame = accepted;
+    this.roundInstance.notifyRoundInstance();
 
   }
 
 
+
   @Override
-  public void notifyLogicofRekontra() {
-    // TODO Auto-generated method stub
-    
+  public void notifyLogicOfNewSkat(Card[] skat) {
+    this.roundInstance.skat = skat;
+    this.roundInstance.notifyRoundInstance();
+
   }
 }
 

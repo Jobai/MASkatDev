@@ -16,23 +16,23 @@ public class SkatMain {
     Player kai = new Player();
     Player bot1 = new Player();
     Player bot2 = new Player();
-    GameClient gcKai = new GameClient("localhost", 2018,kai);
-    GameClient gcBot1 = new GameClient("localhost", 2018,bot1);
-    GameClient gcBot2 = new GameClient("localhost", 2018,bot2);
-    
+    GameClient gcKai = new GameClient("localhost", 2018, kai);
+    GameClient gcBot1 = new GameClient("localhost", 2018, bot1);
+    GameClient gcBot2 = new GameClient("localhost", 2018, bot2);
 
-    Player[] players = {kai,bot1,bot2};
-    
-    
-    //GameController gameController =
-       // new GameController(gm.getSeverLogicController(),players, 0, false);
-    
+
+    Player[] players = {kai, bot1, bot2};
+
+
+    GameController gameController =
+        new GameController(gm.getSeverLogicController(), players, 0, false);
+
     try {
       Thread.sleep(5000);
     } catch (InterruptedException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    
+
   }
 }
