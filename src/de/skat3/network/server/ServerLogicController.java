@@ -112,6 +112,10 @@ public class ServerLogicController implements ServerLogicInterface {
   @Override
   public void sendPlayedCard(Player player, Card card) {
     // TODO Auto-generated method stub
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.PLAY_INFO);
+    mc.gameState = card;
+    gs.broadcastMessage(mc);
 
 
 
@@ -148,6 +152,29 @@ public class ServerLogicController implements ServerLogicInterface {
   public void broadcastMatchResult(Object oj) {
     // TODO Auto-generated method stub
 
+  }
+
+  @Override
+  public void callForHandOption(Player p) {
+    // TODO Auto-generated method stub
+    
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.HAND_REQUEST);
+    
+    gs.broadcastMessage(mc);
+    
+  }
+
+  @Override
+  public void callForContract(Player p) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void sendSkat(Player p, Card[] skat) {
+    // TODO Auto-generated method stub
+    
   }
 
 }

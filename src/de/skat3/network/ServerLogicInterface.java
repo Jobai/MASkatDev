@@ -32,15 +32,22 @@ public interface ServerLogicInterface {
   //tells everyone what the contract is.
   public void broadcastContract(Contract contract);
   
-  @Deprecated
+ 
   public void sendPlayedCard(Player player, Card card);
   
-  @Deprecated
+  
   public void broadcastTrickResult(Object oj);
   
   public void broadcastRoundResult(Object oj);
   
   public void broadcastMatchResult(Object oj);
+  
+  
+  public void callForHandOption(Player p);
+  
+  public void callForContract(Player p);
+  
+  public void sendSkat(Player p, Card[] skat);
   
   
   

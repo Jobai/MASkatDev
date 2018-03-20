@@ -16,6 +16,7 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import de.skat3.gamelogic.Player;
+import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
@@ -180,7 +181,8 @@ public class GameClient {
     // TODO Auto-generated method stub
 
     logger.log(Level.INFO, "Got Chatmessage" + m.message);
-
+  //  SkatMain.mainController.
+//FIXME
   }
 
 

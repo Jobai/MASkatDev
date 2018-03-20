@@ -1,5 +1,6 @@
 package de.skat3.network.client;
 
+import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.Message;
@@ -49,6 +50,9 @@ public class ClientLogicHandler {
   //tell GUI
   public  void playInfoHandler(Message m) {
     // TODO Auto-generated method stub
+    MessageCommand mc = (MessageCommand) m;
+    Card c = (Card) mc.gameState;
+    SkatMain.mainController.playCard(c);
     
   }
 

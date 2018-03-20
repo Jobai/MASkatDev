@@ -64,7 +64,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void playCard(Card card) {
-    // TODO Auto-generated method stub
+    SkatMain.lgs.addToTrick(card);
     
   }
 
@@ -107,6 +107,7 @@ public class MainController implements MainControllerInterface {
     //TODO add additionmultipliers
   }
   
+ 
   public void showResults(Result result) {
     
   }
