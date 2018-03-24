@@ -14,11 +14,11 @@ public class GameController implements GameLogicInterface {
   Player dealer;
   Player[] players; // only the players
   Player[] allPlayers; // players and dealer
-  ServerGameState serverGameState;
   int numberOfRounds;
   boolean firstRound;
   boolean kontraRekontraEnabled;
   int timer;
+  int mode;
   GameThread gameThread;
   static final CardDeck deck = new CardDeck();
   RoundInstance roundInstance;
@@ -28,12 +28,13 @@ public class GameController implements GameLogicInterface {
    * @param players
    */
   public GameController(ServerLogicController slc, Player[] players, int timer,
-      boolean kontraRekontraEnabled) {
+      boolean kontraRekontraEnabled, int mode) {
     this.slc = slc;
     this.gameActive = true;
     this.firstRound = true;
     this.timer = timer;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
+    this.mode = mode;
     this.gameId = 0; // TODO
     this.numberOfPlayers = players.length;
     this.numberOfRounds = 0;
@@ -55,7 +56,7 @@ public class GameController implements GameLogicInterface {
     } else {
       this.rotatePlayers();
     }
-    this.roundInstance = new RoundInstance(slc, this.players);
+    this.roundInstance = new RoundInstance(slc, this.players,this.gameThread,this.mode);
 
   }
 
@@ -141,7 +142,7 @@ public class GameController implements GameLogicInterface {
 
   @Override
   public void notifyLogicOfHandGame(boolean accepted) {
-    this.roundInstance.handGame = accepted;
+    this.roundInstance.addtionalMultipliers.setHandGame(accepted);
     this.roundInstance.notifyRoundInstance();
 
   }

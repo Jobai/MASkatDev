@@ -74,30 +74,9 @@ public class Hand implements Serializable {
   }
 
   //TODO skat
-  int calcGameValue(Contract contract, Card[] skat) {
+  int calcConsecutiveMatadors(Contract contract, Card[] skat) {
     int contractValue = -1;
-    switch (contract) {
-      case DIAMONDS:
-        contractValue = 9;
-        break;
-      case HEARTS:
-        contractValue = 10;
-        break;
-      case SPADES:
-        contractValue = 11;
-        break;
-      case CLUBS:
-        contractValue = 12;
-        break;
-      case GRAND:
-        contractValue = 24;
-        break;
-      case NULL:
-        return 23;
-      default:
-        break;
 
-    }
     int consecutiveMatadors = 0;
     CardDeck deck = GameController.deck;
 

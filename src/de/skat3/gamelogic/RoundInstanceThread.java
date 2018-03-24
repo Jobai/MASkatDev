@@ -16,8 +16,8 @@ public class RoundInstanceThread extends Thread {
     try {
       Player winner = roundInstance.startBidding();
       roundInstance.setDeclarer(winner);
-//      // TODO KONTRA AND REKONTRA
-//      roundInstance.lock.wait(); // notified by notifiyLogicofKontra
+      // // TODO KONTRA AND REKONTRA
+      // roundInstance.lock.wait(); // notified by notifiyLogicofKontra
 
 
       // Game
@@ -25,8 +25,8 @@ public class RoundInstanceThread extends Thread {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-
-
-
+    Result result = roundInstance.determineGameWinner();
+    //broadcast result
+    roundInstance.gameThread.notifyGameThread();
   }
 }
