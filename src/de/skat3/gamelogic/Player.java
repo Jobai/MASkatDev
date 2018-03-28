@@ -30,7 +30,7 @@ public class Player implements Serializable {
     return this.uuid;
   }
 
-  void setHand(Hand hand) {
+  public void setHand(Hand hand) {
     this.hand = hand;
   }
 

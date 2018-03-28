@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class BiddingValues {
 
-  static int[] values = fillBiddingValues();
+  public static int[] values = fillBiddingValues();
   
   
   private static int[] fillBiddingValues() {

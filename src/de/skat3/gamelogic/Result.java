@@ -277,9 +277,11 @@ public class Result {
       if (this.points > 0) {
         this.soloWon = true;
         roundInstance.solo.wonAGame();
+        roundInstance.solo.changePoints(points);
       } else {
         this.soloWon = false;
-        roundInstance.solo.wonAGame();
+        roundInstance.solo.lostAGame();
+        roundInstance.solo.changePoints(points);
       }
     }
 

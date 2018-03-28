@@ -40,6 +40,7 @@ public class RoundInstance {
     this.kontra = false;
     this.rekontra = false;
     this.trickcount = 0;
+    this.mode = mode;
     this.soloPlayerStartHand = new Hand();
     for (int i = 0; i < players.length; i++) {
       this.players[i] = players[i];
@@ -222,6 +223,7 @@ public class RoundInstance {
             return currentWinner;
           }
         }
+        System.out.println(BiddingValues.values[position]);
         position++;
 
       }

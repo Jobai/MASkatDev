@@ -1,5 +1,6 @@
 package de.skat3.main;
 
+import de.skat3.gamelogic.BiddingValues;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.network.client.GameClient;
@@ -25,14 +26,7 @@ public class SkatMain {
 
 
     GameController gameController =
-        new GameController(gm.getSeverLogicController(), players, 0, false);
-
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+        new GameController(gm.getSeverLogicController(), players, 0, false, 48);
 
   }
 }

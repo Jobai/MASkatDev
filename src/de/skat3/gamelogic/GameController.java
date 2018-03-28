@@ -150,7 +150,8 @@ public class GameController implements GameLogicInterface {
 
 
   @Override
-  public void notifyLogicOfNewSkat(Card[] skat) {
+  public void notifyLogicOfNewSkat(Hand hand, Card[] skat) {
+    this.roundInstance.solo.setHand(hand);
     this.roundInstance.skat = skat;
     this.roundInstance.notifyRoundInstance();
 
