@@ -15,6 +15,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
@@ -38,9 +40,11 @@ public class GameServerProtocol extends Thread {
   Player playerProfile;
   public ServerLogicController slc;
   
+  private GameLogicHandler glh;
+  
   
 
-  public GameServerProtocol(Socket socket) {
+  public GameServerProtocol(Socket socket, GameController gc) {
     // TODO Auto-generated constructor stub
     
     
@@ -52,6 +56,8 @@ public class GameServerProtocol extends Thread {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    glh = new GameLogicHandler(gc);
+    
 
   }
 
@@ -113,7 +119,8 @@ public class GameServerProtocol extends Thread {
   private void handleAnswer(Message m) {
     // TODO Auto-generated method stub
     
-    GameLogicHandler.handleAnswer(m);
+    //GameLogicHandler.handleAnswer(m);
+	  glh.handleAnswer(m);
 
   }
 

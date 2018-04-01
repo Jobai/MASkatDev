@@ -1,6 +1,7 @@
 package de.skat3.network.server;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.Inet4Address;
 import java.net.MulticastSocket;
 import java.net.ServerSocket;
@@ -32,10 +33,14 @@ public class LobbyServer extends Thread{
           .info("LobbyServer started on " + Inet4Address.getLocalHost().getHostAddress() + ": " + port);
 
       this.ms = server;
+      DatagramPacket p = new DatagramPacket(arg0, arg1)
      
 
       while (true) {
 //        logger.info("New connection!");
+    	ms.receive(p);  
+    	  
+    	  
         threadList.add(new LobbyServerProtocol(server));
         threadList.get(threadList.size() - 1).start();
 
