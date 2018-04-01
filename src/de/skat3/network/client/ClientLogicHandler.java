@@ -3,9 +3,11 @@ package de.skat3.network.client;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
+import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
 import de.skat3.network.datatypes.MessageCommand;
+import de.skat3.network.datatypes.SubType;
 
 public class ClientLogicHandler {
   
@@ -33,6 +35,9 @@ public class ClientLogicHandler {
   //tell GUI
   public void bidRedoHandler(Message m) {
     // TODO Auto-generated method stub
+	  Player p = (Player) m.payload; 
+	    int b = (int) ((MessageCommand) m).gameState;
+	    SkatMain.mainController.bidRequest(b);
     
   }
 
@@ -76,9 +81,17 @@ public class ClientLogicHandler {
 
   public  void roundInfoHandler(Message m) {
     // TODO Auto-generated method stub
+	  
+	  
     System.out.println("AUFGERUFEN");
     MessageCommand mc = (MessageCommand) m;
+    
+    if(mc.getSubType() == CommandType.ROUND_START_INFO){
     SkatMain.mainController.setHand((Player) mc.gameState);
+    }
+    if(mc.getSubType() == CommandType.ROUND_END_INFO){
+        //FIXME
+    }
     
   }
 
@@ -100,4 +113,34 @@ public class ClientLogicHandler {
     gc.sendToServer(mc);
     
   }
+
+
+public void contractRequestHandler(Message m) {
+	// TODO Auto-generated method stub
+	
+}
+
+
+public void declarerInfoHander(Message m) {
+	// TODO Auto-generated method stub
+	MessageCommand mc = (MessageCommand) m;
+	Player p = (Player) mc.gameState ;
+	SkatMain.mainController.showAuctionWinner(p);
+}
+
+
+public void handRequestHandler(Message m) {
+	// TODO Auto-generated method stub
+	SkatMain.mainController.handGameRequest();
+	
+}
+
+
+public void skatRequestHandler(Message m) {
+	// TODO Auto-generated method stub
+	MessageCommand mc = (MessageCommand) m;
+	Object o = mc.gameState; //FIXME
+	SkatMain.mainController.setSkat(null);
+	
+}
 }

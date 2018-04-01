@@ -32,11 +32,11 @@ public class LobbyServer extends Thread{
           .info("LobbyServer started on " + Inet4Address.getLocalHost().getHostAddress() + ": " + port);
 
       this.ms = server;
-      Socket socket;
+     
 
       while (true) {
 //        logger.info("New connection!");
-        threadList.add(new LobbyServerProtocol(socket));
+        threadList.add(new LobbyServerProtocol(server));
         threadList.get(threadList.size() - 1).start();
 
       }

@@ -25,10 +25,10 @@ public abstract class Message implements Serializable {
    * 
    */
   private static final long serialVersionUID = 3809573340211560453L;
-  private MessageType messageType;
+  public MessageType messageType;
   private String sender;
   private String receiver;
-  private SubType subType;
+  public SubType subType;
   public Object payload;
   
   /**
