@@ -26,7 +26,7 @@ public class RoundInstanceThread extends Thread {
       e.printStackTrace();
     }
     Result result = roundInstance.determineGameWinner();
-    //broadcast result
+    roundInstance.slc.broadcastRoundResult(result);
     roundInstance.gameThread.notifyGameThread();
   }
 }

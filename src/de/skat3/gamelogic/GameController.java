@@ -24,8 +24,15 @@ public class GameController implements GameLogicInterface {
   RoundInstance roundInstance;
 
   /**
+   * Creates a new match with 3-4 Players, an optional timer, optional kontra and rekontra feature
+   * and a Seeger or Bierlachs scoring system.
    * 
-   * @param players
+   * @param slc The controller that is used for network-logic communication.
+   * @param players All participants.
+   * @param timer 0 means no timer, >1 sets the timer in seconds.
+   * @param kontraRekontraEnabled true if the kontra/rekontra feature is enabled.
+   * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
+   *        number between -500 and -1000)
    */
   public GameController(ServerLogicController slc, Player[] players, int timer,
       boolean kontraRekontraEnabled, int mode) {
@@ -56,7 +63,7 @@ public class GameController implements GameLogicInterface {
     } else {
       this.rotatePlayers();
     }
-    this.roundInstance = new RoundInstance(slc, this.players,this.gameThread,this.mode);
+    this.roundInstance = new RoundInstance(slc, this.players, this.gameThread, this.mode);
 
   }
 
@@ -77,7 +84,7 @@ public class GameController implements GameLogicInterface {
 
   Player temp;
 
-  /**
+  /** This method rotates the player after a single round of play.
    * 
    */
   private void rotatePlayers() {
@@ -113,6 +120,7 @@ public class GameController implements GameLogicInterface {
   @Override
   public void notifyLogicofBid(boolean accepted) {
     this.roundInstance.setBid(accepted);
+    this.slc.broadcastBid(accepted);
     this.roundInstance.notifyRoundInstance();
 
   }
@@ -120,7 +128,7 @@ public class GameController implements GameLogicInterface {
   @Override
   public void notifyLogicofContract(Contract contract, AdditionalMulipliers additionMultipliers) {
     this.roundInstance.contract = contract;
-    // broadcastContract(contract);
+    this.slc.broadcastContract(contract);
     this.roundInstance.setAdditionalMultipliers(additionMultipliers);
     this.roundInstance.notifyRoundInstance();
   }

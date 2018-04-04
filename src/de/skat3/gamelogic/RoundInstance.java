@@ -30,8 +30,9 @@ public class RoundInstance {
    * A single round of bidding and playing.
    * 
    * @param players the three current players
-   * @param gameThread
-   * @param mode
+   * @param gameThread The GameThread dictates the game flow of a match.
+   * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
+   *        number between -500 and -1000)
    */
   public RoundInstance(ServerLogicController slc, Player[] players, GameThread gameThread,
       int mode) {
@@ -185,7 +186,7 @@ public class RoundInstance {
 
   }
 
-  /**
+  /** This method realizes the Auction.
    * @throws InterruptedException
    * 
    */
@@ -244,9 +245,8 @@ public class RoundInstance {
 
   }
 
-  /**
+  /** Starts a single game round. Every player has to play a card and the winner is determined.
    * 
-   * @throws InterruptedException
    */
   public void startGame() throws InterruptedException {
 
@@ -324,7 +324,7 @@ public class RoundInstance {
     this.trickcount = (this.trickcount + 1) % 3;
   }
 
-  /**
+  /** This method sets the declarer based on the auction.
    * 
    * @param winner winner of the Auction
    * @throws InterruptedException synchronized on lock
@@ -338,11 +338,11 @@ public class RoundInstance {
       for (int i = 0; i < this.soloPlayerStartHand.getAmountOfCards(); i++) {
         this.soloPlayerStartHand.hand[i] = this.solo.hand.hand[i];
       }
-      this.slc.callforHandOption(this.solo);
+      this.slc.callForHandOption(this.solo);
       this.lock.wait();
 
       if (!this.addtionalMultipliers.isHandGame()) {
-        this.slc.sendSkatToPlayer(this.solo, this.skat);
+        this.slc.sendSkat(this.solo, this.skat);
         this.lock.wait(); // notified by notifyLogicOfNewSkat(Card[] skat);
       }
 
