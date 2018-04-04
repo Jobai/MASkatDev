@@ -198,5 +198,13 @@ public class ServerLogicController implements ServerLogicInterface {
 		gs.sendToPlayer(p, mc);
 
 	}
+	
+	public void broadcastBid(boolean bid)
+	{
+		MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.BID_INFO);
+		mc.gameState = bid; 
+
+		gs.broadcastMessage(mc);
+	}
 
 }
