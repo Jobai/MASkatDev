@@ -8,7 +8,11 @@ import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
 import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.SubType;
-
+/**
+ * ClientNetwork > this Class > MainController > GUI
+ * @author Jonas
+ *
+ */
 public class ClientLogicHandler {
   
   
@@ -17,7 +21,7 @@ public class ClientLogicHandler {
   /**
    * @author Jonas Bauer
    */
-  public ClientLogicHandler(GameClient gc) {
+  public ClientLogicHandler(GameClient gc) { 
     super();
     this.gc = gc;
     

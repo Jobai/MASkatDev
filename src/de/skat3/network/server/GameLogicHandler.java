@@ -6,7 +6,11 @@ import de.skat3.network.datatypes.AnswerType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageAnswer;
 import de.skat3.network.datatypes.SubType;
-
+/**
+ * ServerNetwork > thisClass > Logic
+ * @author Jonas
+ *
+ */
 public class GameLogicHandler {
 	
 	GameController gc;
@@ -64,7 +68,7 @@ public class GameLogicHandler {
 		// TODO Auto-generated method stub
 		MessageAnswer ma = (MessageAnswer) m;
 		Object pay = ma.payload;
-		gc.notifyLogicofContract(null, null);
+		gc.notifyLogicofContract(null, null); //FIXME
 	}
 
 	private void handHandler(Message m) {

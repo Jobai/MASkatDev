@@ -17,6 +17,7 @@ import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageType;
 
 /**
+ * Logic > this class > Server Network
  * @author Jonas Bauer
  *
  */

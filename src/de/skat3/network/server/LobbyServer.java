@@ -33,12 +33,12 @@ public class LobbyServer extends Thread{
           .info("LobbyServer started on " + Inet4Address.getLocalHost().getHostAddress() + ": " + port);
 
       this.ms = server;
-      DatagramPacket p = new DatagramPacket(arg0, arg1)
+//      DatagramPacket p = new DatagramPacket(arg0, arg1)
      
 
       while (true) {
 //        logger.info("New connection!");
-    	ms.receive(p);  
+//    	ms.receive(p);  
     	  
     	  
         threadList.add(new LobbyServerProtocol(server));
