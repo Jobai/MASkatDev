@@ -1,8 +1,10 @@
 package de.skat3.main;
 
-
+import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
+import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
+import de.skat3.gamelogic.Result;
 import java.util.ArrayList;
 
 public interface MainControllerInterface {
@@ -33,6 +35,8 @@ public interface MainControllerInterface {
   public void exitGame();
 
   public void setSkat(Card[] skat);
+  
+  public void playCardRequest();
 
   public void contractRequest();
 
@@ -41,8 +45,14 @@ public interface MainControllerInterface {
   public void showAuctionWinner(Player player);
 
   public void bidRequest(int bid);
-  
+
   public void setHand(Player player);
+
+  void showContract(Contract contract, AdditionalMultipliers additionalMultipliers);
+
+  void showResults(Result result);
+
+  void showEndScreen(Object o);
 
 
 

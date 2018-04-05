@@ -4,29 +4,30 @@ import java.io.Serializable;
 
 public class Hand implements Serializable {
 
-  Card[] hand;
+  public Card[] cards;
 
   /**
    * Represents up to ten cards that a player has currently on his hand.
    */
   public Hand(Card[] cards) {
 
-    this.hand = new Card[cards.length];
+    this.cards = new Card[cards.length];
     for (int i = 0; i < cards.length; i++) {
-      this.hand[i] = cards[i];
+      this.cards[i] = cards[i];
     }
   }
+  
   public Hand() {
-    this.hand = new Card[10];
+    this.cards = new Card[10];
   }
 
 
   Card[] getCards() {
-    return this.hand;
+    return this.cards;
   }
 
   int getAmountOfCards() {
-    return this.hand.length;
+    return this.cards.length;
   }
 
   void sort() {
@@ -36,7 +37,7 @@ public class Hand implements Serializable {
   void sort(Contract contract) {
     int pointer = 0;
     CardDeck deck = GameController.deck;
-    Card[] sortedHand = new Card[this.hand.length];
+    Card[] sortedHand = new Card[this.cards.length];
     if (this.contains(deck.getCard("JACK OF CLUBS"))) {
       sortedHand[pointer++] = deck.getCard("JACK OF CLUBS");
     }
@@ -69,7 +70,7 @@ public class Hand implements Serializable {
       }
     }
     for (int i = 0; i < 10; i++) {
-      this.hand[i] = sortedHand[i];
+      this.cards[i] = sortedHand[i];
     }
   }
 
@@ -125,7 +126,7 @@ public class Hand implements Serializable {
   }
 
   boolean contains(Card c) {
-    for (Card card : this.hand) {
+    for (Card card : this.cards) {
       if (c.equals(card)) {
         return true;
       }
@@ -136,7 +137,7 @@ public class Hand implements Serializable {
 
   void setPlayableCards(Card card, Contract contract) {
     boolean mustFollow = false;
-    for (Card c : this.hand) {
+    for (Card c : this.cards) {
       if (card.isTrump(contract) && c.isTrump(contract)) {
         mustFollow = true;
       }
@@ -144,7 +145,7 @@ public class Hand implements Serializable {
         mustFollow = true;
       }
     }
-    for (Card c : this.hand) {
+    for (Card c : this.cards) {
       if (mustFollow) {
         if (card.isTrump(contract) && c.isTrump(contract) || card.getSuit() == c.getSuit()) {
           c.setPlayable(true);
@@ -163,9 +164,9 @@ public class Hand implements Serializable {
    */
   public String toString() {
     String st = "CARDS: ";
-    for (int i = 0; i < this.hand.length; i++) {
-      st += this.hand[i];
-      if (i < this.hand.length - 1) {
+    for (int i = 0; i < this.cards.length; i++) {
+      st += this.cards[i];
+      if (i < this.cards.length - 1) {
         st += ", ";
       } else {
         st += ";\n";
@@ -180,18 +181,18 @@ public class Hand implements Serializable {
    * @param card the card that should be removed.
    */
   public void remove(Card card) {
-    Card[] temp = new Card[this.hand.length - 1];
+    Card[] temp = new Card[this.cards.length - 1];
     int skipped = 0;
     for (int i = 0; i < temp.length; i++) {
-      if (this.hand[i].equals(card)) {
+      if (this.cards[i].equals(card)) {
         skipped = 1;
       }
-      if (i + skipped < this.hand.length) {
-        temp[i] = this.hand[i + skipped];
+      if (i + skipped < this.cards.length) {
+        temp[i] = this.cards[i + skipped];
       }
     }
 
-    this.hand = temp;
+    this.cards = temp;
   }
 
 }

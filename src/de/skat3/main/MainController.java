@@ -1,10 +1,12 @@
 package de.skat3.main;
 
 import java.util.ArrayList;
+import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
+import de.skat3.gamelogic.Timer;
 
 public class MainController implements MainControllerInterface {
 
@@ -81,40 +83,66 @@ public class MainController implements MainControllerInterface {
   }
 
 
+  @Override
   public void setHand(Player player) {
     SkatMain.lgs.localClient.setHand(player.getHand());
 
   }
 
+  @Override
   public void bidRequest(int bid) {
+    // GUI
 
   }
 
+
+  @Override
   public void showAuctionWinner(Player player) {
     // GUI
   }
 
 
+
   /**
    * 
    */
+  @Override
   public void handGameRequest() {
-    // GUI
+    // TODO GUI
 
 
   }
 
+  @Override
   public void contractRequest() {
-    // GUI
+    // TODO GUI
 
   }
 
-  public void showContract(Contract contract) {
+  @Override
+  public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers) {
     SkatMain.lgs.contract = contract;
+    SkatMain.lgs.additionalMultipliers = additionalMultipliers;
+
   }
 
+  @Override
+  public void playCardRequest() {
+    if (SkatMain.lgs.timerInSeconds > 0) {
+      new Timer(SkatMain.lgs.timerInSeconds);
+    }
+    // TODO GUI
 
+  }
+
+  @Override
   public void showResults(Result result) {
+    // TODO methode von gui
+
+  }
+
+  @Override
+  public void showEndScreen(Object o) {
 
   }
 

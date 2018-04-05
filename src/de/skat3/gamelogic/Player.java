@@ -60,6 +60,9 @@ public class Player implements Serializable {
 
   }
 
+  public Position getPosition() {
+    return this.position;
+  }
 
   public void setSolo() {
     this.isSolo = true;

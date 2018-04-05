@@ -15,7 +15,7 @@ public class RoundInstance {
   Card[] originalSkat;
   Hand soloPlayerStartHand;
   Contract contract;
-  AdditionalMulipliers addtionalMultipliers;
+  AdditionalMultipliers addtionalMultipliers;
   RoundInstanceThread roundInstanceThread;
   boolean kontra;
   boolean rekontra;
@@ -42,6 +42,7 @@ public class RoundInstance {
     this.rekontra = false;
     this.trickcount = 0;
     this.mode = mode;
+    this.addtionalMultipliers = new AdditionalMultipliers();
     this.soloPlayerStartHand = new Hand();
     for (int i = 0; i < players.length; i++) {
       this.players[i] = players[i];
@@ -336,7 +337,7 @@ public class RoundInstance {
       this.solo = winner;
       this.team = this.getTeamPlayer();
       for (int i = 0; i < this.soloPlayerStartHand.getAmountOfCards(); i++) {
-        this.soloPlayerStartHand.hand[i] = this.solo.hand.hand[i];
+        this.soloPlayerStartHand.cards[i] = this.solo.hand.cards[i];
       }
       this.slc.callForHandOption(this.solo);
       this.lock.wait();
@@ -357,7 +358,7 @@ public class RoundInstance {
 
   }
 
-  public void setAdditionalMultipliers(AdditionalMulipliers additionMultipliers) {
+  public void setAdditionalMultipliers(AdditionalMultipliers additionMultipliers) {
     this.addtionalMultipliers = additionMultipliers;
 
   }

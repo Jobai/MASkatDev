@@ -84,7 +84,8 @@ public class GameController implements GameLogicInterface {
 
   Player temp;
 
-  /** This method rotates the player after a single round of play.
+  /**
+   * This method rotates the player after a single round of play.
    * 
    */
   private void rotatePlayers() {
@@ -110,6 +111,10 @@ public class GameController implements GameLogicInterface {
     return this.dealer;
   }
 
+  /**
+   * Adds a played card to the trick.
+   */
+
   @Override
   public void notifyLogicofPlayedCard(Card card) {
     this.roundInstance.addCardtoTrick(card);
@@ -117,6 +122,9 @@ public class GameController implements GameLogicInterface {
 
   }
 
+  /**
+   * Tells the logic if a bid was accepted.
+   */
   @Override
   public void notifyLogicofBid(boolean accepted) {
     this.roundInstance.setBid(accepted);
@@ -125,11 +133,16 @@ public class GameController implements GameLogicInterface {
 
   }
 
+  /**
+   * Sets the selected contract and additionalMultipliers
+   */
   @Override
-  public void notifyLogicofContract(Contract contract, AdditionalMulipliers additionMultipliers) {
+  public void notifyLogicofContract(Contract contract,
+      AdditionalMultipliers additionalMultipliers) {
     this.roundInstance.contract = contract;
-    this.slc.broadcastContract(contract);
-    this.roundInstance.setAdditionalMultipliers(additionMultipliers);
+    additionalMultipliers.setHandGame(this.roundInstance.addtionalMultipliers.isHandGame());
+    this.roundInstance.setAdditionalMultipliers(additionalMultipliers);
+    this.slc.broadcastContract(contract, additionalMultipliers);
     this.roundInstance.notifyRoundInstance();
   }
 

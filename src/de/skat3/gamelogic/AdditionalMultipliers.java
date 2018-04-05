@@ -1,6 +1,6 @@
 package de.skat3.gamelogic;
 
-public class AdditionalMulipliers {
+public class AdditionalMultipliers {
 
   private boolean schneiderAnnounced;
   private boolean schwarzAnnounced;
@@ -8,19 +8,27 @@ public class AdditionalMulipliers {
   private boolean handGame;
 
   /**
-   * Saves
+   * Saves the selected modifiers.
    * 
-   * @param schneiderAnnounced
-   * @param schwarzAnnounced
-   * @param openHand
    */
 
-  public AdditionalMulipliers(boolean schneiderAnnounced, boolean schwarzAnnounced,
+  public AdditionalMultipliers(boolean schneiderAnnounced, boolean schwarzAnnounced,
       boolean openHand) {
 
     this.schneiderAnnounced = schneiderAnnounced;
     this.schwarzAnnounced = schwarzAnnounced;
     this.openHand = openHand;
+  }
+
+  /**
+   * All modifiers will be set false.
+   */
+  public AdditionalMultipliers() {
+    this.schneiderAnnounced = false;
+    this.schwarzAnnounced = false;
+    this.openHand = false;
+    this.handGame = false;
+
   }
 
   public boolean isHandGame() {

@@ -10,7 +10,7 @@ public interface GameLogicInterface {
 
   public void notifyLogicOfNewSkat(Hand hand, Card[] skat);
 
-  public void notifyLogicofContract(Contract contract, AdditionalMulipliers additionMultipliers);
+  public void notifyLogicofContract(Contract contract, AdditionalMultipliers additionMultipliers);
 
   public void notifyLogicofKontra(boolean accepted);
 
