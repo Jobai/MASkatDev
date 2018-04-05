@@ -8,23 +8,24 @@ import de.skat3.network.server.GameServer;
 
 public class SkatMain {
 
-	public static MainController mainController = new MainController();
-	public static LocalGameState lgs = new LocalGameState();
+  public static MainController mainController = new MainController();
+  public static LocalGameState lgs = new LocalGameState();
 
-	public static void main(String[] args) {
+  public static void main(String[] args) {
 
-		GameServer gm = new GameServer();
-		Player kai = new Player();
-		Player bot1 = new Player();
-		Player bot2 = new Player();
+    GameServer gm = new GameServer();
+    Player kai = new Player();
+    Player bot1 = new Player();
+    Player bot2 = new Player();
 
-		Player[] players = { kai, bot1, bot2 };
-		GameController gameController = new GameController(gm.getSeverLogicController(), players, 0, false, 48);
-		gm.setGameController(gameController); //must happen before any clients connect!!!
+    Player[] players = {kai, bot1, bot2};
+    GameController gameController =
+        new GameController(gm.getSeverLogicController(), players, 0, false, 48);
+    gm.setGameController(gameController); // must happen before any clients connect!!!
 
-		GameClient gcKai = new GameClient("localhost", 2018, kai);
-		GameClient gcBot1 = new GameClient("localhost", 2018, bot1);
-		GameClient gcBot2 = new GameClient("localhost", 2018, bot2);
+    GameClient gcKai = new GameClient("localhost", 2018, kai);
+    GameClient gcBot1 = new GameClient("localhost", 2018, bot1);
+    GameClient gcBot2 = new GameClient("localhost", 2018, bot2);
 
-	}
+  }
 }

@@ -35,7 +35,7 @@ public interface MainControllerInterface {
   public void exitGame();
 
   public void setSkat(Card[] skat);
-  
+
   public void playCardRequest();
 
   public void contractRequest();
@@ -48,11 +48,17 @@ public interface MainControllerInterface {
 
   public void setHand(Player player);
 
-  void showContract(Contract contract, AdditionalMultipliers additionalMultipliers);
+  public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers);
 
-  void showResults(Result result);
+  public void showResults(Result result);
 
-  void showEndScreen(Object o);
+  public void showEndScreen(Object o);
+
+  public void localCardPlayed(Card card);
+
+  public void localBid(boolean accepted);
+
+  public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers);
 
 
 

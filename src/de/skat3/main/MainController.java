@@ -152,6 +152,22 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  @Override
+  public void localCardPlayed(Card card) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void localBid(boolean accepted) {
+    
+  }
+
+  @Override
+  public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers) {
+    
+  }
+
 
 
 }

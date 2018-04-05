@@ -142,7 +142,7 @@ public class GameController implements GameLogicInterface {
     this.roundInstance.contract = contract;
     additionalMultipliers.setHandGame(this.roundInstance.addtionalMultipliers.isHandGame());
     this.roundInstance.setAdditionalMultipliers(additionalMultipliers);
-    this.slc.broadcastContract(contract, additionalMultipliers);
+    //this.slc.broadcastContract(contract, additionalMultipliers);
     this.roundInstance.notifyRoundInstance();
   }
 
