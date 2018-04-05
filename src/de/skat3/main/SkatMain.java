@@ -3,6 +3,7 @@ package de.skat3.main;
 import de.skat3.gamelogic.BiddingValues;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
+import de.skat3.gui.GuiController;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
 
@@ -10,6 +11,7 @@ public class SkatMain {
 
   public static MainController mainController = new MainController();
   public static LocalGameState lgs = new LocalGameState();
+  public static GuiController guiController = new GuiController();
 
   public static void main(String[] args) {
 
