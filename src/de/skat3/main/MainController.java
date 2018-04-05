@@ -168,6 +168,12 @@ public class MainController implements MainControllerInterface {
     
   }
 
+  @Override
+  public void handGameSelected(boolean accepted) {
+    // TODO Auto-generated method stub
+    
+  }
+
 
 
 }

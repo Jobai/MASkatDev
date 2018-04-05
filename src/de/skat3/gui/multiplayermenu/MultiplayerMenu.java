@@ -3,6 +3,7 @@ package de.skat3.gui.multiplayermenu;
 import java.io.IOException;
 import java.net.URL;
 import de.skat3.gui.Menu;
+import de.skat3.main.SkatMain;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 

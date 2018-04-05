@@ -60,6 +60,6 @@ public interface MainControllerInterface {
 
   public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers);
 
-
+  public void handGameSelected(boolean accepted);
 
 }
