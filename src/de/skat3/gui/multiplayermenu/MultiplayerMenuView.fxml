@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -10,76 +11,132 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane layoutY="141.0" prefHeight="581.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="de.skat3.gui.multiplayermenu.MultiplayerMenuController">
+<AnchorPane layoutY="141.0" prefHeight="581.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.multiplayermenu.MultiplayerMenuController">
 	<children>
-		<Button layoutX="588.0" layoutY="364.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="224.0" style="-fx-background-color: transparent; -fx-border-color: #000000;" text="Refresh">
+		<Button id="round-red" fx:id="refreshButton" layoutX="747.0" layoutY="10.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="110.0" stylesheets="@../singleplayermenu/ButtonStyle.css" text="Refresh" AnchorPane.rightAnchor="470.0">
 			<font>
-				<Font size="20.0" />
+				<Font size="17.0" />
+			</font>
+         <graphic>
+            <ImageView fitHeight="19.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../resources/guifiles/refresh.png" />
+               </image>
+            </ImageView>
+         </graphic>
+		</Button>
+		<Button id="round-red" layoutX="609.0" layoutY="467.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="221.0" stylesheets="@../singleplayermenu/ButtonStyle.css" text="Direct Connect" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="470.0">
+			<font>
+				<Font size="17.0" />
 			</font>
 		</Button>
-		<Button layoutX="861.0" layoutY="364.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="380.0" style="-fx-background-color: transparent; -fx-border-color: #000000;" text="Join Server">
+		<ListView layoutX="32.0" layoutY="33.0" AnchorPane.bottomAnchor="114.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="45.0" />
+		<AnchorPane layoutX="861.0" layoutY="33.0" prefHeight="331.0" prefWidth="380.0" style="-fx-background-color: #404040;" AnchorPane.bottomAnchor="114.0" AnchorPane.rightAnchor="39.0" AnchorPane.topAnchor="45.0">
+			<children>
+				<GridPane layoutY="152.0" prefHeight="261.0" prefWidth="380.0">
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
+						<RowConstraints maxHeight="84.0" minHeight="6.0" prefHeight="84.0" vgrow="SOMETIMES" />
+						<RowConstraints maxHeight="37.0" minHeight="0.0" prefHeight="15.0" vgrow="SOMETIMES" />
+						<RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="12.0" vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<Label text="Aljoscha" textFill="WHITE" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
+						<Label text="87% Win Ratio" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
+						<Label text="99% Win Ratio" textFill="WHITE" GridPane.columnIndex="2">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
+						<Label text="Timo" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
+						<ImageView fitHeight="60.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <image>
+                        <Image url="@../../../../../resources/guifiles/Miniclip-8-Ball-Pool-Avatar-7.png" />
+                     </image></ImageView>
+						<ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <image>
+                        <Image url="@../../../../../resources/guifiles/slide2.png" />
+                     </image></ImageView>
+					</children>
+				</GridPane>
+				<GridPane layoutX="21.0" layoutY="22.0" prefHeight="110.0" prefWidth="334.0">
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<Label text="Server Name" textFill="WHITE">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Label>
+						<Label text="Best Skat Server" textFill="WHITE" GridPane.columnIndex="1">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Label>
+						<Label text="IP" textFill="WHITE" GridPane.rowIndex="1">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Label>
+						<Label text="192.168.2.100" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Label>
+						<Label text="Password" textFill="WHITE" GridPane.rowIndex="2">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Label>
+						<Label text="Yes" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Label>
+						<Label text="Player" textFill="WHITE" GridPane.rowIndex="3">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Label>
+						<Label text="2/3" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
+							<font>
+								<Font size="18.0" />
+							</font>
+						</Label>
+					</children>
+				</GridPane>
+			</children>
+		</AnchorPane>
+		<Button id="round-red" layoutX="861.0" layoutY="376.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="380.0" stylesheets="@../singleplayermenu/ButtonStyle.css" text="Join Server" AnchorPane.bottomAnchor="80.0" AnchorPane.rightAnchor="39.0">
 			<font>
-				<Font size="20.0" />
+				<Font size="17.0" />
 			</font>
 		</Button>
-      <ListView layoutX="32.0" layoutY="33.0" prefHeight="331.0" prefWidth="780.0" />
-      <AnchorPane layoutX="861.0" layoutY="33.0" prefHeight="331.0" prefWidth="380.0" style="-fx-border-color: #000000;">
-         <children>
-            <GridPane layoutX="18.0" layoutY="132.0" prefHeight="178.0" prefWidth="343.0">
-              <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="Aljoscha" GridPane.rowIndex="1" />
-                  <Label text="2% Win Ratio" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label text="99% Win Ratio" GridPane.rowIndex="2" />
-                  <Label text="Timo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-               </children>
-            </GridPane>
-            <GridPane layoutX="21.0" layoutY="22.0" prefHeight="110.0" prefWidth="334.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label text="Server Name" />
-                  <Label text="Best Skat Server" GridPane.columnIndex="1" />
-                  <Label text="IP" GridPane.rowIndex="1" />
-                  <Label text="192.168.2.100" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="Password" GridPane.rowIndex="2" />
-                  <Label text="Yes" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label text="Player" GridPane.rowIndex="3" />
-                  <Label text="2/3" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-               </children>
-            </GridPane>
-         </children>
-      </AnchorPane>
-      <Button layoutX="292.0" layoutY="364.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="295.0" style="-fx-background-color: transparent; -fx-border-color: #000000;" text="Direct Connect">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
-      <Button layoutX="32.0" layoutY="364.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="260.0" style="-fx-background-color: transparent; -fx-border-color: #000000;" text="Host Server">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
+		<Button id="round-red" layoutX="40.0" layoutY="467.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="221.0" stylesheets="@../singleplayermenu/ButtonStyle.css" text="Host Server" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="40.0">
+			<font>
+				<Font size="17.0" />
+			</font>
+		</Button>
 	</children>
 </AnchorPane>

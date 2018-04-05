@@ -1,5 +1,6 @@
 package de.skat3.gui.menuframe;
 
+import javax.swing.plaf.metal.MetalPopupMenuSeparatorUI;
 import com.sun.swing.internal.plaf.synth.resources.synth;
 import de.skat3.gui.Menu;
 import de.skat3.gui.multiplayermenu.MultiplayerMenu;
@@ -8,14 +9,33 @@ import de.skat3.gui.singleplayermenu.SingleplayerMenu;
 import de.skat3.gui.statsmenu.StatsMenu;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CustomMenuItem;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.stage.Popup;
+import javafx.stage.PopupBuilder;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 /**
  * Class to control the corresponding view file.
@@ -40,6 +60,8 @@ public class MenuFrameController {
   public Rectangle menuNameLine;
   @FXML
   public ImageView backgroundImage;
+  @FXML
+  public MenuButton profileMenuButton;
 
   // Menus
 
@@ -216,10 +238,36 @@ public class MenuFrameController {
     // this.backgroundImage.fitHeightProperty().bind( s.heightProperty());
     // code first initilizing of the singleplayer without an animation when the
     // programm starts.
+
+    // Todo
+    fillProfileMenu();
+
+  }
+
+  private void fillProfileMenu() {
+    Label l1 = new Label("Profil 1");
+    l1.setFont(new Font(16));
+    profileMenuButton.getItems().add(new CustomMenuItem(l1));
+
+    Label l2 = new Label("Profil 2");
+    l2.setFont(new Font(16));
+    profileMenuButton.getItems().add(new CustomMenuItem(l2));
+
+    profileMenuButton.getItems().add(new SeparatorMenuItem());
+
+    profileMenuButton.getItems().add(new CustomMenuItem(new Button("Add")));
   }
 
   public void delayedInitialize() {
     this.showSingleplayerMenu();
+  }
+
+  public void handleMouseClickProfileMenu() {
+    profileMenuButton.show();
+  }
+
+  public void handleMouseClickAddProfile() {
+
   }
 
 }

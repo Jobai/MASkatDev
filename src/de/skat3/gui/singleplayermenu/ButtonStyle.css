@@ -1,0 +1,53 @@
+#round-red {
+    -fx-background-color: linear-gradient(#f00000, #d60202);
+    -fx-text-fill: white;
+    }
+#round-red:hover{
+        -fx-background-color: 
+        #c3c4c4,
+        linear-gradient(#d6d6d6 50.0%, white 100.0%),
+        radial-gradient(center 50.0% -40.0%, radius 200.0%, #e6e6e6 45.0%, rgba(230.0,230.0,230.0,0.0) 50.0%)
+        -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 3.0, 0.0 , 0.0 , 1.0 );
+}
+#round-red:pressed{
+}
+   
+#bevel-grey {
+    -fx-background-color: 
+        linear-gradient(#f2f2f2, #d6d6d6),
+        linear-gradient(#fcfcfc 0.0%, #d9d9d9 20.0%, #d6d6d6 100.0%),
+        linear-gradient(#dddddd 0.0%, #f6f6f6 50.0%);
+    -fx-background-radius: 8.0,7.0,6.0;
+    -fx-background-insets: 0.0,1.0,2.0;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 5.0, 0.0 , 0.0 , 1.0 );
+}
+#glass-grey {
+    -fx-background-color: 
+        #c3c4c4,
+        linear-gradient(#d6d6d6 50.0%, white 100.0%),
+        radial-gradient(center 50.0% -40.0%, radius 200.0%, #e6e6e6 45.0%, rgba(230.0,230.0,230.0,0.0) 50.0%);
+    -fx-background-radius: 30.0;
+    -fx-background-insets: 0.0,1.0,1.0;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0.0,0.0,0.0,0.6) , 3.0, 0.0 , 0.0 , 1.0 );
+}
+
+#glass-grey:hover {
+    -fx-background-color: linear-gradient(#ff5400, #be1d00);
+    -fx-background-radius: 30.0;
+    -fx-background-insets: 0.0;
+    -fx-text-fill: white;
+}
+
+#glass-grey:pressed {
+}
+
+#singlePlayerButton {
+	
+}
+#singlePlayerButton:hover {
+	
+}
