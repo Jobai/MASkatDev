@@ -14,7 +14,7 @@ import de.skat3.network.datatypes.MessageAnswer;
  * 
  * I AM CALLED BY THE GUI / MAIN CONTROLLER
  * 
- * I implement AnswerTypes
+ * I implement [SEND] AnswerTypes
  */
 public class ClientLogicController {
 
@@ -56,6 +56,7 @@ public class ClientLogicController {
     MessageAnswer ma = new MessageAnswer("ME", AnswerType.THROW_ANSWER);
     Card[] skat =  {c1,c2};
     ma.payload = skat;
+//    ma.additionalPlayload = hand
     gc.sendToServer(ma);
   }
   
