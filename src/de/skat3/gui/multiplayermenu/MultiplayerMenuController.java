@@ -1,9 +1,14 @@
 package de.skat3.gui.multiplayermenu;
 
+import java.io.IOException;
 import java.util.Optional;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
@@ -21,6 +26,18 @@ public class MultiplayerMenuController {
   }
 
   public void hostServer() {
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HostPopup.fxml"));
+    Parent root = null;
+    try {
+      root = fxmlLoader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Stage stage = new Stage();
+    stage.setTitle("Host Server");
+    stage.setScene(new Scene(root));
+    stage.show();
+
 
   }
 
