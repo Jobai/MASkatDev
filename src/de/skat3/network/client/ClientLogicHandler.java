@@ -12,6 +12,7 @@ import de.skat3.network.datatypes.SubType;
  * ClientNetwork > this Class > MainController > GUI
  * @author Jonas
  *
+ *  I IMPLEMENT [UNDERSTAND] COMMANDTYPEs
  */
 public class ClientLogicHandler {
   
