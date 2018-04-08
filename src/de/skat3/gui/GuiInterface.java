@@ -1,5 +1,6 @@
 package de.skat3.gui;
 
+
 public interface GuiInterface {
 
   // Auftruf local bid im MainController
