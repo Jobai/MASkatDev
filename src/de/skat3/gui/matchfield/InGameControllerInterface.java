@@ -9,7 +9,7 @@ import java.util.UUID;
 import javafx.util.Duration;
 
 /**
- * @author Aljoscha Domonell
+ * @author adomonel
  *
  */
 public interface InGameControllerInterface {
@@ -33,7 +33,7 @@ public interface InGameControllerInterface {
 
   public void showAuctionWinner();
 
-  // Ich muss klären wie
+  // Ich muss klï¿½ren wie
 
   /**
    * Play a card of a hand.

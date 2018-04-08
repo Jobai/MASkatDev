@@ -10,7 +10,9 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 /**
- * @author Aljoscha Domonell
+ * View class of the Matchfield.
+ * 
+ * @author adomonel
  *
  */
 public class Matchfield {
@@ -24,11 +26,13 @@ public class Matchfield {
   protected GuiHand playerHand;
   protected GuiHand leftHand;
   protected GuiHand rightHand;
-  protected Trick trick;
+  protected GuiTrick trick;
   public static Duration animationTime = Duration.millis(500);
 
   /**
-   * View class of the Matchfield.
+   * Links a LocalGameState to this Matchfield.
+   * 
+   * @param gameState The gameState that will be linked.
    */
   public Matchfield(LocalGameState gameState) {
 
@@ -51,7 +55,7 @@ public class Matchfield {
     this.rightHand = new GuiHand(sceneWidth, sceneHeight * 0.82, 1000, 0, 55, 0,
         convertCardList(this.gameState.hand3));
 
-    this.trick = new Trick(sceneWidth / 2, sceneHeight * 0.9, 500.0, -90, 0.0, 0.0);
+    this.trick = new GuiTrick(sceneWidth / 2, sceneHeight * 0.9, 500.0, -90, 0.0, 0.0);
 
   }
 

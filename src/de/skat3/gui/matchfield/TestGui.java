@@ -25,9 +25,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- * .
  * 
- * @author Aljoscha Domonell
+ * @author adomonel
  *
  */
 public class TestGui extends Application {
