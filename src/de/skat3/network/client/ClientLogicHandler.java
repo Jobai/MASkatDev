@@ -76,8 +76,7 @@ public class ClientLogicHandler {
 
   // tell GUI
   public void playRequestHandler(Message m) {
-    // TODO Auto-generated method stub
-
+    SkatMain.mainController.playCardRequest();
   }
 
   // tell GUI

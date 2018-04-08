@@ -19,6 +19,8 @@ import de.skat3.network.datatypes.MessageType;
 /**
  * Logic > this class > Server Network
  * 
+ * I IMPLEMENT [SEND] COMMANDTYPEs
+ * 
  * @author Jonas Bauer
  *
  *  I IMPLEMENT [SEND] COMMANDTYPEs
@@ -181,6 +183,7 @@ public class ServerLogicController implements ServerLogicInterface {
 
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.SKAT_INFO_REQUEST);
+    mc.gameState = skat;
 
     gs.sendToPlayer(p, mc);
 

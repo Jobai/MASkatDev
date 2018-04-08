@@ -1,5 +1,7 @@
 package de.skat3.gui;
 
+
+import de.skat3.gui.matchfield.InGameController;
 import de.skat3.gui.matchfield.Matchfield;
 import de.skat3.gui.menuframe.MenuFrame;
 import de.skat3.main.SkatMain;
@@ -23,6 +25,24 @@ public class Gui extends Application {
    */
   public static void showAndWait() {
     Application.launch(Gui.class);
+  }
+
+  /**
+   * ASD.
+   */
+  public void showMenu() {
+    this.mainStage.setScene(this.menuFrame.getScene());
+  }
+
+  /**
+   * ASD.
+   * 
+   * @return
+   */
+  public InGameController showMatchfield() {
+    this.matchfield = new Matchfield(SkatMain.lgs);
+    this.mainStage.setScene(this.matchfield.getScene());
+    return this.matchfield.getController();
   }
 
   /**
@@ -58,7 +78,7 @@ public class Gui extends Application {
     this.menuFrame.getController().delayedInitialize();
     
   }
-  
+
   public Stage getMainStage() {
     return this.mainStage;
   }
