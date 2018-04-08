@@ -18,7 +18,7 @@ public interface InGameControllerInterface {
 
   public void setRemainingTime(Duration remaningTime);
 
-  public void showRusults(Result results);
+  public void showResults(Result results);
 
   public void showEndScreen();
 
