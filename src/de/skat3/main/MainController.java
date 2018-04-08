@@ -64,6 +64,10 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  
+  
+  
+  //---------------------------------------------------
   @Override
   public void playCard(Card card) {
     SkatMain.lgs.addToTrick(card);
