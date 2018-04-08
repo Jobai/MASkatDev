@@ -1,5 +1,6 @@
 package de.skat3.gui;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gui.matchfield.InGameController;
 import de.skat3.main.MainController;
 import de.skat3.main.SkatMain;
 import javafx.scene.control.Alert;
@@ -90,7 +92,20 @@ public class GuiController implements GuiInterface {
       SkatMain.mainController.handGameSelected(false);
       return false;
     }
-    
+
+  }
+
+  private InGameController inGameController;
+
+  /**
+   * Shows the ingame view in the running Stage and sets the InGameController in this class.
+   */
+  public void goInGame() {
+    this.inGameController = this.gui.showMatchfield();
+  }
+
+  public InGameController getInGameController() {
+    return this.inGameController;
   }
 
 }
