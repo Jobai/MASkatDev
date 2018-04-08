@@ -48,12 +48,12 @@ public class Matchfield {
 
     this.table.setPrefSize(sceneWidth, sceneHeight);
 
-    this.playerHand = new GuiHand(sceneWidth / 2, sceneHeight * 0.82, -200, -20, 0, 0,
-        convertCardList(this.gameState.hand));
-    this.leftHand =
-        new GuiHand(0, sceneHeight * 0.82, 1000, 0, -55, 0, convertCardList(this.gameState.hand2));
-    this.rightHand = new GuiHand(sceneWidth, sceneHeight * 0.82, 1000, 0, 55, 0,
-        convertCardList(this.gameState.hand3));
+//    this.playerHand = new GuiHand(sceneWidth / 2, sceneHeight * 0.82, -200, -20, 0, 0,
+//        convertCardList(this.gameState.hand));
+//    this.leftHand =
+//        new GuiHand(0, sceneHeight * 0.82, 1000, 0, -55, 0, convertCardList(this.gameState.hand2));
+//    this.rightHand = new GuiHand(sceneWidth, sceneHeight * 0.82, 1000, 0, 55, 0,
+//        convertCardList(this.gameState.hand3));
 
     this.trick = new GuiTrick(sceneWidth / 2, sceneHeight * 0.9, 500.0, -90, 0.0, 0.0);
 

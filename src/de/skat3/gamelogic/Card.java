@@ -14,7 +14,7 @@ public class Card implements Serializable{
 
   private Suit suit;
   private Value value;
-  private ImageView view;
+  public ImageView view;
   private boolean playable;
   private int trickValue;
 
