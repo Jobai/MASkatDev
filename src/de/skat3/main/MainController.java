@@ -122,7 +122,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showAuctionWinner(Player player) {
-    SkatMain.guiController.g
+    //SkatMain.guiController.g
   }
 
 

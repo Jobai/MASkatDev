@@ -105,17 +105,4 @@ public class GuiController implements GuiInterface {
 
   }
 
-  private InGameController inGameController;
-
-  /**
-   * Shows the ingame view in the running Stage and sets the InGameController in this class.
-   */
-  public void goInGame() {
-    this.inGameController = this.gui.showMatchfield();
-  }
-
-  public InGameController getInGameController() {
-    return this.inGameController;
-  }
-
 }
