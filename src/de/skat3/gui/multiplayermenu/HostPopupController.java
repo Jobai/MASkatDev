@@ -39,7 +39,7 @@ public class HostPopupController {
   }
   
   public void hostGame() {
-    SkatMain.mainController.hostMultiplayerGame(2, 0, null);
+    SkatMain.mainController.hostMultiplayerGame(3, 0, "",false,48);
     System.out.println(playerCount.getValue());
   }
   

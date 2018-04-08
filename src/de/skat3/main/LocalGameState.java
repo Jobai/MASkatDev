@@ -16,9 +16,11 @@ public class LocalGameState {
   int timerInSeconds;
   Contract contract;
   AdditionalMultipliers additionalMultipliers;
+  int trickcount;
   Player localClient;
-  ObservableList<Card> trick;
-  ObservableList<Card> hand;
+  Player enemyOne;
+  Player enemyTwo;
+  Card[] trick;
   Card[] skat;
   ArrayList<String> chatMessages;
 
@@ -26,15 +28,14 @@ public class LocalGameState {
    * The current state of a game.
    * 
    */
-  public LocalGameState() {
-    trick = FXCollections.observableArrayList();
-    hand = FXCollections.observableArrayList();
+  public LocalGameState(int numberOfPlayers, Player localClient, int timerInSeconds) {
+    trickcount = 0;
+    trick = new Card[3];
     skat = new Card[2];
   }
 
   public void setPlayer(Player player) {
     this.localClient = player;
-    this.hand = FXCollections.observableArrayList(Arrays.asList(this.localClient.getHand().cards));
   }
 
   /**
@@ -44,10 +45,12 @@ public class LocalGameState {
    */
 
   public void addToTrick(Card card) {
-    this.trick.add(card);
-    if (this.trick.size() == 3) {
-      this.trick.clear();
-    }
+    this.trick[this.trickcount] = card;
+    this.trickcount = (trickcount + 1) % 3;
+  }
+
+  public Card[] getHand() {
+    return this.localClient.getHand().cards;
   }
 
   public void setTimerInSeconds(int seconds) {

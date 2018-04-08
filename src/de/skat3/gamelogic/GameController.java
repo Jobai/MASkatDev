@@ -17,7 +17,6 @@ public class GameController implements GameLogicInterface {
   int numberOfRounds;
   boolean firstRound;
   boolean kontraRekontraEnabled;
-  int timer;
   int mode;
   GameThread gameThread;
   static final CardDeck deck = new CardDeck();
@@ -29,17 +28,15 @@ public class GameController implements GameLogicInterface {
    * 
    * @param slc The controller that is used for network-logic communication.
    * @param players All participants.
-   * @param timer 0 means no timer, >1 sets the timer in seconds.
    * @param kontraRekontraEnabled true if the kontra/rekontra feature is enabled.
    * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
    *        number between -500 and -1000)
    */
-  public GameController(ServerLogicController slc, Player[] players, int timer,
-      boolean kontraRekontraEnabled, int mode) {
+  public GameController(ServerLogicController slc, Player[] players, boolean kontraRekontraEnabled,
+      int mode) {
     this.slc = slc;
     this.gameActive = true;
     this.firstRound = true;
-    this.timer = timer;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
     this.mode = mode;
     this.gameId = 0; // TODO
@@ -51,9 +48,13 @@ public class GameController implements GameLogicInterface {
       this.allPlayers[i] = players[i];
     }
     this.gameThread = new GameThread(this);
+
+
+
+  }
+
+  public void startGame() {
     this.gameThread.start();
-
-
   }
 
   void startNewRound() {
@@ -64,6 +65,7 @@ public class GameController implements GameLogicInterface {
       this.rotatePlayers();
     }
     this.roundInstance = new RoundInstance(slc, this.players, this.gameThread, this.mode);
+    this.roundInstance.startRound();
 
   }
 
@@ -142,7 +144,7 @@ public class GameController implements GameLogicInterface {
     this.roundInstance.contract = contract;
     additionalMultipliers.setHandGame(this.roundInstance.addtionalMultipliers.isHandGame());
     this.roundInstance.setAdditionalMultipliers(additionalMultipliers);
-    //this.slc.broadcastContract(contract, additionalMultipliers);
+    // this.slc.broadcastContract(contract, additionalMultipliers);
     this.roundInstance.notifyRoundInstance();
   }
 

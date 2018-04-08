@@ -39,6 +39,7 @@ public class Gui extends Application {
     this.mainStage.setScene(this.menuFrame.getScene());
     this.mainStage.show();
     this.delayedInitialize();
+    
   }
 
   private void initializeComponents() {
@@ -55,6 +56,7 @@ public class Gui extends Application {
     this.menuFrame.getController().backgroundImage.fitHeightProperty()
         .bind(this.mainStage.heightProperty());
     this.menuFrame.getController().delayedInitialize();
+    
   }
   
   public Stage getMainStage() {

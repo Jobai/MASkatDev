@@ -16,7 +16,6 @@ public class RoundInstance {
   Hand soloPlayerStartHand;
   Contract contract;
   AdditionalMultipliers addtionalMultipliers;
-  RoundInstanceThread roundInstanceThread;
   boolean kontra;
   boolean rekontra;
   boolean bidAccepted;
@@ -47,10 +46,29 @@ public class RoundInstance {
     for (int i = 0; i < players.length; i++) {
       this.players[i] = players[i];
     }
-    this.roundInstanceThread = new RoundInstanceThread(this);
-    this.roundInstanceThread.start();
     this.gameThread = gameThread;
 
+  }
+  
+  
+  
+  void startRound() {
+    this.initializeAuction();
+    try {
+      Player winner = this.startBidding();
+      this.setDeclarer(winner);
+      // // TODO KONTRA AND REKONTRA
+      // roundInstance.lock.wait(); // notified by notifiyLogicofKontra
+
+
+      // Game
+      this.startGame();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    Result result = this.determineGameWinner();
+    this.slc.broadcastRoundResult(result);
+    this.gameThread.notifyGameThread();
   }
 
   void initializeAuction() {
