@@ -8,6 +8,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+// Test
+
 /*
  * Class to manage the GUI.
  */
