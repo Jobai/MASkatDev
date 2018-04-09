@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class BiddingValues {
 
-  static int[] values = fillBiddingValues();
+  public static int[] values = fillBiddingValues();
   
   
   private static int[] fillBiddingValues() {
@@ -15,11 +15,11 @@ public class BiddingValues {
     temp.add(46);
     temp.add(59);
     for (int i = 9; i <= 12; i++) {
-      for (int j = 2; j <= 16; j++) {
+      for (int j = 2; j <= 18; j++) {
         temp.add(i * j);
       }
     }
-    for (int i = 2; i <= 9; i++) {
+    for (int i = 2; i <= 11; i++) {
       temp.add(i * 24);
     }
     Collections.sort(temp);

@@ -14,26 +14,31 @@ public class GameController implements GameLogicInterface {
   Player dealer;
   Player[] players; // only the players
   Player[] allPlayers; // players and dealer
-  ServerGameState serverGameState;
   int numberOfRounds;
   boolean firstRound;
   boolean kontraRekontraEnabled;
-  int timer;
+  int mode;
   GameThread gameThread;
   static final CardDeck deck = new CardDeck();
   RoundInstance roundInstance;
 
   /**
+   * Creates a new match with 3-4 Players, an optional timer, optional kontra and rekontra feature
+   * and a Seeger or Bierlachs scoring system.
    * 
-   * @param players
+   * @param slc The controller that is used for network-logic communication.
+   * @param players All participants.
+   * @param kontraRekontraEnabled true if the kontra/rekontra feature is enabled.
+   * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
+   *        number between -500 and -1000)
    */
-  public GameController(ServerLogicController slc, Player[] players, int timer,
-      boolean kontraRekontraEnabled) {
+  public GameController(ServerLogicController slc, Player[] players, boolean kontraRekontraEnabled,
+      int mode) {
     this.slc = slc;
     this.gameActive = true;
     this.firstRound = true;
-    this.timer = timer;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
+    this.mode = mode;
     this.gameId = 0; // TODO
     this.numberOfPlayers = players.length;
     this.numberOfRounds = 0;
@@ -43,9 +48,13 @@ public class GameController implements GameLogicInterface {
       this.allPlayers[i] = players[i];
     }
     this.gameThread = new GameThread(this);
+
+
+
+  }
+
+  public void startGame() {
     this.gameThread.start();
-
-
   }
 
   void startNewRound() {
@@ -55,7 +64,8 @@ public class GameController implements GameLogicInterface {
     } else {
       this.rotatePlayers();
     }
-    this.roundInstance = new RoundInstance(slc, this.players);
+    this.roundInstance = new RoundInstance(slc, this.players, this.gameThread, this.mode);
+    this.roundInstance.startRound();
 
   }
 
@@ -77,6 +87,7 @@ public class GameController implements GameLogicInterface {
   Player temp;
 
   /**
+   * This method rotates the player after a single round of play.
    * 
    */
   private void rotatePlayers() {
@@ -102,6 +113,10 @@ public class GameController implements GameLogicInterface {
     return this.dealer;
   }
 
+  /**
+   * Adds a played card to the trick.
+   */
+
   @Override
   public void notifyLogicofPlayedCard(Card card) {
     this.roundInstance.addCardtoTrick(card);
@@ -109,18 +124,27 @@ public class GameController implements GameLogicInterface {
 
   }
 
+  /**
+   * Tells the logic if a bid was accepted.
+   */
   @Override
   public void notifyLogicofBid(boolean accepted) {
     this.roundInstance.setBid(accepted);
+    this.slc.broadcastBid(accepted);
     this.roundInstance.notifyRoundInstance();
 
   }
 
+  /**
+   * Sets the selected contract and additionalMultipliers
+   */
   @Override
-  public void notifyLogicofContract(Contract contract, AdditionalMulipliers additionMultipliers) {
+  public void notifyLogicofContract(Contract contract,
+      AdditionalMultipliers additionalMultipliers) {
     this.roundInstance.contract = contract;
-    // broadcastContract(contract);
-    this.roundInstance.setAdditionalMultipliers(additionMultipliers);
+    additionalMultipliers.setHandGame(this.roundInstance.addtionalMultipliers.isHandGame());
+    this.roundInstance.setAdditionalMultipliers(additionalMultipliers);
+    // this.slc.broadcastContract(contract, additionalMultipliers);
     this.roundInstance.notifyRoundInstance();
   }
 
@@ -141,7 +165,7 @@ public class GameController implements GameLogicInterface {
 
   @Override
   public void notifyLogicOfHandGame(boolean accepted) {
-    this.roundInstance.handGame = accepted;
+    this.roundInstance.addtionalMultipliers.setHandGame(accepted);
     this.roundInstance.notifyRoundInstance();
 
   }
@@ -149,7 +173,8 @@ public class GameController implements GameLogicInterface {
 
 
   @Override
-  public void notifyLogicOfNewSkat(Card[] skat) {
+  public void notifyLogicOfNewSkat(Hand hand, Card[] skat) {
+    this.roundInstance.solo.setHand(hand);
     this.roundInstance.skat = skat;
     this.roundInstance.notifyRoundInstance();
 

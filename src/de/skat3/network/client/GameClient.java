@@ -39,10 +39,9 @@ public class GameClient {
   Logger logger = Logger.getLogger("de.skat3.network.client");
   StreamListener sl;
   ClientLogicHandler clh;
-  
+
   Player player;
-
-
+  private ClientLogicController clc;
 
   /**
    * @author Jonas Bauer
@@ -53,12 +52,11 @@ public class GameClient {
     this.hostAdress = hostAdress;
     this.port = port;
     this.clh = new ClientLogicHandler(this);
+    this.clc = new ClientLogicController(this);
     this.player = player;
     logger.setLevel(Level.ALL);
     this.connect();
   }
-
-
 
   private void connect() {
     try {
@@ -83,22 +81,18 @@ public class GameClient {
 
   private void openConnection() {
     // TODO Auto-generated method stub
-    
+
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
     mc.payload = player;
     sendToServer(mc);
-    
+
   }
-
-
 
   void clientProtocolHandler(Object o) {
     Object receivedObject = o;
     Message m = (Message) receivedObject;
     MessageType mt = m.getType();
     SubType st = m.getSubType();
-
-
 
     switch (mt) {
       case CONNECTION_OPEN:
@@ -122,12 +116,9 @@ public class GameClient {
     }
   }
 
-
-
   private void handleCommandAction(Message m, SubType st) {
     // TODO Auto-generated method stub
     logger.info("Handeling!");
-
 
     CommandType ct = (CommandType) st;
     switch (ct) {
@@ -152,7 +143,10 @@ public class GameClient {
       case TRICK_INFO:
         clh.trickInfoHandler(m);
         break;
-      case ROUND_INFO:
+      case ROUND_START_INFO:
+        clh.roundInfoHandler(m);
+        break;
+      case ROUND_END_INFO:
         clh.roundInfoHandler(m);
         break;
       case MATCH_INFO:
@@ -175,17 +169,13 @@ public class GameClient {
   //
   // }
 
-
-
   private void handleChatMessage(MessageChat m) {
     // TODO Auto-generated method stub
 
     logger.log(Level.INFO, "Got Chatmessage" + m.message);
-  //  SkatMain.mainController.
-//FIXME
+    // SkatMain.mainController.
+    // FIXME
   }
-
-
 
   private void closeConnection() {
     // TODO Auto-generated method stub
@@ -202,8 +192,6 @@ public class GameClient {
     }
   }
 
-
-
   /**
    * @author Jonas Bauer
    * @param args
@@ -215,14 +203,11 @@ public class GameClient {
     gc.connect();
 
     for (int i = 1; i <= 1000000; i++) {
-      
+
       gc.clh.sendChatMessage("Test  Message" + i);
     }
 
-
   }
-
-
 
   public void handleLostConnection() {
     // TODO Auto-generated method stub

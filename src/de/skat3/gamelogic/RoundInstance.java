@@ -15,13 +15,13 @@ public class RoundInstance {
   Card[] originalSkat;
   Hand soloPlayerStartHand;
   Contract contract;
-  boolean handGame;
-  AdditionalMulipliers addtionalMultipliers;
-  RoundInstanceThread roundInstanceThread;
+  AdditionalMultipliers addtionalMultipliers;
   boolean kontra;
   boolean rekontra;
   boolean bidAccepted;
+  int mode;
   int trickcount;
+  GameThread gameThread;
   Object lock = new Object();
 
 
@@ -29,20 +29,46 @@ public class RoundInstance {
    * A single round of bidding and playing.
    * 
    * @param players the three current players
+   * @param gameThread The GameThread dictates the game flow of a match.
+   * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
+   *        number between -500 and -1000)
    */
-  public RoundInstance(ServerLogicController slc, Player[] players) {
+  public RoundInstance(ServerLogicController slc, Player[] players, GameThread gameThread,
+      int mode) {
     this.slc = slc;
     this.players = new Player[3];
     this.kontra = false;
     this.rekontra = false;
     this.trickcount = 0;
+    this.mode = mode;
+    this.addtionalMultipliers = new AdditionalMultipliers();
     this.soloPlayerStartHand = new Hand();
     for (int i = 0; i < players.length; i++) {
       this.players[i] = players[i];
     }
-    this.roundInstanceThread = new RoundInstanceThread(this);
-    this.roundInstanceThread.start();
+    this.gameThread = gameThread;
 
+  }
+  
+  
+  
+  void startRound() {
+    this.initializeAuction();
+    try {
+      Player winner = this.startBidding();
+      this.setDeclarer(winner);
+      // // TODO KONTRA AND REKONTRA
+      // roundInstance.lock.wait(); // notified by notifiyLogicofKontra
+
+
+      // Game
+      this.startGame();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    Result result = this.determineGameWinner();
+    this.slc.broadcastRoundResult(result);
+    this.gameThread.notifyGameThread();
   }
 
   void initializeAuction() {
@@ -179,7 +205,7 @@ public class RoundInstance {
 
   }
 
-  /**
+  /** This method realizes the Auction.
    * @throws InterruptedException
    * 
    */
@@ -217,6 +243,7 @@ public class RoundInstance {
             return currentWinner;
           }
         }
+        System.out.println(BiddingValues.values[position]);
         position++;
 
       }
@@ -237,9 +264,8 @@ public class RoundInstance {
 
   }
 
-  /**
+  /** Starts a single game round. Every player has to play a card and the winner is determined.
    * 
-   * @throws InterruptedException
    */
   public void startGame() throws InterruptedException {
 
@@ -248,11 +274,11 @@ public class RoundInstance {
 
       for (int i = 0; i < 10; i++) {
         //
-        
+
         slc.callForPlay(this.players[0]);
         this.lock.wait();
         slc.sendPlayedCard(this.players[0], this.trick[0]);
-        
+
         slc.callForPlay(this.players[1]);
         this.lock.wait();
         slc.sendPlayedCard(this.players[1], this.trick[1]);
@@ -260,7 +286,7 @@ public class RoundInstance {
         slc.callForPlay(this.players[2]);
         this.lock.wait();
         slc.sendPlayedCard(this.players[2], this.trick[2]);
-        Thread.sleep(2500); //delay for visuals
+        Thread.sleep(2500); // delay for visuals
         Player trickWinner = this.determineTrickWinner();
         for (Card c : this.trick) {
           if (trickWinner.isSolo) {
@@ -273,43 +299,13 @@ public class RoundInstance {
         slc.broadcastTrickResult(trickWinner);
         this.rotatePlayers(trickWinner);
       }
-      this.determineGameWinner();
 
     }
   }
 
 
-  private void determineGameWinner() {
-    int contractValue;
-    switch (contract) {
-      case DIAMONDS:
-        contractValue = 9;
-        break;
-      case HEARTS:
-        contractValue = 10;
-        break;
-      case SPADES:
-        contractValue = 11;
-        break;
-      case CLUBS:
-        contractValue = 12;
-        break;
-      case GRAND:
-        contractValue = 24;
-        break;
-      case NULL:
-        contractValue = 23;
-      default:
-        break;
-
-    }
-    int pointsSoloPlayer = 0;
-    int baseValue = 0;
-    for (Card c : this.solo.wonTricks) {
-      pointsSoloPlayer += c.getTrickValue();
-    }
-    
-
+  Result determineGameWinner() {
+    return new Result(this);
 
   }
 
@@ -347,7 +343,7 @@ public class RoundInstance {
     this.trickcount = (this.trickcount + 1) % 3;
   }
 
-  /**
+  /** This method sets the declarer based on the auction.
    * 
    * @param winner winner of the Auction
    * @throws InterruptedException synchronized on lock
@@ -359,13 +355,15 @@ public class RoundInstance {
       this.solo = winner;
       this.team = this.getTeamPlayer();
       for (int i = 0; i < this.soloPlayerStartHand.getAmountOfCards(); i++) {
-        this.soloPlayerStartHand.hand[i] = this.solo.hand.hand[i];
+        this.soloPlayerStartHand.cards[i] = this.solo.hand.cards[i];
       }
-      this.slc.callforHandOption(this.solo);
+      this.slc.callForHandOption(this.solo);
       this.lock.wait();
 
-      this.slc.sendSkatToPlayer(this.solo,this.skat);
-      this.lock.wait(); // notified by notifyLogicOfNewSkat(Card[] skat);
+      if (!this.addtionalMultipliers.isHandGame()) {
+        this.slc.sendSkat(this.solo, this.skat);
+        this.lock.wait(); // notified by notifyLogicOfNewSkat(Card[] skat);
+      }
 
 
       this.slc.callForContract(this.solo);
@@ -378,7 +376,7 @@ public class RoundInstance {
 
   }
 
-  public void setAdditionalMultipliers(AdditionalMulipliers additionMultipliers) {
+  public void setAdditionalMultipliers(AdditionalMultipliers additionMultipliers) {
     this.addtionalMultipliers = additionMultipliers;
 
   }

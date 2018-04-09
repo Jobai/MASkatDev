@@ -15,17 +15,33 @@ public class GameThread extends Thread {
     while (!Thread.currentThread().isInterrupted()) {
       synchronized (lock) {
         gc.numberOfRounds++;
-        System.out.println("New Round: "+gc.numberOfRounds);
+        System.out.println("New Round: " + gc.numberOfRounds);
         gc.startNewRound();
         try {
           lock.wait();
         } catch (InterruptedException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
+        }
+      }
+      if (this.gc.mode > 0) {
+        if (this.gc.numberOfRounds == this.gc.mode) {
+          this.gc.slc.broadcastMatchResult(new Object());
+          break;
+        }
+      } else {
+        for (Player player : this.gc.allPlayers) {
+          if (player.points <= this.gc.mode) {
+            this.gc.slc.broadcastMatchResult(new Object());
+            break;
+          }
         }
       }
     }
   }
 
-
+  void notifyGameThread() {
+    synchronized (lock) {
+      this.lock.notify();
+    }
+  }
 }

@@ -17,6 +17,8 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.network.datatypes.MessageCommand;
 
@@ -34,6 +36,8 @@ public class GameServer extends Thread {
   private ServerSocket serverSocket;
 
   private ServerLogicController slc;
+  
+  public GameController gc;
 
 
   public GameServer() {
@@ -56,7 +60,7 @@ public class GameServer extends Thread {
       while (true) {
         socket = server.accept();
         logger.info("New connection!");
-        threadList.add(new GameServerProtocol(socket));
+        threadList.add(new GameServerProtocol(socket, gc));
         threadList.get(threadList.size() - 1).start();
 
       }
@@ -132,5 +136,10 @@ public class GameServer extends Thread {
     GameServer gs = new GameServer();
 
   }
+
+public void setGameController(GameController gameController) {
+	// TODO Auto-generated method stub
+	this.gc = gameController;
+}
 
 }
