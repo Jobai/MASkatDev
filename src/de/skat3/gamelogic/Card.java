@@ -10,11 +10,11 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Card implements Serializable{
+public class Card implements Serializable {
 
   private Suit suit;
   private Value value;
-  private ImageView view;
+  public ImageView view;
   private boolean playable;
   private int trickValue;
 
@@ -29,7 +29,11 @@ public class Card implements Serializable{
 
     String imageUrl = "cardImages/" + this.getUrl() + ".png";
 
-    // this.view = new ImageView(new Image(imageUrl));
+    this.view = new ImageView(new Image(imageUrl));
+  }
+
+  public ImageView getImage() {
+    return this.view;
   }
 
 
@@ -55,11 +59,12 @@ public class Card implements Serializable{
       case JACK:
         this.trickValue = 2;
         break;
-      default: System.out.println("Error in addTrickValue");
+      default:
+        System.out.println("Error in addTrickValue");
         break;
     }
   }
-  
+
   int getTrickValue() {
     return this.trickValue;
   }
@@ -74,6 +79,11 @@ public class Card implements Serializable{
 
   void setPlayable(boolean b) {
     this.playable = b;
+  }
+
+
+  public boolean isPlayable() {
+    return this.playable;
   }
 
   /**

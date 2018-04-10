@@ -25,9 +25,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- * .
  * 
- * @author Aljoscha Domonell
+ * @author adomonel
  *
  */
 public class TestGui extends Application {
@@ -69,14 +68,14 @@ public class TestGui extends Application {
     // // p.getChildren().addAll(x, y, z);
 
 
-    GuiCard trick1 = new GuiCard();
+    GuiCard trick1 = new GuiCard(null);
     trick1.setTranslateX(900);
     trick1.setTranslateY(900);
     trick1.setTranslateZ(500);
     trick1.getTransforms().add(new Rotate(-180 + 90, Rotate.X_AXIS));
     trick1.getTransforms().add(new Rotate(0, Rotate.Y_AXIS));
     trick1.getTransforms().add(new Rotate(0, Rotate.Z_AXIS));
-    GuiCard trick2 = new GuiCard();
+    GuiCard trick2 = new GuiCard(null);
     trick2.setTranslateX(900);
     trick2.setTranslateY(899);
     trick2.setTranslateZ(500);
@@ -92,9 +91,9 @@ public class TestGui extends Application {
 
     int n = 6;
     for (int i = 0; i < n; i++) {
-      l1.add(new GuiCard());
-      l2.add(new GuiCard());
-      l3.add(new GuiCard());
+      l1.add(new GuiCard(null));
+      l2.add(new GuiCard(null));
+      l3.add(new GuiCard(null));
     }
 
     GuiHand h1 = new GuiHand(900, 820, -200, -20, 0, 0, l1);

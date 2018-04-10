@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.gamelogic.Timer;
+import de.skat3.network.server.GameServer;
 
 public class MainController implements MainControllerInterface {
 
@@ -64,10 +66,28 @@ public class MainController implements MainControllerInterface {
 
   }
 
-  
-  
-  
-  //---------------------------------------------------
+  /**
+   * Creates a lobby for a multiplayer game.
+   * 
+   * @param spieler number of players
+   * @param timer 0 = no timer, >0 timer in seconds
+   * @param password "" no password, any other String will be set as the password.
+   * @param kontraRekontraEnabled true if feature is enabled
+   * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
+   *        number between -500 and -1000)
+   */
+
+  public void hostMultiplayerGame(int spieler, int timer, String password,
+      boolean kontraRekontraEnabled, int mode) {
+    // SkatMain.lgs = new LocalGameState();
+    GameServer gm = new GameServer();
+    System.out.println("ja");
+    GameController gameController =
+        new GameController(gm.getSeverLogicController(), null, kontraRekontraEnabled, mode);
+    gm.setGameController(gameController);
+
+  }
+
   @Override
   public void playCard(Card card) {
     SkatMain.lgs.addToTrick(card);
@@ -95,14 +115,14 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void bidRequest(int bid) {
-    // GUI
+    SkatMain.guiController.bidRequest(bid);
 
   }
 
 
   @Override
   public void showAuctionWinner(Player player) {
-    // GUI
+    //SkatMain.guiController.g
   }
 
 
@@ -112,14 +132,15 @@ public class MainController implements MainControllerInterface {
    */
   @Override
   public void handGameRequest() {
-    // TODO GUI
+    SkatMain.guiController.handGameRequest();
 
 
   }
 
+
   @Override
   public void contractRequest() {
-    // TODO GUI
+    SkatMain.guiController.contractRequest();
 
   }
 
@@ -127,6 +148,7 @@ public class MainController implements MainControllerInterface {
   public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers) {
     SkatMain.lgs.contract = contract;
     SkatMain.lgs.additionalMultipliers = additionalMultipliers;
+    // TODO gui
 
   }
 
@@ -147,35 +169,38 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showEndScreen(Object o) {
-
+    // TODO methode von gui
   }
 
   @Override
   public void setSkat(Card[] skat) {
     SkatMain.lgs.skat = skat;
+    // TODO gui skat selection
 
   }
 
-  @Override
-  public void localCardPlayed(Card card) {
-    // TODO Auto-generated method stub
-    
-  }
+
 
   @Override
   public void localBid(boolean accepted) {
-    
+    // network
+
+  }
+
+  public void handGameSelected(boolean accepted) {
+
+    // network
   }
 
   @Override
   public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers) {
-    
+
+    // network
   }
 
   @Override
-  public void handGameSelected(boolean accepted) {
-    // TODO Auto-generated method stub
-    
+  public void localCardPlayed(Card card) {
+    // network
   }
 
 

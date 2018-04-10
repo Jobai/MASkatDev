@@ -16,9 +16,19 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 
+
 public class GuiController implements GuiInterface {
   private Gui gui;
 
+  private InGameController inGameController;
+
+  public void goInGame() {
+  this.inGameController = this.gui.showMatchfield();
+  }
+
+  public InGameController getInGameController() {
+  return this.inGameController;
+  }
   protected void setGui(Gui gui) {
     this.gui = gui;
   }
@@ -93,19 +103,6 @@ public class GuiController implements GuiInterface {
       return false;
     }
 
-  }
-
-  private InGameController inGameController;
-
-  /**
-   * Shows the ingame view in the running Stage and sets the InGameController in this class.
-   */
-  public void goInGame() {
-    this.inGameController = this.gui.showMatchfield();
-  }
-
-  public InGameController getInGameController() {
-    return this.inGameController;
   }
 
 }

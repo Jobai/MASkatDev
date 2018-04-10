@@ -11,10 +11,12 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 /**
- * @author Aljoscha Domonell
+ * View class of a trick.
+ * 
+ * @author adomonel
  *
  */
-public class Trick extends Parent {
+public class GuiTrick extends Parent {
 
   private GuiCard[] cards;
   private Parent[] postions;
@@ -30,7 +32,7 @@ public class Trick extends Parent {
    * @param yr Rotate y.
    * @param zr Rotate z.
    */
-  public Trick(double x, double y, double z, double xr, double yr, double zr) {
+  public GuiTrick(double x, double y, double z, double xr, double yr, double zr) {
     this.cards = new GuiCard[3];
     this.postions = new Parent[3];
     this.postions[0] = new Parent() {};

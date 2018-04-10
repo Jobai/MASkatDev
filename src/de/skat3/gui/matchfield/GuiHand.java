@@ -17,7 +17,9 @@ import javafx.scene.transform.Transform;
 import javafx.util.Duration;
 
 /**
- * @author Aljoscha Domonell
+ * View class of a hand.
+ * 
+ * @author adomonel
  *
  */
 public class GuiHand extends Parent {

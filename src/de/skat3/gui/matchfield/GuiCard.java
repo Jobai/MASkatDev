@@ -9,16 +9,18 @@ import javafx.scene.shape.Box;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Hand.
+ * View class of a hand.
  * 
- * @author Aljoscha Domonell
+ * @author adomonel
  *
  */
 public class GuiCard extends Parent {
   Card card;
 
   /**
-   * .
+   * Creates a GuiCard object out of a Card.
+   * 
+   * @param card The corresponding Card for this view.
    * 
    */
   public GuiCard(Card card) {

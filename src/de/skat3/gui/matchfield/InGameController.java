@@ -1,12 +1,12 @@
 package de.skat3.gui.matchfield;
 
-
+import java.util.UUID;
+import com.sun.javafx.collections.IntegerArraySyncer;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Result;
 import de.skat3.main.LocalGameState;
-import java.util.UUID;
 import javafx.util.Duration;
 
 /**
@@ -50,7 +50,7 @@ public class InGameController implements InGameControllerInterface {
    * @see de.skat3.gui.matchfield.InGameControllerInterface#showRusults(de.skat3.gamelogic.Result)
    */
   @Override
-  public void showRusults(Result results) {
+  public void showResults(Result results) {
     // TODO Auto-generated method stub
 
   }
