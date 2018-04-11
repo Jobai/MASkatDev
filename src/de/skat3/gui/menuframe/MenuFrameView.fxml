@@ -12,35 +12,68 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" prefHeight="720" prefWidth="1280" style="-fx-min-width: 1280; -fx-min-height: 720;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.menuframe.MenuFrameController">
+<AnchorPane fx:id="mainPane" prefHeight="720"
+	prefWidth="1280" style="-fx-min-width: 1280; -fx-min-height: 720;"
+	xmlns="http://javafx.com/javafx/9.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.skat3.gui.menuframe.MenuFrameController">
 	<children>
-		<ImageView fx:id="backgroundImage" fitHeight="720.0" fitWidth="1280.0" opacity="0.73" pickOnBounds="true">
+		<ImageView fx:id="backgroundImage" fitHeight="720.0"
+			fitWidth="1280.0" opacity="0.73" pickOnBounds="true">
 			<image>
 				<Image url="@../../../../../resources/guifiles/bg.png" />
 			</image>
 		</ImageView>
-		<AnchorPane layoutY="97.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="97.0">
+		<AnchorPane layoutY="97.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="97.0">
 			<children>
-				<Rectangle fx:id="menuNameLine" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="2.0" mouseTransparent="true" stroke="BLACK" strokeType="INSIDE" translateX="58.0" translateY="30.0" width="130.0" />
-				<Pane prefHeight="35.0" prefWidth="1332.0" style="-fx-background-color: #000000; -fx-opacity: 20%;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+				<Rectangle fx:id="menuNameLine" arcHeight="5.0"
+					arcWidth="5.0" fill="DODGERBLUE" height="2.0"
+					mouseTransparent="true" stroke="BLACK" strokeType="INSIDE"
+					translateX="58.0" translateY="30.0" width="130.0" />
+				<Pane prefHeight="35.0" prefWidth="1332.0"
+					style="-fx-background-color: #000000; -fx-opacity: 20%;"
+					AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+					AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 				<HBox prefHeight="25.0" prefWidth="1332.0">
 					<children>
-						<Button fx:id="singleplayerMenuButton" mnemonicParsing="false" onAction="#showSingleplayerMenu" onMouseEntered="#handleStartButtonAnimation" onMouseExited="#handleEndButtonAnimation" prefHeight="35.0" prefWidth="246.0" style="-fx-background-color: transparent;" text="SINGLEPLAYER" textFill="#353535">
+						<Button fx:id="singleplayerMenuButton"
+							mnemonicParsing="false" onAction="#showSingleplayerMenu"
+							onMouseEntered="#handleStartButtonAnimation"
+							onMouseExited="#handleEndButtonAnimation" prefHeight="35.0"
+							prefWidth="246.0" style="-fx-background-color: transparent;"
+							text="SINGLEPLAYER" textFill="#353535">
 							<font>
 								<Font size="18.0" />
 							</font>
 						</Button>
-						<Button fx:id="multiplayerMenuButton" mnemonicParsing="false" onAction="#showMultiplayerMenu" onMouseEntered="#handleStartButtonAnimation" onMouseExited="#handleEndButtonAnimation" prefHeight="35.0" prefWidth="249.0" style="-fx-background-color: transparent;" text="MULTIPLAYER" textFill="#353535">
+						<Button fx:id="multiplayerMenuButton"
+							mnemonicParsing="false" onAction="#showMultiplayerMenu"
+							onMouseEntered="#handleStartButtonAnimation"
+							onMouseExited="#handleEndButtonAnimation" prefHeight="35.0"
+							prefWidth="249.0" style="-fx-background-color: transparent;"
+							text="MULTIPLAYER" textFill="#353535">
 							<font>
 								<Font size="18.0" />
 							</font>
 						</Button>
-						<Button fx:id="statsMenuButton" mnemonicParsing="false" onAction="#showStatsMenu" onMouseEntered="#handleStartButtonAnimation" onMouseExited="#handleEndButtonAnimation" prefHeight="35.0" prefWidth="197.0" style="-fx-background-color: transparent;" text="STATS" textFill="#353535">
+						<Button fx:id="statsMenuButton" mnemonicParsing="false"
+							onAction="#showStatsMenu"
+							onMouseEntered="#handleStartButtonAnimation"
+							onMouseExited="#handleEndButtonAnimation" prefHeight="35.0"
+							prefWidth="197.0" style="-fx-background-color: transparent;"
+							text="STATS" textFill="#353535">
 							<font>
 								<Font size="18.0" />
 							</font>
 						</Button>
-						<Button fx:id="optionsMenuButton" minWidth="68.0" mnemonicParsing="false" onAction="#showOptionsMenu" onMouseEntered="#handleStartButtonAnimation" onMouseExited="#handleEndButtonAnimation" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: transparent; -fx-min-width: 100;" text="OPTIONS" textFill="#353535">
+						<Button fx:id="optionsMenuButton" minWidth="68.0"
+							mnemonicParsing="false" onAction="#showOptionsMenu"
+							onMouseEntered="#handleStartButtonAnimation"
+							onMouseExited="#handleEndButtonAnimation" prefHeight="35.0"
+							prefWidth="130.0"
+							style="-fx-background-color: transparent; -fx-min-width: 100;"
+							text="OPTIONS" textFill="#353535">
 							<font>
 								<Font size="18.0" />
 							</font>
@@ -49,34 +82,48 @@
 				</HBox>
 			</children>
 		</AnchorPane>
-		<Pane layoutY="97.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="97.0" />
-      <ImageView fitHeight="89.0" fitWidth="389.0" layoutX="14.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../resources/guifiles/Logo.png" />
-         </image>
-      </ImageView>
-      <AnchorPane layoutX="760.0" layoutY="21.0" onMouseClicked="#handleMouseClickProfileMenu" prefHeight="56.0" prefWidth="275.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0">
-         <children>
-            <Pane layoutX="-3.0" prefHeight="56.0" prefWidth="275.0" style="-fx-background-color: #ECECEB;" />
-      		<MenuButton fx:id="profileMenuButton" mnemonicParsing="false" prefHeight="56.0" prefWidth="220.0" style="-fx-background-color: transparent;" AnchorPane.rightAnchor="5.0" />
-            <HBox alignment="CENTER_LEFT" layoutX="1.0" prefHeight="56.0" prefWidth="220.0">
-               <children>
-                  <ImageView fitHeight="47.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../resources/guifiles/Miniclip-8-Ball-Pool-Avatar-7.png" />
-                     </image>
-                  </ImageView>
-                  <Label text="Timo Straub" textFill="#404040">
-                     <padding>
-                        <Insets left="20.0" />
-                     </padding>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
+		<Pane layoutY="97.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="97.0" />
+		<ImageView fitHeight="89.0" fitWidth="389.0" layoutX="14.0"
+			layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+			<image>
+				<Image url="@../../../../../resources/guifiles/Logo.png" />
+			</image>
+		</ImageView>
+		<AnchorPane layoutX="760.0" layoutY="21.0"
+			onMouseClicked="#handleMouseClickProfileMenu" prefHeight="56.0"
+			prefWidth="317.0" AnchorPane.rightAnchor="25.0"
+			AnchorPane.topAnchor="15.0">
+			<children>
+				<Pane layoutX="-3.0" prefHeight="56.0" prefWidth="317.0"
+					style="-fx-background-color: #ECECEB;" />
+				<MenuButton fx:id="profileMenuButton"
+					mnemonicParsing="false" onAction="#handleProfileChanged"
+					prefHeight="56.0" prefWidth="16.0"
+					style="-fx-background-color: transparent;"
+					AnchorPane.rightAnchor="5.0" />
+				<HBox alignment="CENTER_LEFT" layoutX="1.0" prefHeight="56.0"
+					prefWidth="220.0">
+					<children>
+						<ImageView fx:id="currentProfileImage" fitHeight="47.0"
+							fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
+							<image>
+								<Image
+									url="@../../../../../resources/guifiles/Miniclip-8-Ball-Pool-Avatar-7.png" />
+							</image>
+						</ImageView>
+						<Label fx:id="currentProfileName" text="Timo Straub"
+							textFill="#404040">
+							<padding>
+								<Insets left="20.0" />
+							</padding>
+							<font>
+								<Font size="20.0" />
+							</font>
+						</Label>
+					</children>
+				</HBox>
+			</children>
+		</AnchorPane>
 	</children>
 </AnchorPane>

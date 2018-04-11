@@ -1,5 +1,6 @@
 package de.skat3.main;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
@@ -8,6 +9,7 @@ import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.gamelogic.Timer;
+import de.skat3.io.profile.Profile;
 import de.skat3.network.server.GameServer;
 
 public class MainController implements MainControllerInterface {
@@ -122,7 +124,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showAuctionWinner(Player player) {
-    //SkatMain.guiController.g
+    // SkatMain.guiController.g
   }
 
 
@@ -203,6 +205,20 @@ public class MainController implements MainControllerInterface {
     // network
   }
 
+  public Profile readProfile(String id) {
+    return SkatMain.ioController.readProfile(id);
+  }
 
+  public ArrayList<Profile> getProfileList() {
+    return null;
+  }
+
+  public void addProfile(Profile profile) {}
+
+  public void editProfile(Profile profile, String name, Image image) {}
+
+  public boolean deleteProfile(Profile profile) {
+    return false;
+  }
 
 }

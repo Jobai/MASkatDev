@@ -5,6 +5,7 @@ import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.gui.Gui;
 import de.skat3.gui.GuiController;
+import de.skat3.io.profile.IoController;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
 
@@ -13,6 +14,7 @@ public class SkatMain {
   public static MainController mainController;
   public static LocalGameState lgs;
   public static GuiController guiController;
+  public static IoController ioController;
 
   /**
    * 
@@ -22,6 +24,7 @@ public class SkatMain {
 
     SkatMain.mainController = new MainController();
     SkatMain.guiController = new GuiController();
+    SkatMain.ioController = new IoController();
     Gui.showAndWait();
 
 

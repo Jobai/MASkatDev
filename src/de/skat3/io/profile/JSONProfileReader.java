@@ -17,8 +17,18 @@ public class JSONProfileReader {
   private Profile lastUsed = determineLastUsedProfile();
 
   public Profile readProfile(String id) {
-    Profile profile = new Profile("!");
-    return profile;
+    Iterator<Profile> iter = profileList.iterator();
+    while (iter.hasNext()) {
+      Profile current = iter.next();
+      if (current.getUuid() == id) {
+        return current;
+      }
+    }
+    return null;
+  }
+
+  public ArrayList<Profile> getProfileList() {
+    return profileList;
   }
 
   public ArrayList<Profile> getProfileList() {

@@ -22,7 +22,6 @@ public class Profile {
   boolean lastUsed;
 
 
-
   public Profile(String name) {
     this.name = name;
   }

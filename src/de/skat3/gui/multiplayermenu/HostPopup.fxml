@@ -7,92 +7,130 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="378.0" prefWidth="333.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.multiplayermenu.HostPopupController">
-   <children>
-      <Label layoutX="114.0" layoutY="14.0" text="Host Server">
-         <font>
-            <Font size="21.0" />
-         </font>
-      </Label>
-      <VBox layoutX="21.0" layoutY="67.0" prefHeight="221.0" prefWidth="311.0" spacing="14.0">
-         <children>
-            <GridPane>
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.5" minWidth="10.0" prefWidth="74.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="166.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Label prefHeight="17.0" prefWidth="93.0" text="Server Name" />
-                  <TextField fx:id="serverName" promptText="Server Name" GridPane.columnIndex="1" />
-               </children>
-            </GridPane>
-            <GridPane>
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.5" minWidth="10.0" prefWidth="74.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="166.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Label text="Password" />
-                  <TextField fx:id="password" promptText="Password" GridPane.columnIndex="1" />
-               </children>
-            </GridPane>
-            <GridPane>
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.5" minWidth="10.0" prefWidth="74.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="166.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Label text="Timer" />
-                  <TextField fx:id="timer" promptText="Timer" GridPane.columnIndex="1" />
-               </children>
-            </GridPane>
-            <GridPane>
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.5" minWidth="10.0" prefWidth="74.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="166.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <ChoiceBox fx:id="playerCount" accessibleHelp="Test" prefHeight="25.0" prefWidth="175.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                  <Label text="Spielerzahl" />
-               </children>
-            </GridPane>
-            <GridPane>
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.5" minWidth="10.0" prefWidth="74.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="166.0" minWidth="10.0" prefWidth="166.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <ChoiceBox fx:id="mode" accessibleHelp="Test" prefHeight="25.0" prefWidth="175.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                  <Label text="Modus" />
-                  <TextField fx:id="modeValue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-               </children>
-            </GridPane>
-         </children>
-      </VBox>
-      <Button layoutX="25.0" layoutY="315.0" mnemonicParsing="false" onAction="#hostGame" prefHeight="42.0" prefWidth="284.0" style="-fx-background-color: #d60202;" text="Host" textFill="WHITE">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Button>
-   </children>
+<AnchorPane prefHeight="378.0" prefWidth="333.0"
+	xmlns="http://javafx.com/javafx/9.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.skat3.gui.multiplayermenu.HostPopupController">
+	<children>
+		<Pane prefHeight="50.0" prefWidth="333.0"
+			style="-fx-background-color: #404040;">
+			<children>
+				<Label layoutX="111.0" layoutY="9.0" text="Host Server"
+					textFill="WHITE">
+					<font>
+						<Font size="21.0" />
+					</font>
+				</Label>
+			</children>
+		</Pane>
+		<VBox layoutX="21.0" layoutY="67.0" prefHeight="221.0"
+			prefWidth="311.0" spacing="14.0">
+			<children>
+				<GridPane>
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="115.5" minWidth="10.0" prefWidth="74.0" />
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="166.0" minWidth="10.0" prefWidth="166.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<Label prefHeight="17.0" prefWidth="93.0" text="Server Name" />
+						<TextField fx:id="serverName" promptText="Server Name"
+							GridPane.columnIndex="1" />
+					</children>
+				</GridPane>
+				<GridPane>
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="115.5" minWidth="10.0" prefWidth="74.0" />
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="166.0" minWidth="10.0" prefWidth="166.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<Label text="Password" />
+						<TextField fx:id="password" promptText="Password"
+							GridPane.columnIndex="1" />
+					</children>
+				</GridPane>
+				<GridPane>
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="115.5" minWidth="10.0" prefWidth="74.0" />
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="166.0" minWidth="10.0" prefWidth="166.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<Label text="Timer" />
+						<TextField fx:id="timer" promptText="Timer"
+							GridPane.columnIndex="1" />
+					</children>
+				</GridPane>
+				<GridPane>
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="115.5" minWidth="10.0" prefWidth="74.0" />
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="166.0" minWidth="10.0" prefWidth="166.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<ChoiceBox fx:id="playerCount" accessibleHelp="Test"
+							prefHeight="25.0" prefWidth="175.0" GridPane.columnIndex="1"
+							GridPane.halignment="CENTER" />
+						<Label text="Spielerzahl" />
+					</children>
+				</GridPane>
+				<GridPane>
+					<columnConstraints>
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="115.5" minWidth="10.0" prefWidth="74.0" />
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="166.0" minWidth="10.0" prefWidth="166.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+					</rowConstraints>
+					<children>
+						<ChoiceBox fx:id="mode" accessibleHelp="Test"
+							onAction="#switchMode" prefHeight="25.0" prefWidth="175.0"
+							GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+						<Label text="Modus" />
+						<TextField fx:id="modeValue" GridPane.columnIndex="1"
+							GridPane.rowIndex="1" />
+						<Label text="Runden/Punktzahl" GridPane.rowIndex="1" />
+					</children>
+				</GridPane>
+			</children>
+		</VBox>
+		<Button layoutX="25.0" layoutY="315.0" mnemonicParsing="false"
+			onAction="#hostGame" prefHeight="42.0" prefWidth="284.0"
+			style="-fx-background-color: #d60202;" text="Host" textFill="WHITE">
+			<font>
+				<Font size="19.0" />
+			</font>
+		</Button>
+	</children>
 </AnchorPane>

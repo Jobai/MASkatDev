@@ -1,5 +1,8 @@
 package de.skat3.gui.menuframe;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.plaf.metal.MetalPopupMenuSeparatorUI;
 import com.sun.swing.internal.plaf.synth.resources.synth;
 import de.skat3.gui.Menu;
@@ -7,12 +10,19 @@ import de.skat3.gui.multiplayermenu.MultiplayerMenu;
 import de.skat3.gui.optionsmenu.OptionsMenu;
 import de.skat3.gui.singleplayermenu.SingleplayerMenu;
 import de.skat3.gui.statsmenu.StatsMenu;
+import de.skat3.io.profile.Profile;
+import de.skat3.main.SkatMain;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -24,6 +34,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -40,12 +51,11 @@ import javafx.util.Pair;
 /**
  * Class to control the corresponding view file.
  * 
- * @author adomonel
+ * @author adomonel, tistraub
  */
 public class MenuFrameController {
 
   // FXML file imports
-
   @FXML
   public AnchorPane mainPane;
   @FXML
@@ -62,6 +72,10 @@ public class MenuFrameController {
   public ImageView backgroundImage;
   @FXML
   public MenuButton profileMenuButton;
+  @FXML
+  private ImageView currentProfileImage;
+  @FXML
+  private Label currentProfileName;
 
   // Menus
 
@@ -239,23 +253,43 @@ public class MenuFrameController {
     // code first initilizing of the singleplayer without an animation when the
     // programm starts.
 
-    // Todo
+
     fillProfileMenu();
 
   }
 
   private void fillProfileMenu() {
-    Label l1 = new Label("Profil 1");
-    l1.setFont(new Font(16));
-    profileMenuButton.getItems().add(new CustomMenuItem(l1));
+    // TODO get profiles from IO
+    ArrayList<Profile> allProfile = SkatMain.ioController.getProfileList();
 
-    Label l2 = new Label("Profil 2");
-    l2.setFont(new Font(16));
-    profileMenuButton.getItems().add(new CustomMenuItem(l2));
+    for (Profile profile : allProfile) {
+      Label l1 = new Label(profile.getName());
+      l1.setFont(new Font(16));
+      CustomMenuItem item = new CustomMenuItem(l1);
+      item.setId(profile.getUuid());
+      item.setOnAction(new EventHandler<ActionEvent>() {
+
+        @Override
+        public void handle(ActionEvent event) {
+          CustomMenuItem source = (CustomMenuItem) event.getSource();
+          Profile p = SkatMain.mainController.readProfile(source.getId());
+          setCurrentProfile(p);
+        }
+
+      });
+      profileMenuButton.getItems().add(item);
+    }
 
     profileMenuButton.getItems().add(new SeparatorMenuItem());
 
-    profileMenuButton.getItems().add(new CustomMenuItem(new Button("Add")));
+    Button add = new Button("Add");
+    add.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        openProfile("");
+      }
+    });
+    profileMenuButton.getItems().add(new CustomMenuItem(add));
   }
 
   public void delayedInitialize() {
@@ -263,11 +297,41 @@ public class MenuFrameController {
   }
 
   public void handleMouseClickProfileMenu() {
-    profileMenuButton.show();
+    openProfile("");
+  }
+
+  private void openProfile(String id) {
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProfilePopupView.fxml"));
+    Parent root = null;
+    try {
+      root = fxmlLoader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Stage stage = new Stage();
+    stage.setTitle("Profile");
+    stage.setScene(new Scene(root));
+
+    ProfileController profileController = fxmlLoader.getController();
+    profileController.setStage(stage);
+
+    stage.show();
   }
 
   public void handleMouseClickAddProfile() {
 
+  }
+
+  private void setCurrentProfile(Profile p) {
+    //BufferedImage bImage = (BufferedImage) p.getImage();
+    //Write fxImage = SwingFXUtils.toFXImage(bImage, null);
+
+    //currentProfileImage.setImage(fxImage);
+    currentProfileName.setText(p.getName());
+  }
+
+  public void handleProfileChanged() {
+    System.out.println("test");
   }
 
 }
