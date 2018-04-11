@@ -69,11 +69,11 @@ public class Card implements Serializable {
     return this.trickValue;
   }
 
-  Suit getSuit() {
+  public Suit getSuit() {
     return this.suit;
   }
 
-  Value getValue() {
+  public Value getValue() {
     return this.value;
   }
 

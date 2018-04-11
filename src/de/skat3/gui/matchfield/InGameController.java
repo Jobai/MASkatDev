@@ -84,7 +84,7 @@ public class InGameController implements InGameControllerInterface {
     }
 
     GuiCard guiCard = playingHand.getGuiCard(card);
-    playingHand.moveCardAndRemove(guiCard, this.matchfield.trick.add(guiCard));
+    // playingHand.moveCard(guiCard, this.matchfield.trick.add(guiCard));
 
   }
 

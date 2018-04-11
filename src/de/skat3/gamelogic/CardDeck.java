@@ -16,7 +16,7 @@ public class CardDeck {
     }
   }
 
-  Card[] getCards() {
+  public Card[] getCards() {
     return this.cards;
   }
 
