@@ -33,33 +33,34 @@ public class GuiTrick {
    * @param yr Rotate y.
    * @param zr Rotate z.
    */
-  public GuiTrick(DoubleBinding x, double y, double z, double xr, double yr, double zr) {
+  public GuiTrick(DoubleBinding x, DoubleBinding y, DoubleBinding z, double xr, double yr,
+      double zr) {
     this.cards = new GuiCard[3];
     this.postions = new Parent[3];
     this.postions[0] = new Parent() {};
     this.postions[1] = new Parent() {};
     this.postions[2] = new Parent() {};
 
-    this.postions[0].translateXProperty().bind(x);
-    this.postions[0].setTranslateY(y);
-    this.postions[0].setTranslateZ(z);
+    this.postions[0].translateXProperty().bind(x.add(-150));
+    this.postions[0].translateYProperty().bind(y);
+    this.postions[0].translateZProperty().bind(z.add(-100));
     this.postions[0].getTransforms().add(new Rotate(xr, Rotate.X_AXIS));
     this.postions[0].getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
-    this.postions[0].getTransforms().add(new Rotate(zr, Rotate.Z_AXIS));
+    this.postions[0].getTransforms().add(new Rotate(zr - 30, Rotate.Z_AXIS));
 
     this.postions[1].translateXProperty().bind(x);
-    this.postions[1].setTranslateY(899);
-    this.postions[1].setTranslateZ(500);
-    this.postions[1].getTransforms().add(new Rotate(-180 + 90, Rotate.X_AXIS));
-    this.postions[1].getTransforms().add(new Rotate(0, Rotate.Y_AXIS));
-    this.postions[1].getTransforms().add(new Rotate(30, Rotate.Z_AXIS));
+    this.postions[1].translateYProperty().bind(y.add(-1));
+    this.postions[1].translateZProperty().bind(z);
+    this.postions[1].getTransforms().add(new Rotate(xr, Rotate.X_AXIS));
+    this.postions[1].getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
+    this.postions[1].getTransforms().add(new Rotate(zr, Rotate.Z_AXIS));
 
-    this.postions[2].translateXProperty().bind(x);
-    this.postions[2].setTranslateY(898);
-    this.postions[2].setTranslateZ(500);
-    this.postions[2].getTransforms().add(new Rotate(-180 + 90, Rotate.X_AXIS));
-    this.postions[2].getTransforms().add(new Rotate(0, Rotate.Y_AXIS));
-    this.postions[2].getTransforms().add(new Rotate(60, Rotate.Z_AXIS));
+    this.postions[2].translateXProperty().bind(x.add(200));
+    this.postions[2].translateYProperty().bind(y.add(-2));
+    this.postions[2].translateZProperty().bind(z);
+    this.postions[2].getTransforms().add(new Rotate(xr, Rotate.X_AXIS));
+    this.postions[2].getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
+    this.postions[2].getTransforms().add(new Rotate(zr + 30, Rotate.Z_AXIS));
 
   }
 
@@ -72,16 +73,21 @@ public class GuiTrick {
   public Parent add(GuiCard card) {
     this.cards[index] = card;
 
-    // if (index > 1) {
-    // this.clear();
-    // }
+    if (index > 1) {
+      this.clear();
+    }
 
     return this.postions[index++];
   }
 
   public void clear() {
 
+    for (GuiCard c : this.cards) {
+      c.setVisible(false);
+    }
+
     this.cards = new GuiCard[3];
+
   }
 
 }
