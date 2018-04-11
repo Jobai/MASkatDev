@@ -36,6 +36,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -323,10 +324,10 @@ public class MenuFrameController {
   }
 
   private void setCurrentProfile(Profile p) {
-    //BufferedImage bImage = (BufferedImage) p.getImage();
-    //Write fxImage = SwingFXUtils.toFXImage(bImage, null);
+    BufferedImage bImage = (BufferedImage) p.getImage();
+    WritableImage fxImage = SwingFXUtils.toFXImage(bImage, null);
 
-    //currentProfileImage.setImage(fxImage);
+    currentProfileImage.setImage(fxImage);
     currentProfileName.setText(p.getName());
   }
 
