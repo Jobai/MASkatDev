@@ -75,4 +75,9 @@ public class IoController implements IoInterface {
     }
   }
 
+  // TODO
+  // //public void readProfile() {
+  // Umwandlung
+  // SkatMain.ioController.readProfile(id)
+  // }
 }

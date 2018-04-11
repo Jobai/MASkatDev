@@ -27,9 +27,6 @@ public class JSONProfileReader {
     return null;
   }
 
-  public ArrayList<Profile> getProfileList() {
-    return profileList;
-  }
 
   public ArrayList<Profile> getProfileList() {
     return profileList;
