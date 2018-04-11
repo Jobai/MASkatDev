@@ -138,4 +138,10 @@ public class InGameController implements InGameControllerInterface {
 
   }
 
+  @Override
+  public void showRusults(Result results) {
+    // TODO Auto-generated method stub
+    
+  }
+
 }
