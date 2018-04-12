@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
-import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.gamelogic.Timer;
+import de.skat3.io.profile.Profile;
 import de.skat3.network.client.ClientLogicController;
 import de.skat3.network.client.GameClient;
-import de.skat3.io.profile.Profile;
 import de.skat3.network.server.GameServer;
 
 
@@ -215,15 +214,19 @@ public class MainController implements MainControllerInterface {
   }
 
   public ArrayList<Profile> getProfileList() {
-    return null;
+    return SkatMain.ioController.getProfileList();
   }
 
-  public void addProfile(Profile profile) {}
+  public void addProfile(Profile profile) {
+    addProfile(profile);
+  }
 
-  public void editProfile(Profile profile, String name, Image image) {}
+  public void editProfile(Profile profile, String name, Image image) {
+    SkatMain.ioController.editProfile(profile, name, image);
+  }
 
   public boolean deleteProfile(Profile profile) {
-    return false;
+    return SkatMain.ioController.deleteProfile(profile);
   }
 
 }
