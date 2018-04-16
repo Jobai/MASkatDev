@@ -98,8 +98,7 @@
 				<Pane layoutX="-3.0" prefHeight="56.0" prefWidth="317.0"
 					style="-fx-background-color: #ECECEB;" />
 				<MenuButton fx:id="profileMenuButton"
-					mnemonicParsing="false" onAction="#handleProfileChanged"
-					prefHeight="56.0" prefWidth="16.0"
+					mnemonicParsing="false" prefHeight="56.0" prefWidth="16.0"
 					style="-fx-background-color: transparent;"
 					AnchorPane.rightAnchor="5.0" />
 				<HBox alignment="CENTER_LEFT" layoutX="1.0" prefHeight="56.0"

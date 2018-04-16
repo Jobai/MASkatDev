@@ -53,6 +53,11 @@ public class Profile {
     this.encodedImage = adapter.imageToEncodedString(image);
   }
 
+  public void setImageFromEncodedString() {
+    ImageConverter adapter = new ImageConverter();
+    this.image = adapter.encodedStringToImage(this.encodedImage);
+  }
+  
   public boolean getLastUsed() {
     return lastUsed;
   }
