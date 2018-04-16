@@ -71,6 +71,8 @@ public class MenuFrameController {
   // Various
 
   private Duration switchMenuDuration = Duration.millis(300);
+  ArrayList<Profile> allProfile;
+  private Profile currentProfile;
 
   // Button handler
 
@@ -270,7 +272,7 @@ public class MenuFrameController {
     add.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        openProfile("");
+        openProfile(null);
       }
     });
     profileMenuButton.getItems().add(new CustomMenuItem(add));
@@ -281,10 +283,10 @@ public class MenuFrameController {
   }
 
   public void handleMouseClickProfileMenu() {
-    openProfile("");
+    openProfile(null);
   }
 
-  private void openProfile(String id) {
+  private void openProfile(Profile p) {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProfilePopupView.fxml"));
     Parent root = null;
     try {
