@@ -64,6 +64,10 @@ public class Lobby {
       }
     }
   }
+  
+  public Inet4Address getIp(){
+    return this.ip;
+  }
 
   public Inet4Address getIp() {
     return this.ip;

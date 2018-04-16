@@ -36,8 +36,9 @@ public class MainNetworkController implements MainNetworkInterface {
     // TODO Auto-generated method stub
     
     Inet4Address ip = lobby.getIp();
-    GameClient gc = new GameClient(ip.getHostAddress(),2018,new Player());
+    GameClient gc = new GameClient(ip.getHostAddress(), 2018, new Player()); //FIXME
     return gc;
+
   }
 
   /* (non-Javadoc)
