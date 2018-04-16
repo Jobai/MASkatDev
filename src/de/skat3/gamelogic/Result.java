@@ -1,10 +1,12 @@
 package de.skat3.gamelogic;
 
-public class Result {
+import java.io.Serializable;
 
-  private int points;
-  private boolean soloWon;
-  private String displayCalculation;
+public class Result implements Serializable {
+
+  public int points;
+  public boolean soloWon;
+  public String displayCalculation;
 
   public Result(RoundInstance roundInstance) {
     this.calcResult(roundInstance);

@@ -1,6 +1,8 @@
 package de.skat3.gamelogic;
 
-public enum Contract {
+import java.io.Serializable;
+
+public enum Contract implements Serializable {
 
   DIAMONDS, HEARTS, SPADES, CLUBS, GRAND, NULL;
 }

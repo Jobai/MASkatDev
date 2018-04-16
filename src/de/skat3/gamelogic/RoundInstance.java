@@ -66,9 +66,8 @@ public class RoundInstance {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    Result result = this.determineGameWinner();
-    this.slc.broadcastRoundResult(result);
-    this.gameThread.notifyGameThread();
+    System.out.println("RESULT");
+    this.slc.broadcastRoundResult(new Result(this));
   }
 
   void initializeAuction() {
@@ -77,7 +76,7 @@ public class RoundInstance {
     for (int i = 0; i < this.players.length; i++) {
       this.players[i].setPosition(i);
     }
-    this.sortCards(null);
+    //this.sortCards(null); TODO
     this.notifyPlayers();
 
 
@@ -187,7 +186,7 @@ public class RoundInstance {
 
 
   Contract getContract() {
-    return this.getContract();
+    return this.contract;
   }
 
   /**
@@ -248,7 +247,7 @@ public class RoundInstance {
 
       }
 
-
+      //TODO
       return currentWinner;
     }
   }
@@ -277,23 +276,26 @@ public class RoundInstance {
 
         slc.callForPlay(this.players[0]);
         this.lock.wait();
+        System.out.println("first card played");
         slc.sendPlayedCard(this.players[0], this.trick[0]);
 
         slc.callForPlay(this.players[1]);
         this.lock.wait();
+        System.out.println("second card played");
         slc.sendPlayedCard(this.players[1], this.trick[1]);
 
         slc.callForPlay(this.players[2]);
         this.lock.wait();
+        System.out.println("third card played");
         slc.sendPlayedCard(this.players[2], this.trick[2]);
         Thread.sleep(2500); // delay for visuals
         Player trickWinner = this.determineTrickWinner();
-        for (Card c : this.trick) {
+        for (Card card : this.trick) {
           if (trickWinner.isSolo) {
-            trickWinner.wonTricks.add(c);
+            trickWinner.wonTricks.add(card);
           } else {
-            this.team[0].wonTricks.add(c);
-            this.team[1].wonTricks.add(c);
+            this.team[0].wonTricks.add(card);
+            this.team[1].wonTricks.add(card);
           }
         }
         slc.broadcastTrickResult(trickWinner);
@@ -304,10 +306,6 @@ public class RoundInstance {
   }
 
 
-  Result determineGameWinner() {
-    return new Result(this);
-
-  }
 
   private void rotatePlayers(Player trickWinner) {
     if (trickWinner.equals(this.getForehand())) {
@@ -359,7 +357,6 @@ public class RoundInstance {
       }
       this.slc.callForHandOption(this.solo);
       this.lock.wait();
-
       if (!this.addtionalMultipliers.isHandGame()) {
         this.slc.sendSkat(this.solo, this.skat);
         this.lock.wait(); // notified by notifyLogicOfNewSkat(Card[] skat);

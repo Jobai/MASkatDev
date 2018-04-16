@@ -42,7 +42,11 @@ public class GameServer extends Thread {
   int gameServerMode = 0;
 
 
-  public GameServer() {
+  /**
+   * 
+   */
+  public GameServer(GameController gc) {
+    this.gc = gc;
     logger.setLevel(Level.ALL);
     logger.fine("test fine");
     threadList = new ArrayList<GameServerProtocol>();
@@ -51,9 +55,14 @@ public class GameServer extends Thread {
     this.start();
   }
 
-  public GameServer(Lobby lobbysettings) {
+  /**
+   * 
+   * @param lobbysettings
+   */
+  public GameServer(Lobby lobbysettings, GameController gc) {
     // TODO Auto-generated constructor stub
 
+    this.gc = gc;
     logger.setLevel(Level.ALL);
     logger.fine("test fine");
     threadList = new ArrayList<GameServerProtocol>();
@@ -140,16 +149,6 @@ public class GameServer extends Thread {
   }
 
 
-  /**
-   * @author Jonas Bauer
-   * @param args
-   */
-  public static void main(String[] args) {
-    // TODO Auto-generated method stub
-
-    GameServer gs = new GameServer();
-
-  }
 
   public void setGameController(GameController gameController) {
     // TODO Auto-generated method stub
@@ -159,5 +158,6 @@ public class GameServer extends Thread {
   public void setGameMode(int mode){
     this.gameServerMode = mode;
   }
+  
 
 }

@@ -1,6 +1,8 @@
 package de.skat3.gamelogic;
 
-public enum Position {
+import java.io.Serializable;
+
+public enum Position implements Serializable {
 
   FOREHAND, MIDDLEHAND, REARHAND;
 }
