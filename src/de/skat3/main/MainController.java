@@ -12,22 +12,26 @@ import de.skat3.io.profile.Profile;
 import de.skat3.network.client.ClientLogicController;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+
 
 
 public class MainController implements MainControllerInterface {
 
 
   private ClientLogicController clc;
+  private GameServer gameServer;
+  private GameClient gameClient;
 
   @Override
-  public ArrayList<Lobby> getLocalHosts() {
-    // TODO Auto-generated method stub
-    return null;
+  public ArrayList<Lobby> getLocalHosts() {    
+    return SkatMain.mainNetworkController.discoverServer();
   }
 
   @Override
   public void startSingleplayerGame() {
-    // TODO Auto-generated method stub
+    //SkatMain.mainNetworkController.blabla TODO pull
 
   }
 
@@ -39,13 +43,13 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void joinMultiplayerGame(Lobby lobby) {
-    // TODO Auto-generated method stub
+    this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
 
   }
 
   @Override
   public void joinMultiplayerGame(Lobby lobby, String password) {
-    // TODO Auto-generated method stub
+      this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
 
   }
 
@@ -82,28 +86,32 @@ public class MainController implements MainControllerInterface {
    * @param kontraRekontraEnabled true if feature is enabled
    * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
    *        number between -500 and -1000)
+   * @throws UnknownHostException
    */
 
-  public void hostMultiplayerGame(int spieler, int timer, String password,
-      boolean kontraRekontraEnabled, int mode) {
-    // SkatMain.lgs = new LocalGameState();
-    GameServer gm = new GameServer();
-    Player localPlayer = new Player();
-    GameClient localClient = new GameClient("localhost", 2018, localPlayer);
+  public void hostMultiplayerGame(String name, String password, int numberOfPlayers, int timer,
+      boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException {
+
+
+
+    Lobby lobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, name, password,
+        numberOfPlayers, timer, scoringMode);
+    this.gameServer = SkatMain.mainNetworkController.startLocalServer(lobby);
+    this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
 
 
   }
 
   @Override
   public void playCard(Card card) {
-    SkatMain.guiController.getInGameController().playCard(player, card);
+    Player player = new Player();
+    SkatMain.guiController.getInGameController().playCard(player.getUuid(), card);
     SkatMain.lgs.addToTrick(card);
 
   }
 
   @Override
-  public void sendMessage(String message) {
-  }
+  public void sendMessage(String message) {}
 
   @Override
   public void exitGame() {
@@ -180,7 +188,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void setSkat(Card[] skat) {
     SkatMain.lgs.skat = skat;
-   //SkatMain.guiController.getInGameController().startSkatMethod
+    // SkatMain.guiController.getInGameController().startSkatMethod
 
   }
 
@@ -227,6 +235,12 @@ public class MainController implements MainControllerInterface {
 
   public boolean deleteProfile(Profile profile) {
     return SkatMain.ioController.deleteProfile(profile);
+  }
+
+  @Override
+  public void startGame() {
+    
+    
   }
 
 }

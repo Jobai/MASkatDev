@@ -20,6 +20,7 @@ public class LocalGameState {
   Player localClient;
   Player enemyOne;
   Player enemyTwo;
+  Player dealer;
   Card[] trick;
   Card[] skat;
   ArrayList<String> chatMessages;
@@ -32,6 +33,7 @@ public class LocalGameState {
     trickcount = 0;
     trick = new Card[3];
     skat = new Card[2];
+    
   }
 
   public void setPlayer(Player player) {

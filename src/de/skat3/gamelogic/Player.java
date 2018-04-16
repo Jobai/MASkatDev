@@ -14,12 +14,14 @@ public class Player implements Serializable {
   Hand hand;
   ArrayList<Card> wonTricks;
   Position position;
+  @Deprecated
   private UUID uuid;
   int points;
   int wonGames;
   int lostGames;
 
   public Player() {
+    
     this.uuid = UUID.randomUUID();
     this.points = 0;
     this.wonGames = 0;

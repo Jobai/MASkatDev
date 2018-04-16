@@ -12,12 +12,19 @@ import javafx.scene.image.ImageView;
 
 public class Card implements Serializable {
 
+
+
   private Suit suit;
   private Value value;
-  private ImageView viewFront;
-  private ImageView viewBack;
+  private ImageView view;
   private boolean playable;
   private int trickValue;
+
+
+
+  public Card() {
+    this.view = new ImageView(new Image("cardImage/green_back.png"));
+  }
 
   /**
    * Represents a single card.
@@ -26,20 +33,14 @@ public class Card implements Serializable {
     this.suit = suit;
     this.value = value;
     this.addTrickValue();
+    this.view = new ImageView(new Image("cardImages/" + this.getUrl() + ".png"));
 
 
-    String imageUrl = "cardImages/" + this.getUrl() + ".png";
 
-    this.viewFront = new ImageView(new Image(imageUrl));
-    this.viewBack = new ImageView(new Image("cardImage/green_back.png"));
   }
 
-  public ImageView getFrontImage() {
-    return this.viewFront;
-  }
-
-  public ImageView getBackImage() {
-    return this.viewBack;
+  public ImageView getImage() {
+    return this.view;
   }
 
 

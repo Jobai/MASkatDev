@@ -134,7 +134,7 @@ public class GuiHand extends Parent {
       return;
     }
     Parent[] newPositions = caculateCardPostions(this.getChildren().size(),
-        this.cards.get(0).card.view.getFitWidth(), 0, 0, 0);
+        this.cards.get(0).card.getImage().getFitWidth(), 0, 0, 0);
 
     Duration time = Matchfield.animationTime;
 
@@ -265,12 +265,12 @@ public class GuiHand extends Parent {
   public void raiseCard(GuiCard card, boolean raise, boolean underneathPos, boolean hoverPositon,
       boolean showAnimation) {
     Parent[] positions =
-        caculateCardPostions(this.cards.size(), this.cards.get(0).card.view.getFitWidth(), 0, 0, 0);
+        caculateCardPostions(this.cards.size(), this.cards.get(0).card.getImage().getFitWidth(), 0, 0, 0);
     int cardIndex = this.cards.indexOf(card);
 
     double y = -100;
     if (hoverPositon) {
-      y = -card.card.view.getFitHeight();
+      y = -card.card.getImage().getFitHeight();
     }
     if (underneathPos) {
       y = -y;

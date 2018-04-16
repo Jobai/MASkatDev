@@ -27,9 +27,9 @@ public class GuiCard extends Parent {
    */
   public GuiCard(Card card) {
     this.card = card;
-    this.card.view.setFitHeight(400);
-    this.card.view.setFitWidth(200);
-    this.getChildren().add(this.card.view);
+    this.card.getImage().setFitHeight(400);
+    this.card.getImage().setFitWidth(200);
+    this.getChildren().add(this.card.getImage());
   }
 
   public String toString() {

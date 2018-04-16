@@ -27,6 +27,8 @@ public interface MainControllerInterface {
   public void hostMultiplayerGame(int spieler, int timer);
 
   public void hostMultiplayerGame(int spieler, int timer, String password);
+  
+  public void startGame();
 
   public void playCard(Card card);
 
