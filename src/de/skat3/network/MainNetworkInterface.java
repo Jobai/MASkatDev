@@ -1,6 +1,7 @@
 package de.skat3.network;
 
 import java.util.ArrayList;
+import de.skat3.gamelogic.GameController;
 import de.skat3.main.Lobby;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
@@ -34,6 +35,8 @@ public interface MainNetworkInterface {
   public ArrayList<Lobby> discoverServer();
   
   public GameServer playAndHostSinglePlayer();
+
+  GameServer startLocalServer(Lobby lobbysettings, GameController gameController);
   
   
   

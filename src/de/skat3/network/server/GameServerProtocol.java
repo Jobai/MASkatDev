@@ -114,6 +114,7 @@ public class GameServerProtocol extends Thread {
     // TODO Auto-generated method stub
     //TODO DO GUI STUFF
     this.playerProfile = (Player) m.payload;
+    this.playerProfile = new Player(); //FIXME
     SkatMain.mainController.currentLobby.addPlayer(this.playerProfile);
     
   }

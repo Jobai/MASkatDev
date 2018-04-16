@@ -1,6 +1,8 @@
 package de.skat3.gamelogic;
 
-public enum Suit {
+import java.io.Serializable;
+
+public enum Suit implements Serializable {
 
   DIAMONDS, HEARTS, SPADES, CLUBS;
 

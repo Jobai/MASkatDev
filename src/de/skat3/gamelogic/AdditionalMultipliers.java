@@ -1,6 +1,8 @@
 package de.skat3.gamelogic;
 
-public class AdditionalMultipliers {
+import java.io.Serializable;
+
+public class AdditionalMultipliers implements Serializable {
 
   private boolean schneiderAnnounced;
   private boolean schwarzAnnounced;

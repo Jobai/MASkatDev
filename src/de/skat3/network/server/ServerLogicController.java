@@ -49,7 +49,7 @@ public class ServerLogicController implements ServerLogicInterface {
   }
 
   public ServerLogicController(Lobby lobbysettings, GameServer gs) {
-   this(lobbysettings.getMaximumNumberofPlayers(), gs);
+   this(lobbysettings.getMaximumNumberOfPlayers(), gs);
   }
 
   /*

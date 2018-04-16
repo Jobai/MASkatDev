@@ -17,11 +17,6 @@ public class GameThread extends Thread {
         gc.numberOfRounds++;
         System.out.println("New Round: " + gc.numberOfRounds);
         gc.startNewRound();
-        try {
-          lock.wait();
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
       }
       if (this.gc.mode > 0) {
         if (this.gc.numberOfRounds == this.gc.mode) {
@@ -36,12 +31,6 @@ public class GameThread extends Thread {
           }
         }
       }
-    }
-  }
-
-  void notifyGameThread() {
-    synchronized (lock) {
-      this.lock.notify();
     }
   }
 }

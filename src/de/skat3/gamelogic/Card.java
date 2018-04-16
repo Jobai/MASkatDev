@@ -14,16 +14,20 @@ public class Card implements Serializable {
 
 
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
   private Suit suit;
   private Value value;
-  private ImageView view;
+  private String view;
   private boolean playable;
   private int trickValue;
 
 
 
   public Card() {
-    this.view = new ImageView(new Image("cardImage/green_back.png"));
+    this.view = "cardImage/green_back.png";
   }
 
   /**
@@ -33,14 +37,14 @@ public class Card implements Serializable {
     this.suit = suit;
     this.value = value;
     this.addTrickValue();
-    this.view = new ImageView(new Image("cardImages/" + this.getUrl() + ".png"));
+    this.view = "cardImages/" + this.getUrl() + ".png";
 
 
 
   }
 
   public ImageView getImage() {
-    return this.view;
+    return new ImageView(new Image(this.view));
   }
 
 

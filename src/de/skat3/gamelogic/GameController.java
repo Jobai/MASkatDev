@@ -1,10 +1,11 @@
 package de.skat3.gamelogic;
 
 import de.skat3.network.server.ServerLogicController;
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class GameController implements GameLogicInterface {
+public class GameController implements GameLogicInterface, Serializable {
 
 
   boolean gameActive;
@@ -26,31 +27,38 @@ public class GameController implements GameLogicInterface {
    * Creates a new match with 3-4 Players, an optional timer, optional kontra and rekontra feature
    * and a Seeger or Bierlachs scoring system.
    * 
-   * @param slc The controller that is used for network-logic communication.
    * @param players All participants.
    * @param kontraRekontraEnabled true if the kontra/rekontra feature is enabled.
    * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
    *        number between -500 and -1000)
    */
-  public GameController(ServerLogicController slc, Player[] players, boolean kontraRekontraEnabled,
-      int mode) {
-    this.slc = slc;
+  public GameController(boolean kontraRekontraEnabled, int mode) {
     this.gameActive = true;
     this.firstRound = true;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
     this.mode = mode;
     this.gameId = 0; // TODO
-    this.numberOfPlayers = players.length;
     this.numberOfRounds = 0;
     this.players = new Player[3];
-    this.allPlayers = new Player[numberOfPlayers];
-    for (int i = 0; i < players.length; i++) {
-      this.allPlayers[i] = players[i];
-    }
     this.gameThread = new GameThread(this);
 
 
 
+  }
+/**
+ * 
+ * @param players
+ */
+  public void setPlayers(Player[] players) {
+    this.numberOfPlayers = players.length;
+
+    this.allPlayers = new Player[numberOfPlayers];
+    for (int i = 0; i < players.length; i++) {
+      this.allPlayers[i] = players[i];
+    }
+  }
+  public void setSlc(ServerLogicController slc) {
+    this.slc = slc;
   }
 
   public void startGame() {
