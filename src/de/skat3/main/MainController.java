@@ -111,12 +111,19 @@ public class MainController implements MainControllerInterface {
   }
 
   @Override
-  public void sendMessage(String message) {}
+  public void sendMessage(String message) {
+    clc.sendChatMessage(message);
+  }
 
+  /**
+   * Leave current game/lobby
+   */
   @Override
   public void exitGame() {
-    // TODO Auto-generated method stub
 
+    clc.leaveGame();
+    //TODO go back to the menu
+    
   }
 
 

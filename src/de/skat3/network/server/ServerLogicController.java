@@ -48,8 +48,8 @@ public class ServerLogicController implements ServerLogicInterface {
     this.serverMatchMode = 0;
   }
 
-  public ServerLogicController(Lobby lobbysettings) {
-    // TODO Auto-generated constructor stub
+  public ServerLogicController(Lobby lobbysettings, GameServer gs) {
+   this(lobbysettings.getMaximumNumberofPlayers(), gs);
   }
 
   /*

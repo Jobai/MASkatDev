@@ -41,6 +41,11 @@ public class GameClient {
   ClientLogicHandler clh;
 
   Player player;
+
+  public ClientLogicController getClc() {
+    return clc;
+  }
+
   private ClientLogicController clc;
 
   /**
@@ -177,7 +182,7 @@ public class GameClient {
     // FIXME
   }
 
-  private void closeConnection() {
+  public void closeConnection() {
     // TODO Auto-generated method stub
 
   }

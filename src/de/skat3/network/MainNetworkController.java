@@ -11,7 +11,9 @@
 package de.skat3.network;
 
 import java.util.ArrayList;
+import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
+import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
 
 /**
@@ -25,20 +27,13 @@ public class MainNetworkController implements MainNetworkInterface {
 
 
   /* (non-Javadoc)
-   * @see de.skat3.network.MainNetworkInterface#switchToGameServerMode()
-   */
-  @Override
-  public void switchToGameServerMode() {
-    // TODO Auto-generated method stub
-
-  }
-
-  /* (non-Javadoc)
    * @see de.skat3.network.MainNetworkInterface#joinServerAsClient(de.skat3.main.Lobby)
    */
   @Override
-  public void joinServerAsClient(Lobby lobby) {
+  public GameClient joinServerAsClient(Lobby lobby) {
     // TODO Auto-generated method stub
+    
+    lobby.
 
   }
 
@@ -53,7 +48,7 @@ public class MainNetworkController implements MainNetworkInterface {
     
     GameServer gs = new GameServer(lobbysettings);
     
-    return null;
+    return gs;
     // TODO Auto-generated method stub
 
   }
@@ -62,7 +57,9 @@ public class MainNetworkController implements MainNetworkInterface {
    * @see de.skat3.network.MainNetworkInterface#joinLocalServerAsClient()
    */
   @Override
-  public void joinLocalServerAsClient() {
+  public GameClient joinLocalServerAsClient() {
+    GameClient gc = new GameClient("localhost", 2018, new Player()); //FIXME
+    return gc;
     // TODO Auto-generated method stub
 
   }
@@ -97,10 +94,15 @@ public class MainNetworkController implements MainNetworkInterface {
   /* (non-Javadoc)
    * @see de.skat3.network.MainNetworkInterface#leaveLobby()
    */
-  @Override
-  public void leaveLobby() {
-    // TODO Auto-generated method stub
 
+
+  @Override
+  public GameServer playAndHostSinglePlayer() {
+    // TODO Auto-generated method stub
+    GameServer gs = new GameServer();
+    GameClient gc = new GameClient("localhost", 2018, new Player()); //FIXME
+    
+    return null;
   }
 
   
