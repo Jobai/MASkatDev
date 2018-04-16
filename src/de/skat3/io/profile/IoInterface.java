@@ -15,4 +15,6 @@ public interface IoInterface {
 
   public boolean deleteProfile(Profile profile);
 
+  public Profile getLastUsedProfile();
+
 }

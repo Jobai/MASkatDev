@@ -17,6 +17,7 @@ public class IoController implements IoInterface {
   public void addProfile(Profile profile) {
     profilesList.add(profile);
     reader.setProfilesList(profilesList);
+    profile.setLastUsed(true);
     updateProfiles();
   }
 
@@ -44,6 +45,7 @@ public class IoController implements IoInterface {
 
     toEdit.setName(name);
     toEdit.setImage(image);
+    toEdit.setLastUsed(true);
 
     reader.setProfilesList(profilesList);
     updateProfiles();
@@ -51,13 +53,21 @@ public class IoController implements IoInterface {
 
   @Override
   public Profile readProfile(String id) {
-    return reader.readProfile(id);
+    Profile profile = reader.readProfile(id);
+    profile.setLastUsed(true);
+    return profile;
+
   }
 
   @Override
   public ArrayList<Profile> getProfileList() {
     return reader.getProfileList();
 
+  }
+
+  @Override
+  public Profile getLastUsedProfile() {
+    return reader.getLastUsedProfile();
   }
 
   public JSONProfileReader getReader() {

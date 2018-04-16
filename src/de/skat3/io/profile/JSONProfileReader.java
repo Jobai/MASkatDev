@@ -21,9 +21,11 @@ public class JSONProfileReader {
     while (iter.hasNext()) {
       Profile current = iter.next();
       if (current.getUuid() == id) {
+        current.setLastUsed(true);
         return current;
       }
     }
+
     return null;
   }
 
@@ -44,12 +46,17 @@ public class JSONProfileReader {
     this.profileList = profileList;
   }
 
+  // if there is no current player (for some reason e.g. deleted etc)
+  // sets first profile at last used
   private Profile determineLastUsedProfile() {
     Iterator<Profile> itr = profileList.iterator();
     while (itr.hasNext()) {
       if (itr.next().getLastUsed()) {
         lastUsed = itr.next();
       }
+    }
+    if (lastUsed == null) {
+      return getAllProfileAsList().get(0);
     }
     return lastUsed;
   }
