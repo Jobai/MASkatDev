@@ -2,6 +2,7 @@ package de.skat3.network;
 
 import java.util.ArrayList;
 import de.skat3.main.Lobby;
+import de.skat3.network.server.GameServer;
 
 /**
  * Functions that are called by the GUI outside the Matchphase
@@ -10,9 +11,6 @@ import de.skat3.main.Lobby;
  */
 public interface MainNetworkInterface {
 
-  public Object getFoundServer();
-
-  public void startLobbyServer();
 
   public void switchToGameServerMode();
 
@@ -23,7 +21,7 @@ public interface MainNetworkInterface {
    */
   public void joinServerAsClient(Lobby lobby);
 
-  public void startLocalServer(Object settings);
+  public GameServer startLocalServer(Lobby Lobbysettings);
 
   public void joinLocalServerAsClient();
 

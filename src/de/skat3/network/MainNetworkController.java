@@ -12,6 +12,7 @@ package de.skat3.network;
 
 import java.util.ArrayList;
 import de.skat3.main.Lobby;
+import de.skat3.network.server.GameServer;
 
 /**
  * @author Jonas Bauer
@@ -19,23 +20,9 @@ import de.skat3.main.Lobby;
  */
 public class MainNetworkController implements MainNetworkInterface {
 
-  /* (non-Javadoc)
-   * @see de.skat3.network.MainNetworkInterface#getFoundServer()
-   */
-  @Override
-  public Object getFoundServer() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
-  /* (non-Javadoc)
-   * @see de.skat3.network.MainNetworkInterface#startLobbyServer()
-   */
-  @Override
-  public void startLobbyServer() {
-    // TODO Auto-generated method stub
+ 
 
-  }
 
   /* (non-Javadoc)
    * @see de.skat3.network.MainNetworkInterface#switchToGameServerMode()
@@ -59,7 +46,14 @@ public class MainNetworkController implements MainNetworkInterface {
    * @see de.skat3.network.MainNetworkInterface#startLocalServer(java.lang.Object)
    */
   @Override
-  public void startLocalServer(Object settings) {
+  public GameServer startLocalServer(Lobby lobbysettings) {
+    //TODO Add LobbyServer
+    
+    //GameServer
+    
+    GameServer gs = new GameServer(lobbysettings);
+    
+    return null;
     // TODO Auto-generated method stub
 
   }
@@ -109,4 +103,5 @@ public class MainNetworkController implements MainNetworkInterface {
 
   }
 
+  
 }

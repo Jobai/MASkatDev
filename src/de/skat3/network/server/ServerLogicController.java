@@ -11,6 +11,7 @@ package de.skat3.network.server;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
+import de.skat3.main.Lobby;
 import de.skat3.network.ServerLogicInterface;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.MessageCommand;
@@ -45,6 +46,10 @@ public class ServerLogicController implements ServerLogicInterface {
     this.gs = gs;
     this.connectedPlayer = 0;
     this.serverMatchMode = 0;
+  }
+
+  public ServerLogicController(Lobby lobbysettings) {
+    // TODO Auto-generated constructor stub
   }
 
   /*

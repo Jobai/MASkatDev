@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
+import de.skat3.main.Lobby;
 import de.skat3.network.datatypes.MessageCommand;
 
 /**
@@ -32,7 +33,7 @@ public class GameServer extends Thread {
 
   private static Logger logger = Logger.getLogger("de.skat3.network.server");
   public static ArrayList<GameServerProtocol> threadList;
-  public static int port = 2018;
+  public static int port = 2018; //XXX
   private ServerSocket serverSocket;
 
   private ServerLogicController slc;
@@ -45,6 +46,17 @@ public class GameServer extends Thread {
     logger.fine("test fine");
     threadList = new ArrayList<GameServerProtocol>();
     slc = new ServerLogicController(3, this);
+
+    this.start();
+  }
+
+  public GameServer(Lobby lobbysettings) {
+    // TODO Auto-generated constructor stub
+    
+    logger.setLevel(Level.ALL);
+    logger.fine("test fine");
+    threadList = new ArrayList<GameServerProtocol>();
+    slc = new ServerLogicController(lobbysettings);
 
     this.start();
   }
