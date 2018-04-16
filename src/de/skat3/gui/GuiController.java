@@ -115,10 +115,11 @@ public class GuiController implements GuiInterface {
   public void showWrongPassword() {
 
     Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setHeaderText(null);
     alert.setTitle("Wrong Password");
-    alert.setHeaderText("Wrong Password");
-    alert.show();
-    
+    alert.setContentText("The entered password is wrong!");
+    alert.showAndWait();
+
   }
 
 }

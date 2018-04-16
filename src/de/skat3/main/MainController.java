@@ -14,6 +14,7 @@ import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
+import de.skat3.gamelogic.GameController;
 
 
 
@@ -23,15 +24,16 @@ public class MainController implements MainControllerInterface {
   private ClientLogicController clc;
   private GameServer gameServer;
   private GameClient gameClient;
+  public  Lobby currentLobby;
 
   @Override
-  public ArrayList<Lobby> getLocalHosts() {    
+  public ArrayList<Lobby> getLocalHosts() {
     return SkatMain.mainNetworkController.discoverServer();
   }
 
   @Override
   public void startSingleplayerGame() {
-    //SkatMain.mainNetworkController.blabla TODO pull
+    // SkatMain.mainNetworkController.blabla TODO pull
 
   }
 
@@ -44,12 +46,14 @@ public class MainController implements MainControllerInterface {
   @Override
   public void joinMultiplayerGame(Lobby lobby) {
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
+    this.clc = gameClient.getClc();
 
   }
 
   @Override
   public void joinMultiplayerGame(Lobby lobby, String password) {
-      this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
+    this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
+    this.clc = gameClient.getClc();
 
   }
 
@@ -98,7 +102,7 @@ public class MainController implements MainControllerInterface {
         numberOfPlayers, timer, scoringMode);
     this.gameServer = SkatMain.mainNetworkController.startLocalServer(lobby);
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
-
+    this.clc = gameClient.getClc();
 
   }
 
@@ -107,6 +111,7 @@ public class MainController implements MainControllerInterface {
     Player player = new Player();
     SkatMain.guiController.getInGameController().playCard(player.getUuid(), card);
     SkatMain.lgs.addToTrick(card);
+    SkatMain.ioController.getProfileList();
 
   }
 
@@ -118,6 +123,14 @@ public class MainController implements MainControllerInterface {
   /**
    * Leave current game/lobby
    */
+  @Override
+  public void receiveMessage(String message) {
+
+    SkatMain.lgs.chatMessages.add(message);
+  }
+
+
+
   @Override
   public void exitGame() {
 
@@ -233,8 +246,9 @@ public class MainController implements MainControllerInterface {
   }
 
   public void addProfile(Profile profile) {
-    addProfile(profile);
+    SkatMain.ioController.addProfile(profile);
   }
+  
 
   public void editProfile(Profile profile, String name, Image image) {
     SkatMain.ioController.editProfile(profile, name, image);
@@ -246,8 +260,14 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void startGame() {
-    
-    
+    SkatMain.lgs = new LocalGameState(this.currentLobby.numberOfPlayers,
+        this.currentLobby.getPlayers(), this.currentLobby.timer);
+    GameController gameController = new GameController(this.gameServer.getSeverLogicController(),
+        this.currentLobby.getPlayers(), this.currentLobby.kontraRekontraEnabled,
+        this.currentLobby.scoringMode);
+    this.gameServer.setGameMode(1);
+    gameController.startGame();
+
   }
 
 }
