@@ -111,4 +111,14 @@ public class GuiController implements GuiInterface {
 
   }
 
+  @Override
+  public void showWrongPassword() {
+
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle("Wrong Password");
+    alert.setHeaderText("Wrong Password");
+    alert.show();
+    
+  }
+
 }

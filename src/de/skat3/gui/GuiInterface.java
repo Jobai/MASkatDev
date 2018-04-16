@@ -12,5 +12,7 @@ public interface GuiInterface {
   // Handgame / Yes / No
   // public void handGameSelected(boolean accepted) { }
   public boolean handGameRequest();
+  
+  public void showWrongPassword();
 
 }

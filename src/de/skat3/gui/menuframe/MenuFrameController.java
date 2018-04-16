@@ -10,6 +10,7 @@ import de.skat3.gui.multiplayermenu.MultiplayerMenu;
 import de.skat3.gui.optionsmenu.OptionsMenu;
 import de.skat3.gui.singleplayermenu.SingleplayerMenu;
 import de.skat3.gui.statsmenu.StatsMenu;
+import de.skat3.io.profile.ImageConverter;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
 import javafx.animation.ScaleTransition;
@@ -90,6 +91,7 @@ public class MenuFrameController {
   // Various
 
   private Duration switchMenuDuration = Duration.millis(300);
+  private ArrayList<Profile> allProfile;
 
   // Button handler
 
@@ -129,6 +131,7 @@ public class MenuFrameController {
 
   private ScaleTransition buttonSizeAnimation;
   private TranslateTransition menuLinePostionAnimation;
+  private Profile currentProfile;
 
   private void startMenuUnderlineAnimation(Button targetButton) {
     // Changing the width of the line to the width of the button.
@@ -247,21 +250,18 @@ public class MenuFrameController {
     this.statsMenu = new StatsMenu();
     this.optionsMenu = new OptionsMenu();
 
-    // Stage s = (Stage) mainPane.getScene().getWindow();
-    // System.out.println(s.widthProperty());
-    // this.backgroundImage.fitWidthProperty().bind( s.widthProperty() );
-    // this.backgroundImage.fitHeightProperty().bind( s.heightProperty());
-    // code first initilizing of the singleplayer without an animation when the
-    // programm starts.
-
-
     fillProfileMenu();
+    setCurrentProfile(allProfile.get(0));
 
   }
 
   private void fillProfileMenu() {
-    // TODO get profiles from IO
-    ArrayList<Profile> allProfile = SkatMain.ioController.getProfileList();
+    allProfile = SkatMain.ioController.getProfileList();
+
+    if (allProfile.isEmpty()) {
+      openProfile(null);
+      return;
+    }
 
     for (Profile profile : allProfile) {
       Label l1 = new Label(profile.getName());
@@ -273,7 +273,7 @@ public class MenuFrameController {
         @Override
         public void handle(ActionEvent event) {
           CustomMenuItem source = (CustomMenuItem) event.getSource();
-          Profile p = SkatMain.mainController.readProfile(source.getId());
+          Profile p = SkatMain.ioController.readProfile(source.getId());
           setCurrentProfile(p);
         }
 
@@ -287,7 +287,7 @@ public class MenuFrameController {
     add.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        openProfile("");
+        openProfile(null);
       }
     });
     profileMenuButton.getItems().add(new CustomMenuItem(add));
@@ -298,10 +298,10 @@ public class MenuFrameController {
   }
 
   public void handleMouseClickProfileMenu() {
-    openProfile("");
+    openProfile(currentProfile);
   }
 
-  private void openProfile(String id) {
+  private void openProfile(Profile p) {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProfilePopupView.fxml"));
     Parent root = null;
     try {
@@ -314,25 +314,21 @@ public class MenuFrameController {
     stage.setScene(new Scene(root));
 
     ProfileController profileController = fxmlLoader.getController();
+    profileController.setProfile(p);
+    profileController.setProfileToScreen();
     profileController.setStage(stage);
 
     stage.show();
   }
 
-  public void handleMouseClickAddProfile() {
-
-  }
-
   private void setCurrentProfile(Profile p) {
-    BufferedImage bImage = (BufferedImage) p.getImage();
-    WritableImage fxImage = SwingFXUtils.toFXImage(bImage, null);
+    this.currentProfile = p;
+    BufferedImage bufImage = (BufferedImage) p.getImage();
+    if (bufImage != null) {
+      WritableImage fxImage = SwingFXUtils.toFXImage(bufImage, null);
+      currentProfileImage.setImage(fxImage);
+    }
 
-    currentProfileImage.setImage(fxImage);
-    currentProfileName.setText(p.getName());
+    //currentProfileName.setText(p.getName());
   }
-
-  public void handleProfileChanged() {
-    System.out.println("test");
-  }
-
 }

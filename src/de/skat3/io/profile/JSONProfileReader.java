@@ -60,6 +60,7 @@ public class JSONProfileReader {
     for (int i = 0; i < jsonArray.size(); i++) {
       JsonObject profileElement = jsonArray.get(i).getAsJsonObject();
       Profile profileObject = GSON.fromJson(profileElement, Profile.class);
+      profileObject.setImageFromEncodedString();
       list.add(profileObject);
     }
     return list;
