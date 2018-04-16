@@ -1,10 +1,8 @@
 package de.skat3.gui.menuframe;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -32,8 +30,7 @@ public class ProfileController {
   public void setProfileToScreen() {
     if (profile != null) {
       profileName.setText(profile.getName());
-      Image image = SwingFXUtils.toFXImage((BufferedImage) profile.getImage(), null);
-      profileImage.setImage(image);
+      profileImage.setImage(profile.getImage());
     }
   }
 
@@ -52,17 +49,14 @@ public class ProfileController {
 
     // New profile
     Image image = profileImage.getImage();
-    java.awt.Image awtImg = SwingFXUtils.fromFXImage(image, null);
-    java.awt.image.BufferedImage bufferedImage = new BufferedImage(awtImg.getWidth(null),
-        awtImg.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);
 
     if (profile == null) {
       // New profile
-      Profile newProfile = new Profile(profileName.getText(), bufferedImage);
+      Profile newProfile = new Profile(profileName.getText(), image);
       SkatMain.ioController.addProfile(newProfile);
     } else {
       // Update profile
-      SkatMain.ioController.editProfile(profile, profileName.getText(), bufferedImage);
+      SkatMain.ioController.editProfile(profile, profileName.getText(), image);
     }
     profileStage.close();
   }

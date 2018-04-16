@@ -4,9 +4,9 @@ import static de.skat3.io.profile.Utils.JSON_ID_FIELD;
 import static de.skat3.io.profile.Utils.JSON_IMAGE_FIELD;
 import static de.skat3.io.profile.Utils.JSON_LAST_USED_FIELD;
 import static de.skat3.io.profile.Utils.JSON_NAME_FIELD;
-import java.awt.Image;
 import java.util.UUID;
 import com.google.gson.annotations.SerializedName;
+import javafx.scene.image.Image;
 
 
 public class Profile {

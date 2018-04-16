@@ -2,11 +2,11 @@ package de.skat3.io.profile;
 
 import static de.skat3.io.profile.Utils.GSON;
 import static de.skat3.io.profile.Utils.JSON_PATH;
-import java.awt.Image;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javafx.scene.image.Image;
 
 
 public class IoController implements IoInterface {
