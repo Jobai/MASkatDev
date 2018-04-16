@@ -6,16 +6,18 @@ import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * Controller class to handle the events of the profile popup. Test2
+ * Controller class to handle the events of the profile popup.
  * 
- * @author tistraub Test
+ * @author tistraub
  */
 public class ProfileController {
   private Stage profileStage;
@@ -25,6 +27,8 @@ public class ProfileController {
   private ImageView profileImage;
   @FXML
   private TextField profileName;
+  @FXML
+  private Label popupHeaderText;
 
   /**
    * .
@@ -32,9 +36,12 @@ public class ProfileController {
   public void setProfileToScreen() {
     if (profile != null) {
       profileName.setText(profile.getName());
-      Image image = SwingFXUtils.toFXImage((BufferedImage) profile.getImage(), null);
-      profileImage.setImage(image);
+      profileImage.setImage(profile.getImage());
     }
+  }
+
+  public void setHeaderText(String text) {
+    popupHeaderText.setText(text);
   }
 
   public void setStage(Stage s) {
@@ -43,6 +50,11 @@ public class ProfileController {
 
   public void setProfile(Profile p) {
     this.profile = p;
+
+    if (profile != null) {
+      profileName.setText(profile.getName());
+      profileImage.setImage(profile.getImage());
+    }
   }
 
   /**
@@ -52,29 +64,20 @@ public class ProfileController {
 
     // New profile
     Image image = profileImage.getImage();
-    java.awt.Image awtImg = SwingFXUtils.fromFXImage(image, null);
-    java.awt.image.BufferedImage bufferedImage = new BufferedImage(awtImg.getWidth(null),
-        awtImg.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);
 
     if (profile == null) {
       // New profile
-      Profile newProfile = new Profile(profileName.getText(), bufferedImage);
+      Profile newProfile = new Profile(profileName.getText(), image);
       SkatMain.ioController.addProfile(newProfile);
     } else {
       // Update profile
-      SkatMain.ioController.editProfile(profile, profileName.getText(), bufferedImage);
+      SkatMain.ioController.editProfile(profile, profileName.getText(), image);
     }
     profileStage.close();
   }
-  // Swing to FX
-  // Image image = SwingFXUtils.toFXImage(capture, null);
-
-  // https://docs.oracle.com/javafx/2/api/javafx/embed/swing/SwingFXUtils.html#fromFXImage(javafx.scene.image.Image,%20java.awt.image.BufferedImage)
-  // FX to Swing
-  // BufferedImage SwingFXUtils.fromFXImage(Image img, BufferedImage bimg)
 
   public void handleDelProfile() {
-    // TODO Call interface method from IO
+    SkatMain.ioController.deleteProfile(this.profile);
     profileStage.close();
   }
 

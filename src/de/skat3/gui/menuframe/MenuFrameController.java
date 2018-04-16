@@ -256,6 +256,9 @@ public class MenuFrameController {
   }
 
   private void fillProfileMenu() {
+    // Alte Daten entfernen
+    profileMenuButton.getItems().clear();
+
     allProfile = SkatMain.ioController.getProfileList();
 
     if (allProfile.isEmpty()) {
@@ -315,20 +318,22 @@ public class MenuFrameController {
 
     ProfileController profileController = fxmlLoader.getController();
     profileController.setProfile(p);
-    profileController.setProfileToScreen();
+    // profileController.setProfileToScreen();
     profileController.setStage(stage);
 
-    stage.show();
+    if (p == null) {
+      profileController.setHeaderText("Create a profile");
+    }
+
+    stage.showAndWait();
+    // Update Profiles
+    fillProfileMenu();
+    setCurrentProfile(currentProfile);
   }
 
   private void setCurrentProfile(Profile p) {
     this.currentProfile = p;
-    BufferedImage bufImage = (BufferedImage) p.getImage();
-    if (bufImage != null) {
-      WritableImage fxImage = SwingFXUtils.toFXImage(bufImage, null);
-      currentProfileImage.setImage(fxImage);
-    }
-
-    //currentProfileName.setText(p.getName());
+    currentProfileImage.setImage(p.getImage());
+    currentProfileName.setText(p.getName());
   }
 }
