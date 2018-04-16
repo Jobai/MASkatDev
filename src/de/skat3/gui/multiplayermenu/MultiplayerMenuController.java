@@ -36,8 +36,10 @@ public class MultiplayerMenuController {
     Stage stage = new Stage();
     stage.setTitle("Host Server");
     stage.setScene(new Scene(root));
-    stage.show();
 
+    HostPopupController hostController = fxmlLoader.getController();
+    hostController.setStage(stage);
+    stage.show();
 
   }
 

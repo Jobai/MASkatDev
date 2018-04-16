@@ -7,6 +7,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
 
 /**
  * View class of a hand.
@@ -25,9 +27,28 @@ public class GuiCard extends Parent {
    */
   public GuiCard(Card card) {
     this.card = card;
-    this.card.view.setFitHeight(300);
-    this.card.view.setFitWidth(150);
+    this.card.view.setFitHeight(400);
+    this.card.view.setFitWidth(200);
     this.getChildren().add(this.card.view);
   }
 
+  public String toString() {
+    StringBuffer s = new StringBuffer();
+    s.append(this.card.toString());
+    s.append(" at relative postion: ");
+    s.append("x=" + this.getTranslateX());
+    s.append(", ");
+    s.append("y=" + this.getTranslateY());
+    s.append(", ");
+    s.append("z=" + this.getTranslateZ());
+    for (Transform t : this.getTransforms()) {
+      s.append(", ");
+      if (t.getClass().equals(Rotate.class)) {
+        s.append(((Rotate) t).getAngle());
+      }
+    }
+
+    s.append(" Number of Transforms: " + this.getTransforms().size());
+    return s.toString();
+  }
 }

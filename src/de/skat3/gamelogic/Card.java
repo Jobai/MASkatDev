@@ -14,7 +14,8 @@ public class Card implements Serializable {
 
   private Suit suit;
   private Value value;
-  public ImageView view;
+  private ImageView viewFront;
+  private ImageView viewBack;
   private boolean playable;
   private int trickValue;
 
@@ -29,11 +30,16 @@ public class Card implements Serializable {
 
     String imageUrl = "cardImages/" + this.getUrl() + ".png";
 
-    this.view = new ImageView(new Image(imageUrl));
+    this.viewFront = new ImageView(new Image(imageUrl));
+    this.viewBack = new ImageView(new Image("cardImage/green_back.png"));
   }
 
-  public ImageView getImage() {
-    return this.view;
+  public ImageView getFrontImage() {
+    return this.viewFront;
+  }
+
+  public ImageView getBackImage() {
+    return this.viewBack;
   }
 
 
@@ -69,11 +75,11 @@ public class Card implements Serializable {
     return this.trickValue;
   }
 
-  Suit getSuit() {
+  public Suit getSuit() {
     return this.suit;
   }
 
-  Value getValue() {
+  public Value getValue() {
     return this.value;
   }
 

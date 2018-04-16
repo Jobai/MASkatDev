@@ -1,16 +1,23 @@
 package de.skat3.main;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
-import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.gamelogic.Timer;
+import de.skat3.io.profile.Profile;
+import de.skat3.network.client.ClientLogicController;
+import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
 
+
 public class MainController implements MainControllerInterface {
+
+
+  private ClientLogicController clc;
 
   @Override
   public ArrayList<Lobby> getLocalHosts() {
@@ -81,23 +88,21 @@ public class MainController implements MainControllerInterface {
       boolean kontraRekontraEnabled, int mode) {
     // SkatMain.lgs = new LocalGameState();
     GameServer gm = new GameServer();
-    System.out.println("ja");
-    GameController gameController =
-        new GameController(gm.getSeverLogicController(), null, kontraRekontraEnabled, mode);
-    gm.setGameController(gameController);
+    Player localPlayer = new Player();
+    GameClient localClient = new GameClient("localhost", 2018, localPlayer);
+
 
   }
 
   @Override
   public void playCard(Card card) {
+    SkatMain.guiController.getInGameController().playCard(player, card);
     SkatMain.lgs.addToTrick(card);
 
   }
 
   @Override
   public void sendMessage(String message) {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
@@ -122,7 +127,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showAuctionWinner(Player player) {
-    //SkatMain.guiController.g
+    SkatMain.guiController.getInGameController().showAuctionWinner();
   }
 
 
@@ -148,7 +153,7 @@ public class MainController implements MainControllerInterface {
   public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers) {
     SkatMain.lgs.contract = contract;
     SkatMain.lgs.additionalMultipliers = additionalMultipliers;
-    // TODO gui
+    SkatMain.guiController.getInGameController().showContract(contract, additionalMultipliers);
 
   }
 
@@ -157,25 +162,25 @@ public class MainController implements MainControllerInterface {
     if (SkatMain.lgs.timerInSeconds > 0) {
       new Timer(SkatMain.lgs.timerInSeconds);
     }
-    // TODO GUI
+    SkatMain.guiController.getInGameController().makeAMove(true);
 
   }
 
   @Override
   public void showResults(Result result) {
-    // TODO methode von gui
+    SkatMain.guiController.getInGameController().showResults(result);
 
   }
 
   @Override
   public void showEndScreen(Object o) {
-    // TODO methode von gui
+    SkatMain.guiController.getInGameController().showEndScreen();
   }
 
   @Override
   public void setSkat(Card[] skat) {
     SkatMain.lgs.skat = skat;
-    // TODO gui skat selection
+   //SkatMain.guiController.getInGameController().startSkatMethod
 
   }
 
@@ -183,26 +188,45 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void localBid(boolean accepted) {
+    clc.bidAnswer(accepted);
     // network
-
   }
 
   public void handGameSelected(boolean accepted) {
-
+    clc.handAnswer(accepted);
     // network
   }
 
   @Override
   public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers) {
-
+    clc.contractAnswer(contract, additionalMultipliers);
     // network
   }
 
   @Override
   public void localCardPlayed(Card card) {
+    clc.playAnswer(card);
     // network
   }
 
+  public Profile readProfile(String id) {
+    return SkatMain.ioController.readProfile(id);
+  }
 
+  public ArrayList<Profile> getProfileList() {
+    return SkatMain.ioController.getProfileList();
+  }
+
+  public void addProfile(Profile profile) {
+    addProfile(profile);
+  }
+
+  public void editProfile(Profile profile, String name, Image image) {
+    SkatMain.ioController.editProfile(profile, name, image);
+  }
+
+  public boolean deleteProfile(Profile profile) {
+    return SkatMain.ioController.deleteProfile(profile);
+  }
 
 }

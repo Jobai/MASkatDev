@@ -11,15 +11,25 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class JSONProfileReader implements ProfileReader {
+public class JSONProfileReader {
 
-  private ArrayList<Profile> profileList = readAllprofileList();
+  private ArrayList<Profile> profileList = getAllProfileAsList();
   private Profile lastUsed = determineLastUsedProfile();
 
-  @Override
   public Profile readProfile(String id) {
-    Profile profile = new Profile("!");
-    return profile;
+    Iterator<Profile> iter = profileList.iterator();
+    while (iter.hasNext()) {
+      Profile current = iter.next();
+      if (current.getUuid() == id) {
+        return current;
+      }
+    }
+    return null;
+  }
+
+
+  public ArrayList<Profile> getProfileList() {
+    return profileList;
   }
 
   public Profile getLastUsedProfile() {
@@ -28,10 +38,6 @@ public class JSONProfileReader implements ProfileReader {
 
   public void setLastUsedProfile(Profile lastUsed) {
     this.lastUsed = lastUsed;
-  }
-
-  public ArrayList<Profile> getprofileList() {
-    return profileList;
   }
 
   public void setProfilesList(ArrayList<Profile> profileList) {
@@ -48,12 +54,10 @@ public class JSONProfileReader implements ProfileReader {
     return lastUsed;
   }
 
-  private ArrayList<Profile> readAllprofileList() {
+  private ArrayList<Profile> getAllProfileAsList() {
     ArrayList<Profile> list = new ArrayList<Profile>();
     JsonArray jsonArray = convertFileToJsonArray();
     for (int i = 0; i < jsonArray.size(); i++) {
-      // JsonElement profileElement = jsonArray.get(i);
-      // FIXME
       JsonObject profileElement = jsonArray.get(i).getAsJsonObject();
       Profile profileObject = GSON.fromJson(profileElement, Profile.class);
       list.add(profileObject);

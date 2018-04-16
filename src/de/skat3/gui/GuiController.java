@@ -1,34 +1,40 @@
 package de.skat3.gui;
 
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Optional;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gui.matchfield.InGameController;
 import de.skat3.main.MainController;
 import de.skat3.main.SkatMain;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 
 
+/**
+ * Controller for the main gui
+ * 
+ * @author adomonel, tistraub
+ *
+ */
 public class GuiController implements GuiInterface {
   private Gui gui;
 
   private InGameController inGameController;
 
   public void goInGame() {
-  this.inGameController = this.gui.showMatchfield();
+    this.inGameController = this.gui.showMatchfield();
   }
 
   public InGameController getInGameController() {
-  return this.inGameController;
+    return this.inGameController;
   }
+
   protected void setGui(Gui gui) {
     this.gui = gui;
   }

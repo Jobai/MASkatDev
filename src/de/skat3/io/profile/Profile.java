@@ -4,37 +4,31 @@ import static de.skat3.io.profile.Utils.JSON_ID_FIELD;
 import static de.skat3.io.profile.Utils.JSON_IMAGE_FIELD;
 import static de.skat3.io.profile.Utils.JSON_LAST_USED_FIELD;
 import static de.skat3.io.profile.Utils.JSON_NAME_FIELD;
-import static de.skat3.io.profile.Utils.JSON_PASSWORD_FIELD;
+import java.awt.Image;
 import java.util.UUID;
 import com.google.gson.annotations.SerializedName;
 
 
 public class Profile {
-  // Probably not needed
+  private transient Image image;
+
   @SerializedName(JSON_ID_FIELD)
   private String uuid = UUID.randomUUID().toString();
   @SerializedName(JSON_NAME_FIELD)
   private String name;
-  @SerializedName(JSON_PASSWORD_FIELD)
-  private String password;
   @SerializedName(JSON_IMAGE_FIELD)
   private String encodedImage;
   @SerializedName(JSON_LAST_USED_FIELD)
   boolean lastUsed;
 
+
   public Profile(String name) {
     this.name = name;
   }
 
-  public Profile(String name, String password) {
+  public Profile(String name, Image image) {
     this.name = name;
-    this.password = password;
-  }
-
-  public Profile(String name, String password, String imagePath) {
-    this.name = name;
-    this.password = password;
-    this.setImage(imagePath);
+    this.setImage(image);
   }
 
   public String getUuid() {
@@ -49,22 +43,14 @@ public class Profile {
     this.name = name;
   }
 
-  public String getPassword() {
-    return password;
+  public Image getImage() {
+    return image;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public String getImage() {
-    return encodedImage;
-  }
-
-  public void setImage(String filePath) {
+  public void setImage(Image image) {
     ImageConverter adapter = new ImageConverter();
-    String encoded = adapter.imageToString(filePath);
-    this.encodedImage = encoded;
+    this.image = image;
+    this.encodedImage = adapter.imageToEncodedString(image);
   }
 
   public boolean getLastUsed() {
