@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
+import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
 import de.skat3.network.datatypes.MessageCommand;
@@ -113,6 +114,7 @@ public class GameServerProtocol extends Thread {
     // TODO Auto-generated method stub
     //TODO DO GUI STUFF
     this.playerProfile = (Player) m.payload;
+    SkatMain.mainController.currentLobby.addPlayer(this.playerProfile);
     
   }
 

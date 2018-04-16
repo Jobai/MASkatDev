@@ -10,6 +10,9 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.AnswerType;
 import de.skat3.network.datatypes.MessageAnswer;
+import de.skat3.network.datatypes.MessageChat;
+import de.skat3.network.datatypes.MessageConnection;
+import de.skat3.network.datatypes.MessageType;
 
 /**
  * @author Jonas
@@ -70,6 +73,23 @@ public class ClientLogicController {
     ma.payload = con;
     ma.additionalPlayload = am;
     gc.sendToServer(ma);
+  }
+  
+  public void sendChatMessage(String chatString) {
+    MessageChat mc = new MessageChat(chatString, "NICK NAME PLACEHOLDER"); // FIXME
+    gc.sendToServer(mc);
+
+  }
+  
+  public void leaveGame(){
+    MessageConnection mc = new MessageConnection(MessageType.CONNECTION_CLOSE);
+    gc.sendToServer(mc);
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    gc.closeConnection();
   }
 
 

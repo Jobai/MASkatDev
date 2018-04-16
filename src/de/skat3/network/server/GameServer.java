@@ -17,7 +17,6 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
@@ -33,12 +32,14 @@ public class GameServer extends Thread {
 
   private static Logger logger = Logger.getLogger("de.skat3.network.server");
   public static ArrayList<GameServerProtocol> threadList;
-  public static int port = 2018; //XXX
+  public static int port = 2018; // XXX
   private ServerSocket serverSocket;
 
   private ServerLogicController slc;
-  
+
   public GameController gc;
+  
+  int gameServerMode = 0;
 
 
   public GameServer() {
@@ -52,11 +53,11 @@ public class GameServer extends Thread {
 
   public GameServer(Lobby lobbysettings) {
     // TODO Auto-generated constructor stub
-    
+
     logger.setLevel(Level.ALL);
     logger.fine("test fine");
     threadList = new ArrayList<GameServerProtocol>();
-    slc = new ServerLogicController(lobbysettings);
+    slc = new ServerLogicController(lobbysettings, this);
 
     this.start();
   }
@@ -112,7 +113,8 @@ public class GameServer extends Thread {
     // TODO Auto-generated method stub
 
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
-      if (gameServerProtocol.playerProfile.getUuid().equals(player.getUuid()))
+      if (gameServerProtocol.playerProfile.getUuid().equals(player.getUuid())) // XXX
+      // FIXME
       {
         gameServerProtocol.sendMessage(mc);
         logger.info("send succesful");
@@ -149,9 +151,13 @@ public class GameServer extends Thread {
 
   }
 
-public void setGameController(GameController gameController) {
-	// TODO Auto-generated method stub
-	this.gc = gameController;
-}
+  public void setGameController(GameController gameController) {
+    // TODO Auto-generated method stub
+    this.gc = gameController;
+  }
+  
+  public void setGameMode(int mode){
+    this.gameServerMode = mode;
+  }
 
 }
