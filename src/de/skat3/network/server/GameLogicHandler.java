@@ -1,5 +1,6 @@
 package de.skat3.network.server;
 
+import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.GameController;
@@ -73,7 +74,8 @@ public class GameLogicHandler {
   private void contractHandler(Message m) {
     MessageAnswer ma = (MessageAnswer) m;
     Contract con = (Contract) ma.payload;
-    gc.notifyLogicofContract(con, null); // FIXME
+    AdditionalMultipliers am = (AdditionalMultipliers) ma.additionalPlayload;
+    gc.notifyLogicofContract(con, am);
   }
 
   private void handHandler(Message m) {
@@ -91,7 +93,8 @@ public class GameLogicHandler {
     // TODO Auto-generated method stub
     MessageAnswer ma = (MessageAnswer) m;
     Card[] skat = (Card[]) ma.payload;
-    gc.notifyLogicOfNewSkat(null, skat);
+    Hand h = (Hand) ma.additionalPlayload;
+    gc.notifyLogicOfNewSkat(h, skat);
     
   }
 

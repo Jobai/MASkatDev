@@ -110,7 +110,7 @@ public class ClientLogicHandler {
     // TODO Auto-generated method stub
     System.out.println("AUFGERUFEN");
     MessageCommand mc = (MessageCommand) m;
-    SkatMain.lgs.setPlayer((Player) mc.gameState); //FIXME ?
+    SkatMain.lgs.setPlayer((Player) mc.gameState); // FIXME ?
 
   }
 
@@ -146,7 +146,7 @@ public class ClientLogicHandler {
 
   public void skatRequestHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
-    Card[] skat = (Card[]) mc.gameState; 
+    Card[] skat = (Card[]) mc.gameState;
     SkatMain.mainController.setSkat(skat);
 
   }

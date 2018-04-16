@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 public class StreamListener extends Thread {
-  
+
   GameClient gc;
 
   /**
@@ -15,15 +15,13 @@ public class StreamListener extends Thread {
     this.gc = gc;
   }
 
-  
-  public void run ()
-  {
-    while (!this.isInterrupted())
-    {
+
+  public void run() {
+    while (!this.isInterrupted()) {
       try {
         Object o = gc.fromServer.readObject();
         gc.clientProtocolHandler(o);
-        
+
       } catch (ClassNotFoundException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
