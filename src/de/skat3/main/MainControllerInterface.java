@@ -28,12 +28,16 @@ public interface MainControllerInterface {
 
   public void hostMultiplayerGame(int spieler, int timer, String password);
   
+  
+  
   public void startGame();
 
   public void playCard(Card card);
 
   public void sendMessage(String message);
 
+  public void receiveMessage(String message);
+  
   public void exitGame();
 
   public void setSkat(Card[] skat);

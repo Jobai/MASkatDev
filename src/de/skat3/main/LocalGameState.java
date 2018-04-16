@@ -23,17 +23,24 @@ public class LocalGameState {
   Player dealer;
   Card[] trick;
   Card[] skat;
-  ArrayList<String> chatMessages;
+  ObservableList<String> chatMessages;
 
   /**
    * The current state of a game.
    * 
    */
-  public LocalGameState(int numberOfPlayers, Player localClient, int timerInSeconds) {
+  public LocalGameState(int numberOfPlayers, Player[] players, int timerInSeconds) {
     trickcount = 0;
     trick = new Card[3];
     skat = new Card[2];
-    
+    localClient = players[0];
+    enemyOne = players[1];
+    enemyTwo = players[2];
+    if (numberOfPlayers == 4) {
+      dealer = players[3];
+    }
+    chatMessages = FXCollections.observableArrayList();
+
   }
 
   public void setPlayer(Player player) {
@@ -55,8 +62,9 @@ public class LocalGameState {
     return this.localClient.getHand().cards;
   }
 
-  public void setTimerInSeconds(int seconds) {
-    this.timerInSeconds = seconds;
+
+  public void addMessage(String message) {
+    this.chatMessages.add(message);
   }
 
 }
