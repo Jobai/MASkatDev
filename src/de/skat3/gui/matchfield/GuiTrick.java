@@ -8,6 +8,7 @@ import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
+import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
@@ -33,7 +34,8 @@ public class GuiTrick {
    * @param yr Rotate y.
    * @param zr Rotate z.
    */
-  public GuiTrick(DoubleBinding x, DoubleBinding y, double z, double xr, double yr, double zr) {
+  public GuiTrick(DoubleBinding x, DoubleBinding y, DoubleBinding z, double xr, double yr,
+      double zr) {
     this.cards = new GuiCard[3];
     this.postions = new Parent[3];
     this.postions[0] = new Parent() {};
@@ -42,21 +44,21 @@ public class GuiTrick {
 
     this.postions[0].translateXProperty().bind(x.add(-200));
     this.postions[0].translateYProperty().bind(y);
-    this.postions[0].setTranslateZ(z - 100);
+    this.postions[0].translateZProperty().bind(z.add(-100));
     this.postions[0].getTransforms().add(new Rotate(xr, Rotate.X_AXIS));
     this.postions[0].getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
     this.postions[0].getTransforms().add(new Rotate(zr - 30, Rotate.Z_AXIS));
 
     this.postions[1].translateXProperty().bind(x);
     this.postions[1].translateYProperty().bind(y.add(-1));
-    this.postions[1].setTranslateZ(z);
+    this.postions[1].translateZProperty().bind(z);
     this.postions[1].getTransforms().add(new Rotate(xr, Rotate.X_AXIS));
     this.postions[1].getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
     this.postions[1].getTransforms().add(new Rotate(zr, Rotate.Z_AXIS));
 
     this.postions[2].translateXProperty().bind(x.add(250));
     this.postions[2].translateYProperty().bind(y.add(-2));
-    this.postions[2].setTranslateZ(z);
+    this.postions[2].translateZProperty().bind(z);
     this.postions[2].getTransforms().add(new Rotate(xr, Rotate.X_AXIS));
     this.postions[2].getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
     this.postions[2].getTransforms().add(new Rotate(zr + 30, Rotate.Z_AXIS));
@@ -71,10 +73,36 @@ public class GuiTrick {
    */
   public synchronized Parent add(GuiCard card) {
     if (index > 2) {
-      this.clear();
+      for (GuiCard c : this.cards) {
+        c.setVisible(false);
+      }
+
+      this.cards = new GuiCard[3];
+      this.index = 0;
     }
-    
+
     this.cards[index] = card;
+
+    int i = index;
+    Timeline tl = new Timeline();
+    tl.getKeyFrames().add(new KeyFrame(Matchfield.animationTime.add(Duration.millis(20)), e -> {
+
+      Affine newTr = new Affine(card.getTransforms().get(0));
+      card.setTranslateX(newTr.getTx());
+      card.setTranslateY(newTr.getTy());
+      card.setTranslateZ(newTr.getTz());
+      newTr.setTx(0);
+      newTr.setTy(0);
+      newTr.setTz(0);
+
+      card.getTransforms().clear();
+      card.getTransforms().add(newTr);
+
+      card.translateXProperty().bind(this.postions[i].translateXProperty());
+      card.translateYProperty().bind(this.postions[i].translateYProperty());
+      card.translateZProperty().bind(this.postions[i].translateZProperty());
+    }));
+    tl.play();
 
     return this.postions[index++];
   }
