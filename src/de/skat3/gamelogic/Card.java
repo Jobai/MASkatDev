@@ -50,7 +50,8 @@ public class Card implements Serializable {
   }
 
   public ImageView getImage() {
-    return this.view;
+    return this.viewFront;
+>>>>>>> Stashed changes
   }
 
   public ImageView getImage() {
