@@ -49,6 +49,9 @@ public class JSONProfileReader {
   // if there is no current player (for some reason e.g. deleted etc)
   // sets first profile at last used
   private Profile determineLastUsedProfile() {
+    if (profileList.size() < 0) {
+      return null;
+    }
     Iterator<Profile> itr = profileList.iterator();
     while (itr.hasNext()) {
       if (itr.next().getLastUsed()) {
