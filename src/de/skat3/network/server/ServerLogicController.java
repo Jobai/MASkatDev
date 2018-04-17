@@ -26,7 +26,7 @@ import de.skat3.network.datatypes.MessageType;
  * 
  * @author Jonas Bauer
  *
- *  I IMPLEMENT [SEND] COMMANDTYPEs
+ *         I IMPLEMENT [SEND] COMMANDTYPEs
  */
 public class ServerLogicController implements ServerLogicInterface {
 
@@ -51,7 +51,7 @@ public class ServerLogicController implements ServerLogicInterface {
   }
 
   public ServerLogicController(Lobby lobbysettings, GameServer gs) {
-   this(lobbysettings.getMaximumNumberOfPlayers(), gs);
+    this(lobbysettings.getMaximumNumberOfPlayers(), gs);
   }
 
   /*
@@ -95,8 +95,8 @@ public class ServerLogicController implements ServerLogicInterface {
     gs.sendToPlayer(player, mc);
   }
 
-  /*ckj
-   * (non-Javadoc)
+  /*
+   * ckj (non-Javadoc)
    * 
    * @see de.skat3.network.ServerLogicInterface#broadcastContract(de.skat3. gamelogic.Contract)
    */
@@ -147,8 +147,9 @@ public class ServerLogicController implements ServerLogicInterface {
   public void broadcastRoundResult(Result result) {
     // TODO Auto-generated method stub
 
-   
-    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.ROUND_END_INFO);
+
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.ROUND_END_INFO);
     mc.payload = result;
     gs.broadcastMessage(mc);
   }
