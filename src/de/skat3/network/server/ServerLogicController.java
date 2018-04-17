@@ -11,7 +11,9 @@ package de.skat3.network.server;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
+import de.skat3.gamelogic.Result;
 import de.skat3.main.Lobby;
+import de.skat3.main.SkatMain;
 import de.skat3.network.ServerLogicInterface;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.MessageCommand;
@@ -49,7 +51,7 @@ public class ServerLogicController implements ServerLogicInterface {
   }
 
   public ServerLogicController(Lobby lobbysettings, GameServer gs) {
-   this(lobbysettings.getMaximumNumberofPlayers(), gs);
+   this(lobbysettings.getMaximumNumberOfPlayers(), gs);
   }
 
   /*
@@ -93,7 +95,7 @@ public class ServerLogicController implements ServerLogicInterface {
     gs.sendToPlayer(player, mc);
   }
 
-  /*
+  /*ckj
    * (non-Javadoc)
    * 
    * @see de.skat3.network.ServerLogicInterface#broadcastContract(de.skat3. gamelogic.Contract)
@@ -142,9 +144,13 @@ public class ServerLogicController implements ServerLogicInterface {
    * @see de.skat3.network.ServerLogicInterface#broadcastRoundResult(java.lang. Object)
    */
   @Override
-  public void broadcastRoundResult(Object oj) {
+  public void broadcastRoundResult(Result result) {
     // TODO Auto-generated method stub
 
+   
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.ROUND_END_INFO);
+    mc.payload = result;
+    gs.broadcastMessage(mc);
   }
 
   /*

@@ -31,7 +31,7 @@ public class IoController implements IoInterface {
   }
 
   @Override
-  public void editProfile(Profile profile, String name, Image image) {
+  public void editProfile(Profile profile, String name, Image image, String imageFormat) {
     Profile toEdit = null;
 
     Iterator<Profile> iter = profilesList.iterator();
@@ -44,7 +44,7 @@ public class IoController implements IoInterface {
     }
 
     toEdit.setName(name);
-    toEdit.setImage(image);
+    toEdit.setImage(image, imageFormat);
     toEdit.setLastUsed(true);
 
     reader.setProfilesList(profilesList);

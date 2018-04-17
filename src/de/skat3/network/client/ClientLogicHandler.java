@@ -2,6 +2,7 @@ package de.skat3.network.client;
 
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Player;
+import de.skat3.gamelogic.Result;
 import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
@@ -96,6 +97,9 @@ public class ClientLogicHandler {
       SkatMain.mainController.setHand((Player) mc.gameState);
     }
     if (mc.getSubType() == CommandType.ROUND_END_INFO) {
+      
+      Result result = (Result) mc.payload;
+      SkatMain.mainController.showResults(result);
       // FIXME
     }
 

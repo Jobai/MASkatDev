@@ -10,7 +10,9 @@
  */
 package de.skat3.network;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
+import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
 import de.skat3.network.client.GameClient;
@@ -33,7 +35,9 @@ public class MainNetworkController implements MainNetworkInterface {
   public GameClient joinServerAsClient(Lobby lobby) {
     // TODO Auto-generated method stub
     
-    lobby.
+    Inet4Address ip = lobby.getIp();
+    GameClient gc = new GameClient(ip.getHostAddress(), 2018, new Player()); //FIXME
+    return gc;
 
   }
 
@@ -41,12 +45,12 @@ public class MainNetworkController implements MainNetworkInterface {
    * @see de.skat3.network.MainNetworkInterface#startLocalServer(java.lang.Object)
    */
   @Override
-  public GameServer startLocalServer(Lobby lobbysettings) {
+  public GameServer startLocalServer(Lobby lobbysettings, GameController gameController) {
     //TODO Add LobbyServer
     
     //GameServer
     
-    GameServer gs = new GameServer(lobbysettings);
+    GameServer gs = new GameServer(lobbysettings,gameController);
     
     return gs;
     // TODO Auto-generated method stub
@@ -73,14 +77,6 @@ public class MainNetworkController implements MainNetworkInterface {
 
   }
 
-  /* (non-Javadoc)
-   * @see de.skat3.network.MainNetworkInterface#changeServerMode(int)
-   */
-  @Override
-  public void changeServerMode(int mode) {
-    // TODO Auto-generated method stub
-
-  }
 
   /* (non-Javadoc)
    * @see de.skat3.network.MainNetworkInterface#discoverServer()
@@ -99,9 +95,15 @@ public class MainNetworkController implements MainNetworkInterface {
   @Override
   public GameServer playAndHostSinglePlayer() {
     // TODO Auto-generated method stub
-    GameServer gs = new GameServer();
+    GameServer gs = new GameServer(null); //FIXME
     GameClient gc = new GameClient("localhost", 2018, new Player()); //FIXME
     
+    return null;
+  }
+
+  @Override
+  public GameServer startLocalServer(Lobby Lobbysettings) {
+    // TODO Auto-generated method stub
     return null;
   }
 

@@ -22,6 +22,7 @@ public class Player implements Serializable {
 
   public Player() {
     
+    this.wonTricks = new ArrayList<Card>();
     this.uuid = UUID.randomUUID();
     this.points = 0;
     this.wonGames = 0;

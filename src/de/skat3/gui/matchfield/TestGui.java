@@ -9,10 +9,13 @@ import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Point3D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
@@ -38,24 +41,7 @@ public class TestGui extends Application {
   public void start(Stage primaryStage) throws Exception {
 
     this.mainStage = primaryStage;
-    this.p = new Pane();
-    // Slider xs = new Slider();
-    // xs.setMax(10000);
-    // Slider ys = new Slider();
-    // ys.setMax(10000);
-    // Slider zs = new Slider();
-    // zs.setMax(10000);
-    //
-    // FlowPane fp = new FlowPane();
-    // fp.getChildren().addAll(xs, ys, zs);
-    // SubScene sub = new SubScene(fp, 300, 500);
-    // sub.setTranslateX(1000);
-    // sub.setTranslateY(200);
-    // p.getChildren().add(sub);
-    Scene scene = new Scene(p, 1800, 1000, true, SceneAntialiasing.BALANCED);
-    primaryStage.setScene(scene);
-
-    p.setPrefSize(1800, 1000);
+    // p.setPrefSize(1800, 1000);
 
     // Box x = new Box(100000, 10, 10);
     // x.setMaterial(new PhongMaterial(Color.GREEN));
@@ -63,7 +49,7 @@ public class TestGui extends Application {
     // y.setMaterial(new PhongMaterial(Color.BLUE));
     // Box z = new Box(10, 10, 100000);
     // z.setMaterial(new PhongMaterial(Color.RED));
-    // // p.getChildren().addAll(x, y, z);
+    // p.getChildren().addAll(x, y, z);
 
 
 
@@ -96,8 +82,12 @@ public class TestGui extends Application {
     GuiHand h2 = new GuiHand(primaryStage.widthProperty().multiply(0), 820, 1200, 0, -55, 0, null);
     GuiHand h3 = new GuiHand(primaryStage.widthProperty().multiply(1), 820, 1200, 0, 55, 0, null);
 
-    p.getChildren().addAll(h1, h2, h3);
     // p.getChildren().addAll(h1, h2, h3, trick1, trick2);
+
+    this.p = new Pane(h1, h2, h3);
+
+    Scene scene = new Scene(p, 1800, 1000, false, SceneAntialiasing.BALANCED);
+    primaryStage.setScene(scene);
 
     PerspectiveCamera cam = new PerspectiveCamera();
     cam.setTranslateY(-100);
@@ -106,9 +96,56 @@ public class TestGui extends Application {
     scene.setCamera(cam);
     primaryStage.show();
 
-    this.video(h1, h2, h3, trick1, trick2, trick3);
+    ImageView iv = new GuiCard(new Card(Suit.CLUBS, Value.ACE)).card.getImage();
+    p.getChildren().addAll(iv);
+
+    this.preSet(h1, h2, h3, trick1, trick2, trick3);
+
+
+    p.setOnMouseClicked(event -> {
+      System.out.println(" AS: " + event.getPickResult());
+      Node node = event.getPickResult().getIntersectedNode();
+      try {
+        if (node.getParent().getParent().equals(h1)) {
+          GuiCard card = (GuiCard) node.getParent();
+          this.playCard(h1, card);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+
+
+      // System.out.println(h1.getLayoutBounds().getMinX() + h1.getTranslateX());
+      // for (GuiCard gc : h1.getCards()) {
+      // ImageView iv = gc.card.getImage();
+      // if (iv.contains(event.getX(), event.getY())) {
+      // System.out.println(gc);
+      // }
+      // }
+      // for (GuiCard gc : h2.getCards()) {
+      // ImageView iv = gc.card.getImage();
+      // if (iv.contains(event.getX(), event.getY())) {
+      // System.out.println(gc);
+      // }
+      // }
+      // for (GuiCard gc : h3.getCards()) {
+      // ImageView iv = gc.card.getImage();
+      // if (iv.contains(event.getX(), event.getY())) {
+      // System.out.println(gc);
+      // }
+      // }
+    });
+
+
 
   }
+
+
+
+  /**
+   * @param h1
+   * @param card
+   */
 
 
   private void video(GuiHand h1, GuiHand h2, GuiHand h3, Parent p1, Parent p2, Parent p3) {
@@ -226,6 +263,44 @@ public class TestGui extends Application {
 
   }
 
+  private void preSet(GuiHand h1, GuiHand h2, GuiHand h3, Parent p1, Parent p2, Parent p3) {
+    Timeline timer = new Timeline();
+    int time = 2;
+    CardDeck d = new CardDeck();
+    timer.getKeyFrames().add(new KeyFrame(Duration.seconds(time++), e -> {
+
+      List<GuiCard> l1 = new ArrayList<GuiCard>();
+      List<GuiCard> l2 = new ArrayList<GuiCard>();
+      List<GuiCard> l3 = new ArrayList<GuiCard>();
+
+      int n = 6;
+      int j = 0;
+      for (int i = 0; i < n; i++) {
+        l1.add(new GuiCard(d.getCards()[j++]));
+        l2.add(new GuiCard(d.getCards()[j++]));
+        l3.add(new GuiCard(d.getCards()[j++]));
+      }
+
+      h1.addAll(l1);
+      h2.addAll(l2);
+      h3.addAll(l3);
+
+      System.out.println(h1.getLayoutBounds());
+
+    }));
+
+    timer.getKeyFrames().add(new KeyFrame(Duration.seconds(time++), e -> {
+
+      System.out.println(h1.getLayoutBounds());
+
+    }));
+
+
+
+    timer.play();
+
+  }
+
   private void sym(GuiHand h1, Parent p1, Parent p2, Parent p3) {
 
     Timeline timer = new Timeline();
@@ -255,35 +330,6 @@ public class TestGui extends Application {
 
     timer.getKeyFrames().add(new KeyFrame(Duration.seconds(i++),
         e -> h1.moveCardAndRemove(h1.getCards().get(2), p1, this.p)));
-
-
-    timer.getKeyFrames().add(new KeyFrame(Duration.seconds(i++ + 1), e -> {
-      GuiCard card = h1.getCards().get(2);
-      double xxx = card.localToScene(card.getBoundsInLocal()).getMinX();
-      double yyy = card.localToScene(card.getBoundsInLocal()).getMinY();
-      System.out.println(xxx);
-      System.out.println(yyy);
-
-      double xxx2 = p1.localToScene(p1.getBoundsInLocal()).getMinX();
-      double yyy2 = p1.localToScene(p1.getBoundsInLocal()).getMinY();
-      System.out.println(xxx2);
-      System.out.println(yyy2);
-
-      System.out.println(yyy2 - yyy);
-
-      System.out.println("card: " + card.getTranslateY());
-      System.out.println("p card: " + card.getParent().getTranslateY());
-      System.out.println("trick: " + p1.getTranslateY());
-      System.out.println("p trick: " + p1.getParent().getTranslateY());
-
-      System.out.println("card l y: " + card.getLayoutY());
-      System.out.println("p card l y: " + card.getParent().getLayoutY());
-      System.out.println("trick l y: " + p1.getLayoutY());
-      System.out.println("p trick l y: " + p1.getParent().getLayoutY());
-
-      Box b = new Box();
-
-    }));
 
     // timer.getKeyFrames()
     // .add(new KeyFrame(Duration.seconds(i++ + 1), e -> h1.remove(h1.getCards().get(2))));

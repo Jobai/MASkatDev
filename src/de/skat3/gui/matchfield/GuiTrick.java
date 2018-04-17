@@ -33,31 +33,30 @@ public class GuiTrick {
    * @param yr Rotate y.
    * @param zr Rotate z.
    */
-  public GuiTrick(DoubleBinding x, DoubleBinding y, DoubleBinding z, double xr, double yr,
-      double zr) {
+  public GuiTrick(DoubleBinding x, DoubleBinding y, double z, double xr, double yr, double zr) {
     this.cards = new GuiCard[3];
     this.postions = new Parent[3];
     this.postions[0] = new Parent() {};
     this.postions[1] = new Parent() {};
     this.postions[2] = new Parent() {};
 
-    this.postions[0].translateXProperty().bind(x.add(-150));
+    this.postions[0].translateXProperty().bind(x.add(-200));
     this.postions[0].translateYProperty().bind(y);
-    this.postions[0].translateZProperty().bind(z.add(-100));
+    this.postions[0].setTranslateZ(z - 100);
     this.postions[0].getTransforms().add(new Rotate(xr, Rotate.X_AXIS));
     this.postions[0].getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
     this.postions[0].getTransforms().add(new Rotate(zr - 30, Rotate.Z_AXIS));
 
     this.postions[1].translateXProperty().bind(x);
     this.postions[1].translateYProperty().bind(y.add(-1));
-    this.postions[1].translateZProperty().bind(z);
+    this.postions[1].setTranslateZ(z);
     this.postions[1].getTransforms().add(new Rotate(xr, Rotate.X_AXIS));
     this.postions[1].getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
     this.postions[1].getTransforms().add(new Rotate(zr, Rotate.Z_AXIS));
 
-    this.postions[2].translateXProperty().bind(x.add(200));
+    this.postions[2].translateXProperty().bind(x.add(250));
     this.postions[2].translateYProperty().bind(y.add(-2));
-    this.postions[2].translateZProperty().bind(z);
+    this.postions[2].setTranslateZ(z);
     this.postions[2].getTransforms().add(new Rotate(xr, Rotate.X_AXIS));
     this.postions[2].getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
     this.postions[2].getTransforms().add(new Rotate(zr + 30, Rotate.Z_AXIS));
@@ -70,23 +69,24 @@ public class GuiTrick {
    * @param card Card to be added to this trick.
    * @return A parent which functions as a container for all relevant positioning informations.
    */
-  public Parent add(GuiCard card) {
-    this.cards[index] = card;
-
-    if (index > 1) {
+  public synchronized Parent add(GuiCard card) {
+    if (index > 2) {
       this.clear();
     }
+    
+    this.cards[index] = card;
 
     return this.postions[index++];
   }
 
-  public void clear() {
+  public synchronized void clear() {
 
     for (GuiCard c : this.cards) {
       c.setVisible(false);
     }
 
     this.cards = new GuiCard[3];
+    this.index = 0;
 
   }
 

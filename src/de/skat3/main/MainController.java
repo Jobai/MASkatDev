@@ -12,6 +12,7 @@ import de.skat3.io.profile.Profile;
 import de.skat3.network.client.ClientLogicController;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
+import javafx.application.Platform;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import de.skat3.gamelogic.GameController;
@@ -24,7 +25,8 @@ public class MainController implements MainControllerInterface {
   private ClientLogicController clc;
   private GameServer gameServer;
   private GameClient gameClient;
-  public  Lobby currentLobby;
+  private GameController gameController;
+  public Lobby currentLobby;
 
   @Override
   public ArrayList<Lobby> getLocalHosts() {
@@ -99,8 +101,11 @@ public class MainController implements MainControllerInterface {
 
 
     Lobby lobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, name, password,
-        numberOfPlayers, timer, scoringMode);
-    this.gameServer = SkatMain.mainNetworkController.startLocalServer(lobby);
+        numberOfPlayers, timer, scoringMode, kontraRekontraEnabled);
+    this.currentLobby = lobby;
+    this.gameController =
+        new GameController(this.currentLobby.kontraRekontraEnabled, this.currentLobby.scoringMode);
+    this.gameServer = SkatMain.mainNetworkController.startLocalServer(lobby, this.gameController);
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
     this.clc = gameClient.getClc();
 
@@ -108,11 +113,8 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void playCard(Card card) {
-    Player player = new Player();
-    SkatMain.guiController.getInGameController().playCard(player.getUuid(), card);
+    SkatMain.guiController.getInGameController().playCard(player, card);
     SkatMain.lgs.addToTrick(card);
-    SkatMain.ioController.getProfileList();
-
   }
 
   @Override
@@ -135,8 +137,8 @@ public class MainController implements MainControllerInterface {
   public void exitGame() {
 
     clc.leaveGame();
-    //TODO go back to the menu
-    
+    // TODO go back to the menu
+
   }
 
 
@@ -148,14 +150,33 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void bidRequest(int bid) {
-    SkatMain.guiController.bidRequest(bid);
+    Platform.runLater(new Runnable() {
+
+      @Override
+      public void run() {
+        // TODO Auto-generated method stub
+        SkatMain.guiController.bidRequest(bid);
+
+
+      }
+    });
+
 
   }
 
 
   @Override
   public void showAuctionWinner(Player player) {
-    SkatMain.guiController.getInGameController().showAuctionWinner();
+    Platform.runLater(new Runnable() {
+
+      @Override
+      public void run() {
+        // TODO Auto-generated method stub
+        SkatMain.guiController.getInGameController().showAuctionWinner();
+
+
+      }
+    });
   }
 
 
@@ -165,7 +186,17 @@ public class MainController implements MainControllerInterface {
    */
   @Override
   public void handGameRequest() {
-    SkatMain.guiController.handGameRequest();
+    Platform.runLater(new Runnable() {
+
+      @Override
+      public void run() {
+        // TODO Auto-generated method stub
+        SkatMain.guiController.handGameRequest();
+
+
+      }
+    });
+
 
 
   }
@@ -173,7 +204,17 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void contractRequest() {
-    SkatMain.guiController.contractRequest();
+    Platform.runLater(new Runnable() {
+
+      @Override
+      public void run() {
+        // TODO Auto-generated method stub
+        SkatMain.guiController.contractRequest();
+
+
+      }
+    });
+
 
   }
 
@@ -184,18 +225,37 @@ public class MainController implements MainControllerInterface {
     SkatMain.guiController.getInGameController().showContract(contract, additionalMultipliers);
 
   }
-
+  
   @Override
   public void playCardRequest() {
     if (SkatMain.lgs.timerInSeconds > 0) {
       new Timer(SkatMain.lgs.timerInSeconds);
     }
-    SkatMain.guiController.getInGameController().makeAMove(true);
+    Platform.runLater(new Runnable() {
+
+        
+      @Override
+      public void run() {
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        SkatMain.mainController.playCard(SkatMain.lgs.localClient.getHand().cards[0]);
+        System.out.println(SkatMain.lgs.localClient.getHand().cards[0]);
+        clc.playAnswer(SkatMain.lgs.localClient.getHand().cards[0]);
+        //SkatMain.guiController.getInGameController().makeAMove(true);
+
+
+      }
+    });
+
 
   }
 
   @Override
   public void showResults(Result result) {
+    System.out.println(result.displayCalculation);
     SkatMain.guiController.getInGameController().showResults(result);
 
   }
@@ -248,7 +308,7 @@ public class MainController implements MainControllerInterface {
   public void addProfile(Profile profile) {
     SkatMain.ioController.addProfile(profile);
   }
-  
+
 
   public void editProfile(Profile profile, String name, Image image) {
     SkatMain.ioController.editProfile(profile, name, image);
@@ -262,11 +322,10 @@ public class MainController implements MainControllerInterface {
   public void startGame() {
     SkatMain.lgs = new LocalGameState(this.currentLobby.numberOfPlayers,
         this.currentLobby.getPlayers(), this.currentLobby.timer);
-    GameController gameController = new GameController(this.gameServer.getSeverLogicController(),
-        this.currentLobby.getPlayers(), this.currentLobby.kontraRekontraEnabled,
-        this.currentLobby.scoringMode);
     this.gameServer.setGameMode(1);
-    gameController.startGame();
+    this.gameController.setPlayers(this.currentLobby.players);
+    this.gameController.setSlc(this.gameServer.getSeverLogicController());
+    this.gameController.startGame();
 
   }
 

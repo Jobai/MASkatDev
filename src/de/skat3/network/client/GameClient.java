@@ -126,6 +126,8 @@ public class GameClient {
     logger.info("Handeling!");
 
     CommandType ct = (CommandType) st;
+    System.out.println(ct.toString());
+    System.out.println(st.toString());
     switch (ct) {
       case BID_INFO:
         clh.bidInfoHandler(m);
@@ -159,6 +161,15 @@ public class GameClient {
         break;
       case GAME_INFO:
         clh.gameInfoHandler(m);
+        break;
+      case HAND_REQUEST:
+        clh.handRequestHandler(m);
+        break;
+      case CONTRACT_REQUEST:
+        clh.contractRequestHandler(m);
+        break;
+      case SKAT_INFO_REQUEST:
+        clh.skatRequestHandler(m);
         break;
       default:
         throw new AssertionError();

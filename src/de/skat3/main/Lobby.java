@@ -20,22 +20,24 @@ public class Lobby {
   /**
    * 
    * @param ip
+   * @param serverMode
    * @param name
    * @param password
    * @param numberOfPlayers
-   * @param players
    * @param timer
-   * @param mode
+   * @param scoringMode
+   * @param kontraRekontraEnabled
    */
 
   public Lobby(Inet4Address ip, int serverMode, String name, String password, int numberOfPlayers,
       int timer, int scoringMode, boolean kontraRekontraEnabled) {
+    this.numberOfPlayers = numberOfPlayers;
+    this.players = new Player[this.numberOfPlayers];
     this.ip = ip;
     this.serverMode = serverMode;
     this.currentPlayers = 1;
     this.name = name;
     this.password = password;
-    this.numberOfPlayers = numberOfPlayers;
     this.scoringMode = scoringMode;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
 
@@ -47,13 +49,11 @@ public class Lobby {
   }
 
   public void addPlayer(Player player) {
-    int current = 0;
     for (int i = 0; i < this.numberOfPlayers; i++) {
       if (this.players[i] == null) {
-        current = i;
+        this.players[i] = player;
         break;
       }
-      this.players[current] = player;
     }
   }
 
@@ -63,6 +63,14 @@ public class Lobby {
         this.players[i] = null;
       }
     }
+  }
+  
+  public Inet4Address getIp(){
+    return this.ip;
+  }
+
+  public Inet4Address getIp() {
+    return this.ip;
   }
 
   public int getMaximumNumberOfPlayers() {

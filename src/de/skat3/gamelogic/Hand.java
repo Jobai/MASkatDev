@@ -22,7 +22,7 @@ public class Hand implements Serializable {
   }
 
 
-  Card[] getCards() {
+  public Card[] getCards() {
     return this.cards;
   }
 
