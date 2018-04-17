@@ -40,18 +40,6 @@ public class Card implements Serializable {
     this.view = "cardImages/" + this.getUrl() + ".png";
 
 
-<<<<<<< Updated upstream
-
-=======
-    String imageUrl = "cardImages/" + this.getUrl() + ".png";
-
-    this.viewFront = new ImageView(new Image(imageUrl));
-//    this.viewBack = new ImageView(new Image("cardImage/green_back.png"));
-  }
-
-  public ImageView getImage() {
-    return this.viewFront;
->>>>>>> Stashed changes
   }
 
   public ImageView getImage() {

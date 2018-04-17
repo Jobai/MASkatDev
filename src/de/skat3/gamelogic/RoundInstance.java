@@ -66,7 +66,6 @@ public class RoundInstance {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    System.out.println("RESULT");
     this.slc.broadcastRoundResult(new Result(this));
   }
 
@@ -87,17 +86,6 @@ public class RoundInstance {
     for (int i = 0; i < players.length; i++) {
       System.out.println("Aufgerufen, Logik");
       slc.sendStartHandtoPlayer(this.players[i]);
-    }
-
-  }
-
-  private void sortCards(Contract c) {
-    for (int i = 0; i < this.players.length; i++) {
-      if (c == null) {
-        this.players[i].hand.sort();
-      } else {
-        this.players[i].hand.sort(c);
-      }
     }
 
   }

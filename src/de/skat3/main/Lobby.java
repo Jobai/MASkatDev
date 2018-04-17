@@ -59,7 +59,7 @@ public class Lobby {
 
   public void removePlayer(Player player) {
     for (int i = 0; i < this.numberOfPlayers; i++) {
-      if (this.players[i].getUuid() == player.getUuid()) {
+      if (this.players[i].equals(player)) {
         this.players[i] = null;
       }
     }
@@ -69,9 +69,6 @@ public class Lobby {
     return this.ip;
   }
 
-  public Inet4Address getIp() {
-    return this.ip;
-  }
 
   public int getMaximumNumberOfPlayers() {
     return this.numberOfPlayers;

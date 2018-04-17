@@ -3,6 +3,8 @@ package de.skat3.gamelogic;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
+import de.skat3.io.profile.Profile;
+import javafx.scene.image.Image;
 
 public class Player implements Serializable {
 
@@ -11,19 +13,22 @@ public class Player implements Serializable {
    */
   private static final long serialVersionUID = -4721822427911236663L;
   boolean isSolo;
+  String name;
+  Image image;
   Hand hand;
   ArrayList<Card> wonTricks;
   Position position;
-  @Deprecated
   private UUID uuid;
   int points;
   int wonGames;
   int lostGames;
 
-  public Player() {
-    
+  public Player(Profile profile) {
+
+    this.name = profile.getName();
     this.wonTricks = new ArrayList<Card>();
-    this.uuid = UUID.randomUUID();
+    //this.uuid = profile.getUuid(); // ???? TODO
+    this.image = profile.getImage();
     this.points = 0;
     this.wonGames = 0;
     this.lostGames = 0;

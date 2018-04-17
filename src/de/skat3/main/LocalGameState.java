@@ -58,7 +58,7 @@ public class LocalGameState {
     this.trickcount = (trickcount + 1) % 3;
   }
 
-  public Card[] getHand() {
+  public Card[] getLocalHand() {
     return this.localClient.getHand().cards;
   }
 
