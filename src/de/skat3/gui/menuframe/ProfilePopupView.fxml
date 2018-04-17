@@ -20,19 +20,14 @@
 	<children>
 		<ImageView fx:id="profileImage" fitHeight="183.0"
 			fitWidth="196.0" layoutX="159.0" layoutY="79.0" pickOnBounds="true"
-			preserveRatio="true">
-			<image>
-				<Image
-					url="@../../../../../resources/guifiles/dummy_avatar.jpg" />
-			</image>
-		</ImageView>
+			preserveRatio="true" />
 		<Button layoutX="88.0" layoutY="382.0" mnemonicParsing="false"
 			onAction="#handleSaveProfile" prefHeight="45.0" prefWidth="324.0"
 			style="-fx-background-color: linear-gradient(#f00000, #d60202);"
 			text="Save" textFill="WHITE" />
 		<Button layoutX="159.0" layoutY="262.0" mnemonicParsing="false"
-			onAction="#handleChangeProfilePic" prefHeight="25.0"
-			prefWidth="183.0" text="Change" />
+			onAction="#handleChangeProfilePic" prefHeight="27.0"
+			prefWidth="196.0" text="Change" />
 		<TextField fx:id="profileName" alignment="CENTER"
 			layoutX="88.0" layoutY="316.0" prefHeight="44.0" prefWidth="324.0"
 			promptText="Name">

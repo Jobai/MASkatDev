@@ -1,23 +1,27 @@
 package de.skat3.io.profile;
 
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Base64;
+import javax.imageio.ImageIO;
 import javafx.embed.swing.JFXPanel;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelFormat;
 
 public class ImageConverter {
 
-  public String imageToEncodedString(Image image) {
+  public String imageToEncodedString(Image image, String imageFormat) {
     if (image == null) {
       System.out.println("Image == null");
       return "";
     } else {
-      byte[] imageToBytes = imageToBytes(image);
+      byte[] imageToBytes = imageToBytes(image, imageFormat);
       String encoded = Base64.getEncoder().encodeToString(imageToBytes);
       return encoded;
     }
@@ -28,14 +32,42 @@ public class ImageConverter {
     return bytesToImage(decoded);
   }
 
-  private byte[] imageToBytes(Image image) {
-    int w = (int) image.getWidth();
-    int h = (int) image.getHeight();
-    byte[] buf = new byte[w * h * 4];
-    image.getPixelReader().getPixels(0, 0, w, h, PixelFormat.getByteBgraInstance(), buf, 0, w * 4);
-
-    return buf;
+  private byte[] imageToBytes(Image image, String imageFormat) {
+    BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+    ByteArrayOutputStream s = new ByteArrayOutputStream();
+    byte[] res = null;
+    try {
+      ImageIO.write(bImage, imageFormat, s);
+      res = s.toByteArray();
+      s.close();
+    } catch (IOException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+    return res;
   }
+
+  // ByteArrayInputStream bai = new ByteArrayInputStream(pByte);
+  // ContentHandler contenthandler = new BodyContentHandler();
+  // Metadata metadata = new Metadata();
+  // Parser parser = new AutoDetectParser();
+  // try {
+  // parser.parse(bai, contenthandler, metadata);
+  //
+  // } catch (IOException e) {
+  // // TODO Auto-generated catch block
+  // e.printStackTrace();
+  // } catch (SAXException e) {
+  // // TODO Auto-generated catch block
+  // e.printStackTrace();
+  // } catch (TikaException e) {
+  // // TODO Auto-generated catch block
+  // e.printStackTrace();
+  // }
+  // System.out.println("Mime: " + metadata.get(Metadata.CONTENT_TYPE));
+  // return metadata.get(Metadata.CONTENT_TYPE);
+
+
 
   private Image bytesToImage(byte[] decoded) {
     JFXPanel panel = new JFXPanel();

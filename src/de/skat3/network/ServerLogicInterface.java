@@ -14,9 +14,9 @@ import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 
 /**
- * Handles all calls of the gamelogic to the server, so clients are notified.
- * called by Logic.
- * @author Jonas Bauer 
+ * Handles all calls of the gamelogic to the server, so clients are notified. called by Logic.
+ * 
+ * @author Jonas Bauer
  * 
  */
 public interface ServerLogicInterface {
@@ -39,8 +39,7 @@ public interface ServerLogicInterface {
 
   public void broadcastTrickResult(Object oj);
 
-  public void broadcastRoundResult(Object oj);
-
+  public void broadcastMatchResult(Object oj);
 
 
   public void callForHandOption(Player p);

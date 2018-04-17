@@ -11,19 +11,19 @@ import java.util.Arrays;
 
 public class LocalGameState {
 
-  boolean gameActive;
-  int gameId;
-  int timerInSeconds;
-  Contract contract;
-  AdditionalMultipliers additionalMultipliers;
-  int trickcount;
-  Player localClient;
-  Player enemyOne;
-  Player enemyTwo;
-  Player dealer;
-  Card[] trick;
-  Card[] skat;
-  ObservableList<String> chatMessages;
+  public boolean gameActive;
+  public int gameId;
+  public int timerInSeconds;
+  public Contract contract;
+  public AdditionalMultipliers additionalMultipliers;
+  public int trickcount;
+  public Player localClient;
+  public Player enemyOne;
+  public Player enemyTwo;
+  public Player dealer;
+  public Card[] trick;
+  public Card[] skat;
+  public ObservableList<String> chatMessages;
 
   /**
    * The current state of a game.
@@ -58,7 +58,7 @@ public class LocalGameState {
     this.trickcount = (trickcount + 1) % 3;
   }
 
-  public Card[] getHand() {
+  public Card[] getLocalHand() {
     return this.localClient.getHand().cards;
   }
 

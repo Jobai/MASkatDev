@@ -2,11 +2,9 @@
  * SKAT_3_Eclipse
  *
  * @author Jonas Bauer
- * @version 1.0
- * 10.04.2018
+ * @version 1.0 10.04.2018
  * 
- * (c) 2018 All Rights Reserved. 
- * -------------------------
+ *          (c) 2018 All Rights Reserved. -------------------------
  */
 package de.skat3.network;
 
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
+import de.skat3.main.SkatMain;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
 
@@ -25,50 +24,57 @@ import de.skat3.network.server.GameServer;
 public class MainNetworkController implements MainNetworkInterface {
 
 
- 
 
-
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.skat3.network.MainNetworkInterface#joinServerAsClient(de.skat3.main.Lobby)
    */
   @Override
   public GameClient joinServerAsClient(Lobby lobby) {
     // TODO Auto-generated method stub
-    
+
     Inet4Address ip = lobby.getIp();
-    GameClient gc = new GameClient(ip.getHostAddress(), 2018, new Player()); //FIXME
+    GameClient gc = new GameClient(ip.getHostAddress(), 2018,
+        new Player(SkatMain.ioController.getLastUsedProfile())); // FIXME
     return gc;
 
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.skat3.network.MainNetworkInterface#startLocalServer(java.lang.Object)
    */
   @Override
   public GameServer startLocalServer(Lobby lobbysettings, GameController gameController) {
-    //TODO Add LobbyServer
-    
-    //GameServer
-    
-    GameServer gs = new GameServer(lobbysettings,gameController);
-    
+    // TODO Add LobbyServer
+
+    // GameServer
+
+    GameServer gs = new GameServer(lobbysettings, gameController);
+
     return gs;
     // TODO Auto-generated method stub
 
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.skat3.network.MainNetworkInterface#joinLocalServerAsClient()
    */
   @Override
   public GameClient joinLocalServerAsClient() {
-    GameClient gc = new GameClient("localhost", 2018, new Player()); //FIXME
+    GameClient gc = new GameClient("localhost", 2018, new Player()); // FIXME
     return gc;
     // TODO Auto-generated method stub
 
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.skat3.network.MainNetworkInterface#addAItoLocalServer(boolean)
    */
   @Override
@@ -78,7 +84,9 @@ public class MainNetworkController implements MainNetworkInterface {
   }
 
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.skat3.network.MainNetworkInterface#discoverServer()
    */
   @Override
@@ -87,7 +95,9 @@ public class MainNetworkController implements MainNetworkInterface {
     return null;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.skat3.network.MainNetworkInterface#leaveLobby()
    */
 
@@ -95,9 +105,9 @@ public class MainNetworkController implements MainNetworkInterface {
   @Override
   public GameServer playAndHostSinglePlayer() {
     // TODO Auto-generated method stub
-    GameServer gs = new GameServer(null); //FIXME
-    GameClient gc = new GameClient("localhost", 2018, new Player()); //FIXME
-    
+    GameServer gs = new GameServer(null); // FIXME
+    GameClient gc = new GameClient("localhost", 2018, new Player()); // FIXME
+
     return null;
   }
 
@@ -107,5 +117,5 @@ public class MainNetworkController implements MainNetworkInterface {
     return null;
   }
 
-  
+
 }

@@ -40,7 +40,6 @@ public class Card implements Serializable {
     this.view = "cardImages/" + this.getUrl() + ".png";
 
 
-
   }
 
   public ImageView getImage() {

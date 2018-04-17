@@ -32,7 +32,7 @@ public interface MainControllerInterface {
   
   public void startGame();
 
-  public void playCard(Card card);
+  public void playCard(Player player, Card card);
 
   public void sendMessage(String message);
 
@@ -67,5 +67,7 @@ public interface MainControllerInterface {
   public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers);
 
   public void handGameSelected(boolean accepted);
+
+  
 
 }

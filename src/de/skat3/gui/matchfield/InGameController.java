@@ -7,6 +7,7 @@ import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Result;
 import de.skat3.main.LocalGameState;
+import de.skat3.main.SkatMain;
 import javafx.util.Duration;
 
 /**
@@ -29,6 +30,15 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void startRound() {
+
+    this.matchfield.playerHand.clear();
+    this.matchfield.leftHand.clear();
+    this.matchfield.leftHand.clear();
+
+    this.matchfield.playerHand.addAll(SkatMain.lgs.localClient.getHand().getCards());
+    this.matchfield.leftHand.addAll(SkatMain.lgs.enemyOne.getHand().getCards());
+    this.matchfield.leftHand.addAll(SkatMain.lgs.enemyTwo.getHand().getCards());
+
     // TODO Auto-generated method stub
 
   }
@@ -108,6 +118,9 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void makeAMove(boolean value) {
+    
+ 
+    
     // TODO Auto-generated method stub
 
   }
@@ -137,6 +150,5 @@ public class InGameController implements InGameControllerInterface {
     // TODO Auto-generated method stub
 
   }
-
 
 }

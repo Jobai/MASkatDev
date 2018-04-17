@@ -152,6 +152,7 @@ public class ServerLogicController implements ServerLogicInterface {
         new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.ROUND_END_INFO);
     mc.payload = result;
     gs.broadcastMessage(mc);
+    System.out.println("Round out");
   }
 
   /*
@@ -165,7 +166,7 @@ public class ServerLogicController implements ServerLogicInterface {
 
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.MATCH_INFO);
     mc.gameState = oj; // FIXME
-
+    System.out.println("Match out");
     gs.broadcastMessage(mc);
 
   }
@@ -208,4 +209,7 @@ public class ServerLogicController implements ServerLogicInterface {
     gs.broadcastMessage(mc);
   }
 
-}
+
+
+  }
+

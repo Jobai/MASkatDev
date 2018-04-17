@@ -11,7 +11,7 @@ public interface IoInterface {
 
   public void addProfile(Profile profile);
 
-  public void editProfile(Profile profile, String name, Image image);
+  public void editProfile(Profile profile, String name, Image image, String imageFormat);
 
   public boolean deleteProfile(Profile profile);
 

@@ -30,9 +30,9 @@ public class Profile {
     reader.setLastUsedProfile(this);
   }
 
-  public Profile(String name, Image image) {
+  public Profile(String name, Image image, String imageFormat) {
     this.name = name;
-    this.setImage(image);
+    this.setImage(image, imageFormat);
     reader.setLastUsedProfile(this);
   }
 
@@ -52,10 +52,10 @@ public class Profile {
     return image;
   }
 
-  public void setImage(Image image) {
+  public void setImage(Image image, String imageFormat) {
     ImageConverter adapter = new ImageConverter();
     this.image = image;
-    this.encodedImage = adapter.imageToEncodedString(image);
+    this.encodedImage = adapter.imageToEncodedString(image, imageFormat);
   }
 
   public void setImageFromEncodedString() {
