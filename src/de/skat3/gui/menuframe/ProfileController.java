@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -91,7 +90,6 @@ public class ProfileController {
 
     File file = fileChooser.showOpenDialog(new Stage());
     if (file != null) {
-      System.out.println(file.getPath());
       Image i = new Image(file.toURI().toString());
       profileImage.setImage(i);
     }

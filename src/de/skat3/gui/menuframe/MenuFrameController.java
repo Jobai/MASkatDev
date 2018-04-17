@@ -230,16 +230,8 @@ public class MenuFrameController {
     this.statsMenu = new StatsMenu();
     this.optionsMenu = new OptionsMenu();
 
-    // Stage s = (Stage) mainPane.getScene().getWindow();
-    // System.out.println(s.widthProperty());
-    // this.backgroundImage.fitWidthProperty().bind( s.widthProperty() );
-    // this.backgroundImage.fitHeightProperty().bind( s.heightProperty());
-    // code first initilizing of the singleplayer without an animation when the
-    // programm starts.
-
-
     fillProfileMenu();
-
+    setCurrentProfile(allProfile.get(0));
   }
 
   private void fillProfileMenu() {
@@ -247,6 +239,11 @@ public class MenuFrameController {
     profileMenuButton.getItems().clear();
 
     allProfile = SkatMain.ioController.getProfileList();
+    if (allProfile.isEmpty()) {
+      openProfile(null);
+      return;
+    }
+
 
     for (Profile profile : allProfile) {
       Label l1 = new Label(profile.getName());
@@ -283,7 +280,7 @@ public class MenuFrameController {
   }
 
   public void handleMouseClickProfileMenu() {
-    openProfile(null);
+    openProfile(currentProfile);
   }
 
   private void openProfile(Profile p) {
@@ -300,7 +297,6 @@ public class MenuFrameController {
 
     ProfileController profileController = fxmlLoader.getController();
     profileController.setProfile(p);
-    // profileController.setProfileToScreen();
     profileController.setStage(stage);
 
     if (p == null) {
@@ -314,7 +310,7 @@ public class MenuFrameController {
   }
 
   public void handleMouseClickAddProfile() {
-
+    // TODO del
   }
 
   private void setCurrentProfile(Profile p) {
