@@ -113,10 +113,8 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void playCard(Card card) {
-    Player player = new Player();
-    //SkatMain.guiController.getInGameController().playCard(player.getUuid(), card);
+    SkatMain.guiController.getInGameController().playCard(player, card);
     SkatMain.lgs.addToTrick(card);
-
   }
 
   @Override

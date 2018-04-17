@@ -10,6 +10,7 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
@@ -26,7 +27,7 @@ import javafx.util.Duration;
  */
 public class GuiHand extends Parent {
 
-  private ObservableList<GuiCard> cards;
+  private ObservableList<GuiCard> cards = FXCollections.observableArrayList();
 
   /**
    * Gui represetation of a hand of cards.
@@ -63,13 +64,11 @@ public class GuiHand extends Parent {
    * @return
    */
   public GuiCard getGuiCard(Card card) {
-
     for (GuiCard c : this.cards) {
       if (c.card.equals(card)) {
         return c;
       }
     }
-
     return null;
   }
 
@@ -110,6 +109,17 @@ public class GuiHand extends Parent {
   }
 
   /**
+   * Add all cards to this hand.
+   * 
+   * @param cards Cards to be added.
+   */
+  public void addAll(Card[] cards) {
+    for (Card card : cards) {
+      this.add(new GuiCard(card));
+    }
+  }
+
+  /**
    * Remove a card from this hand.
    * 
    * @param oldCard Card to remove.
@@ -118,6 +128,12 @@ public class GuiHand extends Parent {
     this.cards.remove(oldCard);
     this.getChildren().remove(oldCard);
     this.resetPositions();
+  }
+
+  public void clear() {
+    for (GuiCard c : this.cards) {
+      this.remove(c);
+    }
   }
 
   /**
@@ -264,8 +280,8 @@ public class GuiHand extends Parent {
    */
   public void raiseCard(GuiCard card, boolean raise, boolean underneathPos, boolean hoverPositon,
       boolean showAnimation) {
-    Parent[] positions =
-        caculateCardPostions(this.cards.size(), this.cards.get(0).card.getImage().getFitWidth(), 0, 0, 0);
+    Parent[] positions = caculateCardPostions(this.cards.size(),
+        this.cards.get(0).card.getImage().getFitWidth(), 0, 0, 0);
     int cardIndex = this.cards.indexOf(card);
 
     double y = -100;
@@ -364,5 +380,4 @@ public class GuiHand extends Parent {
 
     return postions;
   }
-
 }
