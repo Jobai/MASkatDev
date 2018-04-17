@@ -1,12 +1,22 @@
 package de.skat3.main;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Inet4Address;
 import de.skat3.gamelogic.Player;
 
-public class Lobby {
+public class Lobby implements Serializable{
 
 
   String name;
+ 
+
   String password;
   int numberOfPlayers;
   int currentPlayers;
@@ -44,6 +54,12 @@ public class Lobby {
 
   }
 
+  public Lobby() {
+    // TODO Auto-generated constructor stub
+  }
+
+  
+
   public Player[] getPlayers() {
     return this.players;
   }
@@ -64,8 +80,8 @@ public class Lobby {
       }
     }
   }
-  
-  public Inet4Address getIp(){
+
+  public Inet4Address getIp() {
     return this.ip;
   }
 
@@ -77,4 +93,51 @@ public class Lobby {
   public int getCurrentNumberOfPlayers() {
     return this.currentPlayers;
   }
+
+  /**
+   * Converts the lobby object to a byte array. <br>
+   * Used for datagrams used during lobby discovery.
+   * 
+   * @author Jonas Bauer
+   * @param lobby Lobby object for the conversion
+   * @return byte array (converted lobby object)
+   */
+  public byte[] convertToByteArray(Lobby lobby) {
+    try (ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ObjectOutput oOut = new ObjectOutputStream(os)) {
+      oOut.writeObject(lobby);
+      return os.toByteArray();
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.err.println("ERROR during conversion to Bytes! - See Lobby Class");
+    }
+    return null;
+  }
+
+  /**
+   * Converts the byte array back to a lobby object. <br>
+   * Used for datagrams used during lobby discovery.
+   * 
+   * @author Jonas Bauer
+   * @param byteArray for conversion
+   * @return lobby object (converted back from bytes)
+   */
+  public Lobby convertFromByteArray(byte[] byteArray) {
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
+        ObjectInput oIn = new ObjectInputStream(bais)) {
+      return (Lobby) oIn.readObject();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return null;
+  }
+  
+  public String getName() {
+    return name;
+  }
+
 }

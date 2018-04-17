@@ -15,6 +15,7 @@ import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
 import de.skat3.network.client.GameClient;
+import de.skat3.network.client.LobbyDiscover;
 import de.skat3.network.server.GameServer;
 
 /**
@@ -92,7 +93,16 @@ public class MainNetworkController implements MainNetworkInterface {
   @Override
   public ArrayList<Lobby> discoverServer() {
     // TODO Auto-generated method stub
-    return null;
+    LobbyDiscover ld = new LobbyDiscover();
+    ld.start();
+    try {
+      wait(10000);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    return ld.lobbyList;
   }
 
   /*
