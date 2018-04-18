@@ -27,7 +27,12 @@ public class ImageConverter {
   }
 
   public Image encodedStringToImage(String encoded) {
-    byte[] decoded = Base64.getDecoder().decode(encoded);
+    byte[] decoded;
+    try {
+      decoded = Base64.getDecoder().decode(encoded);
+    } catch (NullPointerException ex) {
+      return null;
+    }
     return bytesToImage(decoded);
   }
 
