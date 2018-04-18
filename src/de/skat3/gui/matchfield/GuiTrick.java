@@ -84,6 +84,7 @@ public class GuiTrick {
         mainAxisLength = maxMainAxisLength;
       }
       this.translateXOne.set(mainAxisLength / 2);
+      
     }
 
   }
