@@ -167,6 +167,4 @@ public class GuiController implements GuiInterface {
     GameResultViewController gameResultViewController = fxmlLoader.getController();
     stage.show();
   }
-  }
-
 }

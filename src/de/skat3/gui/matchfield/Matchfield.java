@@ -125,7 +125,7 @@ public class Matchfield {
    * @param playerHand2
    * @param card
    */
-  private synchronized void playCard(GuiHand hand, GuiCard card) {
+  protected synchronized void playCard(GuiHand hand, GuiCard card) {
     hand.moveCardAndRemove(card, this.trick.add(card), this.table);
   }
 

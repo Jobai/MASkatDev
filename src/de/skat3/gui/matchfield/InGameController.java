@@ -74,29 +74,9 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void playCard(Player owner, Card card) {
-    GuiHand playingHand;
-    switch (0) {
-      case 0:
-        playingHand = this.matchfield.playerHand;
-        break;
-      case 1:
-        playingHand = this.matchfield.leftHand;
-        break;
-      case 2:
-        playingHand = this.matchfield.rightHand;
-        break;
-      default:
-        try {
-          throw new Exception("Unknown hand");
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-        return;
-    }
-
+    GuiHand playingHand = this.matchfield.getHand(owner);
     GuiCard guiCard = playingHand.getGuiCard(card);
-    // playingHand.moveCard(guiCard, this.matchfield.trick.add(guiCard));
-
+    this.matchfield.playCard(playingHand, guiCard);
   }
 
 
