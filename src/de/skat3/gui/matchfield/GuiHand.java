@@ -39,13 +39,13 @@ public class GuiHand extends Parent {
    * @param yr Rotate y.
    * @param zr Rotate z.
    */
-  public GuiHand(DoubleBinding x, double y, double z, double xr, double yr, double zr,
+  public GuiHand(DoubleBinding x, DoubleBinding y, DoubleBinding z, double xr, double yr, double zr,
       List<GuiCard> cards) {
     this.cards = FXCollections.observableArrayList();
     // this.setTranslateX(x);
     this.translateXProperty().bind(x);
-    this.setTranslateY(y);
-    this.setTranslateZ(z);
+    this.translateYProperty().bind(y);
+    this.translateZProperty().bind(z);
     this.getTransforms().add(new Rotate(xr, Rotate.X_AXIS));
     this.getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
     this.getTransforms().add(new Rotate(zr, Rotate.Z_AXIS));
@@ -145,12 +145,17 @@ public class GuiHand extends Parent {
     return FXCollections.unmodifiableObservableList(this.cards);
   }
 
-  private synchronized void resetPositions() {
+  protected synchronized void resetPositions() {
     if (this.getChildren().isEmpty()) {
       return;
     }
-    Parent[] newPositions = caculateCardPostions(this.getChildren().size(),
-        this.cards.get(0).card.getImage().getFitWidth(), 0, 0, 0);
+    // double width = this.getScene().getWidth() / 7;
+    // double height = width * 1.52821997106;
+    double width = 200;
+    double height = 300;
+
+
+    Parent[] newPositions = caculateCardPostions(this.getChildren().size(), width, 0, 0, 0);
 
     Duration time = Matchfield.animationTime;
 
@@ -158,6 +163,9 @@ public class GuiHand extends Parent {
     for (Node child : this.getChildren()) {
 
       GuiCard card = (GuiCard) child;
+
+      card.card.getImage().setFitWidth(width);
+      card.card.getImage().setFitHeight(height);
 
       TranslateTransition cordsAni = new TranslateTransition();
       cordsAni.setNode(card);
@@ -207,29 +215,54 @@ public class GuiHand extends Parent {
    * @param targetPos Parent from which the transitions and rotations are getted.
    * 
    */
-  public void moveCardAndRemove(GuiCard card, Parent targetPos, Pane root) {
+  public synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Pane root) {
     Transform t = card.getLocalToSceneTransform();
+    Affine sourceTr = new Affine(t);
+
     this.remove(card);
     card.getTransforms().clear();
-    Affine a = new Affine(t);
-    card.getTransforms().add(a);
+    card.setTranslateX(0);
+    card.setTranslateY(0);
+    card.setTranslateZ(0);
+
+    card.getTransforms().add(sourceTr);
+
     root.getChildren().add(card);
 
     Duration time = Matchfield.animationTime;
     Timeline timeline = new Timeline();
-    Transform trans = targetPos.getLocalToSceneTransform();
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.txProperty(), trans.getTx())));
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.tyProperty(), trans.getTy())));
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.tzProperty(), trans.getTz())));
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.mxxProperty(), trans.getMxx())));
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.mxyProperty(), trans.getMxy())));
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.mxzProperty(), trans.getMxz())));
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.myxProperty(), trans.getMyx())));
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.myyProperty(), trans.getMyy())));
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.myzProperty(), trans.getMyz())));
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.mzxProperty(), trans.getMzx())));
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.mzyProperty(), trans.getMzy())));
-    timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.mzzProperty(), trans.getMzz())));
+    Transform tarTr = targetPos.getLocalToSceneTransform();
+
+    System.out.println(targetPos.getTranslateX() + " = " + tarTr.getTx());
+
+    tarTr.setOnTransformChanged(e -> {
+      System.out.println(tarTr.getTx());
+    });
+
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.txProperty(), tarTr.getTx())));
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.tyProperty(), tarTr.getTy())));
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.tzProperty(), tarTr.getTz())));
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.mxxProperty(), tarTr.getMxx())));
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.mxyProperty(), tarTr.getMxy())));
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.mxzProperty(), tarTr.getMxz())));
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.myxProperty(), tarTr.getMyx())));
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.myyProperty(), tarTr.getMyy())));
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.myzProperty(), tarTr.getMyz())));
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.mzxProperty(), tarTr.getMzx())));
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.mzyProperty(), tarTr.getMzy())));
+    timeline.getKeyFrames()
+        .add(new KeyFrame(time, new KeyValue(sourceTr.mzzProperty(), tarTr.getMzz())));
 
     timeline.play();
   }
@@ -340,9 +373,10 @@ public class GuiHand extends Parent {
    * @return Array of postions and angles. int[n][0] = x cordinate. int[n][1] y cordiante. int[n][3]
    *         angle.
    */
-  private static Parent[] caculateCardPostions(int size, double objectWidth, double xoffset,
+  private Parent[] caculateCardPostions(int size, double objectWidth, double xoffset,
       double yoffset, double zoffset) {
-    double maxHandWidth = 1000;
+    // double maxHandWidth = 1000;
+    double maxHandWidth = this.getScene().getWidth() / 2;
     if (maxHandWidth > objectWidth * (size - 1) / 1.3) {
       maxHandWidth = objectWidth * (size - 1) / 1.3;
     }

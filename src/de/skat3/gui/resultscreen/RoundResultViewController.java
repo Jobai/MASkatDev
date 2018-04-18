@@ -7,6 +7,6 @@ package de.skat3.gui.resultscreen;
  * Controller class to handle the events of the result screen.
  *
  */
-public class ResultViewController {
+public class RoundResultViewController {
 
 }

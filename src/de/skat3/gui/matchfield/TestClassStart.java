@@ -37,9 +37,11 @@ public class TestClassStart extends Application {
     m.playerHand.addAll(l1);
     m.leftHand.addAll(l2);
     m.rightHand.addAll(l3);
-
-
+   
+    
     primaryStage.setScene(m.getScene());
+//    primaryStage.setMinWidth(1280);
+//    primaryStage.setMinHeight(720);
     primaryStage.show();
   }
 

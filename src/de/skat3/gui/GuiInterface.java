@@ -14,5 +14,9 @@ public interface GuiInterface {
   public boolean handGameRequest();
   
   public void showWrongPassword();
+  
+  public void showRoundResult();
+  
+  public void showGameResult();
 
 }

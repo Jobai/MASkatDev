@@ -11,6 +11,9 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -33,7 +36,7 @@ public class Matchfield {
   protected GuiHand leftHand;
   protected GuiHand rightHand;
   protected GuiTrick trick;
-  public static Duration animationTime = Duration.seconds(0.2);
+  public static Duration animationTime = Duration.seconds(1);
 
   /**
    * Links a LocalGameState to this Matchfield.
@@ -46,9 +49,9 @@ public class Matchfield {
 
     // this.controller = new InGameController(this.gameState, this);
 
+    double sceneWidth = 1280;
+    double sceneHeight = 720;
     this.table = new Pane();
-    double sceneWidth = 1800;
-    double sceneHeight = 1000;
     this.scene = new Scene(this.table, sceneWidth, sceneHeight, false, SceneAntialiasing.BALANCED);
 
     this.iniComponents();
@@ -63,20 +66,40 @@ public class Matchfield {
    * 
    */
   private void iniComponents() {
-    this.playerHand = new GuiHand(this.table.getScene().widthProperty().divide(2).multiply(0.9),
-        720, -200, -20, 0, 0, null);
-    this.leftHand =
-        new GuiHand(this.table.getScene().widthProperty().multiply(0), 820, 1200, 0, -55, 0, null);
-    this.rightHand =
-        new GuiHand(this.table.getScene().widthProperty().multiply(1), 820, 1200, 0, 55, 0, null);
+    // Box x = new Box(100000, 10, 10);
+    // x.setMaterial(new PhongMaterial(Color.GREEN));
+    // Box y = new Box(10, 100000, 10);
+    // y.setMaterial(new PhongMaterial(Color.BLUE));
+    // Box z = new Box(10, 10, 100000);
+    // z.setMaterial(new PhongMaterial(Color.RED));
+    // this.table.getChildren().addAll(x, y, z);
+
+
+    // y = 720 z = -200
+    // y = 820
+    this.playerHand = new GuiHand(this.table.getScene().widthProperty().divide(2.3),
+        this.table.getScene().heightProperty().add(-200),
+        this.table.getScene().heightProperty().multiply(0).add(-100), -20, 0, 0, null);
+
+
+
+    this.leftHand = new GuiHand(this.table.getScene().widthProperty().multiply(0),
+        this.table.getScene().heightProperty().multiply(0.7),
+        this.table.getScene().heightProperty().multiply(0).add(1200), 0, -55, 0, null);
+
+    this.rightHand = new GuiHand(this.table.getScene().widthProperty().multiply(1),
+        this.table.getScene().heightProperty().multiply(0.7),
+        this.table.getScene().heightProperty().multiply(0).add(1200), 0, 55, 0, null);
 
     this.trick = new GuiTrick(this.getScene().widthProperty().divide(2.5),
-        this.getScene().heightProperty().divide(1.4), 500, -90, 0, 0);
+        this.getScene().heightProperty().divide(1.4),
+        this.getScene().widthProperty().multiply(0).add(400), -80, 0, 0);
 
     this.table.getChildren().addAll(this.playerHand, this.leftHand, this.rightHand);
 
     this.table.setOnMouseClicked(event -> {
-      System.out.println(" AS: " + event.getPickResult());
+      // System.out.println(this.table.getScene().getWidth() + " : " + event.getPickResult());
+
       Node node = event.getPickResult().getIntersectedNode();
       try {
         if (node.getParent().getParent().equals(this.playerHand)) {
@@ -88,13 +111,19 @@ public class Matchfield {
       }
     });
 
+    this.table.widthProperty().addListener(e -> {
+      this.playerHand.resetPositions();
+      this.leftHand.resetPositions();
+      this.rightHand.resetPositions();
+    });
+
   }
 
   /**
    * @param playerHand2
    * @param card
    */
-  private void playCard(GuiHand hand, GuiCard card) {
+  private synchronized void playCard(GuiHand hand, GuiCard card) {
     hand.moveCardAndRemove(card, this.trick.add(card), this.table);
   }
 
