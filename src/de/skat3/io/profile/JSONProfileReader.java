@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.UUID;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,20 +16,6 @@ public class JSONProfileReader {
 
   private ArrayList<Profile> profileList = getAllProfileAsList();
   private Profile lastUsed = determineLastUsedProfile();
-
-  public Profile readProfile(String id) {
-    Iterator<Profile> iter = profileList.iterator();
-    while (iter.hasNext()) {
-      Profile current = iter.next();
-      if (current.getUuid() == id) {
-        current.setLastUsed(true);
-        return current;
-      }
-    }
-
-    return null;
-  }
-
 
   public ArrayList<Profile> getProfileList() {
     return profileList;
@@ -46,23 +33,38 @@ public class JSONProfileReader {
     this.profileList = profileList;
   }
 
+  public Profile readProfile(UUID id) {
+    Iterator<Profile> iter = profileList.iterator();
+    while (iter.hasNext()) {
+      Profile current = iter.next();
+      if (current.getUuid().equals(id)) {
+        current.setLastUsed(true);
+
+        return current;
+      }
+    }
+    return null;
+  }
+
   // if there is no current player (for some reason e.g. deleted etc)
   // sets first profile at last used
   private Profile determineLastUsedProfile() {
     if (profileList.size() <= 0) {
       return null;
-    }
-    Iterator<Profile> itr = profileList.iterator();
-    while (itr.hasNext()) {
-      Profile potentiallyCurrent = itr.next();
-      if (potentiallyCurrent.getLastUsed()) {
-        lastUsed = potentiallyCurrent;
+    } else {
+      Iterator<Profile> itr = profileList.iterator();
+      while (itr.hasNext()) {
+        Profile potentiallyCurrent = itr.next();
+        if (potentiallyCurrent.getLastUsed()) {
+          lastUsed = potentiallyCurrent;
+        }
+      }
+      if (lastUsed == null) {
+        return profileList.get(0);
+      } else {
+        return lastUsed;
       }
     }
-    if (lastUsed == null) {
-      return profileList.get(0);
-    }
-    return lastUsed;
   }
 
   private ArrayList<Profile> getAllProfileAsList() {

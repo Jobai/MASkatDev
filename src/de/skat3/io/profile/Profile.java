@@ -16,7 +16,7 @@ public class Profile {
   private transient Image image;
 
   @SerializedName(JSON_ID_FIELD)
-  private String uuid = UUID.randomUUID().toString();
+  private UUID uuid = UUID.randomUUID();
   @SerializedName(JSON_NAME_FIELD)
   private String name;
   @SerializedName(JSON_IMAGE_FIELD)
@@ -36,8 +36,8 @@ public class Profile {
     reader.setLastUsedProfile(this);
   }
 
-  public String getUuid() {
-    return uuid.toString();
+  public UUID getUuid() {
+    return uuid;
   }
 
   public String getName() {

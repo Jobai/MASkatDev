@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.UUID;
 import javafx.scene.image.Image;
 
 
@@ -52,17 +53,16 @@ public class IoController implements IoInterface {
   }
 
   @Override
-  public Profile readProfile(String id) {
+  public Profile readProfile(UUID id) {
     Profile profile = reader.readProfile(id);
     profile.setLastUsed(true);
-    return profile;
 
+    return profile;
   }
 
   @Override
   public ArrayList<Profile> getProfileList() {
     return reader.getProfileList();
-
   }
 
   @Override
@@ -84,10 +84,5 @@ public class IoController implements IoInterface {
       e.printStackTrace();
     }
   }
-
-  // TODO
-  // //public void readProfile() {
-  // Umwandlung
-  // SkatMain.ioController.readProfile(id)
-  // }
 }
+

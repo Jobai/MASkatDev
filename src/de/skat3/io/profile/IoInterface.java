@@ -1,11 +1,12 @@
 package de.skat3.io.profile;
 
 import java.util.ArrayList;
+import java.util.UUID;
 import javafx.scene.image.Image;
 
 public interface IoInterface {
 
-  public Profile readProfile(String id);
+  public Profile readProfile(UUID id);
 
   public ArrayList<Profile> getProfileList();
 

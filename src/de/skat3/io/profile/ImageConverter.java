@@ -1,6 +1,5 @@
 package de.skat3.io.profile;
 
-
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -47,29 +46,9 @@ public class ImageConverter {
     return res;
   }
 
-  // ByteArrayInputStream bai = new ByteArrayInputStream(pByte);
-  // ContentHandler contenthandler = new BodyContentHandler();
-  // Metadata metadata = new Metadata();
-  // Parser parser = new AutoDetectParser();
-  // try {
-  // parser.parse(bai, contenthandler, metadata);
-  //
-  // } catch (IOException e) {
-  // // TODO Auto-generated catch block
-  // e.printStackTrace();
-  // } catch (SAXException e) {
-  // // TODO Auto-generated catch block
-  // e.printStackTrace();
-  // } catch (TikaException e) {
-  // // TODO Auto-generated catch block
-  // e.printStackTrace();
-  // }
-  // System.out.println("Mime: " + metadata.get(Metadata.CONTENT_TYPE));
-  // return metadata.get(Metadata.CONTENT_TYPE);
-
-
-
   private Image bytesToImage(byte[] decoded) {
+    // The unused javafx components are needed to be created in order for image to work
+    // It is javafx platform specific requirement
     JFXPanel panel = new JFXPanel();
     ByteArrayInputStream inputStream = new ByteArrayInputStream(decoded);
     Image image = new Image(inputStream);
@@ -83,43 +62,4 @@ public class ImageConverter {
     graphicsContext.drawImage(image, 0, 0, width, height);
     return image;
   }
-
-  // private Image bytesToImage(byte[] decoded) {
-  // BufferedImage img = null;
-  // try {
-  // ByteArrayInputStream inputStream = new ByteArrayInputStream(decoded);
-  // img = ImageIO.read(inputStream);
-  // } catch (IOException e) {
-  // // TODO Auto-generated catch block
-  // e.printStackTrace();
-  // }
-  // return img;
-  // }
-
-  // private byte[] imageToBytes(Image image) {
-  // BufferedImage bufferedImage = (BufferedImage) image;
-  // WritableRaster raster = bufferedImage.getRaster();
-  // DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
-  //
-  // return data.getData();
-  // }
-
-  // private byte[] imageToBytes(Image image, String format) {
-  // BufferedImage bufferedImage = (BufferedImage) image;
-  // byte[] imageInBytes = null;
-  // try {
-  // ByteArrayOutputStream baos = new ByteArrayOutputStream();
-  // // String format = checkImageFormat(image);
-  // ImageIO.write(bufferedImage, format, baos);
-  // baos.flush();
-  // imageInBytes = baos.toByteArray();
-  // baos.close();
-  // } catch (IOException e) {
-  // // TODO Auto-generated catch block
-  // e.printStackTrace();
-  // }
-  // return imageInBytes;
-  // }
-
-
 }
