@@ -100,7 +100,7 @@ public class GuiController implements GuiInterface {
 
   @Override
   public boolean handGameRequest() {
-    
+
     Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.setTitle("Handgame");
     alert.setHeaderText("Handgame?");
@@ -134,8 +134,9 @@ public class GuiController implements GuiInterface {
 
   @Override
   public void showRoundResult() {
-    
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("resultscreen/RoundResultView.fxml"));
+
+    FXMLLoader fxmlLoader =
+        new FXMLLoader(getClass().getResource("resultscreen/RoundResultView.fxml"));
     Parent root = null;
     try {
       root = fxmlLoader.load();
@@ -153,7 +154,8 @@ public class GuiController implements GuiInterface {
   @Override
   public void showGameResult() {
 
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("resultscreen/GameResultView.fxml"));
+    FXMLLoader fxmlLoader =
+        new FXMLLoader(getClass().getResource("resultscreen/GameResultView.fxml"));
     Parent root = null;
     try {
       root = fxmlLoader.load();

@@ -59,19 +59,39 @@ public class LobbyDiscover extends Thread {
         System.out.println("RECEIVED");
         Lobby lb = new Lobby();
         lb = lb.convertFromByteArray(buffer);
-        System.out.println(lb.getName());
-        if (!lobbyList.contains(lb))
+
+
+        boolean contains = false;
+        for (Lobby l : lobbyList) {
+          if (l.equals(lb)) {
+            contains = true;
+            break;
+          }
+        }
+        if (!contains) {
           lobbyList.add(lb);
-        System.out.println("Lobby added");
+          System.out.println("Lobby added");
+        }
+
 
       }
+      // if (!lobbyList.contains(lb)) {
+      // lobbyList.add(lb);
+      // System.out.println("Lobby added");
+      // }
 
 
 
-    } catch (IOException e) {
+    } catch (
+
+    IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+    } catch (NullPointerException e) {
+
+      e.printStackTrace();
     }
+
 
   }
 

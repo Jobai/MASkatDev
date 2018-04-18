@@ -9,13 +9,20 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Inet4Address;
+import java.util.UUID;
 import de.skat3.gamelogic.Player;
 
-public class Lobby implements Serializable{
+public class Lobby implements Serializable {
+
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 7279502331048915007L;
 
 
   String name;
- 
+
 
   String password;
   int numberOfPlayers;
@@ -26,6 +33,7 @@ public class Lobby implements Serializable{
   Inet4Address ip;
   int serverMode;
   boolean kontraRekontraEnabled;
+  private UUID uuid;
 
   /**
    * 
@@ -50,6 +58,7 @@ public class Lobby implements Serializable{
     this.password = password;
     this.scoringMode = scoringMode;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
+    uuid = UUID.randomUUID();
 
 
   }
@@ -58,7 +67,7 @@ public class Lobby implements Serializable{
     // TODO Auto-generated constructor stub
   }
 
-  
+
 
   public Player[] getPlayers() {
     return this.players;
@@ -92,6 +101,22 @@ public class Lobby implements Serializable{
 
   public int getCurrentNumberOfPlayers() {
     return this.currentPlayers;
+  }
+
+  /**
+   * @author Jonas Bauer
+   */
+  @Override
+  public boolean equals(Object obj) {
+    Lobby lo = (Lobby) obj;
+//    System.out.println(this.uuid);
+//    System.out.println(lo.uuid);
+    if (this.uuid.equals(lo.uuid)) {
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
   /**
@@ -135,7 +160,7 @@ public class Lobby implements Serializable{
     }
     return null;
   }
-  
+
   public String getName() {
     return name;
   }
