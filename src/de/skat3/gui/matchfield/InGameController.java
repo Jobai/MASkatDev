@@ -18,7 +18,7 @@ import javafx.util.Duration;
 public class InGameController implements InGameControllerInterface {
 
   private Matchfield matchfield;
-  LocalGameState gameState;
+  private LocalGameState gameState;
 
   public InGameController(LocalGameState state, Matchfield matchfield) {
 
@@ -31,15 +31,16 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void startRound() {
-
     this.matchfield.playerHand.clear();
     this.matchfield.leftHand.clear();
     this.matchfield.leftHand.clear();
 
     this.matchfield.playerHand.addAll(SkatMain.lgs.localClient.getHand().getCards());
+    this.matchfield.playerHand.setPlayer(SkatMain.lgs.localClient);
     this.matchfield.leftHand.addAll(SkatMain.lgs.enemyOne.getHand().getCards());
-    this.matchfield.leftHand.addAll(SkatMain.lgs.enemyTwo.getHand().getCards());
-
+    this.matchfield.leftHand.setPlayer(SkatMain.lgs.enemyOne);
+    this.matchfield.rightHand.addAll(SkatMain.lgs.enemyTwo.getHand().getCards());
+    this.matchfield.rightHand.setPlayer(SkatMain.lgs.enemyTwo);
     // TODO Auto-generated method stub
 
   }

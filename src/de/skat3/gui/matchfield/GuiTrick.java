@@ -27,7 +27,7 @@ public class GuiTrick {
   private GuiCard[] cards;
   private Parent[] postions;
   private int index;
-  DoubleProperty translateXOne;
+  private DoubleProperty translateXOne;
 
   /**
    * ASD.
@@ -132,14 +132,12 @@ public class GuiTrick {
   }
 
   public synchronized void clear() {
-
     for (GuiCard c : this.cards) {
       c.setVisible(false);
     }
 
     this.cards = new GuiCard[3];
     this.index = 0;
-
   }
 
 }
