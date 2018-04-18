@@ -64,7 +64,7 @@ public class ClientLogicController {
     MessageAnswer ma = new MessageAnswer("ME", AnswerType.THROW_ANSWER);
     Card[] skat = {c1, c2};
     ma.payload = skat;
-    ma.additionalPlayload = SkatMain.lgs.getHand();
+    ma.additionalPlayload = SkatMain.lgs.getLocalHand();
     gc.sendToServer(ma);
   }
 

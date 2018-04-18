@@ -54,7 +54,7 @@ public class LobbyDiscover extends Thread {
       while (!this.isInterrupted()) {
         buffer = new byte[500];
         DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
-        System.out.println("RECEIVEING NEXT");
+        System.out.println("RECEIVING NEXT");
         ms.receive(dp);
         System.out.println("RECEIVED");
         Lobby lb = new Lobby();
@@ -76,6 +76,13 @@ public class LobbyDiscover extends Thread {
   }
 
   public void stopDiscovery() {
+    try {
+      ms.leaveGroup(iAdress);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    ms.close();
     this.interrupt();
   }
 

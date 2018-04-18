@@ -81,6 +81,7 @@ public class LobbyServer extends Thread {
 
 
   public void stopLobbyBroadcast() {
+    ms.close();
     this.interrupt();
   }
 

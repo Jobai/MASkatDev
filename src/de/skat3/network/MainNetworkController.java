@@ -17,6 +17,7 @@ import de.skat3.main.SkatMain;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.client.LobbyDiscover;
 import de.skat3.network.server.GameServer;
+import de.skat3.network.server.LobbyServer;
 
 /**
  * @author Jonas Bauer
@@ -50,10 +51,12 @@ public class MainNetworkController implements MainNetworkInterface {
   @Override
   public GameServer startLocalServer(Lobby lobbysettings, GameController gameController) {
     // TODO Add LobbyServer
+    
+    LobbyServer ls = new LobbyServer(lobbysettings);
 
     // GameServer
 
-    GameServer gs = new GameServer(lobbysettings, gameController);
+    GameServer gs = new GameServer(lobbysettings, gameController, ls);
 
     return gs;
     // TODO Auto-generated method stub
@@ -67,7 +70,7 @@ public class MainNetworkController implements MainNetworkInterface {
    */
   @Override
   public GameClient joinLocalServerAsClient() {
-    GameClient gc = new GameClient("localhost", 2018, new Player()); // FIXME
+    GameClient gc = new GameClient("localhost", 2018, new Player(null)); // FIXME
     return gc;
     // TODO Auto-generated method stub
 
@@ -116,7 +119,7 @@ public class MainNetworkController implements MainNetworkInterface {
   public GameServer playAndHostSinglePlayer() {
     // TODO Auto-generated method stub
     GameServer gs = new GameServer(null); // FIXME
-    GameClient gc = new GameClient("localhost", 2018, new Player()); // FIXME
+    GameClient gc = new GameClient("localhost", 2018, new Player(null)); // FIXME
 
     return null;
   }

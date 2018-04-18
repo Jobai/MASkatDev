@@ -40,6 +40,8 @@ public class GameServer extends Thread {
   public GameController gc;
   
   int gameServerMode = 0;
+  
+  public LobbyServer ls;
 
 
   /**
@@ -69,6 +71,12 @@ public class GameServer extends Thread {
     slc = new ServerLogicController(lobbysettings, this);
 
     this.start();
+  }
+
+  public GameServer(Lobby lobbysettings, GameController gameController, LobbyServer ls) {
+    this(lobbysettings, gameController);
+    this.ls = ls;
+    
   }
 
   public void run() {

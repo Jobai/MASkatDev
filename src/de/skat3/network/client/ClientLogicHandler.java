@@ -65,7 +65,7 @@ public class ClientLogicHandler {
     // TODO Auto-generated method stub
     MessageCommand mc = (MessageCommand) m;
     Card c = (Card) mc.gameState;
-    SkatMain.mainController.playCard(c);
+    SkatMain.mainController.playCard(null, c); //FIXME
 
   }
 
