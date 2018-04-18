@@ -2,19 +2,14 @@ package de.skat3.gui.matchfield;
 
 
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ObservableNumberValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-import sun.applet.Main;
 
 /**
  * View class of a trick.
