@@ -4,6 +4,7 @@ package de.skat3.gui.matchfield;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import java.util.UUID;
 import javafx.util.Duration;
@@ -41,5 +42,5 @@ public interface InGameControllerInterface {
    * @param player UUID of the player who plays this card.
    * @param card Card to be played.
    */
-  public void playCard(UUID player, Card card);
+  public void playCard(Player player, Card card);
 }

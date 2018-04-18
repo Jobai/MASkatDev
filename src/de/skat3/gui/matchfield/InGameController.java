@@ -5,6 +5,7 @@ import com.sun.javafx.collections.IntegerArraySyncer;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.main.LocalGameState;
 import de.skat3.main.SkatMain;
@@ -72,7 +73,7 @@ public class InGameController implements InGameControllerInterface {
    * de.skat3.gamelogic.Card)
    */
   @Override
-  public void playCard(UUID player, Card card) {
+  public void playCard(Player owner, Card card) {
     GuiHand playingHand;
     switch (0) {
       case 0:
@@ -118,9 +119,9 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void makeAMove(boolean value) {
-    
- 
-    
+
+
+
     // TODO Auto-generated method stub
 
   }

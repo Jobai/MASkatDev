@@ -2,6 +2,7 @@ package de.skat3.gui.matchfield;
 
 
 import de.skat3.gamelogic.Card;
+import de.skat3.gamelogic.Player;
 import de.skat3.main.LocalGameState;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -36,7 +37,7 @@ public class Matchfield {
   protected GuiHand leftHand;
   protected GuiHand rightHand;
   protected GuiTrick trick;
-  public static Duration animationTime = Duration.seconds(1);
+  public static Duration animationTime = Duration.seconds(0.2);
 
   /**
    * Links a LocalGameState to this Matchfield.
@@ -115,6 +116,7 @@ public class Matchfield {
       this.playerHand.resetPositions();
       this.leftHand.resetPositions();
       this.rightHand.resetPositions();
+      this.trick.resetPostions();
     });
 
   }
@@ -129,6 +131,24 @@ public class Matchfield {
 
   public InGameController getController() {
     return this.controller;
+  }
+
+  public GuiHand getHand(Player owner) {
+    try {
+      if (this.playerHand.getOwner().equals(owner)) {
+        return this.playerHand;
+      }
+      if (this.leftHand.getOwner().equals(owner)) {
+        return this.leftHand;
+      }
+      if (this.rightHand.getOwner().equals(owner)) {
+        return this.rightHand;
+      }
+      throw new Exception("Player does not own a GuiHand.");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   public Scene getScene() {

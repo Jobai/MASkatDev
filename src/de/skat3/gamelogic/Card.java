@@ -29,6 +29,7 @@ public class Card implements Serializable {
 
   public Card() {
     this.view = "cardImage/green_back.png";
+    this.imageView = new ImageView(new Image(this.view));
   }
 
   /**
