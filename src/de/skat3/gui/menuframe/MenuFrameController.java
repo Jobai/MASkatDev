@@ -247,6 +247,7 @@ public class MenuFrameController {
 
     //currentProfile = SkatMain.ioController.getLastUsedProfile();
     allProfile = SkatMain.ioController.getProfileList();
+    // setCurrentProfile();
 
     for (Profile profile : allProfile) {
       Label l1 = new Label(profile.getName());
@@ -310,11 +311,19 @@ public class MenuFrameController {
     stage.showAndWait();
     // Update Profiles
     fillProfileMenu();
+
+    // FIXME @author Artem
+    // later this line is to be used {
+    // currentProfile = SkatMain.ioController.getLastUsedProfile();
+    // }
+    currentProfile = SkatMain.ioController.getProfileList().get(0);
+    //
+
     setCurrentProfile(currentProfile);
   }
 
   public void handleMouseClickAddProfile() {
-    // TODO del
+    // TODO delete
   }
 
   private void setCurrentProfile(Profile p) {
@@ -322,8 +331,8 @@ public class MenuFrameController {
     try {
       currentProfileImage.setImage(p.getImage());
     } catch (Exception e) {
-    }
 
+    }
     currentProfileName.setText(p.getName());
   }
 

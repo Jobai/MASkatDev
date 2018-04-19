@@ -92,7 +92,7 @@ public class ProfileController {
     File file = fileChooser.showOpenDialog(new Stage());
     if (file != null) {
       Image i = new Image(file.toURI().toString());
-      fileFormat = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."),
+      fileFormat = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1,
           file.getAbsolutePath().length());
       profileImage.setImage(i);
     }
