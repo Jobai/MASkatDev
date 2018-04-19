@@ -160,9 +160,9 @@ public class GameController implements GameLogicInterface, Serializable {
   }
 
   @Override
-  public void notifyLogicofKontra(boolean accepted) {
+  public void notifyLogicofKontra() {
     if (this.roundInstance.kontaRekontraAvailable) {
-      this.roundInstance.kontra = accepted;
+      this.roundInstance.kontra = true;
       // this.slc.broadcastKontraAnnounced();
       // this.slc.rekontraRequest(this.roundInstance.solo); TODO
     } else {
@@ -173,9 +173,9 @@ public class GameController implements GameLogicInterface, Serializable {
 
 
   @Override
-  public void notifyLogicofRekontra(boolean accepted) {
+  public void notifyLogicofRekontra() {
     if (this.roundInstance.kontaRekontraAvailable && this.roundInstance.kontra) {
-      this.roundInstance.rekontra = accepted;
+      this.roundInstance.rekontra = true;
       // this.slc.broadcastRekontraAnnounced(); TODO
     } else {
       System.err.println("Rekontra set although its not enabled or kontra was not announced.");

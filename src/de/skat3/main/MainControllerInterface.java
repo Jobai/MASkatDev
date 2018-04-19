@@ -3,6 +3,7 @@ package de.skat3.main;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
@@ -65,6 +66,23 @@ public interface MainControllerInterface {
   public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers);
 
   public void handGameSelected(boolean accepted);
+  
+  public void skatSelected(Hand hand, Card[] skat);
+  
+  public void kontraAnnounced();
+  
+  public void rekontraAnnounced();
+  
+  public void kontraRequest();
+  
+  public void rekontraRequest();
+  
+  public void roundRestarted();
+  
+  public void showWrongPassword();
+  
+  
+  
 
 
 

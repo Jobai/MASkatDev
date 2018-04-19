@@ -16,6 +16,7 @@ import javafx.application.Platform;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import de.skat3.gamelogic.GameController;
+import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.MatchResult;
 
 
@@ -50,17 +51,22 @@ public class MainController implements MainControllerInterface {
   public void joinMultiplayerGame(Lobby lobby) {
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.clc = gameClient.getClc();
+    SkatMain.guiController.goInGame();
 
   }
 
   @Override
   public void joinMultiplayerGame(Lobby lobby, String password) {
-    // if(network)
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.clc = gameClient.getClc();
-    // Else
-    SkatMain.guiController.showWrongPassword();
+    SkatMain.guiController.goInGame();
 
+
+  }
+
+
+  public void showWrongPassword() {
+    SkatMain.guiController.showWrongPassword();
   }
 
 
@@ -107,6 +113,7 @@ public class MainController implements MainControllerInterface {
         SkatMain.mainNetworkController.startLocalServer(this.currentLobby, this.gameController);
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
     this.clc = gameClient.getClc();
+    SkatMain.guiController.goInGame();
 
   }
 
@@ -239,11 +246,11 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         try {
-          Thread.sleep(1000);
+
+          SkatMain.guiController.getInGameController().makeAMove(true);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-        SkatMain.guiController.getInGameController().makeAMove(true);
 
 
       }
@@ -266,7 +273,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void setSkat(Card[] skat) {
     SkatMain.lgs.skat = skat;
-    // SkatMain.guiController.getInGameController().startSkatMethod
+    // SkatMain.guiController.getInGameController().showSkatSelection();
 
   }
 
@@ -289,6 +296,8 @@ public class MainController implements MainControllerInterface {
     // network
   }
 
+  public void skatSelected(H)
+
   @Override
   public void localCardPlayed(Card card) {
     clc.playAnswer(card);
@@ -296,7 +305,7 @@ public class MainController implements MainControllerInterface {
   }
 
   public Profile readProfile(String id) {
-    return SkatMain.ioController.readProfile(id);
+    // return SkatMain.ioController.readProfile(id);
   }
 
   public ArrayList<Profile> getProfileList() {
@@ -309,7 +318,7 @@ public class MainController implements MainControllerInterface {
 
 
   public void editProfile(Profile profile, String name, Image image) {
-    // SkatMain.ioController.editProfile(profile, name, image); TODO
+    // SkatMain.ioController.editProfile(profile, name, image);
   }
 
   public boolean deleteProfile(Profile profile) {
@@ -325,5 +334,41 @@ public class MainController implements MainControllerInterface {
         this.gameServer.getSeverLogicController());
 
   }
+
+  @Override
+  public void skatSelected(Hand hand, Card[] skat) {
+
+  }
+
+  @Override
+  public void kontraAnnounced() {
+    // GUI TODO
+
+  }
+
+  @Override
+  public void rekontraAnnounced() {
+    // GUI TODO
+
+  }
+
+  @Override
+  public void kontraRequest() {
+    // GUI TODO
+
+  }
+
+  @Override
+  public void rekontraRequest() {
+    // GUI TODO
+
+  }
+
+  @Override
+  public void roundRestarted() {
+    // GUI TODO
+
+  }
+
 
 }
