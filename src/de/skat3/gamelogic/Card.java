@@ -21,7 +21,6 @@ public class Card implements Serializable {
   private Suit suit;
   private Value value;
   private String view;
-  private ImageView imageView;
   private boolean playable;
   private int trickValue;
 
@@ -29,23 +28,22 @@ public class Card implements Serializable {
 
   public Card() {
     this.view = "cardImage/green_back.png";
-    this.imageView = new ImageView(new Image(this.view));
   }
 
   /**
    * Represents a single card.
    */
   public Card(Suit suit, Value value) {
+    this.playable = true;
     this.suit = suit;
     this.value = value;
     this.addTrickValue();
     this.view = "cardImages/" + this.getUrl() + ".png";
-    this.imageView = new ImageView(new Image(this.view));
 
   }
 
   public ImageView getImage() {
-    return this.imageView;
+    return new ImageView(new Image(this.view)); //FIXME
   }
 
 

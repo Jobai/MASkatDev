@@ -133,7 +133,7 @@ public class Hand implements Serializable {
 
   }
 
-  void setPlayableCards(Card card, Contract contract) {
+  public void setPlayableCards(Card card, Contract contract) {
     boolean mustFollow = false;
     for (Card c : this.cards) {
       if (card.isTrump(contract) && c.isTrump(contract)) {

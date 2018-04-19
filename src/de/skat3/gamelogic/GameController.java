@@ -22,6 +22,7 @@ public class GameController implements GameLogicInterface, Serializable {
   GameThread gameThread;
   static final CardDeck deck = new CardDeck();
   RoundInstance roundInstance;
+  MatchResult matchResult;
 
   /**
    * Creates a new match with 3-4 Players, an optional timer, optional kontra and rekontra feature
@@ -40,28 +41,25 @@ public class GameController implements GameLogicInterface, Serializable {
     this.gameId = 0; // TODO
     this.numberOfRounds = 0;
     this.players = new Player[3];
+    this.matchResult = new MatchResult(this.allPlayers);
     this.gameThread = new GameThread(this);
 
 
 
   }
-/**
- * 
- * @param players
- */
-  public void setPlayers(Player[] players) {
-    this.numberOfPlayers = players.length;
 
+  /**
+   * 
+   * @param players
+   * @param slc
+   */
+  public void startGame(Player[] players, ServerLogicController slc) {
+    this.numberOfPlayers = players.length;
     this.allPlayers = new Player[numberOfPlayers];
     for (int i = 0; i < players.length; i++) {
       this.allPlayers[i] = players[i];
     }
-  }
-  public void setSlc(ServerLogicController slc) {
     this.slc = slc;
-  }
-
-  public void startGame() {
     this.gameThread.start();
   }
 
@@ -72,8 +70,13 @@ public class GameController implements GameLogicInterface, Serializable {
     } else {
       this.rotatePlayers();
     }
-    this.roundInstance = new RoundInstance(slc, this.players, this.gameThread, this.mode);
-    this.roundInstance.startRound();
+    this.roundInstance = new RoundInstance(slc, this.players, this.gameThread,
+        this.kontraRekontraEnabled, this.mode);
+    try {
+      this.roundInstance.startRound();
+    } catch (InterruptedException e) {
+      System.err.println("Runde konnte nicht gestartet werden: " + e);
+    }
 
   }
 
@@ -144,7 +147,7 @@ public class GameController implements GameLogicInterface, Serializable {
   }
 
   /**
-   * Sets the selected contract and additionalMultipliers
+   * Sets the selected contract and additionalMultipliers.
    */
   @Override
   public void notifyLogicofContract(Contract contract,
@@ -152,22 +155,31 @@ public class GameController implements GameLogicInterface, Serializable {
     this.roundInstance.contract = contract;
     additionalMultipliers.setHandGame(this.roundInstance.addtionalMultipliers.isHandGame());
     this.roundInstance.setAdditionalMultipliers(additionalMultipliers);
-    //this.slc.broadcastContract(contract, additionalMultipliers); TODO
+    // this.slc.broadcastContract(contract, additionalMultipliers); TODO
     this.roundInstance.notifyRoundInstance();
   }
 
   @Override
-  public void notifyLogicofKontra(boolean accepted) {
-    this.roundInstance.kontra = accepted;
-    this.roundInstance.notifyRoundInstance();
+  public void notifyLogicofKontra() {
+    if (this.roundInstance.kontaRekontraAvailable) {
+      this.roundInstance.kontra = true;
+      // this.slc.broadcastKontraAnnounced();
+      // this.slc.rekontraRequest(this.roundInstance.solo); TODO
+    } else {
+      System.err.println("Kontra set although its not enabled.");
+    }
 
   }
 
 
   @Override
-  public void notifyLogicofRekontra(boolean accepted) {
-    this.roundInstance.rekontra = accepted;
-    this.roundInstance.notifyRoundInstance();
+  public void notifyLogicofRekontra() {
+    if (this.roundInstance.kontaRekontraAvailable && this.roundInstance.kontra) {
+      this.roundInstance.rekontra = true;
+      // this.slc.broadcastRekontraAnnounced(); TODO
+    } else {
+      System.err.println("Rekontra set although its not enabled or kontra was not announced.");
+    }
 
   }
 

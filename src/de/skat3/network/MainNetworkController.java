@@ -71,7 +71,7 @@ public class MainNetworkController implements MainNetworkInterface {
    */
   @Override
   public GameClient joinLocalServerAsClient() {
-    GameClient gc = new GameClient("localhost", 2018, new Player(null)); // FIXME
+    GameClient gc = new GameClient("localhost", 2018, new Player(SkatMain.ioController.getLastUsedProfile())); // FIXME
     return gc;
     // TODO Auto-generated method stub
 
