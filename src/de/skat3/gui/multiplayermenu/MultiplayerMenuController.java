@@ -63,7 +63,12 @@ public class MultiplayerMenuController {
   public void fillHostList() {
     ObservableList<String> items = FXCollections.observableArrayList();
 
-    hostList = SkatMain.mainController.getLocalHosts();
+    new Thread() {
+      public void run() {
+        hostList = SkatMain.mainController.getLocalHosts();
+      };
+    }.start();
+
     for (Lobby lobby : hostList) {
       items.add(lobby.getName() + "(" + lobby.getCurrentNumberOfPlayers() + "/"
           + lobby.getMaximumNumberOfPlayers() + ")");

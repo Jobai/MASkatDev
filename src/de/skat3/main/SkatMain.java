@@ -25,7 +25,7 @@ public class SkatMain {
     SkatMain.ioController = new IoController();
     SkatMain.mainNetworkController = new MainNetworkController();
     SkatMain sk = new SkatMain();
-    sk. new Test();
+    //sk. new Test();
     Gui.showAndWait();
 
 

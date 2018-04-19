@@ -2,6 +2,7 @@ package de.skat3.main;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.UUID;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;

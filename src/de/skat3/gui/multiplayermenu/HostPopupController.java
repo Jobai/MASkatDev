@@ -1,5 +1,6 @@
 package de.skat3.gui.multiplayermenu;
 
+import java.net.UnknownHostException;
 import de.skat3.main.SkatMain;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -45,8 +46,29 @@ public class HostPopupController {
     this.hostPopup = s;
   }
 
-  public void hostGame() {
-    SkatMain.mainController.hostMultiplayerGame(3, 0, "", false, 48);
+  public void hostGame() throws NumberFormatException, UnknownHostException {
+
+    // public void hostMultiplayerGame(String name, int numberOfPlayers, int timer,
+    // boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException {
+    // this.hostMultiplayerGame(name, "", numberOfPlayers, timer, kontraRekontraEnabled,
+    // scoringMode);
+    //
+    // }
+    //
+    // public void hostMultiplayerGame(String name, String password, int numberOfPlayers, int timer,
+    // boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException {
+
+
+
+    int players = playerCount.getValue();
+    if (password.getText() == "") {
+      SkatMain.mainController.hostMultiplayerGame(serverName.getText(), players,
+          Integer.parseInt(timer.getText()), false, Integer.parseInt(modeValue.getText()));
+    } else {
+      SkatMain.mainController.hostMultiplayerGame(serverName.getText(), password.getText(), players,
+          Integer.parseInt(timer.getText()), false, Integer.parseInt(modeValue.getText()));
+    }
+
     hostPopup.close();
   }
 
