@@ -65,7 +65,7 @@ public class ClientLogicHandler {
     // TODO Auto-generated method stub
     MessageCommand mc = (MessageCommand) m;
     Card c = (Card) mc.gameState;
-    SkatMain.mainController.playCard(null, c); //FIXME
+    SkatMain.mainController.playCard(null, c); // FIXME
 
   }
 
@@ -97,7 +97,7 @@ public class ClientLogicHandler {
       SkatMain.mainController.setHand((Player) mc.gameState);
     }
     if (mc.getSubType() == CommandType.ROUND_END_INFO) {
-      
+
       Result result = (Result) mc.payload;
       SkatMain.mainController.showResults(result);
       // FIXME
@@ -114,7 +114,7 @@ public class ClientLogicHandler {
     // TODO Auto-generated method stub
     System.out.println("AUFGERUFEN");
     MessageCommand mc = (MessageCommand) m;
-    SkatMain.lgs.setPlayer((Player) mc.gameState); // FIXME ?
+//    SkatMain.lgs.setPlayer((Player) mc.gameState); // FIXME ?
 
   }
 
@@ -158,50 +158,49 @@ public class ClientLogicHandler {
 
   public void kontraAnnouncedInfoHandler(Message m) {
     // TODO Auto-generated method stub
-    
+
   }
 
 
   public void kontraAnnouncedInfoHandler(Message m) {
     // TODO Auto-generated method stub
-    
+
   }
 
 
   public void reKontraAnnouncedInfoHandler(Message m) {
     // TODO Auto-generated method stub
-    
+
   }
 
 
-  
 
   public void KontraShowHandler(Message m) {
     // TODO Auto-generated method stub
-    
+
   }
 
 
   public void reKontraShowHandler(Message m) {
     // TODO Auto-generated method stub
-    
+
   }
 
 
   public void KontraHideHandler(Message m) {
     // TODO Auto-generated method stub
-    
+
   }
 
 
   public void reKontraHideHandler(Message m) {
     // TODO Auto-generated method stub
-    
+
   }
 
 
   public void roundRestartHandler(Message m) {
     // TODO Auto-generated method stub
-    
-  } 
+
+  }
 }
