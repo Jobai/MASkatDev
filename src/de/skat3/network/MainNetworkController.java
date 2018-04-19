@@ -52,7 +52,7 @@ public class MainNetworkController implements MainNetworkInterface {
   @Override
   public GameServer startLocalServer(Lobby lobbysettings, GameController gameController) {
     // TODO Add LobbyServer
-    
+
     LobbyServer ls = new LobbyServer(lobbysettings);
 
     // GameServer
@@ -71,7 +71,8 @@ public class MainNetworkController implements MainNetworkInterface {
    */
   @Override
   public GameClient joinLocalServerAsClient() {
-    GameClient gc = new GameClient("localhost", 2018, new Player(SkatMain.ioController.getLastUsedProfile())); // FIXME
+    GameClient gc =
+        new GameClient("localhost", 2018, new Player(SkatMain.ioController.getLastUsedProfile())); // FIXME
     return gc;
     // TODO Auto-generated method stub
 
@@ -106,7 +107,7 @@ public class MainNetworkController implements MainNetworkInterface {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    
+
     return ld.lobbyList;
   }
 

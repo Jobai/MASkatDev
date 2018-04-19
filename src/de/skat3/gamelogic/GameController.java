@@ -58,6 +58,7 @@ public class GameController implements GameLogicInterface, Serializable {
     this.allPlayers = new Player[numberOfPlayers];
     for (int i = 0; i < players.length; i++) {
       this.allPlayers[i] = players[i];
+      System.out.println(players[i].getUuid());
     }
     this.slc = slc;
     this.gameThread.start();
