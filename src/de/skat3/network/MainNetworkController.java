@@ -10,6 +10,7 @@ package de.skat3.network;
 
 import java.net.Inet4Address;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
@@ -99,7 +100,8 @@ public class MainNetworkController implements MainNetworkInterface {
     LobbyDiscover ld = new LobbyDiscover();
     ld.start();
     try {
-      wait(10000);
+      TimeUnit.SECONDS.sleep(10);
+
     } catch (InterruptedException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

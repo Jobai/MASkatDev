@@ -48,7 +48,18 @@ public interface ServerLogicInterface {
 
   public void sendSkat(Player p, Card[] skat);
 
-  void broadcastRoundResult(Result result);
+  public void broadcastRoundResult(Result result);
+  
+  public void broadcastRekontraAnnounced();
+  public void KontraRequest(Player[] players);
+  public void RekontraRequest(Player player);
+  public void broadcastKontraRekontraExpired();
+  public void broadcastRoundRestarted();
+  public void broadcastServerStateChange(int ServerState);
+
+  void broadcastKontraAnnounced();
+  
+  
 
 
 

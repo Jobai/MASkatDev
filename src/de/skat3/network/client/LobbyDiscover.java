@@ -59,6 +59,7 @@ public class LobbyDiscover extends Thread {
         System.out.println("RECEIVED");
         Lobby lb = new Lobby();
         lb = lb.convertFromByteArray(buffer);
+        System.out.println(lb.getName());
 
 
         boolean contains = false;
@@ -79,12 +80,10 @@ public class LobbyDiscover extends Thread {
       // lobbyList.add(lb);
       // System.out.println("Lobby added");
       // }
+     
 
 
-
-    } catch (
-
-    IOException e) {
+    } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (NullPointerException e) {

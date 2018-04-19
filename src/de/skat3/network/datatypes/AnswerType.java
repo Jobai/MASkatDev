@@ -33,5 +33,9 @@ public enum AnswerType implements SubType {
   /**
    * tells the server that his basic player info during joining
    */
-  GAME_ANSWER;
+  GAME_ANSWER,
+  
+  KONTRA_ANSWER,
+  
+  REKONTRA_ANSWER;
 }

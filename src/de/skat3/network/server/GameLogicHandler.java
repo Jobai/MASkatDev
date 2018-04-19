@@ -55,6 +55,12 @@ public class GameLogicHandler {
         break;
       case ROUND_ANSWER:
         break;
+      case KONTRA_ANSWER:
+        kontraHandler(m);
+        break;
+      case REKONTRA_ANSWER:
+        kontraHandler(m);
+        break;      
       default:
         throw new AssertionError();
     }
@@ -101,6 +107,19 @@ public class GameLogicHandler {
   private void gameHandler(Message m) {
     // TODO Auto-generated method stub
     MessageAnswer ma = (MessageAnswer) m;
+  }
+  
+  private void kontraHandler(Message m){
+    MessageAnswer ma = (MessageAnswer) m;
+    
+    if(ma.getSubType() == AnswerType.KONTRA_ANSWER)
+    {
+      gc.notifyLogicofKontra();
+    }
+    else if(ma.getSubType() == AnswerType.REKONTRA_ANSWER)
+    {
+      gc.notifyLogicofRekontra();
+    }
   }
 
 }

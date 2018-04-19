@@ -18,6 +18,13 @@ public class MessageCommand extends Message implements Serializable {
   }
 
 
+  public MessageCommand(MessageType stateChange, String string) {
+    // TODO Auto-generated constructor stub
+    super(messageType, "HOST", receiver);
+    this.ct = commandType;
+  }
+
+
   /**
    * 
    */

@@ -41,6 +41,8 @@ public enum MessageType {
 	/**
 	 * Message to indicate that he cannot join the lobby (Lobby full or wrong password)
 	 */
-	LOBBY_DENIED;
+	LOBBY_DENIED,
+	
+	STATE_CHANGE;
   
 }

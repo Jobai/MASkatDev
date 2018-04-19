@@ -154,4 +154,54 @@ public class ClientLogicHandler {
     SkatMain.mainController.setSkat(skat);
 
   }
+
+
+  public void kontraAnnouncedInfoHandler(Message m) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  public void kontraAnnouncedInfoHandler(Message m) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  public void reKontraAnnouncedInfoHandler(Message m) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  
+
+  public void KontraShowHandler(Message m) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  public void reKontraShowHandler(Message m) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  public void KontraHideHandler(Message m) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  public void reKontraHideHandler(Message m) {
+    // TODO Auto-generated method stub
+    
+  }
+
+
+  public void roundRestartHandler(Message m) {
+    // TODO Auto-generated method stub
+    
+  } 
 }

@@ -60,5 +60,19 @@ public enum CommandType implements SubType {
   /**
    * User is informed about the joining / leaving of a player and his player profile.
    */
-  GAME_INFO;
+  GAME_INFO,
+  
+  KONTRA_ANNOUNCED_INFO,
+  
+  REKONTRA_ANNOUNCED_INFO,
+  
+  KONTRA_SHOW_OPTION_INFO,
+  
+  REKONTRA_SHOW_OPTION_INFO,
+  
+  KONTRA_HIDE_OPTION_INFO,
+  
+  REKONTRA_HIDE_OPTION_INFO,
+  
+  ROUND_RESTART_INFO;
 }

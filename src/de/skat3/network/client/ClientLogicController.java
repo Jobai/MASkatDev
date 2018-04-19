@@ -91,6 +91,17 @@ public class ClientLogicController {
     }
     gc.closeConnection();
   }
+  
+  public void kontraAnswer()
+  {
+    MessageAnswer ma = new MessageAnswer("ME", AnswerType.KONTRA_ANSWER);
+    gc.sendToServer(ma);
+  }
+  
+  public void reKontraAnswer(){
+    MessageAnswer ma = new MessageAnswer("ME", AnswerType.REKONTRA_ANSWER);
+    gc.sendToServer(ma);
+  }
 
 
 }

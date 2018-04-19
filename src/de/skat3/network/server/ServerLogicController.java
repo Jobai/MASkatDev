@@ -209,6 +209,68 @@ public class ServerLogicController implements ServerLogicInterface {
     gs.broadcastMessage(mc);
   }
 
+  @Override
+  public void broadcastKontraAnnounced() {
+    // TODO Auto-generated method stub
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_ANNOUNCED_INFO);
+    gs.broadcastMessage(mc);
+    
+  }
+  
+  @Override
+  public void broadcastRekontraAnnounced() {
+    // TODO Auto-generated method stub
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.REKONTRA_ANNOUNCED_INFO);
+    gs.broadcastMessage(mc);
+    
+  }
+
+  @Override
+  public void KontraRequest(Player[] players) {
+    // TODO Auto-generated method stub
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_SHOW_OPTION_INFO);
+    
+    for(Player p : players){
+      gs.sendToPlayer(p, mc);
+    }
+    
+  }
+
+  @Override
+  public void RekontraRequest(Player player) {
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.REKONTRA_SHOW_OPTION_INFO);
+    // TODO Auto-generated method stub
+    gs.sendToPlayer(player, mc);
+    
+  }
+
+  @Override
+  public void broadcastKontraRekontraExpired() {
+    // TODO Auto-generated method stub
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_HIDE_OPTION_INFO);
+    gs.broadcastMessage(mc);
+    
+  }
+
+  @Override
+  public void broadcastRoundRestarted() {
+    // TODO Auto-generated method stub
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.ROUND_RESTART_INFO);
+    gs.broadcastMessage(mc);
+    
+  }
+
+  @Override
+  public void broadcastServerStateChange(int ServerState) {
+    // TODO Auto-generated method stub
+    
+    MessageCommand mc = new MessageCommand(MessageType.STATE_CHANGE, "ALL");
+    mc.gameState = ServerState;
+    mc.payload = ServerState;
+    gs.broadcastMessage(mc);
+    
+  }
+
 
 
   }

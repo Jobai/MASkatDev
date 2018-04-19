@@ -116,9 +116,23 @@ public class GameClient {
       case COMMAND_INFO:
         this.handleCommandAction(m, st); // XXX
         break;
+      case STATE_CHANGE:
+        this.handleStateChange(m, st);
+        break;
       default:
         throw new AssertionError();
     }
+  }
+
+  private void handleStateChange(Message m, SubType st) {
+    // TODO Auto-generated method stub
+
+
+    int mode = (int) m.payload;
+    if (mode == 1)
+      SkatMain.guiController.goInGame();
+
+
   }
 
   private void handleCommandAction(Message m, SubType st) {
@@ -170,6 +184,27 @@ public class GameClient {
         break;
       case SKAT_INFO_REQUEST:
         clh.skatRequestHandler(m);
+        break;
+      case KONTRA_ANNOUNCED_INFO:
+        clh.kontraAnnouncedInfoHandler(m);
+        break;
+      case REKONTRA_ANNOUNCED_INFO:
+        clh.reKontraAnnouncedInfoHandler(m);
+        break;
+      case KONTRA_SHOW_OPTION_INFO:
+        clh.KontraShowHandler(m);
+        break;
+      case REKONTRA_SHOW_OPTION_INFO:
+        clh.reKontraShowHandler(m);
+        break;
+      case KONTRA_HIDE_OPTION_INFO:
+        clh.KontraHideHandler(m);
+        break;
+      case REKONTRA_HIDE_OPTION_INFO:
+        clh.reKontraHideHandler(m);
+        break;
+      case ROUND_RESTART_INFO:
+        clh.roundRestartHandler(m);
         break;
       default:
         throw new AssertionError();
