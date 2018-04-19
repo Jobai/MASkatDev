@@ -61,12 +61,19 @@ public class HostPopupController {
 
 
     int players = playerCount.getValue();
+    int intTimer;
+    if (timer.getText() == "") {
+      intTimer = 0;
+    } else {
+      intTimer = Integer.parseInt(timer.getText());
+    }
+
     if (password.getText() == "") {
-      SkatMain.mainController.hostMultiplayerGame(serverName.getText(), players,
-          Integer.parseInt(timer.getText()), false, Integer.parseInt(modeValue.getText()));
+      SkatMain.mainController.hostMultiplayerGame(serverName.getText(), players, intTimer, false,
+          Integer.parseInt(modeValue.getText()));
     } else {
       SkatMain.mainController.hostMultiplayerGame(serverName.getText(), password.getText(), players,
-          Integer.parseInt(timer.getText()), false, Integer.parseInt(modeValue.getText()));
+          intTimer, false, Integer.parseInt(modeValue.getText()));
     }
 
     hostPopup.close();

@@ -297,8 +297,6 @@ public class MainController implements MainControllerInterface {
     // network
   }
 
-  public void skatSelected(H)
-
   @Override
   public void localCardPlayed(Card card) {
     clc.playAnswer(card);

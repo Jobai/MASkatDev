@@ -47,6 +47,8 @@ public class MultiplayerMenuController {
   private Label serverPW;
   @FXML
   private ListView<String> hostListView;
+  
+  Lobby currentLobby;
 
   ArrayList<Lobby> hostList = new ArrayList<Lobby>();
 
@@ -57,6 +59,10 @@ public class MultiplayerMenuController {
 
   }
 
+  public void startGame() {
+    SkatMain.mainController.startGame();
+  }
+  
   /**
    * .
    */
@@ -66,15 +72,16 @@ public class MultiplayerMenuController {
     new Thread() {
       public void run() {
         hostList = SkatMain.mainController.getLocalHosts();
+        System.out.println("ICh bin ");
+        for (Lobby lobby : hostList) {
+          items.add(lobby.getName() + "(" + lobby.getCurrentNumberOfPlayers() + "/"
+              + lobby.getMaximumNumberOfPlayers() + ")");
+        }
+
+        hostListView.setItems(items);
       };
     }.start();
 
-    for (Lobby lobby : hostList) {
-      items.add(lobby.getName() + "(" + lobby.getCurrentNumberOfPlayers() + "/"
-          + lobby.getMaximumNumberOfPlayers() + ")");
-    }
-
-    hostListView.setItems(items);
   }
 
   /**
@@ -124,7 +131,8 @@ public class MultiplayerMenuController {
    * .
    */
   public void joinServer() {
-
+    SkatMain.mainController.joinMultiplayerGame(currentLobby);
+    System.out.println("Join");
   }
 
   /**
@@ -134,7 +142,7 @@ public class MultiplayerMenuController {
     System.out.println(hostListView.getSelectionModel().getSelectedItem());
     System.out.println(hostListView.getSelectionModel().getSelectedIndex());
 
-    Lobby currentLobby = hostList.get(hostListView.getSelectionModel().getSelectedIndex());
+    currentLobby = hostList.get(hostListView.getSelectionModel().getSelectedIndex());
 
     // fill view fields
     serverName.setText(currentLobby.getName());
