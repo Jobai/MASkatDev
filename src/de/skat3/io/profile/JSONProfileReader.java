@@ -1,7 +1,7 @@
 package de.skat3.io.profile;
 
 import static de.skat3.io.profile.Utils.GSON;
-import static de.skat3.io.profile.Utils.JSON_PATH;
+import static de.skat3.io.profile.Utils.JSON_PATH_PRODUCTION;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -83,29 +83,16 @@ public class JSONProfileReader {
     JsonArray jsonArray = new JsonArray();
     try {
       JsonParser parser = new JsonParser();
-      JsonElement jsonElement = parser.parse(new FileReader(JSON_PATH));
+      JsonElement jsonElement = parser.parse(new FileReader(JSON_PATH_PRODUCTION));
       jsonArray = jsonElement.getAsJsonArray();
     } catch (FileNotFoundException e) {
       System.out.println("The json file was not found");
       e.printStackTrace();
+    } catch (NullPointerException ex) {
+
+      return jsonArray;
     }
     return jsonArray;
   }
-
-  // checks if there is a JSON_LAST_USED_FIELD, which value is true and returns its id
-  // otherwise returns null
-  // private Profile determineLastUsedProfile1() {
-  // Profile lastUsed = null;
-  // JsonArray jsonArray = convertFileToJsonArray();
-  // for (int i = 0; i < jsonArray.size(); i++) {
-  // JsonElement element = jsonArray.get(i);
-  // JsonElement potentialyLastUsed = element.getAsJsonObject().get(JSON_LAST_USED_FIELD);
-  // String temp = potentialyLastUsed.toString();
-  // if (temp.equals("true")) {
-  // lastUsed = GSON.fromJson(potentialyLastUsed, Profile.class);
-  // }
-  // }
-  // return lastUsed;
-  // }
 
 }

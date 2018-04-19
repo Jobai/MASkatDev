@@ -1,3 +1,4 @@
+
 package de.skat3.main;
 
 import java.net.UnknownHostException;
@@ -24,7 +25,7 @@ public class SkatMain {
     SkatMain.guiController = new GuiController();
     SkatMain.ioController = new IoController();
     SkatMain.mainNetworkController = new MainNetworkController();
-    SkatMain sk = new SkatMain();
+    // SkatMain sk = new SkatMain();
     //sk. new Test();
     Gui.showAndWait();
 

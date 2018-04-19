@@ -12,7 +12,7 @@ import javafx.scene.image.Image;
 
 
 public class Profile {
-  private transient JSONProfileReader reader = new JSONProfileReader();
+  private transient IoController controller = new IoController();
   private transient Image image;
 
   @SerializedName(JSON_ID_FIELD)
@@ -27,13 +27,13 @@ public class Profile {
 
   public Profile(String name) {
     this.name = name;
-    reader.setLastUsedProfile(this);
+    controller.getReader().setLastUsedProfile(this);
   }
 
   public Profile(String name, Image image, String imageFormat) {
     this.name = name;
     this.setImage(image, imageFormat);
-    reader.setLastUsedProfile(this);
+    controller.getReader().setLastUsedProfile(this);
   }
 
   public UUID getUuid() {
@@ -70,12 +70,13 @@ public class Profile {
   public void setLastUsed(boolean lastUsed) {
     this.lastUsed = lastUsed;
     if (lastUsed) {
-    updateLastUsed();
+      // FIXME last used doesnot work properly
+      // updateLastUsed();
     }
   }
 
   public void updateLastUsed() {
-    ArrayList<Profile> profilesList = reader.getProfileList();
+    ArrayList<Profile> profilesList = controller.getProfileList();
     Iterator<Profile> iter = profilesList.iterator();
     while (iter.hasNext()) {
       Profile current = iter.next();
@@ -83,5 +84,6 @@ public class Profile {
         current.setLastUsed(false);
       }
     }
+    controller.updateProfiles();
   }
 }

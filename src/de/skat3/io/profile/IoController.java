@@ -1,7 +1,7 @@
 package de.skat3.io.profile;
 
 import static de.skat3.io.profile.Utils.GSON;
-import static de.skat3.io.profile.Utils.JSON_PATH;
+import static de.skat3.io.profile.Utils.JSON_PATH_PRODUCTION;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,8 +11,9 @@ import javafx.scene.image.Image;
 
 
 public class IoController implements IoInterface {
-  private JSONProfileReader reader = new JSONProfileReader();
-  private ArrayList<Profile> profilesList = reader.getProfileList();
+  // this reader must be used by all components
+  public JSONProfileReader reader = new JSONProfileReader();
+  private ArrayList<Profile> profilesList = getProfileList();
 
   @Override
   public void addProfile(Profile profile) {
@@ -74,10 +75,10 @@ public class IoController implements IoInterface {
     return reader;
   }
 
-  private void updateProfiles() {
+  public void updateProfiles() {
     String profileJsonString = GSON.toJson(profilesList);
     try {
-      FileWriter writer = new FileWriter(JSON_PATH);
+      FileWriter writer = new FileWriter(JSON_PATH_PRODUCTION);
       writer.write(profileJsonString);
       writer.close();
     } catch (IOException e) {
