@@ -245,6 +245,7 @@ public class MenuFrameController {
       openProfile(null);
     }
 
+    //currentProfile = SkatMain.ioController.getLastUsedProfile();
     allProfile = SkatMain.ioController.getProfileList();
 
     for (Profile profile : allProfile) {

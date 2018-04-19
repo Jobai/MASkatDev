@@ -23,7 +23,7 @@ public class LobbyServer extends Thread {
   private Lobby lobby;
 
   private InetAddress iAdress;
-  public int port = 5000;
+  public int port = 2011;
 
   public LobbyServer(Lobby lobby) {
     logger.setLevel(Level.ALL);

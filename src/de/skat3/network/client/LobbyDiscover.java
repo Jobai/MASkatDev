@@ -52,7 +52,7 @@ public class LobbyDiscover extends Thread {
 
       lobbyList = new ArrayList<Lobby>();
       while (!this.isInterrupted()) {
-        buffer = new byte[500];
+        buffer = new byte[4096]; //XXX
         DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
         System.out.println("RECEIVING NEXT");
         ms.receive(dp);
