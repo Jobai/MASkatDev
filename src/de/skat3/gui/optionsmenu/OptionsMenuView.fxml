@@ -9,46 +9,67 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane layoutY="141.0" prefHeight="581.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.optionsmenu.OptionsMenuController">
-   <children>
-      <AnchorPane layoutX="20.0" layoutY="26.0" opacity="0.5" prefHeight="522.0" prefWidth="1233.0" style="-fx-background-color: #404040;" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="26.0" />
-      <GridPane layoutX="56.0" layoutY="81.0" prefHeight="343.0" prefWidth="703.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="734.0" minWidth="10.0" prefWidth="374.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="863.0" minWidth="10.0" prefWidth="489.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="70.0" minHeight="0.0" prefHeight="70.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="Volume Music" textFill="WHITE" GridPane.rowIndex="2">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label text="Volume Game" textFill="WHITE" GridPane.rowIndex="3">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Slider prefHeight="16.0" prefWidth="649.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Slider GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Music on/off" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label text="Game Sound on/off" textFill="WHITE" GridPane.rowIndex="1">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <ToggleButton mnemonicParsing="false" text="Off" GridPane.columnIndex="1" />
-            <ToggleButton mnemonicParsing="false" text="ON" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         </children>
-      </GridPane>
-   </children>
+<AnchorPane layoutY="141.0" prefHeight="581.0"
+	prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.skat3.gui.optionsmenu.OptionsMenuController">
+	<children>
+		<AnchorPane layoutX="20.0" layoutY="26.0" opacity="0.5"
+			prefHeight="522.0" prefWidth="1233.0"
+			style="-fx-background-color: #404040;" AnchorPane.bottomAnchor="33.0"
+			AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="27.0"
+			AnchorPane.topAnchor="26.0" />
+		<GridPane layoutX="56.0" layoutY="81.0" prefHeight="343.0"
+			prefWidth="703.0">
+			<columnConstraints>
+				<ColumnConstraints halignment="LEFT"
+					hgrow="SOMETIMES" maxWidth="734.0" minWidth="10.0"
+					prefWidth="374.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					maxWidth="863.0" minWidth="10.0" prefWidth="489.0" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints maxHeight="70.0" minHeight="10.0"
+					prefHeight="70.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="70.0" minHeight="10.0"
+					prefHeight="70.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="70.0" minHeight="0.0"
+					prefHeight="70.0" vgrow="SOMETIMES" />
+				<RowConstraints maxHeight="70.0" minHeight="10.0"
+					prefHeight="70.0" vgrow="SOMETIMES" />
+			</rowConstraints>
+			<children>
+				<Label text="Volume Music" textFill="WHITE"
+					GridPane.rowIndex="2">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<Label text="Volume Game" textFill="WHITE"
+					GridPane.rowIndex="3">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<Slider prefHeight="16.0" prefWidth="649.0"
+					GridPane.columnIndex="1" GridPane.rowIndex="2" />
+				<Slider GridPane.columnIndex="1" GridPane.rowIndex="3" />
+				<Label text="Music on/off" textFill="WHITE">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<Label text="Game Sound on/off" textFill="WHITE"
+					GridPane.rowIndex="1">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<ToggleButton mnemonicParsing="false" text="Off"
+					GridPane.columnIndex="1" />
+				<ToggleButton mnemonicParsing="false" text="ON"
+					GridPane.columnIndex="1" GridPane.rowIndex="1" />
+			</children>
+		</GridPane>
+	</children>
 </AnchorPane>

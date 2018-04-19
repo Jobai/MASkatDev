@@ -2,6 +2,7 @@ package de.skat3.gui.menuframe;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 import de.skat3.gui.Menu;
 import de.skat3.gui.multiplayermenu.MultiplayerMenu;
 import de.skat3.gui.optionsmenu.OptionsMenu;
@@ -239,23 +240,25 @@ public class MenuFrameController {
     profileMenuButton.getItems().clear();
 
     allProfile = SkatMain.ioController.getProfileList();
+    // prompt create profile
     if (allProfile.isEmpty()) {
       openProfile(null);
-      return;
     }
 
+    allProfile = SkatMain.ioController.getProfileList();
 
     for (Profile profile : allProfile) {
       Label l1 = new Label(profile.getName());
       l1.setFont(new Font(16));
       CustomMenuItem item = new CustomMenuItem(l1);
-      item.setId(profile.getUuid());
+      item.setId(profile.getUuid().toString());
       item.setOnAction(new EventHandler<ActionEvent>() {
 
         @Override
         public void handle(ActionEvent event) {
           CustomMenuItem source = (CustomMenuItem) event.getSource();
-          Profile p = SkatMain.mainController.readProfile(source.getId());
+          UUID uuid = UUID.fromString(source.getId());
+          Profile p = SkatMain.ioController.readProfile(uuid);
           setCurrentProfile(p);
         }
 
@@ -315,7 +318,11 @@ public class MenuFrameController {
 
   private void setCurrentProfile(Profile p) {
     this.currentProfile = p;
-    currentProfileImage.setImage(p.getImage());
+    try {
+      currentProfileImage.setImage(p.getImage());
+    } catch (Exception e) {
+    }
+
     currentProfileName.setText(p.getName());
   }
 

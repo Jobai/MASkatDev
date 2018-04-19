@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 public class ProfileController {
   private Stage profileStage;
   private Profile profile;
+  private String fileFormat;
 
   @FXML
   private ImageView profileImage;
@@ -64,11 +65,11 @@ public class ProfileController {
 
     if (profile == null) {
       // New profile
-      Profile newProfile = new Profile(profileName.getText(), image);
+      Profile newProfile = new Profile(profileName.getText(), image, fileFormat);
       SkatMain.ioController.addProfile(newProfile);
     } else {
       // Update profile
-      SkatMain.ioController.editProfile(profile, profileName.getText(), image);
+      SkatMain.ioController.editProfile(profile, profileName.getText(), image, fileFormat);
     }
     profileStage.close();
   }
@@ -91,6 +92,8 @@ public class ProfileController {
     File file = fileChooser.showOpenDialog(new Stage());
     if (file != null) {
       Image i = new Image(file.toURI().toString());
+      fileFormat = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."),
+          file.getAbsolutePath().length());
       profileImage.setImage(i);
     }
   }

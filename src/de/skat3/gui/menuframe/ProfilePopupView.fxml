@@ -15,8 +15,9 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="454.0" prefWidth="461.0"
-	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="de.skat3.gui.menuframe.ProfileController">
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.skat3.gui.menuframe.ProfileController"
+	xmlns="http://javafx.com/javafx/9.0.1">
 	<children>
 		<ImageView fx:id="profileImage" fitHeight="183.0"
 			fitWidth="196.0" layoutX="159.0" layoutY="79.0" pickOnBounds="true"

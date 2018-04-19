@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="653" prefWidth="600.0"
-	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/9.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.resultscreen.RoundResultViewController">
 	<children>
 		<Pane layoutY="-1.0" prefHeight="80.0" prefWidth="600.0"
