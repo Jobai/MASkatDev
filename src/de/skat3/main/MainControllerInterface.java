@@ -3,8 +3,10 @@ package de.skat3.main;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public interface MainControllerInterface {
@@ -20,16 +22,12 @@ public interface MainControllerInterface {
 
   public void joinMultiplayerGame(Lobby lobby, String password);
 
-  public void hostMultiplayerGame(int spieler);
-
-  public void hostMultiplayerGame(int spieler, String password);
-
-  public void hostMultiplayerGame(int spieler, int timer);
-
-  public void hostMultiplayerGame(int spieler, int timer, String password);
+  public void hostMultiplayerGame(String name, String password, int numberOfPlayers, int timer,
+      boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException;
   
-  
-  
+  public void hostMultiplayerGame(String name, int numberOfPlayers, int timer,
+      boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException;
+
   public void startGame();
 
   public void playCard(Player player, Card card);
@@ -37,7 +35,7 @@ public interface MainControllerInterface {
   public void sendMessage(String message);
 
   public void receiveMessage(String message);
-  
+
   public void exitGame();
 
   public void setSkat(Card[] skat);
@@ -58,7 +56,7 @@ public interface MainControllerInterface {
 
   public void showResults(Result result);
 
-  public void showEndScreen(Object o);
+  public void showEndScreen(MatchResult matchResult);
 
   public void localCardPlayed(Card card);
 
@@ -68,6 +66,6 @@ public interface MainControllerInterface {
 
   public void handGameSelected(boolean accepted);
 
-  
+
 
 }

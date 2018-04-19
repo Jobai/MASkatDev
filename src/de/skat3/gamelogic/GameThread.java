@@ -20,13 +20,13 @@ public class GameThread extends Thread {
       }
       if (this.gc.mode > 0) {
         if (this.gc.numberOfRounds == this.gc.mode) {
-          this.gc.slc.broadcastMatchResult(new Object());
+          this.gc.slc.broadcastMatchResult(gc.matchResult);
           break;
         }
       } else {
         for (Player player : this.gc.allPlayers) {
           if (player.points <= this.gc.mode) {
-            this.gc.slc.broadcastMatchResult(new Object());
+            this.gc.slc.broadcastMatchResult(gc.matchResult);
             break;
           }
         }

@@ -36,6 +36,7 @@ public class Card implements Serializable {
    * Represents a single card.
    */
   public Card(Suit suit, Value value) {
+    this.playable = true;
     this.suit = suit;
     this.value = value;
     this.addTrickValue();
@@ -45,7 +46,7 @@ public class Card implements Serializable {
   }
 
   public ImageView getImage() {
-    return this.imageView;
+    return new ImageView(new Image(this.view)); //FIXME
   }
 
 

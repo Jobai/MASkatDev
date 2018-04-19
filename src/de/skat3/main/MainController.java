@@ -16,6 +16,7 @@ import javafx.application.Platform;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import de.skat3.gamelogic.GameController;
+import de.skat3.gamelogic.MatchResult;
 
 
 
@@ -35,7 +36,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void startSingleplayerGame() {
-    // SkatMain.mainNetworkController.blabla TODO pull
+    SkatMain.mainNetworkController.playAndHostSinglePlayer();
 
   }
 
@@ -54,32 +55,30 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void joinMultiplayerGame(Lobby lobby, String password) {
+    // if(network)
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.clc = gameClient.getClc();
+    // Else
+    SkatMain.guiController.showWrongPassword();
 
   }
 
-  @Override
-  public void hostMultiplayerGame(int spieler) {
-    // TODO Auto-generated method stub
 
-  }
-
-  @Override
-  public void hostMultiplayerGame(int spieler, String password) {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void hostMultiplayerGame(int spieler, int timer) {
-    // TODO Auto-generated method stub
-
-  }
+  /**
+   * Creates a lobby for a multiplayer game.
+   * 
+   * @param spieler number of players
+   * @param timer 0 = no timer, >0 timer in seconds
+   * @param kontraRekontraEnabled true if feature is enabled
+   * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
+   *        number between -500 and -1000)
+   * @throws UnknownHostException
+   */
 
   @Override
-  public void hostMultiplayerGame(int spieler, int timer, String password) {
-    // TODO Auto-generated method stub
+  public void hostMultiplayerGame(String name, int numberOfPlayers, int timer,
+      boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException {
+    this.hostMultiplayerGame(name, "", numberOfPlayers, timer, kontraRekontraEnabled, scoringMode);
 
   }
 
@@ -190,7 +189,6 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        // TODO Auto-generated method stub
         SkatMain.guiController.handGameRequest();
 
 
@@ -208,7 +206,6 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        // TODO Auto-generated method stub
         SkatMain.guiController.contractRequest();
 
 
@@ -228,6 +225,11 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void playCardRequest() {
+
+    Card currentCard = SkatMain.lgs.getCurrentCardInTrick();
+    if (currentCard != null) {
+      SkatMain.lgs.localClient.getHand().setPlayableCards(currentCard, SkatMain.lgs.contract);
+    }
     if (SkatMain.lgs.timerInSeconds > 0) {
       new Timer(SkatMain.lgs.timerInSeconds);
     }
@@ -241,11 +243,7 @@ public class MainController implements MainControllerInterface {
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-        SkatMain.mainController.playCard(SkatMain.lgs.localClient,
-            SkatMain.lgs.localClient.getHand().cards[0]);
-        System.out.println(SkatMain.lgs.localClient.getHand().cards[0]);
-        clc.playAnswer(SkatMain.lgs.localClient.getHand().cards[0]);
-        // SkatMain.guiController.getInGameController().makeAMove(true);
+        SkatMain.guiController.getInGameController().makeAMove(true);
 
 
       }
@@ -256,14 +254,13 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showResults(Result result) {
-    System.out.println(result.displayCalculation);
-    // SkatMain.guiController.getInGameController().showResults(result);
+    SkatMain.guiController.getInGameController().showResults(result);
 
   }
 
   @Override
-  public void showEndScreen(Object o) {
-    SkatMain.guiController.getInGameController().showEndScreen();
+  public void showEndScreen(MatchResult matchResult) {
+    // SkatMain.guiController.getInGameController().showEndScreen(matchResult); TODO
   }
 
   @Override
@@ -312,7 +309,7 @@ public class MainController implements MainControllerInterface {
 
 
   public void editProfile(Profile profile, String name, Image image) {
-    // SkatMain.ioController.editProfile(profile, name, image);
+    // SkatMain.ioController.editProfile(profile, name, image); TODO
   }
 
   public boolean deleteProfile(Profile profile) {
@@ -324,9 +321,8 @@ public class MainController implements MainControllerInterface {
     SkatMain.lgs = new LocalGameState(this.currentLobby.numberOfPlayers,
         this.currentLobby.getPlayers(), this.currentLobby.timer);
     this.gameServer.setGameMode(1);
-    this.gameController.setPlayers(this.currentLobby.players);
-    this.gameController.setSlc(this.gameServer.getSeverLogicController());
-    this.gameController.startGame();
+    this.gameController.startGame(this.currentLobby.players,
+        this.gameServer.getSeverLogicController());
 
   }
 
