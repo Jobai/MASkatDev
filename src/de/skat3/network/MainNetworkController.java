@@ -95,7 +95,7 @@ public class MainNetworkController implements MainNetworkInterface {
    * 
    * @see de.skat3.network.MainNetworkInterface#discoverServer()
    */
-  @Override
+  @Override 
   public ArrayList<Lobby> discoverServer() {
     // TODO Auto-generated method stub
     LobbyDiscover ld = new LobbyDiscover();
