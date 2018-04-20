@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -9,7 +14,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+
 
 <AnchorPane layoutY="141.0" prefHeight="581.0"
 	prefWidth="1280.0" xmlns="http://javafx.com/javafx/9.0.1"
@@ -52,70 +57,66 @@
 			AnchorPane.bottomAnchor="114.0" AnchorPane.rightAnchor="39.0"
 			AnchorPane.topAnchor="45.0">
 			<children>
-				<GridPane layoutY="152.0" prefHeight="261.0"
-					prefWidth="380.0">
+				<GridPane layoutX="13.0" layoutY="139.0" prefHeight="274.0"
+					prefWidth="367.0">
 					<columnConstraints>
+						<ColumnConstraints halignment="RIGHT"
+							hgrow="SOMETIMES" maxWidth="186.0" minWidth="10.0"
+							prefWidth="89.0" />
 						<ColumnConstraints hgrow="SOMETIMES"
-							minWidth="10.0" prefWidth="100.0" />
-						<ColumnConstraints hgrow="SOMETIMES"
-							minWidth="10.0" prefWidth="100.0" />
-						<ColumnConstraints hgrow="SOMETIMES"
-							minWidth="10.0" prefWidth="100.0" />
+							maxWidth="293.0" minWidth="10.0" prefWidth="278.0" />
 					</columnConstraints>
 					<rowConstraints>
-						<RowConstraints maxHeight="82.0" minHeight="10.0"
-							prefHeight="76.0" vgrow="SOMETIMES" />
-						<RowConstraints maxHeight="84.0" minHeight="6.0"
-							prefHeight="84.0" vgrow="SOMETIMES" />
-						<RowConstraints maxHeight="37.0" minHeight="0.0"
-							prefHeight="15.0" vgrow="SOMETIMES" />
-						<RowConstraints maxHeight="27.0" minHeight="10.0"
-							prefHeight="12.0" vgrow="SOMETIMES" />
+						<RowConstraints maxHeight="103.0" minHeight="10.0"
+							prefHeight="59.0" vgrow="SOMETIMES" />
+						<RowConstraints maxHeight="123.0" minHeight="6.0"
+							prefHeight="65.0" vgrow="SOMETIMES" />
+						<RowConstraints maxHeight="113.0" minHeight="0.0"
+							prefHeight="60.0" vgrow="SOMETIMES" />
+						<RowConstraints maxHeight="65.0" minHeight="10.0"
+							prefHeight="65.0" vgrow="SOMETIMES" />
 					</rowConstraints>
 					<children>
-						<Label text="Aljoscha" textFill="WHITE"
+						<Label fx:id="nameP1" textFill="WHITE"
 							GridPane.columnIndex="1">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<Label text="87% Win Ratio" textFill="WHITE"
-							GridPane.columnIndex="2" GridPane.rowIndex="1">
+						<Label fx:id="nameP2" textFill="WHITE"
+							GridPane.columnIndex="1" GridPane.rowIndex="1">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<Label text="99% Win Ratio" textFill="WHITE"
-							GridPane.columnIndex="2">
+						<ImageView fx:id="imageP2" fitHeight="60.0"
+							fitWidth="60.0" pickOnBounds="true" preserveRatio="true"
+							GridPane.halignment="LEFT" GridPane.rowIndex="1"
+							GridPane.valignment="CENTER" />
+						<ImageView fx:id="imageP1" fitHeight="60.0"
+							fitWidth="60.0" pickOnBounds="true" preserveRatio="true"
+							GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+						<ImageView fx:id="imageP3" fitHeight="60.0"
+							fitWidth="60.0" pickOnBounds="true" preserveRatio="true"
+							GridPane.halignment="LEFT" GridPane.rowIndex="2" />
+						<ImageView fx:id="imageP4" fitHeight="60.0"
+							fitWidth="60.0" pickOnBounds="true" preserveRatio="true"
+							GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+						<Label fx:id="nameP3" textFill="WHITE"
+							GridPane.columnIndex="1" GridPane.rowIndex="2">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<Label text="Timo" textFill="WHITE" GridPane.columnIndex="1"
-							GridPane.rowIndex="1">
+						<Label fx:id="nameP4" textFill="WHITE"
+							GridPane.columnIndex="1" GridPane.rowIndex="3">
 							<font>
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<ImageView fitHeight="60.0" fitWidth="74.0"
-							pickOnBounds="true" preserveRatio="true"
-							GridPane.halignment="CENTER" GridPane.rowIndex="1"
-							GridPane.valignment="CENTER">
-							<image>
-								<Image
-									url="@../../../../../resources/guifiles/Miniclip-8-Ball-Pool-Avatar-7.png" />
-							</image>
-						</ImageView>
-						<ImageView fitHeight="70.0" fitWidth="70.0"
-							pickOnBounds="true" preserveRatio="true"
-							GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-							<image>
-								<Image url="@../../../../../resources/guifiles/slide2.png" />
-							</image>
-						</ImageView>
 					</children>
 				</GridPane>
-				<GridPane layoutX="21.0" layoutY="22.0" prefHeight="110.0"
+				<GridPane layoutX="23.0" layoutY="14.0" prefHeight="110.0"
 					prefWidth="334.0">
 					<columnConstraints>
 						<ColumnConstraints hgrow="SOMETIMES"
@@ -139,8 +140,8 @@
 								<Font size="18.0" />
 							</font>
 						</Label>
-						<Label fx:id="serverName" text="Best Skat Server"
-							textFill="WHITE" GridPane.columnIndex="1">
+						<Label fx:id="serverName" textFill="WHITE"
+							GridPane.columnIndex="1">
 							<font>
 								<Font size="18.0" />
 							</font>
@@ -150,8 +151,8 @@
 								<Font size="18.0" />
 							</font>
 						</Label>
-						<Label fx:id="serverIP" text="192.168.2.100"
-							textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+						<Label fx:id="serverIP" textFill="WHITE"
+							GridPane.columnIndex="1" GridPane.rowIndex="1">
 							<font>
 								<Font size="18.0" />
 							</font>
@@ -162,7 +163,7 @@
 								<Font size="18.0" />
 							</font>
 						</Label>
-						<Label fx:id="serverPW" text="Yes" textFill="WHITE"
+						<Label fx:id="serverPW" textFill="WHITE"
 							GridPane.columnIndex="1" GridPane.rowIndex="2">
 							<font>
 								<Font size="18.0" />
@@ -173,7 +174,7 @@
 								<Font size="18.0" />
 							</font>
 						</Label>
-						<Label fx:id="serverPlayer" text="2/3" textFill="WHITE"
+						<Label fx:id="serverPlayer" textFill="WHITE"
 							GridPane.columnIndex="1" GridPane.rowIndex="3">
 							<font>
 								<Font size="18.0" />
@@ -201,8 +202,8 @@
 				<Font size="17.0" />
 			</font>
 		</Button>
-		<Button layoutX="40.0" layoutY="17.0" mnemonicParsing="false"
-			onAction="#startGame" prefHeight="25.0" prefWidth="521.0"
-			text="Start Game" />
+		<Button layoutX="40.0" layoutY="14.0" mnemonicParsing="false"
+			onAction="#startGame" prefHeight="27.0" prefWidth="270.0"
+			text="Start Game (Test)" />
 	</children>
 </AnchorPane>
