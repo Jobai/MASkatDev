@@ -9,12 +9,12 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane layoutY="141.0" prefHeight="581.0"
+	prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.statsmenu.StatsMenuController"
 	xmlns="http://javafx.com/javafx/9.0.1">
 	<children>
 		<AnchorPane layoutX="30.0" layoutY="36.0" opacity="0.5"
-			prefHeight="522.0" prefWidth="1233.0"
 			style="-fx-background-color: #404040;" AnchorPane.bottomAnchor="33.0"
 			AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="27.0"
 			AnchorPane.topAnchor="26.0" />

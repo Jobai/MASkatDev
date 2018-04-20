@@ -188,7 +188,11 @@ public class MenuFrameController {
         this.startMenuUnderlineAnimation(this.optionsMenuButton);
       }
 
-      double slideInEndX, slideOutEndX;
+      newMenu.getPane().setPrefSize(this.mainPane.getScene().getWidth(),
+          this.mainPane.getScene().getHeight() - 141);
+
+      double slideOutEndX;
+
       if (newMenu.compareTo(this.activeMenu) > 0) {
         newMenu.getPane().setTranslateX(-this.mainPane.getWidth() - 1);
         slideOutEndX = this.mainPane.getWidth() + 1;
@@ -199,13 +203,15 @@ public class MenuFrameController {
 
       this.mainPane.getChildren().add(newMenu.getPane());
 
+      double slideInEndX;
+
       TranslateTransition slideIn = new TranslateTransition();
-      TranslateTransition slideOut = new TranslateTransition();
       slideInEndX = 0;
       slideIn.setToX(slideInEndX);
       slideIn.setNode(newMenu.getPane());
       slideIn.setDuration(this.switchMenuDuration);
 
+      TranslateTransition slideOut = new TranslateTransition();
       slideOut.setToX(slideOutEndX);
       slideOut.setNode(this.activeMenu.getPane());
       slideOut.setDuration(this.switchMenuDuration);
@@ -219,6 +225,7 @@ public class MenuFrameController {
         AnchorPane.setBottomAnchor(newMenu.getPane(), 0.0);
         AnchorPane.setLeftAnchor(newMenu.getPane(), 0.0);
         AnchorPane.setRightAnchor(newMenu.getPane(), 0.0);
+
         AnchorPane.setTopAnchor(newMenu.getPane(), 141.0);
         this.mainPane.setDisable(false);
       });
@@ -315,8 +322,8 @@ public class MenuFrameController {
     // later this line is to be used {
     // currentProfile = SkatMain.ioController.getLastUsedProfile();
     // }
-    //setCurrentProfile(currentProfile);
-    //currentProfile = SkatMain.ioController.getProfileList().get(0);
+    // setCurrentProfile(currentProfile);
+    // currentProfile = SkatMain.ioController.getProfileList().get(0);
     //
 
     setCurrentProfile(currentProfile);
