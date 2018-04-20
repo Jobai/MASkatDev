@@ -11,22 +11,24 @@ import javafx.scene.image.Image;
 
 
 public class IoController implements IoInterface {
-  // this reader must be used by all components
-  public JSONProfileReader reader = new JSONProfileReader();
-  private ArrayList<Profile> profilesList = getProfileList();
+  public JSONProfileReader reader;
+  private ArrayList<Profile> profileList;
+
+  public IoController() {
+    this.reader = new JSONProfileReader();
+    this.profileList = getProfileList();
+  }
 
   @Override
   public void addProfile(Profile profile) {
-    profilesList.add(profile);
-    reader.setProfilesList(profilesList);
-    profile.setLastUsed(true);
+    profileList.add(profile);
     updateProfiles();
+    profile.setLastUsedTrue(this);
   }
 
   @Override
   public boolean deleteProfile(Profile profile) {
-    boolean deleted = profilesList.remove(profile);
-    reader.setProfilesList(profilesList);
+    boolean deleted = profileList.remove(profile);
     updateProfiles();
 
     return deleted;
@@ -36,7 +38,7 @@ public class IoController implements IoInterface {
   public void editProfile(Profile profile, String name, Image image, String imageFormat) {
     Profile toEdit = null;
 
-    Iterator<Profile> iter = profilesList.iterator();
+    Iterator<Profile> iter = profileList.iterator();
     while (iter.hasNext()) {
       Profile next = iter.next();
       if (next.equals(profile)) {
@@ -47,16 +49,14 @@ public class IoController implements IoInterface {
 
     toEdit.setName(name);
     toEdit.setImage(image, imageFormat);
-    toEdit.setLastUsed(true);
-
-    reader.setProfilesList(profilesList);
     updateProfiles();
+    toEdit.setLastUsedTrue(this);
   }
 
   @Override
   public Profile readProfile(UUID id) {
     Profile profile = reader.readProfile(id);
-    profile.setLastUsed(true);
+    profile.setLastUsedTrue(this);
 
     return profile;
   }
@@ -76,7 +76,8 @@ public class IoController implements IoInterface {
   }
 
   public void updateProfiles() {
-    String profileJsonString = GSON.toJson(profilesList);
+    reader.determineLastUsedProfile();
+    String profileJsonString = GSON.toJson(profileList);
     try {
       FileWriter writer = new FileWriter(JSON_PATH_PRODUCTION);
       writer.write(profileJsonString);

@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 
 
 public class Profile {
-  private transient IoController controller = new IoController();
   private transient Image image;
 
   @SerializedName(JSON_ID_FIELD)
@@ -27,13 +26,11 @@ public class Profile {
 
   public Profile(String name) {
     this.name = name;
-    controller.getReader().setLastUsedProfile(this);
   }
 
   public Profile(String name, Image image, String imageFormat) {
     this.name = name;
     this.setImage(image, imageFormat);
-    controller.getReader().setLastUsedProfile(this);
   }
 
   public UUID getUuid() {
@@ -67,21 +64,22 @@ public class Profile {
     return lastUsed;
   }
 
-  public void setLastUsed(boolean lastUsed) {
-    this.lastUsed = lastUsed;
-    if (lastUsed) {
-      // FIXME last used doesnot work properly
-      // updateLastUsed();
-    }
+  public void setLastUsedTrue(IoController controller) {
+    this.lastUsed = true;
+    updateLastUsed(controller);
   }
 
-  public void updateLastUsed() {
-    ArrayList<Profile> profilesList = controller.getProfileList();
-    Iterator<Profile> iter = profilesList.iterator();
+  private void setLastUsedFalse() {
+    this.lastUsed = false;
+  }
+
+  public void updateLastUsed(IoController controller) {
+    ArrayList<Profile> list = controller.getProfileList();
+    Iterator<Profile> iter = list.iterator();
     while (iter.hasNext()) {
       Profile current = iter.next();
       if (!current.equals(this)) {
-        current.setLastUsed(false);
+        current.setLastUsedFalse();
       }
     }
     controller.updateProfiles();

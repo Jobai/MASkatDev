@@ -14,8 +14,13 @@ import com.google.gson.JsonParser;
 
 public class JSONProfileReader {
 
-  private ArrayList<Profile> profileList = getAllProfileAsList();
-  private Profile lastUsed = determineLastUsedProfile();
+  private ArrayList<Profile> profileList;
+  private Profile lastUsed;
+
+  public JSONProfileReader() {
+    this.profileList = getAllProfileAsList();
+    determineLastUsedProfile();
+  }
 
   public ArrayList<Profile> getProfileList() {
     return profileList;
@@ -38,19 +43,17 @@ public class JSONProfileReader {
     while (iter.hasNext()) {
       Profile current = iter.next();
       if (current.getUuid().equals(id)) {
-        current.setLastUsed(true);
-
         return current;
       }
     }
     return null;
   }
 
-  // if there is no current player (for some reason e.g. deleted etc)
-  // sets first profile at last used
-  private Profile determineLastUsedProfile() {
+
+  public void determineLastUsedProfile() {
+    lastUsed = null;
     if (profileList.size() <= 0) {
-      return null;
+      return;
     } else {
       Iterator<Profile> itr = profileList.iterator();
       while (itr.hasNext()) {
@@ -60,9 +63,10 @@ public class JSONProfileReader {
         }
       }
       if (lastUsed == null) {
-        return profileList.get(0);
-      } else {
-        return lastUsed;
+        //
+        // System.out.println("user = null" + profileList);
+
+        lastUsed = profileList.get(0);
       }
     }
   }

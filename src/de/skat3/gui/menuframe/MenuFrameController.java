@@ -320,7 +320,7 @@ public class MenuFrameController {
 
     // FIXME @author Artem
     // later this line is to be used {
-    // currentProfile = SkatMain.ioController.getLastUsedProfile();
+    currentProfile = SkatMain.ioController.getLastUsedProfile();
     // }
     // setCurrentProfile(currentProfile);
     // currentProfile = SkatMain.ioController.getProfileList().get(0);

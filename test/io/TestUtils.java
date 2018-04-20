@@ -1,4 +1,4 @@
-package io; 
+package io;
  
 import static de.skat3.io.profile.Utils.IMAGE_1_JPG;
 import static de.skat3.io.profile.Utils.IMAGE_1_PNG;

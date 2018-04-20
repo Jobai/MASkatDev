@@ -4,33 +4,21 @@ import static io.TestUtils.JPG;
 import static io.TestUtils.PNG;
 import static io.TestUtils.TEST_IMAGE_1_JPG;
 import static io.TestUtils.TEST_IMAGE_1_PNG;
+import static io.TestUtils.TEST_IMAGE_2_PNG;
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.Test;
+import java.util.Iterator;
+import org.junit.Test;
 import de.skat3.io.profile.IoController;
 import de.skat3.io.profile.Profile;
 import javafx.embed.swing.JFXPanel;
 
-class checkProfileManagement {
+public class testProfileManagement {
   IoController controller = new IoController();
   private JFXPanel panel = new JFXPanel();
-  ArrayList<Profile> list;
-
-  @BeforeClass
-  void setUp() {
-    // ArrayList<Profile> clone = (ArrayList<Profile>) controller.getProfileList().clone();
-    // list = clone;
-  }
-
-  @AfterClass
-  void tearDown() {
-    // controller.setProfileList(list);
-  }
 
   @Test
-  void addAndDeleteProfileWithoutImage() {
+  public void addAndDeleteProfileWithoutImage() {
     Profile profile = new Profile("TestUser");
     controller.addProfile(profile);
     ArrayList<Profile> profileList = controller.getProfileList();
@@ -39,7 +27,7 @@ class checkProfileManagement {
   }
 
   @Test
-  void addAndDeleteProfileWith_PNG_Image() {
+  public void addAndDeleteProfileWith_PNG_Image() {
     Profile profile = new Profile("TestUser", TEST_IMAGE_1_PNG, PNG);
     controller.addProfile(profile);
     ArrayList<Profile> profileList = controller.getProfileList();
@@ -48,7 +36,7 @@ class checkProfileManagement {
   }
 
   @Test
-  void addAndDeleteProfileWith_JPG_Image() {
+  public void addAndDeleteProfileWith_JPG_Image() {
     Profile profile = new Profile("TestUser", TEST_IMAGE_1_JPG, JPG);
     controller.addProfile(profile);
     ArrayList<Profile> profileList = controller.getProfileList();
@@ -58,7 +46,7 @@ class checkProfileManagement {
 
 
   @Test
-  void checkEditNameAndImage() {
+  public void checkEditNameAndImage() {
     Profile profile = new Profile("TestUser", TEST_IMAGE_1_JPG, JPG);
     controller.addProfile(profile);
 
@@ -68,37 +56,49 @@ class checkProfileManagement {
   }
 
   @Test
-  void checkEditProfile() {
+  public void checkEditProfile() {
     Profile profile = new Profile("TestUser", TEST_IMAGE_1_JPG, JPG);
     controller.addProfile(profile);
 
-    controller.editProfile(profile, "TestUserNew", null, null);
+    controller.editProfile(profile, "TestUserNew", TEST_IMAGE_2_PNG, PNG);
     assertEquals(profile.getName(), ("TestUserNew"));
     controller.deleteProfile(profile);
   }
 
   @Test
-  void findProfile() {
+  public void checkEditTwoProfiles() {
+    Profile first = new Profile("TestUser", TEST_IMAGE_1_JPG, JPG);
+    Profile second = new Profile("TestUser", TEST_IMAGE_1_JPG, JPG);
+    controller.addProfile(first);
+    controller.addProfile(second);
+    controller.editProfile(first, "TestUserNew", TEST_IMAGE_2_PNG, PNG);
+    controller.editProfile(second, "TestUserNew", TEST_IMAGE_2_PNG, PNG);
+    controller.deleteProfile(first);
+    controller.deleteProfile(second);
+    assert (controller.getProfileList().size() == 0);
+  }
+
+  @Test
+  public void findProfile() {
     Profile profile = new Profile("TestUser", TEST_IMAGE_1_PNG, PNG);
     controller.addProfile(profile);
     Profile newProfile = controller.readProfile(profile.getUuid());
     assertEquals(profile, newProfile);
+    controller.deleteProfile(profile);
+    controller.deleteProfile(newProfile);
   }
 
+  @Test
+  public void deleteAllProfiles() {
+    ArrayList<Profile> list = controller.getProfileList();
 
+    Iterator<Profile> iter = list.iterator();
+    while (iter.hasNext()) {
+      Profile currentProfile = iter.next();
+      controller.deleteProfile(currentProfile);
+    }
 
-  // @Test
-  // void deleteAllProfiles() {
-  // ArrayList<Profile> list = controller.getProfileList();
-  //
-  // Iterator<Profile> iter = list.iterator();
-  //
-  // while (iter.hasNext()) {
-  // Profile currentProfile = iter.next();
-  // controller.deleteProfile(currentProfile);
-  // }
-  //
-  // }
+  }
 
 
 
