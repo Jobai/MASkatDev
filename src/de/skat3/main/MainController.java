@@ -300,9 +300,9 @@ public class MainController implements MainControllerInterface {
     // network
   }
 
-  public Profile readProfile(String id) {
-    return SkatMain.ioController.readProfile(id);
-  }
+//  public Profile readProfile(String id) {
+//    return SkatMain.ioController.readProfile(id);
+//  }
 
   public ArrayList<Profile> getProfileList() {
     return SkatMain.ioController.getProfileList();
@@ -313,9 +313,9 @@ public class MainController implements MainControllerInterface {
   }
 
 
-  public void editProfile(Profile profile, String name, Image image) {
-    SkatMain.ioController.editProfile(profile, name, image);
-  }
+//  public void editProfile(Profile profile, String name, Image image) {
+//    SkatMain.ioController.editProfile(profile, name, image);
+//  }
 
   public boolean deleteProfile(Profile profile) {
     return SkatMain.ioController.deleteProfile(profile);
