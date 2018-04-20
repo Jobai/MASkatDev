@@ -111,7 +111,7 @@ public class Matchfield {
       }
     });
 
-    this.table.widthProperty().addListener(e -> {      
+    this.table.widthProperty().addListener(e -> {
       this.playerHand.resetPositions();
       this.leftHand.resetPositions();
       this.rightHand.resetPositions();
@@ -131,13 +131,9 @@ public class Matchfield {
   public InGameController getController() {
     return this.controller;
   }
+  
+  
 
-  /**
-   * Returns the hand which is owned by the player.
-   * 
-   * @param owner The owner of the hand to return.
-   * @return Hand of the player.
-   */
   public GuiHand getHand(Player owner) {
     try {
       if (this.playerHand.getOwner().equals(owner)) {

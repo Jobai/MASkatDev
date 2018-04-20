@@ -18,9 +18,8 @@ public class TestClassStart extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
-    System.out.println(com.sun.javafx.runtime.VersionInfo.getRuntimeVersion());
-    //
     Matchfield m = new Matchfield(null);
+    m.setCardsPlayable(true);
 
     CardDeck d = new CardDeck();
 

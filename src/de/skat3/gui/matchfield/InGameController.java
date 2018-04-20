@@ -25,6 +25,10 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield = matchfield;
   }
 
+  public void showSkatSelection() {
+    
+  }
+
   /*
    * (non-Javadoc)
    * 
