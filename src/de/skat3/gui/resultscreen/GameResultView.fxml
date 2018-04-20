@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="653.0" prefWidth="600.0"
-	xmlns="http://javafx.com/javafx/9.0.1"
-	xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.resultscreen.GameResultViewController">
 	<children>
 		<TitledPane expanded="false" layoutY="380.0"
@@ -18,7 +17,7 @@
 					prefHeight="246.0" prefWidth="405.0">
 					<children>
 						<ListView layoutX="-1.0" layoutY="-2.0"
-							prefHeight="271.0" prefWidth="558.0" />
+							prefHeight="251.0" prefWidth="600.0" />
 					</children>
 				</AnchorPane>
 			</content>

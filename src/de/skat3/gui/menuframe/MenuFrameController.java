@@ -236,7 +236,7 @@ public class MenuFrameController {
   }
 
   private void fillProfileMenu() {
-    // Alte Daten entfernen
+    // clear old data
     profileMenuButton.getItems().clear();
 
     allProfile = SkatMain.ioController.getProfileList();
@@ -245,9 +245,7 @@ public class MenuFrameController {
       openProfile(null);
     }
 
-    //currentProfile = SkatMain.ioController.getLastUsedProfile();
     allProfile = SkatMain.ioController.getProfileList();
-    // setCurrentProfile();
 
     for (Profile profile : allProfile) {
       Label l1 = new Label(profile.getName());
@@ -306,6 +304,7 @@ public class MenuFrameController {
 
     if (p == null) {
       profileController.setHeaderText("Create a profile");
+      // TODO disable del button
     }
 
     stage.showAndWait();
@@ -316,7 +315,8 @@ public class MenuFrameController {
     // later this line is to be used {
     // currentProfile = SkatMain.ioController.getLastUsedProfile();
     // }
-    currentProfile = SkatMain.ioController.getProfileList().get(0);
+    //setCurrentProfile(currentProfile);
+    //currentProfile = SkatMain.ioController.getProfileList().get(0);
     //
 
     setCurrentProfile(currentProfile);
