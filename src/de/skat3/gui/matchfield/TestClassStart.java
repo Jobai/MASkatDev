@@ -18,6 +18,8 @@ public class TestClassStart extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
+    System.out.println(com.sun.javafx.runtime.VersionInfo.getRuntimeVersion());
+
     Matchfield m = new Matchfield(null);
 
     CardDeck d = new CardDeck();
@@ -37,11 +39,11 @@ public class TestClassStart extends Application {
     m.playerHand.addAll(l1);
     m.leftHand.addAll(l2);
     m.rightHand.addAll(l3);
-   
-    
+
+
     primaryStage.setScene(m.getScene());
-//    primaryStage.setMinWidth(1280);
-//    primaryStage.setMinHeight(720);
+    // primaryStage.setMinWidth(1280);
+    // primaryStage.setMinHeight(720);
     primaryStage.show();
   }
 
