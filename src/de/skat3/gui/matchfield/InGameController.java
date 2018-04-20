@@ -1,5 +1,6 @@
 package de.skat3.gui.matchfield;
 
+
 import java.util.UUID;
 import com.sun.javafx.collections.IntegerArraySyncer;
 import de.skat3.gamelogic.AdditionalMultipliers;
@@ -21,7 +22,7 @@ public class InGameController implements InGameControllerInterface {
   private LocalGameState gameState;
 
   public InGameController(LocalGameState state, Matchfield matchfield) {
-
+    this.matchfield = matchfield;
   }
 
   /*

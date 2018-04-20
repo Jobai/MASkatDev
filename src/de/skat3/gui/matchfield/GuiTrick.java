@@ -1,6 +1,7 @@
 package de.skat3.gui.matchfield;
 
 
+import java.util.Date;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.DoubleBinding;
@@ -68,20 +69,17 @@ public class GuiTrick {
   }
 
   public synchronized void resetPostions() {
-
     double maxMainAxisLength;
     double mainAxisLength;
 
-    if (this.cards.length > 0) {
+    if (this.cards[0] != null) {
       maxMainAxisLength = this.cards[0].card.getImage().getFitWidth() * 2;
       mainAxisLength = this.cards[0].getScene().getWidth() / 2;
       if (mainAxisLength > maxMainAxisLength) {
         mainAxisLength = maxMainAxisLength;
       }
       this.translateXOne.set(mainAxisLength / 2);
-      
     }
-
   }
 
 

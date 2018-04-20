@@ -1,8 +1,10 @@
 package de.skat3.gui.matchfield;
 
+
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Player;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -60,6 +62,7 @@ public class GuiHand extends Parent {
   }
 
   protected synchronized void resetPositions() {
+
     if (this.getChildren().isEmpty()) {
       return;
     }
@@ -76,9 +79,12 @@ public class GuiHand extends Parent {
     for (Node child : this.getChildren()) {
 
       GuiCard card = (GuiCard) child;
-
+      Date s = new Date();
       card.card.getImage().setFitWidth(width);
       card.card.getImage().setFitHeight(height);
+      Date ee = new Date();
+
+      System.out.println(ee.getTime() - s.getTime());
 
       TranslateTransition cordsAni = new TranslateTransition();
       cordsAni.setNode(card);
@@ -117,13 +123,16 @@ public class GuiHand extends Parent {
       timeline.play();
       i++;
     }
+
+
+
   }
 
   /**
    * Moves the card to the postions of the targetPos Parent.
    * 
    * @param card Card to move.
-   * @param targetPos Parent from which the transitions and rotations are getted.
+   * @param targetPos Parent of which the transitions and rotations are used.
    * 
    */
   public synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Pane root) {
@@ -233,7 +242,6 @@ public class GuiHand extends Parent {
    * Calculates the right postions and angles of all the cards in this hand.
    * 
    * @param size How many postions to return.
-   * 
    * @return Array of postions and angles. int[n][0] = x cordinate. int[n][1] y cordiante. int[n][3]
    *         angle.
    */

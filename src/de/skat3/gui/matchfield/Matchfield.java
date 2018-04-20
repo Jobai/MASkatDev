@@ -1,6 +1,8 @@
 package de.skat3.gui.matchfield;
 
 
+
+import java.util.Date;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.LocalGameState;
@@ -45,11 +47,8 @@ public class Matchfield {
    * @param gameState The gameState that will be linked.
    */
   public Matchfield(LocalGameState gameState) {
-
-    // this.gameState = gameState;
-
-    // this.controller = new InGameController(this.gameState, this);
-
+    this.gameState = gameState;
+    this.controller = new InGameController(this.gameState, this);
     double sceneWidth = 1280;
     double sceneHeight = 720;
     this.table = new Pane();
@@ -112,11 +111,11 @@ public class Matchfield {
       }
     });
 
-    this.table.widthProperty().addListener(e -> {
+    this.table.widthProperty().addListener(e -> {      
       this.playerHand.resetPositions();
       this.leftHand.resetPositions();
       this.rightHand.resetPositions();
-      this.trick.resetPostions();
+      this.trick.resetPostions();      
     });
 
   }
@@ -133,6 +132,12 @@ public class Matchfield {
     return this.controller;
   }
 
+  /**
+   * Returns the hand which is owned by the player.
+   * 
+   * @param owner The owner of the hand to return.
+   * @return Hand of the player.
+   */
   public GuiHand getHand(Player owner) {
     try {
       if (this.playerHand.getOwner().equals(owner)) {
