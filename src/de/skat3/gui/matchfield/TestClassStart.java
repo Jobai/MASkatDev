@@ -1,12 +1,14 @@
 package de.skat3.gui.matchfield;
 
+import de.skat3.gamelogic.CardDeck;
 import java.util.ArrayList;
 import java.util.List;
-import de.skat3.gamelogic.CardDeck;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
+ * TestClass to start the app.
+ * 
  * @author Aljoscha Domonell
  *
  */
@@ -18,7 +20,7 @@ public class TestClassStart extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Matchfield m = new Matchfield(null);
+    Matchfield m = new Matchfield();
     m.setCardsPlayable(true);
 
     CardDeck d = new CardDeck();

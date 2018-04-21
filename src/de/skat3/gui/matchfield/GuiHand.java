@@ -1,10 +1,8 @@
 package de.skat3.gui.matchfield;
 
-
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Player;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -13,7 +11,6 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
@@ -135,6 +132,7 @@ public class GuiHand extends Parent {
   public synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Pane root) {
     Transform t = card.getLocalToSceneTransform();
     Affine sourceTr = new Affine(t);
+    sourceTr.getClass();
 
     this.remove(card);
     card.getTransforms().clear();
@@ -345,6 +343,10 @@ public class GuiHand extends Parent {
     this.resetPositions();
   }
 
+  /**
+   * Clears this hand from all cards.
+   * 
+   */
   public void clear() {
     for (GuiCard c : this.cards) {
       this.remove(c);
@@ -356,7 +358,6 @@ public class GuiHand extends Parent {
   }
 
   public Player getOwner() {
-    // TODO Auto-generated method stub
     return this.owner;
   }
 

@@ -1,10 +1,7 @@
 package de.skat3.gui.matchfield;
 
 import de.skat3.gamelogic.Card;
-import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 
@@ -32,16 +29,11 @@ public class GuiCard extends Parent {
     this.getChildren().add(this.card.getImage());
   }
 
-  public void setPlayable(boolean value) {
-    if (value) {
-      this.card.getImage().setBlendMode(BlendMode.DARKEN);
-    } else {
-    }
-
-  }
-  
-  
-
+  /**
+   * To String.
+   * 
+   * @return String.
+   */
   public String toString() {
     StringBuffer s = new StringBuffer();
     s.append(this.card.toString());

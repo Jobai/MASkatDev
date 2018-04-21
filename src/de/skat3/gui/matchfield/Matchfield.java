@@ -1,22 +1,12 @@
 package de.skat3.gui.matchfield;
 
-
-
-import java.util.Date;
 import de.skat3.gamelogic.Card;
-import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
-import de.skat3.gui.Gui;
-import de.skat3.main.LocalGameState;
-import de.skat3.main.SkatMain;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
@@ -24,13 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
 import javafx.scene.text.Font;
-import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -40,8 +25,6 @@ import javafx.util.Duration;
  *
  */
 public class Matchfield {
-
-  private LocalGameState gameState;
 
   private InGameController controller;
 
@@ -55,13 +38,10 @@ public class Matchfield {
   private Parent[] skatPositions;
 
   /**
-   * Links a LocalGameState to this Matchfield.
-   * 
-   * @param gameState The gameState that will be linked.
+   * Returns a Matchfield.
    */
-  public Matchfield(LocalGameState gameState) {
-    this.gameState = gameState;
-    this.controller = new InGameController(this.gameState, this);
+  public Matchfield() {
+    this.controller = new InGameController(this);
     double sceneWidth = 1280;
     double sceneHeight = 720;
     this.table = new Pane();
@@ -76,7 +56,7 @@ public class Matchfield {
   }
 
   /**
-   * 
+   * Initializes all preset components of this Matchfield.
    */
   private void iniComponents() {
     // Box x = new Box(100000, 10, 10);
@@ -87,9 +67,6 @@ public class Matchfield {
     // z.setMaterial(new PhongMaterial(Color.RED));
     // this.table.getChildren().addAll(x, y, z);
 
-
-    // y = 720 z = -200
-    // y = 820
     this.playerHand = new GuiHand(this.table.getScene().widthProperty().divide(2.3),
         this.table.getScene().heightProperty().add(-200),
         this.table.getScene().heightProperty().multiply(0).add(-100), -20, 0, 0, null);
@@ -140,8 +117,10 @@ public class Matchfield {
   }
 
   /**
-   * @param playerHand2
-   * @param card
+   * Plays a card from a hand on the trick.
+   * 
+   * @param hand From which the card is played.
+   * @param card Card to be played.
    */
   protected synchronized void playCard(GuiHand hand, GuiCard card) {
     hand.moveCardAndRemove(card, this.trick.add(card), this.table);
@@ -152,12 +131,12 @@ public class Matchfield {
   }
 
   /**
-   * Shows the skat on the screen.
+   * Shows the skat selection on the screen.
    */
   public void showSkatSelection() {
     GuiCard[] skat = new GuiCard[2];
 
-    // skat[0] = new GuiCard(this.gameState.skat[0]); // FIXME
+    // skat[0] = new GuiCard(this.gameState.skat[0]); // TODO
     // skat[1] = new GuiCard(this.gameState.skat[1]);
 
     skat[0] = new GuiCard(new Card(Suit.CLUBS, Value.ACE));
@@ -280,7 +259,7 @@ public class Matchfield {
         skat2[0] = skat[0].card;
         skat2[1] = skat[1].card;
 
-        // SkatMain.mainController.skatSelected(null, skat2); // FIXME
+        // SkatMain.mainController.skatSelected(null, skat2); // TODO
         this.table.getChildren().removeAll(button, skat[0], skat[1]);
         this.setCardsPlayable(false);
       }
@@ -288,6 +267,12 @@ public class Matchfield {
     this.table.getChildren().add(button);
   }
 
+  /**
+   * Is searching a hand which is owned by the spezified Player.
+   * 
+   * @param owner Player to search for.
+   * @return Hand of this Player.
+   */
   public GuiHand getHand(Player owner) {
     try {
       if (this.playerHand.getOwner().equals(owner)) {
@@ -310,20 +295,12 @@ public class Matchfield {
     return this.scene;
   }
 
-  private static ObservableList<GuiCard> convertCardList(ObservableList<Card> list) {
-    ObservableList<GuiCard> guiList = FXCollections.observableArrayList();
-
-    for (Card card : list) {
-      guiList.add(new GuiCard(card));
-    }
-    return guiList;
-
-  }
-
   private GuiCard selectedCard;
 
   /**
-   * @param value
+   * Enables/Disables the option to play a card via the GUI from the local hand.
+   * 
+   * @param value Value.
    */
   public void setCardsPlayable(boolean value) {
     if (value) {
@@ -366,8 +343,7 @@ public class Matchfield {
             // for (Card c : this.gameState.localClient.getHand().cards) {
             // if (card.card.equals(c)) {
             // if (c.isPlayable()) {
-            this.playCard(this.playerHand, card);
-            SkatMain.mainController.play
+            this.playCard(this.playerHand, card); // TODO
             // break;
             // }
             // }

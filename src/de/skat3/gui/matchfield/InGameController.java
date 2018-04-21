@@ -1,27 +1,24 @@
 package de.skat3.gui.matchfield;
 
-
-import java.util.UUID;
-import com.sun.javafx.collections.IntegerArraySyncer;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
-import de.skat3.main.LocalGameState;
 import de.skat3.main.SkatMain;
 import javafx.util.Duration;
 
 /**
+ * InGame Gui controller class.
+ * 
  * @author Aljoscha Domonell
  *
  */
 public class InGameController implements InGameControllerInterface {
 
   private Matchfield matchfield;
-  private LocalGameState gameState;
 
-  public InGameController(LocalGameState state, Matchfield matchfield) {
+  public InGameController(Matchfield matchfield) {
     this.matchfield = matchfield;
   }
 

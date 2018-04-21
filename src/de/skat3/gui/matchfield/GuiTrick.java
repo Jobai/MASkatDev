@@ -1,7 +1,5 @@
 package de.skat3.gui.matchfield;
 
-
-import java.util.Date;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.DoubleBinding;
@@ -26,7 +24,7 @@ public class GuiTrick {
   private DoubleProperty translateXOne;
 
   /**
-   * ASD.
+   * Creates a trick on the specified postion.
    * 
    * @param x Translate x.
    * @param y Translate y.
@@ -68,6 +66,10 @@ public class GuiTrick {
 
   }
 
+  /**
+   * Recaluculates postion and rotations of all cards in this hand. Plays Animations if anything
+   * need to be changed.
+   */
   public synchronized void resetPostions() {
     double maxMainAxisLength;
     double mainAxisLength;
@@ -125,6 +127,10 @@ public class GuiTrick {
     return this.postions[index++];
   }
 
+  /**
+   * Clears this trick form all cards.
+   * 
+   */
   public synchronized void clear() {
     for (GuiCard c : this.cards) {
       c.setVisible(false);
