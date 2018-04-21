@@ -68,23 +68,20 @@ public class GuiHand extends Parent {
     }
     // double width = this.getScene().getWidth() / 7;
     // double height = width * 1.52821997106;
-    double width = 200;
-    double height = 300;
 
-    Parent[] newPositions = caculateCardPostions(this.getChildren().size(), width, 0, 0, 0);
+
+    Parent[] newPositions = caculateCardPostions(this.getChildren().size(), GuiCard.width, 0, 0, 0);
 
     Duration time = Matchfield.animationTime;
+
+    // FIXME Sort the cards every time they are reseted.
 
     int i = 0;
     for (Node child : this.getChildren()) {
 
       GuiCard card = (GuiCard) child;
-      Date s = new Date();
-      card.card.getImage().setFitWidth(width);
-      card.card.getImage().setFitHeight(height);
-      Date ee = new Date();
-
-      System.out.println(ee.getTime() - s.getTime());
+      card.card.getImage().setFitWidth(GuiCard.width);
+      card.card.getImage().setFitHeight(GuiCard.heigth);
 
       TranslateTransition cordsAni = new TranslateTransition();
       cordsAni.setNode(card);
@@ -153,12 +150,6 @@ public class GuiHand extends Parent {
     Timeline timeline = new Timeline();
     Transform tarTr = targetPos.getLocalToSceneTransform();
 
-    System.out.println(targetPos.getTranslateX() + " = " + tarTr.getTx());
-
-    tarTr.setOnTransformChanged(e -> {
-      System.out.println(tarTr.getTx());
-    });
-
     timeline.getKeyFrames()
         .add(new KeyFrame(time, new KeyValue(sourceTr.txProperty(), tarTr.getTx())));
     timeline.getKeyFrames()
@@ -197,14 +188,19 @@ public class GuiHand extends Parent {
    * @param underneathPos When true the card will be lowerd. When false the card will be raised.
    * @param hoverPositon When true the card will placed further away from the hand.
    * @param showAnimation When true animations are played while changing postions.
+   * @param duration Duration of the animation played. If null duration will be set to the standard
+   *        value stored in Matchfield.
    */
   public void raiseCard(GuiCard card, boolean raise, boolean underneathPos, boolean hoverPositon,
-      boolean showAnimation) {
+      boolean showAnimation, Duration duration) {
+    if (duration == null) {
+      duration = Matchfield.animationTime;
+    }
     Parent[] positions = caculateCardPostions(this.cards.size(),
         this.cards.get(0).card.getImage().getFitWidth(), 0, 0, 0);
     int cardIndex = this.cards.indexOf(card);
 
-    double y = -100;
+    double y = -50;
     if (hoverPositon) {
       y = -card.card.getImage().getFitHeight();
     }
@@ -216,7 +212,7 @@ public class GuiHand extends Parent {
     if (showAnimation) {
       TranslateTransition raiseCard = new TranslateTransition();
       raiseCard.setNode(card);
-      raiseCard.setDuration(Matchfield.animationTime);
+      raiseCard.setDuration(duration);
       if (raise) {
         raiseCard.setToX(positions[cardIndex].getTranslateX() + x);
         raiseCard.setToY(positions[cardIndex].getTranslateY() + y);
@@ -295,8 +291,12 @@ public class GuiHand extends Parent {
   public synchronized void add(GuiCard newCard) {
 
     // Order of cards are important
+    newCard.translateXProperty().unbind();
+    newCard.translateYProperty().unbind();
+    newCard.translateZProperty().unbind();
+    newCard.getTransforms().clear();
     this.cards.add(newCard);
-    this.raiseCard(newCard, true, true, true, false);
+    this.raiseCard(newCard, true, true, true, false, null);
     this.getChildren().add(newCard);
     this.resetPositions();
   }

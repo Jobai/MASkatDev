@@ -27,7 +27,7 @@ public class TestClassStart extends Application {
     List<GuiCard> l2 = new ArrayList<GuiCard>();
     List<GuiCard> l3 = new ArrayList<GuiCard>();
 
-    int n = 6;
+    int n = 10;
     int j = 0;
     for (int i = 0; i < n; i++) {
       l1.add(new GuiCard(d.getCards()[j++]));
@@ -39,6 +39,7 @@ public class TestClassStart extends Application {
     m.leftHand.addAll(l2);
     m.rightHand.addAll(l3);
 
+    m.showSkatSelection();
 
     primaryStage.setScene(m.getScene());
     // primaryStage.setMinWidth(1280);

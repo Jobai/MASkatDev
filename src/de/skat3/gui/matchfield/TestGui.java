@@ -200,25 +200,25 @@ public class TestGui extends Application {
 
 
     timer.getKeyFrames().add(new KeyFrame(Duration.seconds(time++), e -> {
-      h1.raiseCard(h1.getCards().get(1), true, false, false, true);
+      h1.raiseCard(h1.getCards().get(1), true, false, false, true, null);
     }));
     timer.getKeyFrames().add(new KeyFrame(Duration.seconds(time++), e -> {
-      h1.raiseCard(h1.getCards().get(1), true, false, false, true);
+      h1.raiseCard(h1.getCards().get(1), true, false, false, true, null);
     }));
     timer.getKeyFrames().add(new KeyFrame(Duration.seconds(time++), e -> {
-      h1.raiseCard(h1.getCards().get(1), false, false, false, true);
+      h1.raiseCard(h1.getCards().get(1), false, false, false, true, null);
     }));
     timer.getKeyFrames().add(new KeyFrame(Duration.seconds(time++), e -> {
-      h1.raiseCard(h1.getCards().get(3), true, false, false, true);
+      h1.raiseCard(h1.getCards().get(3), true, false, false, true, null);
     }));
     timer.getKeyFrames().add(new KeyFrame(Duration.seconds(time++), e -> {
-      h1.raiseCard(h1.getCards().get(3), true, false, true, true);
+      h1.raiseCard(h1.getCards().get(3), true, false, true, true, null);
     }));
     timer.getKeyFrames().add(new KeyFrame(Duration.seconds(time++), e -> {
-      h1.raiseCard(h1.getCards().get(3), true, false, false, true);
+      h1.raiseCard(h1.getCards().get(3), true, false, false, true, null);
     }));
     timer.getKeyFrames().add(new KeyFrame(Duration.seconds(time++), e -> {
-      h1.raiseCard(h1.getCards().get(3), false, false, false, true);
+      h1.raiseCard(h1.getCards().get(3), false, false, false, true, null);
     }));
 
     List<GuiCard> l1 = new ArrayList<GuiCard>();
@@ -326,7 +326,7 @@ public class TestGui extends Application {
     // timer2.play();
     //
     timer.getKeyFrames().add(new KeyFrame(Duration.seconds(i++),
-        e -> h1.raiseCard(h1.getCards().get(2), true, false, true, true)));
+        e -> h1.raiseCard(h1.getCards().get(2), true, false, true, true, null)));
 
     timer.getKeyFrames().add(new KeyFrame(Duration.seconds(i++),
         e -> h1.moveCardAndRemove(h1.getCards().get(2), p1, this.p)));

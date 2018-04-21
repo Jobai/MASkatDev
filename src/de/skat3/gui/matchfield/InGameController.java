@@ -26,7 +26,7 @@ public class InGameController implements InGameControllerInterface {
   }
 
   public void showSkatSelection() {
-    
+    this.matchfield.showSkatSelection();
   }
 
   /*
@@ -105,11 +105,7 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void makeAMove(boolean value) {
-
-
-
-    // TODO Auto-generated method stub
-
+    this.matchfield.setCardsPlayable(value);
   }
 
 
@@ -123,7 +119,6 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers) {
     // TODO Auto-generated method stub
-
   }
 
 

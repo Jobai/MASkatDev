@@ -31,7 +31,7 @@ import javafx.scene.control.ChoiceDialog;
  * @author adomonel, tistraub
  *
  */
-public class GuiController implements GuiInterface {
+public class GuiController implements GuiControllerInterface {
   private Gui gui;
 
   private InGameController inGameController;

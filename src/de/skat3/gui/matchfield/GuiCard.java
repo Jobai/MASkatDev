@@ -16,6 +16,8 @@ import javafx.scene.transform.Transform;
  */
 public class GuiCard extends Parent {
   Card card;
+  public static double width = 200;
+  public static double heigth = 300;
 
   /**
    * Creates a GuiCard object out of a Card.
@@ -25,8 +27,8 @@ public class GuiCard extends Parent {
    */
   public GuiCard(Card card) {
     this.card = card;
-    this.card.getImage().setFitHeight(400);
-    this.card.getImage().setFitWidth(200);
+    this.card.getImage().setFitHeight(heigth);
+    this.card.getImage().setFitWidth(width);
     this.getChildren().add(this.card.getImage());
   }
 
@@ -37,6 +39,8 @@ public class GuiCard extends Parent {
     }
 
   }
+  
+  
 
   public String toString() {
     StringBuffer s = new StringBuffer();
