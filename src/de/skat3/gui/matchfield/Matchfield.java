@@ -13,6 +13,7 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
@@ -128,6 +129,47 @@ public class Matchfield {
 
   public InGameController getController() {
     return this.controller;
+  }
+
+  public void bidRequest(int bid) {
+    Pane p = new Pane();
+    p.setPrefSize(400, 225);
+    p.translateXProperty().bind(
+        DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateXProperty()).subtract(100));
+    p.translateYProperty().bind(
+        DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
+    p.translateZProperty()
+        .bind(DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(200));
+
+    p.setStyle("-fx-border-color: black");
+
+    Label v = new Label("Accept " + bid + " points?");
+    v.setPrefSize(250, 75);
+    v.setFont(Font.font(30));
+    v.setTranslateY(+10);
+    Button yes = new Button("Yes");
+    yes.setStyle("-fx-background-radius: 20");
+    yes.setPrefSize(150, 80);
+    yes.setTranslateX(25);
+    yes.setTranslateY(210 - 75 - 20);
+    Button no = new Button("No");
+    no.setStyle("-fx-background-radius: 20");
+    no.setPrefSize(150, 80);
+    no.setTranslateX(225);
+    no.setTranslateY(210 - 75 - 20);
+    p.getChildren().addAll(v, yes, no);
+
+    this.table.getChildren().add(p); // TODO Maybe this should be added to the 2d scene.
+
+    yes.setOnAction(e -> {
+      // TODO
+      this.table.getChildren().remove(p);
+    });
+    no.setOnAction(e -> {
+      // TODO
+      this.table.getChildren().remove(p);
+    });
+
   }
 
   /**

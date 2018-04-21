@@ -42,6 +42,8 @@ public class TestClassStart extends Application {
     m.rightHand.addAll(l3);
 
     m.showSkatSelection();
+    // m.setCardsPlayable(true);
+    // m.bidRequest(50);
 
     primaryStage.setScene(m.getScene());
     // primaryStage.setMinWidth(1280);

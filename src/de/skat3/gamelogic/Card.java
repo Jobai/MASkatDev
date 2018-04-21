@@ -174,7 +174,7 @@ public class Card implements Serializable {
 
   }
 
-  boolean equals(Card card) {
+  public boolean equals(Card card) {
 
     return (this.value == card.value && this.suit == card.suit) ? true : false;
 

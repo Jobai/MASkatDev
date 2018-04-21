@@ -1,6 +1,7 @@
 package de.skat3.gui.matchfield;
 
 import de.skat3.gamelogic.Card;
+import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import java.util.Collection;
 import java.util.List;
@@ -59,24 +60,40 @@ public class GuiHand extends Parent {
   }
 
   protected synchronized void resetPositions() {
-
-    if (this.getChildren().isEmpty()) {
+    if (this.cards.isEmpty()) {
       return;
     }
     // double width = this.getScene().getWidth() / 7;
     // double height = width * 1.52821997106;
-
 
     Parent[] newPositions = caculateCardPostions(this.getChildren().size(), GuiCard.width, 0, 0, 0);
 
     Duration time = Matchfield.animationTime;
 
     // FIXME Sort the cards every time they are reseted.
+    Hand h = new Hand();
+    h.cards = new Card[this.cards.size()];
+    int j = 0;
+    for (GuiCard c : this.cards) {
+      h.cards[j] = c.card;
+      j++;
+    }
+    h.sort(null); // FIXME
+
+    for (int z = 0; z < h.cards.length; z++) {
+      GuiCard card = this.getGuiCard(h.cards[z]);
+      GuiCard temp;
+      int index = this.cards.indexOf(card);
+      temp = this.cards.get(z);
+      this.cards.set(z, card);
+      this.cards.set(index, temp);
+    }
 
     int i = 0;
-    for (Node child : this.getChildren()) {
+    for (GuiCard card : this.cards) {
+      this.getChildren().remove(card);
+      this.getChildren().add(card);
 
-      GuiCard card = (GuiCard) child;
       card.card.getImage().setFitWidth(GuiCard.width);
       card.card.getImage().setFitHeight(GuiCard.heigth);
 
@@ -117,8 +134,6 @@ public class GuiHand extends Parent {
       timeline.play();
       i++;
     }
-
-
 
   }
 
@@ -194,8 +209,7 @@ public class GuiHand extends Parent {
     if (duration == null) {
       duration = Matchfield.animationTime;
     }
-    Parent[] positions = caculateCardPostions(this.cards.size(),
-        this.cards.get(0).card.getImage().getFitWidth(), 0, 0, 0);
+    Parent[] positions = caculateCardPostions(this.cards.size(), GuiCard.width, 0, 0, 0);
     int cardIndex = this.cards.indexOf(card);
 
     double y = -50;
