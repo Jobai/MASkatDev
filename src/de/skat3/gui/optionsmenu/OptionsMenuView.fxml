@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.ToggleButton?>
@@ -51,9 +55,11 @@
 						<Font size="18.0" />
 					</font>
 				</Label>
-				<Slider prefHeight="16.0" prefWidth="649.0"
-					GridPane.columnIndex="1" GridPane.rowIndex="2" />
-				<Slider GridPane.columnIndex="1" GridPane.rowIndex="3" />
+				<Slider fx:id="volumeMusic" prefHeight="16.0"
+					prefWidth="649.0" value="25.0" GridPane.columnIndex="1"
+					GridPane.rowIndex="2" />
+				<Slider fx:id="volumeGame" value="25.0"
+					GridPane.columnIndex="1" GridPane.rowIndex="3" />
 				<Label text="Music on/off" textFill="WHITE">
 					<font>
 						<Font size="18.0" />
@@ -65,10 +71,11 @@
 						<Font size="18.0" />
 					</font>
 				</Label>
-				<ToggleButton mnemonicParsing="false" text="Off"
-					GridPane.columnIndex="1" />
-				<ToggleButton mnemonicParsing="false" text="ON"
-					GridPane.columnIndex="1" GridPane.rowIndex="1" />
+				<ToggleButton fx:id="btnMusic" mnemonicParsing="false"
+					selected="true" text="ON" GridPane.columnIndex="1" />
+				<ToggleButton fx:id="btnSound" mnemonicParsing="false"
+					selected="true" text="ON" GridPane.columnIndex="1"
+					GridPane.rowIndex="1" />
 			</children>
 		</GridPane>
 	</children>

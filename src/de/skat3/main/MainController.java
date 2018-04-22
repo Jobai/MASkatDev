@@ -52,7 +52,7 @@ public class MainController implements MainControllerInterface {
   public void joinMultiplayerGame(Lobby lobby) {
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.clc = gameClient.getClc();
-    SkatMain.guiController.goInGame();
+    //SkatMain.guiController.goInGame();
 
   }
 
@@ -60,7 +60,7 @@ public class MainController implements MainControllerInterface {
   public void joinMultiplayerGame(Lobby lobby, String password) {
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.clc = gameClient.getClc();
-    SkatMain.guiController.goInGame();
+    //SkatMain.guiController.goInGame();
 
 
   }
@@ -114,7 +114,7 @@ public class MainController implements MainControllerInterface {
         SkatMain.mainNetworkController.startLocalServer(this.currentLobby, this.gameController);
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
     this.clc = gameClient.getClc();
-    SkatMain.guiController.goInGame();
+    //SkatMain.guiController.goInGame();
 
   }
 
@@ -152,6 +152,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void setHand(Player player) {
     SkatMain.lgs.localClient.setHand(player.getHand());
+    System.out.println(player.getHand());
 
   }
 
@@ -246,12 +247,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        try {
-
-          SkatMain.guiController.getInGameController().makeAMove(true);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
+        SkatMain.guiController.getInGameController().makeAMove(true);
 
 
       }
@@ -300,12 +296,13 @@ public class MainController implements MainControllerInterface {
   @Override
   public void localCardPlayed(Card card) {
     clc.playAnswer(card);
+    System.out.println(card);
     // network
   }
 
-  public Profile readProfile(String id) {
-    // return SkatMain.ioController.readProfile(id);
-  }
+//  public Profile readProfile(String id) {
+//    return SkatMain.ioController.readProfile(id);
+//  }
 
   public ArrayList<Profile> getProfileList() {
     return SkatMain.ioController.getProfileList();
@@ -316,9 +313,9 @@ public class MainController implements MainControllerInterface {
   }
 
 
-  public void editProfile(Profile profile, String name, Image image) {
-    // SkatMain.ioController.editProfile(profile, name, image);
-  }
+//  public void editProfile(Profile profile, String name, Image image) {
+//    SkatMain.ioController.editProfile(profile, name, image);
+//  }
 
   public boolean deleteProfile(Profile profile) {
     return SkatMain.ioController.deleteProfile(profile);

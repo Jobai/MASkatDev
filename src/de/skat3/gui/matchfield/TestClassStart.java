@@ -1,12 +1,14 @@
 package de.skat3.gui.matchfield;
 
+import de.skat3.gamelogic.CardDeck;
 import java.util.ArrayList;
 import java.util.List;
-import de.skat3.gamelogic.CardDeck;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 /**
+ * TestClass to start the app.
+ * 
  * @author Aljoscha Domonell
  *
  */
@@ -18,7 +20,8 @@ public class TestClassStart extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
-    Matchfield m = new Matchfield(null);
+    Matchfield m = new Matchfield();
+    m.setCardsPlayable(true);
 
     CardDeck d = new CardDeck();
 
@@ -26,7 +29,7 @@ public class TestClassStart extends Application {
     List<GuiCard> l2 = new ArrayList<GuiCard>();
     List<GuiCard> l3 = new ArrayList<GuiCard>();
 
-    int n = 6;
+    int n = 10;
     int j = 0;
     for (int i = 0; i < n; i++) {
       l1.add(new GuiCard(d.getCards()[j++]));
@@ -37,11 +40,14 @@ public class TestClassStart extends Application {
     m.playerHand.addAll(l1);
     m.leftHand.addAll(l2);
     m.rightHand.addAll(l3);
-   
-    
+
+    m.showSkatSelection();
+    // m.setCardsPlayable(true);
+    // m.bidRequest(50);
+
     primaryStage.setScene(m.getScene());
-//    primaryStage.setMinWidth(1280);
-//    primaryStage.setMinHeight(720);
+    // primaryStage.setMinWidth(1280);
+    // primaryStage.setMinHeight(720);
     primaryStage.show();
   }
 

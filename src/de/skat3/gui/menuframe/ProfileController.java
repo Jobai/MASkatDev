@@ -4,6 +4,7 @@ import java.io.File;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -27,6 +28,8 @@ public class ProfileController {
   private TextField profileName;
   @FXML
   private Label popupHeaderText;
+  @FXML
+  private Button delButton;
 
   /**
    * .
@@ -48,8 +51,11 @@ public class ProfileController {
 
   public void setProfile(Profile p) {
     this.profile = p;
+    fileFormat = "";
+    delButton.setDisable(true);
 
     if (profile != null) {
+      delButton.setDisable(false);
       profileName.setText(profile.getName());
       profileImage.setImage(profile.getImage());
     }
@@ -80,7 +86,7 @@ public class ProfileController {
   }
 
   /**
-   * Dummy.
+   * opens a FileChooser and set the selected image from the user to screen
    */
   public void handleChangeProfilePic() {
     FileChooser fileChooser = new FileChooser();
@@ -92,7 +98,7 @@ public class ProfileController {
     File file = fileChooser.showOpenDialog(new Stage());
     if (file != null) {
       Image i = new Image(file.toURI().toString());
-      fileFormat = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."),
+      fileFormat = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1,
           file.getAbsolutePath().length());
       profileImage.setImage(i);
     }

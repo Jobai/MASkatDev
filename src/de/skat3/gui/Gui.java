@@ -40,7 +40,7 @@ public class Gui extends Application {
    * @return
    */
   public InGameController showMatchfield() {
-    this.matchfield = new Matchfield(SkatMain.lgs);
+    this.matchfield = new Matchfield();
     this.mainStage.setScene(this.matchfield.getScene());
     return this.matchfield.getController();
   }

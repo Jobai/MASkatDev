@@ -16,7 +16,7 @@ public class Hand implements Serializable {
       this.cards[i] = cards[i];
     }
   }
-  
+
   public Hand() {
     this.cards = new Card[10];
   }
@@ -34,7 +34,7 @@ public class Hand implements Serializable {
     this.sort(null);
   }
 
-  void sort(Contract contract) {
+  public void sort(Contract contract) {
     int pointer = 0;
     CardDeck deck = GameController.deck;
     Card[] sortedHand = new Card[this.cards.length];
@@ -69,12 +69,12 @@ public class Hand implements Serializable {
         }
       }
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < this.cards.length; i++) {
       this.cards[i] = sortedHand[i];
     }
   }
 
-  //TODO skat
+  // TODO skat
   int calcConsecutiveMatadors(Contract contract, Card[] skat) {
     int consecutiveMatadors = 0;
     CardDeck deck = GameController.deck;

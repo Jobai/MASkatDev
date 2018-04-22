@@ -10,38 +10,38 @@ import static io.TestUtils.TEST_IMAGE_2_JPG;
 import static io.TestUtils.TEST_IMAGE_2_PNG;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import de.skat3.io.profile.ImageConverter;
 import de.skat3.io.profile.JSONProfileReader;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
 
-class checkImageConvertion {
+public class testImageConvertion {
   private ImageConverter converter = new ImageConverter();
   private JSONProfileReader reader = new JSONProfileReader();
   private JFXPanel panel = new JFXPanel();
 
   @Test
-  void test_PNG_ImageToStringConversionLength() {
+  public void test_PNG_ImageToStringConversionLength() {
     String encoded = converter.imageToEncodedString(TEST_IMAGE_1_PNG, PNG);
     assert (encoded.length() > 0);
   }
 
   @Test
-  void test_PNG_StringToImageConversionLength() {
+  public void test_PNG_StringToImageConversionLength() {
     Image newImage = converter.encodedStringToImage(ENCODDED_IMAGE_1_PNG);
     String encoded = converter.imageToEncodedString(newImage, PNG);
     assert (encoded.length() > 0);
   }
 
   @Test
-  void test_JPG_ImageToStringConversionLength() {
+  public void test_JPG_ImageToStringConversionLength() {
     String encoded = converter.imageToEncodedString(TEST_IMAGE_1_JPG, JPG);
     assert (encoded.length() > 0);
   }
 
   @Test
-  void test_JPG_StringToImageConversionLength() {
+  public void test_JPG_StringToImageConversionLength() {
     Image newImage = converter.encodedStringToImage(ENCODDED_IMAGE_1_JPG);
     String encoded = converter.imageToEncodedString(newImage, JPG);
 
@@ -49,7 +49,7 @@ class checkImageConvertion {
   }
 
   @Test
-  void test_PNG_StringToImageAndImageToStringConversion() {
+  public void test_PNG_StringToImageAndImageToStringConversion() {
     String encodedBefore = converter.imageToEncodedString(TEST_IMAGE_1_PNG, PNG);
 
     Image newImage = converter.encodedStringToImage(encodedBefore);
@@ -60,7 +60,7 @@ class checkImageConvertion {
 
 
   @Test
-  void test_JPG_StringToImageAndImageToStringConversion() {
+  public void test_JPG_StringToImageAndImageToStringConversion() {
     String encodedBefore = converter.imageToEncodedString(TEST_IMAGE_1_JPG, JPG);
     Image newImage = converter.encodedStringToImage(encodedBefore);
 
@@ -70,7 +70,7 @@ class checkImageConvertion {
     }
   }
 
-  boolean compareTwo_JPG_Images(String first, String second) {
+  private boolean compareTwo_JPG_Images(String first, String second) {
     // Since JPG Data is extremely big and in String format (up to 500 000 chars) and encoding may
     // vary - only first 0.1% (500) chars will be checked, which actually guarantees that images are
     // same
@@ -85,7 +85,7 @@ class checkImageConvertion {
 
 
   @Test
-  void test_PNG_differentImagesComparison() {
+  public void test_PNG_differentImagesComparison() {
     String encoded_1_PNG = converter.imageToEncodedString(TEST_IMAGE_1_PNG, PNG);
     String encoded_2_PNG = converter.imageToEncodedString(TEST_IMAGE_2_PNG, PNG);
 
@@ -95,7 +95,7 @@ class checkImageConvertion {
   }
 
   @Test
-  void test_JPG_differentImagesComparison() {
+  public void test_JPG_differentImagesComparison() {
     String encoded_1_JPG = converter.imageToEncodedString(TEST_IMAGE_1_JPG, JPG);
     String encoded_2_JPG = converter.imageToEncodedString(TEST_IMAGE_2_JPG, JPG);
 

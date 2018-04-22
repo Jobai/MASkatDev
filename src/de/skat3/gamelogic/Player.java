@@ -14,7 +14,7 @@ public class Player implements Serializable {
   private static final long serialVersionUID = -4721822427911236663L;
   boolean isSolo;
   String name;
-  //Image image;
+  //String image;
   Hand hand;
   ArrayList<Card> wonTricks;
   Position position;
@@ -27,8 +27,8 @@ public class Player implements Serializable {
 
     this.name = profile.getName();
     this.wonTricks = new ArrayList<Card>();
-    this.uuid = uuid.randomUUID();
-    //this.image = profile.getImage();
+    this.uuid = UUID.randomUUID();
+    //this.image = profile.getImage().toString();
     this.points = 0;
     this.wonGames = 0;
     this.lostGames = 0;

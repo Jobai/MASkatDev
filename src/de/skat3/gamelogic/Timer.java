@@ -39,6 +39,7 @@ public class Timer extends Thread {
         while (true) {
           i = rand.nextInt(SkatMain.lgs.localClient.hand.cards.length);
           if (SkatMain.lgs.localClient.hand.cards[i].isPlayable()) {
+            System.out.println(SkatMain.lgs.localClient.hand.cards[i]);
             break;
           }
         }

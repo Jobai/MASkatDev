@@ -21,6 +21,7 @@ public class Card implements Serializable {
   private Suit suit;
   private Value value;
   private String view;
+  private transient ImageView imageView;
   private boolean playable;
   private int trickValue;
 
@@ -43,7 +44,10 @@ public class Card implements Serializable {
   }
 
   public ImageView getImage() {
-    return new ImageView(new Image(this.view)); //FIXME
+    if (this.imageView == null) {
+      this.imageView = new ImageView(new Image(this.view));
+    }
+    return this.imageView;
   }
 
 
@@ -170,7 +174,7 @@ public class Card implements Serializable {
 
   }
 
-  boolean equals(Card card) {
+  public boolean equals(Card card) {
 
     return (this.value == card.value && this.suit == card.suit) ? true : false;
 

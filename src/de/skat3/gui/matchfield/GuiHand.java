@@ -1,6 +1,7 @@
 package de.skat3.gui.matchfield;
 
 import de.skat3.gamelogic.Card;
+import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +12,6 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
@@ -60,25 +60,42 @@ public class GuiHand extends Parent {
   }
 
   protected synchronized void resetPositions() {
-    if (this.getChildren().isEmpty()) {
+    if (this.cards.isEmpty()) {
       return;
     }
     // double width = this.getScene().getWidth() / 7;
     // double height = width * 1.52821997106;
-    double width = 200;
-    double height = 300;
 
-    Parent[] newPositions = caculateCardPostions(this.getChildren().size(), width, 0, 0, 0);
+    Parent[] newPositions = caculateCardPostions(this.getChildren().size(), GuiCard.width, 0, 0, 0);
 
     Duration time = Matchfield.animationTime;
 
+    // FIXME Sort the cards every time they are reseted.
+    Hand h = new Hand();
+    h.cards = new Card[this.cards.size()];
+    int j = 0;
+    for (GuiCard c : this.cards) {
+      h.cards[j] = c.card;
+      j++;
+    }
+    h.sort(null); // FIXME
+
+    for (int z = 0; z < h.cards.length; z++) {
+      GuiCard card = this.getGuiCard(h.cards[z]);
+      GuiCard temp;
+      int index = this.cards.indexOf(card);
+      temp = this.cards.get(z);
+      this.cards.set(z, card);
+      this.cards.set(index, temp);
+    }
+
     int i = 0;
-    for (Node child : this.getChildren()) {
+    for (GuiCard card : this.cards) {
+      this.getChildren().remove(card);
+      this.getChildren().add(card);
 
-      GuiCard card = (GuiCard) child;
-
-      card.card.getImage().setFitWidth(width);
-      card.card.getImage().setFitHeight(height);
+      card.card.getImage().setFitWidth(GuiCard.width);
+      card.card.getImage().setFitHeight(GuiCard.heigth);
 
       TranslateTransition cordsAni = new TranslateTransition();
       cordsAni.setNode(card);
@@ -117,18 +134,20 @@ public class GuiHand extends Parent {
       timeline.play();
       i++;
     }
+
   }
 
   /**
    * Moves the card to the postions of the targetPos Parent.
    * 
    * @param card Card to move.
-   * @param targetPos Parent from which the transitions and rotations are getted.
+   * @param targetPos Parent of which the transitions and rotations are used.
    * 
    */
   public synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Pane root) {
     Transform t = card.getLocalToSceneTransform();
     Affine sourceTr = new Affine(t);
+    sourceTr.getClass();
 
     this.remove(card);
     card.getTransforms().clear();
@@ -143,12 +162,6 @@ public class GuiHand extends Parent {
     Duration time = Matchfield.animationTime;
     Timeline timeline = new Timeline();
     Transform tarTr = targetPos.getLocalToSceneTransform();
-
-    System.out.println(targetPos.getTranslateX() + " = " + tarTr.getTx());
-
-    tarTr.setOnTransformChanged(e -> {
-      System.out.println(tarTr.getTx());
-    });
 
     timeline.getKeyFrames()
         .add(new KeyFrame(time, new KeyValue(sourceTr.txProperty(), tarTr.getTx())));
@@ -188,14 +201,18 @@ public class GuiHand extends Parent {
    * @param underneathPos When true the card will be lowerd. When false the card will be raised.
    * @param hoverPositon When true the card will placed further away from the hand.
    * @param showAnimation When true animations are played while changing postions.
+   * @param duration Duration of the animation played. If null duration will be set to the standard
+   *        value stored in Matchfield.
    */
   public void raiseCard(GuiCard card, boolean raise, boolean underneathPos, boolean hoverPositon,
-      boolean showAnimation) {
-    Parent[] positions = caculateCardPostions(this.cards.size(),
-        this.cards.get(0).card.getImage().getFitWidth(), 0, 0, 0);
+      boolean showAnimation, Duration duration) {
+    if (duration == null) {
+      duration = Matchfield.animationTime;
+    }
+    Parent[] positions = caculateCardPostions(this.cards.size(), GuiCard.width, 0, 0, 0);
     int cardIndex = this.cards.indexOf(card);
 
-    double y = -100;
+    double y = -50;
     if (hoverPositon) {
       y = -card.card.getImage().getFitHeight();
     }
@@ -207,7 +224,7 @@ public class GuiHand extends Parent {
     if (showAnimation) {
       TranslateTransition raiseCard = new TranslateTransition();
       raiseCard.setNode(card);
-      raiseCard.setDuration(Matchfield.animationTime);
+      raiseCard.setDuration(duration);
       if (raise) {
         raiseCard.setToX(positions[cardIndex].getTranslateX() + x);
         raiseCard.setToY(positions[cardIndex].getTranslateY() + y);
@@ -233,7 +250,6 @@ public class GuiHand extends Parent {
    * Calculates the right postions and angles of all the cards in this hand.
    * 
    * @param size How many postions to return.
-   * 
    * @return Array of postions and angles. int[n][0] = x cordinate. int[n][1] y cordiante. int[n][3]
    *         angle.
    */
@@ -287,8 +303,12 @@ public class GuiHand extends Parent {
   public synchronized void add(GuiCard newCard) {
 
     // Order of cards are important
+    newCard.translateXProperty().unbind();
+    newCard.translateYProperty().unbind();
+    newCard.translateZProperty().unbind();
+    newCard.getTransforms().clear();
     this.cards.add(newCard);
-    this.raiseCard(newCard, true, true, true, false);
+    this.raiseCard(newCard, true, true, true, false, null);
     this.getChildren().add(newCard);
     this.resetPositions();
   }
@@ -337,6 +357,10 @@ public class GuiHand extends Parent {
     this.resetPositions();
   }
 
+  /**
+   * Clears this hand from all cards.
+   * 
+   */
   public void clear() {
     for (GuiCard c : this.cards) {
       this.remove(c);
@@ -348,7 +372,6 @@ public class GuiHand extends Parent {
   }
 
   public Player getOwner() {
-    // TODO Auto-generated method stub
     return this.owner;
   }
 

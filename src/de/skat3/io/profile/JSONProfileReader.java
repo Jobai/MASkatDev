@@ -1,7 +1,7 @@
 package de.skat3.io.profile;
 
 import static de.skat3.io.profile.Utils.GSON;
-import static de.skat3.io.profile.Utils.JSON_PATH;
+import static de.skat3.io.profile.Utils.JSON_PATH_PRODUCTION;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -14,8 +14,13 @@ import com.google.gson.JsonParser;
 
 public class JSONProfileReader {
 
-  private ArrayList<Profile> profileList = getAllProfileAsList();
-  private Profile lastUsed = determineLastUsedProfile();
+  private ArrayList<Profile> profileList;
+  private Profile lastUsed;
+
+  public JSONProfileReader() {
+    this.profileList = getAllProfileAsList();
+    determineLastUsedProfile();
+  }
 
   public ArrayList<Profile> getProfileList() {
     return profileList;
@@ -38,19 +43,17 @@ public class JSONProfileReader {
     while (iter.hasNext()) {
       Profile current = iter.next();
       if (current.getUuid().equals(id)) {
-        current.setLastUsed(true);
-
         return current;
       }
     }
     return null;
   }
 
-  // if there is no current player (for some reason e.g. deleted etc)
-  // sets first profile at last used
-  private Profile determineLastUsedProfile() {
+
+  public void determineLastUsedProfile() {
+    lastUsed = null;
     if (profileList.size() <= 0) {
-      return null;
+      return;
     } else {
       Iterator<Profile> itr = profileList.iterator();
       while (itr.hasNext()) {
@@ -60,9 +63,10 @@ public class JSONProfileReader {
         }
       }
       if (lastUsed == null) {
-        return profileList.get(0);
-      } else {
-        return lastUsed;
+        //
+        // System.out.println("user = null" + profileList);
+
+        lastUsed = profileList.get(0);
       }
     }
   }
@@ -83,29 +87,16 @@ public class JSONProfileReader {
     JsonArray jsonArray = new JsonArray();
     try {
       JsonParser parser = new JsonParser();
-      JsonElement jsonElement = parser.parse(new FileReader(JSON_PATH));
+      JsonElement jsonElement = parser.parse(new FileReader(JSON_PATH_PRODUCTION));
       jsonArray = jsonElement.getAsJsonArray();
     } catch (FileNotFoundException e) {
       System.out.println("The json file was not found");
       e.printStackTrace();
+    } catch (NullPointerException ex) {
+
+      return jsonArray;
     }
     return jsonArray;
   }
-
-  // checks if there is a JSON_LAST_USED_FIELD, which value is true and returns its id
-  // otherwise returns null
-  // private Profile determineLastUsedProfile1() {
-  // Profile lastUsed = null;
-  // JsonArray jsonArray = convertFileToJsonArray();
-  // for (int i = 0; i < jsonArray.size(); i++) {
-  // JsonElement element = jsonArray.get(i);
-  // JsonElement potentialyLastUsed = element.getAsJsonObject().get(JSON_LAST_USED_FIELD);
-  // String temp = potentialyLastUsed.toString();
-  // if (temp.equals("true")) {
-  // lastUsed = GSON.fromJson(potentialyLastUsed, Profile.class);
-  // }
-  // }
-  // return lastUsed;
-  // }
 
 }

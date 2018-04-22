@@ -1,15 +1,15 @@
 package de.skat3.gui.matchfield;
 
-
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
-import java.util.UUID;
 import javafx.util.Duration;
 
 /**
+ * This Controller Interface difines the methods to manipulate the GUI.
+ * 
  * @author adomonel
  *
  */

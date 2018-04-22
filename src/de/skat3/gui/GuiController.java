@@ -31,7 +31,7 @@ import javafx.scene.control.ChoiceDialog;
  * @author adomonel, tistraub
  *
  */
-public class GuiController implements GuiInterface {
+public class GuiController implements GuiControllerInterface {
   private Gui gui;
 
   private InGameController inGameController;
@@ -124,7 +124,7 @@ public class GuiController implements GuiInterface {
   @Override
   public void showWrongPassword() {
 
-    Alert alert = new Alert(AlertType.INFORMATION);
+    Alert alert = new Alert(AlertType.ERROR);
     alert.setHeaderText(null);
     alert.setTitle("Wrong Password");
     alert.setContentText("The entered password is wrong!");
