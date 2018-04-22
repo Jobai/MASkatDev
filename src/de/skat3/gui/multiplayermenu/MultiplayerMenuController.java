@@ -203,7 +203,7 @@ public class MultiplayerMenuController {
     System.out.println(hostListView.getSelectionModel().getSelectedItem());
     System.out.println(hostListView.getSelectionModel().getSelectedIndex());
 
-    currentLobby = hostList.get(hostListView.getSelectionModel().getSelectedIndex());
+    currentLobby = hostList.get(hostListView.getSelectionModel().getSelectedIndex());  //FIXME broken 
 
     // fill view fields
     serverName.setText(currentLobby.getName());

@@ -11,6 +11,7 @@
 
 package de.skat3.network.datatypes;
 
+import de.skat3.gamelogic.Player;
 import de.skat3.network.datatypes.SubType;
 import java.io.Serializable;
 
@@ -28,6 +29,7 @@ public abstract class Message implements Serializable {
   private MessageType messageType;
   private String sender;
   private String receiver;
+  public Player originSender;
   private SubType subType;
   public Object payload;
   

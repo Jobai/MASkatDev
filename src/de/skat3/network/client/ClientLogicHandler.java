@@ -1,6 +1,7 @@
 package de.skat3.network.client;
 
 import de.skat3.gamelogic.Card;
+import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.main.SkatMain;
@@ -28,21 +29,18 @@ public class ClientLogicHandler {
   public ClientLogicHandler(GameClient gc) {
     super();
     this.gc = gc;
-
-
-    // TODO Auto-generated constructor stub
   }
 
 
   // tell GUI
   public void bidInfoHandler(Message m) {
-    // TODO Auto-generated method stub
-
+    MessageCommand mc = (MessageCommand) m;
+    boolean accept = (boolean) mc.gameState;
+    SkatMain.mainController.localBid(accept);
   }
 
   // tell GUI
   public void bidRedoHandler(Message m) {
-    // TODO Auto-generated method stub
     Player p = (Player) m.payload;
     int b = (int) ((MessageCommand) m).gameState;
     SkatMain.mainController.bidRequest(b);
@@ -51,7 +49,6 @@ public class ClientLogicHandler {
 
   // tell GUI
   public void bidRequestHandler(Message m) {
-    // TODO Auto-generated method stub
     Player p = (Player) m.payload;
     int b = (int) ((MessageCommand) m).gameState;
     SkatMain.mainController.bidRequest(b);
@@ -62,10 +59,10 @@ public class ClientLogicHandler {
 
   // tell GUI
   public void playInfoHandler(Message m) {
-    // TODO Auto-generated method stub
     MessageCommand mc = (MessageCommand) m;
     Card c = (Card) mc.gameState;
-    SkatMain.mainController.playCard(null, c); // FIXME
+    Player op = (Player) mc.originSender;
+    SkatMain.mainController.playCard(op, c);
 
   }
 
@@ -83,6 +80,9 @@ public class ClientLogicHandler {
   // tell GUI
   public void trickInfoHandler(Message m) {
     // TODO Auto-generated method stub
+    MessageCommand mc = (MessageCommand) m;
+    Player trickWinner = (Player) mc.gameState;
+//    SkatMain.mainController.
 
   }
 
@@ -106,7 +106,9 @@ public class ClientLogicHandler {
   }
 
   public void matchInfoHandler(Message m) {
-    // TODO Auto-generated method stub
+    MessageCommand mc = (MessageCommand) m;
+    MatchResult mr = (MatchResult) mc.gameState;
+    SkatMain.mainController.showEndScreen(mr);
 
   }
 
@@ -115,6 +117,7 @@ public class ClientLogicHandler {
     System.out.println("AUFGERUFEN");
     MessageCommand mc = (MessageCommand) m;
 //    SkatMain.lgs.setPlayer((Player) mc.gameState); // FIXME ?
+//    SkatMain.mainController.
 
   }
 
@@ -157,32 +160,25 @@ public class ClientLogicHandler {
 
 
   public void kontraAnnouncedInfoHandler(Message m) {
-    // TODO Auto-generated method stub
-
-  }
-
-
-  public void kontraAnnouncedInfoHandler(Message m) {
-    // TODO Auto-generated method stub
+    SkatMain.mainController.kontraAnnounced();
 
   }
 
 
   public void reKontraAnnouncedInfoHandler(Message m) {
-    // TODO Auto-generated method stub
+    SkatMain.mainController.rekontraAnnounced();
 
   }
 
 
 
   public void KontraShowHandler(Message m) {
-    // TODO Auto-generated method stub
-
+    SkatMain.mainController.kontraRequest();
   }
 
 
   public void reKontraShowHandler(Message m) {
-    // TODO Auto-generated method stub
+    SkatMain.mainController.rekontraRequest();
 
   }
 
@@ -201,6 +197,7 @@ public class ClientLogicHandler {
 
   public void roundRestartHandler(Message m) {
     // TODO Auto-generated method stub
+
 
   }
 }

@@ -10,6 +10,7 @@ package de.skat3.network.server;
 
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.main.Lobby;
@@ -119,6 +120,7 @@ public class ServerLogicController implements ServerLogicInterface {
   public void sendPlayedCard(Player player, Card card) {
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.PLAY_INFO);
     mc.gameState = card;
+    mc.originSender = player;
     gs.broadcastMessage(mc);
 
   }
@@ -129,10 +131,10 @@ public class ServerLogicController implements ServerLogicInterface {
    * @see de.skat3.network.ServerLogicInterface#broadcastTrickResult(java.lang. Object)
    */
   @Override
-  public void broadcastTrickResult(Object oj) {
+  public void broadcastTrickResult(Player trickWinner) {
 
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.TRICK_INFO);
-    mc.gameState = oj; // FIXME
+    mc.gameState = trickWinner;
 
     gs.broadcastMessage(mc);
 
@@ -161,11 +163,9 @@ public class ServerLogicController implements ServerLogicInterface {
    * @see de.skat3.network.ServerLogicInterface#broadcastMatchResult(java.lang. Object)
    */
   @Override
-  public void broadcastMatchResult(Object oj) {
-    // TODO Auto-generated method stub
-
+  public void broadcastMatchResult(MatchResult mr) {
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.MATCH_INFO);
-    mc.gameState = oj; // FIXME
+    mc.gameState = mr;
     System.out.println("Match out");
     gs.broadcastMessage(mc);
 
@@ -211,67 +211,85 @@ public class ServerLogicController implements ServerLogicInterface {
 
   @Override
   public void broadcastKontraAnnounced() {
-    // TODO Auto-generated method stub
-    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_ANNOUNCED_INFO);
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_ANNOUNCED_INFO);
     gs.broadcastMessage(mc);
-    
+
   }
-  
+
   @Override
   public void broadcastRekontraAnnounced() {
-    // TODO Auto-generated method stub
-    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.REKONTRA_ANNOUNCED_INFO);
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.REKONTRA_ANNOUNCED_INFO);
     gs.broadcastMessage(mc);
-    
+
   }
 
   @Override
   public void KontraRequest(Player[] players) {
-    // TODO Auto-generated method stub
-    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_SHOW_OPTION_INFO);
-    
-    for(Player p : players){
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_SHOW_OPTION_INFO);
+
+    for (Player p : players) {
       gs.sendToPlayer(p, mc);
     }
-    
+
   }
 
   @Override
   public void RekontraRequest(Player player) {
-    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.REKONTRA_SHOW_OPTION_INFO);
-    // TODO Auto-generated method stub
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.REKONTRA_SHOW_OPTION_INFO);
     gs.sendToPlayer(player, mc);
-    
+
   }
 
   @Override
   public void broadcastKontraRekontraExpired() {
-    // TODO Auto-generated method stub
-    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_HIDE_OPTION_INFO);
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_HIDE_OPTION_INFO);
     gs.broadcastMessage(mc);
-    
+
   }
 
   @Override
   public void broadcastRoundRestarted() {
     // TODO Auto-generated method stub
-    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.ROUND_RESTART_INFO);
+
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.ROUND_RESTART_INFO);
     gs.broadcastMessage(mc);
-    
+
   }
 
   @Override
   public void broadcastServerStateChange(int ServerState) {
     // TODO Auto-generated method stub
-    
+
     MessageCommand mc = new MessageCommand(MessageType.STATE_CHANGE, "ALL");
     mc.gameState = ServerState;
     mc.payload = ServerState;
     gs.broadcastMessage(mc);
+
+  }
+//
+//  public void broadcastDeclarer(Player declarer) {
+//    // TODO Auto-generated method stub
+//  }
+
+  @Override
+  public void broadcastTrickResult(Object oj) {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void broadcastMatchResult(Object oj) {
+    // TODO Auto-generated method stub
     
   }
 
 
 
-  }
+}
 

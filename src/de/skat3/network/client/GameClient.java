@@ -137,11 +137,15 @@ public class GameClient {
 
   private void handleCommandAction(Message m, SubType st) {
     // TODO Auto-generated method stub
-    logger.info("Handeling!");
+  
 
     CommandType ct = (CommandType) st;
-    System.out.println(ct.toString());
-    System.out.println(st.toString());
+//    System.out.println(ct.toString());
+//    System.out.println(st.toString());
+    
+    logger.info("Handeling received message!" + ct);
+    
+    
     switch (ct) {
       case BID_INFO:
         clh.bidInfoHandler(m);

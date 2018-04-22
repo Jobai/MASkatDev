@@ -10,6 +10,7 @@ package de.skat3.network;
 
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 
@@ -58,6 +59,10 @@ public interface ServerLogicInterface {
   public void broadcastServerStateChange(int ServerState);
 
   void broadcastKontraAnnounced();
+
+  void broadcastTrickResult(Player trickWinner);
+
+  void broadcastMatchResult(MatchResult mr);
   
   
 

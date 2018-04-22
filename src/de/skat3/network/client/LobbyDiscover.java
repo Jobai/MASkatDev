@@ -54,12 +54,12 @@ public class LobbyDiscover extends Thread {
       while (!this.isInterrupted()) {
         buffer = new byte[4096]; //XXX
         DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
-        System.out.println("RECEIVING NEXT");
+//        System.out.println("RECEIVING NEXT");
         ms.receive(dp);
-        System.out.println("RECEIVED");
+//        System.out.println("RECEIVED");
         Lobby lb = new Lobby();
         lb = lb.convertFromByteArray(buffer);
-        System.out.println(lb.getName());
+//        System.out.println(lb.getName());
 
 
         boolean contains = false;

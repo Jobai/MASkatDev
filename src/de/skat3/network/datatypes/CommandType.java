@@ -74,5 +74,9 @@ public enum CommandType implements SubType {
   
   REKONTRA_HIDE_OPTION_INFO,
   
-  ROUND_RESTART_INFO;
+  ROUND_RESTART_INFO,
+  
+  AUCTION_WINNER_INFO,
+  
+  CONTRACT_INFO;
 }
