@@ -30,7 +30,7 @@ public abstract class Message implements Serializable {
   private String sender;
   private String receiver;
   public Player originSender;
-  private SubType subType;
+  public SubType subType;
   public Object payload;
   
   /**

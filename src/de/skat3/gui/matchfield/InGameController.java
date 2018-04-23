@@ -39,7 +39,7 @@ public class InGameController implements InGameControllerInterface {
 
     this.matchfield.playerHand.addAll(SkatMain.lgs.localClient.getHand().getCards());
     this.matchfield.playerHand.setPlayer(SkatMain.lgs.localClient);
-    this.matchfield.leftHand.addAll(SkatMain.lgs.enemyOne.getHand().getCards());
+    this.matchfield.leftHand.addAll(SkatMain.lgs.enemyOne.getHand().getCards()); //FIXME
     this.matchfield.leftHand.setPlayer(SkatMain.lgs.enemyOne);
     this.matchfield.rightHand.addAll(SkatMain.lgs.enemyTwo.getHand().getCards());
     this.matchfield.rightHand.setPlayer(SkatMain.lgs.enemyTwo);

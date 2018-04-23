@@ -256,7 +256,7 @@ public class GameClient {
   public void sendToServer(Message m) {
     try {
       toSever.writeObject(m);
-      logger.log(Level.INFO, "tried to send");
+      logger.log(Level.INFO, "tried to send" + m.subType);
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

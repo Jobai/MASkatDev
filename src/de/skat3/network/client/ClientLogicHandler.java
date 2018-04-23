@@ -119,6 +119,8 @@ public class ClientLogicHandler {
     Player pl = (Player) mc.gameState;
 //    SkatMain.lgs.setPlayer((Player) mc.gameState); // FIXME ?
 //    System.out.println(pl);
+    
+    
     System.out.println(pl.getHand());
     SkatMain.mainController.setHand(pl);
 
