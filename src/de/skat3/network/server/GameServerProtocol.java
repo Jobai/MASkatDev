@@ -125,7 +125,7 @@ public class GameServerProtocol extends Thread {
   private void openConnection(Message m) {
 
     this.playerProfile = (Player) m.payload;
-    logger.info("Player" + this.playerProfile.getUuid() + "joined and was added to Lobby!");
+//    logger.info("Player" + this.playerProfile.getUuid() + "joined and was added to Lobby!");
 
     // this.playerProfile = new Player(SkatMain.ioController.getLastUsedProfile()); //FIXME
     broadcastMessage(m);

@@ -11,7 +11,6 @@ public class Player implements Serializable {
   /**
    * 
    */
-  private static final long serialVersionUID = -4721822427911236663L;
   boolean isSolo;
   String name;
   // Image image;
@@ -84,8 +83,9 @@ public class Player implements Serializable {
    * @param p
    * @return
    */
+  
   public boolean equals(Player p) {
-    if (this.uuid == p.uuid) {
+    if (this.uuid.equals(p.uuid)) {
       return true;
     } else {
       return false;

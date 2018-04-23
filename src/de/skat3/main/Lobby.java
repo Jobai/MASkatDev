@@ -77,6 +77,7 @@ public class Lobby implements Serializable {
     for (int i = 0; i < this.numberOfPlayers; i++) {
       if (this.players[i] == null) {
         this.players[i] = player;
+        System.out.println("Player added" + player);
         break;
       }
       if (i == this.numberOfPlayers - 1) {

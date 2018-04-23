@@ -17,7 +17,6 @@ public class Card implements Serializable {
   /**
    * 
    */
-  private static final long serialVersionUID = 1L;
   private Suit suit;
   private Value value;
   private String view;
