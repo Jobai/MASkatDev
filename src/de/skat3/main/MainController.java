@@ -157,6 +157,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void setHand(Player player) {
     SkatMain.lgs.localClient.setHand(player.getHand());
+    SkatMain.guiController.getInGameController().startRound();
     System.out.println(player.getHand());
 
   }
@@ -333,12 +334,14 @@ public class MainController implements MainControllerInterface {
     this.gameServer.setGameMode(1);
     this.gameController.startGame(this.currentLobby.players,
         this.gameServer.getSeverLogicController());
+    
 
   }
 
   @Override
   public void skatSelected(Hand hand, Card[] skat) {
-    
+    clc.throwAnswer(hand, skat);
+    //FIXME
   }
 
   @Override
