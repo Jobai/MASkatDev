@@ -13,8 +13,8 @@ public class Player implements Serializable {
    */
   private static final long serialVersionUID = -4721822427911236663L;
   boolean isSolo;
-//  String name;
-//  Image image;
+  String name;
+  // Image image;
   Hand hand;
   ArrayList<Card> wonTricks;
   Position position;
@@ -25,18 +25,14 @@ public class Player implements Serializable {
 
   public Player(Profile profile) {
 
-    //this.name = profile.getName();
+    this.name = profile.getName();
     this.wonTricks = new ArrayList<Card>();
-    this.uuid = UUID.randomUUID(); //FIXME
-    //this.image = profile.getImage();
+    this.uuid = UUID.randomUUID(); // FIXME
+    // this.image = profile.getImage();
     this.points = 0;
     this.wonGames = 0;
     this.lostGames = 0;
-    Card[] temp = new Card[10];
-    for (int i = 0; i < 10; i++) {
-      temp[i] = new Card();
-    }
-    this.hand = new Hand(temp);
+    this.hand = new Hand();
 
   }
 
@@ -95,4 +91,11 @@ public class Player implements Serializable {
       return false;
     }
   }
+
+  @Override
+  public String toString() {
+    return this.uuid + ": " + this.name;
+  }
 }
+
+

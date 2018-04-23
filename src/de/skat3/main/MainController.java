@@ -2,6 +2,7 @@ package de.skat3.main;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
@@ -291,7 +292,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void setSkat(Card[] skat) {
     SkatMain.lgs.skat = skat;
-     SkatMain.guiController.getInGameController().showSkatSelection();
+    SkatMain.guiController.getInGameController().showSkatSelection();
 
   }
 
@@ -321,9 +322,9 @@ public class MainController implements MainControllerInterface {
     // network
   }
 
-//  public Profile readProfile(String id) {
-//    return SkatMain.ioController.readProfile(id);
-//  }
+  // public Profile readProfile(String id) {
+  // return SkatMain.ioController.readProfile(id);
+  // }
 
   public ArrayList<Profile> getProfileList() {
     return SkatMain.ioController.getProfileList();
@@ -334,9 +335,9 @@ public class MainController implements MainControllerInterface {
   }
 
 
-//  public void editProfile(Profile profile, String name, Image image) {
-//    SkatMain.ioController.editProfile(profile, name, image);
-//  }
+  // public void editProfile(Profile profile, String name, Image image) {
+  // SkatMain.ioController.editProfile(profile, name, image);
+  // }
 
   public boolean deleteProfile(Profile profile) {
     return SkatMain.ioController.deleteProfile(profile);
@@ -347,19 +348,20 @@ public class MainController implements MainControllerInterface {
     this.gameServer.setGameMode(1);
     this.gameController.startGame(this.currentLobby.players,
         this.gameServer.getSeverLogicController());
-    
+
 
   }
-  
-  public void intitializeLocalGameState() {   
+
+  public void initializeLocalGameState() {
     SkatMain.lgs = new LocalGameState(this.currentLobby.numberOfPlayers,
         this.currentLobby.getPlayers(), this.currentLobby.timer);
+    System.out.println(Arrays.toString(this.currentLobby.getPlayers()));
   }
 
   @Override
   public void skatSelected(Hand hand, Card[] skat) {
     clc.throwAnswer(hand, skat);
-    //FIXME
+    // FIXME
   }
 
   @Override
