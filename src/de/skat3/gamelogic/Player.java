@@ -32,6 +32,12 @@ public class Player implements Serializable {
     this.points = 0;
     this.wonGames = 0;
     this.lostGames = 0;
+    Card[] temp = new Card[10];
+    for (int i = 0; i < 10; i++) {
+      temp[i] = new Card();
+    }
+    this.hand = new Hand(temp);
+
   }
 
   public UUID getUuid() {

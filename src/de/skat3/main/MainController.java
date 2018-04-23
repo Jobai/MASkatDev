@@ -29,6 +29,7 @@ public class MainController implements MainControllerInterface {
   private GameServer gameServer;
   private GameClient gameClient;
   private GameController gameController;
+  public boolean isHost;
   public Lobby currentLobby;
 
   @Override
@@ -53,6 +54,7 @@ public class MainController implements MainControllerInterface {
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.clc = gameClient.getClc();
     SkatMain.guiController.goInGame();
+    this.isHost = false;
 
   }
 
@@ -61,6 +63,7 @@ public class MainController implements MainControllerInterface {
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.clc = gameClient.getClc();
     SkatMain.guiController.goInGame();
+    this.isHost = false;
 
 
   }
@@ -113,8 +116,10 @@ public class MainController implements MainControllerInterface {
     this.gameServer =
         SkatMain.mainNetworkController.startLocalServer(this.currentLobby, this.gameController);
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
+    this.isHost = true;
     this.clc = gameClient.getClc();
     SkatMain.guiController.goInGame();
+
 
   }
 
