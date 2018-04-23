@@ -131,14 +131,13 @@ public class GameServer extends Thread {
 
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       if (gameServerProtocol.playerProfile.equals(player)) // XXX
-      // FIXME
       {
         gameServerProtocol.sendMessage(mc);
-        logger.info("send succesful");
-//        return;
+        logger.info("send to " + player.getUuid()+ " succesful");
+        return;
       }
     }
-    logger.warning("send To Player FAILED!");
+    logger.warning("send to player: " + player.getUuid()+ "FAILED!");
 
   }
 

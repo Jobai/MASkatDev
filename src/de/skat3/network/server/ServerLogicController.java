@@ -63,7 +63,7 @@ public class ServerLogicController implements ServerLogicInterface {
   @Override
   public void sendStartHandtoPlayer(Player player) {
     MessageCommand mc =
-        new MessageCommand(MessageType.COMMAND_INFO, player.toString(), CommandType.GAME_INFO);
+        new MessageCommand(MessageType.COMMAND_INFO, player.toString(), CommandType.GAME_INFO); //FIXME
     mc.gameState = player;
     gs.sendToPlayer(player, mc);
 
