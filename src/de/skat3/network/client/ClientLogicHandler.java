@@ -62,7 +62,7 @@ public class ClientLogicHandler {
     MessageCommand mc = (MessageCommand) m;
     Card c = (Card) mc.gameState;
     Player op = (Player) mc.originSender;
-    SkatMain.mainController.playCard(op, c);
+    SkatMain.mainController.showCardPlayed(op, c);
 
   }
 
