@@ -129,8 +129,7 @@ public class MultiplayerMenuController {
 
     new Thread() {
       public void run() {
-        ObservableList<String> items = FXCollections.observableArrayList("Server 1 | Players (1/3)",
-            "Serer 2 | Players (2/4)", "Server 3 | Players (2/4)", "Server 4 | Players (3/4)");
+        ObservableList<String> items = FXCollections.observableArrayList();
 
         hostList = SkatMain.mainController.getLocalHosts();
         for (Lobby lobby : hostList) {
@@ -203,7 +202,7 @@ public class MultiplayerMenuController {
     System.out.println(hostListView.getSelectionModel().getSelectedItem());
     System.out.println(hostListView.getSelectionModel().getSelectedIndex());
 
-    currentLobby = hostList.get(hostListView.getSelectionModel().getSelectedIndex());  //FIXME broken 
+    currentLobby = hostList.get(hostListView.getSelectionModel().getSelectedIndex());// Should be fixed
 
     // fill view fields
     serverName.setText(currentLobby.getName());
