@@ -278,13 +278,17 @@ public class Matchfield {
 
             Timeline tl = new Timeline();
             tl.getKeyFrames().add(new KeyFrame(Matchfield.animationTime, e -> {
-              skat[0].translateXProperty().unbind();
-              skat[0].translateYProperty().unbind();
-              skat[0].translateZProperty().unbind();
-              skat[0].getTransforms().clear();
-              skat[0].translateXProperty().bind(this.skatPositions[0].translateXProperty());
-              skat[0].translateYProperty().bind(this.skatPositions[0].translateYProperty());
-              skat[0].translateZProperty().bind(this.skatPositions[0].translateZProperty());
+              try {
+                skat[0].translateXProperty().unbind();
+                skat[0].translateYProperty().unbind();
+                skat[0].translateZProperty().unbind();
+                skat[0].getTransforms().clear();
+                skat[0].translateXProperty().bind(this.skatPositions[0].translateXProperty());
+                skat[0].translateYProperty().bind(this.skatPositions[0].translateYProperty());
+                skat[0].translateZProperty().bind(this.skatPositions[0].translateZProperty());
+              } catch (NullPointerException nullE) {
+                // The Card is clicked on before it is placen on the right spot.
+              }
             }));
             tl.play();
             return;
@@ -295,13 +299,17 @@ public class Matchfield {
             this.playerHand.moveCardAndRemove(card, this.skatPositions[1], this.table);
             Timeline tl = new Timeline();
             tl.getKeyFrames().add(new KeyFrame(Matchfield.animationTime, e -> {
-              skat[1].translateXProperty().unbind();
-              skat[1].translateYProperty().unbind();
-              skat[1].translateZProperty().unbind();
-              skat[1].getTransforms().clear();
-              skat[1].translateXProperty().bind(this.skatPositions[1].translateXProperty());
-              skat[1].translateYProperty().bind(this.skatPositions[1].translateYProperty());
-              skat[1].translateZProperty().bind(this.skatPositions[1].translateZProperty());
+              try {
+                skat[1].translateXProperty().unbind();
+                skat[1].translateYProperty().unbind();
+                skat[1].translateZProperty().unbind();
+                skat[1].getTransforms().clear();
+                skat[1].translateXProperty().bind(this.skatPositions[1].translateXProperty());
+                skat[1].translateYProperty().bind(this.skatPositions[1].translateYProperty());
+                skat[1].translateZProperty().bind(this.skatPositions[1].translateZProperty());
+              } catch (NullPointerException nullE) {
+                // The Card is clicked on before it is placen on the right spot.
+              }
             }));
             tl.play();
             return;
