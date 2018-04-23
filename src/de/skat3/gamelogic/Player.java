@@ -25,10 +25,10 @@ public class Player implements Serializable {
 
   public Player(Profile profile) {
 
-    this.name = profile.getName();
+    //this.name = profile.getName();
     this.wonTricks = new ArrayList<Card>();
-    this.uuid = profile.getUuid();
-    this.image = profile.getImage();
+    this.uuid = UUID.randomUUID(); //FIXME
+    //this.image = profile.getImage();
     this.points = 0;
     this.wonGames = 0;
     this.lostGames = 0;

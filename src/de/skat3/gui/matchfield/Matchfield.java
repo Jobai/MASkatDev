@@ -116,7 +116,9 @@ public class Matchfield {
       this.rightHand.resetPositions();
       this.trick.resetPostions();
     });
-
+    if (SkatMain.mainController.isHost) {
+      this.showStartButton();
+    }
   }
 
   /**
@@ -413,6 +415,7 @@ public class Matchfield {
               if (card.card.equals(c)) {
                 if (c.isPlayable()) {
                   this.playCard(this.playerHand, card);
+                  SkatMain.mainController.localCardPlayed(card.card);
                   this.setCardsPlayable(false); // ?
                   break;
                 }

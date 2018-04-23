@@ -31,7 +31,7 @@ public interface MainControllerInterface {
 
   public void startGame();
 
-  public void playCard(Player player, Card card);
+  public void showCardPlayed(Player player, Card card);
 
   public void sendMessage(String message);
 
@@ -80,6 +80,8 @@ public interface MainControllerInterface {
   public void roundRestarted();
   
   public void showWrongPassword();
+
+  
   
   
   
