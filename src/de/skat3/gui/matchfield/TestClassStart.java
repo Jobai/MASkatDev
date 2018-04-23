@@ -41,7 +41,8 @@ public class TestClassStart extends Application {
     m.leftHand.addAll(l2);
     m.rightHand.addAll(l3);
 
-    m.showSkatSelection();
+    m.showStartButton();
+    // m.showSkatSelection();
     // m.setCardsPlayable(true);
     // m.bidRequest(50);
 

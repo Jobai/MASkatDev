@@ -174,6 +174,25 @@ public class Matchfield {
 
   }
 
+  public void showStartButton() {
+    Button button = new Button("Start Game");
+    button.setFont(Font.font(40));
+    button.setPrefSize(300, 100);
+
+    button.translateXProperty()
+        .bind(DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateXProperty()));
+    button.translateYProperty().bind(
+        DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
+    button.translateZProperty()
+        .bind(DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(300));
+
+    button.setOnAction(e -> {
+      SkatMain.mainController.startGame();
+      this.table.getChildren().remove(button);
+    });
+    this.table.getChildren().add(button);
+  }
+
   /**
    * Shows the skat selection on the screen.
    */
