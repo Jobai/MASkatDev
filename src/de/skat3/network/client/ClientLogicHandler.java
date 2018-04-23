@@ -39,7 +39,7 @@ public class ClientLogicHandler {
     
     MessageCommand mc = (MessageCommand) m;
     boolean accept = (boolean) mc.gameState;
-    SkatMain.mainController.localBid(accept);
+//    SkatMain.mainController.  FIXME
   }
 
   // tell GUI
