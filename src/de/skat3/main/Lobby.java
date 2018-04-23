@@ -79,6 +79,9 @@ public class Lobby implements Serializable {
         this.players[i] = player;
         break;
       }
+      if (i == this.numberOfPlayers - 1) {
+        System.err.println("Lobby full, " + player + " cant join");
+      }
     }
   }
 
@@ -86,6 +89,10 @@ public class Lobby implements Serializable {
     for (int i = 0; i < this.numberOfPlayers; i++) {
       if (this.players[i].equals(player)) {
         this.players[i] = null;
+        break;
+      }
+      if (i == this.numberOfPlayers - 1) {
+        System.err.println("Player not found: " + player);
       }
     }
   }
@@ -109,8 +116,8 @@ public class Lobby implements Serializable {
   @Override
   public boolean equals(Object obj) {
     Lobby lo = (Lobby) obj;
-//    System.out.println(this.uuid);
-//    System.out.println(lo.uuid);
+    // System.out.println(this.uuid);
+    // System.out.println(lo.uuid);
     if (this.uuid.equals(lo.uuid)) {
       return true;
     } else {
