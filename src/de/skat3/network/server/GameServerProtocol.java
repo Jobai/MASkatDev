@@ -96,6 +96,7 @@ public class GameServerProtocol extends Thread {
           case STATE_CHANGE:
             this.handleStateChange(m);
           default:
+            logger.severe("Message Type not handeld!  " + mt + " --- " + st);
             throw new AssertionError();
 
 

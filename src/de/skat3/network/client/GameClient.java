@@ -228,6 +228,7 @@ public class GameClient {
         clh.roundRestartHandler(m);
         break;
       default:
+        logger.severe("Message Type not handeld!  " +  " --- " + st);
         throw new AssertionError();
 
     }

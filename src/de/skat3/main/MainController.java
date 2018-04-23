@@ -129,7 +129,15 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showCardPlayed(Player player, Card card) {
-    SkatMain.guiController.getInGameController().playCard(player, card);
+    Platform.runLater(new Runnable() {
+
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().playCard(player, card);
+
+
+      }
+    });
     SkatMain.lgs.addToTrick(card);
   }
 
