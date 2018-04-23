@@ -12,6 +12,7 @@ import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.AnswerType;
 import de.skat3.network.datatypes.MessageAnswer;
 import de.skat3.network.datatypes.MessageChat;
+import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageConnection;
 import de.skat3.network.datatypes.MessageType;
 
@@ -103,5 +104,12 @@ public class ClientLogicController {
     gc.sendToServer(ma);
   }
 
+  
+  public void announceGameStarted(){
+    MessageCommand mc = new MessageCommand(MessageType.STATE_CHANGE, "ALL", null);
+    mc.payload = "START"; //XXX
+    gc.sendToServer(mc);
+    
+  }
 
 }

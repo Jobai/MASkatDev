@@ -92,6 +92,8 @@ public class GameServerProtocol extends Thread {
             throw new AssertionError();
           case COMMAND_INFO:
             throw new AssertionError();
+          case STATE_CHANGE:
+            this.handleStateChange(m);
           default:
             throw new AssertionError();
 
@@ -110,12 +112,20 @@ public class GameServerProtocol extends Thread {
     }
   }
 
-  private void openConnection(Message m) {
+  private void handleStateChange(Message m) {
     // TODO Auto-generated method stub
-    //TODO DO GUI STUFF
+    broadcastMessage(m);
+    
+  }
+
+  private void openConnection(Message m) {    
+    
+    logger.info("Player" + this.playerProfile.getUuid() + "joined and was added to Lobby!");
     this.playerProfile = (Player) m.payload;
-    this.playerProfile = new Player(SkatMain.ioController.getLastUsedProfile()); //FIXME
+//    this.playerProfile = new Player(SkatMain.ioController.getLastUsedProfile()); //FIXME
+    broadcastMessage(m);
     SkatMain.mainController.currentLobby.addPlayer(this.playerProfile);
+    
     
   }
 
@@ -188,6 +198,21 @@ public class GameServerProtocol extends Thread {
     GameServer.threadList.remove(this);
     closeConnection();
   }
+  
+  public void broadcastMessage(Message mc) {
+    // TODO Auto-generated method stub
+//    logger.log(Level.FINE, "Got ChatMessage: ");
+
+
+
+    for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
+      gameServerProtocol.sendMessage(mc);
+    }
+
+
+
+  }
+
   
   
 

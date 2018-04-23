@@ -51,6 +51,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void joinMultiplayerGame(Lobby lobby) {
+    this.currentLobby = lobby;
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.currentLobby = lobby;
     this.clc = gameClient.getClc();
@@ -158,6 +159,8 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void setHand(Player player) {
+    SkatMain.lgs = new LocalGameState(this.currentLobby.numberOfPlayers,
+        this.currentLobby.getPlayers(), this.currentLobby.timer);
     SkatMain.lgs.localClient.setHand(player.getHand());
     Platform.runLater(new Runnable() {
 

@@ -101,7 +101,8 @@ public class GameClient {
 
     switch (mt) {
       case CONNECTION_OPEN:
-        break; // TODO
+        this.handleOpendConnection(m);
+        break;
       case CONNECTION_CLOSE:
         this.closeConnection();
         break;
@@ -124,28 +125,43 @@ public class GameClient {
     }
   }
 
-  private void handleStateChange(Message m, SubType st) {
+  private void handleOpendConnection(Message m) {
     // TODO Auto-generated method stub
 
+    Player p = (Player) m.payload;
+    logger.info("Player" + p.getUuid() + "joined and was added to local Lobby!");
+    SkatMain.mainController.currentLobby.addPlayer(p);
 
-    int mode = (int) m.payload;
-    if (mode == 1)
-      SkatMain.guiController.goInGame();
+  }
+
+  private void handleStateChange(Message m, SubType st) {
+    // TODO Auto-generated method stub
+    String state = (String) m.payload;
+
+    logger.info("GAME STATE CHANGE REGISTERED:" + state);
+
+
+    if (state.equals("START")) {
+      SkatMain.mainController.initializeLocalGameState();
+    }
+    // int mode = (int) m.payload;
+    // if (mode == 1)
+    // SkatMain.guiController.goInGame();
 
 
   }
 
   private void handleCommandAction(Message m, SubType st) {
     // TODO Auto-generated method stub
-  
+
 
     CommandType ct = (CommandType) st;
-//    System.out.println(ct.toString());
-//    System.out.println(st.toString());
-    
+    // System.out.println(ct.toString());
+    // System.out.println(st.toString());
+
     logger.info("Handeling received message!" + ct);
-    
-    
+
+
     switch (ct) {
       case BID_INFO:
         clh.bidInfoHandler(m);
