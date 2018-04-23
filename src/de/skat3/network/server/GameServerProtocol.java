@@ -129,11 +129,11 @@ public class GameServerProtocol extends Thread {
 
     // this.playerProfile = new Player(SkatMain.ioController.getLastUsedProfile()); //FIXME
     broadcastMessage(m);
-    if (!hostSet) { //XXX
-      SkatMain.mainController.currentLobby.addPlayer(this.playerProfile);
-    } else {
-      hostSet = true;
-    }
+//    if (!hostSet) { //XXX
+//      SkatMain.mainController.currentLobby.addPlayer(this.playerProfile);
+//    } else {
+//      hostSet = true;
+//    }
 
 
 
