@@ -15,7 +15,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
@@ -37,18 +36,20 @@ public class GameServerProtocol extends Thread {
   Socket socket;
   private ObjectOutputStream toClient;
   private ObjectInputStream fromClient;
-  
+
   Player playerProfile;
   public ServerLogicController slc;
-  
+
   private GameLogicHandler glh;
-  
-  
+
+  private boolean hostSet = false;
+
+
 
   public GameServerProtocol(Socket socket, GameController gc) {
     // TODO Auto-generated constructor stub
-    
-    
+
+
     this.socket = socket;
 
     try {
@@ -58,7 +59,7 @@ public class GameServerProtocol extends Thread {
       e.printStackTrace();
     }
     glh = new GameLogicHandler(gc);
-    
+
 
   }
 
@@ -104,9 +105,12 @@ public class GameServerProtocol extends Thread {
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
       } catch (IOException e) {
-        logger.log(Level.WARNING, "Connection Error! Possibly ungracefully closed by Client! [Client:" + socket.getInetAddress() + "] \n" + e.getMessage(), e);
+        logger.log(Level.WARNING,
+            "Connection Error! Possibly ungracefully closed by Client! [Client:"
+                + socket.getInetAddress() + "] \n" + e.getMessage(),
+            e);
         closeConnection();
-        
+
         // TODO KILL THIS THREAD
       }
     }
@@ -115,50 +119,55 @@ public class GameServerProtocol extends Thread {
   private void handleStateChange(Message m) {
     // TODO Auto-generated method stub
     broadcastMessage(m);
-    
+
   }
 
-  private void openConnection(Message m) {    
-    
-   
+  private void openConnection(Message m) {
+
     this.playerProfile = (Player) m.payload;
     logger.info("Player" + this.playerProfile.getUuid() + "joined and was added to Lobby!");
-//    this.playerProfile = new Player(SkatMain.ioController.getLastUsedProfile()); //FIXME
+
+    // this.playerProfile = new Player(SkatMain.ioController.getLastUsedProfile()); //FIXME
     broadcastMessage(m);
-    SkatMain.mainController.currentLobby.addPlayer(this.playerProfile);
-    
-    
+    if (!hostSet) { //XXX
+      SkatMain.mainController.currentLobby.addPlayer(this.playerProfile);
+    } else {
+      hostSet = true;
+    }
+
+
+
   }
 
   private void handleAnswer(Message m) {
     // TODO Auto-generated method stub
-    
-    //GameLogicHandler.handleAnswer(m);
-	  glh.handleAnswer(m);
+
+    // GameLogicHandler.handleAnswer(m);
+    glh.handleAnswer(m);
 
   }
 
   private void relayChat(MessageChat m) {
     // TODO Auto-generated method stub
     logger.log(Level.FINE, "Got ChatMessage: " + m.message);
-    
+
     MessageChat oldM = (MessageChat) m;
-    
+
     // TODO check for command and profanity and set flags acordingly
     MessageChat newM = new MessageChat(oldM.message, oldM.nick);
 
     newM.setCommand(false);
     newM.setProfanity(false);
-    
+
 
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       gameServerProtocol.sendMessage(newM);
     }
 
-    
+
 
   }
-  
+
 
   void sendMessage(Message message) {
     try {
@@ -194,15 +203,15 @@ public class GameServerProtocol extends Thread {
 
 
   }
-  
-  private void cleanUp(){
+
+  private void cleanUp() {
     GameServer.threadList.remove(this);
     closeConnection();
   }
-  
+
   public void broadcastMessage(Message mc) {
     // TODO Auto-generated method stub
-//    logger.log(Level.FINE, "Got ChatMessage: ");
+    // logger.log(Level.FINE, "Got ChatMessage: ");
 
 
 
@@ -213,9 +222,6 @@ public class GameServerProtocol extends Thread {
 
 
   }
-
-  
-  
 
 
 
