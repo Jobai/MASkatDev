@@ -7,6 +7,7 @@ package de.skat3.network.client;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.Hand;
 import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.AnswerType;
 import de.skat3.network.datatypes.MessageAnswer;
@@ -60,11 +61,10 @@ public class ClientLogicController {
     gc.sendToServer(ma);
   }
 
-  public void throwAnswer(Card c1, Card c2) {
+  public void throwAnswer(Hand hand, Card[] skat ) {
     MessageAnswer ma = new MessageAnswer("ME", AnswerType.THROW_ANSWER);
-    Card[] skat = {c1, c2};
     ma.payload = skat;
-    ma.additionalPlayload = SkatMain.lgs.getLocalHand();
+    ma.additionalPlayload = hand;
     gc.sendToServer(ma);
   }
 
