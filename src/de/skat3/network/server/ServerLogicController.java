@@ -262,6 +262,7 @@ public class ServerLogicController implements ServerLogicInterface {
 
   }
 
+  @Deprecated
   @Override
   public void broadcastServerStateChange(int ServerState) {
     // TODO Auto-generated method stub

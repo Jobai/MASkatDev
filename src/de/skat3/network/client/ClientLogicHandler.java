@@ -114,10 +114,10 @@ public class ClientLogicHandler {
 
   public void gameInfoHandler(Message m) {
     // TODO Auto-generated method stub
-    System.out.println("AUFGERUFEN");
+    System.out.println("AUFGERUFEN + Set Starthand");
     MessageCommand mc = (MessageCommand) m;
 //    SkatMain.lgs.setPlayer((Player) mc.gameState); // FIXME ?
-//    SkatMain.mainController.
+    SkatMain.mainController.setHand((Player) mc.gameState);
 
   }
 

@@ -13,8 +13,8 @@ public class Player implements Serializable {
    */
   private static final long serialVersionUID = -4721822427911236663L;
   boolean isSolo;
-  String name;
-  Image image;
+//  String name;
+//  Image image;
   Hand hand;
   ArrayList<Card> wonTricks;
   Position position;
