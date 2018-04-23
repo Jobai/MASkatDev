@@ -10,6 +10,8 @@ import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -127,21 +129,29 @@ public class MultiplayerMenuController {
 
     hostListView.setCellFactory(param -> new HostCell());
 
-    new Thread() {
-      public void run() {
-        ObservableList<String> items = FXCollections.observableArrayList();
+    Service<String> playService;
+    class PlayService extends Service<String> {
+      @Override
+      protected Task<String> createTask() {
+        return new Task<String>() {
+          @Override
+          protected String call() {
+            ObservableList<String> items = FXCollections.observableArrayList();
 
-        hostList = SkatMain.mainController.getLocalHosts();
-        for (Lobby lobby : hostList) {
-          items.add(lobby.getName() + "(" + lobby.getCurrentNumberOfPlayers() + "/"
-              + lobby.getMaximumNumberOfPlayers() + ")");
-        }
+            hostList = SkatMain.mainController.getLocalHosts();
+            for (Lobby lobby : hostList) {
+              items.add(lobby.getName() + "(" + lobby.getCurrentNumberOfPlayers() + "/"
+                  + lobby.getMaximumNumberOfPlayers() + ")");
+            }
 
-        hostListView.setItems(items);
-
-      };
-    }.start();
-
+            hostListView.setItems(items);
+            return "True";
+          }
+        };
+      }
+    }
+    playService = new PlayService();
+    playService.restart();
   }
 
   /**
@@ -202,7 +212,8 @@ public class MultiplayerMenuController {
     System.out.println(hostListView.getSelectionModel().getSelectedItem());
     System.out.println(hostListView.getSelectionModel().getSelectedIndex());
 
-    currentLobby = hostList.get(hostListView.getSelectionModel().getSelectedIndex());// Should be fixed
+    currentLobby = hostList.get(hostListView.getSelectionModel().getSelectedIndex());// Should be
+                                                                                     // fixed
 
     // fill view fields
     serverName.setText(currentLobby.getName());
