@@ -1,9 +1,11 @@
 package de.skat3.gui.matchfield;
 
 import de.skat3.gamelogic.Card;
+import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
+import de.skat3.main.SkatMain;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
@@ -301,7 +303,13 @@ public class Matchfield {
         skat2[0] = skat[0].card;
         skat2[1] = skat[1].card;
 
-        // SkatMain.mainController.skatSelected(null, skat2); // TODO
+        Card[] cards = new Card[this.playerHand.getCards().size()];
+        int j = 0;
+        for (GuiCard c : this.playerHand.getCards()) {
+          cards[j] = c.card;
+        }
+        Hand hand = new Hand(cards);
+        SkatMain.mainController.skatSelected(hand, skat2);
         this.table.getChildren().removeAll(button, skat[0], skat[1]);
         this.setCardsPlayable(false);
       }
@@ -382,14 +390,15 @@ public class Matchfield {
             if (this.selectedCard.equals(card)) {
               this.selectedCard = null;
             }
-            // for (Card c : this.gameState.localClient.getHand().cards) {
-            // if (card.card.equals(c)) {
-            // if (c.isPlayable()) {
-            this.playCard(this.playerHand, card); // TODO
-            // break;
-            // }
-            // }
-            // }
+            for (Card c : SkatMain.lgs.localClient.getHand().cards) {
+              if (card.card.equals(c)) {
+                if (c.isPlayable()) {
+                  this.playCard(this.playerHand, card);
+                  this.setCardsPlayable(false); // ?
+                  break;
+                }
+              }
+            }
           }
         } catch (Exception e) {
           // No parent so an error is thrown every time when the cursor is not over a card.

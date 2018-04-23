@@ -15,6 +15,11 @@ import javafx.util.Duration;
  */
 public interface InGameControllerInterface {
 
+  /**
+   * The GUI will initialize the player hands based on the players in SkatMain.lgs. Changes made to
+   * the hand of any player will not effect the hand in the GUI. To play a card use
+   * this.playCard(...).
+   */
   public void startRound();
 
   public void setRemainingTime(Duration remaningTime);
@@ -23,8 +28,17 @@ public interface InGameControllerInterface {
 
   public void showEndScreen();
 
+  /*
+   * Shows the Skat (which has to be stored in SkatMain)!.lgs on the screen. The User can now
+   * interact with it. When ready the new Cards in the local hand and the new Skat will be send to
+   * the mainController.
+   * 
+   */
+  public void showSkatSelection();
+
   /**
-   * Player is asked to play a card.
+   * Player is asked to play a card. The user can now interact with his hand. When chosen the Card
+   * will be send to the mainController and makeAMove will be set to false.
    * 
    * @param value True if the player is allowed to do a move. False if not.
    */
