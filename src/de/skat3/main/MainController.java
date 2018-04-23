@@ -157,7 +157,17 @@ public class MainController implements MainControllerInterface {
   @Override
   public void setHand(Player player) {
     SkatMain.lgs.localClient.setHand(player.getHand());
-    SkatMain.guiController.getInGameController().startRound();
+    Platform.runLater(new Runnable() {
+
+
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().startRound();
+
+
+      }
+    });
+
     System.out.println(player.getHand());
 
   }

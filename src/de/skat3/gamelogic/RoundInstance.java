@@ -120,7 +120,7 @@ public class RoundInstance {
 
   private void notifyPlayers() {
     for (int i = 0; i < players.length; i++) {
-      System.out.println("Aufgerufen, Logik");
+      System.out.println("sendStartHandtoPlayer"+ this.players[i].getUuid());
       slc.sendStartHandtoPlayer(this.players[i]);
     }
 
