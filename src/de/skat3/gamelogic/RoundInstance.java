@@ -140,7 +140,6 @@ public class RoundInstance {
       Player currentWinner = null;
       boolean initialBidding = true;
       while (position < BiddingValues.values.length) {
-        System.out.println("Warte auf Gebot");
         this.slc.callForBid(bid, BiddingValues.values[position]);
         lock.wait();
         if (this.bidAccepted) {
@@ -228,12 +227,18 @@ public class RoundInstance {
 
     synchronized (this.lock) {
       this.trick = new Card[3];
+      int soloPosition;
+      for (int i = 0; i < this.players.length; i++) {
+        if (this.solo.equals(this.players[i])) {
+          soloPosition = i;
+        }
+      }
 
       for (int i = 0; i < 10; i++) {
 
 
         if (this.kontaRekontraAvailable) {
-          // TODO slc.broadcastKontraRequest(this.getTeamPlayer());
+          slc.KontraRequest(this.getTeamPlayer());
         }
 
         slc.callForPlay(this.players[0]);

@@ -52,7 +52,7 @@ public class MainController implements MainControllerInterface {
   public void joinMultiplayerGame(Lobby lobby) {
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.clc = gameClient.getClc();
-    //SkatMain.guiController.goInGame();
+    SkatMain.guiController.goInGame();
 
   }
 
@@ -60,7 +60,7 @@ public class MainController implements MainControllerInterface {
   public void joinMultiplayerGame(Lobby lobby, String password) {
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.clc = gameClient.getClc();
-    //SkatMain.guiController.goInGame();
+    SkatMain.guiController.goInGame();
 
 
   }
@@ -114,7 +114,7 @@ public class MainController implements MainControllerInterface {
         SkatMain.mainNetworkController.startLocalServer(this.currentLobby, this.gameController);
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
     this.clc = gameClient.getClc();
-    //SkatMain.guiController.goInGame();
+    SkatMain.guiController.goInGame();
 
   }
 
@@ -270,7 +270,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void setSkat(Card[] skat) {
     SkatMain.lgs.skat = skat;
-    // SkatMain.guiController.getInGameController().showSkatSelection();
+     SkatMain.guiController.getInGameController().showSkatSelection();
 
   }
 
@@ -333,7 +333,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void skatSelected(Hand hand, Card[] skat) {
-
+    
   }
 
   @Override
