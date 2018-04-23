@@ -121,6 +121,7 @@ public class GameClient {
         this.handleStateChange(m, st);
         break;
       default:
+        logger.severe("Message Type not handeld!  " + mt + " --- " + st);
         throw new AssertionError();
     }
   }

@@ -203,6 +203,8 @@ public class ServerLogicController implements ServerLogicInterface {
   }
 
   public void broadcastBid(boolean bid) {
+  System.out.println("broadcasting bid [SERVER / LOGIC] : " + bid);
+    
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.BID_INFO);
     mc.gameState = bid;
 

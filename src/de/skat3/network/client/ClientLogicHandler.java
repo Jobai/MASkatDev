@@ -34,6 +34,9 @@ public class ClientLogicHandler {
 
   // tell GUI
   public void bidInfoHandler(Message m) {
+    
+    System.out.println("BID INFO HANDELD");
+    
     MessageCommand mc = (MessageCommand) m;
     boolean accept = (boolean) mc.gameState;
     SkatMain.mainController.localBid(accept);
@@ -49,6 +52,8 @@ public class ClientLogicHandler {
 
   // tell GUI
   public void bidRequestHandler(Message m) {
+    
+    System.out.println("BID REQUEST HANDELD");
     Player p = (Player) m.payload;
     int b = (int) ((MessageCommand) m).gameState;
     SkatMain.mainController.bidRequest(b);

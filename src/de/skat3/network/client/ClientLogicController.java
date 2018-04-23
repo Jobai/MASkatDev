@@ -44,6 +44,7 @@ public class ClientLogicController {
 
   public void bidAnswer(boolean answer) {
 
+    System.out.println("BID ANSWER SEND  - " + answer);
     MessageAnswer ma = new MessageAnswer("ME", AnswerType.BID_ANSWER);
     ma.payload = answer;
     gc.sendToServer(ma);
