@@ -119,6 +119,7 @@ public class GameServerProtocol extends Thread {
 
   private void handleStateChange(Message m) {
     // TODO Auto-generated method stub
+    
     broadcastMessage(m);
 
   }

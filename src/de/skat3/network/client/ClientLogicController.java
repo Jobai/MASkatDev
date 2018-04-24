@@ -10,6 +10,7 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
 import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.AnswerType;
+import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageAnswer;
 import de.skat3.network.datatypes.MessageChat;
 import de.skat3.network.datatypes.MessageCommand;
@@ -110,6 +111,21 @@ public class ClientLogicController {
     MessageCommand mc = new MessageCommand(MessageType.STATE_CHANGE, "ALL", null);
     mc.payload = "START"; //XXX
     gc.sendToServer(mc);
+    
+  }
+  
+  public void disconnectFromLobby(){
+    MessageCommand mc = new MessageCommand(MessageType.CONNECTION_CLOSE, "SERVER", null);
+    gc.sendToServer(mc);
+    try {
+      this.wait(1000);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    gc.closeConnection();
+    
+    
     
   }
 

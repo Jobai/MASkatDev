@@ -68,6 +68,7 @@ public class MainController implements MainControllerInterface {
     Inet4Address i4;
     try {
       i4 = (Inet4Address) Inet4Address.getByName(ip);
+      System.out.println(i4);
       lobby.ip = i4;
     } catch (UnknownHostException e) {
       // TODO Auto-generated catch block
