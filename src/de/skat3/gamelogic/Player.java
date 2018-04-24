@@ -27,13 +27,24 @@ public class Player implements Serializable {
 
     this.name = profile.getName();
     this.wonTricks = new ArrayList<Card>();
-    this.uuid = UUID.randomUUID(); // FIXME
+    this.uuid = profile.getUuid();
     this.image = profile.getEncodedImage();
     this.points = 0;
     this.wonGames = 0;
     this.lostGames = 0;
     this.hand = new Hand();
 
+  }
+  
+  public Player(Player player) {
+    this.name = player.name;
+    this.wonTricks = player.wonTricks;
+    this.uuid = player.uuid;
+    this.image = player.image;
+    this.points = player.points;
+    this.wonGames = player.wonGames;
+    this.lostGames = player.lostGames;
+    this.hand = player.hand;
   }
 
   public UUID getUuid() {
@@ -97,6 +108,12 @@ public class Player implements Serializable {
   public String toString() {
     return this.uuid + ": " + this.name;
   }
+  
+  public Player copyPlayer() {
+    return new Player(this);
+    
+  }
+  
   
   
   public Image convertToImage(){

@@ -54,11 +54,30 @@ public class GameController implements GameLogicInterface, Serializable {
    * @param slc
    */
   public void startGame(Player[] players, ServerLogicController slc) {
+
+    if (players.length != 3 && players.length != 4) {
+      if (players.length < 3) {
+        System.err.println("LOGIC: Not enough layers connected: " + players.length);
+        return;
+      } else {
+        System.err.println("LOGIC: Too many players connected: " + players.length);
+        return;
+      }
+    }
+    for (int i = 0; i < players.length; i++) {
+      for (int j = i + 1; j < players.length; j++) {
+        if (players[i].equals(players[j])) {
+          System.err
+              .println("LOGIC: Duplicate Player: " + players[i].name + ", " + players[i].getUuid());
+          return;
+        }
+      }
+    }
     this.numberOfPlayers = players.length;
     this.allPlayers = new Player[numberOfPlayers];
     for (int i = 0; i < players.length; i++) {
-      this.allPlayers[i] = players[i];
-      System.out.println(players[i].getUuid());
+      this.allPlayers[i] = players[i].copyPlayer();
+
     }
     this.slc = slc;
     this.gameThread.start();
@@ -76,7 +95,7 @@ public class GameController implements GameLogicInterface, Serializable {
     try {
       this.roundInstance.startRound();
     } catch (InterruptedException e) {
-      System.err.println("Runde konnte nicht gestartet werden: " + e);
+      System.err.println("LOGIC: Runde konnte nicht gestartet werden: " + e);
     }
 
   }
@@ -132,7 +151,7 @@ public class GameController implements GameLogicInterface, Serializable {
   @Override
   public void notifyLogicofPlayedCard(Card card) {
     if (card.getSuit() == null || card.getValue() == null) {
-      System.err.println("Null Card sent to Logic");
+      System.err.println("LOGIC: Null Card sent to Logic");
       return;
     }
     this.roundInstance.addCardtoTrick(card);
@@ -158,7 +177,7 @@ public class GameController implements GameLogicInterface, Serializable {
   public void notifyLogicofContract(Contract contract,
       AdditionalMultipliers additionalMultipliers) {
     if (contract == null || additionalMultipliers == null) {
-      System.err.println("Wrong Contract sent to Logic");
+      System.err.println("LOGIC: Wrong Contract sent to Logic");
       return;
     }
     this.roundInstance.contract = contract;
@@ -175,7 +194,7 @@ public class GameController implements GameLogicInterface, Serializable {
       // this.slc.broadcastKontraAnnounced();
       // this.slc.rekontraRequest(this.roundInstance.solo); TODO
     } else {
-      System.err.println("Kontra set although its not enabled.");
+      System.err.println("LOGIC: Kontra set although its not enabled.");
     }
 
   }
@@ -187,7 +206,8 @@ public class GameController implements GameLogicInterface, Serializable {
       this.roundInstance.rekontra = true;
       // this.slc.broadcastRekontraAnnounced(); TODO
     } else {
-      System.err.println("Rekontra set although its not enabled or kontra was not announced.");
+      System.err
+          .println("LOGIC: Rekontra set although its not enabled or kontra was not announced.");
     }
 
   }
@@ -203,8 +223,8 @@ public class GameController implements GameLogicInterface, Serializable {
 
   @Override
   public void notifyLogicOfNewSkat(Hand hand, Card[] skat) {
-    if (hand.cards.length != 10 || skat[0] == null | skat[1] == null) {
-      System.err.println("Wrong hand or Skat send to logic");
+    if (hand.cards.length != 10 || skat[0] == null || skat[1] == null) {
+      System.err.println("LOGIC: Wrong hand or Skat send to logic.");
       return;
     }
     this.roundInstance.solo.setHand(hand);

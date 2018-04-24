@@ -61,9 +61,9 @@ public class MainController implements MainControllerInterface {
     this.isHost = false;
 
   }
-  
-  public void directConnectMultiplayerGame(String ip){
-    
+
+  public void directConnectMultiplayerGame(String ip) {
+
     Lobby lobby = new Lobby();
     Inet4Address i4;
     try {
@@ -74,8 +74,8 @@ public class MainController implements MainControllerInterface {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    
-    this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);    
+
+    this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.currentLobby = lobby;
     this.clc = gameClient.getClc();
     SkatMain.guiController.goInGame();
@@ -83,9 +83,6 @@ public class MainController implements MainControllerInterface {
 
 
 
-    
-  
-    
   }
 
   @Override
@@ -196,6 +193,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void setHand(Player player) {
     SkatMain.lgs.localClient.setHand(player.getHand());
+    SkatMain.lgs.localClient.setPosition(player.getPosition().ordinal());
     Platform.runLater(new Runnable() {
 
 
@@ -358,7 +356,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void localCardPlayed(Card card) {
     clc.playAnswer(card);
-    System.out.println(card);
+    System.out.println("LOCAL CARD PLAYED: " + card);
     // network
   }
 
@@ -386,9 +384,10 @@ public class MainController implements MainControllerInterface {
   @Override
   public void startGame() {
     this.gameServer.setGameMode(1);
+    clc.announceGameStarted();
     this.gameController.startGame(this.currentLobby.players,
         this.gameServer.getSeverLogicController());
-    clc.announceGameStarted();
+
 
 
   }
@@ -397,9 +396,9 @@ public class MainController implements MainControllerInterface {
    * 
    */
   public void initializeLocalGameState() {
+    this.currentLobby.sortPlayers();
     SkatMain.lgs = new LocalGameState(this.currentLobby.numberOfPlayers,
         this.currentLobby.getPlayers(), this.currentLobby.timer);
-    System.out.println(Arrays.toString(this.currentLobby.getPlayers()));
   }
 
   @Override

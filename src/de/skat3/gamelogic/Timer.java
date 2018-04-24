@@ -45,6 +45,7 @@ public class Timer extends Thread {
         }
         SkatMain.guiController.getInGameController().makeAMove(false);
         SkatMain.mainController.localCardPlayed(SkatMain.lgs.localClient.hand.cards[i]);
+        System.out.println("TIMER ACTIVATED");
         this.isInterrupted = true;
 
       }

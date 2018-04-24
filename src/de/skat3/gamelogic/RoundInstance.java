@@ -38,7 +38,7 @@ public class RoundInstance {
   public RoundInstance(ServerLogicController slc, Player[] players, GameThread gameThread,
       boolean kontraRekontraEnabled, int mode) {
     this.slc = slc;
-    this.players = new Player[3];
+    this.players = players;
     this.kontra = false;
     this.rekontra = false;
     this.kontaRekontraAvailable = kontraRekontraEnabled;
@@ -46,9 +46,6 @@ public class RoundInstance {
     this.mode = mode;
     this.addtionalMultipliers = new AdditionalMultipliers();
     this.soloPlayerStartHand = new Hand();
-    for (int i = 0; i < players.length; i++) {
-      this.players[i] = players[i];
-    }
     this.gameThread = gameThread;
 
   }
@@ -58,11 +55,11 @@ public class RoundInstance {
   void startRound() throws InterruptedException {
 
     Player winner;
-      this.initializeAuction();
-      winner = this.startBidding();
-      if (winner == null) {
-        // this.slc.broacastRoundRestarded(); TODO
-      }
+    this.initializeAuction();
+    winner = this.startBidding();
+    if (winner == null) {
+      // this.slc.broacastRoundRestarded(); TODO
+    }
     this.setDeclarer(winner);
     // // TODO KONTRA AND REKONTRA
     // roundInstance.lock.wait(); // notified by notifiyLogicofKontra
@@ -115,7 +112,6 @@ public class RoundInstance {
 
   private void notifyPlayers() {
     for (int i = 0; i < players.length; i++) {
-      System.out.println("sendStartHandtoPlayer" + this.players[i].getUuid());
       slc.sendStartHandtoPlayer(this.players[i]);
     }
 
@@ -139,6 +135,7 @@ public class RoundInstance {
    */
   public Player startBidding() throws InterruptedException {
     synchronized (lock) {
+      this.currentBiddingValue = 0;
       Player currentWinner = bidDuel(this.players[1], this.players[0]);
       currentWinner = bidDuel(this.players[2], currentWinner);
       if (currentWinner.equals(this.players[0]) && this.currentBiddingValue == 0) {
@@ -171,6 +168,7 @@ public class RoundInstance {
           this.currentBiddingValue++;
           continue;
         } else {
+          this.currentBiddingValue++;
           return bid;
         }
       } else {
@@ -250,17 +248,17 @@ public class RoundInstance {
 
         slc.callForPlay(this.players[0]);
         this.lock.wait();
-        System.out.println("first card played");
+        System.out.println("LOGIC: first card played");
         slc.sendPlayedCard(this.players[0], this.trick[0]);
 
         slc.callForPlay(this.players[1]);
         this.lock.wait();
-        System.out.println("second card played");
+        System.out.println("LOGIC: second card played");
         slc.sendPlayedCard(this.players[1], this.trick[1]);
 
         slc.callForPlay(this.players[2]);
         this.lock.wait();
-        System.out.println("third card played");
+        System.out.println("LOGIC: third card played");
         slc.sendPlayedCard(this.players[2], this.trick[2]);
         if (this.kontaRekontraAvailable) {
           this.kontaRekontraAvailable = false;
@@ -281,6 +279,21 @@ public class RoundInstance {
       }
 
     }
+  }
+
+  private Player determineTrickWinner() {
+    Contract contract = this.getContract();
+
+    if (this.getFirstCard().beats(contract, this.getSecondCard())
+        && this.getFirstCard().beats(contract, this.getThirdCard())) {
+      return this.getForehand();
+
+    } else {
+      return (this.getSecondCard().beats(contract, this.getThirdCard())) ? this.getMiddlehand()
+          : this.getRearhand();
+    }
+
+
   }
 
 
@@ -305,23 +318,6 @@ public class RoundInstance {
     for (int i = 0; i < this.players.length; i++) {
       this.players[i].setPosition(i);
     }
-
-  }
-
-
-
-  private Player determineTrickWinner() {
-    Contract contract = this.getContract();
-
-    if (this.getFirstCard().beats(contract, this.getSecondCard())
-        && this.getFirstCard().beats(contract, this.getThirdCard())) {
-      return this.getForehand();
-
-    } else {
-      return (this.getSecondCard().beats(contract, this.getThirdCard())) ? this.getMiddlehand()
-          : this.getRearhand();
-    }
-
 
   }
 

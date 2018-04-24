@@ -35,9 +35,7 @@ public class LocalGameState {
     skat = new Card[2];
     localClient = players[0];
     enemyOne = players[1];
-    System.out.println(players[1].getHand());
     enemyTwo = players[2];
-    System.out.println(players[2].getHand());
     if (numberOfPlayers == 4) {
       dealer = players[3];
     }
