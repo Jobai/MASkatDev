@@ -55,10 +55,12 @@
 						<Font size="18.0" />
 					</font>
 				</Label>
-				<Slider fx:id="volumeMusic" prefHeight="16.0"
+				<Slider fx:id="volumeMusic"
+					onDragDetected="#handleVolumeMusicChanged" prefHeight="16.0"
 					prefWidth="649.0" value="25.0" GridPane.columnIndex="1"
 					GridPane.rowIndex="2" />
-				<Slider fx:id="volumeGame" value="25.0"
+				<Slider fx:id="volumeGame"
+					onDragDetected="#handleVolumeGameSoundChanged" value="25.0"
 					GridPane.columnIndex="1" GridPane.rowIndex="3" />
 				<Label text="Music on/off" textFill="WHITE">
 					<font>
@@ -72,10 +74,11 @@
 					</font>
 				</Label>
 				<ToggleButton fx:id="btnMusic" mnemonicParsing="false"
-					selected="true" text="ON" GridPane.columnIndex="1" />
+					onAction="#handleMusicSwitched" selected="false" text="ON"
+					GridPane.columnIndex="1" />
 				<ToggleButton fx:id="btnSound" mnemonicParsing="false"
-					selected="true" text="ON" GridPane.columnIndex="1"
-					GridPane.rowIndex="1" />
+					onAction="#handleGameSoundSwitched" selected="false" text="ON"
+					GridPane.columnIndex="1" GridPane.rowIndex="1" />
 			</children>
 		</GridPane>
 	</children>
