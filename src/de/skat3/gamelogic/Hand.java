@@ -128,8 +128,13 @@ public class Hand implements Serializable {
 
   boolean contains(Card c) {
     for (Card card : this.cards) {
-      if (c.equals(card)) {
-        return true;
+      try {
+        if (c.equals(card)) {
+          return true;
+        }
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
       }
     }
     return false;
@@ -185,8 +190,12 @@ public class Hand implements Serializable {
     Card[] temp = new Card[this.cards.length - 1];
     int skipped = 0;
     for (int i = 0; i < temp.length; i++) {
-      if (this.cards[i].equals(card)) {
-        skipped = 1;
+      try {
+        if (this.cards[i].equals(card)) {
+          skipped = 1;
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
       }
       if (i + skipped < this.cards.length) {
         temp[i] = this.cards[i + skipped];

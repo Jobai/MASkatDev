@@ -410,10 +410,17 @@ public class GuiHand extends Parent {
    * @return
    */
   public GuiCard getGuiCard(Card card) {
-    for (GuiCard c : this.cards) {
-      if (c.card.equals(card)) {
-        return c;
+
+    try {
+      for (GuiCard c : this.cards) {
+        if (c.card.equals(card)) {
+          return c;
+        }
       }
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+
     }
 
     int index = (this.cards.size() / 2);

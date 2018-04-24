@@ -28,6 +28,8 @@ public class Card implements Serializable {
 
   public Card() {
     this.view = "cardImages/green_back.png";
+    this.suit = null;
+    this.value = null;
   }
 
   /**
@@ -173,11 +175,15 @@ public class Card implements Serializable {
 
   }
 
-  public boolean equals(Card card) {
+  public boolean equals(Card card) throws Exception {
 
-    if (this.value == null || this.suit == null) {
-      System.err.println("Null card compared");
+    if (this.value == null && this.suit == null && card.value == null && card.suit == null) {
+      System.err.println("Null cards compared");
       return true;
+    } else {
+      if (this.value == null || this.suit == null || card.value == null || card.suit == null) {
+        throw new Exception("Invalid cards compared");
+      }
     }
 
     return (this.value == card.value && this.suit == card.suit) ? true : false;
