@@ -47,6 +47,8 @@ public class testLastUsedProfile {
     controller.deleteProfile(second);
   }
 
+
+
   @Test
   public void addTwoProfileAndDeleteOneCheck() {
     Profile first = new Profile("TestUser1", TEST_IMAGE_1_JPG, JPG);
