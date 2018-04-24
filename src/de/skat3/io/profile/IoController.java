@@ -82,8 +82,7 @@ public class IoController implements IoInterface {
     if (!imageFormat.isEmpty()) {
       toEdit.setImage(image, imageFormat);
     }
-    updateProfiles();
-    toEdit.setLastUsedTrue(this);
+   updateLastUsed(profile);
   }
 
   @Override
