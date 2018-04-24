@@ -31,15 +31,6 @@ public class ProfileController {
   @FXML
   private Button delButton;
 
-  /**
-   * .
-   */
-  public void setProfileToScreen() {
-    if (profile != null) {
-      profileName.setText(profile.getName());
-      profileImage.setImage(profile.getImage());
-    }
-  }
 
   public void setHeaderText(String text) {
     popupHeaderText.setText(text);
@@ -58,6 +49,8 @@ public class ProfileController {
       delButton.setDisable(false);
       profileName.setText(profile.getName());
       profileImage.setImage(profile.getImage());
+    } else {
+      fileFormat = "JPG";
     }
   }
 

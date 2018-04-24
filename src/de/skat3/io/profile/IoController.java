@@ -48,7 +48,9 @@ public class IoController implements IoInterface {
     }
 
     toEdit.setName(name);
-    toEdit.setImage(image, imageFormat);
+    if (!imageFormat.isEmpty()) {
+      toEdit.setImage(image, imageFormat);
+    }
     updateProfiles();
     toEdit.setLastUsedTrue(this);
   }
