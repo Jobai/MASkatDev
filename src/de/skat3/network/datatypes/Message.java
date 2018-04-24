@@ -32,6 +32,7 @@ public abstract class Message implements Serializable {
   public Player originSender;
   public SubType subType;
   public Object payload;
+  public Object secondPayload;
   
   /**
    * @author Jonas Bauer

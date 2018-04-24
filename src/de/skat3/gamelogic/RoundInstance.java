@@ -14,7 +14,6 @@ public class RoundInstance {
   Card[] skat;
   Card[] originalSkat;
   Hand soloPlayerStartHand;
-  int highestBid;
   Contract contract;
   AdditionalMultipliers addtionalMultipliers;
   boolean kontra;
@@ -59,15 +58,11 @@ public class RoundInstance {
   void startRound() throws InterruptedException {
 
     Player winner;
-    while (true) {
       this.initializeAuction();
       winner = this.startBidding();
-      if (winner != null) {
-        break;
-      } else {
+      if (winner == null) {
         // this.slc.broacastRoundRestarded(); TODO
       }
-    }
     this.setDeclarer(winner);
     // // TODO KONTRA AND REKONTRA
     // roundInstance.lock.wait(); // notified by notifiyLogicofKontra
@@ -126,58 +121,64 @@ public class RoundInstance {
 
   }
 
-  
-  
-  
-  
-  
+
+
   /**
    * This method realizes the Auction.
    * 
    * @throws InterruptedException
    * 
    */
+
+  private int currentBiddingValue;
+
+  /**
+   * 
+   * @return
+   * @throws InterruptedException
+   */
   public Player startBidding() throws InterruptedException {
     synchronized (lock) {
-      int position = 0;
-      Player respond = this.players[0];
-      Player bid = this.players[1];
-      Player currentWinner = null;
-      boolean initialBidding = true;
-      while (position < BiddingValues.values.length) {
-        this.slc.callForBid(bid, BiddingValues.values[position]);
-        lock.wait();
+      Player currentWinner = bidDuel(this.players[1], this.players[0]);
+      currentWinner = bidDuel(this.players[2], currentWinner);
+      if (currentWinner.equals(this.players[0]) && this.currentBiddingValue == 0) {
+        this.slc.callForBid(this.players[0], BiddingValues.values[this.currentBiddingValue]);
         if (this.bidAccepted) {
-          currentWinner = bid;
+          return this.players[0];
         } else {
-          if (initialBidding) {
-            bid = this.players[2];
-            initialBidding = false;
-            continue;
-          }
+          return null;
         }
-        this.slc.callForBid(respond, BiddingValues.values[position]);
-        lock.wait();
-        if (this.bidAccepted) {
-          currentWinner = respond;
-        } else {
-          if (initialBidding) {
-            respond = this.players[1];
-            bid = this.players[2];
-            initialBidding = false;
-            continue;
-          } else {
-            this.highestBid = BiddingValues.values[position];
-            return currentWinner;
-          }
-        }
-        position++;
-
+      } else {
+        return currentWinner;
       }
 
-      this.highestBid = BiddingValues.values[position - 1];
-      return currentWinner;
+
+
     }
+  }
+
+
+  private Player bidDuel(Player bid, Player respond) throws InterruptedException {
+
+
+    while (this.currentBiddingValue < BiddingValues.values.length) {
+      this.slc.callForBid(bid, BiddingValues.values[this.currentBiddingValue]);
+      lock.wait();
+      if (this.bidAccepted) {
+        this.slc.callForBid(respond, BiddingValues.values[this.currentBiddingValue]);
+        lock.wait();
+        if (this.bidAccepted) {
+          this.currentBiddingValue++;
+          continue;
+        } else {
+          return bid;
+        }
+      } else {
+        return respond;
+      }
+    }
+    return bid;
+
   }
 
   /**

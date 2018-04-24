@@ -126,10 +126,14 @@ public class GameServerProtocol extends Thread {
   private void openConnection(Message m) {
 
     this.playerProfile = (Player) m.payload;
+    m.secondPayload = SkatMain.mainController.currentLobby;
+    
+    broadcastMessage(m);
+
+    
 //    logger.info("Player" + this.playerProfile.getUuid() + "joined and was added to Lobby!");
 
     // this.playerProfile = new Player(SkatMain.ioController.getLastUsedProfile()); //FIXME
-    broadcastMessage(m);
 //    if (!hostSet) { //XXX
 //      SkatMain.mainController.currentLobby.addPlayer(this.playerProfile);
 //    } else {

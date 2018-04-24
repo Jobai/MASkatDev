@@ -45,6 +45,12 @@ public class Profile {
     this.name = name;
   }
 
+
+  public String getEncodedImage() {
+    return encodedImage;
+  }
+
+
   public Image getImage() {
     return image;
   }
@@ -59,7 +65,7 @@ public class Profile {
     ImageConverter adapter = new ImageConverter();
     this.image = adapter.encodedStringToImage(this.encodedImage);
   }
-  
+
   public boolean getLastUsed() {
     return lastUsed;
   }
@@ -84,4 +90,6 @@ public class Profile {
     }
     controller.updateProfiles();
   }
+
+
 }
