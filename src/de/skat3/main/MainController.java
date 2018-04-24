@@ -16,6 +16,7 @@ import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
 import javafx.application.Platform;
 import java.net.Inet4Address;
+import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Hand;
@@ -59,6 +60,31 @@ public class MainController implements MainControllerInterface {
     SkatMain.guiController.goInGame();
     this.isHost = false;
 
+  }
+  
+  public void directConnectMultiplayerGame(String ip){
+    
+    Lobby lobby = new Lobby();
+    Inet4Address i4;
+    try {
+      i4 = (Inet4Address) Inet4Address.getByName(ip);
+      lobby.ip = i4;
+    } catch (UnknownHostException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);    
+    this.currentLobby = lobby;
+    this.clc = gameClient.getClc();
+    SkatMain.guiController.goInGame();
+    this.isHost = false;
+
+
+
+    
+  
+    
   }
 
   @Override
@@ -296,7 +322,16 @@ public class MainController implements MainControllerInterface {
   @Override
   public void setSkat(Card[] skat) {
     SkatMain.lgs.skat = skat;
-    SkatMain.guiController.getInGameController().showSkatSelection();
+    Platform.runLater(new Runnable() {
+
+
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().showSkatSelection();
+
+
+      }
+    });
 
   }
 

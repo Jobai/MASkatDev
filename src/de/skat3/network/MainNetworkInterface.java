@@ -7,7 +7,7 @@ import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
 
 /**
- * Functions that are called by the GUI outside the Matchphase
+ * Functions that are called by the GUI outside the Matchphase.
  * @author Jonas Bauer
  *
  */

@@ -39,7 +39,7 @@ public class MainNetworkController implements MainNetworkInterface {
 
     Inet4Address ip = lobby.getIp();
     GameClient gc = new GameClient(ip.getHostAddress(), 2018,
-        new Player(SkatMain.ioController.getLastUsedProfile())); // FIXME
+        new Player(SkatMain.ioController.getLastUsedProfile())); 
     return gc;
 
   }
@@ -101,7 +101,7 @@ public class MainNetworkController implements MainNetworkInterface {
     LobbyDiscover ld = new LobbyDiscover();
     ld.start();
     try {
-      TimeUnit.SECONDS.sleep(10);
+      TimeUnit.SECONDS.sleep(6);
 
     } catch (InterruptedException e) {
       // TODO Auto-generated catch block

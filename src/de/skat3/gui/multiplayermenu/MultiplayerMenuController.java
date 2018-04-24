@@ -185,8 +185,11 @@ public class MultiplayerMenuController {
     dialog.setContentText("Please enter Server IP:");
     dialog.initStyle(StageStyle.UTILITY);
 
+    
     Optional<String> result = dialog.showAndWait();
+    result.ifPresent(ip -> SkatMain.mainController.directConnectMultiplayerGame(ip)); //JB
     result.ifPresent(ip -> System.out.println("IP: " + ip));
+    
   }
 
   /**

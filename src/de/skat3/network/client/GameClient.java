@@ -16,6 +16,7 @@ import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import de.skat3.gamelogic.Player;
+import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
@@ -130,7 +131,9 @@ public class GameClient {
     // TODO Auto-generated method stub
 
     Player p = (Player) m.payload;
+    Lobby l = (Lobby) m.secondPayload;
     logger.info("Player" + p.getUuid() + "joined and was added to local Lobby!");
+    SkatMain.mainController.currentLobby = l;
     SkatMain.mainController.currentLobby.addPlayer(p);
 
   }
