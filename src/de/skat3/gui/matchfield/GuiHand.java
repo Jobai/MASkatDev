@@ -313,6 +313,19 @@ public class GuiHand extends Parent {
     this.resetPositions();
   }
 
+  public synchronized void add(int index, GuiCard newCard) {
+
+    // Order of cards are important
+    newCard.translateXProperty().unbind();
+    newCard.translateYProperty().unbind();
+    newCard.translateZProperty().unbind();
+    newCard.getTransforms().clear();
+    this.cards.add(index, newCard);
+    this.raiseCard(newCard, true, true, true, false, null);
+    this.getChildren().add(index, newCard);
+    this.resetPositions();
+  }
+
   /**
    * Add all cards to this hand.
    * 
@@ -357,6 +370,12 @@ public class GuiHand extends Parent {
     this.resetPositions();
   }
 
+  public synchronized void remove(int index) {
+    this.cards.remove(index);
+    this.getChildren().remove(index);
+    this.resetPositions();
+  }
+
   /**
    * Clears this hand from all cards.
    * 
@@ -396,7 +415,13 @@ public class GuiHand extends Parent {
         return c;
       }
     }
-    return null;
+
+    int index = (this.cards.size() / 2);
+    this.remove(index);
+    GuiCard c = new GuiCard(card);
+    this.add(index, c);
+
+    return c;
   }
 
   /**
