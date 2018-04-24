@@ -39,7 +39,7 @@ public class InGameController implements InGameControllerInterface {
 
     this.matchfield.playerHand.addAll(SkatMain.lgs.localClient.getHand().getCards());
     this.matchfield.playerHand.setPlayer(SkatMain.lgs.localClient);
-    this.matchfield.leftHand.addAll(SkatMain.lgs.enemyOne.getHand().getCards()); //FIXME
+    this.matchfield.leftHand.addAll(SkatMain.lgs.enemyOne.getHand().getCards()); // FIXME
     this.matchfield.leftHand.setPlayer(SkatMain.lgs.enemyOne);
     this.matchfield.rightHand.addAll(SkatMain.lgs.enemyTwo.getHand().getCards());
     this.matchfield.rightHand.setPlayer(SkatMain.lgs.enemyTwo);
@@ -79,6 +79,12 @@ public class InGameController implements InGameControllerInterface {
   public void playCard(Player owner, Card card) {
     GuiHand playingHand = this.matchfield.getHand(owner);
     GuiCard guiCard = playingHand.getGuiCard(card);
+    if (guiCard == null) {
+      int index = playingHand.getCards().size() / 2;
+      playingHand.remove(index);
+      GuiCard c = new GuiCard(card);
+      playingHand.add(index, c, false);
+    }
     this.matchfield.playCard(playingHand, guiCard);
   }
 

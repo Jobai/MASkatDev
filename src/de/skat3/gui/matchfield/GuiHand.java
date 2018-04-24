@@ -313,7 +313,7 @@ public class GuiHand extends Parent {
     this.resetPositions();
   }
 
-  public synchronized void add(int index, GuiCard newCard) {
+  public synchronized void add(int index, GuiCard newCard, boolean animation) {
 
     // Order of cards are important
     newCard.translateXProperty().unbind();
@@ -321,7 +321,9 @@ public class GuiHand extends Parent {
     newCard.translateZProperty().unbind();
     newCard.getTransforms().clear();
     this.cards.add(index, newCard);
-    this.raiseCard(newCard, true, true, true, false, null);
+    if (animation) {
+      this.raiseCard(newCard, true, true, true, false, null);
+    }
     this.getChildren().add(index, newCard);
     this.resetPositions();
   }
@@ -410,25 +412,17 @@ public class GuiHand extends Parent {
    * @return
    */
   public GuiCard getGuiCard(Card card) {
-
-    try {
-      for (GuiCard c : this.cards) {
+    for (GuiCard c : this.cards) {
+      try {
         if (c.card.equals(card)) {
           return c;
         }
+      } catch (Exception e) {
+        System.err.println("Equals error in getGuiCard");
       }
-    } catch (Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-
     }
 
-    int index = (this.cards.size() / 2);
-    this.remove(index);
-    GuiCard c = new GuiCard(card);
-    this.add(index, c);
-
-    return c;
+    return null;
   }
 
   /**
