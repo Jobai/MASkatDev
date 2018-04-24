@@ -3,6 +3,7 @@ package de.skat3.gui.matchfield;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
+import de.skat3.main.SkatMain;
 import java.util.Collection;
 import java.util.List;
 import javafx.animation.KeyFrame;
@@ -70,23 +71,25 @@ public class GuiHand extends Parent {
 
     Duration time = Matchfield.animationTime;
 
-    // FIXME Sort the cards every time they are reseted.
-    Hand h = new Hand();
-    h.cards = new Card[this.cards.size()];
-    int j = 0;
-    for (GuiCard c : this.cards) {
-      h.cards[j] = c.card;
-      j++;
-    }
-    h.sort(null); // FIXME
+    if (this.cards.get(0).card.getValue() != null) {
+      Hand h = new Hand();
+      h.cards = new Card[this.cards.size()];
+      int j = 0;
+      for (GuiCard c : this.cards) {
+        h.cards[j] = c.card;
+        j++;
+      }
 
-    for (int z = 0; z < h.cards.length; z++) {
-      GuiCard card = this.getGuiCard(h.cards[z]);
-      GuiCard temp;
-      int index = this.cards.indexOf(card);
-      temp = this.cards.get(z);
-      this.cards.set(z, card);
-      this.cards.set(index, temp);
+      h.sort(SkatMain.lgs.contract);
+
+      for (int z = 0; z < h.cards.length; z++) {
+        GuiCard card = this.getGuiCard(h.cards[z]);
+        GuiCard temp;
+        int index = this.cards.indexOf(card);
+        temp = this.cards.get(z);
+        this.cards.set(z, card);
+        this.cards.set(index, temp);
+      }
     }
 
     int i = 0;
@@ -145,6 +148,7 @@ public class GuiHand extends Parent {
    * 
    */
   public synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Pane root) {
+    System.out.println(card);
     Transform t = card.getLocalToSceneTransform();
     Affine sourceTr = new Affine(t);
     sourceTr.getClass();

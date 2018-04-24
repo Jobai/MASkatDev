@@ -82,12 +82,11 @@ public class InGameController implements InGameControllerInterface {
     if (guiCard == null) {
       int index = playingHand.getCards().size() / 2;
       playingHand.remove(index);
-      GuiCard c = new GuiCard(card);
-      playingHand.add(index, c, false);
+      guiCard = new GuiCard(card);
+      playingHand.add(index, guiCard, false);
     }
     this.matchfield.playCard(playingHand, guiCard);
   }
-
 
   /*
    * (non-Javadoc)

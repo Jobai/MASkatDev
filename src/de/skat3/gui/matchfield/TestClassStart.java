@@ -1,10 +1,18 @@
 package de.skat3.gui.matchfield;
 
+import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.CardDeck;
+import de.skat3.gamelogic.Player;
+import de.skat3.gamelogic.Suit;
+import de.skat3.gamelogic.Value;
+import de.skat3.io.profile.Profile;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * TestClass to start the app.
@@ -33,18 +41,28 @@ public class TestClassStart extends Application {
     int j = 0;
     for (int i = 0; i < n; i++) {
       l1.add(new GuiCard(d.getCards()[j++]));
-      l2.add(new GuiCard(d.getCards()[j++]));
-      l3.add(new GuiCard(d.getCards()[j++]));
+      l2.add(new GuiCard(new Card()));
+      l3.add(new GuiCard(new Card()));
     }
 
     m.playerHand.addAll(l1);
     m.leftHand.addAll(l2);
     m.rightHand.addAll(l3);
 
-    m.showStartButton();
+    // m.showStartButton();
     // m.showSkatSelection();
     // m.setCardsPlayable(true);
     // m.bidRequest(50);
+
+    InGameController igc = new InGameController(m);
+    Player p = new Player(new Profile("Name"));
+    m.leftHand.setPlayer(p);
+
+    Timeline t = new Timeline();
+    t.getKeyFrames().add(new KeyFrame(Duration.seconds(3), e -> {
+      igc.playCard(p, new Card(Suit.CLUBS, Value.ACE));
+    }));
+    t.play();
 
     primaryStage.setScene(m.getScene());
     // primaryStage.setMinWidth(1280);

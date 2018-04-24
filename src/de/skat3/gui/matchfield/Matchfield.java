@@ -354,15 +354,25 @@ public class Matchfield {
    */
   public GuiHand getHand(Player owner) {
     try {
-      if (this.playerHand.getOwner().equals(owner)) {
-        return this.playerHand;
+      try {
+        if (this.playerHand.getOwner().equals(owner)) {
+          return this.playerHand;
+        }
+      } catch (NullPointerException e) {
       }
-      if (this.leftHand.getOwner().equals(owner)) {
-        return this.leftHand;
+      try {
+        if (this.leftHand.getOwner().equals(owner)) {
+          return this.leftHand;
+        }
+      } catch (NullPointerException e) {
       }
-      if (this.rightHand.getOwner().equals(owner)) {
-        return this.rightHand;
+      try {
+        if (this.rightHand.getOwner().equals(owner)) {
+          return this.rightHand;
+        }
+      } catch (NullPointerException e) {
       }
+
       throw new Exception("Player does not own a GuiHand.");
     } catch (Exception e) {
       e.printStackTrace();
