@@ -1,10 +1,8 @@
 package de.skat3.gui.multiplayermenu;
 
-import java.net.UnknownHostException;
 import de.skat3.main.SkatMain;
-import javafx.application.Application;
+import java.net.UnknownHostException;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 import de.skat3.gamelogic.Player;
+import de.skat3.io.profile.Profile;
 import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
 import javafx.animation.PauseTransition;
@@ -185,11 +186,11 @@ public class MultiplayerMenuController {
     dialog.setContentText("Please enter Server IP:");
     dialog.initStyle(StageStyle.UTILITY);
 
-    
+
     Optional<String> result = dialog.showAndWait();
-    result.ifPresent(ip -> SkatMain.mainController.directConnectMultiplayerGame(ip)); //JB
+    result.ifPresent(ip -> SkatMain.mainController.directConnectMultiplayerGame(ip)); // JB
     result.ifPresent(ip -> System.out.println("IP: " + ip));
-    
+    // TODO
   }
 
   /**
@@ -212,11 +213,12 @@ public class MultiplayerMenuController {
    * .
    */
   public void handleHostSelected() {
-    System.out.println(hostListView.getSelectionModel().getSelectedItem());
-    System.out.println(hostListView.getSelectionModel().getSelectedIndex());
 
-    currentLobby = hostList.get(hostListView.getSelectionModel().getSelectedIndex());// Should be
-                                                                                     // fixed
+    try {
+      currentLobby = hostList.get(hostListView.getSelectionModel().getSelectedIndex());
+    } catch (Exception e) {
+      return;
+    }
 
     // fill view fields
     serverName.setText(currentLobby.getName());
@@ -228,28 +230,29 @@ public class MultiplayerMenuController {
     // Players
     Player[] players = currentLobby.getPlayers();
 
-    for (int i = 0; i < players.length; i++) {
-      if (i == 0) {
-        // nameP1.setText(players[i]);
-        // imageP1.setImage(players[i]);
-      } ;
-
-      if (i == 1) {
-        // nameP2.setText(players[i]);
-        // imageP2.setImage(players[i]);
-      } ;
-
-      if (i == 2) {
-        // nameP3.setText(players[i]);
-        // imageP3.setImage(players[i]);
-      } ;
-
-      if (i == 3) {
-        // nameP4.setText(players[i]);
-        // imageP4.setImage(players[i]);
-      } ;
+    if (players[0] != null) {
+      Profile p = SkatMain.ioController.readProfile(players[0].getUuid());
+      nameP1.setText(p.getName());
+      imageP1.setImage(p.getImage());
     }
 
+    if (players[1] != null) {
+      Profile p = SkatMain.ioController.readProfile(players[1].getUuid());
+      nameP2.setText(p.getName());
+      imageP2.setImage(p.getImage());
+    }
+
+    if (players[2] != null) {
+      Profile p = SkatMain.ioController.readProfile(players[2].getUuid());
+      nameP3.setText(p.getName());
+      imageP3.setImage(p.getImage());
+    }
+
+//    if (players[3] != null) {
+//      Profile p = SkatMain.ioController.readProfile(players[3].getUuid());
+//      nameP4.setText(p.getName());
+//      imageP4.setImage(p.getImage());
+//    }
   }
 
   /**
