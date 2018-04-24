@@ -27,7 +27,7 @@ public class Card implements Serializable {
 
 
   public Card() {
-    this.view = "cardImage/green_back.png";
+    this.view = "cardImages/green_back.png";
   }
 
   /**
@@ -174,6 +174,11 @@ public class Card implements Serializable {
   }
 
   public boolean equals(Card card) {
+
+    if (this.value == null || this.suit == null) {
+      System.err.println("Null card compared");
+      return true;
+    }
 
     return (this.value == card.value && this.suit == card.suit) ? true : false;
 

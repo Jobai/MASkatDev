@@ -131,6 +131,10 @@ public class GameController implements GameLogicInterface, Serializable {
 
   @Override
   public void notifyLogicofPlayedCard(Card card) {
+    if (card.getSuit() == null || card.getValue() == null) {
+      System.err.println("Null Card sent to Logic");
+      return;
+    }
     this.roundInstance.addCardtoTrick(card);
     this.roundInstance.notifyRoundInstance();
 
@@ -153,6 +157,10 @@ public class GameController implements GameLogicInterface, Serializable {
   @Override
   public void notifyLogicofContract(Contract contract,
       AdditionalMultipliers additionalMultipliers) {
+    if (contract == null || additionalMultipliers == null) {
+      System.err.println("Wrong Contract sent to Logic");
+      return;
+    }
     this.roundInstance.contract = contract;
     additionalMultipliers.setHandGame(this.roundInstance.addtionalMultipliers.isHandGame());
     this.roundInstance.setAdditionalMultipliers(additionalMultipliers);
@@ -195,6 +203,10 @@ public class GameController implements GameLogicInterface, Serializable {
 
   @Override
   public void notifyLogicOfNewSkat(Hand hand, Card[] skat) {
+    if (hand.cards.length != 10 || skat[0] == null | skat[1] == null) {
+      System.err.println("Wrong hand or Skat send to logic");
+      return;
+    }
     this.roundInstance.solo.setHand(hand);
     this.roundInstance.skat = skat;
     this.roundInstance.notifyRoundInstance();
