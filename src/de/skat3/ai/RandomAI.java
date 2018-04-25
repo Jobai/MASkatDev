@@ -13,7 +13,6 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 
 public class RandomAI implements AiControllerInterface {
-  String name;
   CardDeck decks;
   Player ai;
   boolean acceptHandGame;
@@ -41,14 +40,6 @@ public class RandomAI implements AiControllerInterface {
     cardList = null;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
   @Override
   public boolean acceptBid(int bid) {
     return random.nextBoolean();
@@ -61,10 +52,27 @@ public class RandomAI implements AiControllerInterface {
 
   @Override
   public AdditionalMultipliers chooseAdditionalMultipliers() {
+    AdditionalMultipliers[] multipliersArray = getAllPossibleMultipliers(acceptHandGame);
+    int randomIndex = random.nextInt(multipliersArray.length);
+
+    return multipliersArray[randomIndex];
+  }
+
+  /**
+   * @param acceptedHandGame Tells if a hand game was accepted
+   * 
+   * @return if a handGame was accepted - returns array consisting of only one element -
+   *         multiplierOpen else retuns an array consisting of 4 elements : noMultipliers,
+   *         multiplierSchneider, multiplierSchwarz, multiplierHand
+   * 
+   */
+  public AdditionalMultipliers[] getAllPossibleMultipliers(boolean acceptedHandGame) {
     if (acceptHandGame) {
       AdditionalMultipliers multiplierOpen = new AdditionalMultipliers();
       multiplierOpen.setHandGame(true);
-      return multiplierOpen;
+      AdditionalMultipliers[] multiplierOpenArray = new AdditionalMultipliers[1];
+      multiplierOpenArray[0] = multiplierOpen;
+      return multiplierOpenArray;
     } else {
       AdditionalMultipliers noMultipliers = new AdditionalMultipliers(false, false, false);
       AdditionalMultipliers multiplierSchneider = new AdditionalMultipliers(true, false, false);
@@ -78,9 +86,7 @@ public class RandomAI implements AiControllerInterface {
       multiplayers[2] = multiplierSchwarz;
       multiplayers[3] = multiplierHand;
 
-      int randomIndex = random.nextInt(multiplayers.length);
-
-      return multiplayers[randomIndex];
+      return multiplayers;
     }
   }
 
