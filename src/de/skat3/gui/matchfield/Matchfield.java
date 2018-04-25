@@ -176,11 +176,13 @@ public class Matchfield {
   void setCardsPlayable(boolean value) {
     if (value) {
       ColorAdjust grey = new ColorAdjust();
-      grey.setSaturation(0.1);
+      grey.setSaturation(-1);
       for (Card c : SkatMain.lgs.localClient.getHand().cards) {
-        GuiCard card = this.playerHand.getGuiCard(c);
-        if (card != null) {
-          card.getCard().getImage().setEffect(grey);
+        if (!c.isPlayable()) {
+          GuiCard card = this.playerHand.getGuiCard(c);
+          if (card != null) {
+            card.getCard().getImage().setEffect(grey);
+          }
         }
       }
 
@@ -241,7 +243,7 @@ public class Matchfield {
       for (Card c : SkatMain.lgs.localClient.getHand().cards) {
         GuiCard card = this.playerHand.getGuiCard(c);
         if (card != null) {
-          ((ColorAdjust) card.getCard().getImage().getEffect()).setSaturation(1);
+          ((ColorAdjust) card.getCard().getImage().getEffect()).setSaturation(0);
         }
       }
 
@@ -413,8 +415,8 @@ public class Matchfield {
         .bind(this.scene.heightProperty().divide(2).subtract(button.heightProperty().divide(2)));;
 
     button.setOnAction(e -> {
-      // SkatMain.mainController.startGame(); // FIXME
-      this.table.getChildren().remove(button);
+      SkatMain.mainController.startGame();
+      this.root.getChildren().remove(button);
     });
     this.root.getChildren().add(button);
   }
