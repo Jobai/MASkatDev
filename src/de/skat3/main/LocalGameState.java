@@ -54,6 +54,11 @@ public class LocalGameState {
    */
 
   public void addToTrick(Card card) {
+    if (trickcount == 0) {
+      this.trick[0] = null;
+      this.trick[1] = null;
+      this.trick[2] = null;
+    }
     this.trick[this.trickcount] = card;
     this.trickcount = (trickcount + 1) % 3;
   }
@@ -64,13 +69,12 @@ public class LocalGameState {
         return this.trick[i - 1];
       }
     }
-    System.err.println("ERROR IN TRICK IN LOCALGAMESTATE");
     return null;
   }
 
 
   public Card getFirstCardPlayed() {
-    if (this.trick[0] != null) {
+    if (this.trick[0] != null && this.trickcount != 0) {
       return this.trick[0];
     } else {
       System.err.println("NO CARD IN TRICK");

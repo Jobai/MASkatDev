@@ -142,26 +142,43 @@ public class Hand implements Serializable {
   }
 
   public void setPlayableCards(Card card, Contract contract) {
-    boolean mustFollow = false;
+    boolean mustFollow = false;;
+    boolean trumpCard = card.isTrump(contract);
+
     for (Card c : this.cards) {
-      if (card.isTrump(contract) && c.isTrump(contract)) {
-        mustFollow = true;
-      }
-      if (card.getSuit() == c.getSuit()) {
-        mustFollow = true;
+
+      if (trumpCard) {
+        if (c.isTrump(contract)) {
+          mustFollow = true;
+        }
+      } else {
+        if (c.getSuit() == card.getSuit() && !c.isJack()) {
+          mustFollow = true;
+        }
       }
     }
     for (Card c : this.cards) {
       if (mustFollow) {
-        if (card.isTrump(contract) && c.isTrump(contract) || card.getSuit() == c.getSuit()) {
-          c.setPlayable(true);
+        if (trumpCard) {
+          if (c.isTrump(contract)) {
+            c.setPlayable(true);
+          } else {
+            c.setPlayable(false);
+          }
         } else {
-          c.setPlayable(false);
+
+          if (c.getSuit() == card.getSuit()) {
+            c.setPlayable(true);
+          } else {
+            c.setPlayable(false);
+          }
+
         }
       } else {
         c.setPlayable(true);
       }
     }
+
 
   }
 
