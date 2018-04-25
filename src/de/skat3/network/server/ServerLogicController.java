@@ -6,6 +6,7 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
+
 package de.skat3.network.server;
 
 import de.skat3.gamelogic.AdditionalMultipliers;
@@ -15,37 +16,33 @@ import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.main.Lobby;
-import de.skat3.main.SkatMain;
 import de.skat3.network.ServerLogicInterface;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageType;
 
 /**
- * Logic > this class > Server Network
- * 
- * I IMPLEMENT [SEND] COMMANDTYPEs
+ * Receives orders from the GameLogic and handles them to be send over the network to the clients.
+ * Logic > this class > Server Network. IMPLEMENTs [SEND] COMMANDTYPEs.
  * 
  * @author Jonas Bauer
  *
- *         I IMPLEMENT [SEND] COMMANDTYPEs
  */
 public class ServerLogicController implements ServerLogicInterface {
 
   // ServerGameState
+  @Deprecated
   int connectedPlayer;
+  @Deprecated
   int serverMatchMode;
+  @Deprecated
   int maxPlayer;
 
   //
   GameServer gs;
 
-  /**
-   * @author Jonas Bauer
-   * @param maxPlayer
-   * @param gsp
-   */
-  public ServerLogicController(int maxPlayer, GameServer gs) {
+
+  ServerLogicController(int maxPlayer, GameServer gs) {
     this.maxPlayer = maxPlayer;
     this.gs = gs;
     this.connectedPlayer = 0;
@@ -64,7 +61,7 @@ public class ServerLogicController implements ServerLogicInterface {
   @Override
   public void sendStartHandtoPlayer(Player player) {
     MessageCommand mc =
-        new MessageCommand(MessageType.COMMAND_INFO, player.toString(), CommandType.GAME_INFO); 
+        new MessageCommand(MessageType.COMMAND_INFO, player.toString(), CommandType.GAME_INFO);
     mc.gameState = player;
     gs.sendToPlayer(player, mc);
 
@@ -106,7 +103,7 @@ public class ServerLogicController implements ServerLogicInterface {
   public void broadcastContract(Contract contract, AdditionalMultipliers am) {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.CONTRACT_INFO);
-    
+
     mc.payload = contract;
     mc.secondPayload = am;
 
@@ -206,9 +203,10 @@ public class ServerLogicController implements ServerLogicInterface {
 
   }
 
+  @Override
   public void broadcastBid(boolean bid) {
-  System.out.println("broadcasting bid [SERVER / LOGIC] : " + bid);
-    
+    System.out.println("broadcasting bid [SERVER / LOGIC] : " + bid);
+
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.BID_INFO);
     mc.gameState = bid;
 
@@ -232,7 +230,7 @@ public class ServerLogicController implements ServerLogicInterface {
   }
 
   @Override
-  public void KontraRequest(Player[] players) {
+  public void kontraRequest(Player[] players) {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_SHOW_OPTION_INFO);
 
@@ -243,7 +241,7 @@ public class ServerLogicController implements ServerLogicInterface {
   }
 
   @Override
-  public void RekontraRequest(Player player) {
+  public void reKontraRequest(Player player) {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.REKONTRA_SHOW_OPTION_INFO);
     gs.sendToPlayer(player, mc);
@@ -270,36 +268,22 @@ public class ServerLogicController implements ServerLogicInterface {
 
   @Deprecated
   @Override
-  public void broadcastServerStateChange(int ServerState) {
+  public void broadcastServerStateChange(int serverState) {
     // TODO Auto-generated method stub
 
     MessageCommand mc = new MessageCommand(MessageType.STATE_CHANGE, "ALL");
-    mc.gameState = ServerState;
-    mc.payload = ServerState;
+    mc.gameState = serverState;
+    mc.payload = serverState;
     gs.broadcastMessage(mc);
 
   }
-//
-//  public void broadcastDeclarer(Player declarer) {
-//    // TODO Auto-generated method stub
-//  }
+
 
   @Override
-  public void broadcastTrickResult(Object oj) {
-    // TODO Auto-generated method stub
-    
-  }
+  public void broadcastDeclarer(Player p) {
 
-  @Override
-  public void broadcastMatchResult(Object oj) {
-    // TODO Auto-generated method stub
-    
-  }
-  
-  @Override
-  public void broadcastDeclarer(Player p){
-    
-    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.AUCTION_WINNER_INFO);
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.AUCTION_WINNER_INFO);
     mc.gameState = p;
     gs.broadcastMessage(mc);
   }

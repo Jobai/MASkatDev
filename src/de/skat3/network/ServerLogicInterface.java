@@ -6,6 +6,7 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
+
 package de.skat3.network;
 
 import de.skat3.gamelogic.AdditionalMultipliers;
@@ -35,15 +36,11 @@ public interface ServerLogicInterface {
   // tells everyone what the contract is.
   void broadcastContract(Contract contract, AdditionalMultipliers am);
 
-
+  void broadcastMatchResult(MatchResult mr);
 
   public void sendPlayedCard(Player player, Card card);
 
-
-  public void broadcastTrickResult(Object oj);
-
-  public void broadcastMatchResult(Object oj);
-
+  void broadcastTrickResult(Player trickWinner);
 
   public void callForHandOption(Player p);
 
@@ -52,32 +49,23 @@ public interface ServerLogicInterface {
   public void sendSkat(Player p, Card[] skat);
 
   public void broadcastRoundResult(Result result);
-  
+
   public void broadcastRekontraAnnounced();
-  public void KontraRequest(Player[] players);
-  public void RekontraRequest(Player player);
+
+  public void kontraRequest(Player[] players);
+
+  public void reKontraRequest(Player player);
+
   public void broadcastKontraRekontraExpired();
+
   public void broadcastRoundRestarted();
-  public void broadcastServerStateChange(int ServerState);
+
+  public void broadcastServerStateChange(int serverState);
 
   void broadcastKontraAnnounced();
 
-  void broadcastTrickResult(Player trickWinner);
-
-  void broadcastMatchResult(MatchResult mr);
-
   void broadcastDeclarer(Player p);
 
-  
-  
-
-
-
-  /*
-   * notifyLogicofPlayedCard(Player player, Card card); notifyLogicofBid (Player player, int bid);
-   * notifyLogicofContract (Contract contract); notifyLogicofKontra notifyLogicofRecontra
-   * 
-   */
-
-
+  void broadcastBid(boolean bid);
 }
+

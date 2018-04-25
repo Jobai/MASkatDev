@@ -41,7 +41,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void startSingleplayerGame() {
-    SkatMain.mainNetworkController.playAndHostSinglePlayer();
+    SkatMain.mainNetworkController.playAndHostSinglePlayer(currentLobby, gameController);
 
   }
 

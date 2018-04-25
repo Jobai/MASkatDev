@@ -14,9 +14,11 @@ public class SkatMain {
   public static IoController ioController;
   public static MainNetworkController mainNetworkController;
 
+
   /**
+   * Main entry point for the MA SKAT game.
    * 
-   * @param args
+   * @param args not used
    */
   public static void main(String[] args) {
 

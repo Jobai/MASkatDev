@@ -9,20 +9,20 @@
 
 package de.skat3.network.server;
 
+import de.skat3.gamelogic.GameController;
+import de.skat3.gamelogic.Player;
+import de.skat3.main.SkatMain;
+import de.skat3.network.datatypes.Message;
+import de.skat3.network.datatypes.MessageChat;
+import de.skat3.network.datatypes.MessageType;
+import de.skat3.network.datatypes.SubType;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import de.skat3.gamelogic.GameController;
-import de.skat3.gamelogic.Player;
-import de.skat3.main.SkatMain;
-import de.skat3.network.datatypes.Message;
-import de.skat3.network.datatypes.MessageChat;
-import de.skat3.network.datatypes.MessageCommand;
-import de.skat3.network.datatypes.MessageType;
-import de.skat3.network.datatypes.SubType;
+
 
 /**
  * Functions as the server protocol and handles all messages.
@@ -42,14 +42,14 @@ public class GameServerProtocol extends Thread {
 
   private GameLogicHandler glh;
 
-  private boolean hostSet = false;
 
-
-
+  /**
+   * Constructor for the GameServerProtocoll-Thread.
+   * @author Jonas Bauer
+   * @param socket created ServerSocket from the incoming connection (client).
+   * @param gc the gamecontroller provided by the gamelogic.
+   */
   public GameServerProtocol(Socket socket, GameController gc) {
-    // TODO Auto-generated constructor stub
-
-
     this.socket = socket;
 
     try {
@@ -57,6 +57,7 @@ public class GameServerProtocol extends Thread {
       fromClient = new ObjectInputStream(socket.getInputStream());
     } catch (IOException e) {
       e.printStackTrace();
+      handleLostConnection();
     }
     glh = new GameLogicHandler(gc);
 
@@ -64,7 +65,7 @@ public class GameServerProtocol extends Thread {
   }
 
   /**
-   * Real protocol
+   * GameServerProtocol-Thread that handles all incoming messages by the clients.
    */
   public void run() {
     while (!this.isInterrupted()) {
@@ -79,7 +80,7 @@ public class GameServerProtocol extends Thread {
         switch (mt) {
           case CONNECTION_OPEN:
             this.openConnection(m);
-            break; // TODO
+            break;
           case CONNECTION_CLOSE:
             this.closeConnection();
             break;
@@ -103,7 +104,7 @@ public class GameServerProtocol extends Thread {
 
         }
       } catch (AssertionError e) {
-        logger.log(Level.SEVERE, "FAIL", e);
+        logger.log(Level.SEVERE, "FAIL + ASSERTION ERROR", e);
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
       } catch (IOException e) {
@@ -111,9 +112,7 @@ public class GameServerProtocol extends Thread {
             "Connection Error! Possibly ungracefully closed by Client! [Client:"
                 + socket.getInetAddress() + "] \n" + e.getMessage(),
             e);
-        closeConnection();
-
-        // TODO KILL THIS THREAD
+        handleLostConnection();
       }
     }
   }
@@ -131,31 +130,15 @@ public class GameServerProtocol extends Thread {
     m.secondPayload = SkatMain.mainController.currentLobby;
 
     broadcastMessage(m);
-
-
-    // logger.info("Player" + this.playerProfile.getUuid() + "joined and was added to Lobby!");
-
-    // this.playerProfile = new Player(SkatMain.ioController.getLastUsedProfile()); //FIXME
-    // if (!hostSet) { //XXX
-    // SkatMain.mainController.currentLobby.addPlayer(this.playerProfile);
-    // } else {
-    // hostSet = true;
-    // }
-
-
-
+    logger.info("Player" + this.playerProfile.getUuid() + "joined the server!");
   }
 
   private void handleAnswer(Message m) {
-    // TODO Auto-generated method stub
-
-    // GameLogicHandler.handleAnswer(m);
     glh.handleAnswer(m);
 
   }
 
   private void relayChat(MessageChat m) {
-    // TODO Auto-generated method stub
     logger.log(Level.FINE, "Got ChatMessage: " + m.message);
 
     MessageChat oldM = (MessageChat) m;
@@ -181,20 +164,15 @@ public class GameServerProtocol extends Thread {
       toClient.writeObject(message);
       logger.fine("send message");
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
+      handleLostConnection();
     }
 
 
   }
 
-  private Message craftMessage() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
   private void closeConnection() {
-
     try {
       toClient.close();
       fromClient.close();
@@ -203,31 +181,32 @@ public class GameServerProtocol extends Thread {
       logger.info("Server closed a connection");
       this.interrupt();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
-
-
   }
 
+  @SuppressWarnings("unused")
   private void cleanUp() {
     GameServer.threadList.remove(this);
     closeConnection();
   }
 
-  public void broadcastMessage(Message mc) {
-    // TODO Auto-generated method stub
+  
+  /**
+   * broadcasts a message to all connected clients (including the original sender and the host!).
+   * @author Jonas Bauer
+   * @param mc the message to be broadcasted
+   */
+  public void broadcastMessage(Message mc) { 
     // logger.log(Level.FINE, "Got ChatMessage: ");
-
-
-
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       gameServerProtocol.sendMessage(mc);
     }
+  }
 
-
-
+  void handleLostConnection() {
+    logger.severe("LOST CONNECTION TO CLIENT!  " + playerProfile.getUuid());
+    closeConnection();
   }
 
 

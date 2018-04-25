@@ -243,7 +243,7 @@ public class RoundInstance {
 
 
         if (this.kontaRekontraAvailable) {
-          slc.KontraRequest(this.getTeamPlayer());
+          slc.kontraRequest(this.getTeamPlayer());
         }
 
         slc.callForPlay(this.players[0]);

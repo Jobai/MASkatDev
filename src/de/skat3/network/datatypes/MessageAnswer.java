@@ -18,9 +18,6 @@ public class MessageAnswer extends Message implements Serializable{
   }
 
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
   @Deprecated
   public Object gameState;
