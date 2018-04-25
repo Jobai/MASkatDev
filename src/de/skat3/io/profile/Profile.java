@@ -38,7 +38,7 @@ import com.google.gson.annotations.SerializedName;
 import javafx.scene.image.Image;
 
 
-public class Profile {
+public class Profile implements ProfileStatisticsInterface {
   private transient Image image;
 
   @SerializedName(JSON_ID_FIELD)
