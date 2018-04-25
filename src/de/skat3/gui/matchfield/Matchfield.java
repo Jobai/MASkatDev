@@ -405,9 +405,16 @@ public class Matchfield {
               this.playerHand.raiseCard(card, true, false, false, true, d);
             } else {
               if (this.selectedCard == null) {
-                Duration d = Duration.millis(50);
-                this.selectedCard = card;
-                this.playerHand.raiseCard(card, true, false, false, true, d);
+                for (Card c : SkatMain.lgs.localClient.getHand().cards) {
+                  if (card.card.equals(c)) {
+                    if (c.isPlayable()) {
+                      Duration d = Duration.millis(50);
+                      this.selectedCard = card;
+                      this.playerHand.raiseCard(card, true, false, false, true, d);
+                      break;
+                    }
+                  }
+                }
               }
             }
           }
