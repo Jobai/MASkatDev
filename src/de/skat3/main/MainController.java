@@ -200,8 +200,6 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().startRound();
-
-
       }
     });
 
@@ -213,10 +211,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        // TODO Auto-generated method stub
         SkatMain.guiController.bidRequest(bid);
-
-
       }
     });
 
@@ -230,10 +225,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        // TODO Auto-generated method stub
         SkatMain.guiController.getInGameController().showAuctionWinner();
-
-
       }
     });
   }
@@ -250,8 +242,6 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         SkatMain.guiController.handGameRequest();
-
-
       }
     });
 
@@ -267,8 +257,6 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         SkatMain.guiController.contractRequest();
-
-
       }
     });
 
@@ -279,7 +267,13 @@ public class MainController implements MainControllerInterface {
   public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers) {
     SkatMain.lgs.contract = contract;
     SkatMain.lgs.additionalMultipliers = additionalMultipliers;
-    SkatMain.guiController.getInGameController().showContract(contract, additionalMultipliers);
+    Platform.runLater(new Runnable() {
+
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().showContract(contract, additionalMultipliers);
+      }
+    });
 
   }
 
@@ -439,13 +433,14 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void localKontraAnnounced() {
-    clc.kontraAnswer(); //FIXME
+    clc.kontraAnswer(); // FIXME
+
   }
 
   @Override
   public void localRekontraAnnounced() {
-    clc.reKontraAnswer(); //FIXME
-    
+    clc.reKontraAnswer(); // FIXME
+
   }
 
 
