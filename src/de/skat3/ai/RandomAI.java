@@ -45,6 +45,7 @@ public class RandomAI implements AiControllerInterface {
   }
 
   public String getName() {
+
     return name;
   }
 
