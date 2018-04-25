@@ -16,9 +16,7 @@ public class RandomAI extends Ai {
   CardDeck decks;
   boolean acceptHandGame;
 
-  // Dummy Werte
-  ArrayList<Contract> contractList;
-  //
+
   ArrayList<Card> cardList;
   //
 
@@ -35,7 +33,6 @@ public class RandomAI extends Ai {
     super(ai);
     acceptHandGame = random.nextBoolean();
     // TODO initialize those lists
-    contractList = null;
     cardList = null;
   }
 
@@ -91,8 +88,10 @@ public class RandomAI extends Ai {
 
   @Override
   public Contract chooseContract() {
-    int randomIndex = random.nextInt(contractList.size());
-    return contractList.get(randomIndex);
+    Contract[] possibleValues = Contract.class.getEnumConstants();
+    int randomIndex = random.nextInt(possibleValues.length);
+
+    return possibleValues[randomIndex];
   }
 
   @Override
@@ -100,7 +99,6 @@ public class RandomAI extends Ai {
     int randomIndex = random.nextInt(cardList.size());
     return cardList.get(randomIndex);
   }
-
 
 
   public boolean pickUpSkat() {
