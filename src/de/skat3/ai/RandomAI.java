@@ -178,4 +178,10 @@ public class RandomAI extends Ai {
     return null;
   }
 
+  @Override
+  public Card[] selectSkat() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

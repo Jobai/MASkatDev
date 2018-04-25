@@ -8,10 +8,11 @@ import de.skat3.gamelogic.Player;
 public abstract class Ai {
   Player ai;
 
-  
+
   public Ai(Player player) {
     this.ai = player;
   };
+
   /**
    * Called when the Ai has to decide if it accepts a bid.
    * 
@@ -51,6 +52,15 @@ public abstract class Ai {
    */
 
   public abstract Player getPlayer();
+
+
+
+  /**
+   * 
+   * @param skat 
+   * @return Card[0-9] = hand Card[10-11] = skat
+   */
+  public abstract Card[] selectSkat(Card[] skat);
 
 
 }

@@ -44,17 +44,26 @@ public class LocalGameState {
     if (players[1].isBot()) {
       if (players[1].isHardBot()) {
         firstAi = new IntelligentAI(players[1]);
-      }else {
+      } else {
         firstAi = new RandomAI(players[1]);
       }
     }
     enemyOne = players[1];
-    enemyTwo = players[2];
-    if (numberOfPlayers == 4) {
-      dealer = players[3];
-    }
-    chatMessages = FXCollections.observableArrayList();
+    if (players[2].isBot()) {
+      if (players[2].isHardBot()) {
+        firstAi = new IntelligentAI(players[2]);
+      } else {
+        firstAi = new RandomAI(players[2]);
+      }
 
+      enemyTwo = players[2];
+
+      if (numberOfPlayers == 4) {
+        dealer = players[3];
+      }
+      chatMessages = FXCollections.observableArrayList();
+
+    }
   }
 
   public void setPlayer(Player player) {
@@ -103,6 +112,17 @@ public class LocalGameState {
 
   public void addMessage(String message) {
     this.chatMessages.add(message);
+  }
+
+  public Ai getAi(Player bot) {
+    if (this.firstAi.getPlayer().equals(bot)) {
+      return firstAi;
+    }
+    if (this.secondAi.getPlayer().equals(bot)) {
+      return secondAi;
+    }
+    System.err.println("LGS: BOT NOT FOUND");
+    return null;
   }
 
 }

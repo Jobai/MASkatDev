@@ -222,4 +222,33 @@ public class Hand implements Serializable {
     this.cards = temp;
   }
 
+
+  public int getMaximumBid(Contract contract) {
+    if (this.cards.length == 10) {
+
+      int trumps = this.calcConsecutiveMatadors(contract, null);
+
+      switch (contract) {
+        case CLUBS:
+          return (trumps + 1) * 12;
+        case DIAMONDS:
+          return (trumps + 1) * 9;
+        case GRAND:
+          return (trumps + 1) * 24;
+        case HEARTS:
+          return (trumps + 1) * 9;
+        case NULL:
+          return 23;
+        case SPADES:
+          return (trumps + 1) * 11;
+        default:
+          return 0;
+
+      }
+    } else {
+      System.err.println("Card does not contain 10 Cards");
+      return 0;
+    }
+
+  }
 }

@@ -232,4 +232,11 @@ public class IntelligentAI extends Ai {
   }
 
 
+  @Override
+  public Card[] selectSkat() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
 }

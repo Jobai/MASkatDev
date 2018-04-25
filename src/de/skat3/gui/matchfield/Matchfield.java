@@ -415,8 +415,8 @@ public class Matchfield {
         .bind(this.scene.heightProperty().divide(2).subtract(button.heightProperty().divide(2)));;
 
     button.setOnAction(e -> {
-      SkatMain.mainController.startGame();
       this.root.getChildren().remove(button);
+      SkatMain.mainController.startGame();
     });
     this.root.getChildren().add(button);
   }

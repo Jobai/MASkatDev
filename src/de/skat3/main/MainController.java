@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
+import de.skat3.ai.Ai;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -41,8 +42,11 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int timer, int scoringMode,
-      boolean kontraRekontraEnabled) throws UnknownHostException { 
-    SkatMain.mainNetworkController.playAndHostSinglePlayer(currentLobby, gameController); // FIXME
+      boolean kontraRekontraEnabled) throws UnknownHostException {
+    // SkatMain.mainNetworkController.playAndHostSinglePlayer(currentLobby, gameController); //
+    // FIXME
+    // not required @jonas
+
     this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, timer, scoringMode,
         kontraRekontraEnabled);
     this.gameController =
@@ -55,7 +59,7 @@ public class MainController implements MainControllerInterface {
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot);
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot2);
     SkatMain.guiController.goInGame();
-    SkatMain.mainController.startGame();
+    this.startGame();
 
 
   }
@@ -328,7 +332,7 @@ public class MainController implements MainControllerInterface {
   }
 
   @Override
-  public void setSkat(Card[] skat) {
+  public void selectSkatRequest(Card[] skat) {
     SkatMain.lgs.skat = skat;
     Platform.runLater(new Runnable() {
 
@@ -365,7 +369,6 @@ public class MainController implements MainControllerInterface {
   @Override
   public void localCardPlayed(Card card) {
     clc.playAnswer(card);
-    System.out.println("LOCAL CARD PLAYED: " + card);
     // network
   }
 
@@ -455,47 +458,65 @@ public class MainController implements MainControllerInterface {
 
   }
 
+
+
   @Override
-  public void botPlayCardRequest() {
-    // TODO Auto-generated method stub
+  public void botBidRequest(Player bot, int bid) {
+    this.localBid((SkatMain.lgs.getAi(bot).acceptBid(bid))); // network
 
   }
 
   @Override
-  public void botContractRequest() {
-    // TODO Auto-generated method stub
+  public void botPlayCardRequest(Player bot) {
+    this.localCardPlayed(SkatMain.lgs.getAi(bot).chooseCard()); // network
 
   }
 
   @Override
-  public void botHandGameRequest() {
-    // TODO Auto-generated method stub
+  public void botContractRequest(Player bot) {
+    this.contractSelected(SkatMain.lgs.getAi(bot).chooseContract(),
+        SkatMain.lgs.getAi(bot).chooseAdditionalMultipliers());
+
+  }
+
+  @Override
+  public void botHandGameRequest(Player bot) {
+    this.handGameSelected((SkatMain.lgs.getAi(bot).acceptHandGame()));
 
   }
 
   @Override
   public void botSetHand(Player bot) {
-    if (SkatMain.lgs.firstAi == null) {
+    if (SkatMain.lgs.firstAi.getPlayer() == null) {
       SkatMain.lgs.firstAi.getPlayer().setHand(bot.getHand());
       SkatMain.lgs.firstAi.getPlayer().setPosition(bot.getPosition().ordinal());
     } else {
-      SkatMain.lgs.secondAi.getPlayer().setHand(bot.getHand());
-      SkatMain.lgs.secondAi.getPlayer().setPosition(bot.getPosition().ordinal());
-      // Platform.runLater(new Runnable() {
-      //
-      //
-      //// @Override
-      //// public void run() {
-      //// SkatMain.guiController.getInGameController().startRound();
-      //// }
-      //// });
+      if (SkatMain.lgs.secondAi.getPlayer() == null) {
+        SkatMain.lgs.secondAi.getPlayer().setHand(bot.getHand());
+        SkatMain.lgs.secondAi.getPlayer().setPosition(bot.getPosition().ordinal());
+      } else {
+        System.err.println("2 Bots already exist in LGS");
+      }
+      // XXX maybe incorrect
 
     }
 
   }
 
   @Override
-  public void botBidRequest(int bid) {
+  public void botSelectSkatRequest(Player bot, Card[] skat) {
+    Card[] cards = SkatMain.lgs.getAi(bot).selectSkat(skat);
+    Card[] hand = new Card[10];
+    Card[] newSkat = new Card[2];
+
+    for (int i = 0; i < hand.length; i++) {
+      hand[i] = cards[i];
+    }
+
+    for (int i = 0; i < newSkat.length; i++) {
+      newSkat[i] = cards[cards.length - 2 + i];
+    }
+    this.skatSelected(new Hand(hand), newSkat);
 
   }
 
