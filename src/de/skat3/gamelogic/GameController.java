@@ -41,7 +41,6 @@ public class GameController implements GameLogicInterface, Serializable {
     this.gameId = 0; // TODO
     this.numberOfRounds = 0;
     this.players = new Player[3];
-    this.matchResult = new MatchResult(this.allPlayers);
     this.gameThread = new GameThread(this);
 
 
@@ -79,6 +78,7 @@ public class GameController implements GameLogicInterface, Serializable {
       this.allPlayers[i] = players[i].copyPlayer();
 
     }
+    this.matchResult = new MatchResult(this.allPlayers);
     this.slc = slc;
     this.gameThread.start();
   }
@@ -191,8 +191,8 @@ public class GameController implements GameLogicInterface, Serializable {
   public void notifyLogicofKontra() {
     if (this.roundInstance.kontaRekontraAvailable) {
       this.roundInstance.kontra = true;
-      // this.slc.broadcastKontraAnnounced();
-      // this.slc.rekontraRequest(this.roundInstance.solo); TODO
+      this.slc.broadcastKontraAnnounced();
+      this.slc.reKontraRequest(this.roundInstance.solo);
     } else {
       System.err.println("LOGIC: Kontra set although its not enabled.");
     }
@@ -204,7 +204,7 @@ public class GameController implements GameLogicInterface, Serializable {
   public void notifyLogicofRekontra() {
     if (this.roundInstance.kontaRekontraAvailable && this.roundInstance.kontra) {
       this.roundInstance.rekontra = true;
-      // this.slc.broadcastRekontraAnnounced(); TODO
+      this.slc.broadcastRekontraAnnounced();
     } else {
       System.err
           .println("LOGIC: Rekontra set although its not enabled or kontra was not announced.");

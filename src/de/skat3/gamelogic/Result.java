@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 public class Result implements Serializable {
 
   public int points;
+  public int highestBid;
   public boolean soloWon;
   public boolean handGame;
   public boolean openGame;
@@ -15,22 +16,25 @@ public class Result implements Serializable {
   public boolean schwarzAnnounced;
   public boolean kontra;
   public boolean rekontra;
+  public boolean bidTooHigh;
   public Contract contract;
 
   /**
    * 
    * @param roundInstance
    */
+  //XXX TESTEN
   public Result(RoundInstance roundInstance) {
 
+    this.highestBid = BiddingValues.values[roundInstance.currentBiddingValue];
     this.handGame = roundInstance.addtionalMultipliers.isHandGame();
     this.openGame = roundInstance.addtionalMultipliers.isOpenHand();
     this.schneiderAnnounced = roundInstance.addtionalMultipliers.isSchneiderAnnounced();
     this.schwarzAnnounced = roundInstance.addtionalMultipliers.isSchwarzAnnounced();
     this.kontra = roundInstance.kontra;
     this.rekontra = roundInstance.rekontra;
-    this.calcResult(roundInstance);
     this.contract = roundInstance.contract;
+    this.calcResult(roundInstance);
 
 
   }
@@ -43,7 +47,7 @@ public class Result implements Serializable {
     return soloWon;
   }
 
-  //FIXME ueberreizen funktioniert noch
+
   void calcResult(RoundInstance roundInstance) {
     int contractValue = 0;
     boolean isBierlachs = (roundInstance.mode < 0) ? true : false;
@@ -66,37 +70,39 @@ public class Result implements Serializable {
       case NULL:
         if (this.handGame) {
           if (this.openGame) {
-            if (roundInstance.solo.wonTricks.size() == 30) {
+            if (roundInstance.solo.wonTricks.size() == 30 && this.highestBid <= 59) {
+              this.soloWon = true;
               if (isBierlachs) {
                 this.points = -59;
-                this.soloWon = true;
               } else {
                 this.points = 59;
               }
             } else {
+              this.soloWon = false;
+              if (this.highestBid > 59) {
+                this.bidTooHigh = true;
+              }
               if (isBierlachs) {
                 this.points = -59;
-                this.soloWon = false;
-
               } else {
                 this.points = -118;
               }
-
             }
           } else {
-            if (roundInstance.solo.wonTricks.size() == 30) {
+            if (roundInstance.solo.wonTricks.size() == 30 && this.highestBid < 35) {
+              this.soloWon = true;
               if (isBierlachs) {
                 this.points = -35;
-                this.soloWon = true;
               } else {
                 this.points = 35;
               }
-
             } else {
+              this.soloWon = false;
+              if (this.highestBid > 35) {
+                this.bidTooHigh = true;
+              }
               if (isBierlachs) {
                 this.points = -35;
-                this.soloWon = false;
-
               } else {
                 this.points = -70;
               }
@@ -105,47 +111,46 @@ public class Result implements Serializable {
           }
         } else {
           if (this.openGame) {
-            if (roundInstance.solo.wonTricks.size() == 30) {
+            if (roundInstance.solo.wonTricks.size() == 30 && this.highestBid <= 46) {
+              this.soloWon = true;
               if (isBierlachs) {
                 this.points = -46;
-                this.soloWon = true;
-
               } else {
                 this.points = 46;
               }
-
             } else {
+              this.soloWon = false;
+              if (this.highestBid > 46) {
+                this.bidTooHigh = true;
+              }
               if (isBierlachs) {
                 this.points = -46;
-                this.soloWon = false;
-
               } else {
                 this.points = -92;
               }
-
             }
           } else {
-            if (roundInstance.solo.wonTricks.size() == 30) {
+            if (roundInstance.solo.wonTricks.size() == 30 && this.highestBid <= 23) {
+              this.soloWon = true;
               if (isBierlachs) {
                 this.points = -23;
-                this.soloWon = true;
-
               } else {
                 this.points = 23;
               }
-
             } else {
+              this.soloWon = false;
+              if (this.highestBid > 23) {
+                this.bidTooHigh = true;
+              }
               if (isBierlachs) {
                 this.points = -23;
-                this.soloWon = false;
-
               } else {
                 this.points = -46;
               }
-
             }
           }
         }
+        this.applyChanges(roundInstance);
         return;
       default:
         System.out.println("Error in result calculation");
@@ -242,28 +247,36 @@ public class Result implements Serializable {
     if (this.rekontra) {
       this.points *= 2;
     }
+    this.applyChanges(roundInstance);
+
+
+  }
+
+  private void applyChanges(RoundInstance roundInstance) {
+    boolean isBierlachs = (roundInstance.mode < 0) ? true : false;
     if (isBierlachs) {
       if (this.soloWon) {
         Player[] team = roundInstance.getTeamPlayer();
         team[0].changePoints(points);
+        roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.team[0], points);
         team[1].changePoints(points);
+        roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.team[1], points);
       } else {
         roundInstance.solo.changePoints(points);
+        roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo, points);
       }
 
     } else {
       if (this.points > 0) {
         this.soloWon = true;
-        roundInstance.solo.wonAGame();
         roundInstance.solo.changePoints(points);
+        roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo, points);
       } else {
         this.soloWon = false;
-        roundInstance.solo.lostAGame();
+        roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo, points);
         roundInstance.solo.changePoints(points);
       }
     }
-
-
 
   }
 

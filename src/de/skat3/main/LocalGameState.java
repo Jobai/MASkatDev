@@ -42,33 +42,33 @@ public class LocalGameState {
   public LocalGameState(int numberOfPlayers, Player[] players, int timerInSeconds,
       boolean singlePlayerGame) {
     this.singlePlayerGame = singlePlayerGame;
-    trickcount = 0;
-    trick = new Card[3];
-    skat = new Card[2];
-    localClient = players[0];
+    this.trickcount = 0;
+    this.trick = new Card[3];
+    this.skat = new Card[2];
+    this.localClient = players[0];
     if (players[1].isBot()) {
       if (players[1].isHardBot()) {
-        firstAi = new IntelligentAI(players[1]);
+        this.firstAi = new IntelligentAI(players[1]);
       } else {
-        firstAi = new RandomAI(players[1]);
+        this.firstAi = new RandomAI(players[1]);
       }
     }
-    enemyOne = players[1];
+    this.enemyOne = players[1];
     if (players[2].isBot()) {
       if (players[2].isHardBot()) {
-        firstAi = new IntelligentAI(players[2]);
+        this.firstAi = new IntelligentAI(players[2]);
       } else {
-        firstAi = new RandomAI(players[2]);
+        this.firstAi = new RandomAI(players[2]);
       }
-
-      enemyTwo = players[2];
-
-      if (numberOfPlayers == 4) {
-        dealer = players[3];
-      }
-      chatMessages = FXCollections.observableArrayList();
-
     }
+    this.enemyTwo = players[2];
+
+    if (numberOfPlayers == 4) {
+      dealer = players[3];
+    }
+    chatMessages = FXCollections.observableArrayList();
+
+
   }
 
   public void setPlayer(Player player) {

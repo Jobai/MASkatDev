@@ -73,8 +73,7 @@ public class Lobby implements Serializable {
    * @param scoringMode
    * @param kontraRekontraEnabled
    */
-  public Lobby(Inet4Address ip, int serverMode, int scoringMode,
-      boolean kontraRekontraEnabled) {
+  public Lobby(Inet4Address ip, int serverMode, int scoringMode, boolean kontraRekontraEnabled) {
     this.numberOfPlayers = 3;
     this.timer = 0;
     this.players = new Player[this.numberOfPlayers];
@@ -91,7 +90,7 @@ public class Lobby implements Serializable {
 
 
   public Lobby() {
-    
+
   }
 
   public Player[] getPlayers() {
@@ -184,6 +183,10 @@ public class Lobby implements Serializable {
           this.players[3] = this.players[2];
           this.players[2] = this.players[1];
           this.players[1] = temp;
+          break;
+        default:
+          System.err.println("Error in sort Lobby");
+          break;
       }
     }
   }

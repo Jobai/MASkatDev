@@ -78,7 +78,6 @@ public class MainController implements MainControllerInterface {
   public void joinMultiplayerGame(Lobby lobby) {
     this.currentLobby = lobby;
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
-    this.currentLobby = lobby;
     this.clc = gameClient.getClc();
     SkatMain.guiController.goInGame();
     this.isHost = false;
@@ -398,7 +397,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showEndScreen(MatchResult matchResult) {
-    // SkatMain.guiController.getInGameController().showEndScreen(matchResult); TODO
+    SkatMain.guiController.getInGameController().showEndScreen(); // FIXME
   }
 
   @Override
@@ -489,13 +488,13 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void kontraAnnounced() {
-    // GUI TODO
+    clc.kontraAnswer();
 
   }
 
   @Override
   public void rekontraAnnounced() {
-    // GUI TODO
+    clc.reKontraAnswer();
 
   }
 

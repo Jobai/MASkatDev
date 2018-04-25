@@ -59,15 +59,12 @@ public class RoundInstance {
     winner = this.startBidding();
     if (winner == null) {
       // this.slc.broacastRoundRestarded(); TODO
+    } else {
+      this.setDeclarer(winner);
+      this.startGame();
     }
-    this.setDeclarer(winner);
-    // // TODO KONTRA AND REKONTRA
-    // roundInstance.lock.wait(); // notified by notifiyLogicofKontra
 
 
-    // Game
-    this.startGame();
-    this.slc.broadcastRoundResult(new Result(this));
   }
 
   void initializeAuction() {
@@ -126,7 +123,7 @@ public class RoundInstance {
    * 
    */
 
-  private int currentBiddingValue;
+   int currentBiddingValue;
 
   /**
    * 
@@ -249,37 +246,50 @@ public class RoundInstance {
         slc.callForPlay(this.players[0]);
         this.lock.wait();
         System.out.println("LOGIC: first card played");
+        if (this.kontaRekontraAvailable && !this.players[0].isSolo) {
+          // slc.broadcastKontraRekontraExpired(this.players[0]); XXX
+        }
         slc.sendPlayedCard(this.players[0], this.trick[0]);
+
 
         slc.callForPlay(this.players[1]);
         this.lock.wait();
         System.out.println("LOGIC: second card played");
+
+        if (this.kontaRekontraAvailable && !this.players[1].isSolo) {
+          // slc.broadcastKontraRekontraExpired(this.players[1]); XXX
+        }
         slc.sendPlayedCard(this.players[1], this.trick[1]);
+
+
 
         slc.callForPlay(this.players[2]);
         this.lock.wait();
         System.out.println("LOGIC: third card played");
+        if (this.kontaRekontraAvailable && !this.players[2].isSolo) {
+          // slc.broadcastKontraRekontraExpired(this.players[2]); XXX
+        }
+
         slc.sendPlayedCard(this.players[2], this.trick[2]);
         if (this.kontaRekontraAvailable) {
           this.kontaRekontraAvailable = false;
-          // this.slc.broadcastKontraRekontraExpired(); TODO
         }
-        Thread.sleep(1000); // delay for visuals
         Player trickWinner = this.determineTrickWinner();
+        if (!!trickWinner.equals(this.solo) && this.contract == Contract.NULL) {
+          this.slc.broadcastRoundResult(new Result(this));
+          break;
+        }
         for (Card card : this.trick) {
-          if (trickWinner.isSolo) {
-            trickWinner.wonTricks.add(card);
-          } else {
-            this.team[0].wonTricks.add(card);
-            this.team[1].wonTricks.add(card);
-          }
+          trickWinner.wonTricks.add(card);
         }
         slc.broadcastTrickResult(trickWinner);
         this.rotatePlayers(trickWinner);
       }
-
+      this.slc.broadcastRoundResult(new Result(this));
     }
+
   }
+
 
   private Player determineTrickWinner() {
     Contract contract = this.getContract();

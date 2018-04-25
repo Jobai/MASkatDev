@@ -20,8 +20,6 @@ public class Player implements Serializable {
   Position position;
   private UUID uuid;
   int points;
-  int wonGames;
-  int lostGames;
   boolean isBot;
   boolean isHardBot;
 
@@ -32,8 +30,6 @@ public class Player implements Serializable {
     this.uuid = profile.getUuid();
     this.image = profile.getEncodedImage();
     this.points = 0;
-    this.wonGames = 0;
-    this.lostGames = 0;
     this.hand = new Hand();
     this.isBot = false;
 
@@ -49,8 +45,6 @@ public class Player implements Serializable {
     this.uuid = player.uuid;
     this.image = player.image;
     this.points = player.points;
-    this.wonGames = player.wonGames;
-    this.lostGames = player.lostGames;
     this.hand = player.hand;
     this.isBot = player.isBot;
   }
@@ -65,8 +59,6 @@ public class Player implements Serializable {
     this.wonTricks = new ArrayList<Card>();
     // this.image = festes Bild? TODO
     this.points = 0;
-    this.wonGames = 0;
-    this.lostGames = 0;
     this.uuid = UUID.randomUUID();
     this.hand = new Hand();
     this.isBot = true;
@@ -86,14 +78,6 @@ public class Player implements Serializable {
 
   void changePoints(int change) {
     this.points += change;
-  }
-
-  void wonAGame() {
-    this.wonGames++;
-  }
-
-  void lostAGame() {
-    this.lostGames++;
   }
 
   /**
