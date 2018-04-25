@@ -93,12 +93,14 @@ public class GuiTrick {
    */
   public synchronized Parent add(GuiCard card) {
     if (index > 2) {
-      for (GuiCard c : this.cards) {
-        c.setVisible(false);
-      }
-
-      this.cards = new GuiCard[3];
-      this.index = 0;
+      this.clear();
+    }
+    if (index == 2) {
+      Timeline clearDelay = new Timeline();
+      clearDelay.getKeyFrames().add(new KeyFrame(Duration.seconds(2.5), e -> {
+        this.clear();
+      }));
+      clearDelay.play();
     }
 
     this.cards[index] = card;
