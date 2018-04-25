@@ -437,5 +437,16 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  @Override
+  public void localKontraAnnounced() {
+    clc.kontraAnswer(); //FIXME
+  }
+
+  @Override
+  public void localRekontraAnnounced() {
+    clc.reKontraAnswer(); //FIXME
+    
+  }
+
 
 }

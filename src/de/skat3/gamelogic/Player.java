@@ -35,7 +35,11 @@ public class Player implements Serializable {
     this.hand = new Hand();
 
   }
-  
+
+  /**
+   * 
+   * @param player
+   */
   public Player(Player player) {
     this.name = player.name;
     this.wonTricks = player.wonTricks;
@@ -45,6 +49,21 @@ public class Player implements Serializable {
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;
     this.hand = player.hand;
+  }
+
+  /**
+   * 
+   * @param difficulty
+   */
+  public Player(int difficulty) {
+    this.name = "Ai";
+    this.wonTricks = new ArrayList<Card>();
+    // this.image = festes Bild? TODO
+    // this.difficulty ??? TODO
+    this.points = 0;
+    this.wonGames = 0;
+    this.lostGames = 0;
+    this.hand = new Hand();
   }
 
   public UUID getUuid() {
@@ -95,7 +114,7 @@ public class Player implements Serializable {
    * @param p
    * @return
    */
-  
+
   public boolean equals(Player p) {
     if (this.uuid.equals(p.uuid)) {
       return true;
@@ -108,15 +127,15 @@ public class Player implements Serializable {
   public String toString() {
     return this.uuid + ": " + this.name;
   }
-  
+
   public Player copyPlayer() {
     return new Player(this);
-    
+
   }
-  
-  
-  
-  public Image convertToImage(){
+
+
+
+  public Image convertToImage() {
     ImageConverter ic = new ImageConverter();
     Image im = ic.encodedStringToImage(image);
     return im;

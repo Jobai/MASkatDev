@@ -25,7 +25,7 @@ public interface MainControllerInterface {
 
   public void hostMultiplayerGame(String name, String password, int numberOfPlayers, int timer,
       boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException;
-  
+
   public void hostMultiplayerGame(String name, int numberOfPlayers, int timer,
       boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException;
 
@@ -66,25 +66,24 @@ public interface MainControllerInterface {
   public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers);
 
   public void handGameSelected(boolean accepted);
-  
-  public void skatSelected(Hand hand, Card[] skat);
-  
-  public void kontraAnnounced();
-  
-  public void rekontraAnnounced();
-  
-  public void kontraRequest();
-  
-  public void rekontraRequest();
-  
-  public void roundRestarted();
-  
-  public void showWrongPassword();
 
-  
-  
-  
-  
+  public void skatSelected(Hand hand, Card[] skat);
+
+  public void kontraAnnounced();
+
+  public void rekontraAnnounced();
+
+  public void kontraRequest();
+
+  public void rekontraRequest();
+
+  public void localKontraAnnounced();
+
+  public void localRekontraAnnounced();
+
+  public void roundRestarted();
+
+  public void showWrongPassword();
 
 
 
