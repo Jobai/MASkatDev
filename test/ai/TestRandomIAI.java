@@ -20,15 +20,15 @@ public class TestRandomIAI {
       boolean handGameAccepted = ai.acceptHandGame();
       AdditionalMultipliers multiplier = ai.chooseAdditionalMultipliers();
 
-      if (handGameAccepted) {
-        AdditionalMultipliers openHandMultiplier = new AdditionalMultipliers();
-        openHandMultiplier.setHandGame(true);
-        assertEquals(multiplier.isHandGame(), openHandMultiplier.isHandGame());
-        assertEquals(multiplier.isOpenHand(), openHandMultiplier.isOpenHand());
-        assertEquals(multiplier.isSchneiderAnnounced(), openHandMultiplier.isSchneiderAnnounced());
-        assertEquals(multiplier.isSchwarzAnnounced(), openHandMultiplier.isSchwarzAnnounced());
+      if (!handGameAccepted) {
+        AdditionalMultipliers noHandGameNoMultipliers = new AdditionalMultipliers();
+        assertEquals(multiplier.isHandGame(), noHandGameNoMultipliers.isHandGame());
+        assertEquals(multiplier.isOpenHand(), noHandGameNoMultipliers.isOpenHand());
+        assertEquals(multiplier.isSchneiderAnnounced(),
+            noHandGameNoMultipliers.isSchneiderAnnounced());
+        assertEquals(multiplier.isSchwarzAnnounced(), noHandGameNoMultipliers.isSchwarzAnnounced());
       } else {
-        AdditionalMultipliers[] multipliersArray = ai.getAllPossibleMultipliers(false);
+        AdditionalMultipliers[] multipliersArray = ai.getAllPossibleMultipliers(true);
         boolean contains = false;
         for (int j = 0; j < multipliersArray.length; j++) {
           if (multipliersArray[j].isHandGame() == multiplier.isHandGame()
@@ -40,7 +40,7 @@ public class TestRandomIAI {
         }
         assertTrue(contains);
       }
-
     }
   }
+
 }
