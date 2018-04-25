@@ -84,6 +84,7 @@ public class TestLastUsedProfile {
   @Test
   public void fullStackLastUsedCheck() {
     for (int i = 0; i < 10; i++) {
+      // at least 1
       int profilesAdded = new Random().nextInt(10) + 1;
 
       for (int j = 0; j < profilesAdded; j++) {
@@ -93,11 +94,7 @@ public class TestLastUsedProfile {
       }
       for (int j = 0; j < profilesAdded; j++) {
         ArrayList<Profile> profileList = controller.getProfileList();
-        // if profile profileList.size() == 1 randomRange = 1
-        int randomRange = (profileList.size() == 1 ? 1 : profileList.size() - 1);
-        int profileIndex = new Random().nextInt(randomRange);
-        // if profile index == -1 profile index = 0
-        profileIndex = (profileIndex == -1 ? profileIndex : 0);
+        int profileIndex = new Random().nextInt(profileList.size());
         Profile toEdit = profileList.get(profileIndex);
         controller.editProfile(toEdit, "newTestUser", TEST_IMAGE_1_PNG, PNG);
         assertEquals(toEdit, controller.getLastUsedProfile());
@@ -105,11 +102,7 @@ public class TestLastUsedProfile {
 
       for (int j = 0; j < profilesAdded; j++) {
         ArrayList<Profile> profileList = controller.getProfileList();
-        // if profile profileList.size() == 1 randomRange = 1
-        int randomRange = (profileList.size() == 1 ? 1 : profileList.size() - 1);
-        int profileIndex = new Random().nextInt(randomRange);
-        // if profile index == -1 profile index = 0
-        profileIndex = (profileIndex == -1 ? profileIndex : 0);
+        int profileIndex = new Random().nextInt(profileList.size());
         assert (!controller.getLastUsedProfile().equals(null));
         controller.deleteProfile(profileList.get(profileIndex));
       }
