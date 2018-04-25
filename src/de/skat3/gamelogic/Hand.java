@@ -167,7 +167,7 @@ public class Hand implements Serializable {
           }
         } else {
 
-          if (c.getSuit() == card.getSuit()) {
+          if (c.getSuit() == card.getSuit() && !c.isJack()) {
             c.setPlayable(true);
           } else {
             c.setPlayable(false);
