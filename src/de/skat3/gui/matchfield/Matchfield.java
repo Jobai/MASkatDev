@@ -399,10 +399,16 @@ public class Matchfield {
           if (node.getParent().getParent().equals(this.playerHand)) {
             GuiCard card = (GuiCard) node.getParent();
             if (this.selectedCard != null && !this.selectedCard.equals(card)) {
-              Duration d = Duration.millis(50);
-              this.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
-              this.selectedCard = card;
-              this.playerHand.raiseCard(card, true, false, false, true, d);
+              for (Card c : SkatMain.lgs.localClient.getHand().cards) {
+                if (card.card.equals(c)) {
+                  if (c.isPlayable()) {
+                    Duration d = Duration.millis(50);
+                    this.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
+                    this.selectedCard = card;
+                    this.playerHand.raiseCard(card, true, false, false, true, d);
+                  }
+                }
+              }
             } else {
               if (this.selectedCard == null) {
                 for (Card c : SkatMain.lgs.localClient.getHand().cards) {
@@ -433,12 +439,12 @@ public class Matchfield {
         try {
           if (node.getParent().getParent().equals(this.playerHand)) {
             GuiCard card = (GuiCard) node.getParent();
-            if (this.selectedCard.equals(card)) {
-              this.selectedCard = null;
-            }
             for (Card c : SkatMain.lgs.localClient.getHand().cards) {
               if (card.card.equals(c)) {
                 if (c.isPlayable()) {
+                  if (this.selectedCard.equals(card)) {
+                    this.selectedCard = null;
+                  }
                   // this.playCard(this.playerHand, card);
                   SkatMain.mainController.localCardPlayed(card.card);
                   this.setCardsPlayable(false); // ?
