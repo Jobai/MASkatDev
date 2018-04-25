@@ -59,7 +59,13 @@ public class LocalGameState {
   }
 
   public Card getCurrentCardInTrick() {
-    return this.trick[this.trickcount];
+    for (int i = 0; i < this.trick.length; i++) {
+      if (this.trick[i] == null && i - 1 > 0) {
+        return this.trick[i - 1];
+      }
+    }
+    System.err.println("ERROR IN TRICK IN LOCALGAMESTATE");
+    return null;
   }
 
   public Card[] getLocalHand() {
