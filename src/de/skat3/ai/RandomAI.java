@@ -19,7 +19,6 @@ public class RandomAI implements AiControllerInterface {
 
   // Dummy Werte
 
-  // to create
   // wenn Ki gewonnen hat shwarz schneider oder offen
   ArrayList<AdditionalMultipliers> additionalMultiplayerList;
   //
