@@ -8,6 +8,7 @@
  */
 package de.skat3.network;
 
+import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
@@ -32,7 +33,8 @@ public interface ServerLogicInterface {
   public void callForPlay(Player player);
 
   // tells everyone what the contract is.
-  public void broadcastContract(Contract contract);
+  void broadcastContract(Contract contract, AdditionalMultipliers am);
+
 
 
   public void sendPlayedCard(Player player, Card card);
@@ -63,6 +65,9 @@ public interface ServerLogicInterface {
   void broadcastTrickResult(Player trickWinner);
 
   void broadcastMatchResult(MatchResult mr);
+
+  void broadcastDeclarer(Player p);
+
   
   
 

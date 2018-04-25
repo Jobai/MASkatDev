@@ -1,6 +1,8 @@
 package de.skat3.network.client;
 
+import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
+import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
@@ -209,5 +211,16 @@ public class ClientLogicHandler {
     // TODO Auto-generated method stub
 
 
+  }
+
+
+  public void contractInfoHandler(Message m) {
+    // TODO Auto-generated method stub
+   
+    MessageCommand mc = (MessageCommand) m;
+    Contract c = (Contract) mc.payload;
+    AdditionalMultipliers am = (AdditionalMultipliers) mc.secondPayload;
+    SkatMain.mainController.showContract(c, am);
+    
   }
 }

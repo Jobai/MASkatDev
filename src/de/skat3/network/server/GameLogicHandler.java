@@ -60,7 +60,7 @@ public class GameLogicHandler {
         break;
       case REKONTRA_ANSWER:
         kontraHandler(m);
-        break;      
+        break; 
       default:
         throw new AssertionError();
     }

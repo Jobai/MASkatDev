@@ -89,12 +89,13 @@ public class GameServerProtocol extends Thread {
           case ANWSER_ACTION:
             this.handleAnswer(m);
             break;
+          case STATE_CHANGE:
+            this.handleStateChange(m);
+            break;
           case COMMAND_ACTION:
             throw new AssertionError();
           case COMMAND_INFO:
             throw new AssertionError();
-          case STATE_CHANGE:
-            this.handleStateChange(m);
           default:
             logger.severe("Message Type not handeld!  " + mt + " --- " + st);
             throw new AssertionError();
@@ -119,7 +120,7 @@ public class GameServerProtocol extends Thread {
 
   private void handleStateChange(Message m) {
     // TODO Auto-generated method stub
-    
+
     broadcastMessage(m);
 
   }
@@ -128,18 +129,18 @@ public class GameServerProtocol extends Thread {
 
     this.playerProfile = (Player) m.payload;
     m.secondPayload = SkatMain.mainController.currentLobby;
-    
+
     broadcastMessage(m);
 
-    
-//    logger.info("Player" + this.playerProfile.getUuid() + "joined and was added to Lobby!");
+
+    // logger.info("Player" + this.playerProfile.getUuid() + "joined and was added to Lobby!");
 
     // this.playerProfile = new Player(SkatMain.ioController.getLastUsedProfile()); //FIXME
-//    if (!hostSet) { //XXX
-//      SkatMain.mainController.currentLobby.addPlayer(this.playerProfile);
-//    } else {
-//      hostSet = true;
-//    }
+    // if (!hostSet) { //XXX
+    // SkatMain.mainController.currentLobby.addPlayer(this.playerProfile);
+    // } else {
+    // hostSet = true;
+    // }
 
 
 

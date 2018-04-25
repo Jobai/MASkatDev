@@ -8,6 +8,7 @@
  */
 package de.skat3.network.server;
 
+import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
@@ -102,9 +103,12 @@ public class ServerLogicController implements ServerLogicInterface {
    * @see de.skat3.network.ServerLogicInterface#broadcastContract(de.skat3. gamelogic.Contract)
    */
   @Override
-  public void broadcastContract(Contract contract) {
+  public void broadcastContract(Contract contract, AdditionalMultipliers am) {
     MessageCommand mc =
-        new MessageCommand(MessageType.COMMAND_ACTION, "ALL", CommandType.GAME_INFO);
+        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.CONTRACT_INFO);
+    
+    mc.payload = contract;
+    mc.secondPayload = am;
 
     gs.broadcastMessage(mc);
 
@@ -290,6 +294,14 @@ public class ServerLogicController implements ServerLogicInterface {
   public void broadcastMatchResult(Object oj) {
     // TODO Auto-generated method stub
     
+  }
+  
+  @Override
+  public void broadcastDeclarer(Player p){
+    
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.AUCTION_WINNER_INFO);
+    mc.gameState = p;
+    gs.broadcastMessage(mc);
   }
 
 

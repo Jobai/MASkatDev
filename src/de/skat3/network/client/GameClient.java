@@ -230,6 +230,12 @@ public class GameClient {
       case ROUND_RESTART_INFO:
         clh.roundRestartHandler(m);
         break;
+      case AUCTION_WINNER_INFO:
+        clh.declarerInfoHander(m);
+        break;
+      case CONTRACT_INFO:
+        clh.contractInfoHandler(m);
+        break;
       default:
         logger.severe("Message Type not handeld!  " +  " --- " + st);
         throw new AssertionError();

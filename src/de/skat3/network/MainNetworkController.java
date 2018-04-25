@@ -39,7 +39,7 @@ public class MainNetworkController implements MainNetworkInterface {
 
     Inet4Address ip = lobby.getIp();
     GameClient gc = new GameClient(ip.getHostAddress(), 2018,
-        new Player(SkatMain.ioController.getLastUsedProfile())); 
+        new Player(SkatMain.ioController.getLastUsedProfile()));
     return gc;
 
   }
@@ -95,7 +95,7 @@ public class MainNetworkController implements MainNetworkInterface {
    * 
    * @see de.skat3.network.MainNetworkInterface#discoverServer()
    */
-  @Override 
+  @Override
   public ArrayList<Lobby> discoverServer() {
     // TODO Auto-generated method stub
     LobbyDiscover ld = new LobbyDiscover();
@@ -122,7 +122,8 @@ public class MainNetworkController implements MainNetworkInterface {
   public GameServer playAndHostSinglePlayer() {
     // TODO Auto-generated method stub
     GameServer gs = new GameServer(null); // FIXME
-    GameClient gc = new GameClient("localhost", 2018, new Player(null)); // FIXME
+    GameClient gc =
+        new GameClient("localhost", 2018, new Player(SkatMain.ioController.getLastUsedProfile()));
 
     return null;
   }
