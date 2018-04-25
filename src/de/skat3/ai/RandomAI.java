@@ -16,12 +16,9 @@ public class RandomAI implements AiControllerInterface {
   String name;
   CardDeck decks;
   Player ai;
+  boolean acceptHandGame;
 
   // Dummy Werte
-
-  // wenn Ki gewonnen hat shwarz schneider oder offen
-  ArrayList<AdditionalMultipliers> additionalMultiplayerList;
-  //
   ArrayList<Contract> contractList;
   //
   ArrayList<Card> cardList;
@@ -38,14 +35,13 @@ public class RandomAI implements AiControllerInterface {
    */
   public RandomAI(Player ai) {
     this.ai = ai;
+    acceptHandGame = random.nextBoolean();
     // TODO initialize those lists
-    additionalMultiplayerList = null;
     contractList = null;
     cardList = null;
   }
 
   public String getName() {
-
     return name;
   }
 
@@ -60,13 +56,32 @@ public class RandomAI implements AiControllerInterface {
 
   @Override
   public boolean acceptHandGame() {
-    return random.nextBoolean();
+    return acceptHandGame;
   }
 
   @Override
   public AdditionalMultipliers chooseAdditionalMultipliers() {
-    int randomIndex = random.nextInt(additionalMultiplayerList.size());
-    return additionalMultiplayerList.get(randomIndex);
+    if (acceptHandGame) {
+      AdditionalMultipliers multiplierOpen = new AdditionalMultipliers();
+      multiplierOpen.setHandGame(true);
+      return multiplierOpen;
+    } else {
+      AdditionalMultipliers noMultipliers = new AdditionalMultipliers(false, false, false);
+      AdditionalMultipliers multiplierSchneider = new AdditionalMultipliers(true, false, false);
+      AdditionalMultipliers multiplierSchwarz = new AdditionalMultipliers(true, true, false);
+      AdditionalMultipliers multiplierHand = new AdditionalMultipliers(true, true, true);
+
+      AdditionalMultipliers[] multiplayers = new AdditionalMultipliers[4];
+
+      multiplayers[0] = noMultipliers;
+      multiplayers[1] = multiplierSchneider;
+      multiplayers[2] = multiplierSchwarz;
+      multiplayers[3] = multiplierHand;
+
+      int randomIndex = random.nextInt(multiplayers.length);
+
+      return multiplayers[randomIndex];
+    }
   }
 
   @Override
