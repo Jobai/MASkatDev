@@ -179,8 +179,8 @@ public class RandomAI extends Ai {
   }
 
   @Override
-  public Card[] selectSkat() {
-    // TODO Auto-generated method stub
+  public Card[] selectSkat(Card[] skat) {
+    //
     return null;
   }
 

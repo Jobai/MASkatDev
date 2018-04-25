@@ -233,7 +233,7 @@ public class IntelligentAI extends Ai {
 
 
   @Override
-  public Card[] selectSkat() {
+  public Card[] selectSkat(Card[] skat) {
     // TODO Auto-generated method stub
     return null;
   }

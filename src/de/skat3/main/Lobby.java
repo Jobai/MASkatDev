@@ -71,9 +71,10 @@ public class Lobby implements Serializable {
    * @param scoringMode
    * @param kontraRekontraEnabled
    */
-  public Lobby(Inet4Address ip, int serverMode, int timer, int scoringMode,
+  public Lobby(Inet4Address ip, int serverMode, int scoringMode,
       boolean kontraRekontraEnabled) {
     this.numberOfPlayers = 3;
+    this.timer = 0;
     this.players = new Player[this.numberOfPlayers];
     this.ip = ip;
     this.serverMode = serverMode;

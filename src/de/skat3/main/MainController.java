@@ -41,14 +41,18 @@ public class MainController implements MainControllerInterface {
   }
 
   @Override
-  public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int timer, int scoringMode,
-      boolean kontraRekontraEnabled) throws UnknownHostException {
+  public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int scoringMode,
+      boolean kontraRekontraEnabled) {
     // SkatMain.mainNetworkController.playAndHostSinglePlayer(currentLobby, gameController); //
     // FIXME
     // not required @jonas
 
-    this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, timer, scoringMode,
-        kontraRekontraEnabled);
+    try {
+      this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, scoringMode,
+          kontraRekontraEnabled);
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    }
     this.gameController =
         new GameController(this.currentLobby.kontraRekontraEnabled, this.currentLobby.scoringMode);
     this.gameServer =

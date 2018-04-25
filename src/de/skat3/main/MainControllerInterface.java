@@ -15,8 +15,8 @@ public interface MainControllerInterface {
 
   ArrayList<Lobby> getLocalHosts();
 
-  public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int timer, int scoringMode,
-      boolean kontraRekontraEnabled) throws UnknownHostException;
+  public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int scoringMode,
+      boolean kontraRekontraEnabled);
 
   public void startTrainingMode();
 
@@ -97,6 +97,8 @@ public interface MainControllerInterface {
   public void roundRestarted();
 
   public void showWrongPassword();
+
+  
 
 
 
