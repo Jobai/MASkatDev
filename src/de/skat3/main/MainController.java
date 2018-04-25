@@ -280,7 +280,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void playCardRequest() {
 
-    Card currentCard = SkatMain.lgs.getCurrentCardInTrick();
+    Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {
       SkatMain.lgs.localClient.getHand().setPlayableCards(currentCard, SkatMain.lgs.contract);
     }

@@ -68,6 +68,16 @@ public class LocalGameState {
     return null;
   }
 
+
+  public Card getFirstCardPlayed() {
+    if (this.trick[0] != null) {
+      return this.trick[0];
+    } else {
+      System.err.println("NO CARD IN TRICK");
+      return null;
+    }
+  }
+
   public Card[] getLocalHand() {
     return this.localClient.getHand().cards;
   }
