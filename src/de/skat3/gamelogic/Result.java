@@ -1,6 +1,7 @@
 package de.skat3.gamelogic;
 
 import java.io.Serializable;
+import java.math.RoundingMode;
 
 public class Result implements Serializable {
 
@@ -14,6 +15,7 @@ public class Result implements Serializable {
   public boolean schwarzAnnounced;
   public boolean kontra;
   public boolean rekontra;
+  public Contract contract;
 
   /**
    * 
@@ -28,6 +30,7 @@ public class Result implements Serializable {
     this.kontra = roundInstance.kontra;
     this.rekontra = roundInstance.rekontra;
     this.calcResult(roundInstance);
+    this.contract = roundInstance.contract;
 
 
   }

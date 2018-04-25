@@ -32,6 +32,7 @@ public class Lobby implements Serializable {
   int scoringMode;
   Inet4Address ip;
   int serverMode;
+  boolean singlePlayerGame;
   boolean kontraRekontraEnabled;
   private UUID uuid;
 
@@ -59,6 +60,7 @@ public class Lobby implements Serializable {
     this.scoringMode = scoringMode;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
     uuid = UUID.randomUUID();
+    this.singlePlayerGame = false;
 
 
   }
@@ -81,6 +83,7 @@ public class Lobby implements Serializable {
     this.currentPlayers = 1;
     this.scoringMode = scoringMode;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
+    this.singlePlayerGame = true;
 
 
   }

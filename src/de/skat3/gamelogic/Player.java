@@ -163,6 +163,10 @@ public class Player implements Serializable {
     }
     return false;
   }
+
+  public boolean isSolo() {
+    return this.isSolo;
+  }
 }
 
 

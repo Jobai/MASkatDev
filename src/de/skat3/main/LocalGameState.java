@@ -15,6 +15,7 @@ import java.util.Arrays;
 public class LocalGameState {
 
   public boolean gameActive;
+  public boolean singlePlayerGame;
   public int gameId;
   public int timerInSeconds;
   public Contract contract;
@@ -35,8 +36,12 @@ public class LocalGameState {
   /**
    * The current state of a game.
    * 
+   * @param singlePlayerGame
+   * 
    */
-  public LocalGameState(int numberOfPlayers, Player[] players, int timerInSeconds) {
+  public LocalGameState(int numberOfPlayers, Player[] players, int timerInSeconds,
+      boolean singlePlayerGame) {
+    this.singlePlayerGame = singlePlayerGame;
     trickcount = 0;
     trick = new Card[3];
     skat = new Card[2];
