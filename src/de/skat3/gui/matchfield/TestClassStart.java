@@ -21,6 +21,10 @@ import javafx.util.Duration;
  *
  */
 public class TestClassStart extends Application {
+  public static void main(String[] args) {
+    launch();
+  }
+
   /*
    * (non-Javadoc)
    * 
@@ -50,7 +54,7 @@ public class TestClassStart extends Application {
     m.rightHand.addAll(l3);
 
     // m.showStartButton();
-    // m.showSkatSelection();
+    m.showSkatSelection();
     // m.setCardsPlayable(true);
     // m.bidRequest(50);
 
@@ -68,9 +72,5 @@ public class TestClassStart extends Application {
     // primaryStage.setMinWidth(1280);
     // primaryStage.setMinHeight(720);
     primaryStage.show();
-  }
-
-  public static void main(String[] args) {
-    launch();
   }
 }

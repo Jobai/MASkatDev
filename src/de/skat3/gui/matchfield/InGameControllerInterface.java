@@ -16,17 +16,30 @@ import javafx.util.Duration;
 public interface InGameControllerInterface {
 
   /**
-   * The GUI will initialize the player hands based on the players in SkatMain.lgs. Changes made to
-   * the hand of any player will not effect the hand in the GUI. To play a card use
-   * this.playCard(...).
+   * Player is asked to play a card. The user can now interact with his hand. When chosen the Card
+   * will be send to the mainController and makeAMove will be set to false.
+   * 
+   * @param value True if the player is allowed to do a move. False if not.
    */
-  public void startRound();
+  public void makeAMove(boolean value);
+
+  /**
+   * Play a card of a hand.
+   * 
+   * @param player UUID of the player who plays this card.
+   * @param card Card to be played.
+   */
+  public void playCard(Player player, Card card);
 
   public void setRemainingTime(Duration remaningTime);
 
-  public void showResults(Result results);
+  public void showAuctionWinner();
+
+  public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers);
 
   public void showEndScreen();
+
+  public void showResults(Result results);
 
   /*
    * Shows the Skat (which has to be stored in SkatMain)!.lgs on the screen. The User can now
@@ -36,25 +49,12 @@ public interface InGameControllerInterface {
    */
   public void showSkatSelection();
 
-  /**
-   * Player is asked to play a card. The user can now interact with his hand. When chosen the Card
-   * will be send to the mainController and makeAMove will be set to false.
-   * 
-   * @param value True if the player is allowed to do a move. False if not.
-   */
-  public void makeAMove(boolean value);
-
-  public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers);
-
-  public void showAuctionWinner();
-
   // Ich muss kl�ren wie
 
   /**
-   * Play a card of a hand.
-   * 
-   * @param player UUID of the player who plays this card.
-   * @param card Card to be played.
+   * The GUI will initialize the player hands based on the players in SkatMain.lgs. Changes made to
+   * the hand of any player will not effect the hand in the GUI. To play a card use
+   * this.playCard(...).
    */
-  public void playCard(Player player, Card card);
+  public void startRound();
 }

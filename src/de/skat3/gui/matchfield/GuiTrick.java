@@ -19,8 +19,8 @@ import javafx.util.Duration;
 public class GuiTrick {
 
   private GuiCard[] cards;
-  private Parent[] postions;
   private int index;
+  private Parent[] postions;
   private DoubleProperty translateXOne;
 
   /**
@@ -65,25 +65,6 @@ public class GuiTrick {
     this.postions[2].getTransforms().add(new Rotate(zr + 30, Rotate.Z_AXIS));
 
   }
-
-  /**
-   * Recaluculates postion and rotations of all cards in this hand. Plays Animations if anything
-   * need to be changed.
-   */
-  public synchronized void resetPostions() {
-    double maxMainAxisLength;
-    double mainAxisLength;
-
-    if (this.cards[0] != null) {
-      maxMainAxisLength = this.cards[0].card.getImage().getFitWidth() * 2;
-      mainAxisLength = this.cards[0].getScene().getWidth() / 2;
-      if (mainAxisLength > maxMainAxisLength) {
-        mainAxisLength = maxMainAxisLength;
-      }
-      this.translateXOne.set(mainAxisLength / 2);
-    }
-  }
-
 
   /**
    * Add a card to this trick.
@@ -132,6 +113,7 @@ public class GuiTrick {
     return this.postions[index++];
   }
 
+
   /**
    * Clears this trick form all cards.
    * 
@@ -143,6 +125,24 @@ public class GuiTrick {
 
     this.cards = new GuiCard[3];
     this.index = 0;
+  }
+
+  /**
+   * Recaluculates postion and rotations of all cards in this hand. Plays Animations if anything
+   * need to be changed.
+   */
+  public synchronized void resetPostions() {
+    double maxMainAxisLength;
+    double mainAxisLength;
+
+    if (this.cards[0] != null) {
+      maxMainAxisLength = this.cards[0].getCard().getImage().getFitWidth() * 2;
+      mainAxisLength = this.cards[0].getScene().getWidth() / 2;
+      if (mainAxisLength > maxMainAxisLength) {
+        mainAxisLength = maxMainAxisLength;
+      }
+      this.translateXOne.set(mainAxisLength / 2);
+    }
   }
 
 }

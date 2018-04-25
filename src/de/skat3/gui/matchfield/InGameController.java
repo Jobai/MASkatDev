@@ -22,51 +22,14 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield = matchfield;
   }
 
-  public void showSkatSelection() {
-    this.matchfield.showSkatSelection();
-  }
-
   /*
    * (non-Javadoc)
    * 
-   * @see de.skat3.gui.matchfield.InGameControllerInterface#startRound()
+   * @see de.skat3.gui.matchfield.InGameControllerInterface#makeAMove(boolean)
    */
   @Override
-  public void startRound() {
-    this.matchfield.playerHand.clear();
-    this.matchfield.leftHand.clear();
-    this.matchfield.leftHand.clear();
-
-    this.matchfield.playerHand.addAll(SkatMain.lgs.localClient.getHand().getCards());
-    this.matchfield.playerHand.setPlayer(SkatMain.lgs.localClient);
-    this.matchfield.leftHand.addAll(SkatMain.lgs.enemyOne.getHand().getCards()); // FIXME
-    this.matchfield.leftHand.setPlayer(SkatMain.lgs.enemyOne);
-    this.matchfield.rightHand.addAll(SkatMain.lgs.enemyTwo.getHand().getCards());
-    this.matchfield.rightHand.setPlayer(SkatMain.lgs.enemyTwo);
-    // TODO Auto-generated method stub
-
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.gui.matchfield.InGameControllerInterface#setRemainingTime(javafx.util.Duration)
-   */
-  @Override
-  public void setRemainingTime(Duration remaningTime) {
-    // TODO Auto-generated method stub
-
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.gui.matchfield.InGameControllerInterface#showRusults(de.skat3.gamelogic.Result)
-   */
-  @Override
-  public void showResults(Result results) {
-    // TODO Auto-generated method stub
-
+  public void makeAMove(boolean value) {
+    this.matchfield.setCardsPlayable(value);
   }
 
   /*
@@ -91,25 +54,24 @@ public class InGameController implements InGameControllerInterface {
   /*
    * (non-Javadoc)
    * 
-   * @see de.skat3.gui.matchfield.InGameControllerInterface#showEndScreen()
+   * @see de.skat3.gui.matchfield.InGameControllerInterface#setRemainingTime(javafx.util.Duration)
    */
   @Override
-  public void showEndScreen() {
+  public void setRemainingTime(Duration remaningTime) {
     // TODO Auto-generated method stub
 
   }
 
-
   /*
    * (non-Javadoc)
    * 
-   * @see de.skat3.gui.matchfield.InGameControllerInterface#makeAMove(boolean)
+   * @see de.skat3.gui.matchfield.InGameControllerInterface#showAuctionWinner()
    */
   @Override
-  public void makeAMove(boolean value) {
-    this.matchfield.setCardsPlayable(value);
-  }
+  public void showAuctionWinner() {
+    // TODO Auto-generated method stub
 
+  }
 
   /*
    * (non-Javadoc)
@@ -123,14 +85,53 @@ public class InGameController implements InGameControllerInterface {
     // TODO Auto-generated method stub
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.gui.matchfield.InGameControllerInterface#showEndScreen()
+   */
+  @Override
+  public void showEndScreen() {
+    // TODO Auto-generated method stub
+
+  }
+
 
   /*
    * (non-Javadoc)
    * 
-   * @see de.skat3.gui.matchfield.InGameControllerInterface#showAuctionWinner()
+   * @see de.skat3.gui.matchfield.InGameControllerInterface#showRusults(de.skat3.gamelogic.Result)
    */
   @Override
-  public void showAuctionWinner() {
+  public void showResults(Result results) {
+    // TODO Auto-generated method stub
+
+  }
+
+
+  @Override
+  public void showSkatSelection() {
+    this.matchfield.showSkatSelection();
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.gui.matchfield.InGameControllerInterface#startRound()
+   */
+  @Override
+  public void startRound() {
+    this.matchfield.playerHand.clear();
+    this.matchfield.leftHand.clear();
+    this.matchfield.leftHand.clear();
+
+    this.matchfield.playerHand.addAll(SkatMain.lgs.localClient.getHand().getCards());
+    this.matchfield.playerHand.setPlayer(SkatMain.lgs.localClient);
+    this.matchfield.leftHand.addAll(SkatMain.lgs.enemyOne.getHand().getCards()); // FIXME
+    this.matchfield.leftHand.setPlayer(SkatMain.lgs.enemyOne);
+    this.matchfield.rightHand.addAll(SkatMain.lgs.enemyTwo.getHand().getCards());
+    this.matchfield.rightHand.setPlayer(SkatMain.lgs.enemyTwo);
     // TODO Auto-generated method stub
 
   }

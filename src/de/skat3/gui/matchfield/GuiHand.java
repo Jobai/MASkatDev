@@ -30,7 +30,7 @@ import javafx.util.Duration;
 public class GuiHand extends Parent {
 
   private ObservableList<GuiCard> cards = FXCollections.observableArrayList();
-  Player owner;
+  private Player owner;
 
   /**
    * Gui represetation of a hand of cards.
@@ -60,84 +60,149 @@ public class GuiHand extends Parent {
     }
   }
 
-  protected synchronized void resetPositions() {
-    if (this.cards.isEmpty()) {
-      return;
+  /**
+   * Add a card to this hand.
+   * 
+   * @param newCard GuiCard to add.
+   */
+  public synchronized void add(GuiCard newCard) {
+
+    // Order of cards are important
+    newCard.translateXProperty().unbind();
+    newCard.translateYProperty().unbind();
+    newCard.translateZProperty().unbind();
+    newCard.getTransforms().clear();
+    this.cards.add(newCard);
+    this.raiseCard(newCard, true, true, true, false, null);
+    this.getChildren().add(newCard);
+    this.resetPositions();
+  }
+
+  public synchronized void add(int index, GuiCard newCard, boolean animation) {
+
+    // Order of cards are important
+    newCard.translateXProperty().unbind();
+    newCard.translateYProperty().unbind();
+    newCard.translateZProperty().unbind();
+    newCard.getTransforms().clear();
+    this.cards.add(index, newCard);
+    if (animation) {
+      this.raiseCard(newCard, true, true, true, false, null);
     }
-    // double width = this.getScene().getWidth() / 7;
-    // double height = width * 1.52821997106;
+    this.getChildren().add(index, newCard);
+    this.resetPositions();
+  }
 
-    Parent[] newPositions = caculateCardPostions(this.getChildren().size(), GuiCard.width, 0, 0, 0);
-
-    Duration time = Matchfield.animationTime;
-
-    if (this.cards.get(0).card.getValue() != null) {
-      Hand h = new Hand();
-      h.cards = new Card[this.cards.size()];
-      int j = 0;
-      for (GuiCard c : this.cards) {
-        h.cards[j] = c.card;
-        j++;
-      }
-
-      h.sort(SkatMain.lgs.contract);
-
-      for (int z = 0; z < h.cards.length; z++) {
-        GuiCard card = this.getGuiCard(h.cards[z]);
-        GuiCard temp;
-        int index = this.cards.indexOf(card);
-        temp = this.cards.get(z);
-        this.cards.set(z, card);
-        this.cards.set(index, temp);
-      }
+  /**
+   * Add all cards to this hand.
+   * 
+   * @param cards Cards to be added.
+   */
+  public void addAll(Card[] cards) {
+    for (Card card : cards) {
+      this.add(new GuiCard(card));
     }
+  }
 
-    int i = 0;
-    for (GuiCard card : this.cards) {
-      this.getChildren().remove(card);
-      this.getChildren().add(card);
+  /**
+   * Add all cards to this hand.
+   * 
+   * @param cards Cards to be added.
+   */
+  public void addAll(Collection<GuiCard> cards) {
+    for (GuiCard card : cards) {
+      this.add(card);
+    }
+  }
 
-      card.card.getImage().setFitWidth(GuiCard.width);
-      card.card.getImage().setFitHeight(GuiCard.heigth);
+  /**
+   * Add all cards to this hand.
+   * 
+   * @param cards Cards to be added.
+   */
+  public void addAll(GuiCard... cards) {
+    for (GuiCard card : cards) {
+      this.add(card);
+    }
+  }
 
-      TranslateTransition cordsAni = new TranslateTransition();
-      cordsAni.setNode(card);
-      cordsAni.setDuration(time);
-      cordsAni.setToX(newPositions[i].getTranslateX());
-      cordsAni.setToY(newPositions[i].getTranslateY());
-      cordsAni.setToZ(newPositions[i].getTranslateZ());
-      cordsAni.play();
+  /**
+   * Clears this hand from all cards.
+   * 
+   */
+  public void clear() {
+    for (GuiCard c : this.cards) {
+      this.remove(c);
+    }
+  }
 
-      Timeline timeline = new Timeline();
-      if (card.getTransforms().size() == 0) {
-        for (Transform tr : newPositions[i].getTransforms()) {
-          if (tr.getClass().equals(Rotate.class)) {
-            Rotate rotation = new Rotate();
-            rotation.setAxis(((Rotate) tr).getAxis());
-            card.getTransforms().add(rotation);
-            double angle = ((Rotate) tr).getAngle();
+  /**
+   * Get all the cards in this hand. This list can not be modified.
+   * 
+   * @return A unmodifiableObservableList.
+   */
+  public ObservableList<GuiCard> getCards() {
+    return FXCollections.unmodifiableObservableList(this.cards);
+  }
 
-            timeline.getKeyFrames()
-                .add(new KeyFrame(time, new KeyValue(rotation.angleProperty(), angle)));
-          }
+  /**
+   * ASD.
+   * 
+   * @param card ASD.
+   * @return
+   */
+  public GuiCard getGuiCard(Card card) {
+    for (GuiCard c : this.cards) {
+      try {
+        if (c.getCard().equals(card)) {
+          return c;
         }
-      } else {
-        for (Transform tr : newPositions[i].getTransforms()) {
-          for (Transform t : card.getTransforms()) {
-            if (tr.getClass().equals(Rotate.class) && t.getClass().equals(Rotate.class)) {
-              if (((Rotate) tr).getAxis().equals(((Rotate) t).getAxis())) {
-                double angle = ((Rotate) tr).getAngle();
-                timeline.getKeyFrames()
-                    .add(new KeyFrame(time, new KeyValue(((Rotate) t).angleProperty(), angle)));
-              }
-            }
-          }
-        }
+      } catch (Exception e) {
+        System.err.println("Equals error in getGuiCard");
       }
-      timeline.play();
-      i++;
     }
 
+    return null;
+  }
+
+  public Player getOwner() {
+    return this.owner;
+  }
+
+  /**
+   * Remove a card from this hand.
+   * 
+   * @param oldCard Card to remove.
+   */
+  public synchronized void remove(GuiCard oldCard) {
+    this.cards.remove(oldCard);
+    this.getChildren().remove(oldCard);
+    this.resetPositions();
+  }
+
+  public synchronized void remove(int index) {
+    this.cards.remove(index);
+    this.getChildren().remove(index);
+    this.resetPositions();
+  }
+
+  public void setPlayer(Player owner) {
+    this.owner = owner;
+  }
+
+  /**
+   * ASD.
+   */
+  @Override
+  public String toString() {
+    StringBuffer s = new StringBuffer();
+    for (Node child : this.getChildren()) {
+      GuiCard c = (GuiCard) child;
+      s.append(c.toString());
+
+      s.append("\n");
+    }
+    return s.toString();
   }
 
   /**
@@ -147,7 +212,7 @@ public class GuiHand extends Parent {
    * @param targetPos Parent of which the transitions and rotations are used.
    * 
    */
-  public synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Pane root) {
+  synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Pane root) {
     System.out.println(card);
     Transform t = card.getLocalToSceneTransform();
     Affine sourceTr = new Affine(t);
@@ -208,7 +273,7 @@ public class GuiHand extends Parent {
    * @param duration Duration of the animation played. If null duration will be set to the standard
    *        value stored in Matchfield.
    */
-  public void raiseCard(GuiCard card, boolean raise, boolean underneathPos, boolean hoverPositon,
+  void raiseCard(GuiCard card, boolean raise, boolean underneathPos, boolean hoverPositon,
       boolean showAnimation, Duration duration) {
     if (duration == null) {
       duration = Matchfield.animationTime;
@@ -218,7 +283,7 @@ public class GuiHand extends Parent {
 
     double y = -50;
     if (hoverPositon) {
-      y = -card.card.getImage().getFitHeight();
+      y = -card.getCard().getImage().getFitHeight();
     }
     if (underneathPos) {
       y = -y;
@@ -246,6 +311,86 @@ public class GuiHand extends Parent {
         card.setTranslateX(positions[cardIndex].getTranslateX());
         card.setTranslateY(positions[cardIndex].getTranslateY());
       }
+    }
+
+  }
+
+  synchronized void resetPositions() {
+    if (this.cards.isEmpty()) {
+      return;
+    }
+    // double width = this.getScene().getWidth() / 7;
+    // double height = width * 1.52821997106;
+
+    Parent[] newPositions = caculateCardPostions(this.getChildren().size(), GuiCard.width, 0, 0, 0);
+
+    Duration time = Matchfield.animationTime;
+
+    if (this.cards.get(0).getCard().getValue() != null) {
+      Hand h = new Hand();
+      h.cards = new Card[this.cards.size()];
+      int j = 0;
+      for (GuiCard c : this.cards) {
+        h.cards[j] = c.getCard();
+        j++;
+      }
+
+      h.sort(SkatMain.lgs.contract);
+
+      for (int z = 0; z < h.cards.length; z++) {
+        GuiCard card = this.getGuiCard(h.cards[z]);
+        GuiCard temp;
+        int index = this.cards.indexOf(card);
+        temp = this.cards.get(z);
+        this.cards.set(z, card);
+        this.cards.set(index, temp);
+      }
+    }
+
+    int i = 0;
+    for (GuiCard card : this.cards) {
+      this.getChildren().remove(card);
+      this.getChildren().add(card);
+
+      card.getCard().getImage().setFitWidth(GuiCard.width);
+      card.getCard().getImage().setFitHeight(GuiCard.heigth);
+
+      TranslateTransition cordsAni = new TranslateTransition();
+      cordsAni.setNode(card);
+      cordsAni.setDuration(time);
+      cordsAni.setToX(newPositions[i].getTranslateX());
+      cordsAni.setToY(newPositions[i].getTranslateY());
+      cordsAni.setToZ(newPositions[i].getTranslateZ());
+      cordsAni.play();
+
+      Timeline timeline = new Timeline();
+      if (card.getTransforms().size() == 0) {
+        for (Transform tr : newPositions[i].getTransforms()) {
+          if (tr.getClass().equals(Rotate.class)) {
+            Rotate rotation = new Rotate();
+            rotation.setAxis(((Rotate) tr).getAxis());
+            card.getTransforms().add(rotation);
+            double angle = ((Rotate) tr).getAngle();
+
+            timeline.getKeyFrames()
+                .add(new KeyFrame(time, new KeyValue(rotation.angleProperty(), angle)));
+          }
+        }
+      } else {
+        for (Transform tr : newPositions[i].getTransforms()) {
+          for (Transform t : card.getTransforms()) {
+            if (tr.getClass().equals(Rotate.class) && t.getClass().equals(Rotate.class)) {
+              if (((Rotate) tr).getAxis().equals(((Rotate) t).getAxis())) {
+                double angle = ((Rotate) tr).getAngle();
+                timeline.getKeyFrames()
+                    .add(new KeyFrame(time, new KeyValue(((Rotate) t).angleProperty(), angle)));
+              }
+            }
+          }
+        }
+      }
+      timeline.play();
+      i++;
     }
 
   }
@@ -297,150 +442,6 @@ public class GuiHand extends Parent {
     }
 
     return postions;
-  }
-
-  /**
-   * Add a card to this hand.
-   * 
-   * @param newCard GuiCard to add.
-   */
-  public synchronized void add(GuiCard newCard) {
-
-    // Order of cards are important
-    newCard.translateXProperty().unbind();
-    newCard.translateYProperty().unbind();
-    newCard.translateZProperty().unbind();
-    newCard.getTransforms().clear();
-    this.cards.add(newCard);
-    this.raiseCard(newCard, true, true, true, false, null);
-    this.getChildren().add(newCard);
-    this.resetPositions();
-  }
-
-  public synchronized void add(int index, GuiCard newCard, boolean animation) {
-
-    // Order of cards are important
-    newCard.translateXProperty().unbind();
-    newCard.translateYProperty().unbind();
-    newCard.translateZProperty().unbind();
-    newCard.getTransforms().clear();
-    this.cards.add(index, newCard);
-    if (animation) {
-      this.raiseCard(newCard, true, true, true, false, null);
-    }
-    this.getChildren().add(index, newCard);
-    this.resetPositions();
-  }
-
-  /**
-   * Add all cards to this hand.
-   * 
-   * @param cards Cards to be added.
-   */
-  public void addAll(GuiCard... cards) {
-    for (GuiCard card : cards) {
-      this.add(card);
-    }
-  }
-
-  /**
-   * Add all cards to this hand.
-   * 
-   * @param cards Cards to be added.
-   */
-  public void addAll(Collection<GuiCard> cards) {
-    for (GuiCard card : cards) {
-      this.add(card);
-    }
-  }
-
-  /**
-   * Add all cards to this hand.
-   * 
-   * @param cards Cards to be added.
-   */
-  public void addAll(Card[] cards) {
-    for (Card card : cards) {
-      this.add(new GuiCard(card));
-    }
-  }
-
-  /**
-   * Remove a card from this hand.
-   * 
-   * @param oldCard Card to remove.
-   */
-  public synchronized void remove(GuiCard oldCard) {
-    this.cards.remove(oldCard);
-    this.getChildren().remove(oldCard);
-    this.resetPositions();
-  }
-
-  public synchronized void remove(int index) {
-    this.cards.remove(index);
-    this.getChildren().remove(index);
-    this.resetPositions();
-  }
-
-  /**
-   * Clears this hand from all cards.
-   * 
-   */
-  public void clear() {
-    for (GuiCard c : this.cards) {
-      this.remove(c);
-    }
-  }
-
-  public void setPlayer(Player owner) {
-    this.owner = owner;
-  }
-
-  public Player getOwner() {
-    return this.owner;
-  }
-
-  /**
-   * Get all the cards in this hand. This list can not be modified.
-   * 
-   * @return A unmodifiableObservableList.
-   */
-  public ObservableList<GuiCard> getCards() {
-    return FXCollections.unmodifiableObservableList(this.cards);
-  }
-
-  /**
-   * ASD.
-   * 
-   * @param card ASD.
-   * @return
-   */
-  public GuiCard getGuiCard(Card card) {
-    for (GuiCard c : this.cards) {
-      try {
-        if (c.card.equals(card)) {
-          return c;
-        }
-      } catch (Exception e) {
-        System.err.println("Equals error in getGuiCard");
-      }
-    }
-
-    return null;
-  }
-
-  /**
-   * ASD.
-   */
-  public String toString() {
-    StringBuffer s = new StringBuffer();
-    for (Node child : this.getChildren()) {
-      GuiCard c = (GuiCard) child;
-      s.append(c.toString());
-
-      s.append("\n");
-    }
-    return s.toString();
   }
 
 }

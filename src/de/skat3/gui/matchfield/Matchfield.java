@@ -3,19 +3,20 @@ package de.skat3.gui.matchfield;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
-import de.skat3.gamelogic.Suit;
-import de.skat3.gamelogic.Value;
 import de.skat3.main.SkatMain;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
@@ -28,16 +29,21 @@ import javafx.util.Duration;
  *
  */
 public class Matchfield {
+  public static Duration animationTime = Duration.seconds(0.2);
+  protected GuiHand leftHand;
+  protected GuiHand playerHand;
+  protected GuiHand rightHand;
+
+  protected AnchorPane root;
+  protected Scene scene;
+  protected Pane table;
+  protected SubScene tableScene;
+  protected GuiTrick trick;
 
   private InGameController controller;
 
-  protected Scene scene;
-  protected Pane table;
-  protected GuiHand playerHand;
-  protected GuiHand leftHand;
-  protected GuiHand rightHand;
-  protected GuiTrick trick;
-  public static Duration animationTime = Duration.seconds(0.2);
+  private GuiCard selectedCard;
+
   private Parent[] skatPositions;
 
   /**
@@ -48,102 +54,78 @@ public class Matchfield {
     double sceneWidth = 1280;
     double sceneHeight = 720;
     this.table = new Pane();
-    this.scene = new Scene(this.table, sceneWidth, sceneHeight, false, SceneAntialiasing.BALANCED);
+    this.tableScene =
+        new SubScene(this.table, sceneWidth, sceneHeight, false, SceneAntialiasing.BALANCED);
 
-    this.iniComponents();
+    AnchorPane.setTopAnchor(this.tableScene, 0.0);
+    AnchorPane.setBottomAnchor(this.tableScene, 0.0);
+    AnchorPane.setRightAnchor(this.tableScene, 0.0);
+    AnchorPane.setLeftAnchor(this.tableScene, 0.0);
 
     PerspectiveCamera cam = new PerspectiveCamera();
     cam.setTranslateY(-100);
     cam.getTransforms().add(new Rotate(-30, Rotate.X_AXIS));
-    this.scene.setCamera(cam);
-  }
+    this.tableScene.setCamera(cam);
 
-  /**
-   * Initializes all preset components of this Matchfield.
-   */
-  private void iniComponents() {
-    // Box x = new Box(100000, 10, 10);
-    // x.setMaterial(new PhongMaterial(Color.GREEN));
-    // Box y = new Box(10, 100000, 10);
-    // y.setMaterial(new PhongMaterial(Color.BLUE));
-    // Box z = new Box(10, 10, 100000);
-    // z.setMaterial(new PhongMaterial(Color.RED));
-    // this.table.getChildren().addAll(x, y, z);
+    this.root = new AnchorPane();
+    this.root.getChildren().add(this.tableScene);
 
-    this.playerHand = new GuiHand(this.table.getScene().widthProperty().divide(2.3),
-        this.table.getScene().heightProperty().add(-200),
-        this.table.getScene().heightProperty().multiply(0).add(-100), -20, 0, 0, null);
+    this.scene = new Scene(this.root, sceneWidth, sceneHeight);
 
-
-
-    this.leftHand = new GuiHand(this.table.getScene().widthProperty().multiply(0),
-        this.table.getScene().heightProperty().multiply(0.7),
-        this.table.getScene().heightProperty().multiply(0).add(1200), 0, -55, 0, null);
-
-    this.rightHand = new GuiHand(this.table.getScene().widthProperty().multiply(1),
-        this.table.getScene().heightProperty().multiply(0.7),
-        this.table.getScene().heightProperty().multiply(0).add(1200), 0, 55, 0, null);
-
-    this.trick = new GuiTrick(this.getScene().widthProperty().divide(2.5),
-        this.getScene().heightProperty().divide(1.4),
-        this.getScene().widthProperty().multiply(0).add(400), -80, 0, 0);
-
-    this.table.getChildren().addAll(this.playerHand, this.leftHand, this.rightHand);
-
-
-    this.skatPositions = new Parent[2];
-
-    this.skatPositions[0] = new Parent() {};
-    this.skatPositions[0].translateXProperty().bind(
-        DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateXProperty()).subtract(200));
-    this.skatPositions[0].translateYProperty().bind(
-        DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
-    this.skatPositions[0].translateZProperty()
-        .bind(DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(300));
-
-
-    this.skatPositions[1] = new Parent() {};
-    this.skatPositions[1].translateXProperty()
-        .bind(DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateXProperty()).add(200));
-    this.skatPositions[1].translateYProperty().bind(
-        DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
-    this.skatPositions[1].translateZProperty()
-        .bind(DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(300));
-
-    this.table.widthProperty().addListener(e -> {
-      this.playerHand.resetPositions();
-      this.leftHand.resetPositions();
-      this.rightHand.resetPositions();
-      this.trick.resetPostions();
-    });
-    if (SkatMain.mainController.isHost) {
-      this.showStartButton();
-    }
-  }
-
-  /**
-   * Plays a card from a hand on the trick.
-   * 
-   * @param hand From which the card is played.
-   * @param card Card to be played.
-   */
-  protected synchronized void playCard(GuiHand hand, GuiCard card) {
-    hand.moveCardAndRemove(card, this.trick.add(card), this.table);
+    this.iniTableComponents();
   }
 
   public InGameController getController() {
     return this.controller;
   }
 
-  public void bidRequest(int bid) {
+  /**
+   * Is searching a hand which is owned by the spezified Player.
+   * 
+   * @param owner Player to search for.
+   * @return Hand of this Player.
+   */
+  public GuiHand getHand(Player owner) {
+    try {
+      try {
+        if (this.playerHand.getOwner().equals(owner)) {
+          return this.playerHand;
+        }
+      } catch (NullPointerException e) {
+      }
+      try {
+        if (this.leftHand.getOwner().equals(owner)) {
+          return this.leftHand;
+        }
+      } catch (NullPointerException e) {
+      }
+      try {
+        if (this.rightHand.getOwner().equals(owner)) {
+          return this.rightHand;
+        }
+      } catch (NullPointerException e) {
+      }
+
+      throw new Exception("Player does not own a GuiHand.");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public Scene getScene() {
+    return this.scene;
+  }
+
+  void bidRequest(int bid) {
     Pane p = new Pane();
     p.setPrefSize(400, 225);
-    p.translateXProperty().bind(
-        DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateXProperty()).subtract(100));
-    p.translateYProperty().bind(
-        DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
-    p.translateZProperty()
-        .bind(DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(200));
+    p.translateXProperty().bind(ReadOnlyDoubleProperty
+        .readOnlyDoubleProperty(this.playerHand.translateXProperty()).subtract(100));
+    p.translateYProperty().bind(ReadOnlyDoubleProperty
+        .readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
+    p.translateZProperty().bind(ReadOnlyDoubleProperty
+        .readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(200));
 
     p.setStyle("-fx-border-color: black");
 
@@ -176,32 +158,106 @@ public class Matchfield {
 
   }
 
-  public void showStartButton() {
-    Button button = new Button("Start Game");
-    button.setFont(Font.font(40));
-    button.setPrefSize(300, 100);
+  /**
+   * Plays a card from a hand on the trick.
+   * 
+   * @param hand From which the card is played.
+   * @param card Card to be played.
+   */
+  synchronized void playCard(GuiHand hand, GuiCard card) {
+    hand.moveCardAndRemove(card, this.trick.add(card), this.table);
+  }
 
-    button.translateXProperty()
-        .bind(DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateXProperty()));
-    button.translateYProperty().bind(
-        DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
-    button.translateZProperty()
-        .bind(DoubleProperty.readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(300));
+  /**
+   * Enables/Disables the option to play a card via the GUI from the local hand.
+   * 
+   * @param value Value.
+   */
+  void setCardsPlayable(boolean value) {
+    if (value) {
+      ColorAdjust grey = new ColorAdjust();
+      grey.setSaturation(0.1);
+      for (Card c : SkatMain.lgs.localClient.getHand().cards) {
+        GuiCard card = this.playerHand.getGuiCard(c);
+        if (card != null) {
+          card.getCard().getImage().setEffect(grey);
+        }
+      }
 
-    button.setOnAction(e -> {
-      SkatMain.mainController.startGame();
-      this.table.getChildren().remove(button);
-    });
-    this.table.getChildren().add(button);
+      this.table.setOnMouseMoved(event -> {
+        Node node = event.getPickResult().getIntersectedNode();
+        try {
+          if (node.getParent().getParent().equals(this.playerHand)) {
+            GuiCard card = (GuiCard) node.getParent();
+            if (this.selectedCard != null && !this.selectedCard.equals(card)) {
+              Duration d = Duration.millis(50);
+              this.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
+              this.selectedCard = card;
+              this.playerHand.raiseCard(card, true, false, false, true, d);
+            } else {
+              if (this.selectedCard == null) {
+                Duration d = Duration.millis(50);
+                this.selectedCard = card;
+                this.playerHand.raiseCard(card, true, false, false, true, d);
+              }
+            }
+          }
+        } catch (Exception e) {
+          // No parent so an error is thrown every time when the cursor is not over a card.
+          if (this.selectedCard != null) {
+            Duration d = Duration.millis(50);
+            this.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
+            this.selectedCard = null;
+          }
+        }
+      });
+
+      this.table.setOnMouseClicked(event -> {
+        Node node = event.getPickResult().getIntersectedNode();
+        try {
+          if (node.getParent().getParent().equals(this.playerHand)) {
+            GuiCard card = (GuiCard) node.getParent();
+            if (this.selectedCard.equals(card)) {
+              this.selectedCard = null;
+            }
+            for (Card c : SkatMain.lgs.localClient.getHand().cards) {
+              if (card.getCard().equals(c)) {
+                if (c.isPlayable()) {
+                  // Play card
+                  SkatMain.mainController.localCardPlayed(card.getCard());
+                  this.setCardsPlayable(false);
+                  break;
+                }
+              }
+            }
+          }
+        } catch (Exception e) {
+          // No parent so an error is thrown every time when the cursor is not over a card.
+        }
+      });
+    } else {
+
+      // Colorize all cards
+      for (Card c : SkatMain.lgs.localClient.getHand().cards) {
+        GuiCard card = this.playerHand.getGuiCard(c);
+        if (card != null) {
+          ((ColorAdjust) card.getCard().getImage().getEffect()).setSaturation(1);
+        }
+      }
+
+      // Disable all interactions
+      this.table.setOnMouseMoved(event -> {
+      });
+      this.table.setOnMouseClicked(event -> {
+      });
+    }
   }
 
   /**
    * Shows the skat selection on the screen.
    */
-  public void showSkatSelection() {
+  void showSkatSelection() {
     GuiCard[] skat = new GuiCard[2];
-
-
 
     skat[0] = new GuiCard(SkatMain.lgs.skat[0]);
     skat[0].translateXProperty().bind(this.skatPositions[0].translateXProperty());
@@ -329,13 +385,13 @@ public class Matchfield {
     button.setOnAction(e -> {
       if (skat[0] != null && skat[1] != null) {
         Card[] skat2 = new Card[2];
-        skat2[0] = skat[0].card;
-        skat2[1] = skat[1].card;
+        skat2[0] = skat[0].getCard();
+        skat2[1] = skat[1].getCard();
 
         Card[] cards = new Card[this.playerHand.getCards().size()];
         int j = 0;
         for (GuiCard c : this.playerHand.getCards()) {
-          cards[j] = c.card;
+          cards[j] = c.getCard();
         }
         Hand hand = new Hand(cards);
         SkatMain.mainController.skatSelected(hand, skat2);
@@ -346,122 +402,89 @@ public class Matchfield {
     this.table.getChildren().add(button);
   }
 
-  /**
-   * Is searching a hand which is owned by the spezified Player.
-   * 
-   * @param owner Player to search for.
-   * @return Hand of this Player.
-   */
-  public GuiHand getHand(Player owner) {
-    try {
-      try {
-        if (this.playerHand.getOwner().equals(owner)) {
-          return this.playerHand;
-        }
-      } catch (NullPointerException e) {
-      }
-      try {
-        if (this.leftHand.getOwner().equals(owner)) {
-          return this.leftHand;
-        }
-      } catch (NullPointerException e) {
-      }
-      try {
-        if (this.rightHand.getOwner().equals(owner)) {
-          return this.rightHand;
-        }
-      } catch (NullPointerException e) {
-      }
+  void showStartButton() {
+    Button button = new Button("Start Game");
+    button.setFont(Font.font(40));
+    button.setPrefSize(300, 100);
 
-      throw new Exception("Player does not own a GuiHand.");
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return null;
+    button.translateXProperty()
+        .bind(this.scene.widthProperty().divide(2).subtract(button.widthProperty().divide(2)));
+    button.translateYProperty()
+        .bind(this.scene.heightProperty().divide(2).subtract(button.heightProperty().divide(2)));;
+
+    button.setOnAction(e -> {
+      // SkatMain.mainController.startGame(); // FIXME
+      this.table.getChildren().remove(button);
+    });
+    this.root.getChildren().add(button);
   }
-
-  public Scene getScene() {
-    return this.scene;
-  }
-
-  private GuiCard selectedCard;
 
   /**
-   * Enables/Disables the option to play a card via the GUI from the local hand.
-   * 
-   * @param value Value.
+   * Initializes all preset components of this Matchfield.
    */
-  public void setCardsPlayable(boolean value) {
-    if (value) {
-      this.table.setOnMouseMoved(event -> {
-        Node node = event.getPickResult().getIntersectedNode();
-        try {
-          if (node.getParent().getParent().equals(this.playerHand)) {
-            GuiCard card = (GuiCard) node.getParent();
-            if (this.selectedCard != null && !this.selectedCard.equals(card)) {
-              for (Card c : SkatMain.lgs.localClient.getHand().cards) {
-                if (card.card.equals(c)) {
-                  if (c.isPlayable()) {
-                    Duration d = Duration.millis(50);
-                    this.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
-                    this.selectedCard = card;
-                    this.playerHand.raiseCard(card, true, false, false, true, d);
-                  }
-                }
-              }
-            } else {
-              if (this.selectedCard == null) {
-                for (Card c : SkatMain.lgs.localClient.getHand().cards) {
-                  if (card.card.equals(c)) {
-                    if (c.isPlayable()) {
-                      Duration d = Duration.millis(50);
-                      this.selectedCard = card;
-                      this.playerHand.raiseCard(card, true, false, false, true, d);
-                      break;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        } catch (Exception e) {
-          // No parent so an error is thrown every time when the cursor is not over a card.
-          if (this.selectedCard != null) {
-            Duration d = Duration.millis(50);
-            this.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
-            this.selectedCard = null;
-          }
-        }
-      });
+  private void iniTableComponents() {
+    // Box x = new Box(100000, 10, 10);
+    // x.setMaterial(new PhongMaterial(Color.GREEN));
+    // Box y = new Box(10, 100000, 10);
+    // y.setMaterial(new PhongMaterial(Color.BLUE));
+    // Box z = new Box(10, 10, 100000);
+    // z.setMaterial(new PhongMaterial(Color.RED));
+    // this.table.getChildren().addAll(x, y, z);
 
-      this.table.setOnMouseClicked(event -> {
-        Node node = event.getPickResult().getIntersectedNode();
-        try {
-          if (node.getParent().getParent().equals(this.playerHand)) {
-            GuiCard card = (GuiCard) node.getParent();
-            for (Card c : SkatMain.lgs.localClient.getHand().cards) {
-              if (card.card.equals(c)) {
-                if (c.isPlayable()) {
-                  if (this.selectedCard.equals(card)) {
-                    this.selectedCard = null;
-                  }
-                  // this.playCard(this.playerHand, card);
-                  SkatMain.mainController.localCardPlayed(card.card);
-                  this.setCardsPlayable(false); // ?
-                  break;
-                }
-              }
-            }
-          }
-        } catch (Exception e) {
-          // No parent so an error is thrown every time when the cursor is not over a card.
-        }
-      });
-    } else {
-      this.table.setOnMouseMoved(event -> {
-      });
-      this.table.setOnMouseClicked(event -> {
-      });
+    this.tableScene.widthProperty().bind(this.scene.widthProperty());
+    this.tableScene.heightProperty().bind(this.scene.heightProperty());
+
+    this.playerHand = new GuiHand(this.tableScene.widthProperty().divide(2.3),
+        this.tableScene.heightProperty().add(-200),
+        this.tableScene.heightProperty().multiply(0).add(-100), -20, 0, 0, null);
+
+    this.leftHand = new GuiHand(this.tableScene.widthProperty().multiply(0),
+        this.tableScene.heightProperty().multiply(0.7),
+        this.tableScene.heightProperty().multiply(0).add(1200), 0, -55, 0, null);
+
+    this.rightHand = new GuiHand(this.tableScene.widthProperty().multiply(1),
+        this.tableScene.heightProperty().multiply(0.7),
+        this.tableScene.heightProperty().multiply(0).add(1200), 0, 55, 0, null);
+
+    this.trick = new GuiTrick(this.tableScene.widthProperty().divide(2.5),
+        this.tableScene.heightProperty().divide(1.4),
+        this.tableScene.widthProperty().multiply(0).add(400), -80, 0, 0);
+
+    this.table.getChildren().addAll(this.playerHand, this.leftHand, this.rightHand);
+
+
+    this.skatPositions = new Parent[2];
+
+    this.skatPositions[0] = new Parent() {};
+    this.skatPositions[0].translateXProperty().bind(ReadOnlyDoubleProperty
+        .readOnlyDoubleProperty(this.playerHand.translateXProperty()).subtract(200));
+    this.skatPositions[0].translateYProperty().bind(ReadOnlyDoubleProperty
+        .readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
+    this.skatPositions[0].translateZProperty().bind(ReadOnlyDoubleProperty
+        .readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(300));
+
+
+    this.skatPositions[1] = new Parent() {};
+    this.skatPositions[1].translateXProperty().bind(ReadOnlyDoubleProperty
+        .readOnlyDoubleProperty(this.playerHand.translateXProperty()).add(200));
+    this.skatPositions[1].translateYProperty().bind(ReadOnlyDoubleProperty
+        .readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
+    this.skatPositions[1].translateZProperty().bind(ReadOnlyDoubleProperty
+        .readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(300));
+
+    this.tableScene.widthProperty().addListener(e -> {
+
+      this.playerHand.resetPositions();
+      this.leftHand.resetPositions();
+      this.rightHand.resetPositions();
+      this.trick.resetPostions();
+    });
+
+    if (SkatMain.mainController.isHost) {
+      this.showStartButton();
     }
+
+    // FIXME
   }
+
 }
