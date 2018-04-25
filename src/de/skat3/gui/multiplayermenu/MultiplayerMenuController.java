@@ -275,7 +275,7 @@ public class MultiplayerMenuController {
         screen.initModality(Modality.APPLICATION_MODAL);
         screen.initStyle(StageStyle.UNDECORATED);
 
-        PauseTransition delay = new PauseTransition(Duration.seconds(10));
+        PauseTransition delay = new PauseTransition(Duration.seconds(6));
         delay.setOnFinished(event -> screen.close());
         delay.play();
 
