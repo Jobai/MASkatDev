@@ -96,9 +96,12 @@ public class GuiTrick {
       this.clear();
     }
     if (index == 2) {
+      GuiCard old = this.cards[index];
       Timeline clearDelay = new Timeline();
       clearDelay.getKeyFrames().add(new KeyFrame(Duration.seconds(2.5), e -> {
-        this.clear();
+        if (this.index == 2 && old.equals(this.cards[index])) {
+          this.clear();
+        }
       }));
       clearDelay.play();
     }
