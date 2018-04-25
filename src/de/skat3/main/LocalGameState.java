@@ -1,5 +1,8 @@
 package de.skat3.main;
 
+import de.skat3.ai.Ai;
+import de.skat3.ai.IntelligentAI;
+import de.skat3.ai.RandomAI;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -25,6 +28,10 @@ public class LocalGameState {
   public Card[] skat;
   public ObservableList<String> chatMessages;
 
+  public Ai firstAi;
+
+  public Ai secondAi;
+
   /**
    * The current state of a game.
    * 
@@ -34,6 +41,13 @@ public class LocalGameState {
     trick = new Card[3];
     skat = new Card[2];
     localClient = players[0];
+    if (players[1].isBot()) {
+      if (players[1].isHardBot()) {
+        firstAi = new IntelligentAI(players[1]);
+      }else {
+        firstAi = new RandomAI(players[1]);
+      }
+    }
     enemyOne = players[1];
     enemyTwo = players[2];
     if (numberOfPlayers == 4) {

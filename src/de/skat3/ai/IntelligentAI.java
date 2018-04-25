@@ -12,10 +12,15 @@ import de.skat3.gamelogic.RoundInstance;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
 
-public class IntelligentAI implements AiControllerInterface {
+public class IntelligentAI extends Ai {
+  
+  
+  public IntelligentAI(Player player) {
+    super(player);
+  }
+
   String name;
   CardDeck decks;
-  Player ai;
 
   // Dummy Werte
 
@@ -218,6 +223,13 @@ public class IntelligentAI implements AiControllerInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+  @Override
+  public Player getPlayer() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
 
 }

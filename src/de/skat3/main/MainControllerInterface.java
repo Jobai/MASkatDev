@@ -15,7 +15,8 @@ public interface MainControllerInterface {
 
   ArrayList<Lobby> getLocalHosts();
 
-  public void startSingleplayerGame();
+  public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int timer, int scoringMode,
+      boolean kontraRekontraEnabled) throws UnknownHostException;
 
   public void startTrainingMode();
 
@@ -40,6 +41,16 @@ public interface MainControllerInterface {
   public void exitGame();
 
   public void setSkat(Card[] skat);
+
+  public void botPlayCardRequest();
+
+  public void botContractRequest();
+
+  public void botHandGameRequest();
+
+  public void botSetHand(Player bot);
+
+  public void botBidRequest(int bid);
 
   public void playCardRequest();
 

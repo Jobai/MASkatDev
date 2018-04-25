@@ -22,6 +22,8 @@ public class Player implements Serializable {
   int points;
   int wonGames;
   int lostGames;
+  boolean isBot;
+  boolean isHardBot;
 
   public Player(Profile profile) {
 
@@ -33,6 +35,7 @@ public class Player implements Serializable {
     this.wonGames = 0;
     this.lostGames = 0;
     this.hand = new Hand();
+    this.isBot = false;
 
   }
 
@@ -49,21 +52,24 @@ public class Player implements Serializable {
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;
     this.hand = player.hand;
+    this.isBot = player.isBot;
   }
 
   /**
    * 
    * @param difficulty
    */
-  public Player(int difficulty) {
+  public Player(boolean hardBot) {
     this.name = "Ai";
+    this.isHardBot = hardBot;
     this.wonTricks = new ArrayList<Card>();
     // this.image = festes Bild? TODO
-    // this.difficulty ??? TODO
     this.points = 0;
     this.wonGames = 0;
     this.lostGames = 0;
+    this.uuid = UUID.randomUUID();
     this.hand = new Hand();
+    this.isBot = true;
   }
 
   public UUID getUuid() {
@@ -139,6 +145,23 @@ public class Player implements Serializable {
     ImageConverter ic = new ImageConverter();
     Image im = ic.encodedStringToImage(image);
     return im;
+  }
+
+  public boolean isBot() {
+    return this.isBot;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isHardBot() {
+    if (this.isBot) {
+      return this.isHardBot;
+    } else {
+      System.err.println(this.name + " is no Bot!");
+    }
+    return false;
   }
 }
 

@@ -40,8 +40,23 @@ public class MainController implements MainControllerInterface {
   }
 
   @Override
-  public void startSingleplayerGame() {
-    SkatMain.mainNetworkController.playAndHostSinglePlayer(currentLobby, gameController);
+  public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int timer, int scoringMode,
+      boolean kontraRekontraEnabled) throws UnknownHostException { 
+    SkatMain.mainNetworkController.playAndHostSinglePlayer(currentLobby, gameController); // FIXME
+    this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, timer, scoringMode,
+        kontraRekontraEnabled);
+    this.gameController =
+        new GameController(this.currentLobby.kontraRekontraEnabled, this.currentLobby.scoringMode);
+    this.gameServer =
+        SkatMain.mainNetworkController.startLocalServer(this.currentLobby, this.gameController);
+    this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
+    this.isHost = true;
+    this.clc = gameClient.getClc();
+    SkatMain.mainNetworkController.addAItoLocalServer(hardBot);
+    SkatMain.mainNetworkController.addAItoLocalServer(hardBot2);
+    SkatMain.guiController.goInGame();
+    SkatMain.mainController.startGame();
+
 
   }
 
@@ -381,9 +396,6 @@ public class MainController implements MainControllerInterface {
     clc.announceGameStarted();
     this.gameController.startGame(this.currentLobby.players,
         this.gameServer.getSeverLogicController());
-
-
-
   }
 
   /**
@@ -442,6 +454,51 @@ public class MainController implements MainControllerInterface {
     clc.reKontraAnswer(); // FIXME
 
   }
+
+  @Override
+  public void botPlayCardRequest() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void botContractRequest() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void botHandGameRequest() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void botSetHand(Player bot) {
+    if (SkatMain.lgs.firstAi == null) {
+      SkatMain.lgs.firstAi.getPlayer().setHand(bot.getHand());
+      SkatMain.lgs.firstAi.getPlayer().setPosition(bot.getPosition().ordinal());
+    } else {
+      SkatMain.lgs.secondAi.getPlayer().setHand(bot.getHand());
+      SkatMain.lgs.secondAi.getPlayer().setPosition(bot.getPosition().ordinal());
+      // Platform.runLater(new Runnable() {
+      //
+      //
+      //// @Override
+      //// public void run() {
+      //// SkatMain.guiController.getInGameController().startRound();
+      //// }
+      //// });
+
+    }
+
+  }
+
+  @Override
+  public void botBidRequest(int bid) {
+
+  }
+
 
 
 }

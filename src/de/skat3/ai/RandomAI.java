@@ -12,9 +12,8 @@ import de.skat3.gamelogic.CardDeck;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 
-public class RandomAI implements AiControllerInterface {
+public class RandomAI extends Ai {
   CardDeck decks;
-  Player ai;
   boolean acceptHandGame;
 
   // Dummy Werte
@@ -33,7 +32,7 @@ public class RandomAI implements AiControllerInterface {
    * Creates a new instance of AIPlayer.
    */
   public RandomAI(Player ai) {
-    this.ai = ai;
+    super(ai);
     acceptHandGame = random.nextBoolean();
     // TODO initialize those lists
     contractList = null;
@@ -173,6 +172,12 @@ public class RandomAI implements AiControllerInterface {
 
   public Boolean callRe() {
     return random.nextBoolean();
+  }
+
+  @Override
+  public Player getPlayer() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

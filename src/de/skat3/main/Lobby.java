@@ -63,11 +63,32 @@ public class Lobby implements Serializable {
 
   }
 
-  public Lobby() {
-    // TODO Auto-generated constructor stub
+  /**
+   * 
+   * @param ip
+   * @param serverMode
+   * @param timer
+   * @param scoringMode
+   * @param kontraRekontraEnabled
+   */
+  public Lobby(Inet4Address ip, int serverMode, int timer, int scoringMode,
+      boolean kontraRekontraEnabled) {
+    this.numberOfPlayers = 3;
+    this.players = new Player[this.numberOfPlayers];
+    this.ip = ip;
+    this.serverMode = serverMode;
+    this.currentPlayers = 1;
+    this.scoringMode = scoringMode;
+    this.kontraRekontraEnabled = kontraRekontraEnabled;
+
+
   }
 
 
+
+  public Lobby() {
+    
+  }
 
   public Player[] getPlayers() {
     return this.players;
