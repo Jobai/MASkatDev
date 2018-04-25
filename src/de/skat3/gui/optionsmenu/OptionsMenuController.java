@@ -1,14 +1,16 @@
 package de.skat3.gui.optionsmenu;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.File;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
-import sun.audio.AudioData;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-import sun.audio.ContinuousAudioDataStream;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 /**
  * Class to control the corresponding view file.
@@ -25,28 +27,65 @@ public class OptionsMenuController {
   @FXML
   private ToggleButton btnMusic;
 
+  private MediaPlayer backgroundMusicPlayer;
+
+  @FXML
+  public void initialize() {
+
+    // Music
+    volumeMusic.setMax(1);
+    volumeMusic.setMin(0);
+    volumeMusic.setBlockIncrement(0.1);
+    volumeMusic.setValue(0.25);
+
+    // Adding Listener to value property.
+    volumeMusic.valueProperty().addListener(new ChangeListener<Number>() {
+
+      @Override
+      public void changed(ObservableValue<? extends Number> observable, //
+          Number oldValue, Number newValue) {
+
+        backgroundMusicPlayer.setVolume(volumeMusic.getValue());
+      }
+    });
+
+    // Game Sound
+    volumeGame.setMax(1);
+    volumeGame.setMin(0);
+    volumeGame.setBlockIncrement(0.1);
+    volumeGame.setValue(0.25);
+
+    // Adding Listener to value property.
+    volumeGame.valueProperty().addListener(new ChangeListener<Number>() {
+
+      @Override
+      public void changed(ObservableValue<? extends Number> observable, //
+          Number oldValue, Number newValue) {
+
+        // TODO
+        // backgroundMusicPlayer.setVolume(volumeMusic.getValue());
+      }
+    });
+
+  }
+
 
   public void handleMusicSwitched() {
 
     if (btnMusic.isSelected()) {
-      // Music off
+      // Music on
+      btnMusic.setText("ON");
+
+      String url = getClass().getResource("../../../../music/backgroundMusic.mp3").toString();
+      Media hit = new Media(new File(url).toString());
+      backgroundMusicPlayer = new MediaPlayer(hit);
+      backgroundMusicPlayer.setVolume(volumeMusic.getValue());
+      backgroundMusicPlayer.play();
 
     } else {
-      // Music on
-      System.out.println("ON");
-      
-      AudioPlayer MGP = AudioPlayer.player;
-      AudioStream BGM;
-      AudioData MD;
-      ContinuousAudioDataStream loop = null;
-      try {
-        BGM = new AudioStream(new FileInputStream("../../../../backgroundMusic.mp3"));
-        MD = BGM.getData();
-        loop = new ContinuousAudioDataStream(MD);
-      } catch (IOException error) {
-        System.out.print("file not found");
-      }
-      MGP.start(loop);
+      // Music off
+      btnMusic.setText("OFF");
+      backgroundMusicPlayer.stop();
 
     }
 
@@ -54,14 +93,23 @@ public class OptionsMenuController {
 
   public void handleGameSoundSwitched() {
 
-  }
+    if (btnSound.isSelected()) {
+      // Sound on
+      btnSound.setText("ON");
 
-  public void handleVolumeMusicChanged() {
+      // TODO
+      // String url = getClass().getResource("../../../../music/backgroundMusic.mp3").toString();
+      // Media hit = new Media(new File(url).toString());
+      // backgroundMusicPlayer = new MediaPlayer(hit);
+      // backgroundMusicPlayer.setVolume(volumeMusic.getValue());
+      // backgroundMusicPlayer.play();
 
-  }
+    } else {
+      // Sound off
+      btnSound.setText("OFF");
+      backgroundMusicPlayer.stop();
 
-  public void handleVolumeGameSoundChanged() {
-
+    }
   }
 
 }
