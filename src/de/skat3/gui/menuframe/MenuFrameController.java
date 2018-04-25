@@ -239,7 +239,7 @@ public class MenuFrameController {
     this.optionsMenu = new OptionsMenu();
 
     fillProfileMenu();
-    setCurrentProfile(allProfile.get(0));
+    setCurrentProfile(SkatMain.ioController.getLastUsedProfile());
   }
 
   private void fillProfileMenu() {

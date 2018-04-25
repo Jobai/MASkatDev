@@ -1,5 +1,9 @@
 package de.skat3.gui.statsmenu;
 
+import de.skat3.gui.Gui;
+import de.skat3.gui.GuiController;
+import de.skat3.io.profile.Profile;
+import de.skat3.main.SkatMain;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -11,20 +15,113 @@ import javafx.scene.control.Label;
 public class StatsMenuController {
 
   @FXML
-  private Label SPtotalRounds;
+  private Label sTotalRoundsSuit;
   @FXML
-  private Label SProundsLost;
+  private Label mRoundsLostNull;
   @FXML
-  private Label MProundsWon;
+  private Label sLowestScore;
   @FXML
-  private Label MProundsLost;
+  private Label sRoundsLostGrand;
   @FXML
-  private Label SPtoalGametime;
+  private Label mTotalRoundsGrand;
   @FXML
-  private Label MPtotalGametime;
+  private Label sTotalRoundsGrand;
   @FXML
-  private Label MPtotalRounds;
+  private Label mHighestScore;
   @FXML
-  private Label SProundsWon;
-  
+  private Label sRoundsWon;
+  @FXML
+  private Label sHighestScore;
+  @FXML
+  private Label mTotalRoundsSuit;
+  @FXML
+  private Label mRoundsWonNull;
+  @FXML
+  private Label sRoundsWonGrand;
+  @FXML
+  private Label mTotalRoundsNull;
+  @FXML
+  private Label sRoundsWonNull;
+  @FXML
+  private Label sRoundsWonSuit;
+  @FXML
+  private Label sRoundsLost;
+  @FXML
+  private Label sRoundsLostNull;
+  @FXML
+  private Label mTotalRounds;
+  @FXML
+  private Label sRoundsLostSuit;
+  @FXML
+  private Label mRoundsLost;
+  @FXML
+  private Label sTotalRounds;
+  @FXML
+  private Label mRoundsWonSuit;
+  @FXML
+  private Label mLowestScore;
+  @FXML
+  private Label sTotalRoundsNull;
+  @FXML
+  private Label mRoundsWon;
+  @FXML
+  private Label mRoundsLostSuit;
+  @FXML
+  private Label mRoundsWonGrand;
+  @FXML
+  private Label mRoundsLostGrand;
+  @FXML
+  private Label gameTime;
+
+
+
+  @FXML
+  public void initialize() {
+    Profile p = SkatMain.ioController.getLastUsedProfile();
+
+    // Time
+    gameTime.setText("" + p.getPlayerGameTime());
+
+    // Singleplayer
+    // Rounds
+    sTotalRounds.setText("" + p.getSinglePlayerTotalRounds());
+    sTotalRoundsGrand.setText("" + p.getSinglePlayerTotalRoundsGrand());
+    sTotalRoundsNull.setText("" + p.getSinglePlayerTotalRoundsNull());
+    sTotalRoundsSuit.setText("" + p.getSinglePlayerTotalRoundsSuit());
+    sRoundsWon.setText("" + p.getSinglePlayerRoundsWon());
+    sRoundsWonGrand.setText("" + p.getSinglePlayerRoundsWonGrand());
+    sRoundsWonNull.setText("" + p.getSinglePlayerRoundsWonNull());
+    sRoundsWonSuit.setText("" + p.getSinglePlayerRoundsWonSuit());
+    sRoundsLost.setText("" + p.getSinglePlayerRoundsLost());
+    sRoundsLostGrand.setText("" + p.getSinglePlayerRoundsLostGrand());
+    sRoundsLostNull.setText("" + p.getSinglePlayerRoundsLostNull());
+    sRoundsLostSuit.setText("" + p.getSinglePlayerRoundsLostSuit());
+
+    // Score
+    sHighestScore.setText("" + p.getSinglePlayerHighestScore());
+    sLowestScore.setText("" + p.getSinglePlayerLowestScore());
+
+    // Multiplayer
+    // Rounds
+    mTotalRounds.setText("" + p.getMultiPlayerTotalRounds());
+    mTotalRoundsGrand.setText("" + p.getMultiPlayerTotalRoundsGrand());
+    mTotalRoundsNull.setText("" + p.getMultiPlayerTotalRoundsNull());
+    mTotalRoundsSuit.setText("" + p.getMultiPlayerTotalRoundsSuit());
+    mRoundsWon.setText("" + p.getMultiPlayerRoundsWon());
+    mRoundsWonGrand.setText("" + p.getMultiPlayerRoundsWonGrand());
+    mRoundsWonNull.setText("" + p.getMultiPlayerRoundsWonNull());
+    mRoundsWonSuit.setText("" + p.getMultiPlayerRoundsWonSuit());
+    mRoundsLost.setText("" + p.getMultiPlayerRoundsLost());
+    mRoundsLostGrand.setText("" + p.getMultiPlayerRoundsLostGrand());
+    mRoundsLostNull.setText("" + p.getMultiPlayerRoundsLostNull());
+    mRoundsLostSuit.setText("" + p.getMultiPlayerRoundsLostSuit());
+
+    // Score
+    mHighestScore.setText("" + p.getMultiPlayerHighestScore());
+    mLowestScore.setText("" + p.getMultiPlayerLowestScore());
+
+  }
+
+
+
 }
