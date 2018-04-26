@@ -140,7 +140,7 @@ public class GameController implements GameLogicInterface, Serializable {
 
   }
 
-  Player getDealer() {
+  public Player getDealer() {
     return this.dealer;
   }
 
