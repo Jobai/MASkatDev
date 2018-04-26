@@ -145,6 +145,9 @@ public class InGameOverlayController {
     // button.disableProperty().bind(SkatMain.mainController.currentLobby.numberOfPlayerProperty()
     // .lessThan(SkatMain.mainController.currentLobby.maxNumberOfPlayerProperty()));
 
+    button.disableProperty().bind(SkatMain.mainController.numberOfPlayerProperty
+        .lessThan(SkatMain.mainController.maxNumberOfPlayerProperty));
+
     button.setOnAction(e -> {
       this.root.getChildren().remove(button);
       SkatMain.mainController.startGame();
