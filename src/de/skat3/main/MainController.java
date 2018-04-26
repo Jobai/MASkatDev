@@ -129,7 +129,13 @@ public class MainController implements MainControllerInterface {
 
 
   public void showWrongPassword() {
-    SkatMain.guiController.showWrongPassword();
+    Platform.runLater(new Runnable() {
+
+      @Override
+      public void run() {
+        SkatMain.guiController.showWrongPassword();
+      }
+    });
   }
 
 
