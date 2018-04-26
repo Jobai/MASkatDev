@@ -417,6 +417,7 @@ public class MainController implements MainControllerInterface {
         break;
 
     }
+    SkatMain.ioController.updateLastUsed(SkatMain.ioController.getLastUsedProfile());
   }
 
   @Override
