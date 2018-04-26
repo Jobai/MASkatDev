@@ -19,6 +19,9 @@ public class PlayTimeTimer extends Thread {
       try {
         this.playTime++;
         Thread.sleep(1000);
+        if (this.playTime % 60 == 0) {
+          SkatMain.ioController.getLastUsedProfile().setPlayerGameTime(this.playTime);
+        }
       } catch (InterruptedException e) {
         e.printStackTrace();
       }

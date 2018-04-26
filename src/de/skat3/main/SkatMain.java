@@ -26,6 +26,7 @@ public class SkatMain {
     SkatMain.guiController = new GuiController();
     SkatMain.ioController = new IoController();
     SkatMain.mainNetworkController = new MainNetworkController();
+    new PlayTimeTimer(SkatMain.ioController.getLastUsedProfile().getPlayerGameTime());
     Gui.showAndWait();
 
 
