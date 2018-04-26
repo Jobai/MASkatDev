@@ -10,9 +10,11 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
@@ -34,8 +36,11 @@ public class SingleplayerMenuController {
   public void startSinglePlayerGame() {
     List<String> difficulty = new ArrayList<>();
     difficulty.add("Easy");
-    difficulty.add("Medium");
     difficulty.add("Hard");
+
+    List<String> modes = new ArrayList<>();
+    modes.add("Seeger");
+    modes.add("Bierlachs");
 
     Dialog<HashMap<String, String>> dialog = new Dialog<>();
     dialog.setTitle("Start Singleplayer Game");
@@ -59,6 +64,12 @@ public class SingleplayerMenuController {
     ComboBox<String> player3 = new ComboBox<>();
     player3.getItems().addAll(difficulty);
 
+    ComboBox<String> scoringMode = new ComboBox<>();
+    scoringMode.getItems().addAll(modes);
+    TextField scoreValue = new TextField();
+
+    CheckBox kontraRekontra = new CheckBox();
+
 
     grid.add(new Label("KI Player 1:"), 0, 0);
     grid.add(player1, 1, 0);
@@ -66,6 +77,15 @@ public class SingleplayerMenuController {
     grid.add(player2, 1, 1);
     grid.add(new Label("KI Player 3:"), 0, 2);
     grid.add(player3, 1, 2);
+
+    grid.add(new Label(""), 0, 3);
+    grid.add(new Label("Scoring Mode"), 0, 4);
+    grid.add(scoringMode, 1, 4);
+    grid.add(scoreValue, 1, 5);
+
+    grid.add(new Label(""), 0, 6);
+    grid.add(new Label("Kontra/Rekontra"), 0, 7);
+    grid.add(kontraRekontra, 1, 7);
 
     dialog.getDialogPane().setContent(grid);
 
@@ -80,12 +100,15 @@ public class SingleplayerMenuController {
       return null;
     });
 
-    Optional<HashMap<String, String>> result = dialog.showAndWait();
+    String player1Value;
+    String player2Value;
 
-    result.ifPresent(r -> System.out.println(r.get("p1")));
-    result.ifPresent(r -> System.out.println(r.get("p2")));
-    result.ifPresent(r -> System.out.println(r.get("p3")));
-    SkatMain.mainController.startSingleplayerGame();
+    dialog.showAndWait().ifPresent(result -> {
+      // TODO
+    });
+
+
+    SkatMain.mainController.startSingleplayerGame(false, false, 48, false);
   }
 
   /**
