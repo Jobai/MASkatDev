@@ -284,4 +284,11 @@ public class Lobby implements Serializable {
     return name;
   }
 
+  public String toString() {
+    return "----------\nName : " + this.name + "\nPassword = " + this.password + "\nTimer = "
+        + this.timer + "\nSingleplayer = " + this.singlePlayerGame + "\nServer mode = "
+        + this.serverMode + "\nScoring mode = " + this.scoringMode + "\nPlayers = "
+        + this.currentPlayers + "/" + this.numberOfPlayers + "\n----------";
+  }
+
 }

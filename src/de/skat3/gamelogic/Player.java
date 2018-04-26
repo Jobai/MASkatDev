@@ -151,6 +151,27 @@ public class Player implements Serializable {
   public boolean isSolo() {
     return this.isSolo;
   }
+
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @return the wonTricks
+   */
+  public ArrayList<Card> getWonTricks() {
+    return wonTricks;
+  }
+
+  /**
+   * @return the points
+   */
+  public int getPoints() {
+    return points;
+  }
 }
 
 

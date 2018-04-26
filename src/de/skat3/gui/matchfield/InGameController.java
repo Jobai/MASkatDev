@@ -1,11 +1,15 @@
 package de.skat3.gui.matchfield;
 
+import java.awt.Point;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.main.SkatMain;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 
 /**
@@ -29,7 +33,7 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void makeAMove(boolean value) {
-    this.matchfield.setCardsPlayable(value);
+    this.matchfield.tableController.setCardsPlayable(value);
   }
 
   /*
@@ -40,7 +44,7 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void playCard(Player owner, Card card) {
-    GuiHand playingHand = this.matchfield.getHand(owner);
+    GuiHand playingHand = this.matchfield.tableController.getHand(owner);
     GuiCard guiCard = playingHand.getGuiCard(card);
     if (guiCard == null) {
       int index = playingHand.getCards().size() / 2;
@@ -48,7 +52,7 @@ public class InGameController implements InGameControllerInterface {
       guiCard = new GuiCard(card);
       playingHand.add(index, guiCard, false);
     }
-    this.matchfield.playCard(playingHand, guiCard);
+    this.matchfield.tableController.playCard(playingHand, guiCard);
   }
 
   /*
@@ -96,7 +100,6 @@ public class InGameController implements InGameControllerInterface {
 
   }
 
-
   /*
    * (non-Javadoc)
    * 
@@ -111,9 +114,8 @@ public class InGameController implements InGameControllerInterface {
 
   @Override
   public void showSkatSelection() {
-    this.matchfield.showSkatSelection();
+    this.matchfield.tableController.showSkatSelection();
   }
-
 
   /*
    * (non-Javadoc)
@@ -122,23 +124,12 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void startRound() {
-    this.matchfield.playerHand.clear();
-    this.matchfield.leftHand.clear();
-    this.matchfield.leftHand.clear();
-
-    this.matchfield.playerHand.addAll(SkatMain.lgs.localClient.getHand().getCards());
-    this.matchfield.playerHand.setPlayer(SkatMain.lgs.localClient);
-    this.matchfield.leftHand.addAll(SkatMain.lgs.enemyOne.getHand().getCards()); // FIXME
-    this.matchfield.leftHand.setPlayer(SkatMain.lgs.enemyOne);
-    this.matchfield.rightHand.addAll(SkatMain.lgs.enemyTwo.getHand().getCards());
-    this.matchfield.rightHand.setPlayer(SkatMain.lgs.enemyTwo);
-    // TODO Auto-generated method stub
-
+    this.matchfield.tableController.iniHands();
   }
 
   public void bidRequest(int bid) {
 
-    this.matchfield.showBidRequest(bid);
+    this.matchfield.overlayController.showBidRequest(bid);
 
 
   }

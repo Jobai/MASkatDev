@@ -6,6 +6,8 @@ import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
 import de.skat3.io.profile.Profile;
+import de.skat3.main.LocalGameState;
+import de.skat3.main.SkatMain;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.KeyFrame;
@@ -32,6 +34,7 @@ public class TestClassStart extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
+
     Matchfield m = new Matchfield();
     m.setCardsPlayable(true);
 
