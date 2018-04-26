@@ -101,6 +101,7 @@ public class Lobby implements Serializable {
     for (int i = 0; i < this.numberOfPlayers; i++) {
       if (this.players[i] == null) {
         this.players[i] = player;
+        this.currentPlayers++;
         System.out.println("Player added" + player);
         break;
       }
@@ -114,6 +115,7 @@ public class Lobby implements Serializable {
     for (int i = 0; i < this.numberOfPlayers; i++) {
       if (this.players[i].equals(player)) {
         this.players[i] = null;
+        this.currentPlayers--;
         break;
       }
       if (i == this.numberOfPlayers - 1) {

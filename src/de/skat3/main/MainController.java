@@ -63,7 +63,15 @@ public class MainController implements MainControllerInterface {
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot);
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot2);
     this.startGame();
-    SkatMain.guiController.goInGame();
+    Platform.runLater(new Runnable() {
+
+      @Override
+      public void run() {
+        SkatMain.guiController.goInGame();
+
+
+      }
+    });
 
 
   }
