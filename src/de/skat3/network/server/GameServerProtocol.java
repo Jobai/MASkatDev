@@ -14,6 +14,7 @@ import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
+import de.skat3.network.datatypes.MessageConnection;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.datatypes.SubType;
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class GameServerProtocol extends Thread {
 
   /**
    * Constructor for the GameServerProtocoll-Thread.
+   * 
    * @author Jonas Bauer
    * @param socket created ServerSocket from the incoming connection (client).
    * @param gc the gamecontroller provided by the gamelogic.
@@ -126,9 +128,21 @@ public class GameServerProtocol extends Thread {
 
   private void openConnection(Message m) {
 
+    MessageConnection mc = (MessageConnection) m;
+    if (!(GameServer.lobby.getPassword().equals(mc.lobbyPassword))) {
+
+      kickConnection();
+      return;
+    }
+
+    
+    
     this.playerProfile = (Player) m.payload;
     m.secondPayload = SkatMain.mainController.currentLobby;
 
+    
+
+    
     broadcastMessage(m);
     logger.info("Player" + this.playerProfile.getUuid() + "joined the server!");
   }
@@ -143,7 +157,7 @@ public class GameServerProtocol extends Thread {
 
     MessageChat oldM = (MessageChat) m;
     MessageChat newM = new MessageChat(oldM.message, oldM.nick);
-    
+
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       gameServerProtocol.sendMessage(newM);
     }
@@ -171,11 +185,15 @@ public class GameServerProtocol extends Thread {
       toClient.close();
       fromClient.close();
       socket.close();
+      // GameServer.threadList.remove(this);
+      // logger.info("Server closed a connection");
+      // this.interrupt();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
       GameServer.threadList.remove(this);
       logger.info("Server closed a connection");
       this.interrupt();
-    } catch (IOException e) {
-      e.printStackTrace();
     }
   }
 
@@ -185,13 +203,14 @@ public class GameServerProtocol extends Thread {
     closeConnection();
   }
 
-  
+
   /**
    * broadcasts a message to all connected clients (including the original sender and the host!).
+   * 
    * @author Jonas Bauer
    * @param mc the message to be broadcasted
    */
-  public void broadcastMessage(Message mc) { 
+  public void broadcastMessage(Message mc) {
     // logger.log(Level.FINE, "Got ChatMessage: ");
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       gameServerProtocol.sendMessage(mc);
@@ -200,6 +219,17 @@ public class GameServerProtocol extends Thread {
 
   void handleLostConnection() {
     logger.severe("LOST CONNECTION TO CLIENT!  " + playerProfile.getUuid());
+    closeConnection();
+  }
+
+  private void kickConnection() {
+    MessageConnection mc = new MessageConnection(MessageType.CONNECTION_CLOSE, "WRONG_PASSWORD");
+    sendMessage(mc);
+    try {
+      sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     closeConnection();
   }
 

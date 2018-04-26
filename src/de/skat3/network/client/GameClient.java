@@ -47,6 +47,8 @@ public class GameClient {
 
   Player player;
 
+  String lobbyPassword;
+
   private ClientLogicController clc;
 
   public ClientLogicController getClc() {
@@ -56,6 +58,7 @@ public class GameClient {
 
   /**
    * Constructs a gameclient and automatically connects to the given server.
+   * 
    * @author Jonas Bauer
    * @param hostAdress adress of the server you want to connect to.
    * @param port port of the server you want to connect to.
@@ -71,6 +74,19 @@ public class GameClient {
     this.connect();
   }
 
+  public GameClient(String hostAdress, int port, Player player, String lobbyPassword) {
+    this.hostAdress = hostAdress;
+    this.port = port;
+    this.clh = new ClientLogicHandler(this);
+    this.clc = new ClientLogicController(this);
+    this.player = player;
+    logger.setLevel(Level.ALL);
+    this.lobbyPassword = lobbyPassword;
+    this.connect();
+  }
+
+
+
   private void connect() {
     try {
       socket = new Socket(hostAdress, port);
@@ -79,7 +95,13 @@ public class GameClient {
       sl = new StreamListener(this);
       sl.start();
       logger.info("Connection to " + hostAdress + ":" + port + " succesfull!");
-      openConnection();
+
+      if (lobbyPassword == null || lobbyPassword.isEmpty()) {
+        openConnection();
+      } else {
+        openConnection(lobbyPassword);
+      }
+
     } catch (UnknownHostException e) {
       logger.log(Level.SEVERE, "Host not found! Connection failed!", e);
       handleLostConnection();
@@ -91,6 +113,15 @@ public class GameClient {
     }
 
   }
+
+  private void openConnection(String lobbyPassword2) {
+    MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
+    mc.payload = player;
+    mc.lobbyPassword = lobbyPassword2;
+    sendToServer(mc);
+
+  }
+
 
   private void openConnection() {
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
@@ -116,7 +147,7 @@ public class GameClient {
         this.handleOpendConnection(m);
         break;
       case CONNECTION_CLOSE:
-        this.closeConnection();
+        this.closeConnection(m);
         break;
       case CHAT_MESSAGE:
         this.handleChatMessage((MessageChat) m);
@@ -246,7 +277,7 @@ public class GameClient {
     SkatMain.mainController.receiveMessage(m.nick + ": " + m.message);
   }
 
-  
+
   void closeConnection() {
     sl.interrupt();
     try {
@@ -256,9 +287,23 @@ public class GameClient {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
 
+  void closeConnection(Message m) {
 
-
+    MessageConnection mc = (MessageConnection) m;
+    String reason = mc.reason;
+    if (reason != null) {
+      SkatMain.mainController.showWrongPassword();
+    }
+    sl.interrupt();
+    try {
+      toSever.close();
+      fromServer.close();
+      socket.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   void sendToServer(Message m) {
@@ -271,9 +316,10 @@ public class GameClient {
     }
   }
 
-  
+
   /**
    * Test-Main.
+   * 
    * @author Jonas Bauer
    * @param args args.
    */
