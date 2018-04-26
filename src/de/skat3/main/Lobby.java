@@ -25,6 +25,11 @@ public class Lobby implements Serializable {
 
 
   String password;
+  
+  public String getPassword() {
+    return password;
+  }
+
   int numberOfPlayers;
   int currentPlayers;
   Player[] players;

@@ -43,6 +43,8 @@ public class GameServer extends Thread {
   int gameServerMode = 0;
 
   public LobbyServer ls;
+  
+  static Lobby lobby;
 
 
 
@@ -77,6 +79,7 @@ public class GameServer extends Thread {
     logger.fine("test fine");
     threadList = new ArrayList<GameServerProtocol>();
     slc = new ServerLogicController(lobbysettings, this);
+    GameServer.lobby = lobbysettings;
     this.start();
   }
 
