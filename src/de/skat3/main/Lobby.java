@@ -61,12 +61,10 @@ public class Lobby implements Serializable {
   public Lobby(Inet4Address ip, int serverMode, String name, String password, int numberOfPlayers,
       int timer, int scoringMode, boolean kontraRekontraEnabled) {
     this.numberOfPlayers = numberOfPlayers;
-    this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.numberOfPlayers);
     this.players = new Player[this.numberOfPlayers];
     this.ip = ip;
     this.serverMode = serverMode;
     this.currentPlayers = 1;
-    this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentPlayers);
     this.name = name;
     this.password = password;
     this.scoringMode = scoringMode;
@@ -228,8 +226,6 @@ public class Lobby implements Serializable {
     return maxNumberOfPlayerProperty;
   }
 
-
-
   public DoubleProperty numberOfPlayerProperty() {
     return numberOfPlayerProperty;
   }
@@ -237,8 +233,6 @@ public class Lobby implements Serializable {
   public void setMaxNumberOfPlayerProperty() {
     this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.numberOfPlayers);
   }
-
-
 
   public void setNumberOfPlayerProperty() {
     this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentPlayers);
