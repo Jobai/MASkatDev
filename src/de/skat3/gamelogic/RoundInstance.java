@@ -291,7 +291,7 @@ public class RoundInstance {
   }
 
 
-  private Player determineTrickWinner() {
+  public Player determineTrickWinner() {
     Contract contract = this.getContract();
 
     if (this.getFirstCard().beats(contract, this.getSecondCard())
@@ -337,7 +337,7 @@ public class RoundInstance {
     return this.players[0];
   }
 
-  Player getMiddlehand() {
+  public Player getMiddlehand() {
     return this.players[1];
   }
 
@@ -345,15 +345,15 @@ public class RoundInstance {
     return this.players[2];
   }
 
-  Card getFirstCard() {
+  public Card getFirstCard() {
     return this.trick[0];
   }
 
-  Card getSecondCard() {
+  public Card getSecondCard() {
     return this.trick[1];
   }
 
-  Card getThirdCard() {
+  public Card getThirdCard() {
     return this.trick[2];
   }
 
@@ -370,7 +370,7 @@ public class RoundInstance {
   }
 
 
-  Contract getContract() {
+  public Contract getContract() {
     return this.contract;
   }
 
