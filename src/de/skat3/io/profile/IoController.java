@@ -59,11 +59,38 @@ public class IoController implements IoInterface {
     return deleted;
   }
 
+  /**
+   * 
+   * Throws NullPointerException if profileToSave is not in the profileList
+   */
+  @Override
+  public void updateProfileStatistics(Profile profileToSave) throws NullPointerException {
+    boolean profileFoundInProfileList = false;
+
+    Iterator<Profile> iter = profileList.iterator();
+    while (iter.hasNext()) {
+      Profile current = iter.next();
+      if (current.getUuid().equals(profileToSave.getUuid())) {
+        profileFoundInProfileList = true;
+        current = profileToSave;
+      }
+    }
+    updateProfiles();
+
+    if (!profileFoundInProfileList) {
+      throw new NullPointerException(
+          "The profile passed to updateProfileStatistics was not found in the profileList");
+    }
+  }
+
+
 
   /**
    * toEdit is needed to produce a NullPointerException if profile is not in the profileList That
    * should not happen, as the profile should not be showed in GUI thats why exception is not being
    * catched
+   *
+   *
    */
   @Override
   public void editProfile(Profile profile, String name, Image image, String imageFormat) {
@@ -82,7 +109,7 @@ public class IoController implements IoInterface {
     if (!imageFormat.isEmpty()) {
       toEdit.setImage(image, imageFormat);
     }
-   updateLastUsed(profile);
+    updateLastUsed(profile);
   }
 
   @Override

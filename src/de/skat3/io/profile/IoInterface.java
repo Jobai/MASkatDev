@@ -18,4 +18,5 @@ public interface IoInterface {
 
   public Profile getLastUsedProfile();
 
+  public void updateProfileStatistics(Profile profile) throws NullPointerException;
 }
