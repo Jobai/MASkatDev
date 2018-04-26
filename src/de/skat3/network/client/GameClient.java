@@ -295,6 +295,7 @@ public class GameClient {
     String reason = mc.reason;
     if (reason != null) {
       SkatMain.mainController.showWrongPassword();
+      handleLostConnection();
     }
     sl.interrupt();
     try {
@@ -335,7 +336,7 @@ public class GameClient {
   }
 
   void handleLostConnection() {
-    SkatMain.guiController.
+    SkatMain.guiController.goToMenu();
     logger.log(Level.SEVERE, "Connection to server failed");
     closeConnection();
 

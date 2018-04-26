@@ -31,7 +31,10 @@ public class LobbyDiscover extends Thread {
   MulticastSocket ms;
   byte[] buffer;
   boolean multicast = false;
+  // DatagramSocket ds;
+  DatagramSocket ds;
 
+  public boolean run = true;
   public ArrayList<Lobby> lobbyList;
 
 
@@ -53,21 +56,23 @@ public class LobbyDiscover extends Thread {
     if (!multicast) {
       System.out.println("BROADCAST LOBBY MODE");
 
-      try (DatagramSocket ds = new DatagramSocket(port, InetAddress.getByName("0.0.0.0"))) {
+      try {
+        ds = new DatagramSocket(port, InetAddress.getByName("0.0.0.0"));
+
         ds.setBroadcast(true);
 
 
 
         lobbyList = new ArrayList<Lobby>();
-        while (!this.isInterrupted()) {
+        while (run) {
           buffer = new byte[4096]; // XXX
           DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
-           System.out.println("RECEIVING NEXT");
+          System.out.println("RECEIVING NEXT");
           ds.receive(dp);
-           System.out.println("RECEIVED");
+          System.out.println("RECEIVED");
           Lobby lb = new Lobby();
           lb = lb.convertFromByteArray(buffer);
-           System.out.println(lb.getName());
+          System.out.println(lb.getName());
           boolean contains = false;
           for (Lobby l : lobbyList) {
             if (l.equals(lb)) {
@@ -82,82 +87,96 @@ public class LobbyDiscover extends Thread {
         }
 
       } catch (SocketException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+
+        if (run) {
+          e.printStackTrace();
+        }
       } catch (UnknownHostException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
+      } finally {
+        System.out.println("END");
+        ds.close();
+
+
+
       }
 
 
 
-    }
+      if (multicast) {
+
+        try (MulticastSocket client = new MulticastSocket(port)) {
+          ms = client;
+          ms.joinGroup(iAdress);
+
+          lobbyList = new ArrayList<Lobby>();
+          while (run) {
+            buffer = new byte[4096]; // XXX
+            DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
+            // System.out.println("RECEIVING NEXT");
+            ms.receive(dp);
+            // System.out.println("RECEIVED");
+            Lobby lb = new Lobby();
+            lb = lb.convertFromByteArray(buffer);
+            // System.out.println(lb.getName());
 
 
-
-    if (multicast) {
-
-      try (MulticastSocket client = new MulticastSocket(port)) {
-        ms = client;
-        ms.joinGroup(iAdress);
-
-        lobbyList = new ArrayList<Lobby>();
-        while (!this.isInterrupted()) {
-          buffer = new byte[4096]; // XXX
-          DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
-          // System.out.println("RECEIVING NEXT");
-          ms.receive(dp);
-          // System.out.println("RECEIVED");
-          Lobby lb = new Lobby();
-          lb = lb.convertFromByteArray(buffer);
-          // System.out.println(lb.getName());
-
-
-          boolean contains = false;
-          for (Lobby l : lobbyList) {
-            if (l.equals(lb)) {
-              contains = true;
-              break;
+            boolean contains = false;
+            for (Lobby l : lobbyList) {
+              if (l.equals(lb)) {
+                contains = true;
+                break;
+              }
             }
+            if (!contains) {
+              lobbyList.add(lb);
+              System.out.println("Lobby added");
+            }
+
+
           }
-          if (!contains) {
-            lobbyList.add(lb);
-            System.out.println("Lobby added");
-          }
+          // if (!lobbyList.contains(lb)) {
+          // lobbyList.add(lb);
+          // System.out.println("Lobby added");
+          // }
+
+
+
+        } catch (IOException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        } catch (NullPointerException e) {
+
+          e.printStackTrace();
 
 
         }
-        // if (!lobbyList.contains(lb)) {
-        // lobbyList.add(lb);
-        // System.out.println("Lobby added");
-        // }
 
 
-
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (NullPointerException e) {
-
-        e.printStackTrace();
       }
-
     }
 
   }
 
   public void stopDiscovery() {
     try {
+      System.out.println("STOP DISCOVERY");
+      run = false;
+      // this.interrupt();
+      ds.close();
+      System.out.println("STOP END");
       ms.leaveGroup(iAdress);
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+    } finally {
+      ms.close();
+
     }
-    ms.close();
-    this.interrupt();
   }
 
 

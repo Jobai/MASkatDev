@@ -81,6 +81,7 @@ public class MainNetworkController implements MainNetworkInterface {
       e.printStackTrace();
     }
 
+    ld.stopDiscovery();
     return ld.lobbyList;
   }
 
