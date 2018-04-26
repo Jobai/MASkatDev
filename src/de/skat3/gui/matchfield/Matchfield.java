@@ -176,7 +176,7 @@ public class Matchfield {
   void setCardsPlayable(boolean value) {
     if (value) {
       ColorAdjust grey = new ColorAdjust();
-      grey.setSaturation(-1);
+      grey.setBrightness(-0.8);
       for (Card c : SkatMain.lgs.localClient.getHand().cards) {
         if (!c.isPlayable()) {
           GuiCard card = this.playerHand.getGuiCard(c);
@@ -219,13 +219,13 @@ public class Matchfield {
         try {
           if (node.getParent().getParent().equals(this.playerHand)) {
             GuiCard card = (GuiCard) node.getParent();
-            if (this.selectedCard.equals(card)) {
-              this.selectedCard = null;
-            }
             for (Card c : SkatMain.lgs.localClient.getHand().cards) {
               if (card.getCard().equals(c)) {
                 if (c.isPlayable()) {
                   // Play card
+                  if (this.selectedCard.equals(card)) {
+                    this.selectedCard = null;
+                  }
                   SkatMain.mainController.localCardPlayed(card.getCard());
                   this.setCardsPlayable(false);
                   break;
@@ -243,7 +243,7 @@ public class Matchfield {
       for (Card c : SkatMain.lgs.localClient.getHand().cards) {
         GuiCard card = this.playerHand.getGuiCard(c);
         if (card != null) {
-          ((ColorAdjust) card.getCard().getImage().getEffect()).setSaturation(0);
+          ((ColorAdjust) card.getCard().getImage().getEffect()).setBrightness(0);
         }
       }
 
