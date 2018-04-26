@@ -136,4 +136,11 @@ public class InGameController implements InGameControllerInterface {
 
   }
 
+  public void bidRequest(int bid) {
+
+    this.matchfield.showBidRequest(bid);
+
+
+  }
+
 }

@@ -233,7 +233,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.bidRequest(bid);
+        SkatMain.guiController.getInGameController().bidRequest(bid);
       }
     });
 

@@ -23,6 +23,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.layout.Pane;
 
 
 /**
@@ -50,28 +51,6 @@ public class GuiController implements GuiControllerInterface {
 
   public void blockInput(boolean value) {
     this.gui.getMainStage().getScene().getRoot().setDisable(value);
-  }
-
-  @Override
-  public void bidRequest(int bid) {
-
-    Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.setTitle("New bid");
-    alert.setHeaderText(bid + "");
-    alert.setContentText("Are you ok with this?");
-
-    ButtonType buttonTypeYes = new ButtonType("Yes");
-    ButtonType buttonTypeNo = new ButtonType("No");
-
-    alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-
-    Optional<ButtonType> result = alert.showAndWait();
-    if (result.get() == buttonTypeYes) {
-      SkatMain.mainController.localBid(true);
-    } else {
-      SkatMain.mainController.localBid(false);
-    }
-
   }
 
   @Override

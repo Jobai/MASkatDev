@@ -117,7 +117,7 @@ public class Matchfield {
     return this.scene;
   }
 
-  void bidRequest(int bid) {
+  void showBidRequest(int bid) {
     Pane p = new Pane();
     p.setPrefSize(400, 225);
     p.translateXProperty().bind(ReadOnlyDoubleProperty
@@ -128,32 +128,35 @@ public class Matchfield {
         .readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(200));
 
     p.setStyle("-fx-border-color: black");
+    p.setStyle("-fx-background-color: #404040");
 
-    Label v = new Label("Accept " + bid + " points?");
-    v.setPrefSize(250, 75);
+    Label v = new Label("Do you bid " + bid + "?");
+    v.setPrefSize(300, 75);
     v.setFont(Font.font(30));
     v.setTranslateY(+10);
-    Button yes = new Button("Yes");
+    Button yes = new Button("Bid");
     yes.setStyle("-fx-background-radius: 20");
+    yes.setStyle("-fx-background-color: #d60202");
     yes.setPrefSize(150, 80);
     yes.setTranslateX(25);
     yes.setTranslateY(210 - 75 - 20);
-    Button no = new Button("No");
+    Button no = new Button("Pass");
     no.setStyle("-fx-background-radius: 20");
+    no.setStyle("-fx-background-color: #d60202");
     no.setPrefSize(150, 80);
     no.setTranslateX(225);
     no.setTranslateY(210 - 75 - 20);
     p.getChildren().addAll(v, yes, no);
 
-    this.table.getChildren().add(p); // TODO Maybe this should be added to the 2d scene.
+    this.root.getChildren().add(p);
 
     yes.setOnAction(e -> {
-      // TODO
-      this.table.getChildren().remove(p);
+      SkatMain.mainController.localBid(true);
+      this.root.getChildren().remove(p);
     });
     no.setOnAction(e -> {
-      // TODO
-      this.table.getChildren().remove(p);
+      SkatMain.mainController.localBid(false);
+      this.root.getChildren().remove(p);
     });
 
   }
