@@ -9,6 +9,7 @@ import de.skat3.gui.optionsmenu.OptionsMenu;
 import de.skat3.gui.singleplayermenu.SingleplayerMenu;
 import de.skat3.gui.statsmenu.StatsMenu;
 import de.skat3.io.profile.Profile;
+import de.skat3.main.PlayTimeTimer;
 import de.skat3.main.SkatMain;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
@@ -72,8 +73,9 @@ public class MenuFrameController {
   // Various
 
   private Duration switchMenuDuration = Duration.millis(300);
-  ArrayList<Profile> allProfile;
+  private ArrayList<Profile> allProfile;
   private Profile currentProfile;
+  private PlayTimeTimer timer;
 
   // Button handler
 
@@ -341,6 +343,12 @@ public class MenuFrameController {
 
     }
     currentProfileName.setText(p.getName());
+
+    if (timer != null) {
+      timer.interrupt();
+    }
+    timer = new PlayTimeTimer(p.getPlayerGameTime());
+
   }
 
 }
