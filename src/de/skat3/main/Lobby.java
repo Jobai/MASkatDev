@@ -34,9 +34,7 @@ public class Lobby implements Serializable {
 
   int numberOfPlayers;
 
-  private transient DoubleProperty maxNumberOfPlayerProperty;
   int currentPlayers;
-  private transient DoubleProperty numberOfPlayerProperty;
   Player[] players;
   int timer;
   int scoringMode;
@@ -64,7 +62,7 @@ public class Lobby implements Serializable {
     this.players = new Player[this.numberOfPlayers];
     this.ip = ip;
     this.serverMode = serverMode;
-    this.currentPlayers = 1;
+    this.currentPlayers = 0;
     this.name = name;
     this.password = password;
     this.scoringMode = scoringMode;
@@ -112,8 +110,8 @@ public class Lobby implements Serializable {
       if (this.players[i] == null) {
         this.players[i] = player;
         this.currentPlayers++;
-        if (this.numberOfPlayerProperty != null) {
-          this.numberOfPlayerProperty.add(1);
+        if (SkatMain.mainController.numberOfPlayerProperty != null) {
+          SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
         }
         System.out.println("Player added" + player);
         break;
@@ -129,8 +127,8 @@ public class Lobby implements Serializable {
       if (this.players[i].equals(player)) {
         this.players[i] = null;
         this.currentPlayers--;
-        if (this.maxNumberOfPlayerProperty != null) {
-          this.numberOfPlayerProperty.subtract(1);
+        if (SkatMain.mainController.maxNumberOfPlayerProperty != null) {
+          SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
         }
         break;
       }
@@ -220,22 +218,6 @@ public class Lobby implements Serializable {
 
   public int getCurrentNumberOfPlayers() {
     return this.currentPlayers;
-  }
-
-  public DoubleProperty maxNumberOfPlayerProperty() {
-    return maxNumberOfPlayerProperty;
-  }
-
-  public DoubleProperty numberOfPlayerProperty() {
-    return numberOfPlayerProperty;
-  }
-
-  public void setMaxNumberOfPlayerProperty() {
-    this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.numberOfPlayers);
-  }
-
-  public void setNumberOfPlayerProperty() {
-    this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentPlayers);
   }
 
 

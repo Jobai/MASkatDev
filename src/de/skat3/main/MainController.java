@@ -16,6 +16,8 @@ import de.skat3.network.client.ClientLogicController;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
@@ -34,6 +36,10 @@ public class MainController implements MainControllerInterface {
   private GameController gameController;
   public boolean isHost;
   public Lobby currentLobby;
+  public transient DoubleProperty maxNumberOfPlayerProperty;
+  public transient DoubleProperty numberOfPlayerProperty;
+
+
 
   @Override
   public ArrayList<Lobby> getLocalHosts() {
@@ -153,7 +159,8 @@ public class MainController implements MainControllerInterface {
   @Override
   public void hostMultiplayerGame(String name, int numberOfPlayers, int timer,
       boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException {
-    this.hostMultiplayerGame(name, "", numberOfPlayers, timer, kontraRekontraEnabled, scoringMode);
+    this.hostMultiplayerGame(name, null, numberOfPlayers, timer, kontraRekontraEnabled,
+        scoringMode);
 
   }
 
@@ -176,6 +183,8 @@ public class MainController implements MainControllerInterface {
 
     this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, name, password,
         numberOfPlayers, timer, scoringMode, kontraRekontraEnabled);
+    this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.numberOfPlayers);
+    this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.currentPlayers);
     this.gameController =
         new GameController(this.currentLobby.kontraRekontraEnabled, this.currentLobby.scoringMode);
     this.gameServer =
