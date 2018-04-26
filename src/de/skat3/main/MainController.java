@@ -62,8 +62,8 @@ public class MainController implements MainControllerInterface {
     this.clc = gameClient.getClc();
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot);
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot2);
-    SkatMain.guiController.goInGame();
     this.startGame();
+    SkatMain.guiController.goInGame();
 
 
   }
@@ -110,6 +110,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void joinMultiplayerGame(Lobby lobby, String password) {
     this.currentLobby = lobby;
+    lobby.password = password;
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     this.clc = gameClient.getClc();
     SkatMain.guiController.goInGame();
