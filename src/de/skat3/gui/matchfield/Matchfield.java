@@ -7,6 +7,7 @@ import de.skat3.main.SkatMain;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
@@ -18,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
@@ -120,27 +122,34 @@ public class Matchfield {
   void showBidRequest(int bid) {
     Pane p = new Pane();
     p.setPrefSize(400, 225);
-    p.translateXProperty().bind(ReadOnlyDoubleProperty
-        .readOnlyDoubleProperty(this.playerHand.translateXProperty()).subtract(100));
-    p.translateYProperty().bind(ReadOnlyDoubleProperty
-        .readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
-    p.translateZProperty().bind(ReadOnlyDoubleProperty
-        .readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(200));
+    p.translateXProperty()
+        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(this.playerHand.translateXProperty())
+            .subtract(p.widthProperty().divide(2)));
+    p.translateYProperty()
+        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(this.playerHand.translateYProperty())
+            .subtract(p.heightProperty().divide(2)));
 
-    p.setStyle("-fx-border-color: black");
+    p.setStyle("-fx-border-color: d60202");
     p.setStyle("-fx-background-color: #404040");
 
     Label v = new Label("Do you bid " + bid + "?");
     v.setPrefSize(300, 75);
     v.setFont(Font.font(30));
+    v.setTextFill(Color.WHITE);
+    v.setAlignment(Pos.CENTER);
+
     v.setTranslateY(+10);
     Button yes = new Button("Bid");
+    yes.setFont(new Font(25));
+    yes.setTextFill(Color.WHITE);
     yes.setStyle("-fx-background-radius: 20");
     yes.setStyle("-fx-background-color: #d60202");
     yes.setPrefSize(150, 80);
     yes.setTranslateX(25);
     yes.setTranslateY(210 - 75 - 20);
     Button no = new Button("Pass");
+    no.setFont(new Font(25));
+    no.setTextFill(Color.WHITE);
     no.setStyle("-fx-background-radius: 20");
     no.setStyle("-fx-background-color: #d60202");
     no.setPrefSize(150, 80);
@@ -485,7 +494,7 @@ public class Matchfield {
       this.trick.resetPostions();
     });
 
-    if (SkatMain.mainController.isHost) {
+    if (SkatMain.mainController.isHost && !SkatMain.lgs.singlePlayerGame) {
       this.showStartButton();
     }
 
