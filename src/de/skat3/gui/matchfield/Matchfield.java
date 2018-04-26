@@ -188,7 +188,7 @@ public class Matchfield {
   void setCardsPlayable(boolean value) {
     if (value) {
       ColorAdjust grey = new ColorAdjust();
-      grey.setBrightness(-0.8);
+      grey.setBrightness(-0.4);
       for (Card c : SkatMain.lgs.localClient.getHand().cards) {
         if (!c.isPlayable()) {
           GuiCard card = this.playerHand.getGuiCard(c);
