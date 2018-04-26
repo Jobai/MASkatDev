@@ -166,7 +166,7 @@ public class ClientLogicHandler {
   public void skatRequestHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     Card[] skat = (Card[]) mc.gameState;
-    SkatMain.mainController.setSkat(skat);
+    SkatMain.mainController.selectSkatRequest(skat);
 
   }
 

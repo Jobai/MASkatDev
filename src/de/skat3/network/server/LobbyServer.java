@@ -1,5 +1,6 @@
 package de.skat3.network.server;
 
+import de.skat3.main.Lobby;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.Inet4Address;
@@ -12,7 +13,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import de.skat3.main.Lobby;
+
 
 public class LobbyServer extends Thread {
 
@@ -22,14 +23,14 @@ public class LobbyServer extends Thread {
 
   private Lobby lobby;
 
-  private InetAddress iAdress;
+  private InetAddress inetAdress;
   public int port = 2011;
 
   public LobbyServer(Lobby lobby) {
     logger.setLevel(Level.ALL);
     logger.fine("test fine");
     try {
-      iAdress = InetAddress.getByName("239.4.5.6");
+      inetAdress = InetAddress.getByName("239.4.5.6");
     } catch (UnknownHostException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -42,7 +43,7 @@ public class LobbyServer extends Thread {
     logger.setLevel(Level.ALL);
     logger.fine("test fine");
     this.lobby = lobby;
-    this.iAdress = iAdress;
+    this.inetAdress = iAdress;
     this.start();
   }
 
@@ -56,10 +57,7 @@ public class LobbyServer extends Thread {
       byte[] buff;
       buff = lobby.convertToByteArray(lobby);
       System.out.println(buff.length);
-      DatagramPacket packet = new DatagramPacket(buff, buff.length, iAdress, port);
-      // DatagramPacket packet = new DatagramPacket(buff, buff.length);
-
-
+      DatagramPacket packet = new DatagramPacket(buff, buff.length, inetAdress, port);
 
       while (!this.isInterrupted()) {
         ms.send(packet);
@@ -69,10 +67,8 @@ public class LobbyServer extends Thread {
     } catch (SocketException e) {
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
 

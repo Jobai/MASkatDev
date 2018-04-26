@@ -6,11 +6,9 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
+
 package de.skat3.network;
 
-import java.net.Inet4Address;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
@@ -19,6 +17,10 @@ import de.skat3.network.client.GameClient;
 import de.skat3.network.client.LobbyDiscover;
 import de.skat3.network.server.GameServer;
 import de.skat3.network.server.LobbyServer;
+import java.net.Inet4Address;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * @author Jonas Bauer
@@ -59,6 +61,9 @@ public class MainNetworkController implements MainNetworkInterface {
   @Override
   public void addAItoLocalServer(boolean hardAi) {
     // TODO Auto-generated method stub
+    GameClient gc =
+        new GameClient("localhost", 2018, new Player(hardAi));
+    
 
   }
 
