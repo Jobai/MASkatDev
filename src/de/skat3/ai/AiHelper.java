@@ -13,9 +13,13 @@ import de.skat3.gamelogic.RoundInstance;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
 
-
+/**
+ * 
+ * @author emrecura
+ *
+ */
 public class AiHelper extends Ai{
-	
+	IntelligentAI ia;
 	public AiHelper(Player player) {
 		super(player);
 	}
@@ -140,6 +144,59 @@ public class AiHelper extends Ai{
 			index++;
 		}
 		return result;
+	}
+	
+	/**
+	 * Gets the number of jacks in the given hand
+	 * 
+	 * @param cards
+	 *            a hand
+	 * @return number of jacks
+	 */
+	public static int countJacks(Card[] cards) {
+		int counter = 0;
+		for(int i = 0; i<cards.length;i++) {
+		if (cards[i].getValue() == Value.JACK) {
+			counter++;
+			}
+		}
+		return counter;
+		
+	}
+	
+	/**
+	 * Gets the number of trumps in the given hand
+	 * 
+	 * @param cards
+	 *            a hand
+	 * @return number of trumps
+	 */
+	public static int countTrumps(Card[] cards,Contract contract) {
+		int counter = 0;
+		for(int i = 0; i<cards.length;i++) {
+		if (cards[i].isTrump(contract)) {
+			counter++;
+			}
+		
+		}
+		return counter;
+	}
+	
+	/**
+	 * Gets the number of jacks in the given hand
+	 * 
+	 * @param cards
+	 *            a hand
+	 * @return number of jacks
+	 */
+	public static int countAces(Card[] cards) {
+		int counter = 0;
+		for(int i = 0; i<cards.length;i++) {
+		if (cards[i].getValue() == Value.ACE) {
+			counter++;
+			}
+		}
+		return counter;
 	}
 
 	@Override

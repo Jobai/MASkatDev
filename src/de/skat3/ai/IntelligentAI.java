@@ -1,5 +1,7 @@
 package de.skat3.ai;
-
+/**
+ * @author emrecura
+ */
 import java.util.ArrayList;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
@@ -212,14 +214,13 @@ public class IntelligentAI extends Ai {
 		return cards[0];
 	}
 
-
 	@Override
 	public boolean acceptBid(int bid) {
 		
-		int maxBid = 0;
-		int noOfJacks = 0;
-		int noOfTrumps = 0;
-		Suit mostFrequentSuitColor = null;
+		int maxBid = h.getMaximumBid(chooseContract());
+		int noOfJacks = AiHelper.countJacks(cd.getCards());
+		int noOfTrumps = AiHelper.countTrumps(cd.getCards(), chooseContract());
+		Suit mostFrequentSuitColor = aiHelper.getMostFrequentSuit();
 
 		// only play, if I have at least 1 jack and 4 color cards or
 		// 2 jacks and 3 color cards
@@ -255,12 +256,16 @@ public class IntelligentAI extends Ai {
 
 	@Override
 	public boolean acceptHandGame() {
-		/*int noOfTrumps = 0;
-		int noOfAces = 0;
+		// Recherchieren bei welcher anzahl von Karten es sinnvoll ist offen zu spielen	
+		int noOfTrumps = AiHelper.countTrumps(cd.getCards(), chooseContract());
+		int noOfAces = AiHelper.countAces(cd.getCards());
 		if(noOfTrumps >= 8) {
-			return true
-		}else if(noOfTrumps +nnoOfAce >= 8)*/
-		return false;
+			return true;
+		}else if(noOfTrumps +noOfAces >= 8) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 
