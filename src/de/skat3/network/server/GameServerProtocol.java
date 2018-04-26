@@ -142,14 +142,8 @@ public class GameServerProtocol extends Thread {
     logger.log(Level.FINE, "Got ChatMessage: " + m.message);
 
     MessageChat oldM = (MessageChat) m;
-
-    // TODO check for command and profanity and set flags acordingly
     MessageChat newM = new MessageChat(oldM.message, oldM.nick);
-
-    newM.setCommand(false);
-    newM.setProfanity(false);
-
-
+    
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       gameServerProtocol.sendMessage(newM);
     }
