@@ -428,6 +428,9 @@ public class Matchfield {
     button.translateYProperty()
         .bind(this.scene.heightProperty().divide(2).subtract(button.heightProperty().divide(2)));;
 
+    SkatMain.mainController.currentLobby.setMaxNumberOfPlayerProperty();
+    SkatMain.mainController.currentLobby.setNumberOfPlayerProperty();
+
     button.disableProperty().bind(SkatMain.mainController.currentLobby.numberOfPlayerProperty()
         .lessThan(SkatMain.mainController.currentLobby.maxNumberOfPlayerProperty()));
 

@@ -335,6 +335,7 @@ public class GameClient {
   }
 
   void handleLostConnection() {
+    SkatMain.guiController.
     logger.log(Level.SEVERE, "Connection to server failed");
     closeConnection();
 

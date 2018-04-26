@@ -131,8 +131,8 @@ public class GameServerProtocol extends Thread {
   private void handleStateChange(Message m) {
     // TODO Auto-generated method stub
 
-    
-    gs.ls.stopLobbyBroadcast(); //XXX
+
+    gs.ls.stopLobbyBroadcast(); // XXX
 
     broadcastMessage(m);
 
@@ -141,10 +141,14 @@ public class GameServerProtocol extends Thread {
   private void openConnection(Message m) {
 
     MessageConnection mc = (MessageConnection) m;
-    if (!(GameServer.lobby.getPassword().equals(mc.lobbyPassword))) {
-
-      kickConnection();
-      return;
+    String serverPw = GameServer.lobby.getPassword();
+    if (!(GameServer.lobby.getPassword() == null || serverPw.isEmpty())) {
+      System.out.println("SERVER HAS PASSWORD!: CHECKING!");
+      System.out.println(serverPw);
+      if (!(GameServer.lobby.getPassword().equals(mc.lobbyPassword))) {
+        kickConnection();
+        return;
+      }
     }
 
 

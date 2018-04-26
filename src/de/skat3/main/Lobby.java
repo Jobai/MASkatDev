@@ -33,9 +33,10 @@ public class Lobby implements Serializable {
   }
 
   int numberOfPlayers;
-  private DoubleProperty maxNumberOfPlayerProperty;
+
+  private transient DoubleProperty maxNumberOfPlayerProperty;
   int currentPlayers;
-  private DoubleProperty numberOfPlayerProperty;
+  private transient DoubleProperty numberOfPlayerProperty;
   Player[] players;
   int timer;
   int scoringMode;
@@ -113,7 +114,9 @@ public class Lobby implements Serializable {
       if (this.players[i] == null) {
         this.players[i] = player;
         this.currentPlayers++;
-        this.numberOfPlayerProperty.add(1);
+        if (this.numberOfPlayerProperty != null) {
+          this.numberOfPlayerProperty.add(1);
+        }
         System.out.println("Player added" + player);
         break;
       }
@@ -128,7 +131,9 @@ public class Lobby implements Serializable {
       if (this.players[i].equals(player)) {
         this.players[i] = null;
         this.currentPlayers--;
-        this.numberOfPlayerProperty.subtract(1);
+        if (this.maxNumberOfPlayerProperty != null) {
+          this.numberOfPlayerProperty.subtract(1);
+        }
         break;
       }
       if (i == this.numberOfPlayers - 1) {
@@ -227,6 +232,16 @@ public class Lobby implements Serializable {
 
   public DoubleProperty numberOfPlayerProperty() {
     return numberOfPlayerProperty;
+  }
+
+  public void setMaxNumberOfPlayerProperty() {
+    this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.numberOfPlayers);
+  }
+
+
+
+  public void setNumberOfPlayerProperty() {
+    this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentPlayers);
   }
 
 
