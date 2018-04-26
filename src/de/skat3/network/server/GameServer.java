@@ -111,7 +111,7 @@ public class GameServer extends Thread {
       while (true) {
         socket = server.accept();
         logger.info("New connection!");
-        threadList.add(new GameServerProtocol(socket, gc));
+        threadList.add(new GameServerProtocol(socket, gc, this));
         threadList.get(threadList.size() - 1).start();
 
       }

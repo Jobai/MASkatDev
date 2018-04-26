@@ -3,6 +3,7 @@ package de.skat3.network.server;
 import de.skat3.main.Lobby;
 import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
@@ -26,6 +27,8 @@ public class LobbyServer extends Thread {
   private InetAddress inetAdress;
   public int port = 2011;
 
+  boolean multicast = false;
+
   public LobbyServer(Lobby lobby) {
     logger.setLevel(Level.ALL);
     logger.fine("test fine");
@@ -47,29 +50,65 @@ public class LobbyServer extends Thread {
     this.start();
   }
 
+
   public void run() {
-    try (MulticastSocket server = new MulticastSocket()) {
-      logger.info(
-          "LobbyServer started on " + Inet4Address.getLocalHost().getHostAddress() + ": " + port);
 
-      this.ms = server;
+    if (!multicast) {
 
-      byte[] buff;
-      buff = lobby.convertToByteArray(lobby);
-      System.out.println(buff.length);
-      DatagramPacket packet = new DatagramPacket(buff, buff.length, inetAdress, port);
+      try (DatagramSocket ds = new DatagramSocket()) {
 
-      while (!this.isInterrupted()) {
-        ms.send(packet);
-        sleep(5000);
+        ds.setBroadcast(true);
+        byte[] buff;
+        buff = lobby.convertToByteArray(lobby);
+        System.out.println(buff.length);
+        DatagramPacket packet =
+            new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
 
+        while (!this.isInterrupted()) {
+          ds.send(packet);
+          sleep(5000);
+
+        }
+      } catch (SocketException e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      } catch (UnknownHostException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
       }
-    } catch (SocketException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+
+    }
+
+    if (multicast) {
+      try (MulticastSocket server = new MulticastSocket()) {
+        logger.info(
+            "LobbyServer started on " + Inet4Address.getLocalHost().getHostAddress() + ": " + port);
+
+        this.ms = server;
+
+        byte[] buff;
+        buff = lobby.convertToByteArray(lobby);
+        System.out.println(buff.length);
+        DatagramPacket packet = new DatagramPacket(buff, buff.length, inetAdress, port);
+
+        while (!this.isInterrupted()) {
+          ms.send(packet);
+          sleep(5000);
+
+        }
+      } catch (SocketException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
 
 

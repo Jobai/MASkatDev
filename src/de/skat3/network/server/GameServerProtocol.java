@@ -43,6 +43,8 @@ public class GameServerProtocol extends Thread {
 
   private GameLogicHandler glh;
 
+  private GameServer gs;
+
 
   /**
    * Constructor for the GameServerProtocoll-Thread.
@@ -63,6 +65,13 @@ public class GameServerProtocol extends Thread {
     }
     glh = new GameLogicHandler(gc);
 
+
+  }
+
+  public GameServerProtocol(Socket socket2, GameController gc, GameServer gameServer) {
+    // TODO Auto-generated constructor stub
+    this(socket2, gc);
+    this.gs = gameServer;
 
   }
 
@@ -122,6 +131,9 @@ public class GameServerProtocol extends Thread {
   private void handleStateChange(Message m) {
     // TODO Auto-generated method stub
 
+    
+    gs.ls.stopLobbyBroadcast(); //XXX
+
     broadcastMessage(m);
 
   }
@@ -135,14 +147,13 @@ public class GameServerProtocol extends Thread {
       return;
     }
 
-    
-    
+
+
     this.playerProfile = (Player) m.payload;
     m.secondPayload = SkatMain.mainController.currentLobby;
 
-    
 
-    
+
     broadcastMessage(m);
     logger.info("Player" + this.playerProfile.getUuid() + "joined the server!");
   }
