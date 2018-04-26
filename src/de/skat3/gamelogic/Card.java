@@ -80,7 +80,7 @@ public class Card implements Serializable {
     }
   }
 
-  int getTrickValue() {
+  public int getTrickValue() {
     return this.trickValue;
   }
 
@@ -107,7 +107,7 @@ public class Card implements Serializable {
    * @param c current contract
    * @return true if the card is a trump card.
    */
-  boolean isTrump(Contract contract) {
+  public boolean isTrump(Contract contract) {
     switch (contract) {
       case DIAMONDS:
         return (this.suit.equals(Suit.DIAMONDS) || this.isJack()) ? true : false;
