@@ -41,6 +41,10 @@ public class GuiController implements GuiControllerInterface {
     this.inGameController = this.gui.showMatchfield();
   }
 
+  public void goToMenu() {
+    this.gui.showMenu();
+  }
+
   public InGameController getInGameController() {
     return this.inGameController;
   }
