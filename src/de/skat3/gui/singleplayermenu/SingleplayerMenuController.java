@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
@@ -61,9 +62,6 @@ public class SingleplayerMenuController {
     ComboBox<String> player2 = new ComboBox<>();
     player2.getItems().addAll(difficulty);
 
-    ComboBox<String> player3 = new ComboBox<>();
-    player3.getItems().addAll(difficulty);
-
     ComboBox<String> scoringMode = new ComboBox<>();
     scoringMode.getItems().addAll(modes);
     TextField scoreValue = new TextField();
@@ -75,17 +73,15 @@ public class SingleplayerMenuController {
     grid.add(player1, 1, 0);
     grid.add(new Label("KI Player 2:"), 0, 1);
     grid.add(player2, 1, 1);
-    grid.add(new Label("KI Player 3:"), 0, 2);
-    grid.add(player3, 1, 2);
 
-    grid.add(new Label(""), 0, 3);
-    grid.add(new Label("Scoring Mode"), 0, 4);
-    grid.add(scoringMode, 1, 4);
-    grid.add(scoreValue, 1, 5);
+    grid.add(new Label(""), 0, 2);
+    grid.add(new Label("Scoring Mode"), 0, 3);
+    grid.add(scoringMode, 1, 3);
+    grid.add(scoreValue, 1, 4);
 
-    grid.add(new Label(""), 0, 6);
-    grid.add(new Label("Kontra/Rekontra"), 0, 7);
-    grid.add(kontraRekontra, 1, 7);
+    grid.add(new Label(""), 0, 5);
+    grid.add(new Label("Kontra/Rekontra"), 0, 6);
+    grid.add(kontraRekontra, 1, 6);
 
     dialog.getDialogPane().setContent(grid);
 
@@ -94,21 +90,40 @@ public class SingleplayerMenuController {
         HashMap<String, String> result = new HashMap<>();
         result.put("p1", player1.getValue());
         result.put("p2", player2.getValue());
-        result.put("p3", player3.getValue());
+        result.put("scoreValue", scoreValue.getText());
+        result.put("kontraRekontra", "" + kontraRekontra.isSelected());
         return result;
       }
       return null;
     });
 
-    String player1Value;
-    String player2Value;
-
     dialog.showAndWait().ifPresent(result -> {
-      // TODO
+      boolean ai1Hard = false;
+      boolean ai2Hard = false;
+      int intScoreValue = 0;
+      boolean konRekon = false;
+
+      if ((result.get("p1") != null) && (result.get("p1") == "Hard")) {
+        ai1Hard = true;
+      }
+
+      if ((result.get("p2") != null) && (result.get("p2") == "Hard")) {
+        ai2Hard = true;
+      }
+
+      if ((result.get("scoreValue") != null)) {
+        intScoreValue = Integer.parseInt(result.get("scoreValue"));
+      }
+
+      if ((result.get("kontraRekontra") != null)) {
+        konRekon = Boolean.parseBoolean(result.get("kontraRekontra"));
+      }
+
+      SkatMain.mainController.startSingleplayerGame(ai1Hard, ai2Hard, intScoreValue, konRekon);
     });
 
 
-    SkatMain.mainController.startSingleplayerGame(false, false, 48, false);
+
   }
 
   /**
