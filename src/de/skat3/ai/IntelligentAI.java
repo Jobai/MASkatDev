@@ -8,9 +8,11 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
+import de.skat3.gamelogic.Position;
 import de.skat3.gamelogic.RoundInstance;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
+
 
 public class IntelligentAI extends Ai {
   
@@ -18,9 +20,16 @@ public class IntelligentAI extends Ai {
   public IntelligentAI(Player player) {
     super(player);
   }
-
+  AiHelper aiHelper;
+  Player p;
+  Hand h;
+  Card c;
+  CardDeck cd;
+  RoundInstance r;
+  GameController gc;
   String name;
   CardDeck decks;
+  Contract con;
 
   // Dummy Werte
 
@@ -32,12 +41,6 @@ public class IntelligentAI extends Ai {
   ArrayList<Card> cardList;
 
 
-  Player p;
-	Hand h;
-	Card c;
-	CardDeck cd;
-	RoundInstance r;
-	GameController gc;
 
 	
 	public CardDeck discardSkat() {
@@ -48,17 +51,17 @@ public class IntelligentAI extends Ai {
 	
 	public Card playCard() {
 		
-	/*if (r.getFirstCard() == null && r.getSecondCard()  == null && r.getThirdCard() == null) {
+	if (r.getFirstCard() == null && r.getSecondCard()  == null && r.getThirdCard() == null) {
 		if (c.getTrickValue() < 1) {
-			return openGame();
+			return chooseCard();
 		}
-		return openTrick();
+		return chooseTrickCard();
 	}
-	if (r.determineGameWinner().equals(r.getMiddlehand())) {
+	if (r.determineTrickWinner().equals(r.getMiddlehand())) {
 		return playMiddlehandCard();
 	}
-	return playRearhandCard();*/
-		return null;
+	return playRearhandCard();
+
 }
 
 	@Override
@@ -66,16 +69,19 @@ public class IntelligentAI extends Ai {
 		// at present, game is always opened with trump - using a jack, if
 		// possible
 		Card[] cards = h.getCards();
-		if (cards[0].getValue() != Value.JACK) {
-			//
+		for(int i = 0;i< cards.length;i++) {
+			if(cards[i].isTrump(chooseContract())) {
+				return cards[i];
+			}
+		}
 			if (c == null) {
 				// should not happen - if there is no jack, there should be at
 				// least one trump suit card
 				// just to make sure that a card is played
 				c = cards[0];
+				return c;
 			}
-			return c;
-		}
+		
 		// from here onwards: first card must be a jack
 		if (cards[0].getSuit() == Suit.CLUBS) {
 			if (cards[1].getSuit() != Suit.SPADES
@@ -101,9 +107,11 @@ public class IntelligentAI extends Ai {
 					|| cards[2].getValue() != Value.JACK) {
 				return cards[0];
 			}
-		}
+		}	
 		return cards[0];
+		
 	}
+		
 	
 	public Card chooseTrickCard() {
 		Card[] cards = h.getCards();
@@ -138,9 +146,49 @@ public class IntelligentAI extends Ai {
 	}
 
 	public Card playMiddlehandCard() {
+		
+		Card[] cards = cd.getCards();
+		if (gc.getDealer() == r.getMiddlehand()) {
+			// "kurzer Weg, lange Farbe zum Freund"
+			Suit longSuit = aiHelper.getMostFrequentSuit(c.getSuit());
+			int firstIndex = aiHelper.getFirstIndexOfSuit(longSuit);
+			if (longSuit != null &&  cards[firstIndex].getValue() == Value.ACE) {
+				return cards[firstIndex];
+			}
+			int lastIndex = aiHelper.getLastIndexOfSuit(aiHelper.getMostFrequentSuit(longSuit));
+			return cards[lastIndex];
+		} else if (p.getPosition() == Position.REARHAND) {
+			// "langer Weg, kurze Farbe"
+			int minCount = 9;
+			Card result = null;
+			for (Card c : cards) {
+				if (result == null || result.isTrump(r.getContract())) {
+					result = c;
+					continue;
+				}
+				if (c.getSuit().length < minCount
+						&& !(c.getSuit().length == 1 && 
+						c.getValue() == Value.TEN)) {
+					result = c;
+					minCount = c.getSuit().length;
+					continue;
+				}
+				if (c.getSuit().length == minCount
+						&& !(c.getSuit().length == 1 && 
+						c.getValue() == Value.ACE))  {
+					result = c;
+					continue;
+				}
+				if (c.getSuit() == result.getSuit()
+						&& c.getSuit().length == minCount) {
+					result = c;
+					continue;
+				}
+			}
+			return result;
+		}
 		// fallback: take the first valid card (which is a trump, if there still
 		// is one)
-		Card[] cards = h.getCards();
 		for (Card c : cards) {
 			if (c.isPlayable()) {
 				return c;
@@ -148,6 +196,7 @@ public class IntelligentAI extends Ai {
 		}
 		
 		return cards[0];
+		
 	}
 
 	public Card playRearhandCard() {
@@ -170,7 +219,7 @@ public class IntelligentAI extends Ai {
 		int maxBid = 0;
 		int noOfJacks = 0;
 		int noOfTrumps = 0;
-		int mostFrequentSuitColor = 0;
+		Suit mostFrequentSuitColor = null;
 
 		// only play, if I have at least 1 jack and 4 color cards or
 		// 2 jacks and 3 color cards
@@ -184,30 +233,34 @@ public class IntelligentAI extends Ai {
 			maxBid = 0;
 		}
 	
-		/*if (maxBid > 0) {
+		if (maxBid > 0) {
 			switch (mostFrequentSuitColor) {
-			case Cards:
-				
+			case CLUBS:
+				con = Contract.CLUBS;
 				break;
 			case SPADES:
-				
+				con = Contract.SPADES;
 				break;
-			case //HEARTS:
-				
+			case HEARTS:
+				con = Contract.HEARTS;
 				break;
 			case DIAMONDS:
-				
+				con = Contract.DIAMONDS;
 				break;
-			}}*/
-		
+			}
+		}
 		return false;
 	}
 
 
 	@Override
 	public boolean acceptHandGame() {
-		// TODO Auto-generated method stub
-		return true;
+		/*int noOfTrumps = 0;
+		int noOfAces = 0;
+		if(noOfTrumps >= 8) {
+			return true
+		}else if(noOfTrumps +nnoOfAce >= 8)*/
+		return false;
 	}
 
 
@@ -220,15 +273,14 @@ public class IntelligentAI extends Ai {
 
 	@Override
 	public Contract chooseContract() {
-		// TODO Auto-generated method stub
-		return null;
+		return con;
 	}
 
 
   @Override
   public Player getPlayer() {
-    // TODO Auto-generated method stub
-    return null;
+    
+    return this.ai;
   }
 
 
@@ -237,6 +289,4 @@ public class IntelligentAI extends Ai {
     // TODO Auto-generated method stub
     return null;
   }
-
-
 }
