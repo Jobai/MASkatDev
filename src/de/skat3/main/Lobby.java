@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.net.Inet4Address;
 import java.util.UUID;
 import de.skat3.gamelogic.Player;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 public class Lobby implements Serializable {
 
@@ -25,13 +27,15 @@ public class Lobby implements Serializable {
 
 
   String password;
-  
+
   public String getPassword() {
     return password;
   }
 
   int numberOfPlayers;
+  private DoubleProperty maxNumberOfPlayerProperty;
   int currentPlayers;
+  private DoubleProperty numberOfPlayerProperty;
   Player[] players;
   int timer;
   int scoringMode;
@@ -56,10 +60,12 @@ public class Lobby implements Serializable {
   public Lobby(Inet4Address ip, int serverMode, String name, String password, int numberOfPlayers,
       int timer, int scoringMode, boolean kontraRekontraEnabled) {
     this.numberOfPlayers = numberOfPlayers;
+    this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.numberOfPlayers);
     this.players = new Player[this.numberOfPlayers];
     this.ip = ip;
     this.serverMode = serverMode;
     this.currentPlayers = 1;
+    this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentPlayers);
     this.name = name;
     this.password = password;
     this.scoringMode = scoringMode;
@@ -107,6 +113,7 @@ public class Lobby implements Serializable {
       if (this.players[i] == null) {
         this.players[i] = player;
         this.currentPlayers++;
+        this.numberOfPlayerProperty.add(1);
         System.out.println("Player added" + player);
         break;
       }
@@ -121,6 +128,7 @@ public class Lobby implements Serializable {
       if (this.players[i].equals(player)) {
         this.players[i] = null;
         this.currentPlayers--;
+        this.numberOfPlayerProperty.subtract(1);
         break;
       }
       if (i == this.numberOfPlayers - 1) {
@@ -210,6 +218,18 @@ public class Lobby implements Serializable {
   public int getCurrentNumberOfPlayers() {
     return this.currentPlayers;
   }
+
+  public DoubleProperty maxNumberOfPlayerProperty() {
+    return maxNumberOfPlayerProperty;
+  }
+
+
+
+  public DoubleProperty numberOfPlayerProperty() {
+    return numberOfPlayerProperty;
+  }
+
+
 
   /**
    * @author Jonas Bauer

@@ -6,7 +6,9 @@ import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -426,10 +428,14 @@ public class Matchfield {
     button.translateYProperty()
         .bind(this.scene.heightProperty().divide(2).subtract(button.heightProperty().divide(2)));;
 
+    button.disableProperty().bind(SkatMain.mainController.currentLobby.numberOfPlayerProperty()
+        .lessThan(SkatMain.mainController.currentLobby.maxNumberOfPlayerProperty()));
+
     button.setOnAction(e -> {
       this.root.getChildren().remove(button);
       SkatMain.mainController.startGame();
     });
+
     this.root.getChildren().add(button);
   }
 
@@ -494,7 +500,7 @@ public class Matchfield {
       this.trick.resetPostions();
     });
 
-    if (SkatMain.mainController.isHost && !SkatMain.lgs.singlePlayerGame) {
+    if (SkatMain.mainController.isHost) {
       this.showStartButton();
     }
 
