@@ -232,10 +232,17 @@ public class MainController implements MainControllerInterface {
    */
   @Override
   public void receiveMessage(String message) {
-
     SkatMain.lgs.chatMessages.add(message);
   }
 
+  public void reinitializePlayers() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().initializePlayers();
+      }
+    });
+  }
 
 
   @Override

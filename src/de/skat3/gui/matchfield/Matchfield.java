@@ -75,6 +75,8 @@ public class Matchfield {
     if (SkatMain.mainController.isHost) {
       this.overlayController.showStartButton();
     }
+
+    this.overlayController.bindChat();
   }
 
 }

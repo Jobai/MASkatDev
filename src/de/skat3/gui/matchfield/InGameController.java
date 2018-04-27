@@ -131,10 +131,14 @@ public class InGameController implements InGameControllerInterface {
   }
 
   public void bidRequest(int bid) {
-
     this.matchfield.overlayController.showBidRequest(bid);
 
+  }
 
+  public void initializePlayers() {
+    this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.enemyOne);
+    this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.enemyTwo);
+    this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.localClient);
   }
 
 }

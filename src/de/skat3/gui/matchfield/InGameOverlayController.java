@@ -3,6 +3,7 @@ package de.skat3.gui.matchfield;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,6 +12,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -60,23 +63,88 @@ public class InGameOverlayController {
   @FXML
   private Label extra2LocalClient;
 
+  void handleSendMessage(KeyEvent e) {
+    if (e.getCode().equals(KeyCode.ENTER)) {
+      SkatMain.mainController.sendMessage(this.chatField.getText().trim());
+      this.chatField.clear();
+    }
+  }
+
+  void bindChat() {
+    SkatMain.lgs.chatMessages.addListener(new ListChangeListener<String>() {
+
+      @Override
+      public void onChanged(Change<? extends String> c) {
+        StringBuffer newText = new StringBuffer();
+        for (String addedMessage : c.getAddedSubList()) {
+          newText.append(addedMessage);
+          newText.append("\n");
+        }
+        chatArea.setText(chatArea.getText() + newText.toString());
+      }
+
+    });
+  }
 
   void iniLocalClient(Player player) {
-    this.nameLocalClient.setText(player.getName());
-    this.extra1LocalClient.setText(String.valueOf(player.getPoints()));
-    this.extra2LocalClient.setText("INFO2");
+    if (player == null) {
+      this.nameLocalClient.setText("");
+      this.extra1LocalClient.setText("");
+      this.extra2LocalClient.setText("");
+    } else {
+      try {
+        this.nameLocalClient.setText(player.getName());
+      } catch (NullPointerException e) {
+        System.err.println("No player name given");
+        e.printStackTrace();
+      }
+      this.extra1LocalClient.setText(String.valueOf(player.getPoints()));
+      this.extra2LocalClient.setText("INFO2");
+    }
   }
 
   void iniEmemyOne(Player player) {
-    this.nameEnemyOne.setText(player.getName());
-    this.extraEnemyOne.setText(String.valueOf(player.getPoints()));
-    this.imageEnemyOne.setImage(this.convertToTriangle(player.convertToImage()));
+    if (player == null) {
+      this.nameEnemyOne.setText("");
+      this.extraEnemyOne.setText("");
+      this.imageEnemyOne.setImage(null);
+    } else {
+      try {
+        this.nameEnemyOne.setText(player.getName());
+      } catch (NullPointerException e) {
+        System.err.println("No player name given.");
+        e.printStackTrace();
+      }
+      try {
+        this.imageEnemyOne.setImage(this.convertToTriangle(player.convertToImage()));
+      } catch (Exception e) {
+        System.err.println("Image Could not be added.");
+        e.printStackTrace();
+      }
+      this.extraEnemyOne.setText(String.valueOf(player.getPoints()));
+    }
   }
 
   void iniEmemyTwo(Player player) {
-    this.nameEnemyTwo.setText(player.getName());
-    this.extraEnemyTwo.setText(String.valueOf(player.getPoints()));
-    this.imageEnemyTwo.setImage(this.convertToTriangle(player.convertToImage()));
+    if (player == null) {
+      this.nameEnemyTwo.setText("");
+      this.extraEnemyTwo.setText("");
+      this.imageEnemyTwo.setImage(null);
+    } else {
+      try {
+        this.nameEnemyTwo.setText(player.getName());
+      } catch (NullPointerException e) {
+        System.err.println("No player name given.");
+        e.printStackTrace();
+      }
+      try {
+        this.imageEnemyTwo.setImage(this.convertToTriangle(player.convertToImage()));
+      } catch (Exception e) {
+        System.err.println("Image Could not be added.");
+        e.printStackTrace();
+      }
+      this.extraEnemyTwo.setText(String.valueOf(player.getPoints()));
+    }
   }
 
   void showBidRequest(int bid) {
