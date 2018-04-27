@@ -63,7 +63,7 @@ public class InGameOverlayController {
   @FXML
   private Label extra2LocalClient;
 
-  void handleSendMessage(KeyEvent e) {
+  public void handleSendMessage(KeyEvent e) {
     if (e.getCode().equals(KeyCode.ENTER)) {
       SkatMain.mainController.sendMessage(this.chatField.getText().trim());
       this.chatField.clear();

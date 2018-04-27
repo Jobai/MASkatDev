@@ -41,7 +41,7 @@
 					text="Tom : Hey&#10;Max : Hey mongo&#10;NIls : was geht fags&#10;NIls : Ich geh krachen&#10;ALjo : Sterben kann man auch mal wann anders&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;NIls : HEY OS"
 					wrapText="true" AnchorPane.bottomAnchor="35.0"
 					AnchorPane.rightAnchor="14.0" />
-				<TextField fx:id="chatField" layoutX="1038.0"
+				<TextField fx:id="chatField" onKeyPressed="#handleSendMessage" layoutX="1038.0"
 					layoutY="685.0" prefHeight="25.0" prefWidth="228.0" />
 			</children>
 		</VBox>

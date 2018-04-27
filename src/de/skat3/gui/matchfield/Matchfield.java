@@ -76,7 +76,7 @@ public class Matchfield {
       this.overlayController.showStartButton();
     }
 
-    this.overlayController.bindChat();
+    // this.overlayController.bindChat();
   }
 
 }
