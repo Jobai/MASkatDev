@@ -74,6 +74,16 @@ public class GameClient {
     this.connect();
   }
 
+  /**
+   * Constructs a gameclient and automatically connects to the given server <b> using a lobby
+   * password </b>.
+   * 
+   * @author Jonas Bauer
+   * @param hostAdress Server adress to connect to
+   * @param port port of the server you want to connect to.
+   * @param player the player instance of the connecting user.
+   * @param lobbyPassword the lobbyPassword for the Server
+   */
   public GameClient(String hostAdress, int port, Player player, String lobbyPassword) {
     this.hostAdress = hostAdress;
     this.port = port;
@@ -158,7 +168,7 @@ public class GameClient {
         this.handleCommandAction(m, st);
         break;
       case COMMAND_INFO:
-        this.handleCommandAction(m, st); // XXX
+        this.handleCommandAction(m, st);
         break;
       case STATE_CHANGE:
         this.handleStateChange(m, st);
@@ -170,12 +180,11 @@ public class GameClient {
   }
 
   private void handleOpendConnection(Message m) {
-    // TODO Auto-generated method stub
 
     Player p = (Player) m.payload;
     Lobby l = (Lobby) m.secondPayload;
     logger.info("Player" + p.getUuid() + "joined and was added to local Lobby!");
-    SkatMain.mainController.currentLobby = l;
+    SkatMain.mainController.currentLobby = l; //Lobby is set (needed for direct connect)
     SkatMain.mainController.currentLobby.addPlayer(p);
 
   }

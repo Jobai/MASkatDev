@@ -15,15 +15,20 @@ import java.io.Serializable;
 
 
 /**
+ * Underlying message class for the marshaling of transmitted information and commands over the
+ * network.
+ * 
  * @author Jonas Bauer
  *
  */
 public abstract class Message implements Serializable {
 
 
-  private static final long serialVersionUID = 3809573340211560453L;
+  private static final long serialVersionUID = -2464570403601180110L;
   private MessageType messageType;
+  @Deprecated
   private String sender;
+  @Deprecated
   private String receiver;
   public Player originSender;
   public SubType subType;
@@ -31,11 +36,15 @@ public abstract class Message implements Serializable {
   public Object secondPayload;
 
   /**
+   * broad constructor for messages. Sets many information. Used rarely.
+   * 
    * @author Jonas Bauer
-   * @param messageType
-   * @param sender
-   * @param receiver
+   * @param messageType MessageType of the message
+   * @param sender Name of the sending player
+   * @param receiver Name of the receiving player
+   * 
    */
+
   public Message(MessageType messageType, String sender, String receiver) {
     this.messageType = messageType;
     this.setSender(sender);

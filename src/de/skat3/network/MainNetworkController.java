@@ -23,6 +23,8 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
+ * Central controller for fundamental network operation by other classes.
+ * 
  * @author Jonas Bauer
  *
  */
@@ -30,7 +32,13 @@ public class MainNetworkController implements MainNetworkInterface {
 
 
 
-  // @see de.skat3.network.MainNetworkInterface#joinServerAsClient(de.skat3.main.Lobby)
+  /**
+   * Joins the given server (lobby) as a client over the network.
+   * 
+   * @param lobby the lobby (server) to connect to
+   * @return GameClient instance for future handling the connection.
+   * @see de.skat3.network.MainNetworkInterface#joinServerAsClient(de.skat3.main.Lobby)
+   */
   @Override
   public GameClient joinServerAsClient(Lobby lobby) {
     Inet4Address ip = lobby.getIp();
@@ -41,7 +49,16 @@ public class MainNetworkController implements MainNetworkInterface {
   }
 
 
-  // @see de.skat3.network.MainNetworkInterface#startLocalServer(java.lang.Object)
+
+  /**
+   * Starts a game server on the local machine.
+   * 
+   * @param lobbysettings the game / lobby settings for the server.
+   * @param gameController gameController supplied by the gamelogic for network <-> gamelogic
+   *        communication.
+   * @return the created GameServer instance
+   * @see de.skat3.network.MainNetworkInterface#startLocalServer(java.lang.Object)
+   */
   @Override
   public GameServer startLocalServer(Lobby lobbysettings, GameController gameController) {
     LobbyServer ls = new LobbyServer(lobbysettings);
@@ -50,6 +67,11 @@ public class MainNetworkController implements MainNetworkInterface {
   }
 
 
+  /**
+   * Join the local Server (server on this host) as a client.
+   * 
+   * @return GameClient instance for future handling of the connection
+   */
   @Override
   public GameClient joinLocalServerAsClient() {
     GameClient gc =
@@ -58,18 +80,32 @@ public class MainNetworkController implements MainNetworkInterface {
   }
 
 
+  /**
+   * Adds a AI player to the local server.
+   * 
+   * @param hardAi determines if the added AI is of hard or easy difficulty (true = hard, false =
+   *        easy).
+   * @return the created GameClient instance for the AI player
+   */
   @Override
-  public void addAItoLocalServer(boolean hardAi) {
+  public GameClient addAItoLocalServer(boolean hardAi) {
     // TODO Auto-generated method stub
-    GameClient gc =
-        new GameClient("localhost", 2018, new Player(hardAi));
-    
+    GameClient gc = new GameClient("localhost", 2018, new Player(hardAi));
+    return gc;
+
 
   }
 
 
 
-  // @see de.skat3.network.MainNetworkInterface#discoverServer()
+  /**
+   * Discovers all open lobbys (GameServers) in the current local network. <br>
+   * <b> THIS METHOD BLOCKS FOR 6 SECONDS! </b> <br>
+   * This method uses broadcasting for discovery.
+   * 
+   * @return the ArrayList of discovered lobbys.
+   * @see de.skat3.network.MainNetworkInterface#discoverServer()
+   */
   @Override
   public ArrayList<Lobby> discoverServer() {
     LobbyDiscover ld = new LobbyDiscover();
@@ -86,13 +122,24 @@ public class MainNetworkController implements MainNetworkInterface {
   }
 
 
-  // @see de.skat3.network.MainNetworkInterface#leaveLobby()
+  /**
+   * Used for starting a single player game. Creates a local GameServer and joins it immediately.
+   * <br>
+   * <i>Info: Single player games also utilize the network unit, exactly like network games.</i>
+   * 
+   * @param lobbySettings game / lobbysettings for the game
+   * @param gcon GameController for gamelogic <-> network communication.
+   * @return Object[] which includes [0] the instance of the GameServer and [1] the instance of the
+   *         GameClient.
+   * @see de.skat3.network.MainNetworkInterface#leaveLobby()
+   */
   @Override
-  public GameServer playAndHostSinglePlayer(Lobby lobbySettings, GameController gcon) { //FIXME
+  public Object[] playAndHostSinglePlayer(Lobby lobbySettings, GameController gcon) { // FIXME
     GameServer gs = new GameServer(lobbySettings, gcon);
     GameClient gc =
         new GameClient("localhost", 2018, new Player(SkatMain.ioController.getLastUsedProfile()));
-    return gs;
+    Object[] ojA = {gs, gc};
+    return ojA;
   }
 
 

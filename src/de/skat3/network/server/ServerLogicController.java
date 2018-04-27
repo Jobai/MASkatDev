@@ -61,17 +61,16 @@ public class ServerLogicController implements ServerLogicInterface {
    */
   @Override
   public void sendStartHandtoPlayer(Player player) {
-    
-    if(!player.isBot()){
+
+    if (!player.isBot()) {
       MessageCommand mc =
-          new MessageCommand(MessageType.COMMAND_INFO, player.toString(), CommandType.GAME_INFO);
+          new MessageCommand(MessageType.COMMAND_INFO, player.toString(), CommandType.GAME_INFO); //FIXME GameInfo is the wrong type!
       mc.gameState = player;
       gs.sendToPlayer(player, mc);
-    }
-    else{
+    } else {
       SkatMain.mainController.botSetHand(player);
     }
-   
+
 
   }
 
@@ -82,16 +81,15 @@ public class ServerLogicController implements ServerLogicInterface {
    */
   @Override
   public void callForBid(Player player, int biddingValue) {
-    
-    if(!player.isBot()){
-    MessageCommand mc =
-        new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.BID_REQUEST);
-    mc.gameState = (Integer) biddingValue;
-    mc.payload = player;
-    gs.sendToPlayer(player, mc);
-    }
-    else{
-      SkatMain.mainController.botBidRequest(player,biddingValue);
+
+    if (!player.isBot()) {
+      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, player.toString(),
+          CommandType.BID_REQUEST);
+      mc.gameState = (Integer) biddingValue;
+      mc.payload = player;
+      gs.sendToPlayer(player, mc);
+    } else {
+      SkatMain.mainController.botBidRequest(player, biddingValue);
     }
   }
 
@@ -102,13 +100,12 @@ public class ServerLogicController implements ServerLogicInterface {
    */
   @Override
   public void callForPlay(Player player) {
-    if(!player.isBot()){
-    MessageCommand mc =
-        new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.PLAY_REQUEST);
+    if (!player.isBot()) {
+      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, player.toString(),
+          CommandType.PLAY_REQUEST);
 
-    gs.sendToPlayer(player, mc);
-    }
-    else{
+      gs.sendToPlayer(player, mc);
+    } else {
       SkatMain.mainController.botPlayCardRequest(player);
     }
   }
@@ -139,7 +136,7 @@ public class ServerLogicController implements ServerLogicInterface {
   @Override
   public void sendPlayedCard(Player player, Card card) {
 
-        MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.PLAY_INFO);
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.PLAY_INFO);
     mc.gameState = card;
     mc.originSender = player;
     gs.broadcastMessage(mc);
@@ -195,14 +192,12 @@ public class ServerLogicController implements ServerLogicInterface {
   @Override
   public void callForHandOption(Player p) {
 
-    if(!p.isBot()){
-    MessageCommand mc =
-        new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.HAND_REQUEST);
+    if (!p.isBot()) {
+      MessageCommand mc =
+          new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.HAND_REQUEST);
 
-    gs.sendToPlayer(p, mc);
-    }
-    else
-    {
+      gs.sendToPlayer(p, mc);
+    } else {
       SkatMain.mainController.botHandGameRequest(p);
     }
 
@@ -211,14 +206,12 @@ public class ServerLogicController implements ServerLogicInterface {
   @Override
   public void callForContract(Player p) {
 
-    if(!p.isBot()){
-    MessageCommand mc =
-        new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.CONTRACT_REQUEST);
+    if (!p.isBot()) {
+      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, p.toString(),
+          CommandType.CONTRACT_REQUEST);
 
-    gs.sendToPlayer(p, mc);
-    }
-    else
-    {
+      gs.sendToPlayer(p, mc);
+    } else {
       SkatMain.mainController.botContractRequest(p);
     }
 
@@ -227,15 +220,14 @@ public class ServerLogicController implements ServerLogicInterface {
   @Override
   public void sendSkat(Player p, Card[] skat) {
 
-    if(!p.isBot()){
-    MessageCommand mc =
-        new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.SKAT_INFO_REQUEST);
-    mc.gameState = skat;
+    if (!p.isBot()) {
+      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, p.toString(),
+          CommandType.SKAT_INFO_REQUEST);
+      mc.gameState = skat;
 
-    gs.sendToPlayer(p, mc);
-    }
-    else{
-    SkatMain.mainController.botSelectSkatRequest(p, skat);
+      gs.sendToPlayer(p, mc);
+    } else {
+      SkatMain.mainController.botSelectSkatRequest(p, skat);
     }
 
   }

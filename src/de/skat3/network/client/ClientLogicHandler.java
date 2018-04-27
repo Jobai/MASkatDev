@@ -11,14 +11,16 @@ import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
 import de.skat3.network.datatypes.MessageCommand;
-import de.skat3.network.datatypes.SubType;
 
 /**
- * ClientNetwork > this Class > MainController > GUI
+ * Handles messages (Information or Commands) from the network and acts on their content. Calls
+ * manly methods from the MainController to inform the GUI of changes in the GameState or a Request
+ * to do something. <br>
+ * ClientNetwork > this Class > MainController > GUI. IMPLEMENTs [UNDERSTAND] COMMANDTYPEs.
  * 
  * @author Jonas
  *
- *         I IMPLEMENT [UNDERSTAND] COMMANDTYPEs
+ * 
  */
 public class ClientLogicHandler {
 
@@ -26,6 +28,8 @@ public class ClientLogicHandler {
   GameClient gc;
 
   /**
+   * Default constructor. Sets the needed GameClient.
+   * 
    * @author Jonas Bauer
    */
   public ClientLogicHandler(GameClient gc) {
@@ -35,28 +39,29 @@ public class ClientLogicHandler {
 
 
   // tell GUI
-  public void bidInfoHandler(Message m) {
-    
+  void bidInfoHandler(Message m) {
+
     System.out.println("BID INFO HANDELD");
-    
+
     MessageCommand mc = (MessageCommand) m;
     boolean accept = (boolean) mc.gameState;
-//    SkatMain.mainController.  FIXME
+    //TODO 
+    // SkatMain.mainController. FIXME
   }
 
   // tell GUI
-  public void bidRedoHandler(Message m) {
-    Player p = (Player) m.payload;
+  @Deprecated
+  void bidRedoHandler(Message m) {
+    //Player p = (Player) m.payload;
     int b = (int) ((MessageCommand) m).gameState;
     SkatMain.mainController.bidRequest(b);
 
   }
 
   // tell GUI
-  public void bidRequestHandler(Message m) {
-    
+  void bidRequestHandler(Message m) {
+
     System.out.println("BID REQUEST HANDELD");
-    Player p = (Player) m.payload;
     int b = (int) ((MessageCommand) m).gameState;
     SkatMain.mainController.bidRequest(b);
 
@@ -65,7 +70,7 @@ public class ClientLogicHandler {
   }
 
   // tell GUI
-  public void playInfoHandler(Message m) {
+  void playInfoHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     Card c = (Card) mc.gameState;
     Player op = (Player) mc.originSender;
@@ -74,35 +79,37 @@ public class ClientLogicHandler {
   }
 
   // tell GUI
-  public void playRedoHandler(Message m) {
+  @Deprecated
+  void playRedoHandler(Message m) {
     // TODO Auto-generated method stub
 
   }
 
   // tell GUI
-  public void playRequestHandler(Message m) {
+  void playRequestHandler(Message m) {
     SkatMain.mainController.playCardRequest();
   }
 
   // tell GUI
-  public void trickInfoHandler(Message m) {
-    // TODO Auto-generated method stub
+  void trickInfoHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     Player trickWinner = (Player) mc.gameState;
-//    SkatMain.mainController.
+    // SkatMain.mainController.
+    //TODO
 
   }
 
-  public void roundInfoHandler(Message m) {
-    // TODO Auto-generated method stub
-
-
-    System.out.println("AUFGERUFEN");
+  //Round = All tricks are won, all cards played, the contract is finished.
+  void roundInfoHandler(Message m) {
+    System.out.println("AUFGERUFEN - round info handler");
     MessageCommand mc = (MessageCommand) m;
 
+    //Round stated - start hand is set
     if (mc.getSubType() == CommandType.ROUND_START_INFO) {
       SkatMain.mainController.setHand((Player) mc.gameState);
     }
+    
+    //Round ended - round results are shown. 
     if (mc.getSubType() == CommandType.ROUND_END_INFO) {
 
       Result result = (Result) mc.payload;
@@ -112,35 +119,35 @@ public class ClientLogicHandler {
 
   }
 
-  public void matchInfoHandler(Message m) {
+  void matchInfoHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     MatchResult mr = (MatchResult) mc.gameState;
     SkatMain.mainController.showEndScreen(mr);
 
   }
 
-  public void gameInfoHandler(Message m) {
+  void gameInfoHandler(Message m) {
     // TODO Auto-generated method stub
     System.out.println("AUFGERUFEN + Set Starthand");
     MessageCommand mc = (MessageCommand) m;
     Player pl = (Player) mc.gameState;
-//    SkatMain.lgs.setPlayer((Player) mc.gameState); // FIXME ?
-//    System.out.println(pl);
-    
-    
+    // SkatMain.lgs.setPlayer((Player) mc.gameState); // FIXME ?
+    // System.out.println(pl);
+
+
     System.out.println(pl.getHand());
     SkatMain.mainController.setHand(pl);
 
   }
 
-  public void sendChatMessage(String chatString) {
+  void sendChatMessage(String chatString) {
     MessageChat mc = new MessageChat(chatString, "NICK NAME PLACEHOLDER"); // FIXME
     gc.sendToServer(mc);
 
   }
 
 
-  public void contractRequestHandler(Message m) {
+  void contractRequestHandler(Message m) {
 
 
     SkatMain.mainController.contractRequest();
@@ -148,7 +155,7 @@ public class ClientLogicHandler {
   }
 
 
-  public void declarerInfoHander(Message m) {
+  void declarerInfoHander(Message m) {
 
     MessageCommand mc = (MessageCommand) m;
     Player p = (Player) mc.gameState;
@@ -156,14 +163,14 @@ public class ClientLogicHandler {
   }
 
 
-  public void handRequestHandler(Message m) {
+  void handRequestHandler(Message m) {
 
     SkatMain.mainController.handGameRequest();
 
   }
 
 
-  public void skatRequestHandler(Message m) {
+  void skatRequestHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     Card[] skat = (Card[]) mc.gameState;
     SkatMain.mainController.selectSkatRequest(skat);
@@ -171,56 +178,56 @@ public class ClientLogicHandler {
   }
 
 
-  public void kontraAnnouncedInfoHandler(Message m) {
+  void kontraAnnouncedInfoHandler(Message m) {
     SkatMain.mainController.kontraAnnounced();
 
   }
 
 
-  public void reKontraAnnouncedInfoHandler(Message m) {
+  void reKontraAnnouncedInfoHandler(Message m) {
     SkatMain.mainController.rekontraAnnounced();
 
   }
 
 
 
-  public void KontraShowHandler(Message m) {
+  void KontraShowHandler(Message m) {
     SkatMain.mainController.kontraRequest();
   }
 
 
-  public void reKontraShowHandler(Message m) {
+  void reKontraShowHandler(Message m) {
     SkatMain.mainController.rekontraRequest();
 
   }
 
 
-  public void KontraHideHandler(Message m) {
+  void KontraHideHandler(Message m) {
     // TODO Auto-generated method stub
 
   }
 
 
-  public void reKontraHideHandler(Message m) {
+  void reKontraHideHandler(Message m) {
     // TODO Auto-generated method stub
 
   }
 
 
-  public void roundRestartHandler(Message m) {
+  void roundRestartHandler(Message m) {
     // TODO Auto-generated method stub
 
 
   }
 
 
-  public void contractInfoHandler(Message m) {
+  void contractInfoHandler(Message m) {
     // TODO Auto-generated method stub
-   
+
     MessageCommand mc = (MessageCommand) m;
     Contract c = (Contract) mc.payload;
     AdditionalMultipliers am = (AdditionalMultipliers) mc.secondPayload;
     SkatMain.mainController.showContract(c, am);
-    
+
   }
 }

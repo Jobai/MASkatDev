@@ -1,17 +1,22 @@
 package de.skat3.network.datatypes;
 
-import de.skat3.main.Lobby;
 import java.io.Serializable;
 
 
 /**
- * @author Jonas Bauer Message Klasse die Benutzt wird um dem Sever mitzuteilen das der Client
- *         beendet wurde und die Verbindung geschlossen werden kann
+ * Underlying message class for information regarding the connection and disconnection to the
+ * server. Informs the server about a new connection and the identity of the user. Informs user
+ * about a closing connection and asks them to disconnect them self. Also used for transmitting the
+ * lobby password when joining the server.
+ * 
+ * @author Jonas Bauer
  * 
  *
  */
 public class MessageConnection extends Message implements Serializable {
 
+
+  private static final long serialVersionUID = 5563715379825654565L;
   public String lobbyPassword;
   public String reason;
 
