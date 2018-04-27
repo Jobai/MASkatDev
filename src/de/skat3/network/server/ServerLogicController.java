@@ -63,8 +63,8 @@ public class ServerLogicController implements ServerLogicInterface {
   public void sendStartHandtoPlayer(Player player) {
 
     if (!player.isBot()) {
-      MessageCommand mc =
-          new MessageCommand(MessageType.COMMAND_INFO, player.toString(), CommandType.GAME_INFO); //FIXME GameInfo is the wrong type!
+      MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, player.toString(),
+          CommandType.ROUND_START_INFO);
       mc.gameState = player;
       gs.sendToPlayer(player, mc);
     } else {
