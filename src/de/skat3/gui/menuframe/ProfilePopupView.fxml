@@ -15,30 +15,50 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="454.0" prefWidth="461.0"
-	xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/9.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.menuframe.ProfileController">
 	<children>
-		<ImageView fx:id="profileImage" fitHeight="191.0" fitWidth="208.0" layoutX="159.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../resources/guifiles/dummy_avatar.jpg" />
-         </image></ImageView>
-		<Button layoutX="88.0" layoutY="382.0" mnemonicParsing="false" onAction="#handleSaveProfile" prefHeight="45.0" prefWidth="324.0" style="-fx-background-color: linear-gradient(#f00000, #d60202);" text="Save" textFill="WHITE" />
-		<Button layoutX="159.0" layoutY="265.0" mnemonicParsing="false" onAction="#handleChangeProfilePic" prefHeight="27.0" prefWidth="196.0" text="Change" />
-		<TextField fx:id="profileName" alignment="CENTER" layoutX="88.0" layoutY="316.0" prefHeight="44.0" prefWidth="324.0" promptText="Name">
+		<ImageView fx:id="profileImage" fitHeight="191.0"
+			fitWidth="208.0" layoutX="159.0" layoutY="74.0" pickOnBounds="true"
+			preserveRatio="true">
+			<image>
+				<Image
+					url="@../../../../../resources/guifiles/dummy_avatar.jpg" />
+			</image>
+		</ImageView>
+		<Button layoutX="88.0" layoutY="382.0" mnemonicParsing="false"
+			onAction="#handleSaveProfile" prefHeight="45.0" prefWidth="324.0"
+			style="-fx-background-color: linear-gradient(#f00000, #d60202);"
+			text="Save" textFill="WHITE" />
+		<Button layoutX="159.0" layoutY="265.0" mnemonicParsing="false"
+			onAction="#handleChangeProfilePic" prefHeight="27.0"
+			prefWidth="196.0" text="Change" />
+		<TextField fx:id="profileName" alignment="CENTER"
+			layoutX="88.0" layoutY="316.0" prefHeight="44.0" prefWidth="324.0"
+			promptText="Name">
 			<font>
 				<Font size="22.0" />
 			</font>
 		</TextField>
-		<Pane prefHeight="63.0" prefWidth="500.0" style="-fx-background-color: #404040;">
+		<Pane prefHeight="63.0" prefWidth="500.0"
+			style="-fx-background-color: #404040;">
 			<children>
-				<Label fx:id="popupHeaderText" alignment="CENTER" layoutY="15.0" prefHeight="34.0" prefWidth="500.0" text="Update your profile" textFill="WHITE">
+				<Label fx:id="popupHeaderText" alignment="CENTER"
+					layoutY="15.0" prefHeight="34.0" prefWidth="500.0"
+					text="Update your profile" textFill="WHITE">
 					<font>
 						<Font size="28.0" />
 					</font>
 				</Label>
-				<Button fx:id="delButton" layoutX="449.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleDelProfile" prefHeight="15.0" prefWidth="30.0" style="-fx-background-color: linear-gradient(#f00000, #d60202);" textFill="WHITE">
+				<Button fx:id="delButton" layoutX="449.0" layoutY="18.0"
+					mnemonicParsing="false" onAction="#handleDelProfile"
+					prefHeight="15.0" prefWidth="30.0"
+					style="-fx-background-color: linear-gradient(#f00000, #d60202);"
+					textFill="WHITE">
 					<graphic>
-						<ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+						<ImageView fitHeight="19.0" fitWidth="19.0"
+							pickOnBounds="true" preserveRatio="true">
 							<image>
 								<Image url="@../../../../../resources/guifiles/delete.png" />
 							</image>

@@ -8,7 +8,7 @@ import de.skat3.io.profile.Profile;
 import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
@@ -16,7 +16,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,10 +25,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -69,6 +68,8 @@ public class MultiplayerMenuController {
   private Label serverIP;
   @FXML
   private Label serverPW;
+  @FXML
+  private AnchorPane root;
 
   Lobby currentLobby;
 
@@ -107,8 +108,6 @@ public class MultiplayerMenuController {
         setGraphic(hbox);
       }
     }
-
-
   }
 
 
@@ -186,11 +185,8 @@ public class MultiplayerMenuController {
     dialog.setContentText("Please enter Server IP:");
     dialog.initStyle(StageStyle.UTILITY);
 
-
     Optional<String> result = dialog.showAndWait();
-    result.ifPresent(ip -> SkatMain.mainController.directConnectMultiplayerGame(ip)); // JB
-    result.ifPresent(ip -> System.out.println("IP: " + ip));
-    // TODO
+    result.ifPresent(ip -> SkatMain.mainController.directConnectMultiplayerGame(ip));
   }
 
   /**
@@ -248,11 +244,11 @@ public class MultiplayerMenuController {
       imageP3.setImage(p.getImage());
     }
 
-//    if (players[3] != null) {
-//      Profile p = SkatMain.ioController.readProfile(players[3].getUuid());
-//      nameP4.setText(p.getName());
-//      imageP4.setImage(p.getImage());
-//    }
+    // if (players[3] != null) {
+    // Profile p = SkatMain.ioController.readProfile(players[3].getUuid());
+    // nameP4.setText(p.getName());
+    // imageP4.setImage(p.getImage());
+    // }
   }
 
   /**
@@ -260,30 +256,24 @@ public class MultiplayerMenuController {
    */
   private void showLoadingScreen() {
 
-    Platform.runLater(new Runnable() {
-      public void run() {
-        Stage screen = new Stage();
-        Group g = new Group();
-        Scene scene = new Scene(g);
-        Image i1 = new Image("guifiles/loading.gif");
-        ImageView v = new ImageView(i1);
-        g.getChildren().add(v);
-        screen.setScene(scene);
-        screen.setWidth(131);
-        screen.setHeight(131);
-        screen.setAlwaysOnTop(true);
-        screen.initModality(Modality.APPLICATION_MODAL);
-        screen.initStyle(StageStyle.UNDECORATED);
+    Pane p = new Pane();
+    p.setPrefSize(200, 200);
 
-        PauseTransition delay = new PauseTransition(Duration.seconds(6));
-        delay.setOnFinished(event -> screen.close());
-        delay.play();
+    p.translateXProperty()
+        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(hostListView.translateXProperty())
+            .add(hostListView.getWidth() / 2).subtract(100));
+    p.translateYProperty()
+        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(hostListView.translateYProperty())
+            .add(hostListView.getHeight() / 2).subtract(100));
 
-        screen.showAndWait();
-      }
-    });
+    Image i1 = new Image("guifiles/loading3.gif");
+    ImageView v = new ImageView(i1);
+    p.getChildren().add(v);
+    root.getChildren().add(p);
 
-
+    PauseTransition pause = new PauseTransition(Duration.seconds(6));
+    pause.setOnFinished(event -> root.getChildren().remove(p));
+    pause.play();
 
   }
 

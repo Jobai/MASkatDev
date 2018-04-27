@@ -60,8 +60,6 @@ public class Gui extends Application {
     this.mainStage.setTitle("MA Skat");
     this.mainStage.getIcons()
         .add(new Image(getClass().getResourceAsStream("../../../guifiles/AppIcon.png")));
-    
-System.out.println(com.sun.javafx.runtime.VersionInfo.getRuntimeVersion());
 
     this.mainStage.setScene(this.menuFrame.getScene());
     this.mainStage.show();

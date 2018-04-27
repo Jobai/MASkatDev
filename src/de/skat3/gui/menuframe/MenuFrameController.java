@@ -95,22 +95,6 @@ public class MenuFrameController {
     this.switchMenus(this.optionsMenu);
   }
 
-  public void startSingleplayerGame() {
-
-  }
-
-  public void hostMultiplayerGame() {
-
-  }
-
-  public void joinMultiplayerGame() {
-
-  }
-
-  public void refreshServerList() {
-
-  }
-
   // Animations
 
   private ScaleTransition buttonSizeAnimation;
@@ -313,26 +297,15 @@ public class MenuFrameController {
 
     if (p == null) {
       profileController.setHeaderText("Create a profile");
-      // TODO disable del button
     }
 
     stage.showAndWait();
+
     // Update Profiles
     fillProfileMenu();
-
-    // FIXME @author Artem
-    // later this line is to be used {
     currentProfile = SkatMain.ioController.getLastUsedProfile();
-    // }
-    // setCurrentProfile(currentProfile);
-    // currentProfile = SkatMain.ioController.getProfileList().get(0);
-    //
 
     setCurrentProfile(currentProfile);
-  }
-
-  public void handleMouseClickAddProfile() {
-    // TODO delete
   }
 
   private void setCurrentProfile(Profile p) {
