@@ -169,6 +169,7 @@ public class MenuFrameController {
       }
       if (newMenu.equals(this.statsMenu)) {
         this.startMenuUnderlineAnimation(this.statsMenuButton);
+        this.statsMenu.getController().refresh();
       }
       if (newMenu.equals(this.optionsMenu)) {
         this.startMenuUnderlineAnimation(this.optionsMenuButton);
@@ -316,6 +317,9 @@ public class MenuFrameController {
 
     }
     currentProfileName.setText(p.getName());
+
+    // Refresh Stats
+    this.statsMenu.getController().refresh();
 
     if (timer != null) {
       timer.interrupt();

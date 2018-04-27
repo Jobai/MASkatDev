@@ -1,5 +1,7 @@
 package de.skat3.gui.statsmenu;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import de.skat3.gui.Gui;
 import de.skat3.gui.GuiController;
 import de.skat3.io.profile.Profile;
@@ -80,7 +82,8 @@ public class StatsMenuController {
     Profile p = SkatMain.ioController.getLastUsedProfile();
 
     // Time
-    gameTime.setText("" + p.getPlayerGameTime());
+    String time = new SimpleDateFormat("mm:ss").format(new Date(p.getPlayerGameTime()));
+    gameTime.setText(time + " h");
 
     // Singleplayer
     // Rounds
@@ -122,6 +125,8 @@ public class StatsMenuController {
 
   }
 
-
+  public void refresh() {
+    initialize();
+  }
 
 }
