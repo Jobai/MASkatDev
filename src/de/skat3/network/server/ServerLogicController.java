@@ -165,9 +165,6 @@ public class ServerLogicController implements ServerLogicInterface {
    */
   @Override
   public void broadcastRoundResult(Result result) {
-    // TODO Auto-generated method stub
-
-
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.ROUND_END_INFO);
     mc.payload = result;

@@ -143,6 +143,17 @@ public class MainController implements MainControllerInterface {
       }
     });
   }
+  
+  public void goToMenu()
+  {
+    Platform.runLater(new Runnable() {
+
+      @Override
+      public void run() {
+        SkatMain.guiController.goToMenu();
+      }
+    });
+  }
 
 
   /**

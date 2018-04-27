@@ -11,6 +11,7 @@ package de.skat3.network.server;
 
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
+import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
@@ -141,8 +142,12 @@ public class GameServerProtocol extends Thread {
   private void openConnection(Message m) {
 
     MessageConnection mc = (MessageConnection) m;
+    Player op = mc.originSender;
+    Profile p = SkatMain.ioController.getLastUsedProfile();
+  
     String serverPw = GameServer.lobby.getPassword();
-    if (!(GameServer.lobby.getPassword() == null || serverPw.isEmpty())) {
+    if (!(GameServer.lobby.getPassword() == null || serverPw.isEmpty()
+        || (op.getUuid().equals(p.getUuid())))) {
       System.out.println("SERVER HAS PASSWORD!: CHECKING!");
       System.out.println(serverPw);
       if (!(GameServer.lobby.getPassword().equals(mc.lobbyPassword))) {

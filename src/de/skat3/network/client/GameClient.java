@@ -136,6 +136,7 @@ public class GameClient {
   private void openConnection() {
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
     mc.payload = player;
+    mc.originSender = player;
     sendToServer(mc);
 
   }
@@ -307,6 +308,8 @@ public class GameClient {
       handleLostConnection();
     }
     sl.interrupt();
+    System.out.println("GO to menu");
+    SkatMain.mainController.goToMenu();
     try {
       toSever.close();
       fromServer.close();
@@ -345,7 +348,6 @@ public class GameClient {
   }
 
   void handleLostConnection() {
-    SkatMain.guiController.goToMenu();
     logger.log(Level.SEVERE, "Connection to server failed");
     closeConnection();
 
