@@ -44,6 +44,7 @@ public class MainNetworkController implements MainNetworkInterface {
     Inet4Address ip = lobby.getIp();
     GameClient gc = new GameClient(ip.getHostAddress(), 2018,
         new Player(SkatMain.ioController.getLastUsedProfile()));
+   
     return gc;
 
   }

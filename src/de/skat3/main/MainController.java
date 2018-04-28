@@ -107,8 +107,9 @@ public class MainController implements MainControllerInterface {
       System.out.println(i4);
       lobby.ip = i4;
     } catch (UnknownHostException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
+      SkatMain.mainController.showWrongPassword(); //TODO change to "invalid IP Adress"
+      return;
     }
 
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);

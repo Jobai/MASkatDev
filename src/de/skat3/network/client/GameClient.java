@@ -160,6 +160,9 @@ public class GameClient {
       case CONNECTION_CLOSE:
         this.closeConnection(m);
         break;
+      case CONNECTION_INFO:
+        this.handleConnectionInfo(m);
+        break;
       case CHAT_MESSAGE:
         this.handleChatMessage((MessageChat) m);
         break;
@@ -180,6 +183,21 @@ public class GameClient {
     }
   }
 
+  private void handleConnectionInfo(Message m) {
+    // TODO Auto-generated method stub
+    MessageConnection mc = (MessageConnection) m;
+    
+    logger.info("removed disconnected player");
+    SkatMain.mainController.currentLobby.removePlayer(mc.disconnectingPlayer);
+    updateLGS();
+    
+  }
+  
+  private void updateLGS(){
+    
+  }
+
+
   private void handleOpendConnection(Message m) {
 
     Player p = (Player) m.payload;
@@ -187,6 +205,7 @@ public class GameClient {
     logger.info("Player" + p.getUuid() + "joined and was added to local Lobby!");
     SkatMain.mainController.currentLobby = l; //Lobby is set (needed for direct connect)
     SkatMain.mainController.currentLobby.addPlayer(p);
+    updateLGS();
 
   }
 
@@ -289,6 +308,8 @@ public class GameClient {
 
 
   void closeConnection() {
+    SkatMain.mainController.goToMenu();
+    SkatMain.mainController.showWrongPassword(); //TODO change to "Connection to server failed"
     sl.interrupt();
     try {
       toSever.close();
@@ -310,6 +331,7 @@ public class GameClient {
     sl.interrupt();
     System.out.println("GO to menu");
     SkatMain.mainController.goToMenu();
+    SkatMain.mainController.showWrongPassword(); //TODO change to "Connection to server failed"
     try {
       toSever.close();
       fromServer.close();

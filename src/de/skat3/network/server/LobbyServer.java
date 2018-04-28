@@ -7,11 +7,8 @@ import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,6 +18,7 @@ public class LobbyServer extends Thread {
   private static Logger logger = Logger.getLogger("de.skat3.network.server");
 
   private MulticastSocket ms;
+  private DatagramSocket ds;
 
   private Lobby lobby;
 
@@ -57,6 +55,7 @@ public class LobbyServer extends Thread {
 
       try (DatagramSocket ds = new DatagramSocket()) {
 
+        this.ds = ds;
         ds.setBroadcast(true);
         byte[] buff;
         buff = lobby.convertToByteArray(lobby);
@@ -115,9 +114,15 @@ public class LobbyServer extends Thread {
   }
 
 
+  /**
+   * Stops the broadcasting of the lobby in the local network and kills the thread.
+   * @author Jonas Bauer
+   */
   public void stopLobbyBroadcast() {
-    ms.close();
     this.interrupt();
+    ds.close();
+    ms.close();
+    
   }
 
   public static void main(String[] args) {

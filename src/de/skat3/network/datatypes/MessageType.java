@@ -22,9 +22,11 @@ public enum MessageType {
    * protocol message to inform the server that the client will terminate the connection.
    */
   CONNECTION_CLOSE,
+  CONNECTION_INFO,
   /**
    * a simple chat message.
    */
+ 
   CHAT_MESSAGE,
   /**
    * Mulitcast message to ask for a lobby on the network.

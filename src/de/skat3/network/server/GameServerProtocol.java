@@ -214,6 +214,7 @@ public class GameServerProtocol extends Thread {
       GameServer.threadList.remove(this);
       logger.info("Server closed a connection");
       this.interrupt();
+      sendDisconnectinfo(playerProfile);
     }
   }
 
@@ -240,6 +241,12 @@ public class GameServerProtocol extends Thread {
   void handleLostConnection() {
     logger.severe("LOST CONNECTION TO CLIENT!  " + playerProfile.getUuid());
     closeConnection();
+  }
+  
+  void sendDisconnectinfo(Player disconnecting){
+    MessageConnection mc = new MessageConnection(MessageType.CONNECTION_INFO);
+    mc.disconnectingPlayer = disconnecting;
+    broadcastMessage(mc);
   }
 
   private void kickConnection() {

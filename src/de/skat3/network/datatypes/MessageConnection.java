@@ -1,6 +1,7 @@
 package de.skat3.network.datatypes;
 
 import java.io.Serializable;
+import de.skat3.gamelogic.Player;
 
 
 /**
@@ -19,6 +20,7 @@ public class MessageConnection extends Message implements Serializable {
   private static final long serialVersionUID = 5563715379825654565L;
   public String lobbyPassword;
   public String reason;
+  public Player disconnectingPlayer;
 
   public MessageConnection(MessageType mt) {
     super(mt);
