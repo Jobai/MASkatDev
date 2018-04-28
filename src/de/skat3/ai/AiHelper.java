@@ -1,15 +1,8 @@
 package de.skat3.ai;
 
-import java.util.ArrayList;
-import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.CardDeck;
 import de.skat3.gamelogic.Contract;
-import de.skat3.gamelogic.GameController;
-import de.skat3.gamelogic.Hand;
-import de.skat3.gamelogic.Player;
-import de.skat3.gamelogic.Position;
-import de.skat3.gamelogic.RoundInstance;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
 
@@ -18,11 +11,7 @@ import de.skat3.gamelogic.Value;
  * @author emrecura
  *
  */
-public class AiHelper extends Ai{
-	IntelligentAI ia;
-	public AiHelper(Player player) {
-		super(player);
-	}
+public class AiHelper {
 
 	CardDeck cd;
 	/**
@@ -199,45 +188,4 @@ public class AiHelper extends Ai{
 		return counter;
 	}
 
-	@Override
-	public boolean acceptBid(int bid) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean acceptHandGame() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public AdditionalMultipliers chooseAdditionalMultipliers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Contract chooseContract() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Card chooseCard() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Player getPlayer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public Card[] selectSkat(Card[] skat) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
