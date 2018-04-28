@@ -9,6 +9,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Inet4Address;
+import java.util.Arrays;
 import java.util.UUID;
 import de.skat3.gamelogic.Player;
 import javafx.beans.property.DoubleProperty;
@@ -106,19 +107,24 @@ public class Lobby implements Serializable {
   }
 
   public void addPlayer(Player player) {
-    for (int i = 0; i < this.numberOfPlayers; i++) {
-      if (this.players[i] == null) {
-        this.players[i] = player;
-        this.currentPlayers++;
-        if (SkatMain.mainController.numberOfPlayerProperty != null) {
-          SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
-        }
-        System.out.println("Player added" + player);
-        break;
+    if (this.players[currentPlayers] == null) {
+      this.players[currentPlayers] = player;
+      this.currentPlayers++;
+      if (SkatMain.mainController.numberOfPlayerProperty != null) {
+        SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
       }
-      if (i == this.numberOfPlayers - 1) {
-        System.err.println("Lobby full, " + player + " cant join");
+      System.out.println(
+          "Player added " + player + " (" + this.currentPlayers + "/" + this.numberOfPlayers + ")");
+
+      if (SkatMain.lgs == null) {
+        SkatMain.mainController.setLgs();
       }
+      if (this.currentPlayers > 1) {
+        SkatMain.lgs.addPlayer();
+      } // XXX
+
+    } else {
+      System.err.println("Lobby full");
     }
   }
 
@@ -138,74 +144,6 @@ public class Lobby implements Serializable {
     }
   }
 
-
-  public void sortPlayers() {
-    int localPosition = 0;
-
-    for (int i = 0; i < this.players.length; i++) {
-      if (this.players[i].getUuid().equals(SkatMain.ioController.getLastUsedProfile().getUuid())) {
-        localPosition = i;
-        break;
-      }
-      if (i == this.players.length - 1) {
-        System.err.println("LocalClient is not listed in Lobby");
-        return;
-      }
-    }
-
-    Player temp;
-    if (this.players.length == 3) {
-      switch (localPosition) {
-        case 0:
-          return;
-
-        case 1:
-          temp = this.players[0];
-          this.players[0] = this.players[1];
-          this.players[1] = this.players[2];
-          this.players[2] = temp;
-          break;
-        case 2:
-          temp = this.players[0];
-          this.players[0] = this.players[2];
-          this.players[2] = this.players[1];
-          this.players[1] = temp;
-          break;
-        default:
-          System.err.println("Error in sort Lobby");
-
-      }
-    } else {
-      switch (localPosition) {
-        case 0:
-          return;
-        case 1:
-          temp = this.players[0];
-          this.players[0] = this.players[1];
-          this.players[1] = this.players[2];
-          this.players[2] = this.players[3];
-          this.players[3] = temp;
-          break;
-        case 2:
-          temp = this.players[0];
-          this.players[0] = this.players[2];
-          this.players[2] = temp;
-          this.players[3] = this.players[1];
-          this.players[1] = this.players[3];
-          break;
-        case 3:
-          temp = this.players[0];
-          this.players[0] = this.players[3];
-          this.players[3] = this.players[2];
-          this.players[2] = this.players[1];
-          this.players[1] = temp;
-          break;
-        default:
-          System.err.println("Error in sort Lobby");
-          break;
-      }
-    }
-  }
 
   public Inet4Address getIp() {
     return this.ip;

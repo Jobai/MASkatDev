@@ -115,7 +115,7 @@ public class Player implements Serializable {
 
   @Override
   public String toString() {
-    return this.uuid + ": " + this.name;
+    return this.name+" ("+this.uuid+")" ;
   }
 
   public Player copyPlayer() {

@@ -32,6 +32,7 @@ public class LocalGameState {
   public Ai firstAi;
 
   public Ai secondAi;
+  private int localPosition;
 
   /**
    * The current state of a game.
@@ -39,41 +40,90 @@ public class LocalGameState {
    * @param singlePlayerGame
    * 
    */
-  public LocalGameState(int numberOfPlayers, Player[] players, int timerInSeconds,
-      boolean singlePlayerGame) {
+  public LocalGameState(int numberOfPlayers, int timerInSeconds, boolean singlePlayerGame) {
+    this.localPosition = SkatMain.mainController.currentLobby.currentPlayers;
+    System.out.println(this.localPosition);
+    System.out.println(Arrays.toString(SkatMain.mainController.currentLobby.players));
+    this.localClient = SkatMain.mainController.currentLobby.players[this.localPosition - 1];
     this.singlePlayerGame = singlePlayerGame;
     this.trickcount = 0;
     this.trick = new Card[3];
     this.skat = new Card[2];
-    this.localClient = players[0];
-    if (players[1].isBot()) {
-      if (players[1].isHardBot()) {
-        this.firstAi = new IntelligentAI(players[1]);
-      } else {
-        this.firstAi = new RandomAI(players[1]);
-      }
-    }
-    this.enemyOne = players[1];
-    if (players[2].isBot()) {
-      if (players[2].isHardBot()) {
-        this.firstAi = new IntelligentAI(players[2]);
-      } else {
-        this.firstAi = new RandomAI(players[2]);
-      }
-    }
-    this.enemyTwo = players[2];
-
-    if (numberOfPlayers == 4) {
-      dealer = players[3];
-    }
     chatMessages = FXCollections.observableArrayList();
 
 
   }
 
-  public void setPlayer(Player player) {
-    this.localClient = player;
+  /**
+   * 
+   */
+
+
+  public void addPlayer() {
+
+
+    if (SkatMain.mainController.currentLobby.currentPlayers == 2) {
+      switch (this.localPosition) {
+        case 1:
+          this.enemyOne = SkatMain.mainController.currentLobby.players[1];
+          break;
+        case 2:
+          this.enemyTwo = SkatMain.mainController.currentLobby.players[0];
+          break;
+
+        default:
+          System.err.println("addPlayer klappt net ");
+          break;
+      }
+
+    }
+    if (SkatMain.mainController.currentLobby.currentPlayers == 3) {
+      switch (this.localPosition) {
+        case 1:
+          this.enemyTwo = SkatMain.mainController.currentLobby.players[2];
+          break;
+        case 2:
+          this.enemyOne = SkatMain.mainController.currentLobby.players[2];
+          break;
+        case 3:
+          this.enemyOne = SkatMain.mainController.currentLobby.players[0];
+          this.enemyTwo = SkatMain.mainController.currentLobby.players[1];
+        default:
+          System.err.println("addPlayer klappt net ");
+          break;
+      }
+
+      SkatMain.mainController.reinitializePlayers();
+
+      // case 4: // TODO
+    }
+
+
+
   }
+
+  // if (players[1].isBot()) {
+  // if (players[1].isHardBot()) {
+  // this.firstAi = new IntelligentAI(players[1]);
+  // } else {
+  // this.firstAi = new RandomAI(players[1]);
+  // }
+  // }
+  // this.enemyOne = players[1];
+  // if (players[2].isBot()) {
+  // if (players[2].isHardBot()) {
+  // this.firstAi = new IntelligentAI(players[2]);
+  // } else {
+  // this.firstAi = new RandomAI(players[2]);
+  // }
+  // }
+  // this.enemyTwo = players[2];
+  //
+  // if (numberOfPlayers == 4) {
+  // dealer = players[3];
+  // }
+
+
 
   /**
    * Adds a played card to the trick.

@@ -113,7 +113,6 @@ public class MainController implements MainControllerInterface {
     }
 
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
-    this.currentLobby = lobby;
     this.clc = gameClient.getClc();
     SkatMain.guiController.goInGame();
     this.isHost = false;
@@ -144,9 +143,8 @@ public class MainController implements MainControllerInterface {
       }
     });
   }
-  
-  public void goToMenu()
-  {
+
+  public void goToMenu() {
     Platform.runLater(new Runnable() {
 
       @Override
@@ -209,6 +207,13 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  void setLgs() {
+    System.out.println(this.currentLobby);
+    SkatMain.lgs = new LocalGameState(this.currentLobby.numberOfPlayers, this.currentLobby.timer,
+        this.currentLobby.singlePlayerGame);
+  }
+
+
   @Override
   public void showCardPlayed(Player player, Card card) {
     Platform.runLater(new Runnable() {
@@ -257,6 +262,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void setHand(Player player) {
+    System.out.println(SkatMain.lgs.localClient);
     SkatMain.lgs.localClient.setHand(player.getHand());
     SkatMain.lgs.localClient.setPosition(player.getPosition().ordinal());
     Platform.runLater(new Runnable() {
@@ -518,11 +524,7 @@ public class MainController implements MainControllerInterface {
    * 
    */
   public void initializeLocalGameState() {
-    System.out.println("initalizingLocalGameState");
-    this.currentLobby.sortPlayers();
-    SkatMain.lgs =
-        new LocalGameState(this.currentLobby.numberOfPlayers, this.currentLobby.getPlayers(),
-            this.currentLobby.timer, this.currentLobby.singlePlayerGame);
+    // this.currentLobby.sortPlayers();
   }
 
   @Override
