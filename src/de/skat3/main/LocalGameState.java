@@ -42,8 +42,6 @@ public class LocalGameState {
    */
   public LocalGameState(int numberOfPlayers, int timerInSeconds, boolean singlePlayerGame) {
     this.localPosition = SkatMain.mainController.currentLobby.currentPlayers;
-    System.out.println(this.localPosition);
-    System.out.println(Arrays.toString(SkatMain.mainController.currentLobby.players));
     this.localClient = SkatMain.mainController.currentLobby.players[this.localPosition - 1];
     this.singlePlayerGame = singlePlayerGame;
     this.trickcount = 0;
@@ -93,10 +91,11 @@ public class LocalGameState {
           break;
       }
 
-      SkatMain.mainController.reinitializePlayers();
 
       // case 4: // TODO
     }
+
+    SkatMain.mainController.reinitializePlayers();
 
 
 
@@ -169,6 +168,11 @@ public class LocalGameState {
     this.chatMessages.add(message);
   }
 
+  /**
+   * 
+   * @param bot
+   * @return
+   */
   public Ai getAi(Player bot) {
     if (this.firstAi.getPlayer().equals(bot)) {
       return firstAi;
@@ -180,4 +184,29 @@ public class LocalGameState {
     return null;
   }
 
+  /**
+   * 
+   * @return
+   */
+  public Player getPlayer(Player player) {
+
+    if (this.localClient.equals(player)) {
+      return this.localClient;
+    }
+    if (this.enemyOne.equals(player)) {
+      return this.enemyOne;
+    }
+    if (this.enemyTwo.equals(player)) {
+      return this.enemyTwo;
+    }
+    if (this.dealer.equals(player)) {
+      return this.dealer;
+    }
+    
+    System.err.println("No Player found");
+    return null;
+  }
+
 }
+
+

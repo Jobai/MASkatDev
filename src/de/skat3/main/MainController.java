@@ -208,7 +208,6 @@ public class MainController implements MainControllerInterface {
   }
 
   void setLgs() {
-    System.out.println(this.currentLobby);
     SkatMain.lgs = new LocalGameState(this.currentLobby.numberOfPlayers, this.currentLobby.timer,
         this.currentLobby.singlePlayerGame);
   }
@@ -216,6 +215,8 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showCardPlayed(Player player, Card card) {
+    SkatMain.lgs.getPlayer(player).getHand().remove(card);
+
     Platform.runLater(new Runnable() {
 
       @Override
@@ -355,6 +356,8 @@ public class MainController implements MainControllerInterface {
     Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {
       SkatMain.lgs.localClient.getHand().setPlayableCards(currentCard, SkatMain.lgs.contract);
+    } else {
+      SkatMain.lgs.localClient.getHand().setAllCardsPlayable();
     }
     if (SkatMain.lgs.timerInSeconds > 0) {
       new Timer(SkatMain.lgs.timerInSeconds);
@@ -377,7 +380,14 @@ public class MainController implements MainControllerInterface {
   public void showResults(Result result) {
     this.modifyStatistic(result);
 
-    SkatMain.guiController.getInGameController().showResults(result);
+    Platform.runLater(new Runnable() {
+
+
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().showResults(result);
+      }
+    });
 
   }
 

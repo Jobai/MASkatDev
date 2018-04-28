@@ -121,7 +121,7 @@ public class Lobby implements Serializable {
       }
       if (this.currentPlayers > 1) {
         SkatMain.lgs.addPlayer();
-      } // XXX
+      }
 
     } else {
       System.err.println("Lobby full");

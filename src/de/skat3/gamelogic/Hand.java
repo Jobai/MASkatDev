@@ -254,4 +254,11 @@ public class Hand implements Serializable {
     }
 
   }
+
+  public void setAllCardsPlayable() {
+    for (Card card : this.cards) {
+      card.setPlayable(true);
+    }
+
+  }
 }
