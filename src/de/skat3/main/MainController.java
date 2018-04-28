@@ -108,7 +108,7 @@ public class MainController implements MainControllerInterface {
       lobby.ip = i4;
     } catch (UnknownHostException e) {
       e.printStackTrace();
-      SkatMain.mainController.showWrongPassword(); //TODO change to "invalid IP Adress"
+      SkatMain.mainController.showWrongPassword(); // TODO change to "invalid IP Adress"
       return;
     }
 
@@ -242,6 +242,7 @@ public class MainController implements MainControllerInterface {
   }
 
   public void reinitializePlayers() {
+    System.out.println("reinitializePlayers");
     Platform.runLater(new Runnable() {
       @Override
       public void run() {

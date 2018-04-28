@@ -158,7 +158,7 @@ public class GuiHand extends Parent {
           return c;
         }
       } catch (Exception e) {
-        System.err.println("Equals error in getGuiCard");
+        e.getMessage();
       }
     }
 
@@ -213,7 +213,6 @@ public class GuiHand extends Parent {
    * 
    */
   synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Pane root) {
-    System.out.println(card);
     Transform t = card.getLocalToSceneTransform();
     Affine sourceTr = new Affine(t);
     sourceTr.getClass();

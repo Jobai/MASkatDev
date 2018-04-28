@@ -101,8 +101,7 @@ public class InGameOverlayController {
       try {
         this.nameLocalClient.setText(player.getName());
       } catch (NullPointerException e) {
-        System.err.println("No player name given");
-        e.printStackTrace();
+        System.err.println("LocalClient: No player name given");
       }
       this.extra1LocalClient.setText(String.valueOf(player.getPoints()));
       this.extra2LocalClient.setText("INFO2");
@@ -118,14 +117,12 @@ public class InGameOverlayController {
       try {
         this.nameEnemyOne.setText(player.getName());
       } catch (NullPointerException e) {
-        System.err.println("No player name given.");
-        e.printStackTrace();
+        System.err.println("EnemyOne: No player name given.");
       }
       try {
         this.imageEnemyOne.setImage(this.convertToTriangle(player.convertToImage()));
       } catch (Exception e) {
-        System.err.println("Image Could not be added.");
-        e.printStackTrace();
+        System.err.println("EnemyOne: Image Could not be added.");
       }
       this.extraEnemyOne.setText(String.valueOf(player.getPoints()));
     }
@@ -140,14 +137,12 @@ public class InGameOverlayController {
       try {
         this.nameEnemyTwo.setText(player.getName());
       } catch (NullPointerException e) {
-        System.err.println("No player name given.");
-        e.printStackTrace();
+        System.err.println("EnemyTwo: No player name given.");
       }
       try {
         this.imageEnemyTwo.setImage(this.convertToTriangle(player.convertToImage()));
       } catch (Exception e) {
-        System.err.println("Image Could not be added.");
-        e.printStackTrace();
+        System.err.println("EnemyTwo: Image Could not be added.");
       }
       this.extraEnemyTwo.setText(String.valueOf(player.getPoints()));
     }
@@ -252,7 +247,6 @@ public class InGameOverlayController {
     this.nameEnemyOne.toFront();
     this.nameEnemyTwo.toFront();
     this.nameLocalClient.toFront();
-
   }
 
 }
