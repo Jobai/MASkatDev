@@ -35,6 +35,8 @@ public class InGameOverlayController {
 
   @FXML
   private Label extraEnemyOne;
+  @FXML
+  private Label extra2EnemyOne;
 
   @FXML
   private AnchorPane root;
@@ -61,6 +63,9 @@ public class InGameOverlayController {
   private Label extraEnemyTwo;
 
   @FXML
+  private Label extra2EnemyTwo;
+
+  @FXML
   private Label extra2LocalClient;
 
   public void handleSendMessage(KeyEvent e) {
@@ -76,6 +81,7 @@ public class InGameOverlayController {
       @Override
       public void onChanged(Change<? extends String> c) {
         StringBuffer newText = new StringBuffer();
+        c.next();
         for (String addedMessage : c.getAddedSubList()) {
           newText.append(addedMessage);
           newText.append("\n");
@@ -225,12 +231,13 @@ public class InGameOverlayController {
   }
 
   Image convertToTriangle(Image image) {
-    Polygon dreieckE1 = new Polygon();
-    dreieckE1.getPoints().addAll(0.0, 0.0, image.getWidth() / 2, image.getHeight(),
-        image.getWidth(), 0.0);
-    dreieckE1.setFill(new ImagePattern(image));
-    dreieckE1.setStyle("-fx-border-color: #d60202");
-    return dreieckE1.snapshot(null, null);
+    // Polygon dreieckE1 = new Polygon();
+    // dreieckE1.getPoints().addAll(0.0, 0.0, image.getWidth() / 2, image.getHeight(),
+    // image.getWidth(), 0.0);
+    // dreieckE1.setFill(new ImagePattern(image));
+    // dreieckE1.setStyle("-fx-border-color: #d60202");
+    // return dreieckE1.snapshot(null, null);
+    return image;
   }
 
   void toFront() {

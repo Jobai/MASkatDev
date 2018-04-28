@@ -35,10 +35,7 @@ public class Matchfield {
     sceneWidth = 1280;
     sceneHeight = 720;
 
-    this.controller = new InGameController(this);
-    this.tableController = new InGameTableController();
     this.tableView = new InGameTableView(this);
-
 
     URL u = Matchfield.class.getResource("InGameOverlayView.fxml");
     FXMLLoader loader = new FXMLLoader(u);
@@ -47,9 +44,13 @@ public class Matchfield {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    this.tableController = new InGameTableController(this.tableView);
     this.overlayController = loader.getController();
+    this.controller = new InGameController(this);
 
     this.root.getChildren().add(this.tableView.tableScene);
+
+    this.tableView.tableScene.toBack();
 
     this.scene = new Scene(this.root, sceneWidth, sceneHeight);
 

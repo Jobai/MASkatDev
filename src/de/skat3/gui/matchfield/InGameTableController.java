@@ -25,6 +25,10 @@ public class InGameTableController {
 
   private GuiCard selectedCard;
 
+  public InGameTableController(InGameTableView view) {
+    this.tableView = view;
+  }
+
   /**
    * Plays a card from a hand on the trick.
    * 
@@ -317,7 +321,7 @@ public class InGameTableController {
    * 
    */
   public void iniHands() {
-    
+
     this.tableView.playerHand.clear();
     this.tableView.leftHand.clear();
     this.tableView.leftHand.clear();
@@ -328,7 +332,7 @@ public class InGameTableController {
     this.tableView.leftHand.setPlayer(SkatMain.lgs.enemyOne);
     this.tableView.rightHand.addAll(SkatMain.lgs.enemyTwo.getHand().getCards());
     this.tableView.rightHand.setPlayer(SkatMain.lgs.enemyTwo);
-    
+
   }
 
 }
