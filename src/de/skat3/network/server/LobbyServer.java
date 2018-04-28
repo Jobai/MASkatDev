@@ -78,8 +78,8 @@ public class LobbyServer extends Thread {
         // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        this.interrupt();
+        // silent is ok
       }
 
     }
@@ -106,7 +106,7 @@ public class LobbyServer extends Thread {
       } catch (IOException e) {
         e.printStackTrace();
       } catch (InterruptedException e) {
-        e.printStackTrace();
+        this.interrupt();
       }
     }
 
@@ -116,13 +116,18 @@ public class LobbyServer extends Thread {
 
   /**
    * Stops the broadcasting of the lobby in the local network and kills the thread.
+   * 
    * @author Jonas Bauer
    */
   public void stopLobbyBroadcast() {
     this.interrupt();
-    ds.close();
-    ms.close();
-    
+    try {
+      ds.close();
+      ms.close();
+    } catch (NullPointerException e) {
+      // silent drop is ok 
+    }
+
   }
 
   public static void main(String[] args) {

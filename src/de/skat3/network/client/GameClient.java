@@ -198,7 +198,7 @@ public class GameClient {
   }
 
 
-  private void handleOpendConnection(Message m) {
+  private void handleOpendConnection(Message m) { //XXX
 
     Player p = (Player) m.payload;
     Lobby l = (Lobby) m.secondPayload;
@@ -215,6 +215,7 @@ public class GameClient {
     logger.info("GAME STATE CHANGE REGISTERED:" + state);
     if (state.equals("START")) {
       SkatMain.mainController.initializeLocalGameState();
+      logger.info("SET GAME STATE");
     }
 
   }

@@ -100,6 +100,7 @@ public class ClientLogicController {
 
 
   public void announceGameStarted() {
+    System.out.println("START GAME SEND OUT");
     MessageCommand mc = new MessageCommand(MessageType.STATE_CHANGE, "ALL", null);
     mc.payload = "START"; // XXX
     gc.sendToServer(mc);

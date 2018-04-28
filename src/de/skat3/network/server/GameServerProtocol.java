@@ -135,7 +135,10 @@ public class GameServerProtocol extends Thread {
 
     gs.ls.stopLobbyBroadcast(); // XXX
 
+    
     broadcastMessage(m);
+    logger.info("HANDELING STATE CHANGE");
+
 
   }
 

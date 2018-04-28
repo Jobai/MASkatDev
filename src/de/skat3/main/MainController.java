@@ -518,6 +518,7 @@ public class MainController implements MainControllerInterface {
    * 
    */
   public void initializeLocalGameState() {
+    System.out.println("initalizingLocalGameState");
     this.currentLobby.sortPlayers();
     SkatMain.lgs =
         new LocalGameState(this.currentLobby.numberOfPlayers, this.currentLobby.getPlayers(),
