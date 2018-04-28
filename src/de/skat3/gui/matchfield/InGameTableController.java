@@ -39,24 +39,54 @@ public class InGameTableController {
     hand.moveCardAndRemove(card, this.tableView.trick.add(card), this.tableView.table);
   }
 
-  /**
-   * Enables/Disables the option to play a card via the GUI from the local hand.
-   * 
-   * @param value Value.
-   */
-  void setCardsPlayable(boolean value) {
+  void showPlayableColor(boolean value) {
+    System.out.println(SkatMain.lgs.localClient.getHand());
+
     if (value) {
       ColorAdjust grey = new ColorAdjust();
       grey.setBrightness(-0.4);
+
       for (Card c : SkatMain.lgs.localClient.getHand().cards) {
         if (!c.isPlayable()) {
           GuiCard card = this.tableView.playerHand.getGuiCard(c);
           if (card != null) {
             card.getCard().getImage().setEffect(grey);
           }
+        } else {
+          GuiCard card = this.tableView.playerHand.getGuiCard(c);
+          if (card != null) {
+            try {
+              ((ColorAdjust) card.getCard().getImage().getEffect()).setBrightness(0);
+            } catch (NullPointerException e) {
+              e.toString();
+            }
+          }
         }
       }
+    } else {
+      for (Card c : SkatMain.lgs.localClient.getHand().cards) {
+        GuiCard card = this.tableView.playerHand.getGuiCard(c);
+        if (card != null) {
+          try {
+            ((ColorAdjust) card.getCard().getImage().getEffect()).setBrightness(0);
+          } catch (NullPointerException e) {
+            e.toString();
+          }
+        }
+      }
+    }
 
+  }
+
+  /**
+   * Enables/Disables the option to play a card via the GUI from the local hand.
+   * 
+   * @param value Value.
+   */
+  void setCardsPlayable(boolean value) {
+    this.showPlayableColor(value);
+
+    if (value) {
       this.tableView.table.setOnMouseMoved(event -> {
         Node node = event.getPickResult().getIntersectedNode();
         try {
@@ -109,19 +139,6 @@ public class InGameTableController {
         }
       });
     } else {
-
-      // Colorize all cards
-      for (Card c : SkatMain.lgs.localClient.getHand().cards) {
-        GuiCard card = this.tableView.playerHand.getGuiCard(c);
-        if (card != null) {
-          try {
-            ((ColorAdjust) card.getCard().getImage().getEffect()).setBrightness(0);
-          } catch (NullPointerException e) {
-
-          }
-
-        }
-      }
 
       // Disable all interactions
       this.tableView.table.setOnMouseMoved(event -> {

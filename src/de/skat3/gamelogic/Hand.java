@@ -189,6 +189,9 @@ public class Hand implements Serializable {
     String st = "CARDS: ";
     for (int i = 0; i < this.cards.length; i++) {
       st += this.cards[i];
+
+      st += " Playble = " + this.cards[i].isPlayable();
+
       if (i < this.cards.length - 1) {
         st += ", ";
       } else {

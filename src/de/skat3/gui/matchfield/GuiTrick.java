@@ -76,16 +76,6 @@ public class GuiTrick {
     if (index > 2) {
       this.clear();
     }
-    if (index == 2) {
-      GuiCard old = this.cards[index];
-      Timeline clearDelay = new Timeline();
-      clearDelay.getKeyFrames().add(new KeyFrame(Duration.seconds(2.5), e -> {
-        if (this.index == 2 && old.equals(this.cards[index])) {
-          this.clear();
-        }
-      }));
-      clearDelay.play();
-    }
 
     this.cards[index] = card;
 
@@ -109,6 +99,21 @@ public class GuiTrick {
       card.translateZProperty().bind(this.postions[i].translateZProperty());
     }));
     tl.play();
+
+    if (index == 2) {
+      GuiCard old = this.cards[index];
+      Timeline clearDelay = new Timeline();
+      clearDelay.getKeyFrames().add(new KeyFrame(Duration.seconds(2.5), e -> {
+        try {
+          if (this.index == 3 && old.getCard().equals(this.cards[2].getCard())) {
+            this.clear();
+          }
+        } catch (Exception e1) {
+
+        }
+      }));
+      clearDelay.play();
+    }
 
     return this.postions[index++];
   }
