@@ -114,7 +114,12 @@ public class InGameTableController {
       for (Card c : SkatMain.lgs.localClient.getHand().cards) {
         GuiCard card = this.tableView.playerHand.getGuiCard(c);
         if (card != null) {
-          ((ColorAdjust) card.getCard().getImage().getEffect()).setBrightness(0);
+          try {
+            ((ColorAdjust) card.getCard().getImage().getEffect()).setBrightness(0);
+          } catch (NullPointerException e) {
+
+          }
+
         }
       }
 
