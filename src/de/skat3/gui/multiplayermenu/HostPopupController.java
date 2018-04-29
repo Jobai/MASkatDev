@@ -41,6 +41,10 @@ public class HostPopupController {
 
   public void setStage(Stage s) {
     this.hostPopup = s;
+    //First option is preselect for convenience - JB 29.04.18
+    playerCount.getSelectionModel().selectFirst();
+    mode.getSelectionModel().selectFirst();
+    
   }
 
   /**
