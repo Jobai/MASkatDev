@@ -2,6 +2,8 @@ package de.skat3.gui;
 
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.MatchResult;
+import de.skat3.gamelogic.Result;
 import de.skat3.gui.matchfield.InGameController;
 import de.skat3.gui.multiplayermenu.HostPopupController;
 import de.skat3.gui.resultscreen.GameResultViewController;
@@ -116,7 +118,7 @@ public class GuiController implements GuiControllerInterface {
   }
 
   @Override
-  public void showRoundResult() {
+  public void showRoundResult(Result result) {
 
     FXMLLoader fxmlLoader =
         new FXMLLoader(getClass().getResource("resultscreen/RoundResultView.fxml"));
@@ -131,11 +133,12 @@ public class GuiController implements GuiControllerInterface {
     stage.setScene(new Scene(root));
 
     RoundResultViewController roundResultViwController = fxmlLoader.getController();
+    roundResultViwController.setResult(result);
     stage.show();
   }
 
   @Override
-  public void showGameResult() {
+  public void showGameResult(MatchResult matchResult) {
 
     FXMLLoader fxmlLoader =
         new FXMLLoader(getClass().getResource("resultscreen/GameResultView.fxml"));
@@ -150,6 +153,7 @@ public class GuiController implements GuiControllerInterface {
     stage.setScene(new Scene(root));
 
     GameResultViewController gameResultViewController = fxmlLoader.getController();
+    gameResultViewController.setResult(matchResult);
     stage.show();
   }
 }

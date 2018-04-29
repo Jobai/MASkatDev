@@ -33,7 +33,7 @@ public class MatchResult implements Serializable {
     }
   }
 
-  private class PlayerHistory {
+  public class PlayerHistory {
     Player player;
     ArrayList<Integer> history;
 

@@ -385,7 +385,8 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showResults(result);
+        // SkatMain.guiController.getInGameController().showResults(result);
+        SkatMain.guiController.showRoundResult(result);
       }
     });
 
@@ -458,7 +459,8 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showEndScreen(MatchResult matchResult) {
-    SkatMain.guiController.getInGameController().showEndScreen(); // FIXME
+    // SkatMain.guiController.getInGameController().showEndScreen(); // FIXME
+    SkatMain.guiController.showGameResult(matchResult);
   }
 
   @Override

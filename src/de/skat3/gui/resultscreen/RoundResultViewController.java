@@ -1,5 +1,6 @@
 package de.skat3.gui.resultscreen;
 
+import de.skat3.gamelogic.Result;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -40,5 +41,30 @@ public class RoundResultViewController {
   private Label rounds;
   @FXML
   private CheckBox cbNull;
+
+
+
+  public void setResult(Result result) {
+
+    namePlayer1.setText(result.firstPlace.getName());
+    namePlayer2.setText(result.secondPlace.getName());
+    namePlayer3.setText(result.thirdPlace.getName());
+
+    pointsPlayer1.setText("" + result.firstPlace.getPoints());
+    pointsPlayer2.setText("" + result.secondPlace.getPoints());
+    pointsPlayer3.setText("" + result.thirdPlace.getPoints());
+
+    if (result.fourthPlace != null) {
+      namePlayer4.setText(result.fourthPlace.getName());
+      pointsPlayer4.setText("" + result.fourthPlace.getPoints());
+    }
+
+
+    // rounds.setText(result.);
+
+    // checkboxes
+    // TODO
+
+  }
 
 }
