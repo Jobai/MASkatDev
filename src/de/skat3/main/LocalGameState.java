@@ -48,8 +48,7 @@ public class LocalGameState {
     this.trick = new Card[3];
     this.skat = new Card[2];
     chatMessages = FXCollections.observableArrayList();
-
-
+    SkatMain.mainController.reinitializePlayers();
   }
 
   /**
@@ -131,11 +130,6 @@ public class LocalGameState {
    */
 
   public void addToTrick(Card card) {
-    if (trickcount == 0) {
-      this.trick[0] = null;
-      this.trick[1] = null;
-      this.trick[2] = null;
-    }
     this.trick[this.trickcount] = card;
     this.trickcount = (trickcount + 1) % 3;
   }
@@ -154,7 +148,6 @@ public class LocalGameState {
     if (this.trick[0] != null && this.trickcount != 0) {
       return this.trick[0];
     } else {
-      System.err.println("NO CARD IN TRICK");
       return null;
     }
   }
@@ -202,7 +195,7 @@ public class LocalGameState {
     if (this.dealer.equals(player)) {
       return this.dealer;
     }
-    
+
     System.err.println("No Player found");
     return null;
   }

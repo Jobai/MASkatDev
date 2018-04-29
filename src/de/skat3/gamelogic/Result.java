@@ -6,8 +6,10 @@ import java.util.Arrays;
 
 public class Result implements Serializable {
 
-  public int points;
+  public int gameValue;
+  public boolean isBierlachs;
   public int highestBid;
+  public int scoringPoints;
   public boolean soloWon;
   public boolean handGame;
   public boolean openGame;
@@ -23,6 +25,7 @@ public class Result implements Serializable {
   public Player secondPlace;
   public Player thirdPlace;
   public Player fourthPlace;
+  private int contractValue;
 
   /**
    * 
@@ -31,6 +34,7 @@ public class Result implements Serializable {
   // XXX TESTEN
   public Result(RoundInstance roundInstance) {
 
+    this.isBierlachs = (roundInstance.mode < 0) ? true : false;
     this.highestBid = BiddingValues.values[roundInstance.currentBiddingValue];
     this.handGame = roundInstance.addtionalMultipliers.isHandGame();
     this.openGame = roundInstance.addtionalMultipliers.isOpenHand();
@@ -45,7 +49,7 @@ public class Result implements Serializable {
   }
 
   int getPoints() {
-    return this.points;
+    return this.gameValue;
   }
 
   boolean getSoloWon() {
@@ -54,8 +58,6 @@ public class Result implements Serializable {
 
 
   void calcResult(RoundInstance roundInstance) {
-    int contractValue = 0;
-    boolean isBierlachs = (roundInstance.mode < 0) ? true : false;
     switch (roundInstance.contract) {
       case DIAMONDS:
         contractValue = 9;
@@ -73,87 +75,25 @@ public class Result implements Serializable {
         contractValue = 24;
         break;
       case NULL:
-        if (this.handGame) {
-          if (this.openGame) {
-            if (roundInstance.solo.wonTricks.size() == 30 && this.highestBid <= 59) {
-              this.soloWon = true;
-              if (isBierlachs) {
-                this.points = -59;
-              } else {
-                this.points = 59;
-              }
-            } else {
-              this.soloWon = false;
-              if (this.highestBid > 59) {
-                this.bidTooHigh = true;
-              }
-              if (isBierlachs) {
-                this.points = -59;
-              } else {
-                this.points = -118;
-              }
-            }
+        contractValue = 23;
+        if (this.openGame) {
+          if (this.handGame) {
+            this.gameValue = 59;
           } else {
-            if (roundInstance.solo.wonTricks.size() == 30 && this.highestBid < 35) {
-              this.soloWon = true;
-              if (isBierlachs) {
-                this.points = -35;
-              } else {
-                this.points = 35;
-              }
-            } else {
-              this.soloWon = false;
-              if (this.highestBid > 35) {
-                this.bidTooHigh = true;
-              }
-              if (isBierlachs) {
-                this.points = -35;
-              } else {
-                this.points = -70;
-              }
-
-            }
+            this.gameValue = 46;
           }
         } else {
-          if (this.openGame) {
-            if (roundInstance.solo.wonTricks.size() == 30 && this.highestBid <= 46) {
-              this.soloWon = true;
-              if (isBierlachs) {
-                this.points = -46;
-              } else {
-                this.points = 46;
-              }
-            } else {
-              this.soloWon = false;
-              if (this.highestBid > 46) {
-                this.bidTooHigh = true;
-              }
-              if (isBierlachs) {
-                this.points = -46;
-              } else {
-                this.points = -92;
-              }
-            }
+          if (this.handGame) {
+            this.gameValue = 35;
           } else {
-            if (roundInstance.solo.wonTricks.size() == 30 && this.highestBid <= 23) {
-              this.soloWon = true;
-              if (isBierlachs) {
-                this.points = -23;
-              } else {
-                this.points = 23;
-              }
-            } else {
-              this.soloWon = false;
-              if (this.highestBid > 23) {
-                this.bidTooHigh = true;
-              }
-              if (isBierlachs) {
-                this.points = -23;
-              } else {
-                this.points = -46;
-              }
-            }
+            this.gameValue = 23;
           }
+        }
+
+        if (roundInstance.solo.wonTricks.size() == 0) {
+          this.soloWon = true;
+        } else {
+          this.soloWon = false;
         }
         this.applyChanges(roundInstance);
         return;
@@ -162,6 +102,7 @@ public class Result implements Serializable {
         break;
 
     }
+
     int baseValue = roundInstance.soloPlayerStartHand
         .calcConsecutiveMatadors(roundInstance.contract, roundInstance.originalSkat);
     baseValue++;
@@ -210,47 +151,23 @@ public class Result implements Serializable {
     if (roundInstance.addtionalMultipliers.isOpenHand()) {
       baseValue++;
     }
+    this.gameValue = baseValue * contractValue;
     if (won) {
       if (roundInstance.addtionalMultipliers.isSchneiderAnnounced() && !schneider
           || roundInstance.addtionalMultipliers.isSchneiderAnnounced() && !schwarz) {
-        if (isBierlachs) {
-          this.points = -baseValue * contractValue;
-          this.soloWon = false;
-
-        } else {
-          this.points = -2 * baseValue * contractValue;
-        }
-
-
-      } else {
-        if (isBierlachs) {
-          this.points = -baseValue * contractValue;
-          this.soloWon = true;
-
-
-
-        } else {
-          this.points = baseValue * contractValue;
-        }
-
-      }
-
-    } else {
-      if (isBierlachs) {
-        this.points = -baseValue * contractValue;
         this.soloWon = false;
-
       } else {
-        this.points = -2 * baseValue * contractValue;
+        this.soloWon = true;
       }
-
+    } else {
+      this.soloWon = false;
     }
 
     if (this.kontra) {
-      this.points *= 2;
+      this.gameValue *= 2;
     }
     if (this.rekontra) {
-      this.points *= 2;
+      this.gameValue *= 2;
     }
     this.applyChanges(roundInstance);
 
@@ -258,28 +175,48 @@ public class Result implements Serializable {
   }
 
   private void applyChanges(RoundInstance roundInstance) {
-    boolean isBierlachs = (roundInstance.mode < 0) ? true : false;
-    if (isBierlachs) {
-      if (this.soloWon) {
-        Player[] team = roundInstance.getTeamPlayer();
-        team[0].changePoints(points);
-        roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.team[0], points);
-        team[1].changePoints(points);
-        roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.team[1], points);
+    int leastMultiple = 0;
+    if (this.gameValue < this.highestBid) {
+      this.bidTooHigh = true;
+      if (this.highestBid % this.contractValue == 0) {
+        leastMultiple = this.highestBid / this.contractValue;
       } else {
-        roundInstance.solo.changePoints(points);
-        roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo, points);
+        leastMultiple = this.highestBid / this.contractValue;
+        leastMultiple++;
       }
+    }
 
+    if (this.bidTooHigh) {
+      this.scoringPoints = -leastMultiple * this.contractValue;
+      roundInstance.solo.changePoints(this.scoringPoints, !isBierlachs);
     } else {
-      if (this.points > 0) {
-        this.soloWon = true;
-        roundInstance.solo.changePoints(points);
-        roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo, points);
+      if (this.soloWon) {
+        if (isBierlachs) {
+          this.scoringPoints = -2 * this.gameValue;
+          Player[] team = roundInstance.getTeamPlayer();
+          team[0].changePoints(this.scoringPoints, false);
+          roundInstance.gameThread.gc.matchResult.addScoreToHistory(team[0], this.scoringPoints);
+          team[1].changePoints(this.scoringPoints, false);
+          roundInstance.gameThread.gc.matchResult.addScoreToHistory(team[1], this.scoringPoints);
+        } else {
+          this.scoringPoints = this.gameValue;
+          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
+              this.scoringPoints);
+          roundInstance.solo.changePoints(this.scoringPoints, true);
+        }
       } else {
-        this.soloWon = false;
-        roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo, points);
-        roundInstance.solo.changePoints(points);
+        if (isBierlachs) {
+          this.scoringPoints = -2 * this.gameValue;
+          roundInstance.solo.changePoints(this.scoringPoints, false);
+          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
+              this.scoringPoints);
+        } else {
+          this.scoringPoints = -2 * this.gameValue;
+          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
+              this.scoringPoints);
+          roundInstance.solo.changePoints(this.scoringPoints, true);
+
+        }
       }
     }
     Player[] players = roundInstance.gameThread.gc.allPlayers;
@@ -324,6 +261,31 @@ public class Result implements Serializable {
         }
       }
     }
+
+  }
+
+  @Override
+  public String toString() {
+
+    String result = "Result: ";
+    if(this.isBierlachs) {
+      if (this.soloWon) {
+        result += "Team lost " + this.scoringPoints + " points.";
+      } else {
+        result += "Solo lost " + this.scoringPoints + " points.";
+      }
+    }else {
+      if (this.soloWon) {
+        result += "Solo won " + this.scoringPoints + " points.";
+      } else {
+        result += "Solo lost " + this.scoringPoints + " points.";
+      }
+    }
+    
+    return result;
+
   }
 
 }
+
+

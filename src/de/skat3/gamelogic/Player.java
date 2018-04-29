@@ -22,6 +22,9 @@ public class Player implements Serializable {
   int points;
   boolean isBot;
   boolean isHardBot;
+  int wonGames;
+  int lostGames;
+  int seegerPoints;
 
   public Player(Profile profile) {
 
@@ -32,6 +35,21 @@ public class Player implements Serializable {
     this.points = 0;
     this.hand = new Hand();
     this.isBot = false;
+    this.wonGames = 0;
+    this.lostGames = 0;
+    this.seegerPoints = 0;
+
+  }
+
+  public Player() {
+
+    this.wonTricks = new ArrayList<Card>();
+    this.points = 0;
+    this.hand = new Hand();
+    this.isBot = false;
+    this.wonGames = 0;
+    this.lostGames = 0;
+    this.seegerPoints = 0;
 
   }
 
@@ -47,6 +65,9 @@ public class Player implements Serializable {
     this.points = player.points;
     this.hand = player.hand;
     this.isBot = player.isBot;
+    this.wonGames = player.wonGames;
+    this.lostGames = player.lostGames;
+    this.seegerPoints = player.seegerPoints;
   }
 
   /**
@@ -62,6 +83,9 @@ public class Player implements Serializable {
     this.uuid = UUID.randomUUID();
     this.hand = new Hand();
     this.isBot = true;
+    this.wonGames = 0;
+    this.lostGames = 0;
+    this.seegerPoints = 0;
   }
 
   public UUID getUuid() {
@@ -76,8 +100,16 @@ public class Player implements Serializable {
     return this.hand;
   }
 
-  void changePoints(int change) {
+  void changePoints(int change, boolean seeger) {
     this.points += change;
+    if (seeger) {
+      if (change > 0) {
+        this.wonGames++;
+      } else {
+        this.lostGames--;
+      }
+      this.seegerPoints = this.points + (this.wonGames - this.lostGames) * 50;
+    }
   }
 
   /**
@@ -115,7 +147,7 @@ public class Player implements Serializable {
 
   @Override
   public String toString() {
-    return this.name+" ("+this.uuid+")" ;
+    return this.name + " (" + this.uuid + ")";
   }
 
   public Player copyPlayer() {
@@ -172,6 +204,8 @@ public class Player implements Serializable {
   public int getPoints() {
     return points;
   }
+
 }
+
 
 

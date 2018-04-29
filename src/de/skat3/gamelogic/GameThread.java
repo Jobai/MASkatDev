@@ -22,12 +22,29 @@ public class GameThread extends Thread {
         if (this.gc.numberOfRounds == this.gc.mode) {
           this.gc.slc.broadcastMatchResult(gc.matchResult);
           break;
+        } else {
+          try {
+            Thread.sleep(5000); // XXX
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
         }
       } else {
+        boolean matchOver = false;
         for (Player player : this.gc.allPlayers) {
           if (player.points <= this.gc.mode) {
-            this.gc.slc.broadcastMatchResult(gc.matchResult);
+            matchOver = true;
             break;
+          }
+        }
+        if (matchOver) {
+          this.gc.slc.broadcastMatchResult(gc.matchResult);
+          break;
+        } else {
+          try {
+            Thread.sleep(5000); //XXX
+          } catch (InterruptedException e) {
+            e.printStackTrace();
           }
         }
       }
