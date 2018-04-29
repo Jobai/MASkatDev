@@ -204,7 +204,7 @@ public class MultiplayerMenuController {
     if (!currentLobby.isHasPassword()) {
       SkatMain.mainController.joinMultiplayerGame(currentLobby);
       System.out.println("Join");
-    } else {
+    } else { //implemented password input - JB 29.04.2018
       TextInputDialog dialog = new TextInputDialog("");
       dialog.setTitle("Enter lobby password");
       dialog.setHeaderText("Enter lobby password");
