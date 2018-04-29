@@ -3,6 +3,7 @@ package de.skat3.gui.matchfield;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
+import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -85,6 +86,14 @@ public class InGameOverlayController {
 
   @FXML
   private Label extra2LocalClient;
+
+  @FXML
+  private Label trumpInfo;
+
+  void setTrump(Contract con) {
+    this.trumpInfo
+        .setText(con.toString().substring(con.toString().indexOf(" "), con.toString().length()));
+  }
 
   public void handleSendMessage(KeyEvent e) {
     if (e.getCode().equals(KeyCode.ENTER)) {

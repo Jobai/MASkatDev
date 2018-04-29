@@ -33,6 +33,10 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield = matchfield;
   }
 
+  public void setTrump() {
+    this.matchfield.overlayController.setTrump(SkatMain.lgs.contract);
+  }
+
   /*
    * (non-Javadoc)
    * 
