@@ -25,10 +25,12 @@ import java.util.ArrayList;
  * a method via multicasting and via broadcasting. However, the LobbyServer AND the LobbyDiscover
  * need to use the same. Default is broadcasting.
  * 
- * <p>Discovery works by listening for UDP packets repeatedly send out by the LobbyServer on the
+ * <p>
+ * Discovery works by listening for UDP packets repeatedly send out by the LobbyServer on the
  * network.
  * 
- * <p>The <b> Port 2011 </b> is hardcoded for the communication.
+ * <p>
+ * The <b> Port 2011 </b> is hardcoded for the communication.
  * 
  * @author Jonas Bauer
  *
@@ -52,7 +54,8 @@ public class LobbyDiscover extends Thread {
   /**
    * Default construcor for the LobbyDiscover.
    * 
-   * <p>Sets the IP for Multicast listening to <b> 239.4.5.6 </b> <br>
+   * <p>
+   * Sets the IP for Multicast listening to <b> 239.4.5.6 </b> <br>
    * Sets the IP for Broadcasting listening <b> to 0.0.0.0 </b>
    * 
    * @author Jonas Bauer
@@ -76,87 +79,98 @@ public class LobbyDiscover extends Thread {
 
 
     if (!multicast) {
-      System.out.println("BROADCAST LOBBY MODE");
+      broadcastingDiscovery();
+    }
 
-      try {
-        ds = new DatagramSocket(port, inetAdressBroadcasting);
+    if (multicast) {
+      mutlicastingDiscovery();
+    }
+  }
 
-        ds.setBroadcast(true);
+
+
+  private void broadcastingDiscovery() {
+    System.out.println("BROADCAST LOBBY MODE");
+
+    try (DatagramSocket dds = new DatagramSocket(port, inetAdressBroadcasting)) {
+      ds = dds;
+
+      ds.setBroadcast(true);
+      lobbyList = new ArrayList<Lobby>();
+
+
+      while (run) {
+        buffer = new byte[4096]; // Hardcoded, needs to be big enough for a full lobby class.
+        DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
+        System.out.println("RECEIVING NEXT");
+        ds.receive(dp);
+        System.out.println("RECEIVED");
+
+        Lobby lb = new Lobby();
+        lb = lb.convertFromByteArray(buffer);
+        System.out.println(lb.getName());
+
+        addDiscoveryToLobbyList(lb);
 
 
 
-        lobbyList = new ArrayList<Lobby>();
-        while (run) {
-          buffer = new byte[4096]; // Hardcoded, needs to be big enough for a full lobby class.
-          DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
-          System.out.println("RECEIVING NEXT");
-          ds.receive(dp);
-          System.out.println("RECEIVED");
-          Lobby lb = new Lobby();
-          lb = lb.convertFromByteArray(buffer);
-          System.out.println(lb.getName());
-          boolean contains = false;
-          for (Lobby l : lobbyList) {
-            if (l.equals(lb)) {
-              contains = true;
-              break;
-            }
-          }
-          if (!contains) {
-            lobbyList.add(lb);
-            System.out.println("Lobby added");
-          }
-        }
-      } catch (SocketException e) {
-        if (run) {
-          e.printStackTrace();
-        }
-      } catch (UnknownHostException e) {
-        e.printStackTrace();
-      } catch (IOException e) {
-        e.printStackTrace();
-      } finally {
-        System.out.println("Finnaly LobbyDiscover Broadcasting");
-        run = false;
-        ds.close();
       }
-
-
-
-      if (multicast) {
-        try (MulticastSocket client = new MulticastSocket(port)) {
-          ms = client;
-          ms.joinGroup(inetAdressMulticast);
-          lobbyList = new ArrayList<Lobby>();
-          while (run) {
-            buffer = new byte[4096]; // XXX
-            DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
-            System.out.println("RECEIVING NEXT");
-            ms.receive(dp);
-            System.out.println("RECEIVED");
-            Lobby lb = new Lobby();
-            lb = lb.convertFromByteArray(buffer);
-            System.out.println(lb.getName());
-
-
-            boolean contains = false;
-            for (Lobby l : lobbyList) {
-              if (l.equals(lb)) {
-                contains = true;
-                break;
-              }
-            }
-            if (!contains) {
-              lobbyList.add(lb);
-              System.out.println("Lobby added");
-            }
-          }
-        } catch (IOException e) {
-          e.printStackTrace();
-        } catch (NullPointerException e) {
-          e.printStackTrace();
-        }
+    } catch (SocketException e) {
+      if (run) {
+        e.printStackTrace();
       }
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      System.out.println("Finnaly LobbyDiscover Broadcasting");
+      run = false;
+    }
+
+
+
+  }
+
+
+  private void mutlicastingDiscovery() {
+    try (MulticastSocket client = new MulticastSocket(port)) {
+      ms = client;
+      ms.joinGroup(inetAdressMulticast);
+      lobbyList = new ArrayList<Lobby>();
+      while (run) {
+        buffer = new byte[4096]; // XXX
+        DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
+        System.out.println("RECEIVING NEXT");
+        ms.receive(dp);
+        System.out.println("RECEIVED");
+        Lobby lb = new Lobby();
+        lb = lb.convertFromByteArray(buffer);
+        System.out.println(lb.getName());
+
+        addDiscoveryToLobbyList(lb);
+
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
+  }
+
+
+
+  private void addDiscoveryToLobbyList(Lobby lb) {
+    boolean contains = false;
+    for (Lobby l : lobbyList) {
+      if (l.equals(lb)) {
+        contains = true;
+        break;
+      }
+    }
+    if (!contains) {
+      lobbyList.add(lb);
+      System.out.println("Lobby added");
     }
   }
 
@@ -171,14 +185,20 @@ public class LobbyDiscover extends Thread {
       run = false;
       this.interrupt();
       ds.close();
-      System.out.println("STOP END");
+
       ms.leaveGroup(inetAdressMulticast);
+      ms.close(); // FIXME
+      System.out.println("STOP END");
+
     } catch (IOException e) {
       e.printStackTrace();
+    } catch (NullPointerException e) {
+//      e.printStackTrace();
     } finally {
-      ms.close();
-
+      System.out.println("FINNALY stop Discovery");
+      //
     }
+    System.out.println("FINISHED stopDiscovery");
   }
 
 

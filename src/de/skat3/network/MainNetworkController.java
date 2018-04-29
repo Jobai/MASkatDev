@@ -19,6 +19,7 @@ import de.skat3.network.server.GameServer;
 import de.skat3.network.server.LobbyServer;
 import java.net.Inet4Address;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 
@@ -44,7 +45,7 @@ public class MainNetworkController implements MainNetworkInterface {
     Inet4Address ip = lobby.getIp();
     GameClient gc = new GameClient(ip.getHostAddress(), 2018,
         new Player(SkatMain.ioController.getLastUsedProfile()));
-   
+
     return gc;
 
   }
@@ -119,6 +120,9 @@ public class MainNetworkController implements MainNetworkInterface {
     }
 
     ld.stopDiscovery();
+    String s = Arrays.toString(ld.lobbyList.toArray());
+//    System.out.println("FOUND LOBBYS: \n" + s);
+
     return ld.lobbyList;
   }
 
