@@ -93,6 +93,22 @@ public class GuiController implements GuiControllerInterface {
 
   }
 
+  /**
+   * Creates and shows a custom alert prompt. Used for informing the user of a failed action.
+   * 
+   * @author Jonas Bauer
+   * @param title title of the alarm prompt.
+   * @param prompt text of the alarm prompt.
+   */
+  public void showCustomAlarmPromt(String title, String prompt) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setHeaderText(null);
+    alert.setTitle(title);
+    alert.setContentText(prompt);
+    alert.showAndWait();
+
+  }
+
   @Override
   public void showRoundResult(Result result) {
 

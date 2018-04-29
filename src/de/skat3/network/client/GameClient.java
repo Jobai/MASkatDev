@@ -310,7 +310,7 @@ public class GameClient {
 
   void closeConnection() {
     SkatMain.mainController.goToMenu();
-    SkatMain.mainController.showWrongPassword(); //TODO change to "Connection to server failed"
+    SkatMain.mainController.showCustomAlertPormpt("Connection to the server failed", "The connection to the server failed. Please check that a server is running and try again later"); //TODO change to "Connection to server failed"
     sl.interrupt();
     try {
       toSever.close();
@@ -332,7 +332,8 @@ public class GameClient {
     sl.interrupt();
     System.out.println("GO to menu");
     SkatMain.mainController.goToMenu();
-    SkatMain.mainController.showWrongPassword(); //TODO change to "Connection to server failed"
+    SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!", "The game server closed your connection. \n"
+        + "You can try again later or chose a different server"); //TODO change to "Connection to server failed"
     try {
       toSever.close();
       fromServer.close();

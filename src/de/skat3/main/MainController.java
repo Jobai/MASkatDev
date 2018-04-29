@@ -108,7 +108,7 @@ public class MainController implements MainControllerInterface {
       lobby.ip = i4;
     } catch (UnknownHostException e) {
       e.printStackTrace();
-      SkatMain.mainController.showWrongPassword(); // TODO change to "invalid IP Adress"
+      SkatMain.mainController.showCustomAlertPormpt("Invalid IP Adress!", "The entered IP Adress is invalid! Please check and try again.");; // TODO change to "invalid IP Adress"
       return;
     }
 
@@ -123,6 +123,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void joinMultiplayerGame(Lobby lobby, String password) {
+    System.out.println("Entered password: '" + password + "'");
     this.currentLobby = lobby;
     lobby.password = password;
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
@@ -132,6 +133,8 @@ public class MainController implements MainControllerInterface {
 
 
   }
+  
+  
 
 
   public void showWrongPassword() {
@@ -140,6 +143,25 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         SkatMain.guiController.showWrongPassword();
+      }
+    });
+  }
+
+  /**
+   * Creates and shows a custom alert prompt. Used for informing the user of a failed action. Simply
+   * calls the SkatMain.guiController.showCustomAlarmPromt(title, prompt) method trough a new
+   * thread.
+   * 
+   * @author Jonas Bauer
+   * @param title title of the alarm prompt.
+   * @param prompt text of the alarm prompt.
+   */
+  public void showCustomAlertPormpt(String title, String prompt) {
+    Platform.runLater(new Runnable() {
+
+      @Override
+      public void run() {
+        SkatMain.guiController.showCustomAlarmPromt(title, prompt);
       }
     });
   }

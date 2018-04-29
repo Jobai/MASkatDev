@@ -44,6 +44,8 @@ public class Lobby implements Serializable {
   boolean singlePlayerGame;
   boolean kontraRekontraEnabled;
   private UUID uuid;
+  
+  boolean hasPassword;
 
   /**
    * 
@@ -66,6 +68,7 @@ public class Lobby implements Serializable {
     this.currentPlayers = 0;
     this.name = name;
     this.password = password;
+    this.hasPassword = true;
     this.scoringMode = scoringMode;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
     uuid = UUID.randomUUID();
@@ -89,6 +92,7 @@ public class Lobby implements Serializable {
     this.ip = ip;
     this.serverMode = serverMode;
     this.currentPlayers = 1;
+    this.hasPassword = false;
     this.scoringMode = scoringMode;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
     this.singlePlayerGame = true;
@@ -97,6 +101,14 @@ public class Lobby implements Serializable {
   }
 
 
+
+  /**
+   * @author Jonas Bauer
+   * @return the hasPassword
+   */
+  public boolean isHasPassword() {
+    return hasPassword;
+  }
 
   public Lobby() {
 

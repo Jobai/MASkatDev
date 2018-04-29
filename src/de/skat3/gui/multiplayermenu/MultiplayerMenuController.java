@@ -201,8 +201,20 @@ public class MultiplayerMenuController {
    * .
    */
   public void joinServer() {
-    SkatMain.mainController.joinMultiplayerGame(currentLobby);
-    System.out.println("Join");
+    if (!currentLobby.isHasPassword()) {
+      SkatMain.mainController.joinMultiplayerGame(currentLobby);
+      System.out.println("Join");
+    } else {
+      TextInputDialog dialog = new TextInputDialog("");
+      dialog.setTitle("Enter lobby password");
+      dialog.setHeaderText("Enter lobby password");
+      dialog.setContentText("Please enter the lobby password:");
+      dialog.initStyle(StageStyle.UTILITY);
+
+      Optional<String> result = dialog.showAndWait();
+      result.ifPresent(pass -> SkatMain.mainController.joinMultiplayerGame(currentLobby, pass));
+      System.out.println("Join with password");
+    }
   }
 
   /**
