@@ -109,7 +109,7 @@ public class GuiTrick {
             this.clear();
           }
         } catch (Exception e1) {
-
+          e1.getMessage();
         }
       }));
       clearDelay.play();

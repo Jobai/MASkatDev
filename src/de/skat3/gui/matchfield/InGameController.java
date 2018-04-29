@@ -27,8 +27,7 @@ import javafx.util.Duration;
  *
  */
 public class InGameController implements InGameControllerInterface {
-
-  private Matchfield matchfield;
+  Matchfield matchfield;
 
   public InGameController(Matchfield matchfield) {
     this.matchfield = matchfield;
@@ -41,6 +40,7 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void makeAMove(boolean value) {
+    this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value);
     this.matchfield.tableController.setCardsPlayable(value);
   }
 
@@ -182,6 +182,10 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.enemyOne);
     this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.enemyTwo);
     this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.localClient);
+  }
+
+  public void handGameRequest() {
+    this.matchfield.overlayController.showHandGameRequest();
   }
 
 }

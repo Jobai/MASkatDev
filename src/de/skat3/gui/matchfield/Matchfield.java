@@ -71,7 +71,9 @@ public class Matchfield {
   private void iniComponents() {
 
     this.tableView.iniComponents();
-    // this.overlayController.toFront();
+
+    this.overlayController.iniComponents();
+
 
     if (SkatMain.mainController.isHost) {
       this.overlayController.showStartButton();

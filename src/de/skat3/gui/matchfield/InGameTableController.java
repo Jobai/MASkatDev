@@ -23,6 +23,8 @@ public class InGameTableController {
 
   InGameTableView tableView;
 
+  boolean isPlaying;
+
   private GuiCard selectedCard;
 
   public InGameTableController(InGameTableView view) {
@@ -84,6 +86,9 @@ public class InGameTableController {
    * @param value Value.
    */
   void setCardsPlayable(boolean value) {
+
+    this.isPlaying = value;
+
     this.showPlayableColor(value);
 
     if (value) {
@@ -128,7 +133,7 @@ public class InGameTableController {
                     this.selectedCard = null;
                   }
                   SkatMain.mainController.localCardPlayed(card.getCard());
-                  this.setCardsPlayable(false);
+                  SkatMain.guiController.getInGameController().makeAMove(false);
                   break;
                 }
               }
@@ -299,7 +304,7 @@ public class InGameTableController {
         Hand hand = new Hand(cards);
         SkatMain.mainController.skatSelected(hand, skat2);
         this.tableView.table.getChildren().removeAll(button, skat[0], skat[1]);
-        this.setCardsPlayable(false);
+        SkatMain.guiController.getInGameController().makeAMove(false);
       }
     });
     this.tableView.table.getChildren().add(button);

@@ -314,7 +314,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.handGameRequest();
+        SkatMain.guiController.getInGameController().handGameRequest();
       }
     });
 

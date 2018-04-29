@@ -23,7 +23,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.Pane;
 
@@ -80,29 +79,6 @@ public class GuiController implements GuiControllerInterface {
           new AdditionalMultipliers());
     }
 
-
-  }
-
-  @Override
-  public boolean handGameRequest() {
-
-    Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.setTitle("Handgame");
-    alert.setHeaderText("Handgame?");
-
-    ButtonType buttonTypeYes = new ButtonType("Yes");
-    ButtonType buttonTypeNo = new ButtonType("No");
-
-    alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-
-    Optional<ButtonType> result = alert.showAndWait();
-    if (result.get() == buttonTypeYes) {
-      SkatMain.mainController.handGameSelected(true);
-      return true;
-    } else {
-      SkatMain.mainController.handGameSelected(false);
-      return false;
-    }
 
   }
 

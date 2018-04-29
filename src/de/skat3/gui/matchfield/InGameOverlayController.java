@@ -1,15 +1,22 @@
 package de.skat3.gui.matchfield;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Optional;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -20,12 +27,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 /**
  * @author Aljoscha Domonell
  *
  */
 public class InGameOverlayController {
+
+  public static final String yourMove = "Your Move!";
+
+  private PopUpController popUpController;
+
+  private ScoreboardController scoreboardController;
 
   @FXML
   private TextArea chatArea;
@@ -35,8 +49,12 @@ public class InGameOverlayController {
 
   @FXML
   private Label extraEnemyOne;
+
   @FXML
   private Label extra2EnemyOne;
+
+  @FXML
+  private Label playInfo;
 
   @FXML
   private AnchorPane root;
@@ -72,6 +90,81 @@ public class InGameOverlayController {
     if (e.getCode().equals(KeyCode.ENTER)) {
       SkatMain.mainController.sendMessage(this.chatField.getText().trim());
       this.chatField.clear();
+    }
+  }
+
+  void iniComponents() {
+    this.iniScoreboard();
+    this.iniPopUp();
+  }
+
+  void iniScoreboard() {
+    URL u = InGameOverlayController.class.getResource("ScoreboardView.fxml");
+    FXMLLoader loader = new FXMLLoader(u);
+    try {
+      this.root.getChildren().add((AnchorPane) loader.load());
+      this.scoreboardController = loader.getController();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  void iniPopUp() {
+    URL u = InGameOverlayController.class.getResource("PopUpView.fxml");
+    FXMLLoader loader = new FXMLLoader(u);
+    try {
+      this.root.getChildren().add((AnchorPane) loader.load());
+      this.popUpController = loader.getController();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    this.popUpController.root.translateXProperty().bind(this.root.widthProperty().divide(2)
+        .subtract(this.popUpController.root.widthProperty().divide(2)));
+    this.popUpController.root.translateYProperty().bind(this.root.heightProperty().divide(2)
+        .subtract(this.popUpController.root.heightProperty().divide(2)));
+
+    this.popUpController.root.setVisible(false);
+    this.popUpController.root.setDisable(true);
+
+  }
+
+  void setPlayText(String text, boolean show) {
+    this.playInfo.setTextAlignment(TextAlignment.CENTER);
+    this.playInfo.setLayoutX(0);
+    this.playInfo.translateXProperty()
+        .bind(root.widthProperty().divide(2).subtract(this.playInfo.widthProperty().divide(2)));
+    this.playInfo.setVisible(show);
+    this.playInfo.setText(text);
+  }
+
+  public void handleShowExitMenu(KeyEvent e) {
+    if (KeyCode.ESCAPE.equals(e.getCode())) {
+
+      boolean old =
+          SkatMain.guiController.getInGameController().matchfield.tableController.isPlaying;
+
+      SkatMain.guiController.getInGameController().makeAMove(false);
+
+      Alert alert = new Alert(AlertType.CONFIRMATION);
+      alert.setTitle("Leave game");
+      alert.setHeaderText("Leave game. Are you sure?");
+
+      ButtonType buttonTypeYes = new ButtonType("Yes");
+      ButtonType buttonTypeNo = new ButtonType("No");
+
+      alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+      Optional<ButtonType> result = alert.showAndWait();
+      if (result.get() == buttonTypeYes) {
+        // Leave game TODO
+        SkatMain.guiController.getInGameController().makeAMove(old); // TEST
+      } else {
+        // stay game TODO
+        SkatMain.guiController.getInGameController().makeAMove(old);
+      }
+
     }
   }
 
@@ -149,51 +242,50 @@ public class InGameOverlayController {
   }
 
   void showBidRequest(int bid) {
-    Pane p = new Pane();
-    p.setPrefSize(400, 225);
-    p.translateXProperty()
-        .bind(this.root.widthProperty().divide(2).subtract(p.widthProperty().divide(2)));
-    p.translateYProperty()
-        .bind(this.root.heightProperty().divide(2).subtract(p.heightProperty().divide(2)));
+    this.popUpController.yesButton.setText("Bid");
 
-    p.setStyle("-fx-border-color: #d60202");
-    p.setStyle("-fx-background-color: #404040");
-
-    Label v = new Label("Do you bid " + bid + "?");
-    v.setPrefSize(300, 75);
-    v.setFont(Font.font(30));
-    v.setTextFill(Color.WHITE);
-    v.setAlignment(Pos.CENTER);
-
-    v.setTranslateY(+10);
-    Button yes = new Button("Bid");
-    yes.setFont(new Font(25));
-    yes.setTextFill(Color.WHITE);
-    yes.setStyle("-fx-background-radius: 20");
-    yes.setStyle("-fx-background-color: #d60202");
-    yes.setPrefSize(150, 80);
-    yes.setTranslateX(25);
-    yes.setTranslateY(210 - 75 - 20);
-    Button no = new Button("Pass");
-    no.setFont(new Font(25));
-    no.setTextFill(Color.WHITE);
-    no.setStyle("-fx-background-radius: 20");
-    no.setStyle("-fx-background-color: #d60202");
-    no.setPrefSize(150, 80);
-    no.setTranslateX(225);
-    no.setTranslateY(210 - 75 - 20);
-    p.getChildren().addAll(v, yes, no);
-
-    this.root.getChildren().add(p);
-
-    yes.setOnAction(e -> {
+    this.popUpController.yesButton.setOnAction(e -> {
       SkatMain.mainController.localBid(true);
-      this.root.getChildren().remove(p);
+      this.popUpController.root.setVisible(false);
+      this.popUpController.root.setDisable(true);
     });
-    no.setOnAction(e -> {
+
+    this.popUpController.noButton.setText("Pass");
+
+    this.popUpController.noButton.setOnAction(e -> {
       SkatMain.mainController.localBid(false);
-      this.root.getChildren().remove(p);
+      this.popUpController.root.setVisible(false);
+      this.popUpController.root.setDisable(true);
     });
+
+    this.popUpController.textField.setText("Do you bid more than " + bid + "?");
+
+    this.popUpController.root.setVisible(true);
+    this.popUpController.root.setDisable(false);
+  }
+
+  void showHandGameRequest() {
+
+    this.popUpController.yesButton.setText("Yes");
+
+    this.popUpController.yesButton.setOnAction(e -> {
+      SkatMain.mainController.handGameSelected(true);
+      this.popUpController.root.setVisible(false);
+      this.popUpController.root.setDisable(true);
+    });
+
+    this.popUpController.noButton.setText("NO");
+
+    this.popUpController.noButton.setOnAction(e -> {
+      SkatMain.mainController.handGameSelected(false);
+      this.popUpController.root.setVisible(false);
+      this.popUpController.root.setDisable(true);
+    });
+
+    this.popUpController.textField.setText("Play handgame?");
+
+    this.popUpController.root.setVisible(true);
+    this.popUpController.root.setDisable(false);
 
   }
 

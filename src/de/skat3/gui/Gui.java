@@ -55,6 +55,9 @@ public class Gui extends Application {
     // SkatMain.getGuiController().setGui(this);
     SkatMain.guiController.setGui(this);
     this.mainStage = primaryStage;
+
+    // this.mainStage.setOnCloseRequest(e -> ); //TODO
+
     this.initializeComponents();
 
     this.mainStage.setTitle("MA Skat");
