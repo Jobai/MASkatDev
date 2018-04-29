@@ -128,6 +128,7 @@ public class GameClient {
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
     mc.payload = player;
     mc.lobbyPassword = lobbyPassword2;
+    mc.originSender = player;
     sendToServer(mc);
 
   }

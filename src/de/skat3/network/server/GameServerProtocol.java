@@ -149,14 +149,15 @@ public class GameServerProtocol extends Thread {
     Profile p = SkatMain.ioController.getLastUsedProfile();
   
     String serverPw = GameServer.lobby.getPassword();
-    if (!(GameServer.lobby.getPassword() == null || serverPw.isEmpty()
+    if (!(serverPw == null || serverPw.isEmpty()
         || (op.getUuid().equals(p.getUuid())))) {
       System.out.println("SERVER HAS PASSWORD!: CHECKING!");
-      System.out.println(serverPw);
-      if (!(GameServer.lobby.getPassword().equals(mc.lobbyPassword))) {
+      System.out.println("SERVER PW: '" + serverPw + "' ; GIVEN PW '" + mc.lobbyPassword + "'");
+      if (!(serverPw.equals(mc.lobbyPassword))) {
         kickConnection();
         return;
       }
+      System.out.println("Check succesful!");
     }
 
 

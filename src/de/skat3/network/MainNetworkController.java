@@ -43,8 +43,15 @@ public class MainNetworkController implements MainNetworkInterface {
   @Override
   public GameClient joinServerAsClient(Lobby lobby) {
     Inet4Address ip = lobby.getIp();
-    GameClient gc = new GameClient(ip.getHostAddress(), 2018,
-        new Player(SkatMain.ioController.getLastUsedProfile()));
+    GameClient gc;
+    if (lobby.getPassword() == null) {
+      gc = new GameClient(ip.getHostAddress(), 2018,
+          new Player(SkatMain.ioController.getLastUsedProfile()));
+
+    } else {
+      gc = new GameClient(ip.getHostAddress(), 2018,
+          new Player(SkatMain.ioController.getLastUsedProfile()), lobby.getPassword());
+    }
 
     return gc;
 
@@ -121,7 +128,7 @@ public class MainNetworkController implements MainNetworkInterface {
 
     ld.stopDiscovery();
     String s = Arrays.toString(ld.lobbyList.toArray());
-//    System.out.println("FOUND LOBBYS: \n" + s);
+    // System.out.println("FOUND LOBBYS: \n" + s);
 
     return ld.lobbyList;
   }
