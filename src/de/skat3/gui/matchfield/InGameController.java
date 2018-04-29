@@ -1,15 +1,23 @@
 package de.skat3.gui.matchfield;
 
 import java.awt.Point;
+import java.io.IOException;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
+import de.skat3.gui.resultscreen.GameResultViewController;
+import de.skat3.gui.resultscreen.RoundResultViewController;
 import de.skat3.main.SkatMain;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -95,19 +103,53 @@ public class InGameController implements InGameControllerInterface {
    * @see de.skat3.gui.matchfield.InGameControllerInterface#showEndScreen()
    */
   @Override
-  public void showEndScreen() {
-    // TODO Auto-generated method stub
+  public void showEndScreen(MatchResult matchResult) {
+
+    FXMLLoader fxmlLoader =
+        new FXMLLoader(getClass().getResource("../resultscreen/GameResultView.fxml"));
+    Parent root = null;
+    try {
+      root = fxmlLoader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Stage stage = new Stage();
+    stage.setTitle("Game Result");
+    stage.setScene(new Scene(root));
+
+    GameResultViewController gameResultViewController = fxmlLoader.getController();
+    gameResultViewController.setResult(matchResult);
+    stage.show();
 
   }
 
   /*
+   * 
    * (non-Javadoc)
    * 
    * @see de.skat3.gui.matchfield.InGameControllerInterface#showRusults(de.skat3.gamelogic.Result)
    */
+  /**
+   * @author tistraub
+   */
   @Override
   public void showResults(Result results) {
-    // TODO Auto-generated method stub
+
+    FXMLLoader fxmlLoader =
+        new FXMLLoader(getClass().getResource("../resultscreen/RoundResultView.fxml"));
+    Parent root = null;
+    try {
+      root = fxmlLoader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Stage stage = new Stage();
+    stage.setTitle("Round Result");
+    stage.setScene(new Scene(root));
+
+    RoundResultViewController roundResultViwController = fxmlLoader.getController();
+    roundResultViwController.setResult(results);
+    stage.show();
 
   }
 

@@ -3,6 +3,7 @@ package de.skat3.gui.matchfield;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import javafx.util.Duration;
@@ -37,7 +38,7 @@ public interface InGameControllerInterface {
 
   public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers);
 
-  public void showEndScreen();
+  public void showEndScreen(MatchResult matchResult);
 
   public void showResults(Result results);
 
