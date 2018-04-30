@@ -173,7 +173,7 @@ public class AiHelper {
 	}
 	
 	/**
-	 * Gets the number of jacks in the given hand
+	 * Gets the number of Aces in the given hand
 	 * 
 	 * @param cards
 	 *            a hand
@@ -183,6 +183,23 @@ public class AiHelper {
 		int counter = 0;
 		for(int i = 0; i<cards.length;i++) {
 		if (cards[i].getValue() == Value.ACE) {
+			counter++;
+			}
+		}
+		return counter;
+	}
+	
+	/**
+	 * Gets the number of Tens in the given hand
+	 * 
+	 * @param cards
+	 *            a hand
+	 * @return number of jacks
+	 */
+	public static int countTens(Card[] cards) {
+		int counter = 0;
+		for(int i = 0; i<cards.length;i++) {
+		if (cards[i].getValue() == Value.TEN) {
 			counter++;
 			}
 		}

@@ -105,9 +105,10 @@ public class GuiController implements GuiControllerInterface {
   public void blinkAlert() {
 
     Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setWidth(0.0);
     alert.show();
     try {
-      TimeUnit.SECONDS.sleep(1);
+      TimeUnit.MILLISECONDS.sleep(1000);
     } catch (InterruptedException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
