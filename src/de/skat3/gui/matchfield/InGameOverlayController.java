@@ -117,6 +117,8 @@ public class InGameOverlayController {
       e.printStackTrace();
     }
 
+    this.scoreboardController.root.setVisible(false);
+
   }
 
   void iniPopUp() {
@@ -148,7 +150,27 @@ public class InGameOverlayController {
     this.playInfo.setText(text);
   }
 
-  public void handleShowExitMenu(KeyEvent e) {
+  public void handleKeyPressed(KeyEvent e) {
+    if (KeyCode.TAB.equals(e.getCode())) {
+      SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
+          .setDisable(true);
+      this.root.setDisable(true);
+
+      this.scoreboardController.root.setVisible(true);
+    }
+  }
+
+
+
+  public void handleKeyReleased(KeyEvent e) {
+    if (KeyCode.TAB.equals(e.getCode())) {
+      SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
+          .setDisable(false);
+      this.root.setDisable(false);
+      this.scoreboardController.root.setVisible(false);
+      return;
+    }
+
     if (KeyCode.ESCAPE.equals(e.getCode())) {
 
       boolean old =
@@ -167,13 +189,11 @@ public class InGameOverlayController {
 
       Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == buttonTypeYes) {
-        // Leave game TODO
         SkatMain.guiController.getInGameController().makeAMove(old); // TEST
       } else {
         // stay game TODO
         SkatMain.guiController.getInGameController().makeAMove(old);
       }
-
     }
   }
 
