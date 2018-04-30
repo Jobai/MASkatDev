@@ -651,6 +651,8 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void skatSelected(Hand hand, Card[] skat) {
+    SkatMain.lgs.skat[0] = skat[0];
+    SkatMain.lgs.skat[1] = skat[1];
     SkatMain.clc.throwAnswer(hand, skat);
   }
 

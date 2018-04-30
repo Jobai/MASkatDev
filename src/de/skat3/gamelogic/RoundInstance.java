@@ -214,8 +214,9 @@ public class RoundInstance {
       if (!this.addtionalMultipliers.isHandGame()) {
         this.slc.sendSkat(this.solo, this.skat);
         this.lock.wait(); // notified by notifyLogicOfNewSkat(Card[] skat);
+        slc.updatePlayerDuringRound(solo);
       }
-
+      
 
       this.slc.callForContract(this.solo);
       this.lock.wait(); // Waits for the winner to select a contract, notified by
