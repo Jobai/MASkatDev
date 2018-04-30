@@ -27,6 +27,17 @@ public class IntelligentAI extends Ai implements Serializable {
   GameController gameController;
 
 
+  // Dummy Werte
+
+  // wenn Ki gewonnen hat shwarz schneider oder offen
+  ArrayList<AdditionalMultipliers> additionalMultiplayerList;
+  //
+  ArrayList<Contract> contractList;
+  //
+  ArrayList<Card> cardList;
+
+
+
   public IntelligentAI(Player player) {
     super(player);
     aiHelper = new AiHelper();
@@ -81,6 +92,7 @@ public class IntelligentAI extends Ai implements Serializable {
     // Recherchieren bei welcher anzahl von Karten es sinnvoll ist offen zu spielen
     int noOfTrumps = AiHelper.countTrumps(cardDeck.getCards(), chooseContract());
     int noOfAces = AiHelper.countAces(cardDeck.getCards());
+    int noOfTens = AiHelper.countTens(cardDeck.getCards());
     if (noOfTrumps >= 8) {
       return true;
     } else if (noOfTrumps + noOfAces >= 8) {
@@ -100,6 +112,7 @@ public class IntelligentAI extends Ai implements Serializable {
 
   @Override
   public Contract chooseContract() {
+	  //TODO 
     return contract;
   }
 
@@ -114,8 +127,7 @@ public class IntelligentAI extends Ai implements Serializable {
     return null;
   }
 
-  @Override
-  public Card chooseCard() {
+  public Card openGame() {
     // at present, game is always opened with trump - using a jack, if
     // possible
     Card[] cards = hand.getCards();
@@ -163,7 +175,9 @@ public class IntelligentAI extends Ai implements Serializable {
     if (chooseCard().getValue() == Value.JACK) {
       return chooseCard();
     }
-    // TODO get TrumpCard
+    	if (card.isTrump(chooseContract())){
+    		return card;
+    	}
     if (card != null) {
       return card;
     }
@@ -213,18 +227,20 @@ public class IntelligentAI extends Ai implements Serializable {
         // das ist der richtige Zugriff drauf
         // int suitLength = Suit.values().length;
         // FIXME warum vergleichst du 2 Konstanten?
-        if (c.getSuit().length < minCount
-            && !(c.getSuit().length == 1 && c.getValue() == Value.TEN)) {
+        
+        int suitLength = c.getSuit().length;
+        if (suitLength < minCount
+            && !(suitLength == 1 && c.getValue() == Value.TEN)) {
           result = c;
-          minCount = c.getSuit().length;
+          minCount =suitLength;
           continue;
         }
-        if (c.getSuit().length == minCount
-            && !(c.getSuit().length == 1 && c.getValue() == Value.ACE)) {
+        if (suitLength== minCount
+            && !(suitLength== 1 && c.getValue() == Value.ACE)) {
           result = c;
           continue;
         }
-        if (c.getSuit() == result.getSuit() && c.getSuit().length == minCount) {
+        if (c.getSuit() == result.getSuit() && suitLength == minCount) {
           result = c;
           continue;
         }
@@ -255,13 +271,13 @@ public class IntelligentAI extends Ai implements Serializable {
 
     return cards[0];
   }
-
-  private Card playCard() {
+  @Override
+  public Card chooseCard() {
 
     if (roundInstance.getFirstCard() == null && roundInstance.getSecondCard() == null
         && roundInstance.getThirdCard() == null) {
       if (card.getTrickValue() < 1) {
-        return chooseCard();
+        return openGame();
       }
       return chooseTrickCard();
     }
@@ -271,4 +287,7 @@ public class IntelligentAI extends Ai implements Serializable {
     return playRearhandCard();
 
   }
+
+ 
+
 }
