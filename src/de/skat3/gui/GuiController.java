@@ -96,25 +96,16 @@ public class GuiController implements GuiControllerInterface {
 
 
   /**
-   * Causes the taskbar icon to blink until the windows is back in focus.
-   * Used to inform the user about a needed action or completed task.
+   * Causes the taskbar icon to blink until the windows is back in focus. Used to inform the user
+   * about a needed action or completed task. 
    * 
-   * Implemented by simply opening and quickly closing a popup.
    * @author Jonas Bauer
    */
   public void blinkAlert() {
 
-    Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setWidth(0.0);
-    alert.show();
-    try {
-      TimeUnit.MILLISECONDS.sleep(1000);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    alert.close();
+    this.gui.getMainStage().toFront();
   }
+
 
   /**
    * Creates and shows a custom alert prompt. Used for informing the user of a failed action.
