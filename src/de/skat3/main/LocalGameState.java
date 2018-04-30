@@ -131,9 +131,6 @@ public class LocalGameState {
   }
 
 
-  public void addMessage(String message) {
-    this.chatMessages.add(message);
-  }
 
   /**
    * 
