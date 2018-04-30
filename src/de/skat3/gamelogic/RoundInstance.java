@@ -58,10 +58,10 @@ public class RoundInstance {
   void startRound() throws InterruptedException {
 
     this.initializeAuction();
+    this.notifyPlayers();
     for (int i = 0; i < this.players.length; i++) {
       slc.sendStartHandtoPlayer(this.players[i]);
     }
-    this.notifyPlayers();
     Player winner = this.startBidding();
     if (winner == null) {
       // this.slc.broacastRoundRestarded(); TODO
