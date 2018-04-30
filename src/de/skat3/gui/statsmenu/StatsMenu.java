@@ -14,6 +14,9 @@ import javafx.scene.layout.AnchorPane;
 public class StatsMenu extends Menu {
   private StatsMenuController controller;
 
+  /**
+   * .
+   */
   public StatsMenu() {
     super(3);
     URL u = StatsMenu.class.getResource("StatsMenuView.fxml");
@@ -21,7 +24,6 @@ public class StatsMenu extends Menu {
     try {
       this.setPane((AnchorPane) loader.load());
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     this.controller = loader.getController();

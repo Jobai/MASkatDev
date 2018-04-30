@@ -113,57 +113,12 @@ public class IntelligentAI extends Ai {
     return null;
   }
 
-  private Card getFirstCardinGame() {
-    // at present, game is always opened with trump - using a jack, if
-    // possible
-    Card[] cards = hand.getCards();
-    for (int i = 0; i < cards.length; i++) {
-      if (cards[i].isTrump(chooseContract())) {
-        return cards[i];
-      }
-    }
-    if (card == null) {
-      // should not happen - if there is no jack, there should be at
-      // least one trump suit card
-      // just to make sure that a card is played
-      card = cards[0];
-      return card;
-    }
 
-    // from here onwards: first card must be a jack
-    if (cards[0].getSuit() == Suit.CLUBS) {
-      if (cards[1].getSuit() != Suit.SPADES || cards[1].getValue() != Value.JACK) {
-        return cards[0];
-      }
-      if (cards[2].getSuit() != Suit.HEARTS || cards[2].getValue() != Value.JACK) {
-        return cards[1];
-      }
-      if (cards[3].getSuit() != Suit.DIAMONDS || cards[3].getValue() != Value.JACK) {
-        return cards[2];
-      }
-      return cards[3];
-    }
-    if (cards[0].getSuit() == Suit.SPADES) {
-      if (cards[1].getSuit() != Suit.HEARTS || cards[1].getValue() != Value.JACK) {
-        return cards[0];
-      }
-      if (cards[2].getSuit() != Suit.HEARTS || cards[2].getValue() != Value.JACK) {
-        return cards[0];
-      }
-    }
-    return cards[0];
-
-  }
-
-  private Card chooseTrickCard() {
+  private Card playForeHand() {
     Card[] cards = hand.getCards();
     // 1: check, if there are still trump cards out
-    if (chooseCard().getValue() == Value.JACK) {
-      return chooseCard();
-    }
-    // TODO get TrumpCard
-    if (card != null) {
-      return card;
+    if (card.getValue() == Value.JACK || card.isTrump(contract)) {
+    		return card;
     }
 
     // do i have any aces?
@@ -259,12 +214,8 @@ public class IntelligentAI extends Ai {
   @Override
   public Card chooseCard() {
 
-    if (roundInstance.getFirstCard() == null && roundInstance.getSecondCard() == null
-        && roundInstance.getThirdCard() == null) {
-      if (card.getTrickValue() < 1) {
-        return getFirstCardinGame();
-      }
-      return chooseTrickCard();
+    if (roundInstance.determineTrickWinner().equals(roundInstance.getForehand())) {
+      return playForeHand();
     }
     if (roundInstance.determineTrickWinner().equals(roundInstance.getMiddlehand())) {
       return playMiddlehandCard();

@@ -81,6 +81,10 @@ public class StatsMenuController {
   public void initialize() {
     Profile p = SkatMain.ioController.getLastUsedProfile();
 
+    if (p == null) {
+      return;
+    }
+
     // Time
     String time = new SimpleDateFormat("mm:ss").format(new Date(p.getPlayerGameTime()));
     gameTime.setText(time + " h");
