@@ -293,6 +293,9 @@ public class GameClient {
       case ROUND_RESTART_INFO:
         clh.roundRestartHandler(m);
         break;
+      case ROUND_GENERAL_INFO:
+        clh.roundInfoHandler(m);
+        break;
       case AUCTION_WINNER_INFO:
         clh.declarerInfoHander(m);
         break;

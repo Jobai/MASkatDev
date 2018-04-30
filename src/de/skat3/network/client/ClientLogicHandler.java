@@ -45,14 +45,14 @@ public class ClientLogicHandler {
 
     MessageCommand mc = (MessageCommand) m;
     boolean accept = (boolean) mc.gameState;
-    //TODO 
+    // TODO
     // SkatMain.mainController. FIXME
   }
 
   // tell GUI
   @Deprecated
   void bidRedoHandler(Message m) {
-    //Player p = (Player) m.payload;
+    // Player p = (Player) m.payload;
     int b = (int) ((MessageCommand) m).gameState;
     SkatMain.mainController.bidRequest(b);
 
@@ -95,28 +95,34 @@ public class ClientLogicHandler {
     MessageCommand mc = (MessageCommand) m;
     Player trickWinner = (Player) mc.gameState;
     // SkatMain.mainController.
-    //TODO
+    // TODO
 
   }
 
-  //Round = All tricks are won, all cards played, the contract is finished.
+  // Round = All tricks are won, all cards played, the contract is finished.
   void roundInfoHandler(Message m) {
     System.out.println("AUFGERUFEN - round info handler");
     MessageCommand mc = (MessageCommand) m;
 
-    //Round stated - start hand is set
+    // Round stated - start hand is set
     if (mc.getSubType() == CommandType.ROUND_START_INFO) {
-      System.out.println("set hand");
-      SkatMain.mainController.updatePlayer((Player) mc.gameState);
+      System.out.println("set hand / roundStarted");
+
+      SkatMain.mainController.roundStarted();
     }
-    
-    //Round ended - round results are shown. 
+
+    // Round ended - round results are shown.
     if (mc.getSubType() == CommandType.ROUND_END_INFO) {
       System.out.println("set round result");
 
       Result result = (Result) mc.payload;
       SkatMain.mainController.showResults(result);
       // FIXME
+    }
+
+    if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
+      System.out.println("update player");
+      SkatMain.mainController.updatePlayer((Player) mc.gameState);
     }
 
   }

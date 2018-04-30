@@ -69,9 +69,16 @@ public class ServerLogicController implements ServerLogicInterface {
       gs.sendToPlayer(player, mc);
     } else {
     }
-
-
   }
+
+  public void updatePlayerDuringRound(Player player) {
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, player.toString(),
+        CommandType.ROUND_GENERAL_INFO);
+    mc.gameState = player;
+    gs.sendToPlayer(player, mc);
+  }
+
+
 
   /*
    * (non-Javadoc)

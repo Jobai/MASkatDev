@@ -78,5 +78,5 @@ public enum CommandType implements SubType {
   
   AUCTION_WINNER_INFO,
   
-  CONTRACT_INFO;
+  CONTRACT_INFO, ROUND_GENERAL_INFO;
 }

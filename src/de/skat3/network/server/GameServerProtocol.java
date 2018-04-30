@@ -185,9 +185,9 @@ public class GameServerProtocol extends Thread {
     gs.ls.getLobby().lobbyPlayer++;
 
 
-
-    broadcastMessage(m);
     logger.info("Player" + this.playerProfile.getUuid() + "joined the server!");
+    broadcastMessage(m);
+    
   }
 
   private void handleAnswer(Message m) {
