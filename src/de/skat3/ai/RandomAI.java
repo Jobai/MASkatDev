@@ -26,9 +26,9 @@ public class RandomAI extends Ai implements Serializable {
   /**
    * Creates a new instance of AIPlayer.
    */
-  public RandomAI(Player ai) {
-    super(ai);
-    aiHelper = new AiHelper();
+  public RandomAI(Player player) {
+    super(player);
+    aiHelper = new AiHelper(player);
     cards = ai.getHand().getCards();
     acceptHandGame = random.nextBoolean();
   }

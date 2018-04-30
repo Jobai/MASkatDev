@@ -1,6 +1,5 @@
 package de.skat3.ai;
 
-import java.io.Serializable;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.CardDeck;
@@ -14,7 +13,7 @@ import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
 
 
-public class IntelligentAI extends Ai implements Serializable {
+public class IntelligentAI extends Ai {
   AiHelper aiHelper;
   Hand hand;
   Card card;
@@ -27,20 +26,9 @@ public class IntelligentAI extends Ai implements Serializable {
   GameController gameController;
 
 
-  // Dummy Werte
-
-  // wenn Ki gewonnen hat shwarz schneider oder offen
-  ArrayList<AdditionalMultipliers> additionalMultiplayerList;
-  //
-  ArrayList<Contract> contractList;
-  //
-  ArrayList<Card> cardList;
-
-
-
   public IntelligentAI(Player player) {
     super(player);
-    aiHelper = new AiHelper();
+    aiHelper = new AiHelper(player);
     hand = player.getHand();
     this.player = player;
     // con = lgs.getContract();
@@ -92,7 +80,6 @@ public class IntelligentAI extends Ai implements Serializable {
     // Recherchieren bei welcher anzahl von Karten es sinnvoll ist offen zu spielen
     int noOfTrumps = AiHelper.countTrumps(cardDeck.getCards(), chooseContract());
     int noOfAces = AiHelper.countAces(cardDeck.getCards());
-    int noOfTens = AiHelper.countTens(cardDeck.getCards());
     if (noOfTrumps >= 8) {
       return true;
     } else if (noOfTrumps + noOfAces >= 8) {
@@ -112,7 +99,6 @@ public class IntelligentAI extends Ai implements Serializable {
 
   @Override
   public Contract chooseContract() {
-	  //TODO 
     return contract;
   }
 
@@ -127,7 +113,8 @@ public class IntelligentAI extends Ai implements Serializable {
     return null;
   }
 
-  public Card openGame() {
+  @Override
+  public Card chooseCard() {
     // at present, game is always opened with trump - using a jack, if
     // possible
     Card[] cards = hand.getCards();
@@ -175,9 +162,7 @@ public class IntelligentAI extends Ai implements Serializable {
     if (chooseCard().getValue() == Value.JACK) {
       return chooseCard();
     }
-    	if (card.isTrump(chooseContract())){
-    		return card;
-    	}
+    // TODO get TrumpCard
     if (card != null) {
       return card;
     }
@@ -218,30 +203,30 @@ public class IntelligentAI extends Ai implements Serializable {
       // "langer Weg, kurze Farbe"
       int minCount = 9;
       Card result = null;
-      for (Card c : cards) {
+      for (Card card : cards) {
         if (result == null || result.isTrump(roundInstance.getContract())) {
-          result = c;
+          result = card;
           continue;
         }
+
+
         // FIXME c.getSuit().length ist eine Konstante,
         // das ist der richtige Zugriff drauf
         // int suitLength = Suit.values().length;
         // FIXME warum vergleichst du 2 Konstanten?
-        
-        int suitLength = c.getSuit().length;
-        if (suitLength < minCount
-            && !(suitLength == 1 && c.getValue() == Value.TEN)) {
-          result = c;
-          minCount =suitLength;
+        if (aiHelper.getAmountOfSuitsByCardSuit(card) < minCount
+            && !(card.getSuit().length == 1 && card.getValue() == Value.TEN)) {
+          result = card;
+          minCount = card.getSuit().length;
           continue;
         }
-        if (suitLength== minCount
-            && !(suitLength== 1 && c.getValue() == Value.ACE)) {
-          result = c;
+        if (card.getSuit().length == minCount
+            && !(card.getSuit().length == 1 && card.getValue() == Value.ACE)) {
+          result = card;
           continue;
         }
-        if (c.getSuit() == result.getSuit() && suitLength == minCount) {
-          result = c;
+        if (card.getSuit() == result.getSuit() && card.getSuit().length == minCount) {
+          result = card;
           continue;
         }
       }
@@ -249,9 +234,9 @@ public class IntelligentAI extends Ai implements Serializable {
     }
     // fallback: take the first valid card (which is a trump, if there still
     // is one)
-    for (Card c : cards) {
-      if (c.isPlayable()) {
-        return c;
+    for (Card card : cards) {
+      if (card.isPlayable()) {
+        return card;
       }
     }
 
@@ -271,13 +256,13 @@ public class IntelligentAI extends Ai implements Serializable {
 
     return cards[0];
   }
-  @Override
-  public Card chooseCard() {
+
+  private Card playCard() {
 
     if (roundInstance.getFirstCard() == null && roundInstance.getSecondCard() == null
         && roundInstance.getThirdCard() == null) {
       if (card.getTrickValue() < 1) {
-        return openGame();
+        return chooseCard();
       }
       return chooseTrickCard();
     }
@@ -287,7 +272,4 @@ public class IntelligentAI extends Ai implements Serializable {
     return playRearhandCard();
 
   }
-
- 
-
 }
