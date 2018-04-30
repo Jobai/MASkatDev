@@ -15,22 +15,22 @@ import de.skat3.gamelogic.Value;
 
 public class IntelligentAI extends Ai {
   AiHelper aiHelper;
-  Hand h;
-  Card c;
-  Player p;
-  Contract con;
+  Hand hand;
+  Card card;
+  Player player;
+  Contract contract;
 
   // TODO how to initialize those?
-  CardDeck cd;
-  RoundInstance r;
-  GameController gc;
+  CardDeck cardDeck;
+  RoundInstance roundInstance;
+  GameController gameController;
 
 
   public IntelligentAI(Player player) {
     super(player);
     aiHelper = new AiHelper();
-    h = player.getHand();
-    p = player;
+    hand = player.getHand();
+    this.player = player;
     // con = lgs.getContract();
 
   }
@@ -38,9 +38,9 @@ public class IntelligentAI extends Ai {
   @Override
   public boolean acceptBid(int bid) {
 
-    int maxBid = h.getMaximumBid(chooseContract());
-    int noOfJacks = AiHelper.countJacks(cd.getCards());
-    int noOfTrumps = AiHelper.countTrumps(cd.getCards(), chooseContract());
+    int maxBid = hand.getMaximumBid(chooseContract());
+    int noOfJacks = AiHelper.countJacks(cardDeck.getCards());
+    int noOfTrumps = AiHelper.countTrumps(cardDeck.getCards(), chooseContract());
     Suit mostFrequentSuitColor = aiHelper.getMostFrequentSuit();
 
     // only play, if I have at least 1 jack and 4 color cards or
@@ -58,16 +58,16 @@ public class IntelligentAI extends Ai {
     if (maxBid > 0) {
       switch (mostFrequentSuitColor) {
         case CLUBS:
-          con = Contract.CLUBS;
+          contract = Contract.CLUBS;
           break;
         case SPADES:
-          con = Contract.SPADES;
+          contract = Contract.SPADES;
           break;
         case HEARTS:
-          con = Contract.HEARTS;
+          contract = Contract.HEARTS;
           break;
         case DIAMONDS:
-          con = Contract.DIAMONDS;
+          contract = Contract.DIAMONDS;
           break;
       }
     }
@@ -78,8 +78,8 @@ public class IntelligentAI extends Ai {
   @Override
   public boolean acceptHandGame() {
     // Recherchieren bei welcher anzahl von Karten es sinnvoll ist offen zu spielen
-    int noOfTrumps = AiHelper.countTrumps(cd.getCards(), chooseContract());
-    int noOfAces = AiHelper.countAces(cd.getCards());
+    int noOfTrumps = AiHelper.countTrumps(cardDeck.getCards(), chooseContract());
+    int noOfAces = AiHelper.countAces(cardDeck.getCards());
     if (noOfTrumps >= 8) {
       return true;
     } else if (noOfTrumps + noOfAces >= 8) {
@@ -99,16 +99,13 @@ public class IntelligentAI extends Ai {
 
   @Override
   public Contract chooseContract() {
-    return con;
+    return contract;
   }
-
 
   @Override
   public Player getPlayer() {
-
     return this.ai;
   }
-
 
   @Override
   public Card[] selectSkat(Card[] skat) {
@@ -120,18 +117,18 @@ public class IntelligentAI extends Ai {
   public Card chooseCard() {
     // at present, game is always opened with trump - using a jack, if
     // possible
-    Card[] cards = h.getCards();
+    Card[] cards = hand.getCards();
     for (int i = 0; i < cards.length; i++) {
       if (cards[i].isTrump(chooseContract())) {
         return cards[i];
       }
     }
-    if (c == null) {
+    if (card == null) {
       // should not happen - if there is no jack, there should be at
       // least one trump suit card
       // just to make sure that a card is played
-      c = cards[0];
-      return c;
+      card = cards[0];
+      return card;
     }
 
     // from here onwards: first card must be a jack
@@ -159,28 +156,27 @@ public class IntelligentAI extends Ai {
 
   }
 
-
   private Card chooseTrickCard() {
-    Card[] cards = h.getCards();
+    Card[] cards = hand.getCards();
     // 1: check, if there are still trump cards out
     if (chooseCard().getValue() == Value.JACK) {
       return chooseCard();
     }
     // TODO get TrumpCard
-    if (c != null) {
-      return c;
+    if (card != null) {
+      return card;
     }
 
     // do i have any aces?
     for (int i = 0; i < cards.length; i++) {
-      if (c.getValue() == Value.ACE) {
-        return c;
+      if (card.getValue() == Value.ACE) {
+        return card;
       }
-      if (c.getValue() == Value.TEN) {
-        return c;
+      if (card.getValue() == Value.TEN) {
+        return card;
       }
-      if (c.getValue() == Value.KING)
-        return c;
+      if (card.getValue() == Value.KING)
+        return card;
     }
 
     int help = 0;
@@ -193,26 +189,29 @@ public class IntelligentAI extends Ai {
   }
 
   private Card playMiddlehandCard() {
-
-    Card[] cards = cd.getCards();
-    if (gc.getDealer() == r.getMiddlehand()) {
+    Card[] cards = cardDeck.getCards();
+    if (gameController.getDealer() == roundInstance.getMiddlehand()) {
       // "kurzer Weg, lange Farbe zum Freund"
-      Suit longSuit = aiHelper.getMostFrequentSuit(c.getSuit());
+      Suit longSuit = aiHelper.getMostFrequentSuit(card.getSuit());
       int firstIndex = aiHelper.getFirstIndexOfSuit(longSuit);
       if (longSuit != null && cards[firstIndex].getValue() == Value.ACE) {
         return cards[firstIndex];
       }
       int lastIndex = aiHelper.getLastIndexOfSuit(aiHelper.getMostFrequentSuit(longSuit));
       return cards[lastIndex];
-    } else if (p.getPosition() == Position.REARHAND) {
+    } else if (player.getPosition() == Position.REARHAND) {
       // "langer Weg, kurze Farbe"
       int minCount = 9;
       Card result = null;
       for (Card c : cards) {
-        if (result == null || result.isTrump(r.getContract())) {
+        if (result == null || result.isTrump(roundInstance.getContract())) {
           result = c;
           continue;
         }
+        // FIXME c.getSuit().length ist eine Konstante,
+        // das ist der richtige Zugriff drauf
+        // int suitLength = Suit.values().length;
+        // FIXME warum vergleichst du 2 Konstanten?
         if (c.getSuit().length < minCount
             && !(c.getSuit().length == 1 && c.getValue() == Value.TEN)) {
           result = c;
@@ -246,7 +245,7 @@ public class IntelligentAI extends Ai {
   private Card playRearhandCard() {
     // fallback: take the first valid card (which is a trump, if there still
     // is one)
-    Card[] cards = h.getCards();
+    Card[] cards = hand.getCards();
     for (Card c : cards) {
       if (c.isPlayable()) {
         return c;
@@ -256,17 +255,16 @@ public class IntelligentAI extends Ai {
     return cards[0];
   }
 
-
-
   private Card playCard() {
 
-    if (r.getFirstCard() == null && r.getSecondCard() == null && r.getThirdCard() == null) {
-      if (c.getTrickValue() < 1) {
+    if (roundInstance.getFirstCard() == null && roundInstance.getSecondCard() == null
+        && roundInstance.getThirdCard() == null) {
+      if (card.getTrickValue() < 1) {
         return chooseCard();
       }
       return chooseTrickCard();
     }
-    if (r.determineTrickWinner().equals(r.getMiddlehand())) {
+    if (roundInstance.determineTrickWinner().equals(roundInstance.getMiddlehand())) {
       return playMiddlehandCard();
     }
     return playRearhandCard();

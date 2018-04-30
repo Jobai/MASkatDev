@@ -57,4 +57,6 @@ public enum Contract implements Serializable {
         throw new AssertionError();
     }
   }
+
+  public static int length = Contract.values().length;
 }

@@ -24,7 +24,6 @@ public class Hand implements Serializable {
     }
   }
 
-
   public Card[] getCards() {
     return this.cards;
   }
