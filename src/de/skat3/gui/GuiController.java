@@ -75,7 +75,7 @@ public class GuiController implements GuiControllerInterface {
 
     Optional<String> result = dialog.showAndWait();
     if (result.isPresent()) {
-      SkatMain.mainController.contractSelected(Contract.valueOf(result.get()),
+      SkatMain.mainController.contractSelected(Contract.getEnum(result.get()),
           new AdditionalMultipliers());
     }
 
