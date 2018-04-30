@@ -113,8 +113,7 @@ public class IntelligentAI extends Ai {
     return null;
   }
 
-  @Override
-  public Card chooseCard() {
+  private Card getFirstCardinGame() {
     // at present, game is always opened with trump - using a jack, if
     // possible
     Card[] cards = hand.getCards();
@@ -256,13 +255,14 @@ public class IntelligentAI extends Ai {
 
     return cards[0];
   }
-
-  private Card playCard() {
+  
+  @Override
+  public Card chooseCard() {
 
     if (roundInstance.getFirstCard() == null && roundInstance.getSecondCard() == null
         && roundInstance.getThirdCard() == null) {
       if (card.getTrickValue() < 1) {
-        return chooseCard();
+        return getFirstCardinGame();
       }
       return chooseTrickCard();
     }
