@@ -136,7 +136,7 @@ public class GameServerProtocol extends Thread {
 
     gs.ls.stopLobbyBroadcast(); // XXX
 
-    
+
     broadcastMessage(m);
     logger.info("HANDELING STATE CHANGE");
 
@@ -148,10 +148,9 @@ public class GameServerProtocol extends Thread {
     MessageConnection mc = (MessageConnection) m;
     Player op = mc.originSender;
     Profile p = SkatMain.ioController.getLastUsedProfile();
-  
+
     String serverPw = GameServer.lobby.getPassword();
-    if (!(serverPw == null || serverPw.isEmpty()
-        || (op.getUuid().equals(p.getUuid())))) {
+    if (!(serverPw == null || serverPw.isEmpty() || (op.getUuid().equals(p.getUuid())))) {
       System.out.println("SERVER HAS PASSWORD!: CHECKING!");
       System.out.println("SERVER PW: '" + serverPw + "' ; GIVEN PW '" + mc.lobbyPassword + "'");
       if (!(serverPw.equals(mc.lobbyPassword))) {
@@ -160,18 +159,30 @@ public class GameServerProtocol extends Thread {
       }
       System.out.println("Check succesful!");
     }
+    System.out
+        .println("CONNECTED Current: " + SkatMain.mainController.currentLobby.getCurrentNumberOfPlayers()
+            + " CONNECTED Lobby: " + SkatMain.mainController.currentLobby.lobbyPlayer);
+    if (SkatMain.mainController.currentLobby
+        .getCurrentNumberOfPlayers() >= SkatMain.mainController.currentLobby
+            .getMaximumNumberOfPlayers()) {
+      kickConnection();
+      return;
+    }
 
 
-    
-//    Lobby backup =  SkatMain.mainController.currentLobby;
-//    SkatMain.mainController.currentLobby.addPlayer(op);
-//    gs.ls.setLobby(SkatMain.mainController.currentLobby);
-//    SkatMain.mainController.currentLobby = backup;
-    
-    gs.ls.getLobby().incrementconnectedPlayerNumberbyHand();
 
+    // Lobby backup = SkatMain.mainController.currentLobby;
+    // SkatMain.mainController.currentLobby.addPlayer(op);
+    // gs.ls.setLobby(SkatMain.mainController.currentLobby);
+    // SkatMain.mainController.currentLobby = backup;
+
+    // gs.ls.getLobby().incrementconnectedPlayerNumberbyHand();
+
+    // gs.ls.setLobby(SkatMain.mainController.currentLobby);
     this.playerProfile = (Player) m.payload;
     m.secondPayload = SkatMain.mainController.currentLobby;
+
+    gs.ls.getLobby().lobbyPlayer++;
 
 
 
@@ -254,8 +265,8 @@ public class GameServerProtocol extends Thread {
     logger.severe("LOST CONNECTION TO CLIENT!  " + playerProfile.getUuid());
     closeConnection();
   }
-  
-  void sendDisconnectinfo(Player disconnecting){
+
+  void sendDisconnectinfo(Player disconnecting) {
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_INFO);
     mc.disconnectingPlayer = disconnecting;
     broadcastMessage(mc);

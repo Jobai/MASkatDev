@@ -44,6 +44,8 @@ public class Lobby implements Serializable {
   boolean singlePlayerGame;
   boolean kontraRekontraEnabled;
   private UUID uuid;
+  
+  public int lobbyPlayer = 0;
 
   boolean hasPassword;
 
@@ -253,5 +255,6 @@ public class Lobby implements Serializable {
   public void incrementconnectedPlayerNumberbyHand() {
     currentPlayers++;
   }
+  
 
 }

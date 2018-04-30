@@ -1,6 +1,7 @@
 package de.skat3.network.server;
 
 import de.skat3.main.Lobby;
+import de.skat3.main.SkatMain;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -71,14 +72,19 @@ public class LobbyServer extends Thread {
 
       try (DatagramSocket ds = new DatagramSocket()) {
 
+        
+        System.out.println(SkatMain.mainController.currentLobby.hashCode());
+        System.out.println(lobby.hashCode());
+        System.out.println(SkatMain.mainController.currentLobby == lobby);
         this.ds = ds;
         ds.setBroadcast(true);
         byte[] buff;
-        buff = lobby.convertToByteArray(lobby);
-        System.out.println(buff.length);
+    
+//        buff = lobby.convertToByteArray(lobby);
+//        System.out.println(buff.length);
         DatagramPacket packet;
-        packet =
-            new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
+//        packet =
+//            new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
 
         while (!this.isInterrupted()) {
           buff = lobby.convertToByteArray(lobby);

@@ -2,6 +2,7 @@ package de.skat3.main;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import de.skat3.ai.Ai;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
@@ -52,32 +53,71 @@ public class MainController implements MainControllerInterface {
     // FIXME
     // not required @jonas
 
+
+
     try {
       this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, scoringMode,
           kontraRekontraEnabled);
     } catch (UnknownHostException e) {
+      // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.numberOfPlayers);
+    this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.currentPlayers);
     this.gameController =
         new GameController(this.currentLobby.kontraRekontraEnabled, this.currentLobby.scoringMode);
     this.gameServer =
         SkatMain.mainNetworkController.startLocalServer(this.currentLobby, this.gameController);
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
     this.isHost = true;
     SkatMain.clc = gameClient.getClc();
+
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot);
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot2);
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     this.startGame();
-    Platform.runLater(new Runnable() {
-
-      @Override
-      public void run() {
-        SkatMain.guiController.goInGame();
+    SkatMain.guiController.goInGame();
 
 
-      }
-    });
-
+    // this.hostMultiplayerGame("SINGLEPLAYER", numberOfPlayers, timer, kontraRekontraEnabled,
+    // scoringMode);
+    // try {
+    //
+    // } catch (UnknownHostException e) {
+    // e.printStackTrace();
+    // }
+    // this.gameController =
+    // new GameController(this.currentLobby.kontraRekontraEnabled, this.currentLobby.scoringMode);
+    // this.gameServer =
+    // SkatMain.mainNetworkController.startLocalServer(this.currentLobby, this.gameController);
+    // this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
+    // this.isHost = true;
+    // SkatMain.clc = gameClient.getClc();
+    // SkatMain.mainNetworkController.addAItoLocalServer(hardBot);
+    // SkatMain.mainNetworkController.addAItoLocalServer(hardBot2);
+    // this.startGame();
+    // Platform.runLater(new Runnable() {
+    //
+    // @Override
+    // public void run() {
+    // SkatMain.guiController.goInGame();
+    //
+    //
+    // }
+    // });
+    //
 
   }
 
@@ -299,8 +339,9 @@ public class MainController implements MainControllerInterface {
   }
 
   /**
-   * Lets window icon blink in the taskbar.
-   * Used for informing the user of a needed action if the game windows is not in focus.
+   * Lets window icon blink in the taskbar. Used for informing the user of a needed action if the
+   * game windows is not in focus.
+   * 
    * @author jobauer
    */
   @Override

@@ -140,7 +140,7 @@ public class MultiplayerMenuController {
 
             hostList = SkatMain.mainController.getLocalHosts();
             for (Lobby lobby : hostList) {
-              items.add(lobby.getName() + "(" + lobby.getCurrentNumberOfPlayers() + "/"
+              items.add(lobby.getName() + "(" + lobby.lobbyPlayer + "/"
                   + lobby.getMaximumNumberOfPlayers() + ")");
             }
 
@@ -233,7 +233,7 @@ public class MultiplayerMenuController {
     serverIP.setText(currentLobby.getIp().toString());
     // serverPW.setText(currentLobby.);
     serverPlayer.setText(
-        currentLobby.getCurrentNumberOfPlayers() + "/" + currentLobby.getMaximumNumberOfPlayers());
+        currentLobby.lobbyPlayer + "/" + currentLobby.getMaximumNumberOfPlayers());
 
     // Players
     Player[] players = currentLobby.getPlayers();

@@ -45,6 +45,10 @@ public class GameClient {
   StreamListener sl;
   ClientLogicHandler clh;
 
+  boolean closedByServer;
+
+  boolean kickedByServer;
+
   Player player;
 
   String lobbyPassword;
@@ -187,24 +191,24 @@ public class GameClient {
   private void handleConnectionInfo(Message m) {
     // TODO Auto-generated method stub
     MessageConnection mc = (MessageConnection) m;
-    
+
     logger.info("removed disconnected player");
     SkatMain.mainController.currentLobby.removePlayer(mc.disconnectingPlayer);
     updateLGS();
-    
+
   }
-  
-  private void updateLGS(){
-    
+
+  private void updateLGS() {
+
   }
 
 
-  private void handleOpendConnection(Message m) { //XXX
+  private void handleOpendConnection(Message m) { // XXX
 
     Player p = (Player) m.payload;
     Lobby l = (Lobby) m.secondPayload;
     logger.info("Player" + p.getUuid() + "joined and was added to local Lobby!");
-    SkatMain.mainController.currentLobby = l; //Lobby is set (needed for direct connect)
+    SkatMain.mainController.currentLobby = l; // Lobby is set (needed for direct connect)
     SkatMain.mainController.currentLobby.addPlayer(p);
     updateLGS();
 
@@ -311,7 +315,15 @@ public class GameClient {
 
   void closeConnection() {
     SkatMain.mainController.goToMenu();
-    SkatMain.mainController.showCustomAlertPormpt("Connection to the server failed", "The connection to the server failed. Please check that a server is running and try again later"); //TODO change to "Connection to server failed"
+    SkatMain.mainController.showCustomAlertPormpt("Connection to the server failed",
+        "The connection to the server failed. "
+            + "Please check that a server is running and try again later"); // TODO
+                                                                            // change
+                                                                            // to
+                                                                            // "Connection
+                                                                            // to
+                                                                            // server
+                                                                            // failed"
     sl.interrupt();
     try {
       toSever.close();
@@ -327,14 +339,20 @@ public class GameClient {
     MessageConnection mc = (MessageConnection) m;
     String reason = mc.reason;
     if (reason != null) {
+      kickedByServer = true;
+      closedByServer = true;
       SkatMain.mainController.showWrongPassword();
-      handleLostConnection();
+    } else {
+      SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
+          "The game server closed your connection. \n"
+              + "You can try again later or chose a different server"); // TODO change to
+                                                                        // "Connection to server
+                                                                        // failed"
     }
     sl.interrupt();
     System.out.println("GO to menu");
     SkatMain.mainController.goToMenu();
-    SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!", "The game server closed your connection. \n"
-        + "You can try again later or chose a different server"); //TODO change to "Connection to server failed"
+
     try {
       toSever.close();
       fromServer.close();
