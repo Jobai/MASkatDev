@@ -6,14 +6,17 @@ import de.skat3.gui.Gui;
 import de.skat3.gui.GuiController;
 import de.skat3.io.profile.IoController;
 import de.skat3.network.MainNetworkController;
+import de.skat3.network.client.ClientLogicController;
 
 public class SkatMain {
 
   public static MainController mainController;
   public static LocalGameState lgs;
+  public static  ClientLogicController clc;
   public static GuiController guiController;
   public static IoController ioController;
   public static MainNetworkController mainNetworkController;
+  public static AiController aiController;
 
 
   /**

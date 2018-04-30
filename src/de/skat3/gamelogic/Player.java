@@ -3,6 +3,9 @@ package de.skat3.gamelogic;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
+import de.skat3.ai.Ai;
+import de.skat3.ai.IntelligentAI;
+import de.skat3.ai.RandomAI;
 import de.skat3.io.profile.ImageConverter;
 import de.skat3.io.profile.Profile;
 import javafx.scene.image.Image;
@@ -25,6 +28,7 @@ public class Player implements Serializable {
   int wonGames;
   int lostGames;
   int seegerPoints;
+  public Ai ai;
 
   public Player(Profile profile) {
 
@@ -86,6 +90,11 @@ public class Player implements Serializable {
     this.wonGames = 0;
     this.lostGames = 0;
     this.seegerPoints = 0;
+    if (this.isHardBot) {
+      this.ai = new IntelligentAI(this);
+    } else {
+      this.ai = new RandomAI(this);
+    }
   }
 
   public UUID getUuid() {
@@ -206,6 +215,5 @@ public class Player implements Serializable {
   }
 
 }
-
 
 

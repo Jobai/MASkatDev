@@ -67,6 +67,7 @@ public class Lobby implements Serializable {
     this.serverMode = serverMode;
     this.currentPlayers = 0;
     this.name = name;
+    this.timer = timer;
 
     if (password != null && !password.isEmpty()) {
       this.password = password;
@@ -92,16 +93,16 @@ public class Lobby implements Serializable {
    */
   public Lobby(Inet4Address ip, int serverMode, int scoringMode, boolean kontraRekontraEnabled) {
     this.numberOfPlayers = 3;
-    this.timer = 0;
     this.players = new Player[this.numberOfPlayers];
     this.ip = ip;
     this.serverMode = serverMode;
-    this.currentPlayers = 1;
     this.hasPassword = false;
+    this.currentPlayers = 0;
+    this.timer = 0;
     this.scoringMode = scoringMode;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
+    uuid = UUID.randomUUID();
     this.singlePlayerGame = true;
-
 
   }
 

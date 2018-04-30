@@ -7,6 +7,8 @@ public class MatchResult implements Serializable {
 
 
   private PlayerHistory[] list;
+  
+  // TODO
 
   /**
    * 

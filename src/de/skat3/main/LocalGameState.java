@@ -6,6 +6,7 @@ import de.skat3.ai.RandomAI;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,10 +29,6 @@ public class LocalGameState {
   public Card[] trick;
   public Card[] skat;
   public ObservableList<String> chatMessages;
-
-  public Ai firstAi;
-
-  public Ai secondAi;
   private int localPosition;
 
   /**
@@ -100,27 +97,6 @@ public class LocalGameState {
 
   }
 
-  // if (players[1].isBot()) {
-  // if (players[1].isHardBot()) {
-  // this.firstAi = new IntelligentAI(players[1]);
-  // } else {
-  // this.firstAi = new RandomAI(players[1]);
-  // }
-  // }
-  // this.enemyOne = players[1];
-  // if (players[2].isBot()) {
-  // if (players[2].isHardBot()) {
-  // this.firstAi = new IntelligentAI(players[2]);
-  // } else {
-  // this.firstAi = new RandomAI(players[2]);
-  // }
-  // }
-  // this.enemyTwo = players[2];
-  //
-  // if (numberOfPlayers == 4) {
-  // dealer = players[3];
-  // }
-
 
 
   /**
@@ -152,8 +128,8 @@ public class LocalGameState {
     }
   }
 
-  public Card[] getLocalHand() {
-    return this.localClient.getHand().cards;
+  public Hand getLocalHand() {
+    return this.localClient.getHand();
   }
 
 
@@ -166,16 +142,6 @@ public class LocalGameState {
    * @param bot
    * @return
    */
-  public Ai getAi(Player bot) {
-    if (this.firstAi.getPlayer().equals(bot)) {
-      return firstAi;
-    }
-    if (this.secondAi.getPlayer().equals(bot)) {
-      return secondAi;
-    }
-    System.err.println("LGS: BOT NOT FOUND");
-    return null;
-  }
 
   /**
    * 

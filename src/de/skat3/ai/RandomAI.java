@@ -1,6 +1,7 @@
 package de.skat3.ai;
 
 
+import java.io.Serializable;
 /**
  * Author Emre Cura
  */
@@ -10,10 +11,11 @@ import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 
-public class RandomAI extends Ai {
-  AiHelper aiHelper;
+ 
+public class RandomAI extends Ai implements Serializable {
   Card[] cards;
   boolean acceptHandGame;
+  AiHelper aiHelper;
 
 
   /**

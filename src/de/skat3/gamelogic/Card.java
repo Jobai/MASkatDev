@@ -181,7 +181,7 @@ public class Card implements Serializable {
       System.err.println("Null cards compared");
       return true;
     } else {
-      if (this.value == null || this.suit == null || card.value == null || card.suit == null) {
+      if (this.value == null ^ this.suit == null || card.value == null ^ card.suit == null) {
         throw new Exception("Invalid cards compared");
       }
     }

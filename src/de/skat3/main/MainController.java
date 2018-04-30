@@ -30,7 +30,6 @@ import de.skat3.gamelogic.MatchResult;
 public class MainController implements MainControllerInterface {
 
 
-  private ClientLogicController clc;
   private GameServer gameServer;
   private GameClient gameClient;
   private GameController gameController;
@@ -67,7 +66,7 @@ public class MainController implements MainControllerInterface {
         SkatMain.mainNetworkController.startLocalServer(this.currentLobby, this.gameController);
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
     this.isHost = true;
-    this.clc = gameClient.getClc();
+    SkatMain.clc = gameClient.getClc();
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot);
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot2);
     this.startGame();
@@ -94,7 +93,7 @@ public class MainController implements MainControllerInterface {
   public void joinMultiplayerGame(Lobby lobby) {
     this.currentLobby = lobby;
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
-    this.clc = gameClient.getClc();
+    SkatMain.clc = gameClient.getClc();
     SkatMain.guiController.goInGame();
     this.isHost = false;
 
@@ -117,7 +116,7 @@ public class MainController implements MainControllerInterface {
     }
 
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
-    this.clc = gameClient.getClc();
+    SkatMain.clc = gameClient.getClc();
     SkatMain.guiController.goInGame();
     this.isHost = false;
 
@@ -131,7 +130,7 @@ public class MainController implements MainControllerInterface {
     this.currentLobby = lobby;
     lobby.password = password;
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
-    this.clc = gameClient.getClc();
+    SkatMain.clc = gameClient.getClc();
     SkatMain.guiController.goInGame();
     this.isHost = false;
 
@@ -226,7 +225,7 @@ public class MainController implements MainControllerInterface {
         SkatMain.mainNetworkController.startLocalServer(this.currentLobby, this.gameController);
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
     this.isHost = true;
-    this.clc = gameClient.getClc();
+    SkatMain.clc = gameClient.getClc();
     SkatMain.guiController.goInGame();
 
 
@@ -256,7 +255,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void sendMessage(String message) {
-    clc.sendChatMessage(message);
+    SkatMain.clc.sendChatMessage(message);
   }
 
   /**
@@ -281,7 +280,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void exitGame() {
 
-    clc.leaveGame();
+    SkatMain.clc.leaveGame();
     // TODO go back to the menu
 
   }
@@ -524,24 +523,24 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void localBid(boolean accepted) {
-    clc.bidAnswer(accepted);
+    SkatMain.clc.bidAnswer(accepted);
     // network
   }
 
   public void handGameSelected(boolean accepted) {
-    clc.handAnswer(accepted);
+    SkatMain.clc.handAnswer(accepted);
     // network
   }
 
   @Override
   public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers) {
-    clc.contractAnswer(contract, additionalMultipliers);
+    SkatMain.clc.contractAnswer(contract, additionalMultipliers);
     // network
   }
 
   @Override
   public void localCardPlayed(Card card) {
-    clc.playAnswer(card);
+    SkatMain.clc.playAnswer(card);
     // network
   }
 
@@ -569,7 +568,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void startGame() {
     this.gameServer.setGameMode(1);
-    clc.announceGameStarted();
+    SkatMain.clc.announceGameStarted();
     this.gameController.startGame(this.currentLobby.players,
         this.gameServer.getSeverLogicController());
   }
@@ -583,19 +582,19 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void skatSelected(Hand hand, Card[] skat) {
-    clc.throwAnswer(hand, skat);
+    SkatMain.clc.throwAnswer(hand, skat);
     // FIXME
   }
 
   @Override
   public void kontraAnnounced() {
-    clc.kontraAnswer();
+    SkatMain.clc.kontraAnswer();
 
   }
 
   @Override
   public void rekontraAnnounced() {
-    clc.reKontraAnswer();
+    SkatMain.clc.reKontraAnswer();
 
   }
 
@@ -619,84 +618,15 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void localKontraAnnounced() {
-    clc.kontraAnswer(); // FIXME
+    SkatMain.clc.kontraAnswer(); // FIXME
 
   }
 
   @Override
   public void localRekontraAnnounced() {
-    clc.reKontraAnswer(); // FIXME
+    SkatMain.clc.reKontraAnswer(); // FIXME
 
   }
-
-
-
-  @Override
-  public void botBidRequest(Player bot, int bid) {
-    this.localBid((SkatMain.lgs.getAi(bot).acceptBid(bid))); // network
-
-  }
-
-  @Override
-  public void botPlayCardRequest(Player bot) {
-
-    Card currentCard = SkatMain.lgs.getFirstCardPlayed();
-    if (currentCard != null) {
-      SkatMain.lgs.getAi(bot).getPlayer().getHand().setPlayableCards(currentCard,
-          SkatMain.lgs.contract);
-    }
-    this.localCardPlayed(SkatMain.lgs.getAi(bot).chooseCard()); // network
-
-  }
-
-  @Override
-  public void botContractRequest(Player bot) {
-    this.contractSelected(SkatMain.lgs.getAi(bot).chooseContract(),
-        SkatMain.lgs.getAi(bot).chooseAdditionalMultipliers());
-
-  }
-
-  @Override
-  public void botHandGameRequest(Player bot) {
-    this.handGameSelected((SkatMain.lgs.getAi(bot).acceptHandGame()));
-
-  }
-
-  @Override
-  public void botSetHand(Player bot) {
-    if (SkatMain.lgs.firstAi.getPlayer() == null) {
-      SkatMain.lgs.firstAi.getPlayer().setHand(bot.getHand());
-      SkatMain.lgs.firstAi.getPlayer().setPosition(bot.getPosition().ordinal());
-    } else {
-      if (SkatMain.lgs.secondAi.getPlayer() == null) {
-        SkatMain.lgs.secondAi.getPlayer().setHand(bot.getHand());
-        SkatMain.lgs.secondAi.getPlayer().setPosition(bot.getPosition().ordinal());
-      } else {
-        System.err.println("2 Bots already exist in LGS");
-      }
-      // XXX maybe incorrect
-
-    }
-
-  }
-
-  @Override
-  public void botSelectSkatRequest(Player bot, Card[] skat) {
-    Card[] cards = SkatMain.lgs.getAi(bot).selectSkat(skat);
-    Card[] hand = new Card[10];
-    Card[] newSkat = new Card[2];
-
-    for (int i = 0; i < hand.length; i++) {
-      hand[i] = cards[i];
-    }
-
-    for (int i = 0; i < newSkat.length; i++) {
-      newSkat[i] = cards[cards.length - 2 + i];
-    }
-    this.skatSelected(new Hand(hand), newSkat);
-
-  }
-
 
 
 }

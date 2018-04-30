@@ -109,6 +109,7 @@ public class RoundInstance {
 
   private void notifyPlayers() {
     for (int i = 0; i < players.length; i++) {
+      System.out.println("LOGIC: " + this.players[i].name + " cards: " + this.players[i].hand);
       slc.sendStartHandtoPlayer(this.players[i]);
     }
 
@@ -123,7 +124,7 @@ public class RoundInstance {
    * 
    */
 
-   int currentBiddingValue;
+  int currentBiddingValue;
 
   /**
    * 

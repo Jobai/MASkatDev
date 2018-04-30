@@ -41,18 +41,6 @@ public interface MainControllerInterface {
   public void exitGame();
 
   public void selectSkatRequest(Card[] skat);
-  
-  public void botSelectSkatRequest(Player bot, Card[] skat);
-
-  public void botPlayCardRequest(Player bot);
-
-  public void botContractRequest(Player bot);
-
-  public void botHandGameRequest(Player bot);
-
-  public void botSetHand(Player bot);
-
-  public void botBidRequest(Player bot, int bid);
 
   public void playCardRequest();
 
