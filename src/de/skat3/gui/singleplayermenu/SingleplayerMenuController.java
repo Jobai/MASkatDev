@@ -58,13 +58,17 @@ public class SingleplayerMenuController {
 
     ComboBox<String> player1 = new ComboBox<>();
     player1.getItems().addAll(difficulty);
+    player1.getSelectionModel().selectFirst();
 
     ComboBox<String> player2 = new ComboBox<>();
     player2.getItems().addAll(difficulty);
+    player2.getSelectionModel().selectFirst();
 
     ComboBox<String> scoringMode = new ComboBox<>();
     scoringMode.getItems().addAll(modes);
+    scoringMode.getSelectionModel().selectFirst();
     TextField scoreValue = new TextField();
+    scoreValue.setText(String.valueOf(48));
 
     CheckBox kontraRekontra = new CheckBox();
 
