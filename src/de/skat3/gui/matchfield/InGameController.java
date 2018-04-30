@@ -2,6 +2,7 @@ package de.skat3.gui.matchfield;
 
 import java.awt.Point;
 import java.io.IOException;
+import java.net.URL;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -15,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
@@ -98,7 +100,21 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers) {
-    // TODO Auto-generated method stub
+
+    URL u = InGameOverlayController.class.getResource("ChooseContractView.fxml");
+    FXMLLoader loader = new FXMLLoader(u);
+    Parent root = null;
+    try {
+      root = loader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    Stage stage = new Stage();
+    stage.setTitle("Choose Contract");
+    stage.setScene(new Scene(root));
+    stage.showAndWait();
+
   }
 
   /*

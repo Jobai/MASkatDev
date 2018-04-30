@@ -21,7 +21,7 @@
 
 <AnchorPane fx:id="mainPane" prefHeight="720"
 	prefWidth="1280" style="-fx-min-width: 1280; -fx-min-height: 720;"
-	xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.menuframe.MenuFrameController">
 	<children>
 		<ImageView fx:id="backgroundImage" fitHeight="720.0"

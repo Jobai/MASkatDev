@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -98,7 +99,7 @@
 						<ChoiceBox fx:id="playerCount" accessibleHelp="Test"
 							prefHeight="25.0" prefWidth="175.0" GridPane.columnIndex="1"
 							GridPane.halignment="CENTER" />
-						<Label text="Spielerzahl" />
+						<Label text="Players" />
 					</children>
 				</GridPane>
 				<GridPane>
@@ -118,10 +119,14 @@
 						<ChoiceBox fx:id="mode" accessibleHelp="Test"
 							onAction="#switchMode" prefHeight="25.0" prefWidth="175.0"
 							GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-						<Label text="Modus" />
+						<Label text="Mode" />
 						<TextField fx:id="modeValue" GridPane.columnIndex="1"
 							GridPane.rowIndex="1" />
-						<Label text="Runden/Punktzahl" GridPane.rowIndex="1" />
+						<Label text="Rounds / Score" GridPane.rowIndex="1">
+							<tooltip>
+								<Tooltip fx:id="tooltipModeValue" />
+							</tooltip>
+						</Label>
 					</children>
 				</GridPane>
 				<GridPane>
@@ -142,9 +147,10 @@
 				</GridPane>
 			</children>
 		</VBox>
-		<Button layoutX="25.0" layoutY="335.0" mnemonicParsing="false"
-			onAction="#hostGame" prefHeight="42.0" prefWidth="284.0"
-			style="-fx-background-color: #d60202;" text="Host" textFill="WHITE">
+		<Button fx:id="btnHost" layoutX="25.0" layoutY="335.0"
+			mnemonicParsing="false" onAction="#hostGame" prefHeight="42.0"
+			prefWidth="284.0" style="-fx-background-color: #d60202;" text="Host"
+			textFill="WHITE">
 			<font>
 				<Font size="19.0" />
 			</font>

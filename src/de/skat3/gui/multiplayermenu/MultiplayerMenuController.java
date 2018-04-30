@@ -127,6 +127,7 @@ public class MultiplayerMenuController {
    */
   public void fillHostList() {
 
+    hostList.clear();
     hostListView.setCellFactory(param -> new HostCell());
 
     Service<String> playService;
@@ -166,6 +167,7 @@ public class MultiplayerMenuController {
       e.printStackTrace();
     }
     Stage stage = new Stage();
+    stage.setResizable(false);
     stage.setTitle("Host Server");
     stage.setScene(new Scene(root));
 
@@ -204,7 +206,7 @@ public class MultiplayerMenuController {
     if (!currentLobby.isHasPassword()) {
       SkatMain.mainController.joinMultiplayerGame(currentLobby);
       System.out.println("Join");
-    } else { //implemented password input - JB 29.04.2018
+    } else { // implemented password input - JB 29.04.2018
       TextInputDialog dialog = new TextInputDialog("");
       dialog.setTitle("Enter lobby password");
       dialog.setHeaderText("Enter lobby password");

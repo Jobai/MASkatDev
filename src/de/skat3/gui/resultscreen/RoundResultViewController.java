@@ -45,6 +45,8 @@ public class RoundResultViewController {
 
 
   public void setResult(Result result) {
+    
+    System.out.println(result.firstPlace.getName());
 
     namePlayer1.setText(result.firstPlace.getName());
     namePlayer2.setText(result.secondPlace.getName());
