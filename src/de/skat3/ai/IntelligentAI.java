@@ -166,22 +166,19 @@ public class IntelligentAI extends Ai {
         }
 
 
-        // FIXME c.getSuit().length ist eine Konstante,
-        // das ist der richtige Zugriff drauf
-        // int suitLength = Suit.values().length;
-        // FIXME warum vergleichst du 2 Konstanten?
-        if (aiHelper.getAmountOfSuitsByCardSuit(card) < minCount
-            && !(card.getSuit().length == 1 && card.getValue() == Value.TEN)) {
+        int amountOfCardsOfSameSuit = aiHelper.getAmountOfSuitsByCardSuit(card);
+        if (amountOfCardsOfSameSuit < minCount
+            && !(amountOfCardsOfSameSuit == 1 && card.getValue() == Value.TEN)) {
           result = card;
-          minCount = card.getSuit().length;
+          minCount = amountOfCardsOfSameSuit;
           continue;
         }
-        if (card.getSuit().length == minCount
-            && !(card.getSuit().length == 1 && card.getValue() == Value.ACE)) {
+        if (amountOfCardsOfSameSuit == minCount
+            && !(amountOfCardsOfSameSuit == 1 && card.getValue() == Value.ACE)) {
           result = card;
           continue;
         }
-        if (card.getSuit() == result.getSuit() && card.getSuit().length == minCount) {
+        if (card.getSuit() == result.getSuit() && amountOfCardsOfSameSuit == minCount) {
           result = card;
           continue;
         }
