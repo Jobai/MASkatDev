@@ -248,7 +248,7 @@ public class AiHelper implements Serializable {
     return suitArray;
   }
 
-  public int getAmountOfSuitsByCardSuit(Card card) {
+  public int getAmountOfCardsWithSameSuit(Card card) {
     int[] suitArray = calculateSuitsInHand();
     switch (card.getSuit()) {
       case DIAMONDS:

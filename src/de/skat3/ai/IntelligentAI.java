@@ -2,13 +2,10 @@ package de.skat3.ai;
 
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
-import de.skat3.gamelogic.CardDeck;
 import de.skat3.gamelogic.Contract;
-import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Position;
-import de.skat3.gamelogic.RoundInstance;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
 import de.skat3.main.LocalGameState;
@@ -21,12 +18,6 @@ public class IntelligentAI extends Ai {
   Player player;
   Contract contract;
   LocalGameState lgs;
-
-  // TODO how to initialize those?
-  CardDeck cardDeck;
-  RoundInstance roundInstance;
-  GameController gameController;
-
 
   public IntelligentAI(Player player) {
     super(player);
@@ -166,7 +157,7 @@ public class IntelligentAI extends Ai {
         }
 
 
-        int amountOfCardsOfSameSuit = aiHelper.getAmountOfSuitsByCardSuit(card);
+        int amountOfCardsOfSameSuit = aiHelper.getAmountOfCardsWithSameSuit(card);
         if (amountOfCardsOfSameSuit < minCount
             && !(amountOfCardsOfSameSuit == 1 && card.getValue() == Value.TEN)) {
           result = card;
