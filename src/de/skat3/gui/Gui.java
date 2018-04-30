@@ -1,13 +1,13 @@
 package de.skat3.gui;
 
+import java.io.IOException;
 import de.skat3.gui.matchfield.InGameController;
 import de.skat3.gui.matchfield.Matchfield;
 import de.skat3.gui.menuframe.MenuFrame;
+import de.skat3.gui.menuframe.ProfileController;
 import de.skat3.main.SkatMain;
 import javafx.application.Application;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /*
@@ -52,6 +52,7 @@ public class Gui extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
+
     // SkatMain.getGuiController().setGui(this);
     SkatMain.guiController.setGui(this);
     this.mainStage = primaryStage;
