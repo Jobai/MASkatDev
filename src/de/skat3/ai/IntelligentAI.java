@@ -11,6 +11,7 @@ import de.skat3.gamelogic.Position;
 import de.skat3.gamelogic.RoundInstance;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
+import de.skat3.main.LocalGameState;
 
 
 public class IntelligentAI extends Ai {
@@ -19,6 +20,7 @@ public class IntelligentAI extends Ai {
   Card card;
   Player player;
   Contract contract;
+  LocalGameState lgs;
 
   // TODO how to initialize those?
   CardDeck cardDeck;
