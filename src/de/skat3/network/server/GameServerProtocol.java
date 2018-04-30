@@ -12,6 +12,7 @@ package de.skat3.network.server;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.io.profile.Profile;
+import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
@@ -161,6 +162,13 @@ public class GameServerProtocol extends Thread {
     }
 
 
+    
+//    Lobby backup =  SkatMain.mainController.currentLobby;
+//    SkatMain.mainController.currentLobby.addPlayer(op);
+//    gs.ls.setLobby(SkatMain.mainController.currentLobby);
+//    SkatMain.mainController.currentLobby = backup;
+    
+    gs.ls.getLobby().incrementconnectedPlayerNumberbyHand();
 
     this.playerProfile = (Player) m.payload;
     m.secondPayload = SkatMain.mainController.currentLobby;

@@ -222,9 +222,11 @@ public class Lobby implements Serializable {
    * @param byteArray for conversion
    * @return lobby object (converted back from bytes)
    */
+  
   public Lobby convertFromByteArray(byte[] byteArray) {
     try (ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
         ObjectInput oIn = new ObjectInputStream(bais)) {
+      System.out.println( byteArray.length);
       return (Lobby) oIn.readObject();
     } catch (IOException e) {
       // TODO Auto-generated catch block
@@ -245,6 +247,12 @@ public class Lobby implements Serializable {
         + this.timer + "\nSingleplayer = " + this.singlePlayerGame + "\nServer mode = "
         + this.serverMode + "\nScoring mode = " + this.scoringMode + "\nPlayers = "
         + this.currentPlayers + "/" + this.numberOfPlayers + "\n----------";
+  }
+  
+  
+  public void incrementconnectedPlayerNumberbyHand()
+  {
+    currentPlayers++;
   }
 
 }

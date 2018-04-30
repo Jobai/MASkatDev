@@ -87,7 +87,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
     MessageCommand mc = (MessageCommand) m;
     Card c = (Card) mc.gameState;
     Player op = (Player) mc.originSender;
-    SkatMain.aiController.showCardPlayed(op, c, aiPlayer);
+//    SkatMain.aiController.showCardPlayed(op, c, aiPlayer);
   }
 
 
@@ -135,7 +135,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
     //Round ended - round results are shown. 
     if (mc.getSubType() == CommandType.ROUND_END_INFO) {
       Result result = (Result) mc.payload;
-      SkatMain.aiController.showResults(result, aiPlayer);
+//      SkatMain.aiController.showResults(result, aiPlayer);
       // FIXME
     }
 
@@ -196,7 +196,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
     MessageCommand mc = (MessageCommand) m;
     Contract c = (Contract) mc.payload;
     AdditionalMultipliers am = (AdditionalMultipliers) mc.secondPayload;
-    SkatMain.aiController.showContract(c, am, aiPlayer);
+    SkatMain.aiController.contractRequest(aiPlayer);
   }
 
 

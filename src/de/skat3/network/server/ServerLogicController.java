@@ -68,7 +68,6 @@ public class ServerLogicController implements ServerLogicInterface {
       mc.gameState = player;
       gs.sendToPlayer(player, mc);
     } else {
-      SkatMain.mainController.botSetHand(player);
     }
 
 
@@ -89,7 +88,6 @@ public class ServerLogicController implements ServerLogicInterface {
       mc.payload = player;
       gs.sendToPlayer(player, mc);
     } else {
-      SkatMain.mainController.botBidRequest(player, biddingValue);
     }
   }
 
@@ -106,7 +104,6 @@ public class ServerLogicController implements ServerLogicInterface {
 
       gs.sendToPlayer(player, mc);
     } else {
-      SkatMain.mainController.botPlayCardRequest(player);
     }
   }
 
@@ -195,7 +192,6 @@ public class ServerLogicController implements ServerLogicInterface {
 
       gs.sendToPlayer(p, mc);
     } else {
-      SkatMain.mainController.botHandGameRequest(p);
     }
 
   }
@@ -209,7 +205,6 @@ public class ServerLogicController implements ServerLogicInterface {
 
       gs.sendToPlayer(p, mc);
     } else {
-      SkatMain.mainController.botContractRequest(p);
     }
 
   }
@@ -224,7 +219,6 @@ public class ServerLogicController implements ServerLogicInterface {
 
       gs.sendToPlayer(p, mc);
     } else {
-      SkatMain.mainController.botSelectSkatRequest(p, skat);
     }
 
   }

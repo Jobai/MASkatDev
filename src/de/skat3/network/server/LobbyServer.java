@@ -22,6 +22,22 @@ public class LobbyServer extends Thread {
 
   private Lobby lobby;
 
+  /**
+   * @author Jonas Bauer
+   * @return the lobby
+   */
+  public Lobby getLobby() {
+    return lobby;
+  }
+
+  /**
+   * @author Jonas Bauer
+   * @param lobby the lobby to set
+   */
+  public void setLobby(Lobby lobby) {
+    this.lobby = lobby;
+  }
+
   private InetAddress inetAdress;
   public int port = 2011;
 
@@ -60,10 +76,15 @@ public class LobbyServer extends Thread {
         byte[] buff;
         buff = lobby.convertToByteArray(lobby);
         System.out.println(buff.length);
-        DatagramPacket packet =
+        DatagramPacket packet;
+        packet =
             new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
 
         while (!this.isInterrupted()) {
+          buff = lobby.convertToByteArray(lobby);
+          System.out.println(buff.length);
+          packet =
+              new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
           ds.send(packet);
           sleep(5000);
 

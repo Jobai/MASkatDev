@@ -1,6 +1,8 @@
 package de.skat3.main;
 
+import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
+import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 
 public class AiController {
@@ -92,5 +94,7 @@ public class AiController {
     // TODO
 
   }
+
+
 
 }
