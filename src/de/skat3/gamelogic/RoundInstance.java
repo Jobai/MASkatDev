@@ -46,6 +46,9 @@ public class RoundInstance {
     this.mode = mode;
     this.addtionalMultipliers = new AdditionalMultipliers();
     this.soloPlayerStartHand = new Hand();
+    for (int i = 0; i < this.players.length; i++) {
+      this.players[i].shortenPlayer(); //XXX
+    }
     this.gameThread = gameThread;
 
   }
@@ -54,13 +57,17 @@ public class RoundInstance {
 
   void startRound() throws InterruptedException {
 
-    Player winner;
     this.initializeAuction();
-    winner = this.startBidding();
+    for (int i = 0; i < this.players.length; i++) {
+      slc.sendStartHandtoPlayer(this.players[i]);
+    }
+    this.notifyPlayers();
+    Player winner = this.startBidding();
     if (winner == null) {
       // this.slc.broacastRoundRestarded(); TODO
     } else {
       this.setDeclarer(winner);
+      this.notifyPlayers();
       this.startGame();
     }
 
@@ -73,7 +80,6 @@ public class RoundInstance {
     for (int i = 0; i < this.players.length; i++) {
       this.players[i].setPosition(i);
     }
-    this.notifyPlayers();
 
 
   }
@@ -109,8 +115,7 @@ public class RoundInstance {
 
   private void notifyPlayers() {
     for (int i = 0; i < players.length; i++) {
-      System.out.println("LOGIC: " + this.players[i].name + " cards: " + this.players[i].hand);
-      slc.sendStartHandtoPlayer(this.players[i]);
+      slc.updatePlayerDuringRound(this.players[i]);
     }
 
   }
@@ -334,15 +339,15 @@ public class RoundInstance {
 
 
 
-   Player getForehand() {
+  Player getForehand() {
     return this.players[0];
   }
 
-   Player getMiddlehand() {
+  Player getMiddlehand() {
     return this.players[1];
   }
 
-   Player getRearhand() {
+  Player getRearhand() {
     return this.players[2];
   }
 

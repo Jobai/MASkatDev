@@ -356,17 +356,19 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void updatePlayer(Player player) {
-    SkatMain.lgs.localClient = player.copyPlayer();
+    SkatMain.lgs.localClient.updatePlayer(player);
+  }
+  
+  
+  public void roundStarted() {
     Platform.runLater(new Runnable() {
-
-
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().startRound();
       }
     });
-
   }
+  
 
   /**
    * Lets window icon blink in the taskbar. Used for informing the user of a needed action if the
@@ -649,7 +651,6 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void skatSelected(Hand hand, Card[] skat) {
-    SkatMain.lgs.localClient.setHand(hand);
     SkatMain.clc.throwAnswer(hand, skat);
   }
 

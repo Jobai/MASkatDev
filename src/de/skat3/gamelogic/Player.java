@@ -213,6 +213,21 @@ public class Player implements Serializable {
   public int getPoints() {
     return points;
   }
+  
+  void shortenPlayer() {
+    this.name = null;
+    this.image = null;
+  }
+  
+  public void updatePlayer(Player player) {
+    this.wonTricks = player.wonTricks;
+    this.points = player.points;
+    this.hand = player.hand;
+    this.isBot = player.isBot;
+    this.wonGames = player.wonGames;
+    this.lostGames = player.lostGames;
+    this.seegerPoints = player.seegerPoints;
+  }
 
 }
 
