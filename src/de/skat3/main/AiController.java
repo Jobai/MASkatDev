@@ -46,8 +46,15 @@ public class AiController {
     return null;
   }
 
+
+  public void setHand(Player bot, Player unnoetig) {
+    this.getBot(bot).setHand(bot.getHand());
+    this.getBot(bot).setPosition(bot.getPosition().ordinal());
+
+  }
+
   public void selectSkatRequest(Card[] skat, Player bot) {
-    //TODO
+    // TODO
 
   }
 
@@ -56,6 +63,10 @@ public class AiController {
 
   }
 
+  /**
+   * 
+   * @param bot
+   */
   public void contractRequest(Player bot) {
     SkatMain.clc.contractAnswer(this.getBot(bot).ai.chooseContract(),
         this.getBot(bot).ai.chooseAdditionalMultipliers());
@@ -70,15 +81,16 @@ public class AiController {
     SkatMain.clc.bidAnswer(this.getBot(bot).ai.acceptBid(bid));
 
   }
-  
+
   public void kontraRequest(Player bot) {
-    //TODO
+    // TODO
 
   }
 
-  
+
   public void rekontraRequest(Player bot) {
     // TODO
+
   }
 
 }
