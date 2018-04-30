@@ -105,6 +105,7 @@ public class InGameOverlayController {
   void iniComponents() {
     this.iniScoreboard();
     this.iniPopUp();
+    this.bindChat();
   }
 
   void iniScoreboard() {
@@ -155,12 +156,9 @@ public class InGameOverlayController {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
           .setDisable(true);
       this.root.setDisable(true);
-
       this.scoreboardController.root.setVisible(true);
     }
   }
-
-
 
   public void handleKeyReleased(KeyEvent e) {
     if (KeyCode.TAB.equals(e.getCode())) {
