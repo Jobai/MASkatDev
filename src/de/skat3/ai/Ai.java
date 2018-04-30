@@ -1,5 +1,6 @@
 package de.skat3.ai;
 
+import java.io.Serializable;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.CardDeck;
@@ -13,7 +14,7 @@ import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
 import de.skat3.gamelogic.Position;
 
-public abstract class Ai {
+public abstract class Ai implements Serializable {
   Player ai;
 
 
