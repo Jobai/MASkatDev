@@ -334,7 +334,7 @@ public class RoundInstance {
 
 
 
-  Player getForehand() {
+  public Player getForehand() {
     return this.players[0];
   }
 
@@ -342,7 +342,7 @@ public class RoundInstance {
     return this.players[1];
   }
 
-  Player getRearhand() {
+  public Player getRearhand() {
     return this.players[2];
   }
 
