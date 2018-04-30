@@ -43,7 +43,9 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public ArrayList<Lobby> getLocalHosts() {
-    return SkatMain.mainNetworkController.discoverServer();
+    ArrayList<Lobby> lobbys = SkatMain.mainNetworkController.discoverServer();
+    this.blinkAlert();
+    return lobbys;
   }
 
   @Override
@@ -108,7 +110,9 @@ public class MainController implements MainControllerInterface {
       lobby.ip = i4;
     } catch (UnknownHostException e) {
       e.printStackTrace();
-      SkatMain.mainController.showCustomAlertPormpt("Invalid IP Adress!", "The entered IP Adress is invalid! Please check and try again.");; // TODO change to "invalid IP Adress"
+      SkatMain.mainController.showCustomAlertPormpt("Invalid IP Adress!",
+          "The entered IP Adress is invalid! Please check and try again.");; // TODO change to
+                                                                             // "invalid IP Adress"
       return;
     }
 
@@ -133,8 +137,7 @@ public class MainController implements MainControllerInterface {
 
 
   }
-  
-  
+
 
 
   public void showWrongPassword() {
@@ -300,8 +303,14 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  /**
+   * Lets window icon blink in the taskbar.
+   * Used for informing the user of a needed action if the game windows is not in focus.
+   * @author jobauer
+   */
   @Override
   public void bidRequest(int bid) {
+    this.blinkAlert();
     Platform.runLater(new Runnable() {
 
       @Override
@@ -372,8 +381,20 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  public void blinkAlert() {
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        SkatMain.guiController.blinkAlert();
+      }
+    });
+  }
+
   @Override
   public void playCardRequest() {
+
+    this.blinkAlert();
+
 
     Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {

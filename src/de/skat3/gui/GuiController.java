@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -91,6 +92,27 @@ public class GuiController implements GuiControllerInterface {
     alert.setContentText("The entered password is wrong!");
     alert.showAndWait();
 
+  }
+
+
+  /**
+   * Causes the taskbar icon to blink until the windows is back in focus.
+   * Used to inform the user about a needed action or completed task.
+   * 
+   * Implemented by simply opening and quickly closing a popup.
+   * @author Jonas Bauer
+   */
+  public void blinkAlert() {
+
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.show();
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    alert.close();
   }
 
   /**
