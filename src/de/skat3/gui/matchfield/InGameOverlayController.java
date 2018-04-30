@@ -196,7 +196,7 @@ public class InGameOverlayController {
   }
 
   void bindChat() {
-    SkatMain.lgs.chatMessages.addListener(new ListChangeListener<String>() {
+    SkatMain.mainController.chatMessages.addListener(new ListChangeListener<String>() {
 
       @Override
       public void onChanged(Change<? extends String> c) {

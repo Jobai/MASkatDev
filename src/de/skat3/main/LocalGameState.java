@@ -28,7 +28,6 @@ public class LocalGameState {
   public Player dealer;
   public Card[] trick;
   public Card[] skat;
-  public ObservableList<String> chatMessages;
   private int localPosition;
 
   /**
@@ -44,7 +43,6 @@ public class LocalGameState {
     this.trickcount = 0;
     this.trick = new Card[3];
     this.skat = new Card[2];
-    chatMessages = FXCollections.observableArrayList();
     SkatMain.mainController.reinitializePlayers();
   }
 

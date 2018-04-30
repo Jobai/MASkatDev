@@ -17,6 +17,8 @@ import de.skat3.network.server.GameServer;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.net.Inet4Address;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
@@ -36,6 +38,7 @@ public class MainController implements MainControllerInterface {
   public Lobby currentLobby;
   public transient DoubleProperty maxNumberOfPlayerProperty;
   public transient DoubleProperty numberOfPlayerProperty;
+  public ObservableList<String> chatMessages;
 
 
 
@@ -130,6 +133,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void joinMultiplayerGame(Lobby lobby) {
     this.currentLobby = lobby;
+    chatMessages = FXCollections.observableArrayList();
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     SkatMain.clc = gameClient.getClc();
 //    while (SkatMain.lgs == null) {
@@ -175,6 +179,7 @@ public class MainController implements MainControllerInterface {
     System.out.println("Entered password: '" + password + "'");
     this.currentLobby = lobby;
     lobby.password = password;
+    chatMessages = FXCollections.observableArrayList();
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     SkatMain.clc = gameClient.getClc();
 //    while (SkatMain.lgs == null) {
@@ -271,6 +276,7 @@ public class MainController implements MainControllerInterface {
 
     this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, name, password,
         numberOfPlayers, timer, scoringMode, kontraRekontraEnabled);
+    chatMessages = FXCollections.observableArrayList();
     this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.numberOfPlayers);
     this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.currentPlayers);
     this.gameController =
@@ -325,7 +331,7 @@ public class MainController implements MainControllerInterface {
    */
   @Override
   public void receiveMessage(String message) {
-    SkatMain.lgs.chatMessages.add(message);
+    this.chatMessages.add(message);
   }
 
   public void reinitializePlayers() {
