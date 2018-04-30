@@ -578,6 +578,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void skatSelected(Hand hand, Card[] skat) {
+    SkatMain.lgs.localClient.setHand(hand);
     SkatMain.clc.throwAnswer(hand, skat);
     // FIXME
   }
