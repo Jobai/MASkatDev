@@ -41,8 +41,7 @@ public class ChooseContractController {
       public void handle(MouseEvent e) {
         currentContract = Contract.SPADES;
 
-        iconSpade.setStyle(
-            "style=\"-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;\"");
+        iconSpade.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
 
         iconHeart.setStyle("");
         iconDiamond.setStyle("");
@@ -55,8 +54,7 @@ public class ChooseContractController {
       public void handle(MouseEvent e) {
         currentContract = Contract.HEARTS;
 
-        iconHeart.setStyle(
-            "style=\"-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;\"");
+        iconHeart.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
 
         iconSpade.setStyle("");
         iconDiamond.setStyle("");
@@ -69,8 +67,8 @@ public class ChooseContractController {
       public void handle(MouseEvent e) {
         currentContract = Contract.DIAMONDS;
 
-        iconDiamond.setStyle(
-            "style=\"-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;\"");
+        iconDiamond
+            .setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
 
         iconSpade.setStyle("");
         iconHeart.setStyle("");
@@ -83,8 +81,7 @@ public class ChooseContractController {
       public void handle(MouseEvent e) {
         currentContract = Contract.CLUBS;
 
-        iconClub.setStyle(
-            "style=\"-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;\"");
+        iconClub.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
 
         iconSpade.setStyle("");
         iconDiamond.setStyle("");
