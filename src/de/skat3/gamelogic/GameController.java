@@ -232,6 +232,15 @@ public class GameController implements GameLogicInterface, Serializable {
     this.roundInstance.notifyRoundInstance();
 
   }
+
+  public void exchangePlayer(Player oldPlayer, Player newPlayer) {
+    for (int i = 0; i < this.allPlayers.length; i++) {
+      if (this.allPlayers[i].equals(oldPlayer)) {
+        this.allPlayers[i] = newPlayer.copyPlayer();
+        return; // XXX
+      }
+    }
+  }
 }
 
 

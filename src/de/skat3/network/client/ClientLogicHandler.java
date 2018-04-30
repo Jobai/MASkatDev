@@ -107,7 +107,7 @@ public class ClientLogicHandler {
     //Round stated - start hand is set
     if (mc.getSubType() == CommandType.ROUND_START_INFO) {
       System.out.println("set hand");
-      SkatMain.mainController.setHand((Player) mc.gameState);
+      SkatMain.mainController.updatePlayer((Player) mc.gameState);
     }
     
     //Round ended - round results are shown. 
@@ -138,7 +138,7 @@ public class ClientLogicHandler {
 
 
     System.out.println(pl.getHand());
-    SkatMain.mainController.setHand(pl);
+    SkatMain.mainController.updatePlayer(pl);
 
   }
 

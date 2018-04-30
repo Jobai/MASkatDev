@@ -52,7 +52,7 @@ public interface MainControllerInterface {
 
   public void bidRequest(int bid);
 
-  public void setHand(Player player);
+  public void updatePlayer(Player player);
 
   public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers);
 
@@ -85,6 +85,7 @@ public interface MainControllerInterface {
   public void roundRestarted();
 
   public void showWrongPassword();
+
 
   
 

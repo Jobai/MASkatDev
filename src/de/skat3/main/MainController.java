@@ -1,8 +1,6 @@
 package de.skat3.main;
 
-import java.awt.Image;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 import de.skat3.ai.Ai;
 import de.skat3.gamelogic.AdditionalMultipliers;
@@ -287,10 +285,8 @@ public class MainController implements MainControllerInterface {
 
 
   @Override
-  public void setHand(Player player) {
-    System.out.println(SkatMain.lgs.localClient);
-    SkatMain.lgs.localClient.setHand(player.getHand());
-    SkatMain.lgs.localClient.setPosition(player.getPosition().ordinal());
+  public void updatePlayer(Player player) {
+    SkatMain.lgs.localClient = player.copyPlayer();
     Platform.runLater(new Runnable() {
 
 

@@ -49,7 +49,7 @@ public class AiController {
   }
 
 
-  public void setHand(Player bot, Player unnoetig) {
+  public void updatePlayer(Player bot, Player unnoetig) {
     this.getBot(bot).setHand(bot.getHand());
     this.getBot(bot).setPosition(bot.getPosition().ordinal());
 
