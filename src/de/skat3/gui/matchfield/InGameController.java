@@ -101,19 +101,7 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers) {
 
-    URL u = InGameOverlayController.class.getResource("ChooseContractView.fxml");
-    FXMLLoader loader = new FXMLLoader(u);
-    Parent root = null;
-    try {
-      root = loader.load();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    Stage stage = new Stage();
-    stage.setTitle("Choose Contract");
-    stage.setScene(new Scene(root));
-    stage.showAndWait();
+// TODO
 
   }
 

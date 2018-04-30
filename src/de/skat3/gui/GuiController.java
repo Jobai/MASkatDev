@@ -5,12 +5,14 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Result;
 import de.skat3.gui.matchfield.InGameController;
+import de.skat3.gui.matchfield.InGameOverlayController;
 import de.skat3.gui.multiplayermenu.HostPopupController;
 import de.skat3.gui.resultscreen.GameResultViewController;
 import de.skat3.gui.resultscreen.RoundResultViewController;
 import de.skat3.main.MainController;
 import de.skat3.main.SkatMain;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -62,24 +64,19 @@ public class GuiController implements GuiControllerInterface {
   @Override
   public void contractRequest() {
 
-    List<String> contractList = new ArrayList<>();
-    Contract[] allContracts = Contract.values();
-
-    for (Contract contract2 : allContracts) {
-      contractList.add(contract2.toString());
+    URL u = InGameOverlayController.class.getResource("ChooseContractView.fxml");
+    FXMLLoader loader = new FXMLLoader(u);
+    Parent root = null;
+    try {
+      root = loader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
-    ChoiceDialog<String> dialog = new ChoiceDialog<>("", contractList);
-    dialog.setTitle("Choose Contracts");
-    dialog.setHeaderText("Choose Contracts");
-    dialog.setContentText("Choose your contract:");
-
-    Optional<String> result = dialog.showAndWait();
-    if (result.isPresent()) {
-      SkatMain.mainController.contractSelected(Contract.getEnum(result.get()),
-          new AdditionalMultipliers());
-    }
-
+    Stage stage = new Stage();
+    stage.setTitle("Choose Contract");
+    stage.setScene(new Scene(root));
+    stage.showAndWait();
 
   }
 
@@ -97,7 +94,7 @@ public class GuiController implements GuiControllerInterface {
 
   /**
    * Causes the taskbar icon to blink until the windows is back in focus. Used to inform the user
-   * about a needed action or completed task. 
+   * about a needed action or completed task.
    * 
    * @author Jonas Bauer
    */
