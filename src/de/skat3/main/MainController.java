@@ -132,14 +132,14 @@ public class MainController implements MainControllerInterface {
     this.currentLobby = lobby;
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     SkatMain.clc = gameClient.getClc();
-    while (SkatMain.lgs == null) {
-      try {
-        TimeUnit.MILLISECONDS.sleep(10);
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
+//    while (SkatMain.lgs == null) {
+//      try {
+//        TimeUnit.MILLISECONDS.sleep(10);
+//      } catch (InterruptedException e) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//    }
     SkatMain.guiController.goInGame();
     this.isHost = false;
 
@@ -177,14 +177,14 @@ public class MainController implements MainControllerInterface {
     lobby.password = password;
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     SkatMain.clc = gameClient.getClc();
-    while (SkatMain.lgs == null) {
-      try {
-        TimeUnit.MILLISECONDS.sleep(10);
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
+//    while (SkatMain.lgs == null) {
+//      try {
+//        TimeUnit.MILLISECONDS.sleep(10);
+//      } catch (InterruptedException e) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//    }
     SkatMain.guiController.goInGame();
     this.isHost = false;
 
@@ -280,14 +280,14 @@ public class MainController implements MainControllerInterface {
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
     this.isHost = true;
     SkatMain.clc = gameClient.getClc();
-    while (SkatMain.lgs == null) {
-      try {
-        TimeUnit.MILLISECONDS.sleep(10);
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
+//    while (SkatMain.lgs == null) {
+//      try {
+//        TimeUnit.MILLISECONDS.sleep(10);
+//      } catch (InterruptedException e) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//    }
     SkatMain.guiController.goInGame();
 
 
@@ -645,7 +645,6 @@ public class MainController implements MainControllerInterface {
   public void skatSelected(Hand hand, Card[] skat) {
     SkatMain.lgs.localClient.setHand(hand);
     SkatMain.clc.throwAnswer(hand, skat);
-    // FIXME
   }
 
   @Override
