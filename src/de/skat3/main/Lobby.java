@@ -125,7 +125,7 @@ public class Lobby implements Serializable {
   }
 
   public void addPlayer(Player player) {
-    if (this.players[currentPlayers] == null) {
+    if (this.currentPlayers < this.numberOfPlayers && this.players[currentPlayers] == null) {
       this.players[currentPlayers] = player;
       this.currentPlayers++;
       if (SkatMain.mainController.numberOfPlayerProperty != null) {
@@ -222,11 +222,11 @@ public class Lobby implements Serializable {
    * @param byteArray for conversion
    * @return lobby object (converted back from bytes)
    */
-  
+
   public Lobby convertFromByteArray(byte[] byteArray) {
     try (ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
         ObjectInput oIn = new ObjectInputStream(bais)) {
-      System.out.println( byteArray.length);
+      System.out.println(byteArray.length);
       return (Lobby) oIn.readObject();
     } catch (IOException e) {
       // TODO Auto-generated catch block
@@ -248,10 +248,9 @@ public class Lobby implements Serializable {
         + this.serverMode + "\nScoring mode = " + this.scoringMode + "\nPlayers = "
         + this.currentPlayers + "/" + this.numberOfPlayers + "\n----------";
   }
-  
-  
-  public void incrementconnectedPlayerNumberbyHand()
-  {
+
+
+  public void incrementconnectedPlayerNumberbyHand() {
     currentPlayers++;
   }
 
