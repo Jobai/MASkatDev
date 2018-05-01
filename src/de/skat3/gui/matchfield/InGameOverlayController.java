@@ -6,6 +6,9 @@ import java.util.Optional;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -31,6 +34,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 
 /**
  * @author Aljoscha Domonell
@@ -108,6 +112,14 @@ public class InGameOverlayController {
   }
 
   void iniComponents() {
+
+    // Timeline t = new Timeline();
+    // t.getKeyFrames().add(new KeyFrame(Duration.millis(10), e -> root.requestFocus()));
+    // t.setOnFinished(e -> t.playFromStart());
+    // t.play();
+
+    this.root.requestFocus();
+
     this.iniScoreboard();
     this.iniPopUp();
     this.iniContract();
@@ -186,24 +198,26 @@ public class InGameOverlayController {
     this.playInfo.setText(text);
   }
 
+
   public void handleKeyPressed(KeyEvent e) {
-    if (KeyCode.C.equals(e.getCode())) {
+
+    if (KeyCode.TAB.equals(e.getCode()) && !this.scoreboardController.root.isVisible()) {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
           .setDisable(true);
-      this.root.setDisable(true);
+      // this.root.setDisable(true);
       this.scoreboardController.setScores();
-      this.scoreboardController.root.setOpacity(1.0);
+      this.scoreboardController.root.toFront();
       this.scoreboardController.root.setVisible(true);
     }
   }
 
   public void handleKeyReleased(KeyEvent e) {
-    if (KeyCode.C.equals(e.getCode())) {
+
+    if (KeyCode.TAB.equals(e.getCode())) {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
-          .setDisable(true);
-      this.root.setDisable(true);
-      this.scoreboardController.setScores();
-      this.scoreboardController.root.setVisible(true);
+          .setDisable(false);
+      // this.root.setDisable(false);
+      this.scoreboardController.root.setVisible(false);
     }
     // if (KeyCode.C.equals(e.getCode())) {
     // SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
@@ -231,12 +245,12 @@ public class InGameOverlayController {
 
       Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == buttonTypeYes) {
-        SkatMain.guiController.getInGameController().makeAMove(old); // TEST
+        SkatMain.mainController.exitGame();
       } else {
-        // stay game TODO
         SkatMain.guiController.getInGameController().makeAMove(old);
       }
     }
+    this.root.requestFocus();
   }
 
   void bindChat() {
