@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
  */
 public class ScoreboardController {
   @FXML
-  private AnchorPane root;
+  public AnchorPane root;
 
   @FXML
   private Label nameP14;
@@ -120,7 +120,7 @@ public class ScoreboardController {
     while (t < 4) {
       scores[t][0] = "/";
       scores[t][1] = "/";
-      scores[t][1] = "/";
+      scores[t][2] = "/";
       t++;
     }
 
