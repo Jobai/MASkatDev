@@ -7,6 +7,8 @@ import java.util.Arrays;
 public class Result implements Serializable {
 
   public int gameValue;
+  public int currentRound;
+  public int maxRounds;
   public boolean isBierlachs;
   public int highestBid;
   public int scoringPoints;
@@ -43,6 +45,10 @@ public class Result implements Serializable {
     this.kontra = roundInstance.kontra;
     this.rekontra = roundInstance.rekontra;
     this.contract = roundInstance.contract;
+    this.currentRound = roundInstance.gameThread.gc.numberOfRounds;
+    if (!this.isBierlachs) {
+      this.maxRounds = roundInstance.gameThread.gc.mode;
+    }
     this.calcResult(roundInstance);
 
 
@@ -268,20 +274,20 @@ public class Result implements Serializable {
   public String toString() {
 
     String result = "Result: ";
-    if(this.isBierlachs) {
+    if (this.isBierlachs) {
       if (this.soloWon) {
         result += "Team lost " + this.scoringPoints + " points.";
       } else {
         result += "Solo lost " + this.scoringPoints + " points.";
       }
-    }else {
+    } else {
       if (this.soloWon) {
         result += "Solo won " + this.scoringPoints + " points.";
       } else {
         result += "Solo lost " + this.scoringPoints + " points.";
       }
     }
-    
+
     return result;
 
   }
