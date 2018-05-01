@@ -40,7 +40,7 @@ import javafx.util.Duration;
  * @author Aljoscha Domonell
  *
  */
-class InGameOverlayController {
+public class InGameOverlayController {
 
   public static final String yourMove = "Your Move!";
 
