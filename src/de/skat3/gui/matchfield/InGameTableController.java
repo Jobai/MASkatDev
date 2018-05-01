@@ -19,7 +19,7 @@ import javafx.util.Duration;
  * @author Aljoscha Domonell
  *
  */
-public class InGameTableController {
+class InGameTableController {
 
   InGameTableView tableView;
 

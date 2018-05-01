@@ -35,8 +35,15 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield = matchfield;
   }
 
-  public void showContract() {
+  public void showSelectionInfos() {
     this.matchfield.overlayController.setTrump(SkatMain.lgs.contract);
+
+    this.matchfield.overlayController.extra1LocalClient
+        .setText(SkatMain.lgs.localClient.isSolo() ? "Solo" : "Team");
+    this.matchfield.overlayController.extraEnemyOne
+        .setText(SkatMain.lgs.enemyOne.isSolo() ? "Solo" : "Team");
+    this.matchfield.overlayController.extraEnemyTwo
+        .setText(SkatMain.lgs.enemyTwo.isSolo() ? "Solo" : "Team");
   }
 
   /*
@@ -164,12 +171,6 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.enemyOne);
     this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.enemyTwo);
     this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.localClient);
-    this.matchfield.overlayController.extra1LocalClient
-        .setText(SkatMain.lgs.localClient.isSolo() ? "Solo" : "Team");
-    this.matchfield.overlayController.extraEnemyOne
-        .setText(SkatMain.lgs.enemyOne.isSolo() ? "Solo" : "Team");
-    this.matchfield.overlayController.extraEnemyTwo
-        .setText(SkatMain.lgs.enemyTwo.isSolo() ? "Solo" : "Team");
   }
 
   public void showBidRequest(int bid) {
