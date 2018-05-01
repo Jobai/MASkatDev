@@ -1,6 +1,6 @@
 package de.skat3.gamelogic;
 
-public class GameThread extends Thread {
+class GameThread extends Thread {
 
   GameController gc;
   Object lock = new Object();

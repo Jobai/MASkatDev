@@ -41,6 +41,9 @@ public class MainController implements MainControllerInterface {
   public ObservableList<String> chatMessages;
 
 
+  /** Returns a list of all lobbies in the local network.
+   * 
+   */
 
   @Override
   public ArrayList<Lobby> getLocalHosts() {
@@ -48,7 +51,9 @@ public class MainController implements MainControllerInterface {
     this.blinkAlert();
     return lobbys;
   }
-
+/** Starts a singleplayer game with two bots.
+ * @param hardBot true f
+ */
   @Override
   public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int scoringMode,
       boolean kontraRekontraEnabled) {
@@ -136,19 +141,23 @@ public class MainController implements MainControllerInterface {
     chatMessages = FXCollections.observableArrayList();
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     SkatMain.clc = gameClient.getClc();
-//    while (SkatMain.lgs == null) {
-//      try {
-//        TimeUnit.MILLISECONDS.sleep(10);
-//      } catch (InterruptedException e) {
-//        // TODO Auto-generated catch block
-//        e.printStackTrace();
-//      }
-//    }
+    // while (SkatMain.lgs == null) {
+    // try {
+    // TimeUnit.MILLISECONDS.sleep(10);
+    // } catch (InterruptedException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    // }
     SkatMain.guiController.goInGame();
     this.isHost = false;
 
   }
 
+  /**
+   * 
+   * @param ip
+   */
   public void directConnectMultiplayerGame(String ip) {
 
     Lobby lobby = new Lobby();
@@ -182,14 +191,14 @@ public class MainController implements MainControllerInterface {
     chatMessages = FXCollections.observableArrayList();
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     SkatMain.clc = gameClient.getClc();
-//    while (SkatMain.lgs == null) {
-//      try {
-//        TimeUnit.MILLISECONDS.sleep(10);
-//      } catch (InterruptedException e) {
-//        // TODO Auto-generated catch block
-//        e.printStackTrace();
-//      }
-//    }
+    // while (SkatMain.lgs == null) {
+    // try {
+    // TimeUnit.MILLISECONDS.sleep(10);
+    // } catch (InterruptedException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    // }
     SkatMain.guiController.goInGame();
     this.isHost = false;
 
@@ -286,14 +295,14 @@ public class MainController implements MainControllerInterface {
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
     this.isHost = true;
     SkatMain.clc = gameClient.getClc();
-//    while (SkatMain.lgs == null) {
-//      try {
-//        TimeUnit.MILLISECONDS.sleep(10);
-//      } catch (InterruptedException e) {
-//        // TODO Auto-generated catch block
-//        e.printStackTrace();
-//      }
-//    }
+    // while (SkatMain.lgs == null) {
+    // try {
+    // TimeUnit.MILLISECONDS.sleep(10);
+    // } catch (InterruptedException e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    // }
     SkatMain.guiController.goInGame();
 
 
@@ -356,10 +365,11 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void updatePlayer(Player player) {
+    System.out.println("lgs hand: "+player.getHand();
     SkatMain.lgs.localClient.updatePlayer(player);
   }
-  
-  
+
+
   public void roundStarted() {
     Platform.runLater(new Runnable() {
       @Override
@@ -368,7 +378,7 @@ public class MainController implements MainControllerInterface {
       }
     });
   }
-  
+
 
   /**
    * Lets window icon blink in the taskbar. Used for informing the user of a needed action if the
@@ -473,6 +483,7 @@ public class MainController implements MainControllerInterface {
     if (SkatMain.lgs.timerInSeconds > 0) {
       new Timer(SkatMain.lgs.timerInSeconds);
     }
+    System.out.println("karten im LGS: " + SkatMain.lgs.localClient.getHand());
     Platform.runLater(new Runnable() {
 
 

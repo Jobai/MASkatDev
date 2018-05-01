@@ -4,7 +4,7 @@ import de.skat3.network.server.ServerLogicController;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class RoundInstance {
+class RoundInstance {
 
   ServerLogicController slc;
   Player[] players;
@@ -47,7 +47,7 @@ public class RoundInstance {
     this.addtionalMultipliers = new AdditionalMultipliers();
     this.soloPlayerStartHand = new Hand();
     for (int i = 0; i < this.players.length; i++) {
-      this.players[i].shortenPlayer(); //XXX
+      this.players[i].shortenPlayer(); // XXX
     }
     this.gameThread = gameThread;
 
@@ -80,8 +80,6 @@ public class RoundInstance {
     for (int i = 0; i < this.players.length; i++) {
       this.players[i].setPosition(i);
     }
-
-
   }
 
   private void dealCards() {
@@ -116,6 +114,7 @@ public class RoundInstance {
   private void notifyPlayers() {
     for (int i = 0; i < players.length; i++) {
       slc.updatePlayerDuringRound(this.players[i]);
+      System.out.println(this.players[i].name + " " + this.players[i].getHand());
     }
 
   }
@@ -216,7 +215,7 @@ public class RoundInstance {
         this.lock.wait(); // notified by notifyLogicOfNewSkat(Card[] skat);
         slc.updatePlayerDuringRound(solo);
       }
-      
+
 
       this.slc.callForContract(this.solo);
       this.lock.wait(); // Waits for the winner to select a contract, notified by
@@ -236,12 +235,6 @@ public class RoundInstance {
 
     synchronized (this.lock) {
       this.trick = new Card[3];
-      int soloPosition;
-      for (int i = 0; i < this.players.length; i++) {
-        if (this.solo.equals(this.players[i])) {
-          soloPosition = i;
-        }
-      }
 
       for (int i = 0; i < 10; i++) {
 
