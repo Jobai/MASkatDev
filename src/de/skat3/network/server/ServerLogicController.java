@@ -60,15 +60,12 @@ public class ServerLogicController implements ServerLogicInterface {
    * @see de.skat3.network.ServerLogicInterface#sendStartHandtoPlayer(de.skat3. gamelogic.Player)
    */
   @Override
-  public void sendStartHandtoPlayer(Player player) {
+  public void broadcastRoundStarted() {
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, null, CommandType.ROUND_START_INFO);
+    gs.broadcastMessage(mc);
 
-    if (!player.isBot()) {
-      MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, player.toString(),
-          CommandType.ROUND_START_INFO);
-      mc.gameState = player;
-      gs.sendToPlayer(player, mc);
-    } else {
-    }
+
   }
 
   public void updatePlayerDuringRound(Player player) {

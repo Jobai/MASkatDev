@@ -25,7 +25,8 @@ import de.skat3.gamelogic.Result;
 public interface ServerLogicInterface {
 
   // Hand is in player object
-  public void sendStartHandtoPlayer(Player player);
+
+  public void broadcastRoundStarted();
 
   // tells a (remote) player that he has to bid.
   public void callForBid(Player player, int biddingValue);
@@ -67,5 +68,6 @@ public interface ServerLogicInterface {
   void broadcastDeclarer(Player p);
 
   void broadcastBid(boolean bid);
+
 }
 

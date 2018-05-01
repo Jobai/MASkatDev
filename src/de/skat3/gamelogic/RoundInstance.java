@@ -59,9 +59,8 @@ class RoundInstance {
 
     this.initializeAuction();
     this.notifyPlayers();
-    for (int i = 0; i < this.players.length; i++) {
-      slc.sendStartHandtoPlayer(this.players[i]);
-    }
+
+    slc.broadcastRoundStarted();
     Player winner = this.startBidding();
     if (winner == null) {
       // this.slc.broacastRoundRestarded(); TODO

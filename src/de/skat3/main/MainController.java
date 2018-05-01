@@ -468,7 +468,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.contractRequest();
+        SkatMain.guiController.getInGameController().showContractRequest();
       }
     });
 
