@@ -299,7 +299,7 @@ public class InGameTableController {
         Card[] cards = new Card[this.tableView.playerHand.getCards().size()];
         int j = 0;
         for (GuiCard c : this.tableView.playerHand.getCards()) {
-          cards[j] = c.getCard();
+          cards[j++] = c.getCard();
         }
         Hand hand = new Hand(cards);
         SkatMain.mainController.skatSelected(hand, skat2);

@@ -49,10 +49,10 @@ public class InGameOverlayController {
   private Label nameLocalClient;
 
   @FXML
-  private Label extraEnemyOne;
+  public Label extraEnemyOne;
 
   @FXML
-  private Label extra2EnemyOne;
+  public Label extra2EnemyOne;
 
   @FXML
   private Label playInfo;
@@ -70,7 +70,7 @@ public class InGameOverlayController {
   private ImageView imageEnemyTwo;
 
   @FXML
-  private Label extra1LocalClient;
+  public Label extra1LocalClient;
 
   @FXML
   private ImageView imageEnemyOne;
@@ -79,16 +79,16 @@ public class InGameOverlayController {
   private Label nameEnemyTwo;
 
   @FXML
-  private Label extraEnemyTwo;
+  public Label extraEnemyTwo;
 
   @FXML
-  private Label extra2EnemyTwo;
+  public Label extra2EnemyTwo;
 
   @FXML
-  private Label extra2LocalClient;
+  public Label extra2LocalClient;
 
   @FXML
-  private Label trumpInfo;
+  public Label trumpInfo;
 
   void setTrump(Contract con) {
     this.trumpInfo
@@ -105,7 +105,7 @@ public class InGameOverlayController {
   void iniComponents() {
     this.iniScoreboard();
     this.iniPopUp();
-    this.bindChat();
+    // this.bindChat();
   }
 
   void iniScoreboard() {
@@ -117,6 +117,11 @@ public class InGameOverlayController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+
+    this.scoreboardController.root.translateXProperty().bind(this.root.widthProperty().divide(2)
+        .subtract(this.scoreboardController.root.widthProperty().divide(2)));
+    this.scoreboardController.root.translateYProperty().bind(this.root.heightProperty().divide(2)
+        .subtract(this.scoreboardController.root.heightProperty().divide(2)));
 
     this.scoreboardController.root.setVisible(false);
 
@@ -152,22 +157,31 @@ public class InGameOverlayController {
   }
 
   public void handleKeyPressed(KeyEvent e) {
-    if (KeyCode.TAB.equals(e.getCode())) {
+    if (KeyCode.C.equals(e.getCode())) {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
           .setDisable(true);
       this.root.setDisable(true);
+      this.scoreboardController.setScores();
+      this.scoreboardController.root.setOpacity(1.0);
       this.scoreboardController.root.setVisible(true);
     }
   }
 
   public void handleKeyReleased(KeyEvent e) {
-    if (KeyCode.TAB.equals(e.getCode())) {
+    if (KeyCode.C.equals(e.getCode())) {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
-          .setDisable(false);
-      this.root.setDisable(false);
-      this.scoreboardController.root.setVisible(false);
-      return;
+          .setDisable(true);
+      this.root.setDisable(true);
+      this.scoreboardController.setScores();
+      this.scoreboardController.root.setVisible(true);
     }
+    // if (KeyCode.C.equals(e.getCode())) {
+    // SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
+    // .setDisable(false);
+    // this.root.setDisable(false);
+    // this.scoreboardController.root.setVisible(false);
+    // return;
+    // }
 
     if (KeyCode.ESCAPE.equals(e.getCode())) {
 

@@ -35,7 +35,7 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield = matchfield;
   }
 
-  public void setTrump() {
+  public void showContract() {
     this.matchfield.overlayController.setTrump(SkatMain.lgs.contract);
   }
 
@@ -101,7 +101,7 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers) {
 
-// TODO
+    // TODO
 
   }
 
@@ -178,6 +178,12 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.enemyOne);
     this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.enemyTwo);
     this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.localClient);
+    this.matchfield.overlayController.extra1LocalClient
+        .setText(SkatMain.lgs.localClient.isSolo() ? "Solo" : "Team");
+    this.matchfield.overlayController.extraEnemyOne
+        .setText(SkatMain.lgs.enemyOne.isSolo() ? "Solo" : "Team");
+    this.matchfield.overlayController.extraEnemyTwo
+        .setText(SkatMain.lgs.enemyTwo.isSolo() ? "Solo" : "Team");
   }
 
   public void bidRequest(int bid) {

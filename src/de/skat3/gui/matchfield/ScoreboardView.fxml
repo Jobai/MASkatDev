@@ -1,15 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1"
-	xmlns="http://javafx.com/javafx/8"
-	fx:controller="de.skat3.gui.matchfield.ScoreboardController">
+<AnchorPane fx:id="root" prefHeight="300.0" prefWidth="250.0" style="-fx-background-color: #ffffff; -fx-border-color: #404040;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.matchfield.ScoreboardController">
 	<children>
-		<ListView prefHeight="200.0" prefWidth="200.0" />
+      <VBox alignment="CENTER" layoutX="42.0" prefHeight="200.0" prefWidth="180.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #404040;">
+               <children>
+                  <Label alignment="CENTER" prefHeight="43.0" prefWidth="174.0" text="Scoreboard" textFill="WHITE">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: #d60202;">
+               <children>
+                  <Label fx:id="nameP1" alignment="CENTER" prefHeight="44.0" prefWidth="88.0" text="Aljodomo" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="valueP1" alignment="CENTER" prefHeight="44.0" prefWidth="67.0" text="Label" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: #d60202;">
+               <children>
+                  <Label fx:id="nameP2" alignment="CENTER" prefHeight="44.0" prefWidth="88.0" text="Aljodomo" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="valueP2" alignment="CENTER" prefHeight="44.0" prefWidth="67.0" text="Label" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: #d60202;">
+               <children>
+                  <Label fx:id="nameP3" alignment="CENTER" prefHeight="44.0" prefWidth="88.0" text="Aljodomo" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="valueP3" alignment="CENTER" prefHeight="44.0" prefWidth="67.0" text="Label" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: #d60202;">
+               <children>
+                  <Label fx:id="nameP4" alignment="CENTER" prefHeight="44.0" prefWidth="88.0" text="Aljodomo" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="valueP4" alignment="CENTER" prefHeight="44.0" prefWidth="67.0" text="Label" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
 	</children>
 </AnchorPane>
