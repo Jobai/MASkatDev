@@ -79,22 +79,22 @@
 		</ToggleButton>
 		<HBox layoutX="14.0" layoutY="309.0" prefHeight="30.0" prefWidth="373.0" spacing="17.0">
 			<children>
-				<CheckBox mnemonicParsing="false" text="Hand">
+				<CheckBox fx:id="cbHandgame" mnemonicParsing="false" onAction="#setHandGame" text="Hand">
 					<font>
 						<Font size="15.0" />
 					</font>
 				</CheckBox>
-				<CheckBox mnemonicParsing="false" text="Schneider">
+				<CheckBox fx:id="cbSchneider" mnemonicParsing="false" onAction="#setSchneider" text="Schneider">
 					<font>
 						<Font size="15.0" />
 					</font>
 				</CheckBox>
-				<CheckBox mnemonicParsing="false" text="Schwarz">
+				<CheckBox fx:id="cbSchwarz" mnemonicParsing="false" onAction="#setSchwarz" text="Schwarz">
 					<font>
 						<Font size="15.0" />
 					</font>
 				</CheckBox>
-				<CheckBox mnemonicParsing="false" text="Ouvert">
+				<CheckBox fx:id="cbOuvert" mnemonicParsing="false" onAction="#setOuvert" text="Ouvert">
 					<font>
 						<Font size="15.0" />
 					</font>

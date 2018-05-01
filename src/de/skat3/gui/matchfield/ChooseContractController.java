@@ -5,6 +5,7 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.main.SkatMain;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
@@ -17,17 +18,25 @@ import javafx.scene.input.MouseEvent;
 public class ChooseContractController {
 
   @FXML
+  private CheckBox cbHandgame;
+  @FXML
+  private Label iconClub;
+  @FXML
+  private ToggleButton toggleNullgame;
+  @FXML
   private Label iconSpade;
+  @FXML
+  private CheckBox cbSchneider;
   @FXML
   private Label iconHeart;
   @FXML
   private Label iconDiamond;
   @FXML
-  private Label iconClub;
-  @FXML
   private ToggleButton toggleGrand;
   @FXML
-  private ToggleButton toggleNullgame;
+  private CheckBox cbSchwarz;
+  @FXML
+  private CheckBox cbOuvert;
 
 
   private Contract currentContract;
@@ -36,7 +45,7 @@ public class ChooseContractController {
   @FXML
   public void initialize() {
 
-    iconSpade.setOnMouseEntered(new EventHandler<MouseEvent>() {
+    iconSpade.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.SPADES;
@@ -49,7 +58,7 @@ public class ChooseContractController {
       }
     });
 
-    iconHeart.setOnMouseEntered(new EventHandler<MouseEvent>() {
+    iconHeart.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.HEARTS;
@@ -62,7 +71,7 @@ public class ChooseContractController {
       }
     });
 
-    iconDiamond.setOnMouseEntered(new EventHandler<MouseEvent>() {
+    iconDiamond.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.DIAMONDS;
@@ -76,7 +85,7 @@ public class ChooseContractController {
       }
     });
 
-    iconClub.setOnMouseEntered(new EventHandler<MouseEvent>() {
+    iconClub.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.CLUBS;
@@ -102,4 +111,22 @@ public class ChooseContractController {
 
   }
 
+  public void setHandGame() {
+
+  }
+
+  public void setSchneider() {
+    cbHandgame.setSelected(true);
+  }
+
+  public void setSchwarz() {
+    cbSchneider.setSelected(true);
+    cbHandgame.setSelected(true);
+  }
+
+  public void setOuvert() {
+    cbSchneider.setSelected(true);
+    cbHandgame.setSelected(true);
+    cbSchwarz.setSelected(true);
+  }
 }
