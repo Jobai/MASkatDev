@@ -3,6 +3,7 @@ package de.skat3.gui.menuframe;
 import java.io.File;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,7 +31,13 @@ public class ProfileController {
   private Label popupHeaderText;
   @FXML
   private Button delButton;
+  @FXML
+  private Button btnSave;
 
+  @FXML
+  public void initialize() {
+    btnSave.disableProperty().bind(Bindings.isEmpty(profileName.textProperty()));
+  }
 
   public void setHeaderText(String text) {
     popupHeaderText.setText(text);

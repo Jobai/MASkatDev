@@ -257,6 +257,24 @@ public class GuiHand extends Parent {
         .add(new KeyFrame(time, new KeyValue(sourceTr.mzzProperty(), tarTr.getMzz())));
 
     timeline.play();
+
+    timeline.setOnFinished(e -> {
+      Affine newTr = new Affine(tarTr);
+      card.setTranslateX(newTr.getTx());
+      card.setTranslateY(newTr.getTy());
+      card.setTranslateZ(newTr.getTz());
+      newTr.setTx(0);
+      newTr.setTy(0);
+      newTr.setTz(0);
+
+      card.getTransforms().clear();
+      card.getTransforms().add(newTr);
+
+      card.translateXProperty().bind(targetPos.translateXProperty());
+      card.translateYProperty().bind(targetPos.translateYProperty());
+      card.translateZProperty().bind(targetPos.translateZProperty());
+    });
+
   }
 
   /**

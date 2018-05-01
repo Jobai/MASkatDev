@@ -6,6 +6,9 @@ import java.util.Optional;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -31,6 +34,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 
 /**
  * @author Aljoscha Domonell
@@ -94,6 +98,8 @@ public class InGameOverlayController {
   @FXML
   public Label trumpInfo;
 
+  // Initializing
+
   void setTrump(Contract con) {
     this.trumpInfo
         .setText(con.toString().substring(con.toString().indexOf(" "), con.toString().length()));
@@ -108,15 +114,21 @@ public class InGameOverlayController {
   }
 
   void iniComponents() {
+
+    // Timeline t = new Timeline();
+    // t.getKeyFrames().add(new KeyFrame(Duration.millis(10), e -> root.requestFocus()));
+    // t.setOnFinished(e -> t.playFromStart());
+    // t.play();
+
+    this.root.requestFocus();
+
     this.iniScoreboard();
     this.iniPopUp();
     this.iniContract();
     // this.bindChat();
   }
 
-
-
-  void bindCentral(AnchorPane p) {
+  private void bindCentral(AnchorPane p) {
     p.translateXProperty()
         .bind(this.root.widthProperty().divide(2).subtract(p.widthProperty().divide(2)));
     p.translateYProperty()
@@ -141,10 +153,9 @@ public class InGameOverlayController {
     this.bindCentral(this.contractController.root);
 
     this.contractController.root.setVisible(false);
-
   }
 
-  void iniScoreboard() {
+  private void iniScoreboard() {
     URL u = InGameOverlayController.class.getResource("ScoreboardView.fxml");
     FXMLLoader loader = new FXMLLoader(u);
     try {
@@ -157,10 +168,9 @@ public class InGameOverlayController {
     this.bindCentral(this.scoreboardController.root);
 
     this.scoreboardController.root.setVisible(false);
-
   }
 
-  void iniPopUp() {
+  private void iniPopUp() {
     URL u = InGameOverlayController.class.getResource("PopUpView.fxml");
     FXMLLoader loader = new FXMLLoader(u);
     try {
@@ -187,31 +197,24 @@ public class InGameOverlayController {
   }
 
   public void handleKeyPressed(KeyEvent e) {
-    if (KeyCode.C.equals(e.getCode())) {
+
+    if (KeyCode.TAB.equals(e.getCode()) && !this.scoreboardController.root.isVisible()) {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
           .setDisable(true);
-      this.root.setDisable(true);
+      // this.root.setDisable(true);
       this.scoreboardController.setScores();
-      this.scoreboardController.root.setOpacity(1.0);
+      this.scoreboardController.root.toFront();
       this.scoreboardController.root.setVisible(true);
     }
   }
 
   public void handleKeyReleased(KeyEvent e) {
-    if (KeyCode.C.equals(e.getCode())) {
+
+    if (KeyCode.TAB.equals(e.getCode())) {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
-          .setDisable(true);
-      this.root.setDisable(true);
-      this.scoreboardController.setScores();
-      this.scoreboardController.root.setVisible(true);
+          .setDisable(false);
+      this.scoreboardController.root.setVisible(false);
     }
-    // if (KeyCode.C.equals(e.getCode())) {
-    // SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
-    // .setDisable(false);
-    // this.root.setDisable(false);
-    // this.scoreboardController.root.setVisible(false);
-    // return;
-    // }
 
     if (KeyCode.ESCAPE.equals(e.getCode())) {
 
@@ -231,12 +234,12 @@ public class InGameOverlayController {
 
       Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == buttonTypeYes) {
-        SkatMain.guiController.getInGameController().makeAMove(old); // TEST
+        SkatMain.mainController.exitGame();
       } else {
-        // stay game TODO
         SkatMain.guiController.getInGameController().makeAMove(old);
       }
     }
+    this.root.requestFocus();
   }
 
   void bindChat() {
@@ -284,7 +287,7 @@ public class InGameOverlayController {
         System.err.println("EnemyOne: No player name given.");
       }
       try {
-        this.imageEnemyOne.setImage(this.convertToTriangle(player.convertToImage()));
+        this.imageEnemyOne.setImage(player.convertToImage());
       } catch (Exception e) {
         System.err.println("EnemyOne: Image Could not be added.");
       }
@@ -304,7 +307,7 @@ public class InGameOverlayController {
         System.err.println("EnemyTwo: No player name given.");
       }
       try {
-        this.imageEnemyTwo.setImage(this.convertToTriangle(player.convertToImage()));
+        this.imageEnemyTwo.setImage(player.convertToImage());
       } catch (Exception e) {
         System.err.println("EnemyTwo: Image Could not be added.");
       }
@@ -370,13 +373,6 @@ public class InGameOverlayController {
     button.translateYProperty()
         .bind(this.root.heightProperty().divide(2).subtract(button.heightProperty().divide(2)));
 
-    // TODO
-    // SkatMain.mainController.currentLobby.setMaxNumberOfPlayerProperty();
-    // SkatMain.mainController.currentLobby.setNumberOfPlayerProperty();
-    //
-    // button.disableProperty().bind(SkatMain.mainController.currentLobby.numberOfPlayerProperty()
-    // .lessThan(SkatMain.mainController.currentLobby.maxNumberOfPlayerProperty()));
-
     button.disableProperty().bind(SkatMain.mainController.numberOfPlayerProperty
         .lessThan(SkatMain.mainController.maxNumberOfPlayerProperty));
 
@@ -388,15 +384,6 @@ public class InGameOverlayController {
     this.root.getChildren().add(button);
   }
 
-  Image convertToTriangle(Image image) {
-    // Polygon dreieckE1 = new Polygon();
-    // dreieckE1.getPoints().addAll(0.0, 0.0, image.getWidth() / 2, image.getHeight(),
-    // image.getWidth(), 0.0);
-    // dreieckE1.setFill(new ImagePattern(image));
-    // dreieckE1.setStyle("-fx-border-color: #d60202");
-    // return dreieckE1.snapshot(null, null);
-    return image;
-  }
 
   void toFront() {
     this.chatArea.toFront();

@@ -79,26 +79,26 @@ public class GuiTrick {
 
     this.cards[index] = card;
 
-    int i = index;
-    Timeline tl = new Timeline();
-    tl.getKeyFrames().add(new KeyFrame(Matchfield.animationTime.add(Duration.millis(20)), e -> {
-
-      Affine newTr = new Affine(card.getTransforms().get(0));
-      card.setTranslateX(newTr.getTx());
-      card.setTranslateY(newTr.getTy());
-      card.setTranslateZ(newTr.getTz());
-      newTr.setTx(0);
-      newTr.setTy(0);
-      newTr.setTz(0);
-
-      card.getTransforms().clear();
-      card.getTransforms().add(newTr);
-
-      card.translateXProperty().bind(this.postions[i].translateXProperty());
-      card.translateYProperty().bind(this.postions[i].translateYProperty());
-      card.translateZProperty().bind(this.postions[i].translateZProperty());
-    }));
-    tl.play();
+//    int i = index;
+//    Timeline tl = new Timeline();
+//    tl.getKeyFrames().add(new KeyFrame(Matchfield.animationTime.add(Duration.millis(20)), e -> {
+//
+//      Affine newTr = new Affine(card.getTransforms().get(0));
+//      card.setTranslateX(newTr.getTx());
+//      card.setTranslateY(newTr.getTy());
+//      card.setTranslateZ(newTr.getTz());
+//      newTr.setTx(0);
+//      newTr.setTy(0);
+//      newTr.setTz(0);
+//
+//      card.getTransforms().clear();
+//      card.getTransforms().add(newTr);
+//
+//      card.translateXProperty().bind(this.postions[i].translateXProperty());
+//      card.translateYProperty().bind(this.postions[i].translateYProperty());
+//      card.translateZProperty().bind(this.postions[i].translateZProperty());
+//    }));
+//    tl.play();
 
     if (index == 2) {
       GuiCard old = this.cards[index];

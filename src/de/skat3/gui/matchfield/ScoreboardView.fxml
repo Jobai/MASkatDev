@@ -1,81 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="300.0" prefWidth="250.0" style="-fx-background-color: #ffffff; -fx-border-color: #404040;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.matchfield.ScoreboardController">
+<AnchorPane fx:id="root" prefHeight="300.0" prefWidth="454.0" style="-fx-background-color: #404040; -fx-border-color: #404040;" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.matchfield.ScoreboardController">
 	<children>
-      <VBox alignment="CENTER" layoutX="42.0" prefHeight="200.0" prefWidth="180.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #404040;">
+		<VBox alignment="CENTER" layoutX="2.0" layoutY="2.0" prefHeight="298.0" prefWidth="461.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
+			<children>
+				<HBox alignment="CENTER" prefHeight="100.0" prefWidth="250.0" style="-fx-background-color: #404040;">
+					<children>
+						<Label alignment="CENTER" prefHeight="43.0" prefWidth="174.0" text="Scoreboard" textFill="WHITE">
+							<font>
+								<Font size="21.0" />
+							</font>
+						</Label>
+					</children>
+				</HBox>
+            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="327.0" spacing="50.0" style="-fx-background-color: aaaaaa;">
                <children>
-                  <Label alignment="CENTER" prefHeight="43.0" prefWidth="174.0" text="Scoreboard" textFill="WHITE">
+                  <Label fx:id="nameP14" alignment="CENTER" prefHeight="20.0" prefWidth="115.0" text="Name">
                      <font>
-                        <Font size="21.0" />
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="valueP14" alignment="CENTER" prefHeight="20.0" prefWidth="103.0" text="Points">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="114.0" text="Seeger">
+                     <font>
+                        <Font size="12.0" />
                      </font>
                   </Label>
                </children>
+               <padding>
+                  <Insets left="5.0" right="10.0" />
+               </padding>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: #d60202;">
-               <children>
-                  <Label fx:id="nameP1" alignment="CENTER" prefHeight="44.0" prefWidth="88.0" text="Aljodomo" textFill="WHITE">
+				<HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #f0c808;">
+					<children>
+						<Label fx:id="nameP1" alignment="CENTER" prefHeight="36.0" prefWidth="115.0" text="Aljodomo">
+							<font>
+								<Font size="19.0" />
+							</font>
+						</Label>
+						<Label fx:id="valueP1" alignment="CENTER" prefHeight="44.0" prefWidth="115.0" text="98">
+							<font>
+								<Font size="19.0" />
+							</font>
+						</Label>
+                  <Label fx:id="value2P1" alignment="CENTER" prefHeight="24.0" prefWidth="115.0" text="86">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label fx:id="valueP1" alignment="CENTER" prefHeight="44.0" prefWidth="67.0" text="Label" textFill="WHITE">
+					</children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+				</HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #f0c808;">
+               <children>
+                  <Label fx:id="nameP2" alignment="CENTER" prefHeight="36.0" prefWidth="115.0" text="Aljodomo">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="valueP2" alignment="CENTER" prefHeight="44.0" prefWidth="115.0" text="98">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="value2P2" alignment="CENTER" prefHeight="24.0" prefWidth="115.0" text="86">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: #d60202;">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #f0c808;">
                <children>
-                  <Label fx:id="nameP2" alignment="CENTER" prefHeight="44.0" prefWidth="88.0" text="Aljodomo" textFill="WHITE">
+                  <Label fx:id="nameP3" alignment="CENTER" prefHeight="36.0" prefWidth="115.0" text="Aljodomo">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label fx:id="valueP2" alignment="CENTER" prefHeight="44.0" prefWidth="67.0" text="Label" textFill="WHITE">
+                  <Label fx:id="valueP3" alignment="CENTER" prefHeight="44.0" prefWidth="115.0" text="98">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="value2P3" alignment="CENTER" prefHeight="24.0" prefWidth="115.0" text="86">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: #d60202;">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #f0c808;">
                <children>
-                  <Label fx:id="nameP3" alignment="CENTER" prefHeight="44.0" prefWidth="88.0" text="Aljodomo" textFill="WHITE">
+                  <Label fx:id="nameP4" alignment="CENTER" prefHeight="36.0" prefWidth="115.0" text="Aljodomo">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <Label fx:id="valueP3" alignment="CENTER" prefHeight="44.0" prefWidth="67.0" text="Label" textFill="WHITE">
+                  <Label fx:id="valueP4" alignment="CENTER" prefHeight="44.0" prefWidth="115.0" text="98">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="value2P4" alignment="CENTER" prefHeight="24.0" prefWidth="115.0" text="86">
                      <font>
                         <Font size="19.0" />
                      </font>
                   </Label>
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: #d60202;">
-               <children>
-                  <Label fx:id="nameP4" alignment="CENTER" prefHeight="44.0" prefWidth="88.0" text="Aljodomo" textFill="WHITE">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="valueP4" alignment="CENTER" prefHeight="44.0" prefWidth="67.0" text="Label" textFill="WHITE">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
+			</children>
+		</VBox>
 	</children>
 </AnchorPane>

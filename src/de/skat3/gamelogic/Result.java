@@ -7,6 +7,8 @@ import java.util.Arrays;
 public class Result implements Serializable {
 
   public int gameValue;
+  public int currentRound;
+  public int maxRounds;
   public boolean isBierlachs;
   public int highestBid;
   public int scoringPoints;
@@ -21,10 +23,7 @@ public class Result implements Serializable {
   public boolean rekontra;
   public boolean bidTooHigh;
   public Contract contract;
-  public Player firstPlace;
-  public Player secondPlace;
-  public Player thirdPlace;
-  public Player fourthPlace;
+  public Player[] ranks;
   private int contractValue;
 
   /**
@@ -43,6 +42,10 @@ public class Result implements Serializable {
     this.kontra = roundInstance.kontra;
     this.rekontra = roundInstance.rekontra;
     this.contract = roundInstance.contract;
+    this.currentRound = roundInstance.gameThread.gc.numberOfRounds;
+    if (!this.isBierlachs) {
+      this.maxRounds = roundInstance.gameThread.gc.mode;
+    }
     this.calcResult(roundInstance);
 
 
@@ -219,69 +222,33 @@ public class Result implements Serializable {
         }
       }
     }
-    Player[] players = roundInstance.gameThread.gc.allPlayers;
-    int[] points = new int[players.length];
-    for (int i = 0; i < players.length; i++) {
-      points[i] = players[i].points;
+    this.ranks = new Player[roundInstance.gameThread.gc.allPlayers.length];
+    for (int i = 0; i < ranks.length; i++) {
+      this.ranks[i] = roundInstance.gameThread.gc.allPlayers[i];
     }
-    Arrays.sort(points);
-    for (int i = points.length - 1; i >= 0; i--) {
-      for (int j = 0; j < players.length; j++) {
-        if (points[i] == players[j].points) {
-          switch (i) {
-            case 0:
-              if (players.length == 3) {
-                this.thirdPlace = players[j];
-              } else {
-                this.fourthPlace = players[j];
-              }
-              break;
-            case 1:
-              if (players.length == 3) {
-                this.secondPlace = players[j];
-              } else {
-                this.thirdPlace = players[j];
-              }
-              break;
-            case 2:
-              if (players.length == 3) {
-                this.firstPlace = players[j];
-              } else {
-                this.secondPlace = players[j];
-              }
-              break;
-            case 3:
-              this.firstPlace = players[j];
-              break;
-
-            default:
-              System.err.println("ERROR IN RESULT");
-              break;
-          }
-        }
-      }
-    }
+    Arrays.sort(this.ranks);
 
   }
+
 
   @Override
   public String toString() {
 
     String result = "Result: ";
-    if(this.isBierlachs) {
+    if (this.isBierlachs) {
       if (this.soloWon) {
         result += "Team lost " + this.scoringPoints + " points.";
       } else {
         result += "Solo lost " + this.scoringPoints + " points.";
       }
-    }else {
+    } else {
       if (this.soloWon) {
         result += "Solo won " + this.scoringPoints + " points.";
       } else {
         result += "Solo lost " + this.scoringPoints + " points.";
       }
     }
-    
+
     return result;
 
   }

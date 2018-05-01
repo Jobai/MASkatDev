@@ -27,7 +27,7 @@
 					url="@../../../../../resources/guifiles/dummy_avatar.jpg" />
 			</image>
 		</ImageView>
-		<Button layoutX="88.0" layoutY="382.0" mnemonicParsing="false"
+		<Button layoutX="88.0" layoutY="382.0" fx:id="btnSave" mnemonicParsing="false"
 			onAction="#handleSaveProfile" prefHeight="45.0" prefWidth="324.0"
 			style="-fx-background-color: linear-gradient(#f00000, #d60202);"
 			text="Save" textFill="WHITE" />
