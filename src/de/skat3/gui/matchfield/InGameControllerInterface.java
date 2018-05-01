@@ -36,11 +36,15 @@ public interface InGameControllerInterface {
 
   public void showAuctionWinner();
 
-  public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers);
+  public void showContractRequest();
 
   public void showEndScreen(MatchResult matchResult);
+  
+  public void showBidRequest(int bid);
 
   public void showResults(Result results);
+
+  public void showHandGameRequest();
 
   /*
    * Shows the Skat (which has to be stored in SkatMain)!.lgs on the screen. The User can now
@@ -48,7 +52,7 @@ public interface InGameControllerInterface {
    * the mainController.
    * 
    */
-  public void showSkatSelection();
+  public void showSkatSelectionRequest();
 
   // Ich muss kl�ren wie
 

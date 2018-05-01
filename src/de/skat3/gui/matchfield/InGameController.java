@@ -94,20 +94,6 @@ public class InGameController implements InGameControllerInterface {
   /*
    * (non-Javadoc)
    * 
-   * @see
-   * de.skat3.gui.matchfield.InGameControllerInterface#showContract(de.skat3.gamelogic.Contract,
-   * de.skat3.gamelogic.AdditionalMultipliers)
-   */
-  @Override
-  public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers) {
-
-    // TODO
-
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
    * @see de.skat3.gui.matchfield.InGameControllerInterface#showEndScreen()
    */
   @Override
@@ -163,7 +149,7 @@ public class InGameController implements InGameControllerInterface {
 
 
   @Override
-  public void showSkatSelection() {
+  public void showSkatSelectionRequest() {
     this.matchfield.tableController.showSkatSelection();
   }
 
@@ -186,7 +172,7 @@ public class InGameController implements InGameControllerInterface {
         .setText(SkatMain.lgs.enemyTwo.isSolo() ? "Solo" : "Team");
   }
 
-  public void bidRequest(int bid) {
+  public void showBidRequest(int bid) {
     this.matchfield.overlayController.showBidRequest(bid);
 
   }
@@ -197,8 +183,12 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.localClient);
   }
 
-  public void handGameRequest() {
+  public void showHandGameRequest() {
     this.matchfield.overlayController.showHandGameRequest();
+  }
+
+  public void showContractRequest() {
+    this.matchfield.overlayController.showContractRequest();
   }
 
 }

@@ -5,9 +5,6 @@ import de.skat3.gamelogic.Result;
 
 public interface GuiControllerInterface {
 
-  // Main Controller contractSelected
-  public abstract void contractRequest();
-
   public void showWrongPassword();
 
   public void showRoundResult(Result result);

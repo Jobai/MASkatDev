@@ -62,25 +62,6 @@ public class GuiController implements GuiControllerInterface {
   }
 
   @Override
-  public void contractRequest() {
-
-    URL u = InGameOverlayController.class.getResource("ChooseContractView.fxml");
-    FXMLLoader loader = new FXMLLoader(u);
-    Parent root = null;
-    try {
-      root = loader.load();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    Stage stage = new Stage();
-    stage.setTitle("Choose Contract");
-    stage.setScene(new Scene(root));
-    stage.showAndWait();
-
-  }
-
-  @Override
   public void showWrongPassword() {
 
     Alert alert = new Alert(AlertType.ERROR);
@@ -90,7 +71,6 @@ public class GuiController implements GuiControllerInterface {
     alert.showAndWait();
 
   }
-
 
   /**
    * Causes the taskbar icon to blink until the windows is back in focus. Used to inform the user
@@ -102,7 +82,6 @@ public class GuiController implements GuiControllerInterface {
 
     this.gui.getMainStage().toFront();
   }
-
 
   /**
    * Creates and shows a custom alert prompt. Used for informing the user of a failed action.

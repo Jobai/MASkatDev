@@ -423,7 +423,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().bidRequest(bid);
+        SkatMain.guiController.getInGameController().showBidRequest(bid);
       }
     });
 
@@ -453,7 +453,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().handGameRequest();
+        SkatMain.guiController.getInGameController().showHandGameRequest();
       }
     });
 
@@ -621,7 +621,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showSkatSelection();
+        SkatMain.guiController.getInGameController().showSkatSelectionRequest();
 
 
       }

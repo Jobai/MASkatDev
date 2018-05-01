@@ -11,6 +11,8 @@ import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -41,6 +43,8 @@ public class InGameOverlayController {
   private PopUpController popUpController;
 
   private ScoreboardController scoreboardController;
+
+  private ChooseContractController contractController;
 
   @FXML
   private TextArea chatArea;
@@ -105,7 +109,38 @@ public class InGameOverlayController {
   void iniComponents() {
     this.iniScoreboard();
     this.iniPopUp();
+    this.iniContract();
     // this.bindChat();
+  }
+
+
+
+  void bindCentral(AnchorPane p) {
+    p.translateXProperty()
+        .bind(this.root.widthProperty().divide(2).subtract(p.widthProperty().divide(2)));
+    p.translateYProperty()
+        .bind(this.root.heightProperty().divide(2).subtract(p.heightProperty().divide(2)));
+  }
+
+  void showContractRequest() {
+    this.contractController.root.setVisible(true);
+    this.contractController.root.setDisable(false);
+  }
+
+  void iniContract() {
+    URL u = InGameOverlayController.class.getResource("ChooseContractView.fxml");
+    FXMLLoader loader = new FXMLLoader(u);
+    try {
+      this.root.getChildren().add((AnchorPane) loader.load());
+      this.contractController = loader.getController();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    this.bindCentral(this.contractController.root);
+
+    this.contractController.root.setVisible(false);
+
   }
 
   void iniScoreboard() {
@@ -118,10 +153,7 @@ public class InGameOverlayController {
       e.printStackTrace();
     }
 
-    this.scoreboardController.root.translateXProperty().bind(this.root.widthProperty().divide(2)
-        .subtract(this.scoreboardController.root.widthProperty().divide(2)));
-    this.scoreboardController.root.translateYProperty().bind(this.root.heightProperty().divide(2)
-        .subtract(this.scoreboardController.root.heightProperty().divide(2)));
+    this.bindCentral(this.scoreboardController.root);
 
     this.scoreboardController.root.setVisible(false);
 
@@ -137,10 +169,7 @@ public class InGameOverlayController {
       e.printStackTrace();
     }
 
-    this.popUpController.root.translateXProperty().bind(this.root.widthProperty().divide(2)
-        .subtract(this.popUpController.root.widthProperty().divide(2)));
-    this.popUpController.root.translateYProperty().bind(this.root.heightProperty().divide(2)
-        .subtract(this.popUpController.root.heightProperty().divide(2)));
+    this.bindCentral(this.popUpController.root);
 
     this.popUpController.root.setVisible(false);
     this.popUpController.root.setDisable(true);

@@ -9,6 +9,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * 
@@ -17,6 +18,8 @@ import javafx.scene.input.MouseEvent;
  */
 public class ChooseContractController {
 
+  @FXML
+  public AnchorPane root;
   @FXML
   private CheckBox cbHandgame;
   @FXML
@@ -108,6 +111,8 @@ public class ChooseContractController {
     // schwarzAnnounced, openHand)
     SkatMain.mainController.contractSelected(currentContract, additionalMultipliers);
 
+    this.root.setVisible(false);
+    this.root.setDisable(true);
 
   }
 
