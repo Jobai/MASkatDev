@@ -37,14 +37,14 @@ public class Timer extends Thread {
         Random rand = new Random();
         int i;
         while (true) {
-          i = rand.nextInt(SkatMain.lgs.localClient.hand.cards.length);
-          if (SkatMain.lgs.localClient.hand.cards[i].isPlayable()) {
-            System.out.println(SkatMain.lgs.localClient.hand.cards[i]);
+          i = rand.nextInt(SkatMain.lgs.getLocalClient().hand.cards.length);
+          if (SkatMain.lgs.getLocalClient().hand.cards[i].isPlayable()) {
+            System.out.println(SkatMain.lgs.getLocalClient().hand.cards[i]);
             break;
           }
         }
         SkatMain.guiController.getInGameController().makeAMove(false);
-        SkatMain.mainController.localCardPlayed(SkatMain.lgs.localClient.hand.cards[i]);
+        SkatMain.mainController.localCardPlayed(SkatMain.lgs.getLocalClient().hand.cards[i]);
         System.out.println("TIMER ACTIVATED");
         this.isInterrupted = true;
 

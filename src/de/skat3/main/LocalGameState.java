@@ -22,9 +22,9 @@ public class LocalGameState {
   public Contract contract;
   public AdditionalMultipliers additionalMultipliers;
   public int trickcount;
-  public Player localClient;
-  public Player enemyOne;
-  public Player enemyTwo;
+  private Player localClient;
+  private Player enemyOne;
+  private Player enemyTwo;
   public Player dealer;
   public Card[] trick;
   public Card[] skat;
@@ -57,10 +57,10 @@ public class LocalGameState {
     if (SkatMain.mainController.currentLobby.currentPlayers == 2) {
       switch (this.localPosition) {
         case 1:
-          this.enemyOne = SkatMain.mainController.currentLobby.players[1];
+          this.setEnemyOne(SkatMain.mainController.currentLobby.players[1]);
           break;
         case 2:
-          this.enemyTwo = SkatMain.mainController.currentLobby.players[0];
+          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[0]);
           break;
 
         default:
@@ -72,14 +72,14 @@ public class LocalGameState {
     if (SkatMain.mainController.currentLobby.currentPlayers == 3) {
       switch (this.localPosition) {
         case 1:
-          this.enemyTwo = SkatMain.mainController.currentLobby.players[2];
+          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[2]);
           break;
         case 2:
-          this.enemyOne = SkatMain.mainController.currentLobby.players[2];
+          this.setEnemyOne(SkatMain.mainController.currentLobby.players[2]);
           break;
         case 3:
-          this.enemyOne = SkatMain.mainController.currentLobby.players[0];
-          this.enemyTwo = SkatMain.mainController.currentLobby.players[1];
+          this.setEnemyOne(SkatMain.mainController.currentLobby.players[0]);
+          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[1]);
         default:
           System.err.println("addPlayer klappt net ");
           break;
@@ -127,7 +127,7 @@ public class LocalGameState {
   }
 
   public Hand getLocalHand() {
-    return this.localClient.getHand();
+    return this.getLocalClient().getHand();
   }
 
 
@@ -144,14 +144,14 @@ public class LocalGameState {
    */
   public Player getPlayer(Player player) {
 
-    if (this.localClient.equals(player)) {
-      return this.localClient;
+    if (this.getLocalClient().equals(player)) {
+      return this.getLocalClient();
     }
-    if (this.enemyOne.equals(player)) {
-      return this.enemyOne;
+    if (this.getEnemyOne().equals(player)) {
+      return this.getEnemyOne();
     }
-    if (this.enemyTwo.equals(player)) {
-      return this.enemyTwo;
+    if (this.getEnemyTwo().equals(player)) {
+      return this.getEnemyTwo();
     }
     if (this.dealer.equals(player)) {
       return this.dealer;
@@ -159,6 +159,33 @@ public class LocalGameState {
 
     System.err.println("No Player found");
     return null;
+  }
+
+  public Player getLocalClient() {
+    try {
+      throw new Exception();
+    } catch (Exception e) {
+      System.out.println("-------getLocalClient--------");
+      e.printStackTrace();
+      System.out.println("-------end of getLocalClient--------");
+    }
+    return localClient;
+  }
+
+  public Player getEnemyOne() {
+    return enemyOne;
+  }
+
+  public void setEnemyOne(Player enemyOne) {
+    this.enemyOne = enemyOne;
+  }
+
+  public Player getEnemyTwo() {
+    return enemyTwo;
+  }
+
+  public void setEnemyTwo(Player enemyTwo) {
+    this.enemyTwo = enemyTwo;
   }
 
 }

@@ -395,7 +395,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void updatePlayer(Player player) {
     System.out.println("lgs neue hand: " + player.getHand());
-    SkatMain.lgs.localClient.updatePlayer(player);
+    SkatMain.lgs.getLocalClient().updatePlayer(player);
   }
 
 
@@ -505,14 +505,14 @@ public class MainController implements MainControllerInterface {
 
     Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {
-      SkatMain.lgs.localClient.getHand().setPlayableCards(currentCard, SkatMain.lgs.contract);
+      SkatMain.lgs.getLocalClient().getHand().setPlayableCards(currentCard, SkatMain.lgs.contract);
     } else {
-      SkatMain.lgs.localClient.getHand().setAllCardsPlayable();
+      SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
     }
     if (SkatMain.lgs.timerInSeconds > 0) {
       new Timer(SkatMain.lgs.timerInSeconds);
     }
-    System.out.println("karten im LGS: " + SkatMain.lgs.localClient.getHand());
+    System.out.println("karten im LGS: " + SkatMain.lgs.getLocalClient().getHand());
     Platform.runLater(new Runnable() {
 
 
@@ -545,7 +545,7 @@ public class MainController implements MainControllerInterface {
   private void modifyStatistic(Result result) {
 
     boolean localWinner;
-    if (SkatMain.lgs.localClient.isSolo()) {
+    if (SkatMain.lgs.getLocalClient().isSolo()) {
       localWinner = result.soloWon;
     } else {
       localWinner = !result.soloWon;

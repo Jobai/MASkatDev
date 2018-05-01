@@ -42,13 +42,13 @@ public class InGameTableController {
   }
 
   void showPlayableColor(boolean value) {
-    System.out.println(SkatMain.lgs.localClient.getHand());
+    System.out.println(SkatMain.lgs.getLocalClient().getHand());
 
     if (value) {
       ColorAdjust grey = new ColorAdjust();
       grey.setBrightness(-0.4);
 
-      for (Card c : SkatMain.lgs.localClient.getHand().cards) {
+      for (Card c : SkatMain.lgs.getLocalClient().getHand().cards) {
         if (!c.isPlayable()) {
           GuiCard card = this.tableView.playerHand.getGuiCard(c);
           if (card != null) {
@@ -66,7 +66,7 @@ public class InGameTableController {
         }
       }
     } else {
-      for (Card c : SkatMain.lgs.localClient.getHand().cards) {
+      for (Card c : SkatMain.lgs.getLocalClient().getHand().cards) {
         GuiCard card = this.tableView.playerHand.getGuiCard(c);
         if (card != null) {
           try {
@@ -125,7 +125,7 @@ public class InGameTableController {
         try {
           if (node.getParent().getParent().equals(this.tableView.playerHand)) {
             GuiCard card = (GuiCard) node.getParent();
-            for (Card c : SkatMain.lgs.localClient.getHand().cards) {
+            for (Card c : SkatMain.lgs.getLocalClient().getHand().cards) {
               if (card.getCard().equals(c)) {
                 if (c.isPlayable()) {
                   // Play card
@@ -353,12 +353,12 @@ public class InGameTableController {
     this.tableView.leftHand.clear();
     this.tableView.leftHand.clear();
 
-    this.tableView.playerHand.addAll(SkatMain.lgs.localClient.getHand().getCards());
-    this.tableView.playerHand.setPlayer(SkatMain.lgs.localClient);
-    this.tableView.leftHand.addAll(SkatMain.lgs.enemyOne.getHand().getCards());
-    this.tableView.leftHand.setPlayer(SkatMain.lgs.enemyOne);
-    this.tableView.rightHand.addAll(SkatMain.lgs.enemyTwo.getHand().getCards());
-    this.tableView.rightHand.setPlayer(SkatMain.lgs.enemyTwo);
+    this.tableView.playerHand.addAll(SkatMain.lgs.getLocalClient().getHand().getCards());
+    this.tableView.playerHand.setPlayer(SkatMain.lgs.getLocalClient());
+    this.tableView.leftHand.addAll(SkatMain.lgs.getEnemyOne().getHand().getCards());
+    this.tableView.leftHand.setPlayer(SkatMain.lgs.getEnemyOne());
+    this.tableView.rightHand.addAll(SkatMain.lgs.getEnemyTwo().getHand().getCards());
+    this.tableView.rightHand.setPlayer(SkatMain.lgs.getEnemyTwo());
 
   }
 

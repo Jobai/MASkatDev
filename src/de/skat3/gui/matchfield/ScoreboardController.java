@@ -61,25 +61,25 @@ public class ScoreboardController {
     int t = 0;
 
     try {
-      scores[t][0] = SkatMain.lgs.localClient.getName();
-      scores[t][1] = String.valueOf(SkatMain.lgs.localClient.getPoints());
-      scores[t][2] = String.valueOf(SkatMain.lgs.localClient.getSeegerPoints());
+      scores[t][0] = SkatMain.lgs.getLocalClient().getName();
+      scores[t][1] = String.valueOf(SkatMain.lgs.getLocalClient().getPoints());
+      scores[t][2] = String.valueOf(SkatMain.lgs.getLocalClient().getSeegerPoints());
       t++;
     } catch (NullPointerException e) {
       System.out.println("Could not set Local client score in scoreboard");
     }
     try {
-      scores[t][0] = SkatMain.lgs.enemyOne.getName();
-      scores[t][1] = String.valueOf(SkatMain.lgs.enemyOne.getPoints());
-      scores[t][2] = String.valueOf(SkatMain.lgs.enemyOne.getSeegerPoints());
+      scores[t][0] = SkatMain.lgs.getEnemyOne().getName();
+      scores[t][1] = String.valueOf(SkatMain.lgs.getEnemyOne().getPoints());
+      scores[t][2] = String.valueOf(SkatMain.lgs.getEnemyOne().getSeegerPoints());
       t++;
     } catch (NullPointerException e) {
       System.out.println("Could not set enemy one score in scoreboard");
     }
     try {
-      scores[t][0] = SkatMain.lgs.enemyTwo.getName();
-      scores[t][1] = String.valueOf(SkatMain.lgs.enemyTwo.getPoints());
-      scores[t][2] = String.valueOf(SkatMain.lgs.enemyTwo.getSeegerPoints());
+      scores[t][0] = SkatMain.lgs.getEnemyTwo().getName();
+      scores[t][1] = String.valueOf(SkatMain.lgs.getEnemyTwo().getPoints());
+      scores[t][2] = String.valueOf(SkatMain.lgs.getEnemyTwo().getSeegerPoints());
       t++;
     } catch (NullPointerException e) {
       System.out.println("Could not set enemy two score in scoreboard");
@@ -97,9 +97,9 @@ public class ScoreboardController {
 
     int v = 1;
 
-    if (SkatMain.lgs.localClient.getSeegerPoints() != 0
-        && SkatMain.lgs.enemyOne.getSeegerPoints() != 0
-        && SkatMain.lgs.enemyTwo.getSeegerPoints() != 0) {
+    if (SkatMain.lgs.getLocalClient().getSeegerPoints() != 0
+        && SkatMain.lgs.getEnemyOne().getSeegerPoints() != 0
+        && SkatMain.lgs.getEnemyTwo().getSeegerPoints() != 0) {
       v = 2;
     }
 

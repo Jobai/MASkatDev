@@ -39,11 +39,11 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.overlayController.setTrump(SkatMain.lgs.contract);
 
     this.matchfield.overlayController.extra1LocalClient
-        .setText(SkatMain.lgs.localClient.isSolo() ? "Solo" : "Team");
+        .setText(SkatMain.lgs.getLocalClient().isSolo() ? "Solo" : "Team");
     this.matchfield.overlayController.extraEnemyOne
-        .setText(SkatMain.lgs.enemyOne.isSolo() ? "Solo" : "Team");
+        .setText(SkatMain.lgs.getEnemyOne().isSolo() ? "Solo" : "Team");
     this.matchfield.overlayController.extraEnemyTwo
-        .setText(SkatMain.lgs.enemyTwo.isSolo() ? "Solo" : "Team");
+        .setText(SkatMain.lgs.getEnemyTwo().isSolo() ? "Solo" : "Team");
   }
 
   /*
@@ -168,9 +168,14 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void startRound() {
     this.matchfield.tableController.iniHands();
-    this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.enemyOne);
-    this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.enemyTwo);
-    this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.localClient);
+
+    System.out.println("Start Round lgs lc: " + SkatMain.lgs.getLocalClient().getHand());
+    System.out.println("Start Round lgs eo: " + SkatMain.lgs.getEnemyOne().getHand());
+    System.out.println("Start round lgs ew: " + SkatMain.lgs.getEnemyTwo().getHand());
+
+    this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.getEnemyOne());
+    this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.getEnemyTwo());
+    this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.getLocalClient());
   }
 
   public void showBidRequest(int bid) {
@@ -179,9 +184,9 @@ public class InGameController implements InGameControllerInterface {
   }
 
   public void initializePlayers() {
-    this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.enemyOne);
-    this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.enemyTwo);
-    this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.localClient);
+    this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.getEnemyOne());
+    this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.getEnemyTwo());
+    this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.getLocalClient());
   }
 
   public void showHandGameRequest() {
