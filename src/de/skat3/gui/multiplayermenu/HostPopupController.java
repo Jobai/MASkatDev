@@ -63,24 +63,21 @@ public class HostPopupController {
           modeValue.setText(oldValue);
         }
 
-        int value = Integer.parseInt(modeValue.getText());
-
-        System.out.println(mode.getSelectionModel().getSelectedItem());
-
-        if (mode.getSelectionModel().getSelectedItem() == "Seeger") {
-          System.out.println("in");
-          if ((value % 3) == 0) {
-            btnHost.setDisable(false);
-          } else {
-            btnHost.setDisable(true);
-          }
-        } else if (mode.getSelectionModel().getSelectedItem() == "Bierlachs") {
-          if ((value >= -1000) && (value <= -500)) {
-            btnHost.setDisable(false);
-          } else {
-            btnHost.setDisable(true);
-          }
-        }
+        // int value = Integer.parseInt(modeValue.getText());
+        //
+        // if (mode.getSelectionModel().getSelectedItem() == "Seeger") {
+        // if ((value % 3) == 0) {
+        // btnHost.disableProperty().set(false);
+        // } else {
+        // btnHost.disableProperty().set(true);
+        // }
+        // } else if (mode.getSelectionModel().getSelectedItem() == "Bierlachs") {
+        // if ((value >= -1000) && (value <= -500)) {
+        // btnHost.disableProperty().set(false);
+        // } else {
+        // btnHost.disableProperty().set(true);
+        // }
+        // }
 
       }
     });

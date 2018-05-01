@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import de.skat3.main.SkatMain;
 import javafx.animation.ScaleTransition;
+import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -17,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -47,10 +50,6 @@ public class SingleplayerMenuController {
     dialog.setTitle("Start Singleplayer Game");
     dialog.setHeaderText("Please select difficulty of the KI players");
 
-    // Set the button types.
-    ButtonType startGame = new ButtonType("Start", ButtonData.OK_DONE);
-    dialog.getDialogPane().getButtonTypes().addAll(startGame, ButtonType.CANCEL);
-
     GridPane grid = new GridPane();
     grid.setHgap(10);
     grid.setVgap(10);
@@ -72,6 +71,9 @@ public class SingleplayerMenuController {
 
     CheckBox kontraRekontra = new CheckBox();
 
+    // Set the button types.
+    ButtonType startGame = new ButtonType("Start", ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().addAll(startGame, ButtonType.CANCEL);
 
     grid.add(new Label("KI Player 1:"), 0, 0);
     grid.add(player1, 1, 0);
@@ -88,6 +90,11 @@ public class SingleplayerMenuController {
     grid.add(kontraRekontra, 1, 6);
 
     dialog.getDialogPane().setContent(grid);
+
+    final Button okButton = (Button) dialog.getDialogPane().lookupButton(startGame);
+    scoreValue.textProperty().addListener((observable, oldValue, newValue) -> {
+        okButton.setDisable(scoreValue.getText().isEmpty());
+    });
 
     dialog.setResultConverter(dialogButton -> {
       if (dialogButton == startGame) {

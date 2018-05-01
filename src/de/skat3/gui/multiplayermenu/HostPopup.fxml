@@ -121,11 +121,12 @@
 							GridPane.columnIndex="1" GridPane.halignment="CENTER" />
 						<Label text="Mode" />
 						<TextField fx:id="modeValue" GridPane.columnIndex="1"
-							GridPane.rowIndex="1" />
-						<Label text="Rounds / Score" GridPane.rowIndex="1">
+							GridPane.rowIndex="1">
 							<tooltip>
 								<Tooltip fx:id="tooltipModeValue" />
 							</tooltip>
+						</TextField>
+						<Label text="Rounds / Score" GridPane.rowIndex="1">
 						</Label>
 					</children>
 				</GridPane>
