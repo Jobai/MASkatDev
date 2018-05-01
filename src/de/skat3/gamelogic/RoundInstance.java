@@ -114,7 +114,7 @@ class RoundInstance {
   private void notifyPlayers() {
     for (int i = 0; i < players.length; i++) {
       slc.updatePlayerDuringRound(this.players[i]);
-      System.out.println(this.players[i].name + " " + this.players[i].getHand());
+      System.out.println("LOGIC KARTEN GESENDET: " + this.players[i].getHand());
     }
 
   }

@@ -72,6 +72,7 @@ public class ServerLogicController implements ServerLogicInterface {
   }
 
   public void updatePlayerDuringRound(Player player) {
+    System.out.println("SERVER RECEIVED: " + player.getName() + "CARDS" + player.getHand());
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, player.toString(),
         CommandType.ROUND_GENERAL_INFO);
     mc.gameState = player;
