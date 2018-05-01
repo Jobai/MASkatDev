@@ -10,7 +10,7 @@ import de.skat3.io.profile.ImageConverter;
 import de.skat3.io.profile.Profile;
 import javafx.scene.image.Image;
 
-public class Player implements Serializable {
+public class Player implements Serializable, Comparable {
 
   /**
    * 
@@ -102,7 +102,9 @@ public class Player implements Serializable {
   }
 
   public void setHand(Hand hand) {
-    this.hand = hand;
+    for (int i = 0; i < hand.cards.length; i++) {
+      this.hand.cards[i] = hand.cards[i];
+    }
   }
 
   public Hand getHand() {
@@ -213,20 +215,45 @@ public class Player implements Serializable {
   public int getPoints() {
     return points;
   }
-  
+
+  public int getSeegerPoints() {
+    return this.seegerPoints;
+  }
+
   void shortenPlayer() {
     this.name = null;
     this.image = null;
   }
-  
+
   public void updatePlayer(Player player) {
     this.wonTricks = player.wonTricks;
     this.points = player.points;
-    this.hand = player.hand;
+    this.setHand(player.hand);
     this.isBot = player.isBot;
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;
     this.seegerPoints = player.seegerPoints;
+  }
+
+  @Override
+  public int compareTo(Object player) {
+    Player p = (Player) player;
+
+    if (this.seegerPoints > p.seegerPoints) {
+      return 1;
+    }
+    if (this.seegerPoints < p.seegerPoints) {
+      return -1;
+    }
+    if (this.seegerPoints == p.seegerPoints) {
+      if (this.points > p.points) {
+        return 1;
+      }
+      if (this.points < p.points) {
+        return -1;
+      }
+    }
+    return 0;
   }
 
 }

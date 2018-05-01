@@ -395,7 +395,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void updatePlayer(Player player) {
-    System.out.println("lgs hand: " + player.getHand());
+    System.out.println("lgs neue hand: " + player.getHand());
     SkatMain.lgs.localClient.updatePlayer(player);
   }
 
@@ -692,6 +692,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void skatSelected(Hand hand, Card[] skat) {
+    System.out.println("neue hand: " + hand);
     SkatMain.lgs.skat[0] = skat[0];
     SkatMain.lgs.skat[1] = skat[1];
     SkatMain.clc.throwAnswer(hand, skat);

@@ -207,6 +207,7 @@ class RoundInstance {
       for (int i = 0; i < this.soloPlayerStartHand.getAmountOfCards(); i++) {
         this.soloPlayerStartHand.cards[i] = this.solo.hand.cards[i];
       }
+      
       // FIXME
       this.slc.callForHandOption(this.solo);
       this.lock.wait();
