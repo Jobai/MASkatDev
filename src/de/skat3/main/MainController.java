@@ -182,6 +182,32 @@ public class MainController implements MainControllerInterface {
 
 
   }
+  
+  public void directConnectMultiplayerGame(String ip, String password) {
+
+    Lobby lobby = new Lobby();
+    lobby.password = password;
+    Inet4Address i4;
+    try {
+      i4 = (Inet4Address) Inet4Address.getByName(ip);
+      System.out.println(i4);
+      lobby.ip = i4;
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+      SkatMain.mainController.showCustomAlertPormpt("Invalid IP Adress!",
+          "The entered IP Adress is invalid! Please check and try again.");; // TODO change to
+                                                                             // "invalid IP Adress"
+      return;
+    }
+
+    this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
+    SkatMain.clc = gameClient.getClc();
+    SkatMain.guiController.goInGame();
+    this.isHost = false;
+
+
+
+  }
 
   @Override
   public void joinMultiplayerGame(Lobby lobby, String password) {
@@ -365,7 +391,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void updatePlayer(Player player) {
-    System.out.println("lgs hand: "+player.getHand();
+    System.out.println("lgs hand: "+player.getHand());
     SkatMain.lgs.localClient.updatePlayer(player);
   }
 
