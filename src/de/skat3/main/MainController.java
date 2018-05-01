@@ -1,7 +1,6 @@
 package de.skat3.main;
 
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import de.skat3.ai.Ai;
 import de.skat3.gamelogic.AdditionalMultipliers;

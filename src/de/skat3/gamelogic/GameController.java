@@ -227,7 +227,7 @@ public class GameController implements GameLogicInterface, Serializable {
       System.err.println("LOGIC: Wrong hand or Skat send to logic.");
       return;
     }
-    this.roundInstance.solo.setHand(hand);
+    this.roundInstance.solo.setHand(hand); //XXX
     System.out.println("logic hand: "+hand);
     this.roundInstance.skat[0] = skat[0];
     this.roundInstance.skat[1] = skat[1];

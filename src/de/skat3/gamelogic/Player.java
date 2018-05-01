@@ -115,9 +115,7 @@ public class Player implements Serializable, Comparable {
   }
 
   public void setHand(Hand hand) {
-    for (int i = 0; i < hand.cards.length; i++) {
-      this.hand.cards[i] = hand.cards[i];
-    }
+     this.hand = hand;
   }
 
   public Hand getHand() {
@@ -258,7 +256,7 @@ public class Player implements Serializable, Comparable {
     System.out.println("UPDATE PLAYER CALLED");
     this.wonTricks = player.wonTricks;
     this.points = player.points;
-    this.hand = player.convertFromByteArray(player.secretBackupArray).hand;
+    this.hand = player.hand;
     System.out.println("THE UPDATED CARDS ARE: " + this.hand);
     Random r = new Random();
     int i = r.nextInt(3);

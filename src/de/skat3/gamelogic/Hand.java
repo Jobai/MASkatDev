@@ -11,10 +11,7 @@ public class Hand implements Serializable {
    */
   public Hand(Card[] cards) {
 
-    this.cards = new Card[cards.length];
-    for (int i = 0; i < cards.length; i++) {
-      this.cards[i] = cards[i];
-    }
+    this.cards = cards;
   }
 
   public Hand() {
