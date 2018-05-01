@@ -41,7 +41,8 @@ public class MainController implements MainControllerInterface {
   public ObservableList<String> chatMessages;
 
 
-  /** Returns a list of all lobbies in the local network.
+  /**
+   * Returns a list of all lobbies in the local network.
    * 
    */
 
@@ -51,9 +52,12 @@ public class MainController implements MainControllerInterface {
     this.blinkAlert();
     return lobbys;
   }
-/** Starts a singleplayer game with two bots.
- * @param hardBot true f
- */
+
+  /**
+   * Starts a singleplayer game with two bots.
+   * 
+   * @param hardBot true f
+   */
   @Override
   public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int scoringMode,
       boolean kontraRekontraEnabled) {
@@ -479,7 +483,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showContract(contract, additionalMultipliers);
+        SkatMain.guiController.getInGameController().showContract();
       }
     });
 
