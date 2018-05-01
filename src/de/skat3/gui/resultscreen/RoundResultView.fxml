@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="653" prefWidth="600.0"
-	xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.resultscreen.RoundResultViewController">
 	<children>
@@ -30,14 +30,18 @@
 			prefWidth="600.0" spacing="60.0"
 			style="-fx-background-color: #d60202;">
 			<children>
-				<CheckBox fx:id="cbSuit" mnemonicParsing="false"
-					text="Suit Game" textFill="WHITE" />
-				<CheckBox fx:id="cbGrande" mnemonicParsing="false"
-					text="Grand" textFill="WHITE" />
-				<CheckBox fx:id="cbNull" mnemonicParsing="false"
-					text="Null" textFill="WHITE" />
-				<CheckBox fx:id="cbNullOvert" mnemonicParsing="false"
-					text="Null Overt" textFill="WHITE" />
+				<CheckBox fx:id="cbSuit" disable="true"
+					mnemonicParsing="false" style="-fx-opacity: 1;" text="Suit Game"
+					textFill="WHITE" />
+				<CheckBox fx:id="cbGrande" disable="true"
+					mnemonicParsing="false" style="-fx-opacity: 1;" text="Grand"
+					textFill="WHITE" />
+				<CheckBox fx:id="cbNull" disable="true"
+					mnemonicParsing="false" style="-fx-opacity: 1;" text="Null"
+					textFill="WHITE" />
+				<CheckBox fx:id="cbNullOvert" disable="true"
+					mnemonicParsing="false" style="-fx-opacity: 1;" text="Null Overt"
+					textFill="WHITE" />
 			</children>
 		</HBox>
 		<Pane layoutY="491.0" prefHeight="119.0" prefWidth="600.0"

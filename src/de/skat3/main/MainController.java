@@ -186,7 +186,7 @@ public class MainController implements MainControllerInterface {
 
 
   }
-  
+
   public void directConnectMultiplayerGame(String ip, String password) {
 
     Lobby lobby = new Lobby();
@@ -395,7 +395,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void updatePlayer(Player player) {
-    System.out.println("lgs hand: "+player.getHand());
+    System.out.println("lgs hand: " + player.getHand());
     SkatMain.lgs.localClient.updatePlayer(player);
   }
 
