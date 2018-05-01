@@ -97,6 +97,7 @@ public class InGameOverlayController {
   void setTrump(Contract con) {
     this.trumpInfo
         .setText(con.toString().substring(con.toString().indexOf(" "), con.toString().length()));
+    this.trumpInfo.setVisible(true);
   }
 
   public void handleSendMessage(KeyEvent e) {
