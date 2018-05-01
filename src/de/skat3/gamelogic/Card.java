@@ -20,7 +20,7 @@ public class Card implements Serializable {
   private Suit suit;
   private Value value;
   private String view;
-  private transient ImageView imageView;
+  public transient ImageView imageView;
   private boolean playable;
   private int trickValue;
 

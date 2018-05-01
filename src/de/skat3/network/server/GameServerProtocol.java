@@ -14,8 +14,10 @@ import de.skat3.gamelogic.Player;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
+import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
+import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageConnection;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.datatypes.SubType;
@@ -159,8 +161,8 @@ public class GameServerProtocol extends Thread {
       }
       System.out.println("Check succesful!");
     }
-    System.out
-        .println("CONNECTED Current: " + SkatMain.mainController.currentLobby.getCurrentNumberOfPlayers()
+    System.out.println(
+        "CONNECTED Current: " + SkatMain.mainController.currentLobby.getCurrentNumberOfPlayers()
             + " CONNECTED Lobby: " + SkatMain.mainController.currentLobby.lobbyPlayer);
     if (SkatMain.mainController.currentLobby
         .getCurrentNumberOfPlayers() >= SkatMain.mainController.currentLobby
@@ -187,7 +189,7 @@ public class GameServerProtocol extends Thread {
 
     logger.info("Player" + this.playerProfile.getUuid() + "joined the server!");
     broadcastMessage(m);
-    
+
   }
 
   private void handleAnswer(Message m) {
@@ -212,8 +214,22 @@ public class GameServerProtocol extends Thread {
 
   void sendMessage(Message message) {
     try {
+   
       toClient.writeObject(message);
       logger.fine("send message");
+      if (((MessageCommand) message).getSubType() == CommandType.ROUND_GENERAL_INFO) {
+        System.out.println("============= sendMessage [ROUND_GENERAL_INFO] ================");
+
+        System.out.println(((MessageCommand) message).gameState);
+        System.out.println(((Player) ((MessageCommand) message).gameState));
+        System.out.println(((Player) ((MessageCommand) message).gameState).getHand());
+        
+        System.out.println("SBH: " + ((Player) ((MessageCommand) message).gameState).secretBackupHand);
+        System.out.println("SBA: " + ((Player) ((MessageCommand) message).gameState).convertFromByteArray(((Player) ((MessageCommand) message).gameState).secretBackupArray));
+        System.out.println("=========================================");
+      }
+    } catch (ClassCastException e) {
+      //
     } catch (IOException e) {
       e.printStackTrace();
       handleLostConnection();

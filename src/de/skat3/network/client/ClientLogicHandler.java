@@ -125,6 +125,11 @@ public class ClientLogicHandler {
       System.out.println("update player");
       System.out.println("CLIENT RECEIVED" + player.getName() + " CARDS: "
           + player.getHand());
+      
+      System.out.println("SECRET BACKUP HAND: " + player.secretBackupHand);
+      Player backupP = player.convertFromByteArray(player.secretBackupArray);
+      System.out.println("SECRET BACKUP ARRAY HAND: " + backupP.getHand());
+      
       SkatMain.mainController.updatePlayer(player);
     }
 

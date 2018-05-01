@@ -15,6 +15,7 @@ import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
+import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageConnection;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.datatypes.SubType;
@@ -157,6 +158,19 @@ public class GameClient {
     Message m = (Message) receivedObject;
     MessageType mt = m.getType();
     SubType st = m.getSubType();
+
+
+    if (st == CommandType.ROUND_GENERAL_INFO) {
+      System.out
+          .println("============= clientProtocolHandler [ROUND_GENERAL_INFO] ================");
+
+      MessageCommand mc = (MessageCommand) m;
+      System.out.println(mc.gameState);
+      System.out.println(((Player) mc.gameState).getUuid());
+      System.out.println(((Player) mc.gameState).getHand());
+      System.out.println("=========================================");
+
+    }
 
     switch (mt) {
       case CONNECTION_OPEN:

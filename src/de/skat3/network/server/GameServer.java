@@ -12,6 +12,7 @@ package de.skat3.network.server;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
+import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.MessageCommand;
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -33,7 +34,7 @@ public class GameServer extends Thread {
 
   private static Logger logger = Logger.getLogger("de.skat3.network.server");
   public static ArrayList<GameServerProtocol> threadList;
-  public static int port = 2018; //HARDCODED
+  public static int port = 2018; // HARDCODED
   private ServerSocket serverSocket;
 
   private ServerLogicController slc;
@@ -43,14 +44,14 @@ public class GameServer extends Thread {
   int gameServerMode = 0;
 
   public LobbyServer ls;
-  
+
   static Lobby lobby;
 
 
 
   /**
-   * Constructor only used for testing purposes.
-   * DEPRECATED!!!
+   * Constructor only used for testing purposes. DEPRECATED!!!
+   * 
    * @author Jonas Bauer
    * @param gc provided by logic.
    */
@@ -66,9 +67,8 @@ public class GameServer extends Thread {
   }
 
   /**
-   * Constructor for creation of a GameServer without a lobby Server.
-   * Called by the standard constructor.
-   * Directly only used for singleplayergames!
+   * Constructor for creation of a GameServer without a lobby Server. Called by the standard
+   * constructor. Directly only used for singleplayergames!
    * 
    * @param lobbysettings settings of the game
    * @param gc gameController provided by the gamelogic
@@ -84,8 +84,8 @@ public class GameServer extends Thread {
   }
 
   /**
-   * Standard constructor for the creation of a GameServer.
-   * Calls another constructor.
+   * Standard constructor for the creation of a GameServer. Calls another constructor.
+   * 
    * @author Jonas Bauer
    * @param lobbysettings Game & Lobby Settings
    * @param gameController GameController provided by the GameLogic
@@ -125,8 +125,9 @@ public class GameServer extends Thread {
   }
 
   /**
-   * Ungracefully stops the GameServer and closes the serversocket.
-   * All clients still connected lose ungracefully the connection.
+   * Ungracefully stops the GameServer and closes the serversocket. All clients still connected lose
+   * ungracefully the connection.
+   * 
    * @author Jonas Bauer
    */
   public void stopServer() {
@@ -152,6 +153,7 @@ public class GameServer extends Thread {
 
   /**
    * Sends a message to the given player.
+   * 
    * @author Jonas Bauer
    * @param player destination for the message.
    * @param mc message to be transmitted.
@@ -159,7 +161,20 @@ public class GameServer extends Thread {
   public void sendToPlayer(Player player, MessageCommand mc) {
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       if (gameServerProtocol.playerProfile.equals(player)) {
+        if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
+          System.out
+              .println("============= send To Player Log [ROUND_GENERAL_INFO] ================");
+
+          System.out.println(mc.gameState);
+          System.out.println(((Player) mc.gameState).getUuid());
+          System.out.println(((Player) mc.gameState).getHand());
+          System.out.println("=========================================");
+        }
+
         gameServerProtocol.sendMessage(mc);
+
+
+
         logger.info("send to:  " + player.getUuid() + "  succesful");
         return;
       }

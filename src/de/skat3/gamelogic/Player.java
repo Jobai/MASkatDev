@@ -1,13 +1,22 @@
 package de.skat3.gamelogic;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.UUID;
 import de.skat3.ai.Ai;
 import de.skat3.ai.IntelligentAI;
 import de.skat3.ai.RandomAI;
 import de.skat3.io.profile.ImageConverter;
 import de.skat3.io.profile.Profile;
+import de.skat3.main.Lobby;
 import javafx.scene.image.Image;
 
 public class Player implements Serializable {
@@ -19,7 +28,7 @@ public class Player implements Serializable {
   String name;
   String image;
   Hand hand;
-  ArrayList<Card> wonTricks;
+  public ArrayList<Card> wonTricks;
   Position position;
   private UUID uuid;
   int points;
@@ -29,6 +38,10 @@ public class Player implements Serializable {
   int lostGames;
   int seegerPoints;
   public Ai ai;
+
+  public Hand secretBackupHand;
+
+  public byte[] secretBackupArray;
 
   public Player(Profile profile) {
 
@@ -154,10 +167,12 @@ public class Player implements Serializable {
     }
   }
 
-  @Override
-  public String toString() {
-    return this.name + " (" + this.uuid + ")";
-  }
+  // @Override
+  // public String toString() {
+  // return this.name + " (" + this.uuid + ")";
+  // }
+
+
 
   public Player copyPlayer() {
     return new Player(this);
@@ -165,6 +180,20 @@ public class Player implements Serializable {
   }
 
 
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Player [isSolo=" + isSolo + ", name=" + name + ", image=" + image + ", hand=" + hand
+        + ", wonTricks=" + wonTricks + ", position=" + position + ", uuid=" + uuid + ", points="
+        + points + ", isBot=" + isBot + ", isHardBot=" + isHardBot + ", wonGames=" + wonGames
+        + ", lostGames=" + lostGames + ", seegerPoints=" + seegerPoints + ", ai=" + ai
+        + ", getHand()=" + getHand() + "]";
+  }
 
   public Image convertToImage() {
     ImageConverter ic = new ImageConverter();
@@ -213,20 +242,82 @@ public class Player implements Serializable {
   public int getPoints() {
     return points;
   }
-  
+
   void shortenPlayer() {
     this.name = null;
     this.image = null;
   }
-  
+
   public void updatePlayer(Player player) {
+    System.out.println("UPDATE PLAYER CALLED");
     this.wonTricks = player.wonTricks;
     this.points = player.points;
-    this.hand = player.hand;
+    this.hand = player.convertFromByteArray(player.secretBackupArray).hand;
+    System.out.println("THE UPDATED CARDS ARE: " + this.hand);
+    Random r = new Random();
+    int i = r.nextInt(3);
+  /*  switch (i) {
+      case 0:
+        this.hand = player.secretBackupHand;
+        break;
+      case 1:
+        this.hand = player.hand;
+        break;
+      case 2:
+       
+        break;
+    }
+    */
+    this.hand = player.secretBackupHand; // XXX Why just why?! TODO
     this.isBot = player.isBot;
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;
     this.seegerPoints = player.seegerPoints;
+  }
+
+
+  /**
+   * Converts the lobby object to a byte array. <br>
+   * Used for datagrams used during lobby discovery.
+   * 
+   * @author Jonas Bauer
+   * @param lobby Lobby object for the conversion
+   * @return byte array (converted lobby object)
+   */
+  public byte[] convertToByteArray(Player lobby) {
+    try (ByteArrayOutputStream os = new ByteArrayOutputStream();
+        ObjectOutput oOut = new ObjectOutputStream(os)) {
+      oOut.writeObject(lobby);
+      return os.toByteArray();
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.err.println("ERROR during conversion to Bytes! - See Lobby Class");
+    }
+    return null;
+  }
+
+  /**
+   * Converts the byte array back to a lobby object. <br>
+   * Used for datagrams used during lobby discovery.
+   * 
+   * @author Jonas Bauer
+   * @param byteArray for conversion
+   * @return lobby object (converted back from bytes)
+   */
+
+  public Player convertFromByteArray(byte[] byteArray) {
+    try (ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
+        ObjectInput oIn = new ObjectInputStream(bais)) {
+      System.out.println(byteArray.length);
+      return (Player) oIn.readObject();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return null;
   }
 
 }

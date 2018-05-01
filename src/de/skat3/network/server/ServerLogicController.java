@@ -9,9 +9,11 @@
 
 package de.skat3.network.server;
 
+import java.util.ArrayList;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
@@ -69,10 +71,33 @@ public class ServerLogicController implements ServerLogicInterface {
   }
 
   public void updatePlayerDuringRound(Player player) {
+    // player.secretBackupHand
+
+    Hand neuHand = new Hand();
+    Hand aldHand = player.getHand();
+
+    for (int i = 0; i < neuHand.cards.length; i++) {
+      neuHand.cards[i] = aldHand.cards[i];
+    }
+    
+    
+    
+    player.secretBackupHand = neuHand;
+    
+    player.secretBackupArray = player.convertToByteArray(player);
+    
+
+
+
+    player.wonTricks = new ArrayList<Card>();
     System.out.println("SERVER RECEIVED: " + player.getName() + "CARDS" + player.getHand());
+    System.out.println("UPDATEPLAYER SLC CALL:" + player.getUuid() + "\n \n" + player);
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, player.toString(),
         CommandType.ROUND_GENERAL_INFO);
     mc.gameState = player;
+    for (int i = 0; i < player.getHand().cards.length; i++) {
+      player.getHand().cards[i].imageView = null;
+    }
     gs.sendToPlayer(player, mc);
   }
 
