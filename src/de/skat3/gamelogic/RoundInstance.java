@@ -58,17 +58,18 @@ class RoundInstance {
   void startRound() throws InterruptedException {
 
     this.initializeAuction();
-    this.notifyPlayers();
-
+    this.updatePlayer();
+    Thread.sleep(5000);
     slc.broadcastRoundStarted();
     Player winner = this.startBidding();
     if (winner == null) {
       // this.slc.broacastRoundRestarded(); TODO
     } else {
       this.setDeclarer(winner);
-      this.notifyPlayers();
+      this.updatePlayer();
       this.startGame();
     }
+    this.slc.broadcastRoundResult(new Result(this));
 
 
   }
@@ -110,7 +111,7 @@ class RoundInstance {
 
   }
 
-  private void notifyPlayers() {
+  private void updatePlayer() {
     for (int i = 0; i < players.length; i++) {
       slc.updatePlayerDuringRound(this.players[i]);
       System.out.println("LOGIC KARTEN GESENDET: " + this.players[i].getHand());
@@ -284,7 +285,6 @@ class RoundInstance {
         slc.broadcastTrickResult(trickWinner);
         this.rotatePlayers(trickWinner);
       }
-      this.slc.broadcastRoundResult(new Result(this));
     }
 
   }
