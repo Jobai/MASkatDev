@@ -75,6 +75,8 @@ public class MultiplayerMenuController {
   @FXML
   private Button refreshButton;
   @FXML
+  private Button joinButton;
+  @FXML
   private Label serverIP;
   @FXML
   private Label serverPW;
@@ -257,10 +259,10 @@ public class MultiplayerMenuController {
    * .
    */
   public void joinServer() {
+    joinButton.setDisable(true);
     if (!currentLobby.isHasPassword()) {
       SkatMain.mainController.joinMultiplayerGame(currentLobby);
-      System.out.println("Join");
-    } else { // implemented password input - JB 29.04.2018
+    } else {
       TextInputDialog dialog = new TextInputDialog("");
       dialog.setTitle("Enter lobby password");
       dialog.setHeaderText("Enter lobby password");
@@ -283,6 +285,8 @@ public class MultiplayerMenuController {
     } catch (Exception e) {
       return;
     }
+
+    joinButton.setDisable(false);
 
     // fill view fields
     serverName.setText(currentLobby.getName());

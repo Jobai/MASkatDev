@@ -180,7 +180,7 @@
 				</GridPane>
 			</children>
 		</AnchorPane>
-		<Button id="round-red" layoutX="777.0" layoutY="464.0"
+		<Button id="round-red" fx:id="joinButton" layoutX="777.0" layoutY="464.0"
 			mnemonicParsing="false" onAction="#joinServer" prefHeight="38.0"
 			prefWidth="499.0" stylesheets="@../singleplayermenu/ButtonStyle.css"
 			text="Join Server" AnchorPane.bottomAnchor="79.0"
