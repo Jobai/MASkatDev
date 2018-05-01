@@ -2,6 +2,8 @@ package de.skat3.gui.multiplayermenu;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import de.skat3.gamelogic.Player;
 import de.skat3.io.profile.Profile;
@@ -15,17 +17,25 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -181,14 +191,58 @@ public class MultiplayerMenuController {
    * .
    */
   public void directConnect() {
-    TextInputDialog dialog = new TextInputDialog("");
+
+    Dialog<HashMap<String, String>> dialog = new Dialog<>();
     dialog.setTitle("Direct Connect");
     dialog.setHeaderText("Direct Connect");
-    dialog.setContentText("Please enter Server IP:");
-    dialog.initStyle(StageStyle.UTILITY);
 
-    Optional<String> result = dialog.showAndWait();
-    result.ifPresent(ip -> SkatMain.mainController.directConnectMultiplayerGame(ip));
+    GridPane grid = new GridPane();
+    grid.setHgap(10);
+    grid.setVgap(10);
+    grid.setPadding(new Insets(20, 150, 10, 10));
+
+    // Set the button types.
+    ButtonType startGame = new ButtonType("Start", ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().addAll(startGame, ButtonType.CANCEL);
+
+    TextField ip = new TextField();
+    TextField pw = new TextField();
+
+    grid.add(new Label("IP: "), 0, 0);
+    grid.add(ip, 1, 0);
+    grid.add(new Label("Password (optional)"), 0, 1);
+    grid.add(pw, 1, 1);
+
+    dialog.getDialogPane().setContent(grid);
+
+    final Button okButton = (Button) dialog.getDialogPane().lookupButton(startGame);
+    ip.textProperty().addListener((observable, oldValue, newValue) -> {
+      okButton.setDisable(ip.getText().isEmpty());
+    });
+
+    dialog.setResultConverter(dialogButton -> {
+      if (dialogButton == startGame) {
+        HashMap<String, String> result = new HashMap<>();
+        result.put("ip", ip.getText());
+        result.put("pw", pw.getText());
+        return result;
+      }
+      return null;
+    });
+
+    dialog.showAndWait().ifPresent(result -> {
+      String sIp = result.get("ip");
+      String sPw = result.get("pw");
+
+      if (sPw.isEmpty()) {
+        SkatMain.mainController.directConnectMultiplayerGame(sIp);
+      } else {
+        SkatMain.mainController.directConnectMultiplayerGame(sIp, sPw);
+      }
+
+    });
+
+
   }
 
   /**
@@ -234,8 +288,7 @@ public class MultiplayerMenuController {
     serverName.setText(currentLobby.getName());
     serverIP.setText(currentLobby.getIp().toString());
     // serverPW.setText(currentLobby.);
-    serverPlayer.setText(
-        currentLobby.lobbyPlayer + "/" + currentLobby.getMaximumNumberOfPlayers());
+    serverPlayer.setText(currentLobby.lobbyPlayer + "/" + currentLobby.getMaximumNumberOfPlayers());
 
     // Players
     Player[] players = currentLobby.getPlayers();
@@ -270,6 +323,8 @@ public class MultiplayerMenuController {
    */
   private void showLoadingScreen() {
 
+    refreshButton.setDisable(true);
+
     Pane p = new Pane();
     p.setPrefSize(200, 200);
 
@@ -286,7 +341,10 @@ public class MultiplayerMenuController {
     root.getChildren().add(p);
 
     PauseTransition pause = new PauseTransition(Duration.seconds(6));
-    pause.setOnFinished(event -> root.getChildren().remove(p));
+    pause.setOnFinished(event -> {
+      root.getChildren().remove(p);
+      refreshButton.setDisable(false);
+    });
     pause.play();
 
   }
