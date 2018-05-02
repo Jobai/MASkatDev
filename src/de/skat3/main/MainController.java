@@ -404,6 +404,8 @@ public class MainController implements MainControllerInterface {
 
 
   public void roundStarted() {
+    SkatMain.lgs.getEnemyOne().setHand(new Hand());
+    SkatMain.lgs.getEnemyTwo().setHand(new Hand());
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
