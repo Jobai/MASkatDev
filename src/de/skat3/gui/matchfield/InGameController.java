@@ -169,11 +169,6 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void startRound() {
     this.matchfield.tableController.iniHands();
-
-    System.out.println("Start Round lgs lc: " + SkatMain.lgs.getLocalClient().getHand());
-    System.out.println("Start Round lgs eo: " + SkatMain.lgs.getEnemyOne().getHand());
-    System.out.println("Start round lgs ew: " + SkatMain.lgs.getEnemyTwo().getHand());
-
     this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.getEnemyOne());
     this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.getEnemyTwo());
     this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.getLocalClient());

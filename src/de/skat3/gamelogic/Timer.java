@@ -31,7 +31,7 @@ public class Timer extends Thread {
   public void run(int seconds) throws InterruptedException {
     int remainingTime = seconds;
     while (!this.isInterrupted) {
-      System.out.println(remainingTime);
+      SkatMain.guiController.getInGameController().setRemainingTime(remainingTime);
       Thread.sleep(1000);
       remainingTime--;
       if (remainingTime == 0) {

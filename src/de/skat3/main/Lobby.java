@@ -257,4 +257,7 @@ public class Lobby implements Serializable {
   }
   
 
+  public int getTimer() {
+    return this.timer;
+  }
 }
