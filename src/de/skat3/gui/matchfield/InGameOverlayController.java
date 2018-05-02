@@ -30,6 +30,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
@@ -38,7 +39,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 /**
- * @author Aljoscha Domonell
+ * @author adomonel
  *
  */
 public class InGameOverlayController {
@@ -108,7 +109,27 @@ public class InGameOverlayController {
   @FXML
   private Label timerLabel;
 
+  @FXML
+  private VBox addBotRightRoot;
+
+  @FXML
+  private Button addEasyBotRightButton;
+
+  @FXML
+  private Button addHardBotRightButton;
+
+  @FXML
+  private VBox addBotLeftRoot;
+
+  @FXML
+  private Button addEasyBotLeftButton;
+
+  @FXML
+  private Button addHardBotLeftButton;
+
   // Initializing
+
+
 
   void setTrump(Contract con, AdditionalMultipliers addMulti) {
     this.trumpInfo
@@ -267,8 +288,11 @@ public class InGameOverlayController {
   }
 
   void setPlayText(String text, boolean show) {
+    if (show) {
+      this.playInfo.setText(text);
+      // TODO Fade animation
+    }
     this.playInfo.setVisible(show);
-    this.playInfo.setText(text);
   }
 
   public void handleKeyPressed(KeyEvent e) {
@@ -358,7 +382,25 @@ public class InGameOverlayController {
       this.nameEnemyOne.setText("");
       this.extraEnemyOne.setText("");
       this.imageEnemyOne.setImage(null);
+
+      this.addEasyBotLeftButton.setOnAction(e -> {
+        // SkatMain.mainController. //TODO
+        this.addBotLeftRoot.setDisable(true);
+        this.addBotLeftRoot.setVisible(false);
+      });
+      this.addHardBotLeftButton.setOnAction(e -> {
+        // SkatMain.mainController. //TODO
+        this.addBotLeftRoot.setDisable(true);
+        this.addBotLeftRoot.setVisible(false);
+      });
+      this.addBotLeftRoot.setDisable(false);
+      this.addBotLeftRoot.setVisible(true);
+
     } else {
+
+      this.addBotLeftRoot.setDisable(true);
+      this.addBotLeftRoot.setVisible(false);
+
       try {
         this.nameEnemyOne.setText(player.getName());
       } catch (NullPointerException e) {
@@ -378,7 +420,25 @@ public class InGameOverlayController {
       this.nameEnemyTwo.setText("");
       this.extraEnemyTwo.setText("");
       this.imageEnemyTwo.setImage(null);
+
+      this.addEasyBotRightButton.setOnAction(e -> {
+        // SkatMain.mainController. //TODO
+        this.addBotRightRoot.setDisable(true);
+        this.addBotRightRoot.setVisible(false);
+      });
+      this.addHardBotRightButton.setOnAction(e -> {
+        // SkatMain.mainController. //TODO
+        this.addBotRightRoot.setDisable(true);
+        this.addBotRightRoot.setVisible(false);
+      });
+      this.addBotRightRoot.setDisable(false);
+      this.addBotRightRoot.setVisible(true);
+
     } else {
+
+      this.addBotRightRoot.setDisable(true);
+      this.addBotRightRoot.setVisible(false);
+
       try {
         this.nameEnemyTwo.setText(player.getName());
       } catch (NullPointerException e) {

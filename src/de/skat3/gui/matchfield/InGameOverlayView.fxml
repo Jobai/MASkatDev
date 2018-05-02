@@ -21,7 +21,7 @@
 		</VBox>
 		<AnchorPane layoutX="14.0" layoutY="30.0" opacity="0.8" prefHeight="150.0" prefWidth="300.0" style="-fx-border-color: #404040; -fx-border-radius: 20;" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
 			<children>
-				<Label fx:id="nameEnemyOne" layoutX="164.0" layoutY="14.0" text="Player 2" textFill="#404040">
+				<Label fx:id="nameEnemyOne" layoutX="164.0" layoutY="14.0" textFill="#404040">
 					<font>
 						<Font name="System Bold" size="33.0" />
 					</font>
@@ -37,11 +37,25 @@
 						<Font name="System Bold" size="16.0" />
 					</font>
 				</Label>
+            <VBox fx:id="addBotLeftRoot" layoutX="59.0" layoutY="36.0">
+               <children>
+                  <Button fx:id="addEasyBotLeftButton" alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="ADD EASY BOT">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="addHardBotLeftButton" alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="ADD HARD BOT">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
 			</children>
 		</AnchorPane>
 		<AnchorPane layoutX="966.0" layoutY="30.0" opacity="0.8" prefHeight="150.0" prefWidth="300.0" style="-fx-border-color: #404040; -fx-border-radius: 20;" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
 			<children>
-				<Label fx:id="nameEnemyTwo" layoutX="164.0" layoutY="14.0" text="Player 3">
+				<Label fx:id="nameEnemyTwo" layoutX="164.0" layoutY="14.0">
 					<font>
 						<Font name="System Bold" size="33.0" />
 					</font>
@@ -57,6 +71,20 @@
 						<Font name="System Bold" size="16.0" />
 					</font>
 				</Label>
+            <VBox fx:id="addBotRightRoot" layoutX="55.0" layoutY="36.0">
+               <children>
+                  <Button fx:id="addEasyBotRightButton" alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="ADD EASY BOT">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="addHardBotRightButton" alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="190.0" text="ADD HARD BOT">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
 			</children>
 		</AnchorPane>
       <HBox alignment="CENTER" layoutX="840.0" opacity="0.8" prefHeight="30.0" prefWidth="228.0" AnchorPane.leftAnchor="840.0" AnchorPane.rightAnchor="212.0" AnchorPane.topAnchor="0.0">
