@@ -79,7 +79,7 @@ public class Player implements Serializable, Comparable {
     this.uuid = player.uuid;
     this.image = player.image;
     this.points = player.points;
-    this.hand = player.hand;
+    this.setHand(player.hand);
     this.isBot = player.isBot;
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;
@@ -114,7 +114,7 @@ public class Player implements Serializable, Comparable {
   }
 
   public void setHand(Hand hand) {
-     this.hand = hand;
+    this.hand = new Hand(hand.cards);
   }
 
   public Hand getHand() {
@@ -255,23 +255,17 @@ public class Player implements Serializable, Comparable {
     System.out.println("UPDATE PLAYER CALLED");
     this.wonTricks = player.wonTricks;
     this.points = player.points;
-    this.hand = player.hand;
+    this.setHand(player.hand);
     System.out.println("THE UPDATED CARDS ARE: " + this.hand);
     Random r = new Random();
     int i = r.nextInt(3);
-  /*  switch (i) {
-      case 0:
-        this.hand = player.secretBackupHand;
-        break;
-      case 1:
-        this.hand = player.hand;
-        break;
-      case 2:
-       
-        break;
-    }
-    */
-    this.hand = player.secretBackupHand; // XXX Why just why?! TODO
+    /*
+     * switch (i) { case 0: this.hand = player.secretBackupHand; break; case 1: this.hand =
+     * player.hand; break; case 2:
+     * 
+     * break; }
+     */
+//    this.hand = player.secretBackupHand; // XXX Why just why?! TODO
     this.isBot = player.isBot;
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;

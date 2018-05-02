@@ -10,8 +10,10 @@ public class Hand implements Serializable {
    * Represents up to ten cards that a player has currently on his hand.
    */
   public Hand(Card[] cards) {
-
-    this.cards = cards;
+    this.cards = new Card[cards.length];
+    for (int i = 0; i < cards.length; i++) {
+      this.cards[i] = cards[i].copy();
+    }
   }
 
   public Hand() {

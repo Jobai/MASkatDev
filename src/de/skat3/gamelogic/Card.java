@@ -32,6 +32,18 @@ public class Card implements Serializable {
     this.value = null;
   }
 
+  public Card copy() {
+    Card copy = new Card();
+    copy.value = this.value;
+    copy.suit = this.suit;
+    copy.playable = this.playable;
+    copy.trickValue = this.trickValue;
+    copy.view = this.view;
+    copy.imageView = this.imageView;
+    return copy;
+
+  }
+
   /**
    * Represents a single card.
    */

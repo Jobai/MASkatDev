@@ -82,9 +82,10 @@ public class MultiplayerMenuController {
   private Label serverPW;
   @FXML
   private AnchorPane root;
+  @FXML
+  private ImageView imageViewPwLock;
 
   Lobby currentLobby;
-
   ArrayList<Lobby> hostList = new ArrayList<Lobby>();
 
 
@@ -93,21 +94,36 @@ public class MultiplayerMenuController {
     Image serverImage = new Image("guifiles/AppIcon.png");
     Image passwordImage = new Image("guifiles/lock.png");
     Image timerImage = new Image("guifiles/alarm-clock.png");
+    Label timerTime = new Label();
     ImageView ivServer = new ImageView(serverImage);
     ImageView ivPassword = new ImageView(passwordImage);
     ImageView ivTimer = new ImageView(timerImage);
     Pane pane = new Pane();
     Label label = new Label();
 
-    public HostCell() {
+    public HostCell(boolean password, boolean timer, String time) {
       super();
       ivServer.setFitWidth(30);
       ivServer.setFitHeight(30);
+      ivTimer.setFitHeight(22);
+      ivTimer.setFitWidth(22);
       hbox.setPrefHeight(50);
       hbox.setAlignment(Pos.CENTER_LEFT);
       hbox.setSpacing(20);
       label.setFont(new Font(20));
-      hbox.getChildren().addAll(ivServer, label, ivPassword, ivTimer, pane);
+      timerTime.setFont(new Font(15));
+
+      if (timer) {
+        timerTime.setText(time + " sec");
+      } else {
+        ivTimer.setVisible(false);
+      }
+
+      if (!password) {
+        ivPassword.setVisible(false);
+      }
+
+      hbox.getChildren().addAll(ivServer, label, ivPassword, ivTimer, timerTime, pane);
     }
 
     public void updateItem(String name, boolean empty) {
@@ -120,13 +136,6 @@ public class MultiplayerMenuController {
         setGraphic(hbox);
       }
     }
-  }
-
-
-  /**
-   * .
-   */
-  public MultiplayerMenuController() {
 
   }
 
@@ -143,7 +152,6 @@ public class MultiplayerMenuController {
     items.clear();
     hostList.clear();
     hostListView.setItems(items);
-    hostListView.setCellFactory(param -> new HostCell());
 
     Service<String> playService;
     class PlayService extends Service<String> {
@@ -155,8 +163,12 @@ public class MultiplayerMenuController {
 
             hostList = SkatMain.mainController.getLocalHosts();
             for (Lobby lobby : hostList) {
-              items.add(lobby.getName() + "(" + lobby.lobbyPlayer + "/"
-                  + lobby.getMaximumNumberOfPlayers() + ")");
+              hostListView.setCellFactory(param -> new HostCell(lobby.isHasPassword(), true, "12"));
+              // HostCell param = hostListView.setCellFactory(new HostCell(lobby.isHasPassword(),
+              // true, "12"));
+
+              items.add(lobby.getName() + " (" + lobby.lobbyPlayer + "/"
+                  + lobby.getMaximumNumberOfPlayers() + " players)");
             }
 
             hostListView.setItems(items);
@@ -192,7 +204,7 @@ public class MultiplayerMenuController {
   }
 
   /**
-   * .
+   * Opens a popup with 2 input fields (ip and password) and connects to a server
    */
   public void directConnect() {
 
@@ -289,6 +301,14 @@ public class MultiplayerMenuController {
     }
 
     joinButton.setDisable(false);
+
+    if (currentLobby.isHasPassword()) {
+      imageViewPwLock.setImage(
+          new Image(getClass().getResourceAsStream("../../../../guifiles/lock-7-xxl.png")));
+    } else {
+      imageViewPwLock.setImage(
+          new Image(getClass().getResourceAsStream("../../../../guifiles/lock-unlocked-xxl.png")));
+    }
 
     // fill view fields
     serverName.setText(currentLobby.getName());

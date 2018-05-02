@@ -57,23 +57,53 @@
 				</Label>
 			</children>
 		</AnchorPane>
+      <HBox alignment="CENTER" layoutX="840.0" opacity="0.8" prefHeight="30.0" prefWidth="228.0" AnchorPane.leftAnchor="840.0" AnchorPane.rightAnchor="212.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" layoutX="840.0" prefHeight="30.0" prefWidth="228.0" spacing="10.0" style="-fx-border-color: #404040; -fx-border-radius: 10;" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="0.0">
+               <children>
+						<Label fx:id="trumpInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="H" textAlignment="CENTER" textFill="WHITE" visible="false">
+							<font>
+								<Font name="Algerian" size="21.0" />
+							</font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="8.0" right="8.0" />
+                     </padding>
+						</Label>
+                  <Label fx:id="multiInfo1" prefHeight="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="Schneider" textFill="WHITE" visible="false">
+                     <padding>
+                        <Insets left="8.0" right="8.0" />
+                     </padding>
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="multiInfo2" prefHeight="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="Open" textFill="WHITE" visible="false">
+                     <padding>
+                        <Insets left="8.0" right="8.0" />
+                     </padding>
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
 		<HBox alignment="CENTER" layoutX="440.0" layoutY="-1.0" prefHeight="30.0" prefWidth="400.0" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="440.0" AnchorPane.topAnchor="0.0">
 			<children>
 				<HBox alignment="CENTER" opacity="0.8" prefHeight="30.0" prefWidth="400.0" spacing="30.0" style="-fx-border-color: #404040; -fx-border-radius: 10;">
 					<children>
 						<Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" stroke="BLACK" strokeType="INSIDE" visible="false" width="30.0" />
-						<Label fx:id="extra1LocalClient" prefHeight="30.0" prefWidth="50.0" />
+						<Label fx:id="extra1LocalClient" prefHeight="30.0" prefWidth="60.0" />
 						<Label fx:id="nameLocalClient" prefHeight="30.0" text="Player 1">
 							<font>
 								<Font size="18.0" />
 							</font>
 						</Label>
-						<Label fx:id="extra2LocalClient" prefHeight="28.0" prefWidth="50.0" />
-						<Label fx:id="trumpInfo" alignment="CENTER" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="H" textAlignment="CENTER" textFill="WHITE" visible="false">
-							<font>
-								<Font name="Algerian" size="21.0" />
-							</font>
-						</Label>
+						<Label fx:id="extra2LocalClient" prefHeight="28.0" prefWidth="60.0" />
 					</children>
 				</HBox>
 			</children>

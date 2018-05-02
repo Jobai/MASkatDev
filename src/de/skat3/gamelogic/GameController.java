@@ -5,6 +5,11 @@ import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
 
+/**
+ * 
+ * @author kai29
+ *
+ */
 public class GameController implements GameLogicInterface, Serializable {
 
 
@@ -47,11 +52,8 @@ public class GameController implements GameLogicInterface, Serializable {
 
   }
 
-  /**
-   * 
-   * @param players
-   * @param slc
-   */
+  
+
   public void startGame(Player[] players, ServerLogicController slc) {
 
     if (players.length != 3 && players.length != 4) {

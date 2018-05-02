@@ -6,6 +6,7 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 
+
 public class LocalGameState {
 
   public boolean gameActive;
@@ -158,9 +159,9 @@ public class LocalGameState {
     try {
       throw new Exception();
     } catch (Exception e) {
-      System.out.println("-------getLocalClient--------");
-      e.printStackTrace();
-      System.out.println("-------end of getLocalClient--------");
+//      System.out.println("-------getLocalClient--------");
+//      e.printStackTrace();
+//      System.out.println("-------end of getLocalClient--------");
     }
     return localClient;
   }

@@ -1,5 +1,6 @@
 package de.skat3.gamelogic;
 
+import de.skat3.main.SkatMain;
 import de.skat3.network.server.ServerLogicController;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -205,9 +206,9 @@ class RoundInstance {
       this.solo = winner;
       this.team = this.getTeamPlayer();
       for (int i = 0; i < this.soloPlayerStartHand.getAmountOfCards(); i++) {
-        this.soloPlayerStartHand.cards[i] = this.solo.hand.cards[i];
+        this.soloPlayerStartHand.cards[i] = this.solo.hand.cards[i].copy();
       }
-      
+
       // FIXME
       this.slc.callForHandOption(this.solo);
       this.lock.wait();

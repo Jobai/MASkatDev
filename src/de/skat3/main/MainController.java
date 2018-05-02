@@ -394,8 +394,12 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void updatePlayer(Player player) {
-    System.out.println("lgs neue hand: " + player.getHand());
-    SkatMain.lgs.getLocalClient().updatePlayer(player);
+    System.out.println("übergeben " + player.getHand());
+    Player localPlayer = SkatMain.lgs.getLocalClient();
+    localPlayer.updatePlayer(player);
+    System.out.println("FOLGENDE KARTEN IM LGS: " + SkatMain.lgs.getLocalClient().getHand());
+    System.out.println("FOLGENDE KARTEN IM localPlayer" + localPlayer.getHand());
+    System.out.println("");
   }
 
 

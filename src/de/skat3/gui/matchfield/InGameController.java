@@ -36,7 +36,7 @@ public class InGameController implements InGameControllerInterface {
   }
 
   public void showSelectionInfos() {
-    this.matchfield.overlayController.setTrump(SkatMain.lgs.contract);
+    this.matchfield.overlayController.setTrump(SkatMain.lgs.contract, null);
 
     this.matchfield.overlayController.extra1LocalClient
         .setText(SkatMain.lgs.getLocalClient().isSolo() ? "Solo" : "Team");
