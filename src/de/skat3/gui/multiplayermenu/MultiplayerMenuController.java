@@ -3,7 +3,6 @@ package de.skat3.gui.multiplayermenu;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 import de.skat3.gamelogic.Player;
 import de.skat3.io.profile.Profile;
@@ -360,7 +359,8 @@ public class MultiplayerMenuController {
     serverDomain.setText(currentLobby.getIp().toString().replaceAll("\\/.*$", ""));
 
     serverIP.setText(currentLobby.getIp().toString().replace(serverDomain.getText() + "/", ""));
-    serverPlayer.setText(currentLobby.lobbyPlayer + "/" + currentLobby.getMaximumNumberOfPlayers());
+    // serverPlayer.setText(currentLobby.lobbyPlayer + "/" +
+    // currentLobby.getMaximumNumberOfPlayers());
 
     // Players
     Player[] players = currentLobby.getPlayers();
