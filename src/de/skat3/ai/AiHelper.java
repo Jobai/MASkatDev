@@ -21,6 +21,10 @@ public class AiHelper {
     cards = player.getHand().getCards();
   }
 
+  public AiHelper() {
+    // TODO Auto-generated constructor stub
+  }
+
   /**
    * Gets the suit with the most Cards in the CardsDeck (without considering the jacks!), without
    * considering the given suit

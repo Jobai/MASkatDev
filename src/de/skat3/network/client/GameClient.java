@@ -161,14 +161,14 @@ public class GameClient {
 
 
     if (st == CommandType.ROUND_GENERAL_INFO) {
-      System.out
-          .println("============= clientProtocolHandler [ROUND_GENERAL_INFO] ================");
-
-      MessageCommand mc = (MessageCommand) m;
-      System.out.println(mc.gameState);
-      System.out.println(((Player) mc.gameState).getUuid());
-      System.out.println(((Player) mc.gameState).getHand());
-      System.out.println("=========================================");
+      // System.out
+      // .println("============= clientProtocolHandler [ROUND_GENERAL_INFO] ================");
+      //
+      // MessageCommand mc = (MessageCommand) m;
+      // System.out.println(mc.gameState);
+      // System.out.println(((Player) mc.gameState).getUuid());
+      // System.out.println(((Player) mc.gameState).getHand());
+      // System.out.println("=========================================");
 
     }
 
@@ -358,6 +358,19 @@ public class GameClient {
     if (reason != null) {
       kickedByServer = true;
       closedByServer = true;
+      switch (reason) {
+        case "PASSWORD":
+          SkatMain.mainController.showWrongPassword();
+          break;
+        case "FULL":
+          SkatMain.mainController.showCustomAlertPormpt("Lobby is full!",
+              "Sorry, the selected Lobby is already full. Please select another lobby.");
+          break;
+        default:
+          SkatMain.mainController.showCustomAlertPormpt("You got kicked!",
+              "The server ended you connection. ");
+          break;
+      }
       SkatMain.mainController.showWrongPassword();
     } else {
       SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",

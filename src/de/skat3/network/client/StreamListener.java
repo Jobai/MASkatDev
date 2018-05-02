@@ -33,12 +33,12 @@ class StreamListener extends Thread {
 
         gc.clientProtocolHandler(o);
         if (((MessageCommand) message).getSubType() == CommandType.ROUND_GENERAL_INFO) {
-          System.out.println("============= StreamListener [ROUND_GENERAL_INFO] ================");
-
-          System.out.println(((MessageCommand) message).gameState);
-          System.out.println(((Player) ((MessageCommand) message).gameState));
-         
-          System.out.println("=========================================");
+//          System.out.println("============= StreamListener [ROUND_GENERAL_INFO] ================");
+//
+//          System.out.println(((MessageCommand) message).gameState);
+//          System.out.println(((Player) ((MessageCommand) message).gameState));
+//         
+//          System.out.println("=========================================");
         }
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
