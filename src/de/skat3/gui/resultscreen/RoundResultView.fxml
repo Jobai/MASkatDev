@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="653" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.resultscreen.RoundResultViewController">
+<AnchorPane prefHeight="653" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.resultscreen.RoundResultViewController">
 	<children>
 		<Pane layoutY="-1.0" prefHeight="80.0" prefWidth="600.0" style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
@@ -27,7 +31,7 @@
 						<Font size="32.0" />
 					</font>
 				</Label>
-				<Label fx:id="pointsSoloPlayer" layoutX="341.0" layoutY="40.0">
+				<Label fx:id="pointsSoloPlayer" layoutX="258.0" layoutY="40.0">
 					<font>
 						<Font size="32.0" />
 					</font>
