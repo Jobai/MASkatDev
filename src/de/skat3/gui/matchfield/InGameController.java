@@ -1,26 +1,17 @@
 package de.skat3.gui.matchfield;
 
-import java.awt.Point;
-import java.io.IOException;
-import java.net.URL;
-import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
-import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.gui.resultscreen.GameResultViewController;
 import de.skat3.gui.resultscreen.RoundResultViewController;
 import de.skat3.main.SkatMain;
+import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  * InGame Gui controller class.
@@ -36,14 +27,8 @@ public class InGameController implements InGameControllerInterface {
   }
 
   public void showSelectionInfos() {
-    this.matchfield.overlayController.setTrump(SkatMain.lgs.contract, null);
-
-    this.matchfield.overlayController.extra1LocalClient
-        .setText(SkatMain.lgs.getLocalClient().isSolo() ? "Solo" : "Team");
-    this.matchfield.overlayController.extraEnemyOne
-        .setText(SkatMain.lgs.getEnemyOne().isSolo() ? "Solo" : "Team");
-    this.matchfield.overlayController.extraEnemyTwo
-        .setText(SkatMain.lgs.getEnemyTwo().isSolo() ? "Solo" : "Team");
+    this.matchfield.overlayController.setRoundInfos(SkatMain.lgs.contract,
+        SkatMain.lgs.additionalMultipliers);
   }
 
   /*
@@ -53,7 +38,6 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void makeAMove(boolean value) {
-    System.out.println("make a move: " + value);
     this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value);
     this.matchfield.tableController.setCardsPlayable(value);
   }
@@ -171,6 +155,7 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.overlayController.iniStartRound();
   }
 
+  @Override
   public void showBidRequest(int bid) {
     this.matchfield.overlayController.showBidRequest(bid);
 
@@ -182,10 +167,12 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.getLocalClient());
   }
 
+  @Override
   public void showHandGameRequest() {
     this.matchfield.overlayController.showHandGameRequest();
   }
 
+  @Override
   public void showContractRequest() {
     this.matchfield.overlayController.showContractRequest();
   }

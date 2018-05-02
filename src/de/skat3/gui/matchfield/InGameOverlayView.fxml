@@ -17,17 +17,31 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" onKeyPressed="#handleKeyPressed" onKeyReleased="#handleKeyReleased" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.matchfield.InGameOverlayController">
+<AnchorPane fx:id="root" onKeyPressed="#handleKeyPressed"
+	onKeyReleased="#handleKeyReleased" prefHeight="720.0"
+	prefWidth="1280.0" xmlns="http://javafx.com/javafx/8"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.skat3.gui.matchfield.InGameOverlayController">
 	<children>
-		<VBox layoutX="1038.0" layoutY="472.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+		<VBox layoutX="1038.0" layoutY="472.0"
+			AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
 			<children>
-				<TextArea fx:id="chatArea" editable="false" layoutX="1038.0" layoutY="476.0" opacity="0.8" prefHeight="209.0" prefWidth="228.0" wrapText="true" AnchorPane.bottomAnchor="35.0" AnchorPane.rightAnchor="14.0" />
-				<TextField fx:id="chatField" layoutX="1038.0" layoutY="685.0" onKeyPressed="#handleSendMessage" prefHeight="25.0" prefWidth="228.0" />
+				<TextArea fx:id="chatArea" editable="false"
+					layoutX="1038.0" layoutY="476.0" opacity="0.8" prefHeight="209.0"
+					prefWidth="228.0" wrapText="true" AnchorPane.bottomAnchor="35.0"
+					AnchorPane.rightAnchor="14.0" />
+				<TextField fx:id="chatField" layoutX="1038.0"
+					layoutY="685.0" onKeyPressed="#handleSendMessage" prefHeight="25.0"
+					prefWidth="228.0" />
 			</children>
 		</VBox>
-		<AnchorPane layoutX="14.0" layoutY="30.0" opacity="0.8" prefHeight="150.0" prefWidth="300.0" style="-fx-border-color: #404040; -fx-border-radius: 20;" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
+		<AnchorPane layoutX="14.0" layoutY="30.0" opacity="0.8"
+			prefHeight="150.0" prefWidth="300.0"
+			style="-fx-border-color: #404040; -fx-border-radius: 20;"
+			AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
 			<children>
-				<Label fx:id="nameEnemyOne" layoutX="164.0" layoutY="14.0" textFill="#404040">
+				<Label fx:id="nameEnemyOne" layoutX="164.0" layoutY="14.0"
+					textFill="#404040">
 					<font>
 						<Font name="System Bold" size="33.0" />
 					</font>
@@ -37,29 +51,43 @@
 						<Font name="System Bold" size="16.0" />
 					</font>
 				</Label>
-				<ImageView fx:id="imageEnemyOne" fitHeight="150.0" fitWidth="150.0" layoutX="14.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
+				<ImageView fx:id="imageEnemyOne" fitHeight="140.0"
+					fitWidth="140.0" layoutX="24.0" layoutY="7.0" pickOnBounds="true"
+					preserveRatio="true" AnchorPane.bottomAnchor="3.0"
+					AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="3.0" />
 				<Label fx:id="extra2EnemyOne" layoutX="164.0" layoutY="89.0">
 					<font>
 						<Font name="System Bold" size="16.0" />
 					</font>
 				</Label>
-            <VBox fx:id="addBotLeftRoot" layoutX="-48.0" layoutY="31.0" prefHeight="90.0" prefWidth="235.0" spacing="2.0" AnchorPane.leftAnchor="-49.0">
-               <children>
-                  <Button fx:id="addEasyBotLeftButton" alignment="CENTER" mnemonicParsing="false" prefHeight="44.0" prefWidth="236.0" style="-fx-background-color: #d60202; -fx-background-radius: 20; -fx-border-color: #404040; -fx-border-radius: 20;" text="ADD EASY BOT" textFill="WHITE">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="addHardBotLeftButton" alignment="CENTER" mnemonicParsing="false" prefHeight="44.0" prefWidth="236.0" style="-fx-background-color: #d60202; -fx-background-radius: 20; -fx-border-color: #404040; -fx-border-radius: 20;" text="ADD HARD BOT" textFill="WHITE">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Button>
-               </children>
-            </VBox>
+				<VBox fx:id="addBotLeftRoot" layoutX="-48.0" layoutY="31.0"
+					prefHeight="90.0" prefWidth="235.0" spacing="2.0"
+					AnchorPane.leftAnchor="-49.0">
+					<children>
+						<Button fx:id="addEasyBotLeftButton" alignment="CENTER"
+							mnemonicParsing="false" prefHeight="44.0" prefWidth="236.0"
+							style="-fx-background-color: #d60202; -fx-background-radius: 20; -fx-border-color: #404040; -fx-border-radius: 20;"
+							text="ADD EASY BOT" textFill="WHITE">
+							<font>
+								<Font size="19.0" />
+							</font>
+						</Button>
+						<Button fx:id="addHardBotLeftButton" alignment="CENTER"
+							mnemonicParsing="false" prefHeight="44.0" prefWidth="236.0"
+							style="-fx-background-color: #d60202; -fx-background-radius: 20; -fx-border-color: #404040; -fx-border-radius: 20;"
+							text="ADD HARD BOT" textFill="WHITE">
+							<font>
+								<Font size="19.0" />
+							</font>
+						</Button>
+					</children>
+				</VBox>
 			</children>
 		</AnchorPane>
-		<AnchorPane layoutX="966.0" layoutY="30.0" opacity="0.8" prefHeight="150.0" prefWidth="300.0" style="-fx-border-color: #404040; -fx-border-radius: 20;" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+		<AnchorPane layoutX="966.0" layoutY="30.0" opacity="0.8"
+			prefHeight="150.0" prefWidth="300.0"
+			style="-fx-border-color: #404040; -fx-border-radius: 20;"
+			AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
 			<children>
 				<Label fx:id="nameEnemyTwo" layoutX="164.0" layoutY="14.0">
 					<font>
@@ -71,97 +99,163 @@
 						<Font name="System Bold" size="16.0" />
 					</font>
 				</Label>
-				<ImageView fx:id="imageEnemyTwo" fitHeight="150.0" fitWidth="150.0" layoutX="14.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
+				<ImageView fx:id="imageEnemyTwo" fitHeight="140.0"
+					fitWidth="140.0" layoutX="14.0" layoutY="1.0" pickOnBounds="true"
+					preserveRatio="true" AnchorPane.bottomAnchor="3.0"
+					AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="3.0" />
 				<Label fx:id="extra2EnemyTwo" layoutX="164.0" layoutY="89.0">
 					<font>
 						<Font name="System Bold" size="16.0" />
 					</font>
 				</Label>
-            <VBox fx:id="addBotRightRoot" layoutX="112.0" layoutY="31.0" prefHeight="90.0" prefWidth="235.0" spacing="2.0" AnchorPane.rightAnchor="-50.0">
-               <children>
-                  <Button fx:id="addEasyBotRightButton" alignment="CENTER" mnemonicParsing="false" prefHeight="44.0" prefWidth="236.0" style="-fx-background-color: #d60202; -fx-background-radius: 20; -fx-border-color: #404040; -fx-border-radius: 20;" text="ADD EASY BOT" textFill="WHITE">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="addHardBotRightButton" alignment="CENTER" mnemonicParsing="false" prefHeight="44.0" prefWidth="236.0" style="-fx-background-color: #d60202; -fx-background-radius: 20; -fx-border-color: #404040; -fx-border-radius: 20;" text="ADD HARD BOT" textFill="WHITE">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Button>
-               </children>
-            </VBox>
+				<VBox fx:id="addBotRightRoot" layoutX="112.0" layoutY="31.0"
+					prefHeight="90.0" prefWidth="235.0" spacing="2.0"
+					AnchorPane.rightAnchor="-50.0">
+					<children>
+						<Button fx:id="addEasyBotRightButton" alignment="CENTER"
+							mnemonicParsing="false" prefHeight="44.0" prefWidth="236.0"
+							style="-fx-background-color: #d60202; -fx-background-radius: 20; -fx-border-color: #404040; -fx-border-radius: 20;"
+							text="ADD EASY BOT" textFill="WHITE">
+							<font>
+								<Font size="19.0" />
+							</font>
+						</Button>
+						<Button fx:id="addHardBotRightButton" alignment="CENTER"
+							mnemonicParsing="false" prefHeight="44.0" prefWidth="236.0"
+							style="-fx-background-color: #d60202; -fx-background-radius: 20; -fx-border-color: #404040; -fx-border-radius: 20;"
+							text="ADD HARD BOT" textFill="WHITE">
+							<font>
+								<Font size="19.0" />
+							</font>
+						</Button>
+					</children>
+				</VBox>
 			</children>
 		</AnchorPane>
-		<HBox alignment="CENTER" layoutX="440.0" layoutY="-11.0" prefHeight="40.0" prefWidth="400.0" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="440.0" AnchorPane.topAnchor="-11.0">
+		<HBox alignment="CENTER" layoutX="440.0" layoutY="-11.0"
+			prefHeight="40.0" prefWidth="400.0" AnchorPane.leftAnchor="440.0"
+			AnchorPane.rightAnchor="440.0" AnchorPane.topAnchor="-11.0">
 			<children>
-				<HBox alignment="BOTTOM_CENTER" opacity="0.8" prefHeight="30.0" prefWidth="400.0" spacing="30.0" style="-fx-border-color: #404040; -fx-border-radius: 10;">
+				<HBox alignment="BOTTOM_CENTER" opacity="0.8" prefHeight="30.0"
+					prefWidth="400.0" spacing="30.0"
+					style="-fx-border-color: #404040; -fx-border-radius: 10;">
 					<children>
-						<Label fx:id="extra1LocalClient" prefHeight="30.0" prefWidth="60.0" />
-						<Label fx:id="nameLocalClient" prefHeight="30.0" text="Player 1">
+						<Label fx:id="extra1LocalClient" prefHeight="30.0"
+							prefWidth="60.0" />
+						<Label fx:id="nameLocalClient" prefHeight="30.0"
+							text="Player 1">
 							<font>
 								<Font size="18.0" />
 							</font>
 						</Label>
-						<Label fx:id="extra2LocalClient" prefHeight="28.0" prefWidth="60.0" />
+						<Label fx:id="extra2LocalClient" prefHeight="28.0"
+							prefWidth="60.0" />
 					</children>
 				</HBox>
 			</children>
 		</HBox>
-      <HBox alignment="CENTER_RIGHT" layoutX="8.0" layoutY="384.0" prefHeight="30.0" prefWidth="182.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="1090.0" AnchorPane.topAnchor="384.0" />
-      <AnchorPane layoutX="-1.0" layoutY="350.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="170.0" AnchorPane.leftAnchor="0.0">
-         <children>
-            <VBox layoutX="8.0" prefHeight="200.0" prefWidth="210.0" spacing="5.0" AnchorPane.leftAnchor="-10.0">
-               <children>
-                  <Button fx:id="annouceContraButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="165.0" style="-fx-background-color: #d60202; -fx-background-radius: 10; -fx-border-color: #404040; -fx-border-radius: 10;" text="Announce Contra" textFill="WHITE" visible="false">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Button>
-      						<Label fx:id="trumpInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="120.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="H" textAlignment="CENTER" textFill="WHITE" visible="false">
-      							<font>
-      								<Font name="Algerian" size="21.0" />
-      							</font>
-                     <padding>
-                        <Insets left="8.0" right="8.0" />
-                     </padding>
-      						</Label>
-                  <Label fx:id="multiInfo1" alignment="CENTER" prefHeight="28.0" prefWidth="120.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="Schneider" textFill="WHITE" visible="false">
-                     <padding>
-                        <Insets left="8.0" right="8.0" />
-                     </padding>
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="multiInfo2" alignment="CENTER" prefHeight="28.0" prefWidth="120.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="Open" textFill="WHITE" visible="false">
-                     <padding>
-                        <Insets left="8.0" right="8.0" />
-                     </padding>
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="timerLabel" alignment="CENTER" prefHeight="58.0" prefWidth="151.0" style="-fx-background-color: #404040; -fx-background-radius: 10;" textFill="RED" visible="false">
-                     <font>
-                        <Font size="30.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-         </children>
-      </AnchorPane>
-      <HBox alignment="CENTER" layoutX="571.0" layoutY="30.0" AnchorPane.leftAnchor="571.0" AnchorPane.rightAnchor="570.0">
-         <children>
-      				<Label fx:id="playInfo" alignment="CENTER" layoutX="571.0" layoutY="60.0" style="-fx-background-color: #404040; -fx-background-radius: 10;" text="YOUR MOVE" textFill="WHITE" visible="false">
-      					<font>
-      						<Font size="21.0" />
-      					</font>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-      				</Label>
-         </children>
-      </HBox>
+		<HBox alignment="CENTER_RIGHT" layoutX="8.0" layoutY="384.0"
+			prefHeight="30.0" prefWidth="182.0" AnchorPane.leftAnchor="8.0"
+			AnchorPane.rightAnchor="1090.0" AnchorPane.topAnchor="384.0" />
+		<AnchorPane layoutX="-1.0" layoutY="350.0"
+			prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="170.0"
+			AnchorPane.leftAnchor="0.0">
+			<children>
+				<VBox layoutX="-5.0" layoutY="40.0" prefHeight="200.0"
+					prefWidth="210.0" spacing="5.0" AnchorPane.leftAnchor="-10.0">
+					<children>
+						<Button fx:id="annouceContraButton" mnemonicParsing="false"
+							prefHeight="32.0" prefWidth="165.0"
+							style="-fx-background-color: #d60202; -fx-background-radius: 10; -fx-border-color: #404040; -fx-border-radius: 10;"
+							text="Announce Contra" textFill="WHITE" visible="false">
+							<font>
+								<Font name="System Bold" size="14.0" />
+							</font>
+						</Button>
+						<Label fx:id="trumpInfo" alignment="CENTER"
+							contentDisplay="CENTER" prefHeight="31.0" prefWidth="151.0"
+							style="-fx-background-color: #404040; -fx-background-radius: 4;"
+							text="Heart" textAlignment="CENTER" textFill="WHITE"
+							visible="false">
+							<font>
+								<Font size="21.0" />
+							</font>
+							<padding>
+								<Insets left="8.0" right="8.0" />
+							</padding>
+						</Label>
+						<Label fx:id="schneiderInfo" alignment="CENTER"
+							prefHeight="28.0" prefWidth="120.0"
+							style="-fx-background-color: #404040; -fx-background-radius: 4;"
+							text="Schneider" textFill="WHITE" visible="false">
+							<padding>
+								<Insets left="8.0" right="8.0" />
+							</padding>
+							<font>
+								<Font size="19.0" />
+							</font>
+						</Label>
+						<Label fx:id="schwarzInfo" alignment="CENTER"
+							prefHeight="28.0" prefWidth="120.0"
+							style="-fx-background-color: #404040; -fx-background-radius: 4;"
+							text="Schwarz" textFill="WHITE" visible="false">
+							<padding>
+								<Insets left="8.0" right="8.0" />
+							</padding>
+							<font>
+								<Font size="19.0" />
+							</font>
+						</Label>
+						<Label fx:id="openInfo" alignment="CENTER" prefHeight="28.0"
+							prefWidth="120.0"
+							style="-fx-background-color: #404040; -fx-background-radius: 4;"
+							text="Open" textFill="WHITE" visible="false">
+							<font>
+								<Font size="19.0" />
+							</font>
+							<padding>
+								<Insets left="8.0" right="8.0" />
+							</padding>
+						</Label>
+						<Label fx:id="handInfo" alignment="CENTER" prefHeight="28.0"
+							prefWidth="120.0"
+							style="-fx-background-color: #404040; -fx-background-radius: 4;"
+							text="Hand" textFill="WHITE" visible="false">
+							<font>
+								<Font size="19.0" />
+							</font>
+							<padding>
+								<Insets left="8.0" right="8.0" />
+							</padding>
+						</Label>
+					</children>
+				</VBox>
+			</children>
+		</AnchorPane>
+		<HBox alignment="CENTER" layoutX="571.0" layoutY="30.0"
+			AnchorPane.leftAnchor="571.0" AnchorPane.rightAnchor="570.0">
+			<children>
+				<Label fx:id="playInfo" alignment="CENTER" layoutX="571.0"
+					layoutY="60.0"
+					style="-fx-background-color: #404040; -fx-background-radius: 10;"
+					text="YOUR MOVE" textFill="WHITE" visible="false">
+					<font>
+						<Font size="21.0" />
+					</font>
+					<padding>
+						<Insets left="10.0" right="10.0" />
+					</padding>
+				</Label>
+			</children>
+		</HBox>
+		<Label fx:id="timerLabel" alignment="CENTER" layoutX="-10.0"
+			layoutY="264.0" prefHeight="58.0" prefWidth="151.0"
+			style="-fx-background-color: #404040; -fx-background-radius: 10;"
+			textFill="RED" visible="false" AnchorPane.bottomAnchor="398.0"
+			AnchorPane.leftAnchor="-10.0">
+			<font>
+				<Font size="30.0" />
+			</font>
+		</Label>
 	</children>
 </AnchorPane>

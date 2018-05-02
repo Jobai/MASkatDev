@@ -1,51 +1,40 @@
 package de.skat3.gui.matchfield;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
-import javafx.animation.AnimationTimer;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Random;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
 /**
@@ -63,114 +52,104 @@ public class InGameOverlayController {
   private ChooseContractController contractController;
 
   @FXML
-  private TextArea chatArea;
+  private Label schwarzInfo;
 
   @FXML
-  private Label multiInfo1;
-
-  @FXML
-  private Label multiInfo2;
-
-  @FXML
-  private Label nameLocalClient;
-
-  @FXML
-  public Label extraEnemyOne;
-
-  @FXML
-  public Label extra2EnemyOne;
-
-  @FXML
-  private Label playInfo;
-
-  @FXML
-  private AnchorPane root;
-
-  @FXML
-  private Label nameEnemyOne;
-
-  @FXML
-  private TextField chatField;
-
-  @FXML
-  private ImageView imageEnemyTwo;
-
-  @FXML
-  public Label extra1LocalClient;
-
-  @FXML
-  private ImageView imageEnemyOne;
-
-  @FXML
-  private Label nameEnemyTwo;
-
-  @FXML
-  public Label extraEnemyTwo;
-
-  @FXML
-  public Label extra2EnemyTwo;
-
-  @FXML
-  public Label extra2LocalClient;
-
-  @FXML
-  public Label trumpInfo;
-
-  @FXML
-  private Label timerLabel;
+  Label extraEnemyOne;
 
   @FXML
   private VBox addBotRightRoot;
 
   @FXML
-  private Button addEasyBotRightButton;
+  private Label nameLocalClient;
 
   @FXML
-  private Button addHardBotRightButton;
+  private Label extra2EnemyTwo;
 
   @FXML
-  private VBox addBotLeftRoot;
+  private Button annouceContraButton;
+
+  @FXML
+  AnchorPane root;
+
+  @FXML
+  private Label nameEnemyOne;
+
+  @FXML
+  private ImageView imageEnemyTwo;
+
+  @FXML
+  private Label timerLabel;
+
+  @FXML
+  private Label extra2LocalClient;
+
+  @FXML
+  private TextArea chatArea;
+
+  @FXML
+  private Label extra2EnemyOne;
 
   @FXML
   private Button addEasyBotLeftButton;
 
   @FXML
+  private Label trumpInfo;
+
+  @FXML
+  private TextField chatField;
+
+  @FXML
+  private Button addEasyBotRightButton;
+
+  @FXML
+  Label extra1LocalClient;
+
+  @FXML
+  private Label handInfo;
+
+  @FXML
+  private Label playInfo;
+
+  @FXML
+  private Label schneiderInfo;
+
+  @FXML
+  private Button addHardBotRightButton;
+
+  @FXML
   private Button addHardBotLeftButton;
 
+  @FXML
+  private ImageView imageEnemyOne;
+
+  @FXML
+  private VBox addBotLeftRoot;
+
+  @FXML
+  private Label nameEnemyTwo;
+
+  @FXML
+  Label extraEnemyTwo;
+
+  @FXML
+  private Label openInfo;
   // Initializing
 
 
 
-  void setTrump(Contract con, AdditionalMultipliers addMulti) {
-    this.trumpInfo
-        .setText(con.toString().substring(con.toString().indexOf(" "), con.toString().length()));
+  void setRoundInfos(Contract con, AdditionalMultipliers addMulti) {
+    this.trumpInfo.setText(con.toString());
     this.trumpInfo.setVisible(true);
 
-    if (addMulti.isSchneiderAnnounced()) {
-      this.multiInfo1.setText("Schneider");
-      this.multiInfo1.setVisible(true);
-      // TODO
-    }
+    this.schneiderInfo.setVisible(addMulti.isSchneiderAnnounced());
+    this.schwarzInfo.setVisible(addMulti.isSchwarzAnnounced());
+    this.openInfo.setVisible(addMulti.isOpenHand());
+    this.handInfo.setVisible(addMulti.isHandGame());
 
-    if (addMulti.isSchwarzAnnounced()) {
-      this.multiInfo1.setText("Schwarz");
-      this.multiInfo1.setVisible(true);
-      // TODO
-    }
-
-    if (addMulti.isOpenHand()) {
-      this.multiInfo1.setText("Open");
-      this.multiInfo1.setVisible(true);
-      // TODO
-    }
-
-    if (addMulti.isHandGame()) {
-      this.multiInfo1.setText("Hand");
-      this.multiInfo1.setVisible(true);
-      // TODO
-    }
-
-
+    this.extra1LocalClient.setText(SkatMain.lgs.getLocalClient().isSolo() ? "Solo" : "Team");
+    this.extraEnemyOne.setText(SkatMain.lgs.getEnemyOne().isSolo() ? "Solo" : "Team");
+    this.extraEnemyTwo.setText(SkatMain.lgs.getEnemyTwo().isSolo() ? "Solo" : "Team");
   }
 
   public void handleSendMessage(KeyEvent e) {
@@ -395,28 +374,31 @@ public class InGameOverlayController {
   }
 
   void iniEmemyOne(Player player) {
+
+    this.addBotLeftRoot.setDisable(true);
+    this.addBotLeftRoot.setVisible(false);
+
     if (player == null) {
       this.nameEnemyOne.setText("");
       this.extraEnemyOne.setText("");
       this.imageEnemyOne.setImage(null);
 
-      this.addEasyBotLeftButton.setOnAction(e -> {
-        SkatMain.mainController.addBot(false);
-        this.addBotLeftRoot.setDisable(true);
-        this.addBotLeftRoot.setVisible(false);
-      });
-      this.addHardBotLeftButton.setOnAction(e -> {
-        SkatMain.mainController.addBot(true);
-        this.addBotLeftRoot.setDisable(true);
-        this.addBotLeftRoot.setVisible(false);
-      });
-      this.addBotLeftRoot.setDisable(false);
-      this.addBotLeftRoot.setVisible(true);
+      if (SkatMain.mainController.isHost) {
+        this.addEasyBotLeftButton.setOnAction(e -> {
+          SkatMain.mainController.addBot(false);
+          this.addBotLeftRoot.setDisable(true);
+          this.addBotLeftRoot.setVisible(false);
+        });
+        this.addHardBotLeftButton.setOnAction(e -> {
+          SkatMain.mainController.addBot(true);
+          this.addBotLeftRoot.setDisable(true);
+          this.addBotLeftRoot.setVisible(false);
+        });
+        this.addBotLeftRoot.setDisable(false);
+        this.addBotLeftRoot.setVisible(true);
+      }
 
     } else {
-
-      this.addBotLeftRoot.setDisable(true);
-      this.addBotLeftRoot.setVisible(false);
 
       try {
         this.nameEnemyOne.setText(player.getName());
@@ -433,28 +415,31 @@ public class InGameOverlayController {
   }
 
   void iniEmemyTwo(Player player) {
+
+    this.addBotRightRoot.setDisable(true);
+    this.addBotRightRoot.setVisible(false);
+
     if (player == null) {
       this.nameEnemyTwo.setText("");
       this.extraEnemyTwo.setText("");
       this.imageEnemyTwo.setImage(null);
 
-      this.addEasyBotRightButton.setOnAction(e -> {
-        SkatMain.mainController.addBot(false);
-        this.addBotRightRoot.setDisable(true);
-        this.addBotRightRoot.setVisible(false);
-      });
-      this.addHardBotRightButton.setOnAction(e -> {
-        SkatMain.mainController.addBot(true);
-        this.addBotRightRoot.setDisable(true);
-        this.addBotRightRoot.setVisible(false);
-      });
-      this.addBotRightRoot.setDisable(false);
-      this.addBotRightRoot.setVisible(true);
+      if (SkatMain.mainController.isHost) {
+        this.addEasyBotRightButton.setOnAction(e -> {
+          SkatMain.mainController.addBot(false);
+          this.addBotRightRoot.setDisable(true);
+          this.addBotRightRoot.setVisible(false);
+        });
+        this.addHardBotRightButton.setOnAction(e -> {
+          SkatMain.mainController.addBot(true);
+          this.addBotRightRoot.setDisable(true);
+          this.addBotRightRoot.setVisible(false);
+        });
+        this.addBotRightRoot.setDisable(false);
+        this.addBotRightRoot.setVisible(true);
+      }
 
     } else {
-
-      this.addBotRightRoot.setDisable(true);
-      this.addBotRightRoot.setVisible(false);
 
       try {
         this.nameEnemyTwo.setText(player.getName());
@@ -522,6 +507,11 @@ public class InGameOverlayController {
     Button button = new Button("Start Game");
     button.setFont(Font.font(40));
     button.setPrefSize(300, 100);
+
+    button.setTextFill(Color.WHITE);
+
+    button.setStyle("-fx-background-color: #d60202; -fx-background-radius: 30; "
+        + "-fx-border-color: #404040; -fx-border-radius: 30;");
 
     button.translateXProperty()
         .bind(this.root.widthProperty().divide(2).subtract(button.widthProperty().divide(2)));
