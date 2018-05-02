@@ -88,7 +88,7 @@ public class MultiplayerMenuController {
   ArrayList<Lobby> hostList = new ArrayList<Lobby>();
 
 
-  public static class HostCell extends ListCell<String> {
+  private static class HostCell extends ListCell<String> {
     HBox hbox = new HBox();
     Image serverImage = new Image("guifiles/AppIcon.png");
     Image passwordImage = new Image("guifiles/lock.png");
@@ -139,7 +139,10 @@ public class MultiplayerMenuController {
    */
   public void fillHostList() {
 
+    ObservableList<String> items = FXCollections.observableArrayList();
+    items.clear();
     hostList.clear();
+    hostListView.setItems(items);
     hostListView.setCellFactory(param -> new HostCell());
 
     Service<String> playService;
@@ -149,7 +152,6 @@ public class MultiplayerMenuController {
         return new Task<String>() {
           @Override
           protected String call() {
-            ObservableList<String> items = FXCollections.observableArrayList();
 
             hostList = SkatMain.mainController.getLocalHosts();
             for (Lobby lobby : hostList) {
