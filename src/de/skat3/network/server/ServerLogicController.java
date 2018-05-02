@@ -73,22 +73,10 @@ public class ServerLogicController implements ServerLogicInterface {
   public void updatePlayerDuringRound(Player player) {
     // player.secretBackupHand
 
-    if (player.isBot()) {
-      System.out.println("SERVER BOT AI CHECK:" + player.ai);
-      System.out.println(player.getHand());
-    }
-    Hand neuHand = new Hand();
-    Hand aldHand = player.getHand();
-
-    for (int i = 0; i < neuHand.cards.length; i++) {
-      neuHand.cards[i] = aldHand.cards[i];
-    }
-
-
 
     player.wonTricks = new ArrayList<Card>();
-//    System.out.println("SERVER RECEIVED: " + player.getName() + "CARDS" + player.getHand());
-//    System.out.println("UPDATEPLAYER SLC CALL:" + player.getUuid() + "\n \n" + player);
+    // System.out.println("SERVER RECEIVED: " + player.getName() + "CARDS" + player.getHand());
+    // System.out.println("UPDATEPLAYER SLC CALL:" + player.getUuid() + "\n \n" + player);
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, player.toString(),
         CommandType.ROUND_GENERAL_INFO);
     mc.gameState = player;

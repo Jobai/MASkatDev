@@ -34,13 +34,18 @@ public class InGameTableController {
   /**
    * Plays a card from a hand on the trick.
    * 
-   * @param hand From which the card is played.
+   * @param hand Hand from which the card is played.
    * @param card Card to be played.
    */
   synchronized void playCard(GuiHand hand, GuiCard card) {
     hand.moveCardAndRemove(card, this.tableView.trick.add(card), this.tableView.table);
   }
 
+  /**
+   * Is refreshing the color of all cards in your hand. Only playable cards are in a normal color.
+   * 
+   * @param value True to show to color effect. False to disable the color effect.
+   */
   void showPlayableColor(boolean value) {
     if (value) {
       ColorAdjust grey = new ColorAdjust();
@@ -89,35 +94,11 @@ public class InGameTableController {
 
     this.showPlayableColor(value);
 
-    if (value) {
-      this.tableView.table.setOnMouseMoved(event -> {
-        Node node = event.getPickResult().getIntersectedNode();
-        try {
-          if (node.getParent().getParent().equals(this.tableView.playerHand)) {
-            GuiCard card = (GuiCard) node.getParent();
-            if (this.selectedCard != null && !this.selectedCard.equals(card)) {
-              Duration d = Duration.millis(50);
-              this.tableView.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
-              this.selectedCard = card;
-              this.tableView.playerHand.raiseCard(card, true, false, false, true, d);
-            } else {
-              if (this.selectedCard == null) {
-                Duration d = Duration.millis(50);
-                this.selectedCard = card;
-                this.tableView.playerHand.raiseCard(card, true, false, false, true, d);
-              }
-            }
-          }
-        } catch (Exception e) {
-          // No parent so an error is thrown every time when the cursor is not over a card.
-          if (this.selectedCard != null) {
-            Duration d = Duration.millis(50);
-            this.tableView.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
-            this.selectedCard = null;
-          }
-        }
-      });
+    this.showCardAnimationInLCHand(value);
 
+    if (value) {
+
+      // click --> check --> play
       this.tableView.table.setOnMouseClicked(event -> {
         Node node = event.getPickResult().getIntersectedNode();
         try {
@@ -126,12 +107,16 @@ public class InGameTableController {
             for (Card c : SkatMain.lgs.getLocalClient().getHand().cards) {
               if (card.getCard().equals(c)) {
                 if (c.isPlayable()) {
-                  // Play card
                   if (this.selectedCard.equals(card)) {
                     this.selectedCard = null;
                   }
+                  // Play card
                   SkatMain.mainController.localCardPlayed(card.getCard());
+                  // Disable cards
                   SkatMain.guiController.getInGameController().makeAMove(false);
+                  // hide timer
+                  SkatMain.guiController.getInGameController().matchfield.overlayController
+                      .showTimer(false);
                   break;
                 }
               }
@@ -144,15 +129,57 @@ public class InGameTableController {
     } else {
 
       // Disable all interactions
-      this.tableView.table.setOnMouseMoved(event -> {
-      });
       this.tableView.table.setOnMouseClicked(event -> {
       });
     }
   }
 
   /**
-   * Shows the skat selection on the screen.
+   * Hover a card in your localHand when the cursor is over it.
+   * 
+   * @param value
+   */
+  private void showCardAnimationInLCHand(boolean value) {
+    if (value) {
+      this.tableView.table.setOnMouseMoved(event -> {
+        Node node = event.getPickResult().getIntersectedNode();
+        try {
+          if (node.getParent().getParent().equals(this.tableView.playerHand)) {
+            GuiCard card = (GuiCard) node.getParent();
+            if (this.selectedCard != null && !this.selectedCard.equals(card)) {
+              // lower old card and raise new one.
+              Duration d = Duration.millis(50);
+              this.tableView.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
+              this.selectedCard = card;
+              this.tableView.playerHand.raiseCard(card, true, false, false, true, d);
+            } else {
+              if (this.selectedCard == null) {
+                // raise new card.
+                Duration d = Duration.millis(50);
+                this.selectedCard = card;
+                this.tableView.playerHand.raiseCard(card, true, false, false, true, d);
+              }
+              // do noting because the card is already hovering.
+            }
+          }
+        } catch (Exception e) {
+          // No parent so an error is thrown every time when the cursor is not over a card.
+          if (this.selectedCard != null) {
+            // lower old card.
+            Duration d = Duration.millis(50);
+            this.tableView.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
+            this.selectedCard = null;
+          }
+        }
+      });
+    } else {
+      this.tableView.table.setOnMouseMoved(event -> {
+      });
+    }
+  }
+
+  /**
+   * Shows the skat selection.
    */
   void showSkatSelection() {
     GuiCard[] skat = new GuiCard[2];
@@ -169,37 +196,13 @@ public class InGameTableController {
 
     this.tableView.table.getChildren().addAll(skat);
 
-    this.tableView.table.setOnMouseMoved(event -> {
-      Node node = event.getPickResult().getIntersectedNode();
-      try {
-        if (node.getParent().getParent().equals(this.tableView.playerHand)) {
-          GuiCard card = (GuiCard) node.getParent();
-          if (this.selectedCard != null && !this.selectedCard.equals(card)) {
-            Duration d = Duration.millis(50);
-            this.tableView.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
-            this.selectedCard = card;
-            this.tableView.playerHand.raiseCard(card, true, false, false, true, d);
-          } else {
-            if (this.selectedCard == null) {
-              Duration d = Duration.millis(50);
-              this.selectedCard = card;
-              this.tableView.playerHand.raiseCard(card, true, false, false, true, d);
-            }
-          }
-        }
-      } catch (Exception e) {
-        // No parent so an error is thrown every time when the cursor is not over a card.
-        if (this.selectedCard != null) {
-          Duration d = Duration.millis(50);
-          this.tableView.playerHand.raiseCard(this.selectedCard, false, false, false, true, d);
-          this.selectedCard = null;
-        }
-      }
-    });
+    // Raise and lower cards when the cursor is hovering over them.
+    this.showCardAnimationInLCHand(true);
 
     this.tableView.table.setOnMouseClicked(event -> {
       Node node = event.getPickResult().getIntersectedNode();
       try {
+        // add skat card 1 to the local hand
         if (node.getParent().equals(skat[0])) {
           GuiCard card = (GuiCard) node.getParent();
           skat[0] = null;
@@ -210,6 +213,7 @@ public class InGameTableController {
           }
           return;
         }
+        // add skat card 2 to the local hand
         if (node.getParent().equals(skat[1])) {
           GuiCard card = (GuiCard) node.getParent();
           skat[1] = null;
@@ -225,7 +229,7 @@ public class InGameTableController {
           if (this.selectedCard.equals(card)) {
             this.selectedCard = null;
           }
-
+          // is adding the selected card from your hand to the skat in postion 1.
           if (skat[0] == null) {
             skat[0] = card;
             this.tableView.playerHand.moveCardAndRemove(card, this.tableView.skatPositions[0],
@@ -245,13 +249,13 @@ public class InGameTableController {
                 skat[0].translateZProperty()
                     .bind(this.tableView.skatPositions[0].translateZProperty());
               } catch (NullPointerException nullE) {
-                // The Card is clicked on before it is placen on the right spot.
+                // The Card is clicked on before it is placed on the right spot.
               }
             }));
             tl.play();
             return;
           }
-
+          // is adding the selected card from your hand to the skat in postion 2.
           if (skat[1] == null) {
             skat[1] = card;
             this.tableView.playerHand.moveCardAndRemove(card, this.tableView.skatPositions[1],
@@ -270,7 +274,7 @@ public class InGameTableController {
                 skat[1].translateZProperty()
                     .bind(this.tableView.skatPositions[1].translateZProperty());
               } catch (NullPointerException nullE) {
-                // The Card is clicked on before it is placen on the right spot.
+                // The Card is clicked on before it is placed on the right spot.
               }
             }));
             tl.play();
@@ -282,6 +286,7 @@ public class InGameTableController {
       }
     });
 
+    // Button the Save your selection
     Button button = new Button("Save");
     button.setFont(Font.font(40));
     button.setPrefSize(150, 100);
@@ -321,18 +326,21 @@ public class InGameTableController {
           return this.tableView.playerHand;
         }
       } catch (NullPointerException e) {
+        // Not this player.
       }
       try {
         if (this.tableView.leftHand.getOwner().equals(owner)) {
           return this.tableView.leftHand;
         }
       } catch (NullPointerException e) {
+        // Not this player.
       }
       try {
         if (this.tableView.rightHand.getOwner().equals(owner)) {
           return this.tableView.rightHand;
         }
       } catch (NullPointerException e) {
+        // Not this player.
       }
 
       throw new Exception("Player does not own a GuiHand.");
@@ -343,6 +351,8 @@ public class InGameTableController {
   }
 
   /**
+   * Is initializing all hands by first clearing them and than adding new cards form the
+   * LocalGameState to them and setting the new owners.
    * 
    */
   public void iniHands() {

@@ -32,7 +32,7 @@ public interface InGameControllerInterface {
    */
   public void playCard(Player player, Card card);
 
-  public void setRemainingTime(int remainingTime);
+  public void startTimer(int remainingTime);
 
   public void showAuctionWinner();
 

@@ -2,15 +2,24 @@ package de.skat3.gui.matchfield;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 import de.skat3.gamelogic.AdditionalMultipliers;
+import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 import javafx.animation.AnimationTimer;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +40,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
@@ -186,12 +196,10 @@ public class InGameOverlayController {
 
   void iniComponents() {
     this.root.requestFocus();
-
     this.iniScoreboard();
     this.iniPopUp();
     this.iniContract();
     this.bindChat();
-    this.iniPlayText();
   }
 
   private void bindCentral(AnchorPane p) {
@@ -202,30 +210,44 @@ public class InGameOverlayController {
   }
 
   void showTimer(boolean value) {
-    if (value) {
-      this.timerLabel.setVisible(true);
-    } else {
-      this.timerLabel.setVisible(true);
-    }
+    this.timerLabel.setVisible(value);
   }
 
   void setTimer(int remainingTime) {
-    Duration time = Duration.seconds(remainingTime);
 
-    double timeText = time.toSeconds();
+    this.timerLabel.setVisible(true);
 
-    String text = "Sec";
+    Duration finalTime = Duration.seconds(remainingTime);
 
-    if (time.greaterThan(Duration.minutes(1))) {
-      timeText = time.toMinutes();
-      text = "Min";
-    }
-    if (time.greaterThan(Duration.hours(1))) {
-      timeText = time.toHours();
-      text = "H";
-    }
+    DoubleProperty timeLeft = new SimpleDoubleProperty();
+    timeLeft.setValue(finalTime.toSeconds());
 
-    this.timerLabel.setText(timeText + " " + text);
+    StringProperty sp = new SimpleStringProperty();
+    sp.set(" Sec");
+    this.timerLabel.textProperty().bind(timeLeft.asString("%.2f").concat(sp));
+
+    Timeline timeline = new Timeline();
+    timeline.getKeyFrames().add(new KeyFrame(finalTime, new KeyValue(timeLeft, 0)));
+    timeline.play();
+
+    timeline.setOnFinished(e -> {
+      this.timerLabel.setVisible(false);
+      if (SkatMain.guiController.getInGameController().matchfield.tableController.isPlaying) {
+        Random rand = new Random();
+        int i;
+        ArrayList<Card> temp = new ArrayList<Card>();
+        for (Card c : SkatMain.lgs.getLocalHand().cards) {
+          if (c.isPlayable()) {
+            temp.add(c.copy());
+          }
+        }
+        i = rand.nextInt(temp.size());
+
+        SkatMain.mainController.localCardPlayed(temp.get(i));
+        SkatMain.guiController.getInGameController().makeAMove(false);
+      }
+    });
+
   }
 
   void showContractRequest() {
@@ -280,17 +302,17 @@ public class InGameOverlayController {
 
   }
 
-  void iniPlayText() {
-    this.playInfo.setTextAlignment(TextAlignment.CENTER);
-    this.playInfo.setLayoutX(0);
-    this.playInfo.translateXProperty()
-        .bind(root.widthProperty().divide(2).subtract(this.playInfo.widthProperty().divide(2)));
-  }
-
   void setPlayText(String text, boolean show) {
     if (show) {
       this.playInfo.setText(text);
-      // TODO Fade animation
+      FadeTransition fading = new FadeTransition();
+      fading.setNode(this.playInfo);
+      fading.setFromValue(1);
+      fading.setToValue(0.5);
+      fading.setCycleCount(MediaPlayer.INDEFINITE);
+      fading.setAutoReverse(true);
+      fading.setDuration(Duration.millis(200));
+      fading.play();
     }
     this.playInfo.setVisible(show);
   }
@@ -344,21 +366,16 @@ public class InGameOverlayController {
   }
 
   void bindChat() {
-   /* SkatMain.mainController.chatMessages.addListener(new ListChangeListener<String>() {
-
-      @Override
-      public void onChanged(Change<? extends String> c) {
-        StringBuffer newText = new StringBuffer();
-        c.next();
-        for (String addedMessage : c.getAddedSubList()) {
-          newText.append(addedMessage);
-          newText.append("\n");
-        }
-        chatArea.setText(chatArea.getText() + newText.toString());
-        chatArea.setScrollTop(Double.MAX_VALUE);
-      }
-
-    }); */
+    /*
+     * SkatMain.mainController.chatMessages.addListener(new ListChangeListener<String>() {
+     * 
+     * @Override public void onChanged(Change<? extends String> c) { StringBuffer newText = new
+     * StringBuffer(); c.next(); for (String addedMessage : c.getAddedSubList()) {
+     * newText.append(addedMessage); newText.append("\n"); } chatArea.setText(chatArea.getText() +
+     * newText.toString()); chatArea.setScrollTop(Double.MAX_VALUE); }
+     * 
+     * });
+     */
   }
 
   void iniLocalClient(Player player) {
@@ -384,12 +401,12 @@ public class InGameOverlayController {
       this.imageEnemyOne.setImage(null);
 
       this.addEasyBotLeftButton.setOnAction(e -> {
-        // SkatMain.mainController. //TODO
+        SkatMain.mainController.addBot(false);
         this.addBotLeftRoot.setDisable(true);
         this.addBotLeftRoot.setVisible(false);
       });
       this.addHardBotLeftButton.setOnAction(e -> {
-        // SkatMain.mainController. //TODO
+        SkatMain.mainController.addBot(true);
         this.addBotLeftRoot.setDisable(true);
         this.addBotLeftRoot.setVisible(false);
       });
@@ -422,12 +439,12 @@ public class InGameOverlayController {
       this.imageEnemyTwo.setImage(null);
 
       this.addEasyBotRightButton.setOnAction(e -> {
-        // SkatMain.mainController. //TODO
+        SkatMain.mainController.addBot(false);
         this.addBotRightRoot.setDisable(true);
         this.addBotRightRoot.setVisible(false);
       });
       this.addHardBotRightButton.setOnAction(e -> {
-        // SkatMain.mainController. //TODO
+        SkatMain.mainController.addBot(true);
         this.addBotRightRoot.setDisable(true);
         this.addBotRightRoot.setVisible(false);
       });

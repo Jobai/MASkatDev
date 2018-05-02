@@ -502,7 +502,13 @@ public class MainController implements MainControllerInterface {
       SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
     }
     if (SkatMain.lgs.timerInSeconds > 0) {
-      new Timer(SkatMain.lgs.timerInSeconds);
+      // new Timer(SkatMain.lgs.timerInSeconds); Replaced by -->
+      Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+          SkatMain.guiController.getInGameController().startTimer(SkatMain.lgs.timerInSeconds);
+        }
+      });
     }
     System.out.println("karten im LGS: " + SkatMain.lgs.getLocalClient().getHand());
     Platform.runLater(new Runnable() {

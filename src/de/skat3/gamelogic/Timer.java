@@ -11,10 +11,12 @@ public class Timer extends Thread {
   boolean isInterrupted;
 
   /**
+   * Replaced by simple call in InGameController.startTimer(int time)
    * Timer that counts down.
    * 
    * @param seconds the time in seconds
    */
+  @Deprecated
   public Timer(int seconds) {
     isInterrupted = false;
     try {
@@ -37,7 +39,7 @@ public class Timer extends Thread {
       Platform.runLater(new Runnable() {
         @Override
         public void run() {
-          SkatMain.guiController.getInGameController().setRemainingTime(e);
+          SkatMain.guiController.getInGameController().startTimer(e);
         }
       });
 
@@ -57,7 +59,6 @@ public class Timer extends Thread {
           @Override
           public void run() {
             SkatMain.guiController.getInGameController().makeAMove(false);
-
           }
         });
         SkatMain.mainController.localCardPlayed(temp.get(i));

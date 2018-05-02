@@ -83,8 +83,8 @@ public class InGameController implements InGameControllerInterface {
    * @see de.skat3.gui.matchfield.InGameControllerInterface#setRemainingTime(javafx.util.Duration)
    */
   @Override
-  public void setRemainingTime(int remainingTime) {
-    this.matchfield.overlayController.setTimer(remainingTime);
+  public void startTimer(int time) {
+    this.matchfield.overlayController.setTimer(time);
   }
 
   /*
