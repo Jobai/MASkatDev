@@ -122,9 +122,9 @@ public class ClientLogicHandler {
 
     if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
       Player player = (Player) mc.gameState;
-      System.out.println("update player");
-      System.out.println("CLIENT RECEIVED" + player.getName() + " CARDS: "
-          + player.getHand());
+//      System.out.println("update player");
+//      System.out.println("CLIENT RECEIVED" + player.getName() + " CARDS: "
+//          + player.getHand());
       
       SkatMain.mainController.updatePlayer(player);
     }

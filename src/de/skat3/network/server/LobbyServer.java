@@ -72,23 +72,26 @@ public class LobbyServer extends Thread {
 
       try (DatagramSocket ds = new DatagramSocket()) {
 
-        
+
         System.out.println(SkatMain.mainController.currentLobby.hashCode());
         System.out.println(lobby.hashCode());
         System.out.println(SkatMain.mainController.currentLobby == lobby);
         this.ds = ds;
         ds.setBroadcast(true);
         byte[] buff;
-    
-//        buff = lobby.convertToByteArray(lobby);
-//        System.out.println(buff.length);
+
+        // buff = lobby.convertToByteArray(lobby);
+        // System.out.println(buff.length);
         DatagramPacket packet;
-//        packet =
-//            new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
+        // packet =
+        // new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
 
         while (!this.isInterrupted()) {
           buff = lobby.convertToByteArray(lobby);
-          System.out.println(buff.length);
+          // System.out.println(buff.length);
+          if (buff.length > 4000) {
+            logger.severe("WARNING: BYTE ARRAY TO BIG! -  CHECK LOBBY CLASS AND LOBBY SERVER!");
+          }
           packet =
               new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
           ds.send(packet);
@@ -152,7 +155,7 @@ public class LobbyServer extends Thread {
       ds.close();
       ms.close();
     } catch (NullPointerException e) {
-      // silent drop is ok 
+      // silent drop is ok
     }
 
   }

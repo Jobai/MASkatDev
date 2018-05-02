@@ -251,7 +251,9 @@ public class Player implements Serializable, Comparable {
   public void updatePlayer(Player player) {
     this.wonTricks = player.wonTricks;
     this.points = player.points;
+    System.out.println("UPDATE PLAYER" + player);
     this.setHand(player.hand);
+    System.out.println("NEW UPDATED PLAYER: " + this);
     this.isBot = player.isBot;
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;

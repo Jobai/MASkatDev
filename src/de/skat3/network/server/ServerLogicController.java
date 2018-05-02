@@ -9,7 +9,6 @@
 
 package de.skat3.network.server;
 
-import java.util.ArrayList;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -18,11 +17,12 @@ import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.main.Lobby;
-import de.skat3.main.SkatMain;
 import de.skat3.network.ServerLogicInterface;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageType;
+import java.util.ArrayList;
+
 
 /**
  * Receives orders from the GameLogic and handles them to be send over the network to the clients.
@@ -75,6 +75,7 @@ public class ServerLogicController implements ServerLogicInterface {
 
     if (player.isBot()) {
       System.out.println("SERVER BOT AI CHECK:" + player.ai);
+      System.out.println(player.getHand());
     }
     Hand neuHand = new Hand();
     Hand aldHand = player.getHand();
@@ -86,14 +87,15 @@ public class ServerLogicController implements ServerLogicInterface {
 
 
     player.wonTricks = new ArrayList<Card>();
-    System.out.println("SERVER RECEIVED: " + player.getName() + "CARDS" + player.getHand());
-    System.out.println("UPDATEPLAYER SLC CALL:" + player.getUuid() + "\n \n" + player);
+//    System.out.println("SERVER RECEIVED: " + player.getName() + "CARDS" + player.getHand());
+//    System.out.println("UPDATEPLAYER SLC CALL:" + player.getUuid() + "\n \n" + player);
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, player.toString(),
         CommandType.ROUND_GENERAL_INFO);
     mc.gameState = player;
     for (int i = 0; i < player.getHand().cards.length; i++) {
       player.getHand().cards[i].imageView = null;
     }
+    mc.playerTarget = player;
     gs.sendToPlayer(player, mc);
   }
 
@@ -112,6 +114,7 @@ public class ServerLogicController implements ServerLogicInterface {
         new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.BID_REQUEST);
     mc.gameState = (Integer) biddingValue;
     mc.payload = player;
+    mc.playerTarget = player;
     gs.sendToPlayer(player, mc);
 
   }
@@ -127,6 +130,7 @@ public class ServerLogicController implements ServerLogicInterface {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.PLAY_REQUEST);
 
+    mc.playerTarget = player;
     gs.sendToPlayer(player, mc);
   }
 
@@ -213,6 +217,7 @@ public class ServerLogicController implements ServerLogicInterface {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.HAND_REQUEST);
 
+    mc.playerTarget = p;
     gs.sendToPlayer(p, mc);
 
 
@@ -225,6 +230,7 @@ public class ServerLogicController implements ServerLogicInterface {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.CONTRACT_REQUEST);
 
+    mc.playerTarget = p;
     gs.sendToPlayer(p, mc);
 
 
@@ -237,6 +243,7 @@ public class ServerLogicController implements ServerLogicInterface {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.SKAT_INFO_REQUEST);
     mc.gameState = skat;
+    mc.playerTarget = p;
 
     gs.sendToPlayer(p, mc);
 
@@ -327,6 +334,7 @@ public class ServerLogicController implements ServerLogicInterface {
     gs.broadcastMessage(mc);
   }
 
+  @Override
   public void updateEnemy(Player p) {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_INFO, "SOME", CommandType.UPDATE_ENEMY_INFO);

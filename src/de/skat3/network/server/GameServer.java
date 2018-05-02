@@ -162,13 +162,13 @@ public class GameServer extends Thread {
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       if (gameServerProtocol.playerProfile.equals(player)) {
         if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
-          System.out
-              .println("============= send To Player Log [ROUND_GENERAL_INFO] ================");
-
-          System.out.println(mc.gameState);
-          System.out.println(((Player) mc.gameState).getUuid());
-          System.out.println(((Player) mc.gameState).getHand());
-          System.out.println("=========================================");
+//          System.out
+//              .println("============= send To Player Log [ROUND_GENERAL_INFO] ================");
+//
+//          System.out.println(mc.gameState);
+//          System.out.println(((Player) mc.gameState).getUuid());
+//          System.out.println(((Player) mc.gameState).getHand());
+//          System.out.println("=========================================");
         }
 
         gameServerProtocol.sendMessage(mc);

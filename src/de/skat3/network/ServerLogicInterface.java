@@ -69,5 +69,7 @@ public interface ServerLogicInterface {
 
   void broadcastBid(boolean bid);
 
+  void updateEnemy(Player p);
+
 }
 

@@ -70,6 +70,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void bidRequestHandler(Message m) {
     // TODO Auto-generated method stub
+    System.out.println("AI bidRequest received");
     int b = (int) ((MessageCommand) m).gameState;
     SkatMain.aiController.bidRequest(b, aiPlayer);
   }
@@ -131,7 +132,6 @@ public class AIClientLogicHandler extends ClientLogicHandler {
     if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
       Player payloadPlayer = (Player) mc.gameState;
       System.out.println("RIH AI:" + payloadPlayer);
-      System.out.println("RIH AI:" + payloadPlayer.ai);
       SkatMain.aiController.updatePlayer(payloadPlayer, aiPlayer);
     }
     
@@ -196,6 +196,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void contractRequestHandler(Message m) {
+    System.out.println("AI CONTRACT REQUEST");
     MessageCommand mc = (MessageCommand) m;
     Contract c = (Contract) mc.payload;
     AdditionalMultipliers am = (AdditionalMultipliers) mc.secondPayload;
@@ -227,7 +228,9 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void handRequestHandler(Message m) {
     // TODO Auto-generated method stub
-    super.handRequestHandler(m);
+    MessageCommand mc = (MessageCommand) m;
+    Player p = (Player) mc.gameState;
+    SkatMain.aiController.handGameRequest(aiPlayer);
   }
 
 
@@ -240,8 +243,10 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void skatRequestHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.skatRequestHandler(m);
+    MessageCommand mc = (MessageCommand) m;
+    Card[] skat = (Card[]) mc.gameState;
+    Player p = mc.playerTarget;
+    SkatMain.aiController.selectSkatRequest(skat, aiPlayer);
   }
 
 
