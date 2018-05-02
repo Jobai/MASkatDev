@@ -3,6 +3,7 @@ package de.skat3.ai;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 /**
  * Author Emre Cura
  */
@@ -10,12 +11,12 @@ import java.util.Random;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 
 
 public class RandomAI extends Ai implements Serializable {
-  Card[] cards;
   boolean acceptHandGame;
   AiHelper aiHelper;
 
@@ -28,10 +29,8 @@ public class RandomAI extends Ai implements Serializable {
   /**
    * Creates a new instance of AIPlayer.
    */
-  public RandomAI(Player player) {
-    super(player);
-    aiHelper = new AiHelper(player);
-    cards = ai.getHand().getCards();
+  public RandomAI() {
+    aiHelper = new AiHelper();
     acceptHandGame = random.nextBoolean();
   }
 
@@ -65,27 +64,42 @@ public class RandomAI extends Ai implements Serializable {
   public Card chooseCard() {
     int i;
     ArrayList<Card> temp = new ArrayList<Card>();
-    for (Card c : SkatMain.lgs.getLocalHand().cards) {
+    for (Card c : this.hand.cards) {
+      System.out.println(c + " " + c.isPlayable());
       if (c.isPlayable()) {
         temp.add(c.copy());
       }
     }
     Random rand = new Random();
     i = rand.nextInt(temp.size());
+    this.hand.remove(temp.get(i));
     return temp.get(i);
   }
 
   @Override
-  public Player getPlayer() {
-    return this.ai;
+  public ReturnSkat selectSkat(Card[] skat) {
+    ArrayList<Card> cards = new ArrayList<Card>();
+    for (int i = 0; i < 10; i++) {
+      cards.add(this.hand.cards[i]);
+    }
+    cards.add(skat[0]);
+    cards.add(skat[1]);
+    Collections.shuffle(cards);
+    Card[] temp = new Card[10];
+    for (int i = 0; i < temp.length; i++) {
+      temp[i] = cards.get(i).copy();
+    }
+    Card[] newSkat = new Card[2];
+    newSkat[0] = cards.get(10);
+    newSkat[1] = cards.get(11);
+    return new ReturnSkat(new Hand(temp),newSkat);
   }
 
   @Override
-  public Card[] selectSkat(Card[] skat) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+  public void setHand(Hand hand) {
+    this.hand = new Hand(hand.cards);
 
+  }
 
   // 2. was braucht RandomAi von lgs
 

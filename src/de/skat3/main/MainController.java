@@ -1,6 +1,7 @@
 package de.skat3.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import de.skat3.ai.Ai;
 import de.skat3.gamelogic.AdditionalMultipliers;
@@ -40,10 +41,7 @@ public class MainController implements MainControllerInterface {
   public ObservableList<String> chatMessages;
 
 
-  /**
-   * Returns a list of all lobbies in the local network.
-   * 
-   */
+
 
   @Override
   public ArrayList<Lobby> getLocalHosts() {
@@ -51,12 +49,6 @@ public class MainController implements MainControllerInterface {
     this.blinkAlert();
     return lobbys;
   }
-
-  /**
-   * Starts a singleplayer game with two bots.
-   * 
-   * @param hardBot true f
-   */
   @Override
   public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int scoringMode,
       boolean kontraRekontraEnabled) {
@@ -498,10 +490,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void playCardRequest() {
-
     this.blinkAlert();
-
-
     Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {
       SkatMain.lgs.getLocalClient().getHand().setPlayableCards(currentCard, SkatMain.lgs.contract);
@@ -529,6 +518,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
+        System.out.println(Arrays.toString(result.ranks));
         SkatMain.guiController.getInGameController().showResults(result);
       }
     });
@@ -687,6 +677,7 @@ public class MainController implements MainControllerInterface {
     System.out.println("neue hand: " + hand);
     SkatMain.lgs.skat[0] = skat[0];
     SkatMain.lgs.skat[1] = skat[1];
+    SkatMain.lgs.getLocalClient().setHand(hand);
     SkatMain.clc.throwAnswer(new Hand(hand.cards), skat);
   }
 
@@ -733,6 +724,11 @@ public class MainController implements MainControllerInterface {
   }
 
   public void updateEnemy(Player transmitedPlayer) {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void addBot(boolean hardBot) {
     // TODO Auto-generated method stub
     
   }

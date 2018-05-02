@@ -1,6 +1,7 @@
 package de.skat3.main;
 
 import de.skat3.ai.Ai;
+import de.skat3.ai.ReturnSkat;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Player;
@@ -53,16 +54,28 @@ public class AiController {
 
 
   public void updatePlayer(Player bot, Player un) {
+
     this.getBot(bot).updatePlayer(bot);
+    this.getBot(bot).ai.setHand(bot.getHand());
+
+    System.out.println("KARTEN VOM BOT:" + this.getBot(bot));
 
   }
 
   public void selectSkatRequest(Card[] skat, Player bot) {
-    // TODO
+    ReturnSkat rs = this.getBot(bot).ai.selectSkat(skat);
+    SkatMain.clc.throwAnswer(rs.getHand(), rs.getSkat());
+
 
   }
 
   public void playCardRequest(Player bot) {
+    Card currentCard = SkatMain.lgs.getFirstCardPlayed();
+    if (currentCard != null) {
+      this.getBot(bot).ai.hand.setPlayableCards(currentCard, SkatMain.lgs.contract);
+    } else {
+      this.getBot(bot).ai.hand.setAllCardsPlayable();
+    }
     this.delay();
     SkatMain.clc.playAnswer(this.getBot(bot).ai.chooseCard());
 

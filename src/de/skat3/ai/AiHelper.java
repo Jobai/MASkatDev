@@ -4,6 +4,7 @@ import java.io.Serializable;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
@@ -16,14 +17,16 @@ import de.skat3.gamelogic.Value;
 public class AiHelper implements Serializable {
 
   // TODO check if it is updated correctly
-  Card[] cards;
+  Hand hand;
 
-  public AiHelper(Player player) {
-    cards = player.getHand().getCards();
-  }
 
   public AiHelper() {
     // TODO Auto-generated constructor stub
+  }
+
+
+  public void setHand(Hand hand) {
+    this.hand = new Hand(hand.cards);
   }
 
   /**
@@ -73,10 +76,10 @@ public class AiHelper implements Serializable {
   public int getFirstIndexOfSuit(final Suit suit, final boolean includeJacks) {
     int result = -1;
     int index = 0;
-    for (int i = 0; i < cards.length; i++) {
-      if (result == -1 && cards[i].getSuit() == suit) {
-        if (cards[i].getValue() != Value.JACK
-            || cards[i].getValue() == Value.JACK && includeJacks) {
+    for (int i = 0; i < this.hand.cards.length; i++) {
+      if (result == -1 && this.hand.cards[i].getSuit() == suit) {
+        if (this.hand.cards[i].getValue() != Value.JACK
+            || this.hand.cards[i].getValue() == Value.JACK && includeJacks) {
           result = index;
         }
       }
@@ -118,10 +121,10 @@ public class AiHelper implements Serializable {
 
     int result = -1;
     int index = 0;
-    for (int i = 0; i < cards.length; i++) {
-      if (result == -1 && cards[i].getSuit() == suit) {
-        if (cards[i].getValue() != Value.JACK
-            || cards[i].getValue() == Value.JACK && includeJacks) {
+    for (int i = 0; i < this.hand.cards.length; i++) {
+      if (result == -1 && this.hand.cards[i].getSuit() == suit) {
+        if (this.hand.cards[i].getValue() != Value.JACK
+            || this.hand.cards[i].getValue() == Value.JACK && includeJacks) {
           result = index;
         }
       }
@@ -231,8 +234,8 @@ public class AiHelper implements Serializable {
   private int[] calculateSuitsInHand() {
     int[] suitArray = {0, 0, 0, 0};
 
-    for (int i = 0; i < cards.length; i++) {
-      switch (cards[i].getSuit()) {
+    for (int i = 0; i < this.hand.cards.length; i++) {
+      switch (this.hand.cards[i].getSuit()) {
         case DIAMONDS:
           suitArray[0]++;
           break;

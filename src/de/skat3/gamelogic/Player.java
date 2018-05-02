@@ -104,9 +104,9 @@ public class Player implements Serializable, Comparable {
     this.lostGames = 0;
     this.seegerPoints = 0;
     if (this.isHardBot) {
-      this.ai = new IntelligentAi(this);
+      this.ai = new IntelligentAi();
     } else {
-      this.ai = new RandomAI(this);
+      this.ai = new RandomAI();
     }
   }
 

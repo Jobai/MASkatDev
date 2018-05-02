@@ -15,29 +15,25 @@ public class IntelligentAi extends Ai {
   /**
    * private static final long serialVersionUID = 1L;
    */
-
-  Player player;
   AiHelper aiHelper;
-  Hand hand;
-  Card cards[];
   Contract contract;
   LocalGameState lgs;
 
-  public IntelligentAi(Player player) {
-    super(player);
-    this.aiHelper = new AiHelper(player);
-    this.hand = player.getHand();
-    this.cards = hand.getCards();
-    this.player = player;
-    this.contract = lgs.getContract();
+  public IntelligentAi() {
+    this.aiHelper = new AiHelper();
+  }
+
+
+  public void setPosition(Position position) {
+    this.position = position;
   }
 
   @Override
   public boolean acceptBid(int bid) {
 
     int maxBid = hand.getMaximumBid(chooseContract());
-    int noOfJacks = AiHelper.countJacks(cards);
-    int noOfTrumps = AiHelper.countTrumps(cards, chooseContract());
+    int noOfJacks = AiHelper.countJacks(this.hand.cards);
+    int noOfTrumps = AiHelper.countTrumps(this.hand.cards, chooseContract());
     Suit mostFrequentSuitColor = aiHelper.getMostFrequentSuit();
 
     // only play, if I have at least 1 jack and 4 color cards or
@@ -74,9 +70,9 @@ public class IntelligentAi extends Ai {
   @Override
   public Card chooseCard() {
 
-    if (player.getPosition().equals(Position.FOREHAND)) {
+    if (position.equals(Position.FOREHAND)) {
       return playForeHand();
-    } else if (player.getPosition().equals(Position.MIDDLEHAND)) {
+    } else if (position.equals(Position.MIDDLEHAND)) {
       return playMiddlehandCard();
     } else {
       return playRearhandCard();
@@ -86,8 +82,8 @@ public class IntelligentAi extends Ai {
   @Override
   public boolean acceptHandGame() {
     // Recherchieren bei welcher anzahl von Karten es sinnvoll ist offen zu spielen
-    int noOfTrumps = AiHelper.countTrumps(cards, chooseContract());
-    int noOfAces = AiHelper.countAces(cards);
+    int noOfTrumps = AiHelper.countTrumps(this.hand.cards, chooseContract());
+    int noOfAces = AiHelper.countAces(this.hand.cards);
     if (noOfTrumps >= 8) {
       return true;
     } else if (noOfTrumps + noOfAces >= 8) {
@@ -110,12 +106,7 @@ public class IntelligentAi extends Ai {
   }
 
   @Override
-  public Player getPlayer() {
-    return this.ai;
-  }
-
-  @Override
-  public Card[] selectSkat(Card[] skat) {
+  public ReturnSkat selectSkat(Card[] skat) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -130,40 +121,40 @@ public class IntelligentAi extends Ai {
     // }
 
     // do i have any aces?
-    for (int i = 0; i < cards.length; i++) {
-      if (cards[i].getValue() == Value.ACE) {
-        return cards[i];
-      } else if (cards[i].getValue() == Value.TEN) {
-        return cards[i];
-      } else if (cards[i].getValue() == Value.KING)
-        return cards[i];
+    for (int i = 0; i < this.hand.cards.length; i++) {
+      if (this.hand.cards[i].getValue() == Value.ACE) {
+        return this.hand.cards[i];
+      } else if (this.hand.cards[i].getValue() == Value.TEN) {
+        return this.hand.cards[i];
+      } else if (this.hand.cards[i].getValue() == Value.KING)
+        return this.hand.cards[i];
     }
 
     int help = 0;
     // fallback: just play the first valid card
-    for (int i = 0; i < cards.length; i++) {
-      if (cards[i].isPlayable())
+    for (int i = 0; i < this.hand.cards.length; i++) {
+      if (this.hand.cards[i].isPlayable())
         help = i;
     }
-    return cards[help];
+    return this.hand.cards[help];
   }
 
   private Card playMiddlehandCard() {
     // FIXME
-    if (player.getPosition().equals(Position.MIDDLEHAND)) {
+    if (position.equals(Position.MIDDLEHAND)) {
       // "kurzer Weg, lange Farbe zum Freund"
       Suit longSuit = aiHelper.getMostCommonSuit();
       int firstIndex = aiHelper.getFirstIndexOfSuit(longSuit);
-      if (longSuit != null && cards[firstIndex].getValue() == Value.ACE) {
-        return cards[firstIndex];
+      if (longSuit != null && this.hand.cards[firstIndex].getValue() == Value.ACE) {
+        return this.hand.cards[firstIndex];
       }
       int lastIndex = aiHelper.getLastIndexOfSuit(aiHelper.getMostFrequentSuit(longSuit));
-      return cards[lastIndex];
-    } else if (player.getPosition() == Position.REARHAND) {
+      return this.hand.cards[lastIndex];
+    } else if (position == Position.REARHAND) {
       // "langer Weg, kurze Farbe"
       int minCount = 9;
       Card result = null;
-      for (Card card : cards) {
+      for (Card card : this.hand.cards) {
         if (result == null || result.isTrump(lgs.getContract())) {
           result = card;
           continue;
@@ -191,26 +182,33 @@ public class IntelligentAi extends Ai {
     }
     // fallback: take the first valid card (which is a trump, if there still
     // is one)
-    for (Card card : cards) {
+    for (Card card : this.hand.cards) {
       if (card.isPlayable()) {
         return card;
       }
     }
 
-    return cards[0];
+    return this.hand.cards[0];
 
   }
 
   private Card playRearhandCard() {
     // fallback: take the first valid card (which is a trump, if there still
     // is one)
-    for (Card c : cards) {
+    for (Card c : this.hand.cards) {
       if (c.isPlayable()) {
         return c;
       }
     }
 
-    return cards[0];
+    return this.hand.cards[0];
+  }
+
+
+  @Override
+  public void setHand(Hand hand) {
+    this.hand = new Hand(hand.cards);
+
   }
 
 
