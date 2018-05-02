@@ -118,7 +118,7 @@
 				</Label>
 			</children>
 		</AnchorPane>
-      <HBox alignment="CENTER_RIGHT" layoutX="258.0" layoutY="-1.0" prefHeight="30.0" prefWidth="182.0" AnchorPane.leftAnchor="258.0" AnchorPane.rightAnchor="840.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER_RIGHT" layoutX="8.0" layoutY="384.0" prefHeight="30.0" prefWidth="182.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="1090.0" AnchorPane.topAnchor="384.0">
          <children>
             <Button fx:id="annouceContraButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="153.0" style="-fx-background-color: #ff0000; -fx-background-radius: 10; -fx-border-color: #404040; -fx-border-radius: 10;" text="Announce Contra">
                <font>
@@ -127,5 +127,10 @@
             </Button>
          </children>
       </HBox>
+      <Label fx:id="timerLabel" alignment="CENTER" layoutX="30.0" layoutY="455.0" prefHeight="58.0" prefWidth="110.0" style="-fx-background-color: #404040;" text="10 Sec" textFill="RED">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
 	</children>
 </AnchorPane>

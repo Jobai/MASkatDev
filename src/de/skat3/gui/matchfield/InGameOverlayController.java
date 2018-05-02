@@ -149,12 +149,21 @@ public class InGameOverlayController {
     }
   }
 
-  void startRoundInitialize() {
+  void iniStartRound() {
     this.root.requestFocus();
 
-  }
-  void iniComponents() {
+    if (SkatMain.lgs.timerInSeconds > 0) {
+      this.showTimer(true);
+    } else {
+      this.showTimer(false);
+    }
 
+    this.iniEmemyOne(SkatMain.lgs.getEnemyOne());
+    this.iniEmemyTwo(SkatMain.lgs.getEnemyTwo());
+    this.iniLocalClient(SkatMain.lgs.getLocalClient());
+  }
+
+  void iniComponents() {
     this.root.requestFocus();
 
     this.iniScoreboard();

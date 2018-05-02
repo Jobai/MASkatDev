@@ -53,7 +53,7 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void makeAMove(boolean value) {
-    System.out.println("make a move: "+value);
+    System.out.println("make a move: " + value);
     this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value);
     this.matchfield.tableController.setCardsPlayable(value);
   }
@@ -168,9 +168,7 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void startRound() {
     this.matchfield.tableController.iniHands();
-    this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.getEnemyOne());
-    this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.getEnemyTwo());
-    this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.getLocalClient());
+    this.matchfield.overlayController.iniStartRound();
   }
 
   public void showBidRequest(int bid) {
