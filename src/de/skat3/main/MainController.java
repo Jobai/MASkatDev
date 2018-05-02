@@ -700,7 +700,7 @@ public class MainController implements MainControllerInterface {
     System.out.println("neue hand: " + hand);
     SkatMain.lgs.skat[0] = skat[0];
     SkatMain.lgs.skat[1] = skat[1];
-    SkatMain.clc.throwAnswer(hand, skat);
+    SkatMain.clc.throwAnswer(new Hand(hand.cards), skat);
   }
 
   @Override

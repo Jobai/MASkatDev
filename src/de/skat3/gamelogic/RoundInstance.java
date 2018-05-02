@@ -60,7 +60,6 @@ class RoundInstance {
 
     this.initializeAuction();
     this.updatePlayer();
-    Thread.sleep(5000);
     slc.broadcastRoundStarted();
     Player winner = this.startBidding();
     if (winner == null) {

@@ -231,8 +231,8 @@ public class GameController implements GameLogicInterface, Serializable {
     }
     this.roundInstance.solo.setHand(hand); //XXX
     System.out.println("logic hand: "+hand);
-    this.roundInstance.skat[0] = skat[0];
-    this.roundInstance.skat[1] = skat[1];
+    this.roundInstance.skat[0] = skat[0].copy();
+    this.roundInstance.skat[1] = skat[1].copy();
     this.roundInstance.notifyRoundInstance();
 
   }
