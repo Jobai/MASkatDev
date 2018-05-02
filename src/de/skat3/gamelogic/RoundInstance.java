@@ -61,6 +61,7 @@ class RoundInstance {
 
     this.initializeAuction();
     this.updatePlayer();
+    this.updateEnemies();
     slc.broadcastRoundStarted();
     Player winner = this.startBidding();
     if (winner == null) {
@@ -68,6 +69,7 @@ class RoundInstance {
     } else {
       this.setDeclarer(winner);
       this.updatePlayer();
+      this.updateEnemies();
       this.startGame();
     }
     this.slc.broadcastRoundResult(new Result(this));
@@ -116,6 +118,25 @@ class RoundInstance {
     for (int i = 0; i < players.length; i++) {
       slc.updatePlayerDuringRound(this.players[i]);
     }
+
+  }
+
+  private void updateEnemies() {
+    Player p1 = this.players[0].copyPlayer();
+    Player p2 = this.players[1].copyPlayer();
+    Player p3 = this.players[2].copyPlayer();
+    p1.hand = null;
+    p2.hand = null;
+    p3.hand = null;
+    p1.wonTricks = null;
+    p2.wonTricks = null;
+    p3.wonTricks = null;
+    p1.ai = null;
+    p2.ai = null;
+    p3.ai = null;
+    slc.updateEnemy(p1);
+    slc.updateEnemy(p2);
+    slc.updateEnemy(p3);
 
   }
 
@@ -239,7 +260,8 @@ class RoundInstance {
 
       for (int i = 0; i < 10; i++) {
 
-
+        this.updatePlayer();
+        this.updateEnemies();
         if (this.kontaRekontraAvailable) {
           slc.kontraRequest(this.getTeamPlayer());
         }

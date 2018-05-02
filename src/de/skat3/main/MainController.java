@@ -330,7 +330,11 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showCardPlayed(Player player, Card card) {
-    SkatMain.lgs.getPlayer(player).getHand().remove(card);
+    if (player.equals(SkatMain.lgs.getLocalClient())) {
+      SkatMain.lgs.getLocalHand().remove(card);
+    } else {
+      SkatMain.lgs.getPlayer(player).getHand().remove(new Card());
+    }
 
     Platform.runLater(new Runnable() {
 
@@ -529,68 +533,68 @@ public class MainController implements MainControllerInterface {
 
   private void modifyStatistic(Result result) {
 
-      boolean localWinner;
-      if (SkatMain.lgs.getLocalClient().isSolo()) {
-        localWinner = result.soloWon;
-      } else {
-        localWinner = !result.soloWon;
-      }
-      switch (result.contract) {
-        case CLUBS:
-        case SPADES:
-        case HEARTS:
-        case DIAMONDS:
-          if (localWinner) {
-            if (SkatMain.lgs.singlePlayerGame) {
-              SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsWonSuit();
-            } else {
-              SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsWonSuit();
-            }
-          } else {
-            if (SkatMain.lgs.singlePlayerGame) {
-              SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsLostSuit();
-            } else {
-              SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsLostSuit();
-            }
-          }
-          break;
-        case GRAND:
-          if (localWinner) {
-            if (SkatMain.lgs.singlePlayerGame) {
-              SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsWonGrand();
-            } else {
-              SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsWonGrand();
-            }
-          } else {
-            if (SkatMain.lgs.singlePlayerGame) {
-              SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsLostGrand();
-            } else {
-              SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsLostGrand();
-            }
-          }
-          break;
-        case NULL:
-          if (localWinner) {
-            if (SkatMain.lgs.singlePlayerGame) {
-              SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsWonNull();
-            } else {
-              SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsWonNull();
-            }
-          } else {
-            if (SkatMain.lgs.singlePlayerGame) {
-              SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsLostNull();
-            } else {
-              SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsLostNull();
-            }
-          }
-          break;
-        default:
-          System.err.println("Wrong contract in Result");
-          break;
-
-      }
-      SkatMain.ioController.updateLastUsed(SkatMain.ioController.getLastUsedProfile());
+    boolean localWinner;
+    if (SkatMain.lgs.getLocalClient().isSolo()) {
+      localWinner = result.soloWon;
+    } else {
+      localWinner = !result.soloWon;
     }
+    switch (result.contract) {
+      case CLUBS:
+      case SPADES:
+      case HEARTS:
+      case DIAMONDS:
+        if (localWinner) {
+          if (SkatMain.lgs.singlePlayerGame) {
+            SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsWonSuit();
+          } else {
+            SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsWonSuit();
+          }
+        } else {
+          if (SkatMain.lgs.singlePlayerGame) {
+            SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsLostSuit();
+          } else {
+            SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsLostSuit();
+          }
+        }
+        break;
+      case GRAND:
+        if (localWinner) {
+          if (SkatMain.lgs.singlePlayerGame) {
+            SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsWonGrand();
+          } else {
+            SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsWonGrand();
+          }
+        } else {
+          if (SkatMain.lgs.singlePlayerGame) {
+            SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsLostGrand();
+          } else {
+            SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsLostGrand();
+          }
+        }
+        break;
+      case NULL:
+        if (localWinner) {
+          if (SkatMain.lgs.singlePlayerGame) {
+            SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsWonNull();
+          } else {
+            SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsWonNull();
+          }
+        } else {
+          if (SkatMain.lgs.singlePlayerGame) {
+            SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsLostNull();
+          } else {
+            SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsLostNull();
+          }
+        }
+        break;
+      default:
+        System.err.println("Wrong contract in Result");
+        break;
+
+    }
+    SkatMain.ioController.updateLastUsed(SkatMain.ioController.getLastUsedProfile());
+  }
 
   @Override
   public void showEndScreen(MatchResult matchResult) {
@@ -726,8 +730,7 @@ public class MainController implements MainControllerInterface {
   }
 
   public void updateEnemy(Player transmitedPlayer) {
-    // TODO Auto-generated method stub
-
+    SkatMain.lgs.getPlayer(transmitedPlayer).updatePlayer(transmitedPlayer);
   }
 
   @Override
