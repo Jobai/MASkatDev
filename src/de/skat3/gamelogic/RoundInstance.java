@@ -125,9 +125,9 @@ class RoundInstance {
     Player p1 = this.players[0].copyPlayer();
     Player p2 = this.players[1].copyPlayer();
     Player p3 = this.players[2].copyPlayer();
-    p1.hand = null;
-    p2.hand = null;
-    p3.hand = null;
+    p1.hand = new Hand(this.players[0].hand.cards.length);
+    p2.hand = new Hand(this.players[1].hand.cards.length);
+    p3.hand = new Hand(this.players[2].hand.cards.length);
     p1.wonTricks = null;
     p2.wonTricks = null;
     p3.wonTricks = null;

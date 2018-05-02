@@ -22,6 +22,13 @@ public class Hand implements Serializable {
       this.cards[i] = new Card();
     }
   }
+  
+  public Hand(int amountOfCards) {
+    this.cards = new Card[amountOfCards];
+    for (int i = 0; i < this.cards.length; i++) {
+      this.cards[i] = new Card();
+    }
+  }
 
   public Card[] getCards() {
     return this.cards;
