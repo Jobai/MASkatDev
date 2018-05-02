@@ -97,13 +97,15 @@ public class ScoreboardController {
 
     int v = 1;
 
-    if (SkatMain.lgs.getLocalClient().getSeegerPoints() != 0
-        && SkatMain.lgs.getEnemyOne().getSeegerPoints() != 0
-        && SkatMain.lgs.getEnemyTwo().getSeegerPoints() != 0) {
-      v = 2;
+    try {
+      if (SkatMain.lgs.getLocalClient().getSeegerPoints() != 0
+          && SkatMain.lgs.getEnemyOne().getSeegerPoints() != 0
+          && SkatMain.lgs.getEnemyTwo().getSeegerPoints() != 0) {
+        v = 2;
+      }
+    } catch (NullPointerException e) {
+      e.getMessage();
     }
-
-
 
     for (int i = 0; i < t; i++) {
       for (int j = 1; j < t - i; j++) {

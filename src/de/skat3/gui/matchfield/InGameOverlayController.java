@@ -148,17 +148,12 @@ public class InGameOverlayController {
 
   void iniComponents() {
 
-    // Timeline t = new Timeline();
-    // t.getKeyFrames().add(new KeyFrame(Duration.millis(10), e -> root.requestFocus()));
-    // t.setOnFinished(e -> t.playFromStart());
-    // t.play();
-
     this.root.requestFocus();
 
     this.iniScoreboard();
     this.iniPopUp();
     this.iniContract();
-     this.bindChat();
+    this.bindChat();
   }
 
   private void bindCentral(AnchorPane p) {
@@ -238,6 +233,7 @@ public class InGameOverlayController {
       this.scoreboardController.setScores();
       this.scoreboardController.root.toFront();
       this.scoreboardController.root.setVisible(true);
+      this.root.requestFocus();
     }
   }
 
@@ -247,6 +243,8 @@ public class InGameOverlayController {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
           .setDisable(false);
       this.scoreboardController.root.setVisible(false);
+
+      this.root.requestFocus();
     }
 
     if (KeyCode.ESCAPE.equals(e.getCode())) {
@@ -272,7 +270,6 @@ public class InGameOverlayController {
         SkatMain.guiController.getInGameController().makeAMove(old);
       }
     }
-    this.root.requestFocus();
   }
 
   void bindChat() {
