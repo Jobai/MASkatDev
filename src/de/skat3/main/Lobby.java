@@ -9,11 +9,8 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Inet4Address;
-import java.util.Arrays;
 import java.util.UUID;
 import de.skat3.gamelogic.Player;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 
 public class Lobby implements Serializable {
 
@@ -259,5 +256,8 @@ public class Lobby implements Serializable {
 
   public int getTimer() {
     return this.timer;
+  }
+  public boolean getKontraRekontraEnabled() {
+    return this.kontraRekontraEnabled;
   }
 }

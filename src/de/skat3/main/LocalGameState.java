@@ -52,10 +52,10 @@ public class LocalGameState {
     if (SkatMain.mainController.currentLobby.currentPlayers == 2) {
       switch (this.localPosition) {
         case 1:
-          this.setEnemyOne(SkatMain.mainController.currentLobby.players[1]);
+          this.setEnemyOne(SkatMain.mainController.currentLobby.players[1].copyPlayer());
           break;
         case 2:
-          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[0]);
+          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[0].copyPlayer());
           break;
 
         default:
@@ -67,14 +67,14 @@ public class LocalGameState {
     if (SkatMain.mainController.currentLobby.currentPlayers == 3) {
       switch (this.localPosition) {
         case 1:
-          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[2]);
+          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[2].copyPlayer());
           break;
         case 2:
-          this.setEnemyOne(SkatMain.mainController.currentLobby.players[2]);
+          this.setEnemyOne(SkatMain.mainController.currentLobby.players[2].copyPlayer());
           break;
         case 3:
-          this.setEnemyOne(SkatMain.mainController.currentLobby.players[0]);
-          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[1]);
+          this.setEnemyOne(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[1].copyPlayer());
         default:
           System.err.println("addPlayer klappt net ");
           break;
@@ -124,8 +124,6 @@ public class LocalGameState {
   public Hand getLocalHand() {
     return this.getLocalClient().getHand();
   }
-
-
 
   /**
    * 
