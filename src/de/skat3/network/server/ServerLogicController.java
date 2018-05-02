@@ -79,7 +79,6 @@ public class ServerLogicController implements ServerLogicInterface {
     for (int i = 0; i < neuHand.cards.length; i++) {
       neuHand.cards[i] = aldHand.cards[i];
     }
-    
 
 
 
@@ -105,14 +104,13 @@ public class ServerLogicController implements ServerLogicInterface {
   @Override
   public void callForBid(Player player, int biddingValue) {
 
-    if (!player.isBot()) {
-      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, player.toString(),
-          CommandType.BID_REQUEST);
-      mc.gameState = (Integer) biddingValue;
-      mc.payload = player;
-      gs.sendToPlayer(player, mc);
-    } else {
-    }
+
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.BID_REQUEST);
+    mc.gameState = (Integer) biddingValue;
+    mc.payload = player;
+    gs.sendToPlayer(player, mc);
+
   }
 
   /*
@@ -122,13 +120,11 @@ public class ServerLogicController implements ServerLogicInterface {
    */
   @Override
   public void callForPlay(Player player) {
-    if (!player.isBot()) {
-      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, player.toString(),
-          CommandType.PLAY_REQUEST);
 
-      gs.sendToPlayer(player, mc);
-    } else {
-    }
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.PLAY_REQUEST);
+
+    gs.sendToPlayer(player, mc);
   }
 
   /*
@@ -210,40 +206,36 @@ public class ServerLogicController implements ServerLogicInterface {
   @Override
   public void callForHandOption(Player p) {
 
-    if (!p.isBot()) {
-      MessageCommand mc =
-          new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.HAND_REQUEST);
 
-      gs.sendToPlayer(p, mc);
-    } else {
-    }
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.HAND_REQUEST);
+
+    gs.sendToPlayer(p, mc);
+
 
   }
 
   @Override
   public void callForContract(Player p) {
 
-    if (!p.isBot()) {
-      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, p.toString(),
-          CommandType.CONTRACT_REQUEST);
 
-      gs.sendToPlayer(p, mc);
-    } else {
-    }
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.CONTRACT_REQUEST);
+
+    gs.sendToPlayer(p, mc);
+
 
   }
 
   @Override
   public void sendSkat(Player p, Card[] skat) {
 
-    if (!p.isBot()) {
-      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, p.toString(),
-          CommandType.SKAT_INFO_REQUEST);
-      mc.gameState = skat;
 
-      gs.sendToPlayer(p, mc);
-    } else {
-    }
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.SKAT_INFO_REQUEST);
+    mc.gameState = skat;
+
+    gs.sendToPlayer(p, mc);
 
   }
 
@@ -332,8 +324,7 @@ public class ServerLogicController implements ServerLogicInterface {
     gs.broadcastMessage(mc);
   }
 
-  public void updateEnemy(Player p)
-  {
+  public void updateEnemy(Player p) {
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_INFO, "SOME", CommandType.UPDATE_ENEMY_INFO);
     mc.gameState = p;
