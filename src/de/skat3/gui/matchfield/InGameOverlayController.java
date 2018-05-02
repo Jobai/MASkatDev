@@ -254,6 +254,7 @@ public class InGameOverlayController {
           newText.append("\n");
         }
         chatArea.setText(chatArea.getText() + newText.toString());
+        chatArea.setScrollTop(Double.MAX_VALUE);
       }
 
     });

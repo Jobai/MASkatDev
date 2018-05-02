@@ -62,14 +62,14 @@
 				<HBox alignment="CENTER" opacity="0.8" prefHeight="30.0" prefWidth="400.0" spacing="30.0" style="-fx-border-color: #404040; -fx-border-radius: 10;">
 					<children>
 						<Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="20.0" stroke="BLACK" strokeType="INSIDE" visible="false" width="30.0" />
-						<Label fx:id="extra1LocalClient" prefHeight="30.0" prefWidth="50.0" />
+						<Label fx:id="extra1LocalClient" prefHeight="30.0" prefWidth="60.0" />
 						<Label fx:id="nameLocalClient" prefHeight="30.0" text="Player 1">
 							<font>
 								<Font size="18.0" />
 							</font>
 						</Label>
-						<Label fx:id="extra2LocalClient" prefHeight="28.0" prefWidth="50.0" />
-						<Label fx:id="trumpInfo" alignment="CENTER" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="H" textAlignment="CENTER" textFill="WHITE" visible="false">
+						<Label fx:id="extra2LocalClient" prefHeight="28.0" prefWidth="60.0" />
+						<Label fx:id="trumpInfo" alignment="CENTER" contentDisplay="CENTER" prefHeight="28.0" prefWidth="36.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="H" textAlignment="CENTER" textFill="WHITE" visible="false">
 							<font>
 								<Font name="Algerian" size="21.0" />
 							</font>
