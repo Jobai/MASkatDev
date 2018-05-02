@@ -1,12 +1,9 @@
 package de.skat3.gui.matchfield;
 
-
 import de.skat3.gamelogic.Card;
 import javafx.scene.Parent;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
 
 /**
  * View class of a hand.
@@ -15,7 +12,9 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class GuiCard extends Parent {
-  Card card;
+  public static double heigth = 300;
+  public static double width = 200;
+  private Card card;
 
   /**
    * Creates a GuiCard object out of a Card.
@@ -24,10 +23,43 @@ public class GuiCard extends Parent {
    * 
    */
   public GuiCard(Card card) {
-    this.card = card;
-    this.card.view.setFitHeight(300);
-    this.card.view.setFitWidth(150);
-    this.getChildren().add(this.card.view);
+    this.setCard(card);
+    this.getCard().getImage().setFitHeight(heigth);
+    this.getCard().getImage().setFitWidth(width);
+    this.getChildren().add(this.getCard().getImage());
   }
 
+  public Card getCard() {
+    return card;
+  }
+
+  public void setCard(Card card) {
+    this.card = card;
+  }
+
+  /**
+   * To String.
+   * 
+   * @return String.
+   */
+  @Override
+  public String toString() {
+    StringBuffer s = new StringBuffer();
+    s.append(this.getCard().toString());
+    s.append(" at relative postion: ");
+    s.append("x=" + this.getTranslateX());
+    s.append(", ");
+    s.append("y=" + this.getTranslateY());
+    s.append(", ");
+    s.append("z=" + this.getTranslateZ());
+    for (Transform t : this.getTransforms()) {
+      s.append(", ");
+      if (t.getClass().equals(Rotate.class)) {
+        s.append(((Rotate) t).getAngle());
+      }
+    }
+
+    s.append(" Number of Transforms: " + this.getTransforms().size());
+    return s.toString();
+  }
 }

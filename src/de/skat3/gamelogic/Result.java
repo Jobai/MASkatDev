@@ -1,32 +1,66 @@
 package de.skat3.gamelogic;
 
-public class Result {
+import java.io.Serializable;
+import java.math.RoundingMode;
+import java.util.Arrays;
 
-  private int points;
-  private boolean soloWon;
-  private String displayCalculation;
+public class Result implements Serializable {
 
+  public int gameValue;
+  public int currentRound;
+  public int maxRounds;
+  public boolean isBierlachs;
+  public int highestBid;
+  public int scoringPoints;
+  public boolean soloWon;
+  public boolean handGame;
+  public boolean openGame;
+  public boolean schneider;
+  public boolean schneiderAnnounced;
+  public boolean schwarz;
+  public boolean schwarzAnnounced;
+  public boolean kontra;
+  public boolean rekontra;
+  public boolean bidTooHigh;
+  public Contract contract;
+  public Player[] ranks;
+  private int contractValue;
+
+  /**
+   * 
+   * @param roundInstance
+   */
+  // XXX TESTEN
   public Result(RoundInstance roundInstance) {
+
+    this.isBierlachs = (roundInstance.mode < 0) ? true : false;
+    this.highestBid = BiddingValues.values[roundInstance.currentBiddingValue];
+    this.handGame = roundInstance.addtionalMultipliers.isHandGame();
+    this.openGame = roundInstance.addtionalMultipliers.isOpenHand();
+    this.schneiderAnnounced = roundInstance.addtionalMultipliers.isSchneiderAnnounced();
+    this.schwarzAnnounced = roundInstance.addtionalMultipliers.isSchwarzAnnounced();
+    this.kontra = roundInstance.kontra;
+    this.rekontra = roundInstance.rekontra;
+    this.contract = roundInstance.contract;
+    this.currentRound = roundInstance.gameThread.gc.numberOfRounds;
+    if (!this.isBierlachs) {
+      this.maxRounds = roundInstance.gameThread.gc.mode;
+    }
     this.calcResult(roundInstance);
 
 
   }
 
   int getPoints() {
-    return this.points;
+    return this.gameValue;
   }
 
   boolean getSoloWon() {
     return soloWon;
   }
 
-  String getCalculationString() {
-    return this.displayCalculation;
-  }
 
   void calcResult(RoundInstance roundInstance) {
-    int contractValue = 0;
-    boolean isBierlachs = (roundInstance.mode > 0) ? false : true;
     switch (roundInstance.contract) {
       case DIAMONDS:
         contractValue = 9;
@@ -44,135 +78,43 @@ public class Result {
         contractValue = 24;
         break;
       case NULL:
-        if (roundInstance.addtionalMultipliers.isHandGame()) {
-          if (roundInstance.addtionalMultipliers.isOpenHand()) {
-            if (roundInstance.solo.wonTricks.size() == 30) {
-              if (isBierlachs) {
-                this.points = -59;
-                this.displayCalculation = "Null Ouvert Hand: -59 for Opponents";
-                this.soloWon = true;
-              } else {
-                this.points = 59;
-                this.displayCalculation = "Null Ouvert Hand: +59";
-              }
-            } else {
-              if (isBierlachs) {
-                this.points = -59;
-                this.displayCalculation = "Null Ouvert Hand: -59 for Declarer";
-                this.soloWon = false;
-
-              } else {
-                this.points = -118;
-                this.displayCalculation = "Null Ouvert Hand lost: -118";
-              }
-
-            }
+        contractValue = 23;
+        if (this.openGame) {
+          if (this.handGame) {
+            this.gameValue = 59;
           } else {
-            if (roundInstance.solo.wonTricks.size() == 30) {
-              if (isBierlachs) {
-                this.points = -35;
-                this.displayCalculation = "Null Hand: -35 for Opponents";
-                this.soloWon = true;
-              } else {
-                this.points = 35;
-                this.displayCalculation = "Null Hand: +35";
-              }
-
-            } else {
-              if (isBierlachs) {
-                this.points = -35;
-                this.displayCalculation = "Null Hand lost: -35 for Declarer";
-                this.soloWon = false;
-
-              } else {
-                this.points = -70;
-                this.displayCalculation = "Null Hand lost: -70";
-              }
-
-            }
+            this.gameValue = 46;
           }
         } else {
-          if (roundInstance.addtionalMultipliers.isOpenHand()) {
-            if (roundInstance.solo.wonTricks.size() == 30) {
-              if (isBierlachs) {
-                this.points = -46;
-                this.displayCalculation = "Null Ouvert: -46 for Opponents";
-                this.soloWon = true;
-
-              } else {
-                this.points = 46;
-                this.displayCalculation = "Null Ouvert: +46";
-              }
-
-            } else {
-              if (isBierlachs) {
-                this.points = -46;
-                this.displayCalculation = "Null Ouvert lost: -46 for Declarer";
-                this.soloWon = false;
-
-              } else {
-                this.points = -92;
-                this.displayCalculation = "Null Ouvert lost: -92";
-              }
-
-            }
+          if (this.handGame) {
+            this.gameValue = 35;
           } else {
-            if (roundInstance.solo.wonTricks.size() == 30) {
-              if (isBierlachs) {
-                this.points = -23;
-                this.displayCalculation = "Null: -23 for Opponents";
-                this.soloWon = true;
-
-              } else {
-                this.points = 23;
-                this.displayCalculation = "Null: +23";
-              }
-
-            } else {
-              if (isBierlachs) {
-                this.points = -23;
-                this.displayCalculation = "Null lost: -23 for Declarer";
-                this.soloWon = false;
-
-              } else {
-                this.points = -46;
-                this.displayCalculation = "Null lost: -46";
-              }
-
-            }
+            this.gameValue = 23;
           }
         }
+
+        if (roundInstance.solo.wonTricks.size() == 0) {
+          this.soloWon = true;
+        } else {
+          this.soloWon = false;
+        }
+        this.applyChanges(roundInstance);
         return;
       default:
         System.out.println("Error in result calculation");
         break;
 
     }
-    if (roundInstance.soloPlayerStartHand.contains(GameController.deck.getCard("JACK OF CLUBS"))) {
-      this.displayCalculation += "With ";
-    } else {
-      if (!roundInstance.addtionalMultipliers.isHandGame()
-          && (roundInstance.originalSkat[0].toString() == "JACK OF CLUBS"
-              || roundInstance.originalSkat[1].toString() == "JACK OF CLUBS")) {
-        this.displayCalculation += "With ";
-      } else {
-        this.displayCalculation += "Against ";
-      }
-    }
+
     int baseValue = roundInstance.soloPlayerStartHand
         .calcConsecutiveMatadors(roundInstance.contract, roundInstance.originalSkat);
-    this.displayCalculation += baseValue;
     baseValue++;
-    this.displayCalculation += " Game " + baseValue;
     if (roundInstance.addtionalMultipliers.isHandGame()) {
       baseValue++;
-      this.displayCalculation += " Hand " + baseValue;
     }
 
 
     boolean won;
-    boolean schneider = false;
-    boolean schwarz = false;
     int pointsSoloPlayer = 0;
     for (Card c : roundInstance.solo.wonTricks) {
       pointsSoloPlayer += c.getTrickValue();
@@ -183,110 +125,134 @@ public class Result {
     if (pointsSoloPlayer > 60) {
       won = true;
       if (pointsSoloPlayer >= 90) {
-        schneider = true;
+        this.schneider = true;
       }
       if (pointsSoloPlayer == 120) {
-        schwarz = true;
+        this.schwarz = true;
       }
     } else {
       won = false;
       if (pointsSoloPlayer <= 30) {
-        schneider = true;
+        this.schneider = true;
       }
       if (pointsSoloPlayer == 0) {
-        schwarz = true;
+        this.schwarz = true;
       }
     }
-    if (schneider) {
+    if (this.schneider) {
       baseValue++;
-      this.displayCalculation += " Schneider " + baseValue;
     }
-    if (roundInstance.addtionalMultipliers.isSchneiderAnnounced()) {
+    if (this.schneiderAnnounced) {
       baseValue++;
-      this.displayCalculation = " Schneider announced " + baseValue;
     }
-    if (schwarz) {
+    if (this.schwarz) {
       baseValue++;
-      this.displayCalculation += " Schwarz " + baseValue;
     }
-    if (roundInstance.addtionalMultipliers.isSchwarzAnnounced()) {
+    if (this.schwarzAnnounced) {
       baseValue++;
-      this.displayCalculation = " Schwarz announced " + baseValue;
     }
     if (roundInstance.addtionalMultipliers.isOpenHand()) {
       baseValue++;
-      this.displayCalculation += " Open " + baseValue;
     }
+    this.gameValue = baseValue * contractValue;
     if (won) {
       if (roundInstance.addtionalMultipliers.isSchneiderAnnounced() && !schneider
           || roundInstance.addtionalMultipliers.isSchneiderAnnounced() && !schwarz) {
-        if (isBierlachs) {
-          this.displayCalculation +=
-              " x " + contractValue + " = " + (-baseValue * contractValue) + " for Declarer.";
-          this.points = -baseValue * contractValue;
-          this.soloWon = false;
-
-        } else {
-          this.displayCalculation +=
-              " x " + contractValue + " x 2 lost = " + (-2 * baseValue * contractValue);
-          this.points = -2 * baseValue * contractValue;
-        }
-
-
-      } else {
-        if (isBierlachs) {
-          this.displayCalculation +=
-              " x " + contractValue + " = " + (-baseValue * contractValue) + " for Opponents.";
-          this.points = -baseValue * contractValue;
-          this.soloWon = true;
-
-
-
-        } else {
-          this.displayCalculation += " x " + contractValue + " = +" + (baseValue * contractValue);
-          this.points = baseValue * contractValue;
-        }
-
-      }
-
-    } else {
-      if (isBierlachs) {
-        this.displayCalculation +=
-            " x " + contractValue + " = " + (-baseValue * contractValue) + " for Declarer.";
-        this.points = -baseValue * contractValue;
         this.soloWon = false;
-
       } else {
-        this.displayCalculation +=
-            " x " + contractValue + " x 2 = " + (-2 * baseValue * contractValue);
-        this.points = -2 * baseValue * contractValue;
-      }
-
-    }
-
-    if (isBierlachs) {
-      if (this.soloWon) {
-        Player[] team = roundInstance.getTeamPlayer();
-        team[0].changePoints(points);
-        team[1].changePoints(points);
-      } else {
-        roundInstance.solo.changePoints(points);
-      }
-
-    } else {
-      if (this.points > 0) {
         this.soloWon = true;
-        roundInstance.solo.wonAGame();
-        roundInstance.solo.changePoints(points);
-      } else {
-        this.soloWon = false;
-        roundInstance.solo.lostAGame();
-        roundInstance.solo.changePoints(points);
       }
+    } else {
+      this.soloWon = false;
     }
 
+    if (this.kontra) {
+      this.gameValue *= 2;
+    }
+    if (this.rekontra) {
+      this.gameValue *= 2;
+    }
+    this.applyChanges(roundInstance);
 
 
   }
 
+  private void applyChanges(RoundInstance roundInstance) {
+    int leastMultiple = 0;
+    if (this.gameValue < this.highestBid) {
+      this.bidTooHigh = true;
+      if (this.highestBid % this.contractValue == 0) {
+        leastMultiple = this.highestBid / this.contractValue;
+      } else {
+        leastMultiple = this.highestBid / this.contractValue;
+        leastMultiple++;
+      }
+    }
+
+    if (this.bidTooHigh) {
+      this.scoringPoints = -leastMultiple * this.contractValue;
+      roundInstance.solo.changePoints(this.scoringPoints, !isBierlachs);
+    } else {
+      if (this.soloWon) {
+        if (isBierlachs) {
+          this.scoringPoints = -2 * this.gameValue;
+          Player[] team = roundInstance.getTeamPlayer();
+          team[0].changePoints(this.scoringPoints, false);
+          roundInstance.gameThread.gc.matchResult.addScoreToHistory(team[0], this.scoringPoints);
+          team[1].changePoints(this.scoringPoints, false);
+          roundInstance.gameThread.gc.matchResult.addScoreToHistory(team[1], this.scoringPoints);
+        } else {
+          this.scoringPoints = this.gameValue;
+          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
+              this.scoringPoints);
+          roundInstance.solo.changePoints(this.scoringPoints, true);
+        }
+      } else {
+        if (isBierlachs) {
+          this.scoringPoints = -2 * this.gameValue;
+          roundInstance.solo.changePoints(this.scoringPoints, false);
+          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
+              this.scoringPoints);
+        } else {
+          this.scoringPoints = -2 * this.gameValue;
+          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
+              this.scoringPoints);
+          roundInstance.solo.changePoints(this.scoringPoints, true);
+
+        }
+      }
+    }
+    this.ranks = new Player[roundInstance.gameThread.gc.allPlayers.length];
+    for (int i = 0; i < ranks.length; i++) {
+      this.ranks[i] = roundInstance.gameThread.gc.allPlayers[i];
+    }
+    Arrays.sort(this.ranks);
+
+  }
+
+
+  @Override
+  public String toString() {
+
+    String result = "Result: ";
+    if (this.isBierlachs) {
+      if (this.soloWon) {
+        result += "Team lost " + this.scoringPoints + " points.";
+      } else {
+        result += "Solo lost " + this.scoringPoints + " points.";
+      }
+    } else {
+      if (this.soloWon) {
+        result += "Solo won " + this.scoringPoints + " points.";
+      } else {
+        result += "Solo lost " + this.scoringPoints + " points.";
+      }
+    }
+
+    return result;
+
+  }
+
 }
+
+

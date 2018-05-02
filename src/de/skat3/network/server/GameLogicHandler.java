@@ -1,5 +1,6 @@
 package de.skat3.network.server;
 
+import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.GameController;
@@ -54,6 +55,12 @@ public class GameLogicHandler {
         break;
       case ROUND_ANSWER:
         break;
+      case KONTRA_ANSWER:
+        kontraHandler(m);
+        break;
+      case REKONTRA_ANSWER:
+        kontraHandler(m);
+        break; 
       default:
         throw new AssertionError();
     }
@@ -73,7 +80,8 @@ public class GameLogicHandler {
   private void contractHandler(Message m) {
     MessageAnswer ma = (MessageAnswer) m;
     Contract con = (Contract) ma.payload;
-    gc.notifyLogicofContract(con, null); // FIXME
+    AdditionalMultipliers am = (AdditionalMultipliers) ma.additionalPlayload;
+    gc.notifyLogicofContract(con, am);
   }
 
   private void handHandler(Message m) {
@@ -91,13 +99,27 @@ public class GameLogicHandler {
     // TODO Auto-generated method stub
     MessageAnswer ma = (MessageAnswer) m;
     Card[] skat = (Card[]) ma.payload;
-    gc.notifyLogicOfNewSkat(null, skat);
+    Hand h = (Hand) ma.additionalPlayload;
+    gc.notifyLogicOfNewSkat(h, skat);
     
   }
 
   private void gameHandler(Message m) {
     // TODO Auto-generated method stub
     MessageAnswer ma = (MessageAnswer) m;
+  }
+  
+  private void kontraHandler(Message m){
+    MessageAnswer ma = (MessageAnswer) m;
+    
+    if(ma.getSubType() == AnswerType.KONTRA_ANSWER)
+    {
+      gc.notifyLogicofKontra();
+    }
+    else if(ma.getSubType() == AnswerType.REKONTRA_ANSWER)
+    {
+      gc.notifyLogicofRekontra();
+    }
   }
 
 }

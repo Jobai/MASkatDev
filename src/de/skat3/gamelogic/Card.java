@@ -12,28 +12,43 @@ import javafx.scene.image.ImageView;
 
 public class Card implements Serializable {
 
+
+
+  /**
+   * 
+   */
   private Suit suit;
   private Value value;
-  public ImageView view;
+  private String view;
+  public transient ImageView imageView;
   private boolean playable;
   private int trickValue;
+
+
+
+  public Card() {
+    this.view = "cardImages/green_back.png";
+    this.suit = null;
+    this.value = null;
+  }
 
   /**
    * Represents a single card.
    */
   public Card(Suit suit, Value value) {
+    this.playable = true;
     this.suit = suit;
     this.value = value;
     this.addTrickValue();
+    this.view = "cardImages/" + this.getUrl() + ".png";
 
-
-    String imageUrl = "cardImages/" + this.getUrl() + ".png";
-
-    this.view = new ImageView(new Image(imageUrl));
   }
 
   public ImageView getImage() {
-    return this.view;
+    if (this.imageView == null) {
+      this.imageView = new ImageView(new Image(this.view));
+    }
+    return this.imageView;
   }
 
 
@@ -65,15 +80,15 @@ public class Card implements Serializable {
     }
   }
 
-  int getTrickValue() {
+  public int getTrickValue() {
     return this.trickValue;
   }
 
-  Suit getSuit() {
+  public Suit getSuit() {
     return this.suit;
   }
 
-  Value getValue() {
+  public Value getValue() {
     return this.value;
   }
 
@@ -92,7 +107,7 @@ public class Card implements Serializable {
    * @param c current contract
    * @return true if the card is a trump card.
    */
-  boolean isTrump(Contract contract) {
+  public boolean isTrump(Contract contract) {
     switch (contract) {
       case DIAMONDS:
         return (this.suit.equals(Suit.DIAMONDS) || this.isJack()) ? true : false;
@@ -160,7 +175,16 @@ public class Card implements Serializable {
 
   }
 
-  boolean equals(Card card) {
+  public boolean equals(Card card) throws Exception {
+
+    if (this.value == null && this.suit == null && card.value == null && card.suit == null) {
+      System.err.println("Null cards compared");
+      return true;
+    } else {
+      if (this.value == null ^ this.suit == null || card.value == null ^ card.suit == null) {
+        throw new Exception("Invalid cards compared");
+      }
+    }
 
     return (this.value == card.value && this.suit == card.suit) ? true : false;
 
@@ -202,3 +226,4 @@ public class Card implements Serializable {
     return this.value + " OF " + this.suit;
   }
 }
+

@@ -1,12 +1,11 @@
 package de.skat3.gui.matchfield;
 
-
-import de.skat3.gamelogic.Card;
-import de.skat3.main.LocalGameState;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import de.skat3.main.SkatMain;
+import java.io.IOException;
+import java.net.URL;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 /**
@@ -16,47 +15,46 @@ import javafx.util.Duration;
  *
  */
 public class Matchfield {
+  public static Duration animationTime = Duration.seconds(0.2);
 
-  private LocalGameState gameState;
+  double sceneWidth;
+  double sceneHeight;
+
+  AnchorPane root;
+  Scene scene;
 
   private InGameController controller;
-
-  private Scene scene;
-  private Pane table;
-  protected GuiHand playerHand;
-  protected GuiHand leftHand;
-  protected GuiHand rightHand;
-  protected GuiTrick trick;
-  public static Duration animationTime = Duration.millis(500);
+  InGameOverlayController overlayController;
+  InGameTableController tableController;
+  InGameTableView tableView;
 
   /**
-   * Links a LocalGameState to this Matchfield.
-   * 
-   * @param gameState The gameState that will be linked.
+   * Returns a Matchfield.
    */
-  public Matchfield(LocalGameState gameState) {
+  public Matchfield() {
+    sceneWidth = 1280;
+    sceneHeight = 720;
 
-    this.gameState = gameState;
+    this.tableView = new InGameTableView(this);
 
-    this.controller = new InGameController(this.gameState, this);
+    URL u = Matchfield.class.getResource("InGameOverlayView.fxml");
+    FXMLLoader loader = new FXMLLoader(u);
+    try {
+      this.root = (AnchorPane) loader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    this.tableController = new InGameTableController(this.tableView);
+    this.overlayController = loader.getController();
+    this.controller = new InGameController(this);
 
-    this.table = new Pane();
-    // add overlay as subscene
-    this.scene = new Scene(this.table);
-    double sceneWidth = 1800;
-    double sceneHeight = 1800;
+    this.root.getChildren().add(this.tableView.tableScene);
 
-    this.table.setPrefSize(sceneWidth, sceneHeight);
+    this.tableView.tableScene.toBack();
 
-//    this.playerHand = new GuiHand(sceneWidth / 2, sceneHeight * 0.82, -200, -20, 0, 0,
-//        convertCardList(this.gameState.hand));
-//    this.leftHand =
-//        new GuiHand(0, sceneHeight * 0.82, 1000, 0, -55, 0, convertCardList(this.gameState.hand2));
-//    this.rightHand = new GuiHand(sceneWidth, sceneHeight * 0.82, 1000, 0, 55, 0,
-//        convertCardList(this.gameState.hand3));
+    this.scene = new Scene(this.root, sceneWidth, sceneHeight);
 
-    this.trick = new GuiTrick(sceneWidth / 2, sceneHeight * 0.9, 500.0, -90, 0.0, 0.0);
-
+    this.iniComponents();
   }
 
   public InGameController getController() {
@@ -67,14 +65,21 @@ public class Matchfield {
     return this.scene;
   }
 
-  private static ObservableList<GuiCard> convertCardList(ObservableList<Card> list) {
-    ObservableList<GuiCard> guiList = FXCollections.observableArrayList();
+  /**
+   * Initializes all preset components of this Matchfield.
+   */
+  private void iniComponents() {
 
-    for (Card card : list) {
-      guiList.add(new GuiCard(card));
+    this.tableView.iniComponents();
+
+    this.overlayController.iniComponents();
+
+
+    if (SkatMain.mainController.isHost) {
+      this.overlayController.showStartButton();
     }
-    return guiList;
 
+    // this.overlayController.bindChat();
   }
 
 }

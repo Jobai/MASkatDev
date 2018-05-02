@@ -1,100 +1,70 @@
 package de.skat3.io.profile;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
-import java.util.Iterator;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
+import javafx.embed.swing.JFXPanel;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class ImageConverter {
 
-  public String imageToString(String filepath) {
-    byte[] imageToBytes = imageToBytes(filepath);
-    String encoded = Base64.getEncoder().encodeToString(imageToBytes);
-    return encoded;
+  public String imageToEncodedString(Image image, String imageFormat) {
+    if (image == null) {
+      System.out.println("Image == null");
+      return "";
+    } else {
+      byte[] imageToBytes = imageToBytes(image, imageFormat);
+      String encoded = Base64.getEncoder().encodeToString(imageToBytes);
+      return encoded;
+    }
   }
 
-  public Image encodedStringToImage(String encoded, String filepath) {
-    byte[] decoded = Base64.getDecoder().decode(encoded);
-    return bytesToImage(decoded, filepath);
-  }
-
-  private byte[] imageToBytes(String filepath) {
-    File imgFile = new File(filepath);
-    BufferedImage bufferedImage = null;
-    byte[] imageInBytes = null;
+  public Image encodedStringToImage(String encoded) {
+    byte[] decoded;
     try {
-      bufferedImage = ImageIO.read(imgFile);
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      String format = checkImageFormat(imgFile);
-      ImageIO.write(bufferedImage, format, baos);
-      baos.flush();
-      imageInBytes = baos.toByteArray();
-      baos.close();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      decoded = Base64.getDecoder().decode(encoded);
+    } catch (NullPointerException ex) {
+      return null;
     }
-    return imageInBytes;
+    return bytesToImage(decoded);
   }
 
-  private Image bytesToImage(byte[] decoded, String filepath) {
-    BufferedImage img = null;
+  private byte[] imageToBytes(Image image, String imageFormat) {
+    BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+    ByteArrayOutputStream s = new ByteArrayOutputStream();
+    byte[] res = null;
     try {
-      ByteArrayInputStream inputStream = new ByteArrayInputStream(decoded);
-      img = ImageIO.read(inputStream);
-      File outputfile = new File(filepath);
-      ImageIO.write(img, "jpg", outputfile);
-    } catch (IOException e) {
+      ImageIO.write(bImage, imageFormat, s);
+      res = s.toByteArray();
+      s.close();
+    } catch (IOException e1) {
       // TODO Auto-generated catch block
-      e.printStackTrace();
+      e1.printStackTrace();
     }
-    return img;
+    return res;
   }
 
-  private String checkImageFormat(File imgFile) throws IOException {
-    // get image format in a file
-    // File file = new File("newimage.jpg");
-    // create an image input stream from the specified file
-    ImageInputStream iis = ImageIO.createImageInputStream(imgFile);
-    // get all currently registered readers that recognize the image format
-    Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
-    if (!iter.hasNext()) {
-      throw new RuntimeException("No readers found!");
-    }
-    // get the first reader
-    ImageReader reader = iter.next();
-    // System.out.println("Format: " + reader.getFormatName());
-    // close stream
-    iis.close();
-    return reader.getFormatName();
+  private Image bytesToImage(byte[] decoded) {
+    // The unused javafx components are needed to be created in order for image to work
+    // It is javafx platform specific requirement
+    JFXPanel panel = new JFXPanel();
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(decoded);
+    Image image = new Image(inputStream);
+    ImageView imageView = new ImageView(image);
+
+    int width = (int) image.getWidth();
+    int height = (int) image.getHeight();
+
+    final Canvas canvas = new Canvas(width, height);
+    GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
+    graphicsContext.drawImage(image, 0, 0, width, height);
+    return image;
   }
-
-  // private String bytesToString(byte[] array) {
-  // String encoded = Base64.getEncoder().encodeToString(array);
-  // return encoded;
-  // }
-  //
-  // private JsonObject stringToJsonObject(String encoded) {
-  // JsonParser parser = new JsonParser();
-  // JsonObject object = parser.parse("{\"image\": \"" + encoded + "\"}").getAsJsonObject();
-  // return object;
-  // }
-  //
-  // private String jsonObjectToString(JsonObject object) {
-  // return object.toString();
-  // }
-  //
-  // private byte[] stringToBytes(String encoded) {
-  // byte[] decoded = Base64.getDecoder().decode(encoded);
-  // return decoded;
-  // }
-
-
 }

@@ -1,6 +1,6 @@
 package de.skat3.gamelogic;
 
-public class GameThread extends Thread {
+class GameThread extends Thread {
 
   GameController gc;
   Object lock = new Object();
@@ -17,31 +17,37 @@ public class GameThread extends Thread {
         gc.numberOfRounds++;
         System.out.println("New Round: " + gc.numberOfRounds);
         gc.startNewRound();
-        try {
-          lock.wait();
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
       }
       if (this.gc.mode > 0) {
         if (this.gc.numberOfRounds == this.gc.mode) {
-          this.gc.slc.broadcastMatchResult(new Object());
+          this.gc.slc.broadcastMatchResult(gc.matchResult);
           break;
+        } else {
+          try {
+            Thread.sleep(5000); // XXX
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
         }
       } else {
+        boolean matchOver = false;
         for (Player player : this.gc.allPlayers) {
           if (player.points <= this.gc.mode) {
-            this.gc.slc.broadcastMatchResult(new Object());
+            matchOver = true;
             break;
           }
         }
+        if (matchOver) {
+          this.gc.slc.broadcastMatchResult(gc.matchResult);
+          break;
+        } else {
+          try {
+            Thread.sleep(5000); //XXX
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
       }
-    }
-  }
-
-  void notifyGameThread() {
-    synchronized (lock) {
-      this.lock.notify();
     }
   }
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="root" prefHeight="270.0" prefWidth="330.0" style="-fx-border-color: #404040;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.matchfield.PopUpController">
+   <children>
+      <VBox alignment="CENTER" layoutX="3.0" layoutY="3.0" prefHeight="270.0" prefWidth="330.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="textField" alignment="CENTER" prefHeight="135.0" prefWidth="330.0" style="-fx-background-color: #404040;" text="Bid more than 18?" textFill="WHITE">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="135.0" prefWidth="327.0" spacing="40.0">
+               <children>
+                  <Button fx:id="yesButton" mnemonicParsing="false" prefHeight="42.0" prefWidth="110.0" style="-fx-background-color: #d60202;" text="Bid" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="noButton" mnemonicParsing="false" prefHeight="42.0" prefWidth="110.0" style="-fx-background-color: #d60202;" text="Pass" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

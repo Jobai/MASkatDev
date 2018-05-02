@@ -12,9 +12,10 @@ public interface GameLogicInterface {
 
   public void notifyLogicofContract(Contract contract, AdditionalMultipliers additionMultipliers);
 
-  public void notifyLogicofKontra(boolean accepted);
+  public void notifyLogicofKontra();
 
-  public void notifyLogicofRekontra(boolean accepted);
+  public void notifyLogicofRekontra();
+
 
 
 }

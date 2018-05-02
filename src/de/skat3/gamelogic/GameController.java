@@ -1,10 +1,11 @@
 package de.skat3.gamelogic;
 
 import de.skat3.network.server.ServerLogicController;
+import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class GameController implements GameLogicInterface {
+public class GameController implements GameLogicInterface, Serializable {
 
 
   boolean gameActive;
@@ -21,39 +22,64 @@ public class GameController implements GameLogicInterface {
   GameThread gameThread;
   static final CardDeck deck = new CardDeck();
   RoundInstance roundInstance;
+  MatchResult matchResult;
 
   /**
    * Creates a new match with 3-4 Players, an optional timer, optional kontra and rekontra feature
    * and a Seeger or Bierlachs scoring system.
    * 
-   * @param slc The controller that is used for network-logic communication.
    * @param players All participants.
    * @param kontraRekontraEnabled true if the kontra/rekontra feature is enabled.
    * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
    *        number between -500 and -1000)
    */
-  public GameController(ServerLogicController slc, Player[] players, boolean kontraRekontraEnabled,
-      int mode) {
-    this.slc = slc;
+  public GameController(boolean kontraRekontraEnabled, int mode) {
     this.gameActive = true;
     this.firstRound = true;
     this.kontraRekontraEnabled = kontraRekontraEnabled;
     this.mode = mode;
     this.gameId = 0; // TODO
-    this.numberOfPlayers = players.length;
     this.numberOfRounds = 0;
     this.players = new Player[3];
-    this.allPlayers = new Player[numberOfPlayers];
-    for (int i = 0; i < players.length; i++) {
-      this.allPlayers[i] = players[i];
-    }
     this.gameThread = new GameThread(this);
 
 
 
   }
 
-  public void startGame() {
+  /**
+   * 
+   * @param players
+   * @param slc
+   */
+  public void startGame(Player[] players, ServerLogicController slc) {
+
+    if (players.length != 3 && players.length != 4) {
+      if (players.length < 3) {
+        System.err.println("LOGIC: Not enough layers connected: " + players.length);
+        return;
+      } else {
+        System.err.println("LOGIC: Too many players connected: " + players.length);
+        return;
+      }
+    }
+    for (int i = 0; i < players.length; i++) {
+      for (int j = i + 1; j < players.length; j++) {
+        if (players[i].equals(players[j])) {
+          System.err
+              .println("LOGIC: Duplicate Player: " + players[i].name + ", " + players[i].getUuid());
+          return;
+        }
+      }
+    }
+    this.numberOfPlayers = players.length;
+    this.allPlayers = new Player[numberOfPlayers];
+    for (int i = 0; i < players.length; i++) {
+      this.allPlayers[i] = players[i].copyPlayer();
+
+    }
+    this.matchResult = new MatchResult(this.allPlayers);
+    this.slc = slc;
     this.gameThread.start();
   }
 
@@ -64,8 +90,13 @@ public class GameController implements GameLogicInterface {
     } else {
       this.rotatePlayers();
     }
-    this.roundInstance = new RoundInstance(slc, this.players, this.gameThread, this.mode);
-    this.roundInstance.startRound();
+    this.roundInstance = new RoundInstance(slc, this.players, this.gameThread,
+        this.kontraRekontraEnabled, this.mode);
+    try {
+      this.roundInstance.startRound();
+    } catch (InterruptedException e) {
+      System.err.println("LOGIC: Runde konnte nicht gestartet werden: " + e);
+    }
 
   }
 
@@ -109,7 +140,7 @@ public class GameController implements GameLogicInterface {
 
   }
 
-  Player getDealer() {
+  public Player getDealer() {
     return this.dealer;
   }
 
@@ -119,6 +150,10 @@ public class GameController implements GameLogicInterface {
 
   @Override
   public void notifyLogicofPlayedCard(Card card) {
+    if (card.getSuit() == null || card.getValue() == null) {
+      System.err.println("LOGIC: Null Card sent to Logic");
+      return;
+    }
     this.roundInstance.addCardtoTrick(card);
     this.roundInstance.notifyRoundInstance();
 
@@ -136,30 +171,44 @@ public class GameController implements GameLogicInterface {
   }
 
   /**
-   * Sets the selected contract and additionalMultipliers
+   * Sets the selected contract and additionalMultipliers.
    */
   @Override
   public void notifyLogicofContract(Contract contract,
       AdditionalMultipliers additionalMultipliers) {
+    if (contract == null || additionalMultipliers == null) {
+      System.err.println("LOGIC: Wrong Contract sent to Logic");
+      return;
+    }
     this.roundInstance.contract = contract;
     additionalMultipliers.setHandGame(this.roundInstance.addtionalMultipliers.isHandGame());
     this.roundInstance.setAdditionalMultipliers(additionalMultipliers);
-    // this.slc.broadcastContract(contract, additionalMultipliers);
+    this.slc.broadcastContract(contract, additionalMultipliers);
     this.roundInstance.notifyRoundInstance();
   }
 
   @Override
-  public void notifyLogicofKontra(boolean accepted) {
-    this.roundInstance.kontra = accepted;
-    this.roundInstance.notifyRoundInstance();
+  public void notifyLogicofKontra() {
+    if (this.roundInstance.kontaRekontraAvailable) {
+      this.roundInstance.kontra = true;
+      this.slc.broadcastKontraAnnounced();
+      this.slc.reKontraRequest(this.roundInstance.solo);
+    } else {
+      System.err.println("LOGIC: Kontra set although its not enabled.");
+    }
 
   }
 
 
   @Override
-  public void notifyLogicofRekontra(boolean accepted) {
-    this.roundInstance.rekontra = accepted;
-    this.roundInstance.notifyRoundInstance();
+  public void notifyLogicofRekontra() {
+    if (this.roundInstance.kontaRekontraAvailable && this.roundInstance.kontra) {
+      this.roundInstance.rekontra = true;
+      this.slc.broadcastRekontraAnnounced();
+    } else {
+      System.err
+          .println("LOGIC: Rekontra set although its not enabled or kontra was not announced.");
+    }
 
   }
 
@@ -174,10 +223,25 @@ public class GameController implements GameLogicInterface {
 
   @Override
   public void notifyLogicOfNewSkat(Hand hand, Card[] skat) {
-    this.roundInstance.solo.setHand(hand);
-    this.roundInstance.skat = skat;
+    if (hand.cards.length != 10 || skat[0] == null || skat[1] == null) {
+      System.err.println("LOGIC: Wrong hand or Skat send to logic.");
+      return;
+    }
+    this.roundInstance.solo.setHand(hand); //XXX
+    System.out.println("logic hand: "+hand);
+    this.roundInstance.skat[0] = skat[0];
+    this.roundInstance.skat[1] = skat[1];
     this.roundInstance.notifyRoundInstance();
 
+  }
+
+  public void exchangePlayer(Player oldPlayer, Player newPlayer) {
+    for (int i = 0; i < this.allPlayers.length; i++) {
+      if (this.allPlayers[i].equals(oldPlayer)) {
+        this.allPlayers[i] = newPlayer.copyPlayer();
+        return; // XXX
+      }
+    }
   }
 }
 

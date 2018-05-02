@@ -1,51 +1,45 @@
 package de.skat3.gui.menuframe;
 
-import javax.swing.plaf.metal.MetalPopupMenuSeparatorUI;
-import com.sun.swing.internal.plaf.synth.resources.synth;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.UUID;
 import de.skat3.gui.Menu;
 import de.skat3.gui.multiplayermenu.MultiplayerMenu;
 import de.skat3.gui.optionsmenu.OptionsMenu;
 import de.skat3.gui.singleplayermenu.SingleplayerMenu;
 import de.skat3.gui.statsmenu.StatsMenu;
+import de.skat3.io.profile.Profile;
+import de.skat3.main.PlayTimeTimer;
+import de.skat3.main.SkatMain;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CustomMenuItem;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.stage.Popup;
-import javafx.stage.PopupBuilder;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.util.Pair;
 
 /**
  * Class to control the corresponding view file.
  * 
- * @author adomonel
+ * @author adomonel, tistraub
  */
 public class MenuFrameController {
 
   // FXML file imports
-
   @FXML
   public AnchorPane mainPane;
   @FXML
@@ -62,6 +56,10 @@ public class MenuFrameController {
   public ImageView backgroundImage;
   @FXML
   public MenuButton profileMenuButton;
+  @FXML
+  private ImageView currentProfileImage;
+  @FXML
+  private Label currentProfileName;
 
   // Menus
 
@@ -75,6 +73,9 @@ public class MenuFrameController {
   // Various
 
   private Duration switchMenuDuration = Duration.millis(300);
+  private ArrayList<Profile> allProfile;
+  private Profile currentProfile;
+  private PlayTimeTimer timer;
 
   // Button handler
 
@@ -92,22 +93,6 @@ public class MenuFrameController {
 
   public void showOptionsMenu() {
     this.switchMenus(this.optionsMenu);
-  }
-
-  public void startSingleplayerGame() {
-
-  }
-
-  public void hostMultiplayerGame() {
-
-  }
-
-  public void joinMultiplayerGame() {
-
-  }
-
-  public void refreshServerList() {
-
   }
 
   // Animations
@@ -184,12 +169,17 @@ public class MenuFrameController {
       }
       if (newMenu.equals(this.statsMenu)) {
         this.startMenuUnderlineAnimation(this.statsMenuButton);
+        this.statsMenu.getController().refresh();
       }
       if (newMenu.equals(this.optionsMenu)) {
         this.startMenuUnderlineAnimation(this.optionsMenuButton);
       }
 
-      double slideInEndX, slideOutEndX;
+      newMenu.getPane().setPrefSize(this.mainPane.getScene().getWidth(),
+          this.mainPane.getScene().getHeight() - 141);
+
+      double slideOutEndX;
+
       if (newMenu.compareTo(this.activeMenu) > 0) {
         newMenu.getPane().setTranslateX(-this.mainPane.getWidth() - 1);
         slideOutEndX = this.mainPane.getWidth() + 1;
@@ -200,13 +190,15 @@ public class MenuFrameController {
 
       this.mainPane.getChildren().add(newMenu.getPane());
 
+      double slideInEndX;
+
       TranslateTransition slideIn = new TranslateTransition();
-      TranslateTransition slideOut = new TranslateTransition();
       slideInEndX = 0;
       slideIn.setToX(slideInEndX);
       slideIn.setNode(newMenu.getPane());
       slideIn.setDuration(this.switchMenuDuration);
 
+      TranslateTransition slideOut = new TranslateTransition();
       slideOut.setToX(slideOutEndX);
       slideOut.setNode(this.activeMenu.getPane());
       slideOut.setDuration(this.switchMenuDuration);
@@ -220,6 +212,7 @@ public class MenuFrameController {
         AnchorPane.setBottomAnchor(newMenu.getPane(), 0.0);
         AnchorPane.setLeftAnchor(newMenu.getPane(), 0.0);
         AnchorPane.setRightAnchor(newMenu.getPane(), 0.0);
+
         AnchorPane.setTopAnchor(newMenu.getPane(), 141.0);
         this.mainPane.setDisable(false);
       });
@@ -232,30 +225,51 @@ public class MenuFrameController {
     this.statsMenu = new StatsMenu();
     this.optionsMenu = new OptionsMenu();
 
-    // Stage s = (Stage) mainPane.getScene().getWindow();
-    // System.out.println(s.widthProperty());
-    // this.backgroundImage.fitWidthProperty().bind( s.widthProperty() );
-    // this.backgroundImage.fitHeightProperty().bind( s.heightProperty());
-    // code first initilizing of the singleplayer without an animation when the
-    // programm starts.
-
-    // Todo
     fillProfileMenu();
-
+    setCurrentProfile(SkatMain.ioController.getLastUsedProfile());
   }
 
   private void fillProfileMenu() {
-    Label l1 = new Label("Profil 1");
-    l1.setFont(new Font(16));
-    profileMenuButton.getItems().add(new CustomMenuItem(l1));
+    // clear old data
+    profileMenuButton.getItems().clear();
 
-    Label l2 = new Label("Profil 2");
-    l2.setFont(new Font(16));
-    profileMenuButton.getItems().add(new CustomMenuItem(l2));
+    allProfile = SkatMain.ioController.getProfileList();
+    // prompt create profile
+    if (allProfile.isEmpty()) {
+      openProfile(null);
+    }
+
+    allProfile = SkatMain.ioController.getProfileList();
+
+    for (Profile profile : allProfile) {
+      Label l1 = new Label(profile.getName());
+      l1.setFont(new Font(16));
+      CustomMenuItem item = new CustomMenuItem(l1);
+      item.setId(profile.getUuid().toString());
+      item.setOnAction(new EventHandler<ActionEvent>() {
+
+        @Override
+        public void handle(ActionEvent event) {
+          CustomMenuItem source = (CustomMenuItem) event.getSource();
+          UUID uuid = UUID.fromString(source.getId());
+          Profile p = SkatMain.ioController.readProfile(uuid);
+          setCurrentProfile(p);
+        }
+
+      });
+      profileMenuButton.getItems().add(item);
+    }
 
     profileMenuButton.getItems().add(new SeparatorMenuItem());
 
-    profileMenuButton.getItems().add(new CustomMenuItem(new Button("Add")));
+    Button add = new Button("Add");
+    add.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        openProfile(null);
+      }
+    });
+    profileMenuButton.getItems().add(new CustomMenuItem(add));
   }
 
   public void delayedInitialize() {
@@ -263,10 +277,54 @@ public class MenuFrameController {
   }
 
   public void handleMouseClickProfileMenu() {
-    profileMenuButton.show();
+    openProfile(currentProfile);
   }
 
-  public void handleMouseClickAddProfile() {
+  private void openProfile(Profile p) {
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProfilePopupView.fxml"));
+    Parent root = null;
+    try {
+      root = fxmlLoader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    Stage stage = new Stage();
+    stage.setTitle("Profile");
+    stage.setScene(new Scene(root));
+
+    ProfileController profileController = fxmlLoader.getController();
+    profileController.setProfile(p);
+    profileController.setStage(stage);
+
+    if (p == null) {
+      profileController.setHeaderText("Create a profile");
+    }
+
+    stage.showAndWait();
+
+    // Update Profiles
+    fillProfileMenu();
+    currentProfile = SkatMain.ioController.getLastUsedProfile();
+
+    setCurrentProfile(currentProfile);
+  }
+
+  private void setCurrentProfile(Profile p) {
+    this.currentProfile = p;
+    try {
+      currentProfileImage.setImage(p.getImage());
+    } catch (Exception e) {
+
+    }
+    currentProfileName.setText(p.getName());
+
+    // Refresh Stats
+    this.statsMenu.getController().refresh();
+
+    if (timer != null) {
+      timer.interrupt();
+    }
+    timer = new PlayTimeTimer(p.getPlayerGameTime());
 
   }
 

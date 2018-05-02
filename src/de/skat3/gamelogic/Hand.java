@@ -11,18 +11,17 @@ public class Hand implements Serializable {
    */
   public Hand(Card[] cards) {
 
-    this.cards = new Card[cards.length];
-    for (int i = 0; i < cards.length; i++) {
-      this.cards[i] = cards[i];
-    }
+    this.cards = cards;
   }
-  
+
   public Hand() {
     this.cards = new Card[10];
+    for (int i = 0; i < this.cards.length; i++) {
+      this.cards[i] = new Card();
+    }
   }
 
-
-  Card[] getCards() {
+  public Card[] getCards() {
     return this.cards;
   }
 
@@ -34,7 +33,7 @@ public class Hand implements Serializable {
     this.sort(null);
   }
 
-  void sort(Contract contract) {
+  public void sort(Contract contract) {
     int pointer = 0;
     CardDeck deck = GameController.deck;
     Card[] sortedHand = new Card[this.cards.length];
@@ -69,15 +68,13 @@ public class Hand implements Serializable {
         }
       }
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < this.cards.length; i++) {
       this.cards[i] = sortedHand[i];
     }
   }
 
-  //TODO skat
+  // TODO skat
   int calcConsecutiveMatadors(Contract contract, Card[] skat) {
-    int contractValue = -1;
-
     int consecutiveMatadors = 0;
     CardDeck deck = GameController.deck;
 
@@ -127,35 +124,57 @@ public class Hand implements Serializable {
 
   boolean contains(Card c) {
     for (Card card : this.cards) {
-      if (c.equals(card)) {
-        return true;
+      try {
+        if (c.equals(card)) {
+          return true;
+        }
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
       }
     }
     return false;
 
   }
 
-  void setPlayableCards(Card card, Contract contract) {
-    boolean mustFollow = false;
+  public void setPlayableCards(Card card, Contract contract) {
+    boolean mustFollow = false;;
+    boolean trumpCard = card.isTrump(contract);
+
     for (Card c : this.cards) {
-      if (card.isTrump(contract) && c.isTrump(contract)) {
-        mustFollow = true;
-      }
-      if (card.getSuit() == c.getSuit()) {
-        mustFollow = true;
+
+      if (trumpCard) {
+        if (c.isTrump(contract)) {
+          mustFollow = true;
+        }
+      } else {
+        if (c.getSuit() == card.getSuit() && !c.isJack()) {
+          mustFollow = true;
+        }
       }
     }
     for (Card c : this.cards) {
       if (mustFollow) {
-        if (card.isTrump(contract) && c.isTrump(contract) || card.getSuit() == c.getSuit()) {
-          c.setPlayable(true);
+        if (trumpCard) {
+          if (c.isTrump(contract)) {
+            c.setPlayable(true);
+          } else {
+            c.setPlayable(false);
+          }
         } else {
-          c.setPlayable(false);
+
+          if (c.getSuit() == card.getSuit() && !c.isJack()) {
+            c.setPlayable(true);
+          } else {
+            c.setPlayable(false);
+          }
+
         }
       } else {
         c.setPlayable(true);
       }
     }
+
 
   }
 
@@ -166,6 +185,9 @@ public class Hand implements Serializable {
     String st = "CARDS: ";
     for (int i = 0; i < this.cards.length; i++) {
       st += this.cards[i];
+
+      st += " Playble = " + this.cards[i].isPlayable();
+
       if (i < this.cards.length - 1) {
         st += ", ";
       } else {
@@ -184,8 +206,12 @@ public class Hand implements Serializable {
     Card[] temp = new Card[this.cards.length - 1];
     int skipped = 0;
     for (int i = 0; i < temp.length; i++) {
-      if (this.cards[i].equals(card)) {
-        skipped = 1;
+      try {
+        if (this.cards[i].equals(card)) {
+          skipped = 1;
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
       }
       if (i + skipped < this.cards.length) {
         temp[i] = this.cards[i + skipped];
@@ -195,4 +221,40 @@ public class Hand implements Serializable {
     this.cards = temp;
   }
 
+
+  public int getMaximumBid(Contract contract) {
+    if (this.cards.length == 10) {
+
+      int trumps = this.calcConsecutiveMatadors(contract, null);
+
+      switch (contract) {
+        case CLUBS:
+          return (trumps + 1) * 12;
+        case DIAMONDS:
+          return (trumps + 1) * 9;
+        case GRAND:
+          return (trumps + 1) * 24;
+        case HEARTS:
+          return (trumps + 1) * 9;
+        case NULL:
+          return 23;
+        case SPADES:
+          return (trumps + 1) * 11;
+        default:
+          return 0;
+
+      }
+    } else {
+      System.err.println("Card does not contain 10 Cards");
+      return 0;
+    }
+
+  }
+
+  public void setAllCardsPlayable() {
+    for (Card card : this.cards) {
+      card.setPlayable(true);
+    }
+
+  }
 }

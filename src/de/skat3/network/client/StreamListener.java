@@ -2,33 +2,52 @@ package de.skat3.network.client;
 
 import java.io.IOException;
 import java.util.logging.Level;
+import de.skat3.gamelogic.Player;
+import de.skat3.network.datatypes.CommandType;
+import de.skat3.network.datatypes.Message;
+import de.skat3.network.datatypes.MessageCommand;
 
-public class StreamListener extends Thread {
-  
+/**
+ * Helperclass for the GameClient to listen for incoming messages from the server.
+ * 
+ * @author Jonas Bauer
+ *
+ */
+class StreamListener extends Thread {
+
   GameClient gc;
 
-  /**
-   * @author Jonas Bauer
-   * @param gc
-   */
-  public StreamListener(GameClient gc) {
+
+  StreamListener(GameClient gc) {
     this.gc = gc;
   }
 
-  
-  public void run ()
-  {
-    while (!this.isInterrupted())
-    {
+
+  public void run() {
+    while (!this.isInterrupted()) {
       try {
         Object o = gc.fromServer.readObject();
+
+        Message message = (Message) o;
+
+
         gc.clientProtocolHandler(o);
-        
+        if (((MessageCommand) message).getSubType() == CommandType.ROUND_GENERAL_INFO) {
+          System.out.println("============= StreamListener [ROUND_GENERAL_INFO] ================");
+
+          System.out.println(((MessageCommand) message).gameState);
+          System.out.println(((Player) ((MessageCommand) message).gameState));
+
+          System.out.println("SBH: " + ((Player) ((MessageCommand) message).gameState).secretBackupHand);
+          System.out.println("SBA: " + ((Player) ((MessageCommand) message).gameState).convertFromByteArray(((Player) ((MessageCommand) message).gameState).secretBackupArray));
+          
+          System.out.println("=========================================");
+        }
       } catch (ClassNotFoundException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
+      } catch (ClassCastException e) {
+        //
       } catch (IOException e) {
-        // TODO Auto-generated catch block
         gc.logger.log(Level.SEVERE, "Connection to server failed", e);
         gc.handleLostConnection();
         this.interrupt();

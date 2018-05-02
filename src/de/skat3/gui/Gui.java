@@ -1,13 +1,13 @@
 package de.skat3.gui;
 
-
+import java.io.IOException;
 import de.skat3.gui.matchfield.InGameController;
 import de.skat3.gui.matchfield.Matchfield;
 import de.skat3.gui.menuframe.MenuFrame;
+import de.skat3.gui.menuframe.ProfileController;
 import de.skat3.main.SkatMain;
 import javafx.application.Application;
-import javafx.geometry.Rectangle2D;
-import javafx.stage.Screen;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /*
@@ -40,7 +40,7 @@ public class Gui extends Application {
    * @return
    */
   public InGameController showMatchfield() {
-    this.matchfield = new Matchfield(SkatMain.lgs);
+    this.matchfield = new Matchfield();
     this.mainStage.setScene(this.matchfield.getScene());
     return this.matchfield.getController();
   }
@@ -52,14 +52,23 @@ public class Gui extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
+
     // SkatMain.getGuiController().setGui(this);
     SkatMain.guiController.setGui(this);
     this.mainStage = primaryStage;
+
+    this.mainStage.setOnCloseRequest(e -> System.exit(0)); // TODO
+
     this.initializeComponents();
+
+    this.mainStage.setTitle("MA Skat");
+    this.mainStage.getIcons()
+        .add(new Image(getClass().getResourceAsStream("../../../guifiles/AppIcon.png")));
+
     this.mainStage.setScene(this.menuFrame.getScene());
     this.mainStage.show();
     this.delayedInitialize();
-    
+
   }
 
   private void initializeComponents() {
@@ -76,7 +85,7 @@ public class Gui extends Application {
     this.menuFrame.getController().backgroundImage.fitHeightProperty()
         .bind(this.mainStage.heightProperty());
     this.menuFrame.getController().delayedInitialize();
-    
+
   }
 
   public Stage getMainStage() {

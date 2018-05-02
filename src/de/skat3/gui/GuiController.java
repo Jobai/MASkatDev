@@ -1,34 +1,46 @@
 package de.skat3.gui;
 
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Optional;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.MatchResult;
+import de.skat3.gamelogic.Result;
 import de.skat3.gui.matchfield.InGameController;
-import de.skat3.main.MainController;
-import de.skat3.main.SkatMain;
+import de.skat3.gui.resultscreen.GameResultViewController;
+import de.skat3.gui.resultscreen.RoundResultViewController;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.layout.Pane;
 
 
-public class GuiController implements GuiInterface {
+/**
+ * Controller for the main gui
+ * 
+ * @author adomonel, tistraub
+ *
+ */
+public class GuiController implements GuiControllerInterface {
   private Gui gui;
 
   private InGameController inGameController;
 
   public void goInGame() {
-  this.inGameController = this.gui.showMatchfield();
+    this.inGameController = this.gui.showMatchfield();
+  }
+
+  public void goToMenu() {
+    this.gui.showMenu();
   }
 
   public InGameController getInGameController() {
-  return this.inGameController;
+    return this.inGameController;
   }
+
   protected void setGui(Gui gui) {
     this.gui = gui;
   }
@@ -38,71 +50,80 @@ public class GuiController implements GuiInterface {
   }
 
   @Override
-  public void bidRequest(int bid) {
+  public void showWrongPassword() {
 
-    Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.setTitle("New bid");
-    alert.setHeaderText(bid + "");
-    alert.setContentText("Are you ok with this?");
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setHeaderText(null);
+    alert.setTitle("Wrong Password");
+    alert.setContentText("The entered password is wrong!");
+    alert.showAndWait();
 
-    ButtonType buttonTypeYes = new ButtonType("Yes");
-    ButtonType buttonTypeNo = new ButtonType("No");
+  }
 
-    alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+  /**
+   * Causes the taskbar icon to blink until the windows is back in focus. Used to inform the user
+   * about a needed action or completed task.
+   * 
+   * @author Jonas Bauer
+   */
+  public void blinkAlert() {
 
-    Optional<ButtonType> result = alert.showAndWait();
-    if (result.get() == buttonTypeYes) {
-      SkatMain.mainController.localBid(true);
-    } else {
-      SkatMain.mainController.localBid(false);
-    }
+    this.gui.getMainStage().toFront();
+  }
+
+  /**
+   * Creates and shows a custom alert prompt. Used for informing the user of a failed action.
+   * 
+   * @author Jonas Bauer
+   * @param title title of the alarm prompt.
+   * @param prompt text of the alarm prompt.
+   */
+  public void showCustomAlarmPromt(String title, String prompt) {
+    Alert alert = new Alert(AlertType.ERROR);
+    alert.setHeaderText(null);
+    alert.setTitle(title);
+    alert.setContentText(prompt);
+    alert.showAndWait();
 
   }
 
   @Override
-  public void contractRequest() {
+  public void showRoundResult(Result result) {
 
-    List<String> contractList = new ArrayList<>();
-    Contract[] allContracts = Contract.values();
-
-    for (Contract contract2 : allContracts) {
-      contractList.add(contract2.toString());
+    FXMLLoader fxmlLoader =
+        new FXMLLoader(getClass().getResource("resultscreen/RoundResultView.fxml"));
+    Parent root = null;
+    try {
+      root = fxmlLoader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    Stage stage = new Stage();
+    stage.setTitle("Round Result");
+    stage.setScene(new Scene(root));
 
-    ChoiceDialog<String> dialog = new ChoiceDialog<>("", contractList);
-    dialog.setTitle("Choose Contracts");
-    dialog.setHeaderText("Choose Contracts");
-    dialog.setContentText("Choose your contract:");
-
-    Optional<String> result = dialog.showAndWait();
-    if (result.isPresent()) {
-      SkatMain.mainController.contractSelected(Contract.valueOf(result.get()),
-          new AdditionalMultipliers());
-    }
-
-
+    RoundResultViewController roundResultViwController = fxmlLoader.getController();
+    roundResultViwController.setResult(result);
+    stage.show();
   }
 
   @Override
-  public boolean handGameRequest() {
-    Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.setTitle("Handgame");
-    alert.setHeaderText("Handgame?");
+  public void showGameResult(MatchResult matchResult) {
 
-    ButtonType buttonTypeYes = new ButtonType("Yes");
-    ButtonType buttonTypeNo = new ButtonType("No");
-
-    alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-
-    Optional<ButtonType> result = alert.showAndWait();
-    if (result.get() == buttonTypeYes) {
-      SkatMain.mainController.handGameSelected(true);
-      return true;
-    } else {
-      SkatMain.mainController.handGameSelected(false);
-      return false;
+    FXMLLoader fxmlLoader =
+        new FXMLLoader(getClass().getResource("resultscreen/GameResultView.fxml"));
+    Parent root = null;
+    try {
+      root = fxmlLoader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    Stage stage = new Stage();
+    stage.setTitle("Game Result");
+    stage.setScene(new Scene(root));
 
+    GameResultViewController gameResultViewController = fxmlLoader.getController();
+    gameResultViewController.setResult(matchResult);
+    stage.show();
   }
-
 }

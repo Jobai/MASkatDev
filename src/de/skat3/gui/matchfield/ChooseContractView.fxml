@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" prefHeight="467.0" prefWidth="400.0"
+	style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-width: 1;"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="de.skat3.gui.matchfield.ChooseContractController">
+	<children>
+		<Pane layoutX="-1.0" layoutY="-2.0" prefHeight="68.0"
+			prefWidth="400.0" style="-fx-background-color: #404040;"
+			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+			AnchorPane.topAnchor="0.0">
+			<children>
+				<Label layoutX="105.0" layoutY="15.0" text="Choose Contract"
+					textFill="WHITE">
+					<font>
+						<Font size="26.0" />
+					</font>
+				</Label>
+			</children>
+		</Pane>
+		<GridPane layoutX="14.0" layoutY="87.0" prefHeight="68.0"
+			prefWidth="373.0">
+			<columnConstraints>
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES"
+					minWidth="10.0" prefWidth="100.0" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints minHeight="10.0" prefHeight="30.0"
+					vgrow="SOMETIMES" />
+			</rowConstraints>
+			<children>
+				<Label text="Colorgame">
+					<font>
+						<Font size="20.0" />
+					</font>
+				</Label>
+				<HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
+					spacing="12.0" GridPane.columnIndex="1">
+					<children>
+						<Label fx:id="iconSpade" text="♠">
+							<font>
+								<Font size="52.0" />
+							</font>
+						</Label>
+						<Label fx:id="iconHeart" text="♥">
+							<font>
+								<Font size="52.0" />
+							</font>
+						</Label>
+						<Label fx:id="iconDiamond" text="♦">
+							<font>
+								<Font size="52.0" />
+							</font>
+						</Label>
+						<Label fx:id="iconClub" text="♣">
+							<font>
+								<Font size="52.0" />
+							</font>
+						</Label>
+					</children>
+				</HBox>
+			</children>
+		</GridPane>
+		<ToggleButton fx:id="toggleGrand" layoutX="14.0"
+			layoutY="176.0" mnemonicParsing="false" prefHeight="25.0"
+			prefWidth="373.0" style="-fx-background-color: #d60202;;"
+			text="Grand" textFill="WHITE">
+			<font>
+				<Font size="20.0" />
+			</font>
+		</ToggleButton>
+		<ToggleButton fx:id="toggleNullgame" layoutX="14.0"
+			layoutY="230.0" mnemonicParsing="false" prefHeight="25.0"
+			prefWidth="373.0" style="-fx-background-color: #d60202;;"
+			text="Nullgame" textFill="WHITE">
+			<font>
+				<Font size="20.0" />
+			</font>
+		</ToggleButton>
+		<HBox layoutX="14.0" layoutY="309.0" prefHeight="30.0"
+			prefWidth="373.0" spacing="17.0">
+			<children>
+				<CheckBox fx:id="cbHandgame" mnemonicParsing="false"
+					onAction="#setHandGame" text="Hand">
+					<font>
+						<Font size="15.0" />
+					</font>
+				</CheckBox>
+				<CheckBox fx:id="cbSchneider" mnemonicParsing="false"
+					onAction="#setSchneider" text="Schneider">
+					<font>
+						<Font size="15.0" />
+					</font>
+				</CheckBox>
+				<CheckBox fx:id="cbSchwarz" mnemonicParsing="false"
+					onAction="#setSchwarz" text="Schwarz">
+					<font>
+						<Font size="15.0" />
+					</font>
+				</CheckBox>
+				<CheckBox fx:id="cbOuvert" mnemonicParsing="false"
+					onAction="#setOuvert" text="Ouvert">
+					<font>
+						<Font size="15.0" />
+					</font>
+				</CheckBox>
+			</children>
+		</HBox>
+		<Button layoutX="129.0" layoutY="398.0" mnemonicParsing="false"
+			onAction="#setContract" prefHeight="25.0" prefWidth="144.0"
+			style="-fx-background-color: #d60202;" text="Save" textFill="WHITE">
+			<font>
+				<Font size="20.0" />
+			</font>
+		</Button>
+	</children>
+</AnchorPane>

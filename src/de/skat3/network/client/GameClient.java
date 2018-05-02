@@ -6,8 +6,19 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
+
 package de.skat3.network.client;
 
+import de.skat3.gamelogic.Player;
+import de.skat3.main.Lobby;
+import de.skat3.main.SkatMain;
+import de.skat3.network.datatypes.CommandType;
+import de.skat3.network.datatypes.Message;
+import de.skat3.network.datatypes.MessageChat;
+import de.skat3.network.datatypes.MessageCommand;
+import de.skat3.network.datatypes.MessageConnection;
+import de.skat3.network.datatypes.MessageType;
+import de.skat3.network.datatypes.SubType;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,38 +26,48 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import de.skat3.gamelogic.Player;
-import de.skat3.main.SkatMain;
-import de.skat3.network.datatypes.CommandType;
-import de.skat3.network.datatypes.Message;
-import de.skat3.network.datatypes.MessageChat;
-import de.skat3.network.datatypes.MessageConnection;
-import de.skat3.network.datatypes.MessageType;
-import de.skat3.network.datatypes.SubType;
+
 
 /**
+ * main client side network handler. Handles connection and messages to and from the server.
+ * Necessary for any kind of Skat game (single and mutliplayer!).
+ * 
  * @author Jonas Bauer
  *
  */
 public class GameClient {
 
   String hostAdress;
-  // 134.155.206.203";
   int port;
-  Socket s;
+  Socket socket;
   ObjectOutputStream toSever;
   ObjectInputStream fromServer;
   Logger logger = Logger.getLogger("de.skat3.network.client");
   StreamListener sl;
   ClientLogicHandler clh;
 
+  boolean closedByServer;
+
+  boolean kickedByServer;
+
   Player player;
+
+  String lobbyPassword;
+
   private ClientLogicController clc;
 
+  public ClientLogicController getClc() {
+    return clc;
+  }
+
+
   /**
+   * Constructs a gameclient and automatically connects to the given server.
+   * 
    * @author Jonas Bauer
-   * @param hostAdress
-   * @param port
+   * @param hostAdress adress of the server you want to connect to.
+   * @param port port of the server you want to connect to.
+   * @param player the player instance of the connecting user.
    */
   public GameClient(String hostAdress, int port, Player player) {
     this.hostAdress = hostAdress;
@@ -58,47 +79,108 @@ public class GameClient {
     this.connect();
   }
 
+  /**
+   * Constructs a gameclient and automatically connects to the given server <b> using a lobby
+   * password </b>.
+   * 
+   * @author Jonas Bauer
+   * @param hostAdress Server adress to connect to
+   * @param port port of the server you want to connect to.
+   * @param player the player instance of the connecting user.
+   * @param lobbyPassword the lobbyPassword for the Server
+   */
+  public GameClient(String hostAdress, int port, Player player, String lobbyPassword) {
+    this.hostAdress = hostAdress;
+    this.port = port;
+    this.clh = new ClientLogicHandler(this);
+    this.clc = new ClientLogicController(this);
+    this.player = player;
+    logger.setLevel(Level.ALL);
+    this.lobbyPassword = lobbyPassword;
+    this.connect();
+  }
+
+
+
   private void connect() {
     try {
-      s = new Socket(hostAdress, port);
-      toSever = new ObjectOutputStream(s.getOutputStream());
-      fromServer = new ObjectInputStream(s.getInputStream());
+      socket = new Socket(hostAdress, port);
+      toSever = new ObjectOutputStream(socket.getOutputStream());
+      fromServer = new ObjectInputStream(socket.getInputStream());
       sl = new StreamListener(this);
       sl.start();
       logger.info("Connection to " + hostAdress + ":" + port + " succesfull!");
-      openConnection();
+
+      if (lobbyPassword == null || lobbyPassword.isEmpty()) {
+        openConnection();
+      } else {
+        openConnection(lobbyPassword);
+      }
+
     } catch (UnknownHostException e) {
-      // TODO Auto-generated catch block
       logger.log(Level.SEVERE, "Host not found! Connection failed!", e);
+      handleLostConnection();
       e.printStackTrace();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       logger.log(Level.SEVERE, "Connection failed!  \n" + e.getMessage(), e);
+      handleLostConnection();
       e.printStackTrace();
     }
 
   }
 
-  private void openConnection() {
-    // TODO Auto-generated method stub
-
+  private void openConnection(String lobbyPassword2) {
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
     mc.payload = player;
+    mc.lobbyPassword = lobbyPassword2;
+    mc.originSender = player;
     sendToServer(mc);
 
   }
 
+
+  private void openConnection() {
+    MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
+    mc.payload = player;
+    mc.originSender = player;
+    sendToServer(mc);
+
+  }
+
+  /**
+   * handles and understands the incomming messages. Relays them to the proper methods for action.
+   * 
+   * @author Jonas Bauer
+   * @param o received message from the server (still as object).
+   */
   void clientProtocolHandler(Object o) {
     Object receivedObject = o;
     Message m = (Message) receivedObject;
     MessageType mt = m.getType();
     SubType st = m.getSubType();
 
+
+    if (st == CommandType.ROUND_GENERAL_INFO) {
+      System.out
+          .println("============= clientProtocolHandler [ROUND_GENERAL_INFO] ================");
+
+      MessageCommand mc = (MessageCommand) m;
+      System.out.println(mc.gameState);
+      System.out.println(((Player) mc.gameState).getUuid());
+      System.out.println(((Player) mc.gameState).getHand());
+      System.out.println("=========================================");
+
+    }
+
     switch (mt) {
       case CONNECTION_OPEN:
-        break; // TODO
+        this.handleOpendConnection(m);
+        break;
       case CONNECTION_CLOSE:
-        this.closeConnection();
+        this.closeConnection(m);
+        break;
+      case CONNECTION_INFO:
+        this.handleConnectionInfo(m);
         break;
       case CHAT_MESSAGE:
         this.handleChatMessage((MessageChat) m);
@@ -109,18 +191,58 @@ public class GameClient {
         this.handleCommandAction(m, st);
         break;
       case COMMAND_INFO:
-        this.handleCommandAction(m, st); // XXX
+        this.handleCommandAction(m, st);
+        break;
+      case STATE_CHANGE:
+        this.handleStateChange(m, st);
         break;
       default:
+        logger.severe("Message Type not handeld!  " + mt + " --- " + st);
         throw new AssertionError();
     }
   }
 
-  private void handleCommandAction(Message m, SubType st) {
+  private void handleConnectionInfo(Message m) {
     // TODO Auto-generated method stub
-    logger.info("Handeling!");
+    MessageConnection mc = (MessageConnection) m;
 
+    logger.info("removed disconnected player");
+    SkatMain.mainController.currentLobby.removePlayer(mc.disconnectingPlayer);
+    updateLGS();
+
+  }
+
+  private void updateLGS() {
+
+  }
+
+
+  private void handleOpendConnection(Message m) { // XXX
+
+    Player p = (Player) m.payload;
+    Lobby l = (Lobby) m.secondPayload;
+    logger.info("Player" + p.getUuid() + "joined and was added to local Lobby!");
+    SkatMain.mainController.currentLobby = l; // Lobby is set (needed for direct connect)
+    SkatMain.mainController.currentLobby.addPlayer(p);
+    updateLGS();
+
+  }
+
+  private void handleStateChange(Message m, SubType st) {
+
+    String state = (String) m.payload;
+    logger.info("GAME STATE CHANGE REGISTERED:" + state);
+    if (state.equals("START")) {
+      SkatMain.mainController.initializeLocalGameState();
+      logger.info("SET GAME STATE");
+    }
+
+  }
+
+  private void handleCommandAction(Message m, SubType st) {
     CommandType ct = (CommandType) st;
+    logger.info("Handeling received message!" + ct);
+
     switch (ct) {
       case BID_INFO:
         clh.bidInfoHandler(m);
@@ -155,51 +277,127 @@ public class GameClient {
       case GAME_INFO:
         clh.gameInfoHandler(m);
         break;
+      case HAND_REQUEST:
+        clh.handRequestHandler(m);
+        break;
+      case CONTRACT_REQUEST:
+        clh.contractRequestHandler(m);
+        break;
+      case SKAT_INFO_REQUEST:
+        clh.skatRequestHandler(m);
+        break;
+      case KONTRA_ANNOUNCED_INFO:
+        clh.kontraAnnouncedInfoHandler(m);
+        break;
+      case REKONTRA_ANNOUNCED_INFO:
+        clh.reKontraAnnouncedInfoHandler(m);
+        break;
+      case KONTRA_SHOW_OPTION_INFO:
+        clh.KontraShowHandler(m);
+        break;
+      case REKONTRA_SHOW_OPTION_INFO:
+        clh.reKontraShowHandler(m);
+        break;
+      case KONTRA_HIDE_OPTION_INFO:
+        clh.KontraHideHandler(m);
+        break;
+      case REKONTRA_HIDE_OPTION_INFO:
+        clh.reKontraHideHandler(m);
+        break;
+      case ROUND_RESTART_INFO:
+        clh.roundRestartHandler(m);
+        break;
+      case ROUND_GENERAL_INFO:
+        clh.roundInfoHandler(m);
+        break;
+      case AUCTION_WINNER_INFO:
+        clh.declarerInfoHander(m);
+        break;
+      case CONTRACT_INFO:
+        clh.contractInfoHandler(m);
+        break;
       default:
+        logger.severe("Message Type not handeld!  " + " --- " + st);
         throw new AssertionError();
 
     }
 
   }
 
-  //
-  //
-  // private void handleCommandInfo(Message m, SubType st) {
-  // // TODO Auto-generated method stub
-  //
-  // }
-
   private void handleChatMessage(MessageChat m) {
-    // TODO Auto-generated method stub
-
     logger.log(Level.INFO, "Got Chatmessage" + m.message);
-    // SkatMain.mainController.
-    // FIXME
+    SkatMain.mainController.receiveMessage(m.nick + ": " + m.message);
   }
 
-  private void closeConnection() {
-    // TODO Auto-generated method stub
 
-  }
-
-  public void sendToServer(Message m) {
+  void closeConnection() {
+    SkatMain.mainController.goToMenu();
+    SkatMain.mainController.showCustomAlertPormpt("Connection to the server failed",
+        "The connection to the server failed. "
+            + "Please check that a server is running and try again later"); // TODO
+                                                                            // change
+                                                                            // to
+                                                                            // "Connection
+                                                                            // to
+                                                                            // server
+                                                                            // failed"
+    sl.interrupt();
     try {
-      toSever.writeObject(m);
-      logger.log(Level.INFO, "tried to send");
+      toSever.close();
+      fromServer.close();
+      socket.close();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
 
+  void closeConnection(Message m) {
+
+    MessageConnection mc = (MessageConnection) m;
+    String reason = mc.reason;
+    if (reason != null) {
+      kickedByServer = true;
+      closedByServer = true;
+      SkatMain.mainController.showWrongPassword();
+    } else {
+      SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
+          "The game server closed your connection. \n"
+              + "You can try again later or chose a different server"); // TODO change to
+                                                                        // "Connection to server
+                                                                        // failed"
+    }
+    sl.interrupt();
+    System.out.println("GO to menu");
+    SkatMain.mainController.goToMenu();
+
+    try {
+      toSever.close();
+      fromServer.close();
+      socket.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  void sendToServer(Message m) {
+    try {
+      toSever.writeObject(m);
+      logger.log(Level.INFO, "tried to send" + m.subType);
+    } catch (IOException e) {
+      e.printStackTrace();
+      handleLostConnection();
+    }
+  }
+
+
   /**
+   * Test-Main.
+   * 
    * @author Jonas Bauer
-   * @param args
+   * @param args args.
    */
   public static void main(String[] args) {
-    // TODO Auto-generated method stub
-
-    GameClient gc = new GameClient("134.155.220.176", 2018, null);
+    GameClient gc = new GameClient("134.155.210.89", 2018, null);
     gc.connect();
 
     for (int i = 1; i <= 1000000; i++) {
@@ -209,8 +407,8 @@ public class GameClient {
 
   }
 
-  public void handleLostConnection() {
-    // TODO Auto-generated method stub
+  void handleLostConnection() {
+    logger.log(Level.SEVERE, "Connection to server failed");
     closeConnection();
 
   }

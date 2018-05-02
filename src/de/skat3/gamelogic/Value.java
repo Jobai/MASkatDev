@@ -1,6 +1,8 @@
 package de.skat3.gamelogic;
 
-public enum Value {
+import java.io.Serializable;
+
+public enum Value implements Serializable {
 
   SEVEN, EIGHT, NINE, QUEEN, KING, TEN, ACE, JACK;
   

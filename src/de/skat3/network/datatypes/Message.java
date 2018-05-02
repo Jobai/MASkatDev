@@ -2,68 +2,88 @@
  * SKAT_3_Eclipse
  *
  * @author Jonas Bauer
- * @version 1.0
- * 07.03.2018
+ * @version 1.0 07.03.2018
  * 
- * (c) 2018 All Rights Reserved. 
- * -------------------------
+ *          (c) 2018 All Rights Reserved. -------------------------
  */
 
 package de.skat3.network.datatypes;
 
+import de.skat3.gamelogic.Player;
 import de.skat3.network.datatypes.SubType;
 import java.io.Serializable;
 
 
 /**
+ * Underlying message class for the marshaling of transmitted information and commands over the
+ * network.
+ * 
  * @author Jonas Bauer
  *
  */
 public abstract class Message implements Serializable {
 
+
+  private static final long serialVersionUID = -2464570403601180110L;
+  private MessageType messageType;
+  @Deprecated
+  private String sender;
+  @Deprecated
+  private String receiver;
+  public Player originSender;
+  public SubType subType;
+  public Object payload;
+  public Object secondPayload;
+
   /**
+   * broad constructor for messages. Sets many information. Used rarely.
+   * 
+   * @author Jonas Bauer
+   * @param messageType MessageType of the message
+   * @param sender Name of the sending player
+   * @param receiver Name of the receiving player
    * 
    */
-  private static final long serialVersionUID = 3809573340211560453L;
-  private MessageType messageType;
-  private String sender;
-  private String receiver;
-  private SubType subType;
-  public Object payload;
-  
-  /**
-   * @author Jonas Bauer
-   * @param messageType
-   * @param sender
-   * @param receiver
-   */
+
   public Message(MessageType messageType, String sender, String receiver) {
     this.messageType = messageType;
-    this.sender = sender;
-    this.receiver = receiver;
-   
+    this.setSender(sender);
+    this.setReceiver(receiver);
+
   }
 
   public Message(MessageType messageType) {
-    // TODO Auto-generated constructor stub
     this.messageType = messageType;
   }
 
   public MessageType getType() {
-    // TODO Auto-generated method stub
     return messageType;
   }
 
   public SubType getSubType() {
-    // TODO Auto-generated method stub
     return subType;
   }
 
   public void setSubType(SubType st) {
-    // TODO Auto-generated method stub
     this.subType = st;
   }
-  
-  
+
+  public String getSender() {
+    return sender;
+  }
+
+  public void setSender(String sender) {
+    this.sender = sender;
+  }
+
+  public String getReceiver() {
+    return receiver;
+  }
+
+  public void setReceiver(String receiver) {
+    this.receiver = receiver;
+  }
+
+
 
 }
