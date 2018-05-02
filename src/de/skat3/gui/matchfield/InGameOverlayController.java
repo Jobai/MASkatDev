@@ -158,7 +158,7 @@ public class InGameOverlayController {
     this.iniScoreboard();
     this.iniPopUp();
     this.iniContract();
-    // this.bindChat();
+     this.bindChat();
   }
 
   private void bindCentral(AnchorPane p) {
