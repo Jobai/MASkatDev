@@ -128,8 +128,11 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   void roundInfoHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     //Round stated - start hand is set
-    if (mc.getSubType() == CommandType.ROUND_START_INFO) {
-      SkatMain.aiController.updatePlayer((Player) mc.gameState, aiPlayer);
+    if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
+      Player payloadPlayer = (Player) mc.gameState;
+      System.out.println("RIH AI:" + payloadPlayer);
+      System.out.println("RIH AI:" + payloadPlayer.ai);
+      SkatMain.aiController.updatePlayer(payloadPlayer, aiPlayer);
     }
     
     //Round ended - round results are shown. 

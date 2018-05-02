@@ -1,5 +1,6 @@
 package de.skat3.main;
 
+import de.skat3.ai.Ai;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -19,15 +20,18 @@ public class AiController {
    */
   public void addBot(Player bot) {
     if (this.firstBot == null) {
-      this.firstBot = bot;
+      this.firstBot = bot.copyPlayer();
+      System.out.println("first bot added");
       return;
     }
     if (this.secondBot == null) {
-      this.secondBot = bot;
+      System.out.println("second bot added");
+      this.secondBot = bot.copyPlayer();
       return;
     }
     if (this.thirdBot == null) {
-      this.thirdBot = bot;
+      System.out.println("third bot added");
+      this.thirdBot = bot.copyPlayer();
       return;
     }
     System.err.println("Already three bots added");
@@ -49,9 +53,8 @@ public class AiController {
   }
 
 
-  public void updatePlayer(Player bot, Player unnoetig) {
-    this.getBot(bot).setHand(bot.getHand());
-    this.getBot(bot).setPosition(bot.getPosition().ordinal());
+  public void updatePlayer(Player bot, Player un) {
+    this.getBot(bot).updatePlayer(bot);
 
   }
 
@@ -81,7 +84,10 @@ public class AiController {
 
   public void bidRequest(int bid, Player bot) {
     System.out.println("BOT WAS ASKED");
-    SkatMain.clc.bidAnswer(this.getBot(bot).ai.acceptBid(bid));
+    Player p =this.getBot(bot);
+    Ai ai = p.ai;
+    boolean b = ai.acceptBid(bid);
+    SkatMain.clc.bidAnswer(b);
 
   }
 

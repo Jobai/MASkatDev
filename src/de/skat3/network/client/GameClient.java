@@ -202,7 +202,7 @@ public class GameClient {
     }
   }
 
-  private void handleConnectionInfo(Message m) {
+  void handleConnectionInfo(Message m) {
     // TODO Auto-generated method stub
     MessageConnection mc = (MessageConnection) m;
 
@@ -217,7 +217,7 @@ public class GameClient {
   }
 
 
-  private void handleOpendConnection(Message m) { // XXX
+  void handleOpendConnection(Message m) { // XXX
 
     Player p = (Player) m.payload;
     Lobby l = (Lobby) m.secondPayload;
@@ -228,7 +228,7 @@ public class GameClient {
 
   }
 
-  private void handleStateChange(Message m, SubType st) {
+  void handleStateChange(Message m, SubType st) {
 
     String state = (String) m.payload;
     logger.info("GAME STATE CHANGE REGISTERED:" + state);
@@ -239,7 +239,7 @@ public class GameClient {
 
   }
 
-  private void handleCommandAction(Message m, SubType st) {
+  void handleCommandAction(Message m, SubType st) {
     CommandType ct = (CommandType) st;
     logger.info("Handeling received message!" + ct);
 
@@ -327,7 +327,7 @@ public class GameClient {
 
   }
 
-  private void handleChatMessage(MessageChat m) {
+  void handleChatMessage(MessageChat m) {
     logger.log(Level.INFO, "Got Chatmessage" + m.message);
     SkatMain.mainController.receiveMessage(m.nick + ": " + m.message);
   }

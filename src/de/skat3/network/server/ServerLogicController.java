@@ -73,6 +73,9 @@ public class ServerLogicController implements ServerLogicInterface {
   public void updatePlayerDuringRound(Player player) {
     // player.secretBackupHand
 
+    if (player.isBot()) {
+      System.out.println("SERVER BOT AI CHECK:" + player.ai);
+    }
     Hand neuHand = new Hand();
     Hand aldHand = player.getHand();
 

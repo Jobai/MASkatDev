@@ -344,7 +344,7 @@ public class InGameOverlayController {
   }
 
   void bindChat() {
-    SkatMain.mainController.chatMessages.addListener(new ListChangeListener<String>() {
+   /* SkatMain.mainController.chatMessages.addListener(new ListChangeListener<String>() {
 
       @Override
       public void onChanged(Change<? extends String> c) {
@@ -358,7 +358,7 @@ public class InGameOverlayController {
         chatArea.setScrollTop(Double.MAX_VALUE);
       }
 
-    });
+    }); */
   }
 
   void iniLocalClient(Player player) {
