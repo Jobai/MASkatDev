@@ -25,6 +25,7 @@ class RoundInstance {
   int trickcount;
   GameThread gameThread;
   Object lock = new Object();
+  boolean roundCancelled;
 
 
   /**
@@ -63,7 +64,7 @@ class RoundInstance {
     slc.broadcastRoundStarted();
     Player winner = this.startBidding();
     if (winner == null) {
-      // this.slc.broacastRoundRestarded(); TODO
+      this.roundCancelled = true;
     } else {
       this.setDeclarer(winner);
       this.updatePlayer();

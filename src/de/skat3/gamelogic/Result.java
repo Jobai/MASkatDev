@@ -25,6 +25,7 @@ public class Result implements Serializable {
   public Contract contract;
   public Player[] ranks;
   private int contractValue;
+  public boolean roundCancelled;
 
   /**
    * 
@@ -46,7 +47,11 @@ public class Result implements Serializable {
     if (!this.isBierlachs) {
       this.maxRounds = roundInstance.gameThread.gc.mode;
     }
-    this.calcResult(roundInstance);
+    if (roundInstance.roundCancelled) {
+      this.roundCancelled = true;
+    } else {
+      this.calcResult(roundInstance);
+    }
 
 
   }
