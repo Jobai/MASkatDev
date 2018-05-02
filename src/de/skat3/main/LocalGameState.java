@@ -34,6 +34,7 @@ public class LocalGameState {
     this.localPosition = SkatMain.mainController.currentLobby.currentPlayers;
     this.localClient = SkatMain.mainController.currentLobby.players[this.localPosition - 1];
     this.singlePlayerGame = singlePlayerGame;
+    this.timerInSeconds = timerInSeconds;
     this.trickcount = 0;
     this.trick = new Card[3];
     this.skat = new Card[2];
@@ -159,9 +160,9 @@ public class LocalGameState {
     try {
       throw new Exception();
     } catch (Exception e) {
-//      System.out.println("-------getLocalClient--------");
-//      e.printStackTrace();
-//      System.out.println("-------end of getLocalClient--------");
+      // System.out.println("-------getLocalClient--------");
+      // e.printStackTrace();
+      // System.out.println("-------end of getLocalClient--------");
     }
     return localClient;
   }
