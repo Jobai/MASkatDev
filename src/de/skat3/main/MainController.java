@@ -92,7 +92,6 @@ public class MainController implements MainControllerInterface {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    this.startGame();
     SkatMain.guiController.goInGame();
 
 
