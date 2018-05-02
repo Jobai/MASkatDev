@@ -22,16 +22,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -53,6 +51,8 @@ public class MultiplayerMenuController {
   @FXML
   private Label serverPlayer;
   @FXML
+  private Label kontraRekontra;
+  @FXML
   private ImageView imageP2;
   @FXML
   private ImageView imageP1;
@@ -63,7 +63,7 @@ public class MultiplayerMenuController {
   @FXML
   private ImageView imageP3;
   @FXML
-  private ListView<String> hostListView;
+  private ListView<CellItem> hostListView;
   @FXML
   private Label nameP4;
   @FXML
@@ -79,6 +79,8 @@ public class MultiplayerMenuController {
   @FXML
   private Label serverIP;
   @FXML
+  private Label serverDomain;
+  @FXML
   private Label serverPW;
   @FXML
   private AnchorPane root;
@@ -88,24 +90,25 @@ public class MultiplayerMenuController {
   Lobby currentLobby;
   ArrayList<Lobby> hostList = new ArrayList<Lobby>();
 
-  private class CellItem {
-    String name;
-    boolean pw;
-    boolean timer;
-    String time;
+  class CellItem {
+    public String name;
+    public boolean hasPw;
+    public boolean hasTimer;
+    public String time;
 
-    public CellItem(boolean hasPassword, int i) {
-      this.pw = hasPassword;
-      if (i > 0) {
-        this.timer = true;
-        this.time = String.valueOf(i);
+    public CellItem(String name, boolean hasPassword, int timer) {
+      this.name = name;
+      this.hasPw = hasPassword;
+      if (timer > 0) {
+        this.hasTimer = true;
+        this.time = String.valueOf(timer);
       } else {
-        this.timer = false;
+        this.hasTimer = false;
       }
     }
   }
 
-  private static class HostCell extends ListCell<String> {
+  private static class HostCell extends ListCell<CellItem> {
     HBox hbox = new HBox();
     Image serverImage = new Image("guifiles/AppIcon.png");
     Image passwordImage = new Image("guifiles/lock.png");
@@ -117,7 +120,7 @@ public class MultiplayerMenuController {
     Pane pane = new Pane();
     Label label = new Label();
 
-    public HostCell(CellItem cell) {
+    public HostCell(CellItem item) {
       super();
       ivServer.setFitWidth(30);
       ivServer.setFitHeight(30);
@@ -132,44 +135,44 @@ public class MultiplayerMenuController {
       hbox.getChildren().addAll(ivServer, label, ivPassword, ivTimer, timerTime, pane);
     }
 
+    @Override
     public void updateItem(CellItem cell, boolean empty) {
-      super.updateItem(cell.name, empty);
+      super.updateItem(cell, empty);
       setText(null);
       setGraphic(null);
 
       if (cell != null && !empty) {
         label.setText(cell.name);
+
+        if (cell.hasTimer) {
+
+          Duration time = Duration.seconds(Integer.parseInt(cell.time));
+
+          double timeText = time.toSeconds();
+
+          String text = "Sec";
+
+          if (time.greaterThan(Duration.minutes(1))) {
+            timeText = time.toMinutes();
+            text = "Min";
+          }
+          if (time.greaterThan(Duration.hours(1))) {
+            timeText = time.toHours();
+            text = "H";
+          }
+
+          timerTime.setText(timeText + " " + text);
+        } else {
+          ivTimer.setVisible(false);
+        }
+
+        if (!cell.hasPw) {
+          ivPassword.setVisible(false);
+        }
+
         setGraphic(hbox);
       }
-
-      if (cell.timer) {
-        
-        Duration time = Duration.seconds(Integer.parseInt(cell.time));
-
-        double timeText = time.toSeconds();
-
-        String text = "Sec";
-
-        if (time.greaterThan(Duration.minutes(1))) {
-          timeText = time.toMinutes();
-          text = "Min";
-        }
-        if (time.greaterThan(Duration.hours(1))) {
-          timeText = time.toHours();
-          text = "H";
-        }
-        
-        timerTime.setText(timeText + " "+text);
-      } else {
-        ivTimer.setVisible(false);
-      }
-
-      if (!cell.pw) {
-        ivPassword.setVisible(false);
-      }
-
     }
-
   }
 
   public void startGame() {
@@ -181,7 +184,7 @@ public class MultiplayerMenuController {
    */
   public void fillHostList() {
 
-    ObservableList<String> items = FXCollections.observableArrayList();
+    ObservableList<CellItem> items = FXCollections.observableArrayList();
     items.clear();
     hostList.clear();
     hostListView.setItems(items);
@@ -196,15 +199,14 @@ public class MultiplayerMenuController {
 
             hostList = SkatMain.mainController.getLocalHosts();
             for (Lobby lobby : hostList) {
-              CellItem item = new CellItem(lobby.isHasPassword(), 12);
+              String serverName = lobby.getName() + " (" + lobby.lobbyPlayer + "/"
+                  + lobby.getMaximumNumberOfPlayers() + " players)";
+
+              CellItem item = new CellItem(serverName, lobby.isHasPassword(), lobby.getTimer());
 
               hostListView.setCellFactory(param -> new HostCell(item));
 
-              // HostCell param = hostListView.setCellFactory(new HostCell(lobby.isHasPassword(),
-              // true, "12"));
-
-              items.add(lobby.getName() + " (" + lobby.lobbyPlayer + "/"
-                  + lobby.getMaximumNumberOfPlayers() + " players)");
+              items.add(item);
             }
 
             hostListView.setItems(items);
@@ -347,9 +349,17 @@ public class MultiplayerMenuController {
     }
 
     // fill view fields
+    if (currentLobby.getKontraRekontraEnabled()) {
+      kontraRekontra.setText("Aktiviert");
+    } else {
+      kontraRekontra.setText("Deaktiviert");
+    }
+
     serverName.setText(currentLobby.getName());
-    serverIP.setText(currentLobby.getIp().toString());
-    // serverPW.setText(currentLobby.);
+
+    serverDomain.setText(currentLobby.getIp().toString().replaceAll("\\/.*$", ""));
+
+    serverIP.setText(currentLobby.getIp().toString().replace(serverDomain.getText() + "/", ""));
     serverPlayer.setText(currentLobby.lobbyPlayer + "/" + currentLobby.getMaximumNumberOfPlayers());
 
     // Players
