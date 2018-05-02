@@ -77,6 +77,7 @@ public class Player implements Serializable, Comparable {
     this.points = player.points;
     this.setHand(player.hand);
     this.isBot = player.isBot;
+    this.ai = player.ai;
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;
     this.seegerPoints = player.seegerPoints;
@@ -87,7 +88,11 @@ public class Player implements Serializable, Comparable {
    * @param difficulty
    */
   public Player(boolean hardBot) {
-    this.name = "Ai";
+    if (hardBot) {
+      this.name = "Hard Ai";
+    } else {
+      this.name = "Easy Ai";
+    }
     this.isHardBot = hardBot;
     this.wonTricks = new ArrayList<Card>();
     // this.image = festes Bild? TODO
