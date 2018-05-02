@@ -12,11 +12,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 import de.skat3.ai.Ai;
-import de.skat3.ai.IntelligentAI;
+import de.skat3.ai.IntelligentAi;
 import de.skat3.ai.RandomAI;
 import de.skat3.io.profile.ImageConverter;
 import de.skat3.io.profile.Profile;
-import de.skat3.main.Lobby;
 import javafx.scene.image.Image;
 
 public class Player implements Serializable, Comparable {
@@ -104,7 +103,7 @@ public class Player implements Serializable, Comparable {
     this.lostGames = 0;
     this.seegerPoints = 0;
     if (this.isHardBot) {
-      this.ai = new IntelligentAI(this);
+      this.ai = new IntelligentAi(this);
     } else {
       this.ai = new RandomAI(this);
     }

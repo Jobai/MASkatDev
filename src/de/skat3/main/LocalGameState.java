@@ -1,17 +1,10 @@
 package de.skat3.main;
 
-import de.skat3.ai.Ai;
-import de.skat3.ai.IntelligentAI;
-import de.skat3.ai.RandomAI;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class LocalGameState {
 
@@ -186,6 +179,10 @@ public class LocalGameState {
 
   public void setEnemyTwo(Player enemyTwo) {
     this.enemyTwo = enemyTwo;
+  }
+
+  public Contract getContract() {
+    return this.contract;
   }
 
 }

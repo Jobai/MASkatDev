@@ -1,6 +1,5 @@
 package de.skat3.ai;
 
-import java.io.Serializable;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -13,8 +12,9 @@ import de.skat3.gamelogic.Value;
  * @author emrecura
  *
  */
-public class AiHelper implements Serializable {
+public class AiHelper {
 
+  // TODO check if it is updated correctly
   Card[] cards;
 
   public AiHelper(Player player) {
@@ -265,4 +265,31 @@ public class AiHelper implements Serializable {
         return suitArray[3];
     }
   }
+
+  /**
+   * 
+   * @return returns a suit that most cards have and that is closer to begin
+   * 
+   */
+  public Suit getMostCommonSuit() {
+    int[] suitArray = calculateSuitsInHand();
+    int lengthDiamonds = suitArray[0];
+    int lengthHearts = suitArray[1];
+    int lengthSpades = suitArray[2];
+    int lengthClubs = suitArray[3];
+
+    int biggestLength =
+        Math.max(Math.max(lengthDiamonds, lengthHearts), Math.max(lengthSpades, lengthClubs));
+
+    if (biggestLength == lengthDiamonds) {
+      return Suit.DIAMONDS;
+    } else if (lengthHearts == lengthDiamonds) {
+      return Suit.HEARTS;
+    } else if (lengthSpades == lengthDiamonds) {
+      return Suit.SPADES;
+    } else {
+      return Suit.CLUBS;
+    }
+  }
+
 }
