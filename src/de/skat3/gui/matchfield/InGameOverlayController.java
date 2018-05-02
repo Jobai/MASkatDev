@@ -3,6 +3,7 @@ package de.skat3.gui.matchfield;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
+import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
@@ -54,6 +55,12 @@ public class InGameOverlayController {
   private TextArea chatArea;
 
   @FXML
+  private Label multiInfo1;
+
+  @FXML
+  private Label multiInfo2;
+
+  @FXML
   private Label nameLocalClient;
 
   @FXML
@@ -100,10 +107,36 @@ public class InGameOverlayController {
 
   // Initializing
 
-  void setTrump(Contract con) {
+  void setTrump(Contract con, AdditionalMultipliers addMulti) {
     this.trumpInfo
         .setText(con.toString().substring(con.toString().indexOf(" "), con.toString().length()));
     this.trumpInfo.setVisible(true);
+
+    if (addMulti.isSchneiderAnnounced()) {
+      this.multiInfo1.setText("Schneider");
+      this.multiInfo1.setVisible(true);
+      // TODO
+    }
+
+    if (addMulti.isSchwarzAnnounced()) {
+      this.multiInfo1.setText("Schwarz");
+      this.multiInfo1.setVisible(true);
+      // TODO
+    }
+
+    if (addMulti.isOpenHand()) {
+      this.multiInfo1.setText("Open");
+      this.multiInfo1.setVisible(true);
+      // TODO
+    }
+
+    if (addMulti.isHandGame()) {
+      this.multiInfo1.setText("Hand");
+      this.multiInfo1.setVisible(true);
+      // TODO
+    }
+
+
   }
 
   public void handleSendMessage(KeyEvent e) {
