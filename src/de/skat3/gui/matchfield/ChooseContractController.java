@@ -52,12 +52,8 @@ public class ChooseContractController {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.SPADES;
-
+        resetAllContracts();
         iconSpade.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
-
-        iconHeart.setStyle("");
-        iconDiamond.setStyle("");
-        iconClub.setStyle("");
       }
     });
 
@@ -65,12 +61,8 @@ public class ChooseContractController {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.HEARTS;
-
+        resetAllContracts();
         iconHeart.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
-
-        iconSpade.setStyle("");
-        iconDiamond.setStyle("");
-        iconClub.setStyle("");
       }
     });
 
@@ -78,13 +70,9 @@ public class ChooseContractController {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.DIAMONDS;
-
+        resetAllContracts();
         iconDiamond
             .setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
-
-        iconSpade.setStyle("");
-        iconHeart.setStyle("");
-        iconClub.setStyle("");
       }
     });
 
@@ -92,12 +80,26 @@ public class ChooseContractController {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.CLUBS;
-
+        resetAllContracts();
         iconClub.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
+      }
+    });
 
-        iconSpade.setStyle("");
-        iconDiamond.setStyle("");
-        iconHeart.setStyle("");
+    toggleGrand.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        resetAllContracts();
+        currentContract = Contract.GRAND;
+        toggleGrand.setSelected(true);
+      }
+    });
+
+    toggleNullgame.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        resetAllContracts();
+        currentContract = Contract.NULL;
+        toggleNullgame.setSelected(true);
       }
     });
 
@@ -131,5 +133,18 @@ public class ChooseContractController {
     cbSchneider.setSelected(true);
     cbHandgame.setSelected(true);
     cbSchwarz.setSelected(true);
+  }
+
+  /**
+   * rest all gui contract fields (togglebutton, checkboxes) to default
+   */
+  private void resetAllContracts() {
+    iconClub.setStyle("");
+    iconSpade.setStyle("");
+    iconDiamond.setStyle("");
+    iconHeart.setStyle("");
+
+    toggleGrand.setSelected(false);
+    toggleNullgame.setSelected(false);
   }
 }
