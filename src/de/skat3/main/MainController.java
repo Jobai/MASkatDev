@@ -60,12 +60,6 @@ public class MainController implements MainControllerInterface {
   @Override
   public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int scoringMode,
       boolean kontraRekontraEnabled) {
-    // SkatMain.mainNetworkController.playAndHostSinglePlayer(currentLobby, gameController); //
-    // FIXME
-    // not required @jonas
-
-
-
     try {
       this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, scoringMode,
           kontraRekontraEnabled);
@@ -515,23 +509,16 @@ public class MainController implements MainControllerInterface {
     } else {
       SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
     }
-    System.out.println("TIMER: " + SkatMain.lgs.timerInSeconds);
     if (SkatMain.lgs.timerInSeconds > 0) {
       new Timer(SkatMain.lgs.timerInSeconds);
     }
     System.out.println("karten im LGS: " + SkatMain.lgs.getLocalClient().getHand());
     Platform.runLater(new Runnable() {
-
-
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().makeAMove(true);
-
-
       }
     });
-
-
   }
 
   @Override
