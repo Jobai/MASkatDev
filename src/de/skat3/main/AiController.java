@@ -3,12 +3,11 @@ package de.skat3.main;
 import de.skat3.ai.Ai;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
-import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 
 public class AiController {
 
-
+  int botDelay = 1500;
   Player firstBot;
   Player secondBot;
   Player thirdBot;
@@ -64,6 +63,7 @@ public class AiController {
   }
 
   public void playCardRequest(Player bot) {
+    this.delay();
     SkatMain.clc.playAnswer(this.getBot(bot).ai.chooseCard());
 
   }
@@ -73,20 +73,23 @@ public class AiController {
    * @param bot
    */
   public void contractRequest(Player bot) {
+    this.delay();
     SkatMain.clc.contractAnswer(this.getBot(bot).ai.chooseContract(),
         this.getBot(bot).ai.chooseAdditionalMultipliers());
 
   }
 
   public void handGameRequest(Player bot) {
+    this.delay();
     SkatMain.clc.handAnswer(this.getBot(bot).ai.acceptHandGame());
   }
 
   public void bidRequest(int bid, Player bot) {
     System.out.println("BOT WAS ASKED");
-    Player p =this.getBot(bot);
+    Player p = this.getBot(bot);
     Ai ai = p.ai;
     boolean b = ai.acceptBid(bid);
+    this.delay();
     SkatMain.clc.bidAnswer(b);
 
   }
@@ -102,6 +105,14 @@ public class AiController {
 
   }
 
+  public void delay() {
+    try {
+      Thread.sleep(this.botDelay);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
 
 
 }

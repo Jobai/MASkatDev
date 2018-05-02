@@ -2,6 +2,7 @@ package de.skat3.ai;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 /**
  * Author Emre Cura
  */
@@ -10,8 +11,9 @@ import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
+import de.skat3.main.SkatMain;
 
- 
+
 public class RandomAI extends Ai implements Serializable {
   Card[] cards;
   boolean acceptHandGame;
@@ -61,18 +63,16 @@ public class RandomAI extends Ai implements Serializable {
 
   @Override
   public Card chooseCard() {
-    int amountOfCards = cards.length;
-    int randomIndex = random.nextInt(amountOfCards);
-    for (int i = 0; i < amountOfCards; i++) {
-      Card randomCard = cards[randomIndex];
-      if (randomCard.isPlayable()) {
-        return randomCard;
-      } else {
-        randomIndex++;
-        randomIndex %= amountOfCards;
+    int i;
+    ArrayList<Card> temp = new ArrayList<Card>();
+    for (Card c : SkatMain.lgs.getLocalHand().cards) {
+      if (c.isPlayable()) {
+        temp.add(c.copy());
       }
     }
-    return null;
+    Random rand = new Random();
+    i = rand.nextInt(temp.size());
+    return temp.get(i);
   }
 
   @Override
