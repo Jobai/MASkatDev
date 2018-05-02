@@ -80,6 +80,7 @@ public class AiController {
   }
 
   public void bidRequest(int bid, Player bot) {
+    System.out.println("BOT WAS ASKED");
     SkatMain.clc.bidAnswer(this.getBot(bot).ai.acceptBid(bid));
 
   }
