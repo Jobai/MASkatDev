@@ -105,6 +105,9 @@ public class InGameOverlayController {
   @FXML
   public Label trumpInfo;
 
+  @FXML
+  private Label timerLabel;
+
   // Initializing
 
   void setTrump(Contract con, AdditionalMultipliers addMulti) {
@@ -146,6 +149,10 @@ public class InGameOverlayController {
     }
   }
 
+  void startRoundInitialize() {
+    this.root.requestFocus();
+
+  }
   void iniComponents() {
 
     this.root.requestFocus();
@@ -154,6 +161,7 @@ public class InGameOverlayController {
     this.iniPopUp();
     this.iniContract();
     this.bindChat();
+    this.iniPlayText();
   }
 
   private void bindCentral(AnchorPane p) {
@@ -161,6 +169,33 @@ public class InGameOverlayController {
         .bind(this.root.widthProperty().divide(2).subtract(p.widthProperty().divide(2)));
     p.translateYProperty()
         .bind(this.root.heightProperty().divide(2).subtract(p.heightProperty().divide(2)));
+  }
+
+  void showTimer(boolean value) {
+    if (value) {
+      this.timerLabel.setVisible(true);
+    } else {
+      this.timerLabel.setVisible(true);
+    }
+  }
+
+  void setTimer(int remainingTime) {
+    Duration time = Duration.seconds(remainingTime);
+
+    double timeText = time.toSeconds();
+
+    String text = "Sec";
+
+    if (time.greaterThan(Duration.minutes(1))) {
+      timeText = time.toMinutes();
+      text = "Min";
+    }
+    if (time.greaterThan(Duration.hours(1))) {
+      timeText = time.toHours();
+      text = "H";
+    }
+
+    this.timerLabel.setText(timeText + " " + text);
   }
 
   void showContractRequest() {
@@ -215,11 +250,14 @@ public class InGameOverlayController {
 
   }
 
-  void setPlayText(String text, boolean show) {
+  void iniPlayText() {
     this.playInfo.setTextAlignment(TextAlignment.CENTER);
     this.playInfo.setLayoutX(0);
     this.playInfo.translateXProperty()
         .bind(root.widthProperty().divide(2).subtract(this.playInfo.widthProperty().divide(2)));
+  }
+
+  void setPlayText(String text, boolean show) {
     this.playInfo.setVisible(show);
     this.playInfo.setText(text);
   }

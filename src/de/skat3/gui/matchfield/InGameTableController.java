@@ -42,8 +42,6 @@ public class InGameTableController {
   }
 
   void showPlayableColor(boolean value) {
-    System.out.println(SkatMain.lgs.getLocalClient().getHand());
-
     if (value) {
       ColorAdjust grey = new ColorAdjust();
       grey.setBrightness(-0.4);
