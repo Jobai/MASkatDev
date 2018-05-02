@@ -88,6 +88,22 @@ public class MultiplayerMenuController {
   Lobby currentLobby;
   ArrayList<Lobby> hostList = new ArrayList<Lobby>();
 
+  private class CellItem {
+    String name;
+    boolean pw;
+    boolean timer;
+    String time;
+
+    public CellItem(boolean hasPassword, int i) {
+      this.pw = hasPassword;
+      if (i > 0) {
+        this.timer = true;
+        this.time = String.valueOf(i);
+      } else {
+        this.timer = false;
+      }
+    }
+  }
 
   private static class HostCell extends ListCell<String> {
     HBox hbox = new HBox();
@@ -101,7 +117,7 @@ public class MultiplayerMenuController {
     Pane pane = new Pane();
     Label label = new Label();
 
-    public HostCell(boolean password, boolean timer, String time) {
+    public HostCell(CellItem cell) {
       super();
       ivServer.setFitWidth(30);
       ivServer.setFitHeight(30);
@@ -113,28 +129,45 @@ public class MultiplayerMenuController {
       label.setFont(new Font(20));
       timerTime.setFont(new Font(15));
 
-      if (timer) {
-        timerTime.setText(time + " sec");
+      hbox.getChildren().addAll(ivServer, label, ivPassword, ivTimer, timerTime, pane);
+    }
+
+    public void updateItem(CellItem cell, boolean empty) {
+      super.updateItem(cell.name, empty);
+      setText(null);
+      setGraphic(null);
+
+      if (cell != null && !empty) {
+        label.setText(cell.name);
+        setGraphic(hbox);
+      }
+
+      if (cell.timer) {
+        
+        Duration time = Duration.seconds(Integer.parseInt(cell.time));
+
+        double timeText = time.toSeconds();
+
+        String text = "Sec";
+
+        if (time.greaterThan(Duration.minutes(1))) {
+          timeText = time.toMinutes();
+          text = "Min";
+        }
+        if (time.greaterThan(Duration.hours(1))) {
+          timeText = time.toHours();
+          text = "H";
+        }
+        
+        timerTime.setText(timeText + " "+text);
       } else {
         ivTimer.setVisible(false);
       }
 
-      if (!password) {
+      if (!cell.pw) {
         ivPassword.setVisible(false);
       }
 
-      hbox.getChildren().addAll(ivServer, label, ivPassword, ivTimer, timerTime, pane);
-    }
-
-    public void updateItem(String name, boolean empty) {
-      super.updateItem(name, empty);
-      setText(null);
-      setGraphic(null);
-
-      if (name != null && !empty) {
-        label.setText(name);
-        setGraphic(hbox);
-      }
     }
 
   }
@@ -163,7 +196,10 @@ public class MultiplayerMenuController {
 
             hostList = SkatMain.mainController.getLocalHosts();
             for (Lobby lobby : hostList) {
-              hostListView.setCellFactory(param -> new HostCell(lobby.isHasPassword(), true, "12"));
+              CellItem item = new CellItem(lobby.isHasPassword(), 12);
+
+              hostListView.setCellFactory(param -> new HostCell(item));
+
               // HostCell param = hostListView.setCellFactory(new HostCell(lobby.isHasPassword(),
               // true, "12"));
 
