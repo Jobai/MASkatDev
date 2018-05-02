@@ -515,6 +515,7 @@ public class MainController implements MainControllerInterface {
     } else {
       SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
     }
+    System.out.println("TIMER: " + SkatMain.lgs.timerInSeconds);
     if (SkatMain.lgs.timerInSeconds > 0) {
       new Timer(SkatMain.lgs.timerInSeconds);
     }

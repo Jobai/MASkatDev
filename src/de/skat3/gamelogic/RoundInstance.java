@@ -114,7 +114,6 @@ class RoundInstance {
   private void updatePlayer() {
     for (int i = 0; i < players.length; i++) {
       slc.updatePlayerDuringRound(this.players[i]);
-      System.out.println("LOGIC KARTEN GESENDET: " + this.players[i].getHand());
     }
 
   }
@@ -246,7 +245,6 @@ class RoundInstance {
 
         slc.callForPlay(this.players[0]);
         this.lock.wait();
-        System.out.println("LOGIC: first card played");
         if (this.kontaRekontraAvailable && !this.players[0].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[0]); XXX
         }
@@ -255,7 +253,6 @@ class RoundInstance {
 
         slc.callForPlay(this.players[1]);
         this.lock.wait();
-        System.out.println("LOGIC: second card played");
 
         if (this.kontaRekontraAvailable && !this.players[1].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[1]); XXX
@@ -266,7 +263,6 @@ class RoundInstance {
 
         slc.callForPlay(this.players[2]);
         this.lock.wait();
-        System.out.println("LOGIC: third card played");
         if (this.kontaRekontraAvailable && !this.players[2].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[2]); XXX
         }

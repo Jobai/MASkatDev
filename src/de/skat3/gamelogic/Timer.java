@@ -1,5 +1,6 @@
 package de.skat3.gamelogic;
 
+import java.util.ArrayList;
 import java.util.Random;
 import de.skat3.main.SkatMain;
 
@@ -36,22 +37,24 @@ public class Timer extends Thread {
       if (remainingTime == 0) {
         Random rand = new Random();
         int i;
-        while (true) {
-          i = rand.nextInt(SkatMain.lgs.getLocalClient().hand.cards.length);
-          if (SkatMain.lgs.getLocalClient().hand.cards[i].isPlayable()) {
-            System.out.println(SkatMain.lgs.getLocalClient().hand.cards[i]);
-            break;
+        ArrayList<Card> temp = new ArrayList<Card>();
+        for (Card c : SkatMain.lgs.getLocalHand().cards) {
+          if (c.isPlayable()) {
+            temp.add(c.copy());
           }
         }
+        i = rand.nextInt(temp.size());
+
         SkatMain.guiController.getInGameController().makeAMove(false);
-        SkatMain.mainController.localCardPlayed(SkatMain.lgs.getLocalClient().hand.cards[i]);
+        SkatMain.mainController.localCardPlayed(temp.get(i));
         System.out.println("TIMER ACTIVATED");
         this.isInterrupted = true;
-
       }
     }
   }
 }
+
+
 
 /**
  * Interrupts the thread.
