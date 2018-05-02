@@ -37,10 +37,7 @@ class StreamListener extends Thread {
 
           System.out.println(((MessageCommand) message).gameState);
           System.out.println(((Player) ((MessageCommand) message).gameState));
-
-          System.out.println("SBH: " + ((Player) ((MessageCommand) message).gameState).secretBackupHand);
-          System.out.println("SBA: " + ((Player) ((MessageCommand) message).gameState).convertFromByteArray(((Player) ((MessageCommand) message).gameState).secretBackupArray));
-          
+         
           System.out.println("=========================================");
         }
       } catch (ClassNotFoundException e) {

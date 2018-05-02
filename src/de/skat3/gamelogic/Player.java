@@ -38,10 +38,6 @@ public class Player implements Serializable, Comparable {
   int seegerPoints;
   public Ai ai;
 
-  public Hand secretBackupHand;
-
-  public byte[] secretBackupArray;
-
   public Player(Profile profile) {
 
     this.name = profile.getName();

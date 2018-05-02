@@ -80,12 +80,6 @@ public class ServerLogicController implements ServerLogicInterface {
       neuHand.cards[i] = aldHand.cards[i];
     }
     
-    
-    
-    player.secretBackupHand = neuHand;
-    
-    player.secretBackupArray = player.convertToByteArray(player);
-    
 
 
 

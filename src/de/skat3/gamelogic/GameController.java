@@ -52,7 +52,7 @@ public class GameController implements GameLogicInterface, Serializable {
 
   }
 
-  
+
 
   public void startGame(Player[] players, ServerLogicController slc) {
 
@@ -229,8 +229,8 @@ public class GameController implements GameLogicInterface, Serializable {
       System.err.println("LOGIC: Wrong hand or Skat send to logic.");
       return;
     }
-    this.roundInstance.solo.setHand(hand); //XXX
-    System.out.println("logic hand: "+hand);
+    this.roundInstance.solo.setHand(new Hand(hand.cards)); // XXX ???
+    System.out.println("logic hand: " + hand);
     this.roundInstance.skat[0] = skat[0].copy();
     this.roundInstance.skat[1] = skat[1].copy();
     this.roundInstance.notifyRoundInstance();
