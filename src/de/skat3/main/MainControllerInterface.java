@@ -86,9 +86,6 @@ public interface MainControllerInterface {
 
   public void showWrongPassword();
 
-
-  
-
-
+  public void addBot(boolean hardBot);
 
 }
