@@ -30,6 +30,7 @@ public class SkatMain {
     SkatMain.guiController = new GuiController();
     SkatMain.ioController = new IoController();
     SkatMain.mainNetworkController = new MainNetworkController();
+    SkatMain.aiController = new AiController();
     Gui.showAndWait();
 
 

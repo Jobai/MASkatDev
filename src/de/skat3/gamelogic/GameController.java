@@ -5,6 +5,11 @@ import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
 
+/**
+ * 
+ * @author kai29
+ *
+ */
 public class GameController implements GameLogicInterface, Serializable {
 
 
@@ -47,11 +52,8 @@ public class GameController implements GameLogicInterface, Serializable {
 
   }
 
-  /**
-   * 
-   * @param players
-   * @param slc
-   */
+
+
   public void startGame(Player[] players, ServerLogicController slc) {
 
     if (players.length != 3 && players.length != 4) {
@@ -227,10 +229,10 @@ public class GameController implements GameLogicInterface, Serializable {
       System.err.println("LOGIC: Wrong hand or Skat send to logic.");
       return;
     }
-    this.roundInstance.solo.setHand(hand); //XXX
-    System.out.println("logic hand: "+hand);
-    this.roundInstance.skat[0] = skat[0];
-    this.roundInstance.skat[1] = skat[1];
+    this.roundInstance.solo.setHand(new Hand(hand.cards)); // XXX ???
+    System.out.println("logic hand: " + hand);
+    this.roundInstance.skat[0] = skat[0].copy();
+    this.roundInstance.skat[1] = skat[1].copy();
     this.roundInstance.notifyRoundInstance();
 
   }

@@ -394,12 +394,18 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void updatePlayer(Player player) {
-    System.out.println("lgs neue hand: " + player.getHand());
-    SkatMain.lgs.getLocalClient().updatePlayer(player);
+    System.out.println("übergeben " + player.getHand());
+    Player localPlayer = SkatMain.lgs.getLocalClient();
+    localPlayer.updatePlayer(player);
+    System.out.println("FOLGENDE KARTEN IM LGS: " + SkatMain.lgs.getLocalClient().getHand());
+    System.out.println("FOLGENDE KARTEN IM localPlayer" + localPlayer.getHand());
+    System.out.println("");
   }
 
 
   public void roundStarted() {
+    SkatMain.lgs.getEnemyOne().setHand(new Hand());
+    SkatMain.lgs.getEnemyTwo().setHand(new Hand());
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
@@ -509,6 +515,7 @@ public class MainController implements MainControllerInterface {
     } else {
       SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
     }
+    System.out.println("TIMER: " + SkatMain.lgs.timerInSeconds);
     if (SkatMain.lgs.timerInSeconds > 0) {
       new Timer(SkatMain.lgs.timerInSeconds);
     }
@@ -694,7 +701,7 @@ public class MainController implements MainControllerInterface {
     System.out.println("neue hand: " + hand);
     SkatMain.lgs.skat[0] = skat[0];
     SkatMain.lgs.skat[1] = skat[1];
-    SkatMain.clc.throwAnswer(hand, skat);
+    SkatMain.clc.throwAnswer(new Hand(hand.cards), skat);
   }
 
   @Override
@@ -737,6 +744,11 @@ public class MainController implements MainControllerInterface {
   public void localRekontraAnnounced() {
     SkatMain.clc.reKontraAnswer(); // FIXME
 
+  }
+
+  public void updateEnemy(Player transmitedPlayer) {
+    // TODO Auto-generated method stub
+    
   }
 
 

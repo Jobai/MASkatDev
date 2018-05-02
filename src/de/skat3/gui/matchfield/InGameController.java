@@ -53,6 +53,7 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void makeAMove(boolean value) {
+    System.out.println("make a move: "+value);
     this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value);
     this.matchfield.tableController.setCardsPlayable(value);
   }

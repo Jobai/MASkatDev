@@ -80,12 +80,6 @@ public class ServerLogicController implements ServerLogicInterface {
       neuHand.cards[i] = aldHand.cards[i];
     }
     
-    
-    
-    player.secretBackupHand = neuHand;
-    
-    player.secretBackupArray = player.convertToByteArray(player);
-    
 
 
 
@@ -338,6 +332,13 @@ public class ServerLogicController implements ServerLogicInterface {
     gs.broadcastMessage(mc);
   }
 
+  public void updateEnemy(Player p)
+  {
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "SOME", CommandType.UPDATE_ENEMY_INFO);
+    mc.gameState = p;
+    gs.broadcastMessage(mc);
+  }
 
 
 }

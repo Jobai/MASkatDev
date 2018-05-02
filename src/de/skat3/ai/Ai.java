@@ -9,7 +9,6 @@ import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Position;
-import de.skat3.gamelogic.RoundInstance;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
 import de.skat3.gamelogic.Position;

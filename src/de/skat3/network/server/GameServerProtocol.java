@@ -156,7 +156,7 @@ public class GameServerProtocol extends Thread {
       System.out.println("SERVER HAS PASSWORD!: CHECKING!");
       System.out.println("SERVER PW: '" + serverPw + "' ; GIVEN PW '" + mc.lobbyPassword + "'");
       if (!(serverPw.equals(mc.lobbyPassword))) {
-        kickConnection();
+        kickConnection("PASSWORD");
         return;
       }
       System.out.println("Check succesful!");
@@ -167,7 +167,7 @@ public class GameServerProtocol extends Thread {
     if (SkatMain.mainController.currentLobby
         .getCurrentNumberOfPlayers() >= SkatMain.mainController.currentLobby
             .getMaximumNumberOfPlayers()) {
-      kickConnection();
+      kickConnection("FULL");
       return;
     }
 
@@ -218,15 +218,12 @@ public class GameServerProtocol extends Thread {
       toClient.writeObject(message);
       logger.fine("send message");
       if (((MessageCommand) message).getSubType() == CommandType.ROUND_GENERAL_INFO) {
-        System.out.println("============= sendMessage [ROUND_GENERAL_INFO] ================");
-
-        System.out.println(((MessageCommand) message).gameState);
-        System.out.println(((Player) ((MessageCommand) message).gameState));
-        System.out.println(((Player) ((MessageCommand) message).gameState).getHand());
-        
-        System.out.println("SBH: " + ((Player) ((MessageCommand) message).gameState).secretBackupHand);
-        System.out.println("SBA: " + ((Player) ((MessageCommand) message).gameState).convertFromByteArray(((Player) ((MessageCommand) message).gameState).secretBackupArray));
-        System.out.println("=========================================");
+//        System.out.println("============= sendMessage [ROUND_GENERAL_INFO] ================");
+//
+//        System.out.println(((MessageCommand) message).gameState);
+//        System.out.println(((Player) ((MessageCommand) message).gameState));
+//        System.out.println(((Player) ((MessageCommand) message).gameState).getHand());
+//        System.out.println("=========================================");
       }
     } catch (ClassCastException e) {
       //
@@ -288,8 +285,8 @@ public class GameServerProtocol extends Thread {
     broadcastMessage(mc);
   }
 
-  private void kickConnection() {
-    MessageConnection mc = new MessageConnection(MessageType.CONNECTION_CLOSE, "WRONG_PASSWORD");
+  private void kickConnection(String string) {
+    MessageConnection mc = new MessageConnection(MessageType.CONNECTION_CLOSE, string);
     sendMessage(mc);
     try {
       sleep(1000);

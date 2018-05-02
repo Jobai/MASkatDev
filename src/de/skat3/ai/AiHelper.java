@@ -1,5 +1,6 @@
 package de.skat3.ai;
 
+import java.io.Serializable;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -12,13 +13,17 @@ import de.skat3.gamelogic.Value;
  * @author emrecura
  *
  */
-public class AiHelper {
+public class AiHelper implements Serializable {
 
   // TODO check if it is updated correctly
   Card[] cards;
 
   public AiHelper(Player player) {
     cards = player.getHand().getCards();
+  }
+
+  public AiHelper() {
+    // TODO Auto-generated constructor stub
   }
 
   /**

@@ -126,10 +126,6 @@ public class ClientLogicHandler {
       System.out.println("CLIENT RECEIVED" + player.getName() + " CARDS: "
           + player.getHand());
       
-      System.out.println("SECRET BACKUP HAND: " + player.secretBackupHand);
-      Player backupP = player.convertFromByteArray(player.secretBackupArray);
-      System.out.println("SECRET BACKUP ARRAY HAND: " + backupP.getHand());
-      
       SkatMain.mainController.updatePlayer(player);
     }
 
@@ -245,5 +241,19 @@ public class ClientLogicHandler {
     AdditionalMultipliers am = (AdditionalMultipliers) mc.secondPayload;
     SkatMain.mainController.showContract(c, am);
 
+  }
+
+
+  public void updateEnemyInfoHandler(Message m) {
+    MessageCommand  mc = (MessageCommand) m;
+    Player transmitedPlayer = (Player) mc.gameState;
+    if(!(transmitedPlayer.equals(SkatMain.lgs.getLocalClient())))
+    {
+      SkatMain.mainController.updateEnemy(transmitedPlayer);
+    }
+    
+    
+    // TODO Auto-generated method stub
+    
   }
 }

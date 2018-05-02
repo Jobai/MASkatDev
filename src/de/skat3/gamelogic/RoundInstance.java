@@ -1,5 +1,6 @@
 package de.skat3.gamelogic;
 
+import de.skat3.main.SkatMain;
 import de.skat3.network.server.ServerLogicController;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,7 +60,6 @@ class RoundInstance {
 
     this.initializeAuction();
     this.updatePlayer();
-    Thread.sleep(5000);
     slc.broadcastRoundStarted();
     Player winner = this.startBidding();
     if (winner == null) {
@@ -114,7 +114,6 @@ class RoundInstance {
   private void updatePlayer() {
     for (int i = 0; i < players.length; i++) {
       slc.updatePlayerDuringRound(this.players[i]);
-      System.out.println("LOGIC KARTEN GESENDET: " + this.players[i].getHand());
     }
 
   }
@@ -205,9 +204,9 @@ class RoundInstance {
       this.solo = winner;
       this.team = this.getTeamPlayer();
       for (int i = 0; i < this.soloPlayerStartHand.getAmountOfCards(); i++) {
-        this.soloPlayerStartHand.cards[i] = this.solo.hand.cards[i];
+        this.soloPlayerStartHand.cards[i] = this.solo.hand.cards[i].copy();
       }
-      
+
       // FIXME
       this.slc.callForHandOption(this.solo);
       this.lock.wait();
@@ -246,7 +245,6 @@ class RoundInstance {
 
         slc.callForPlay(this.players[0]);
         this.lock.wait();
-        System.out.println("LOGIC: first card played");
         if (this.kontaRekontraAvailable && !this.players[0].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[0]); XXX
         }
@@ -255,7 +253,6 @@ class RoundInstance {
 
         slc.callForPlay(this.players[1]);
         this.lock.wait();
-        System.out.println("LOGIC: second card played");
 
         if (this.kontaRekontraAvailable && !this.players[1].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[1]); XXX
@@ -266,7 +263,6 @@ class RoundInstance {
 
         slc.callForPlay(this.players[2]);
         this.lock.wait();
-        System.out.println("LOGIC: third card played");
         if (this.kontaRekontraAvailable && !this.players[2].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[2]); XXX
         }
