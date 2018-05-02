@@ -746,5 +746,10 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  public void updateEnemy(Player transmitedPlayer) {
+    // TODO Auto-generated method stub
+    
+  }
+
 
 }

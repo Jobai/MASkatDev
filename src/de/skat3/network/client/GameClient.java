@@ -316,6 +316,9 @@ public class GameClient {
       case CONTRACT_INFO:
         clh.contractInfoHandler(m);
         break;
+      case UPDATE_ENEMY_INFO:
+        clh.updateEnemyInfoHandler(m);
+        break;
       default:
         logger.severe("Message Type not handeld!  " + " --- " + st);
         throw new AssertionError();

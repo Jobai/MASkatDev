@@ -242,4 +242,18 @@ public class ClientLogicHandler {
     SkatMain.mainController.showContract(c, am);
 
   }
+
+
+  public void updateEnemyInfoHandler(Message m) {
+    MessageCommand  mc = (MessageCommand) m;
+    Player transmitedPlayer = (Player) mc.gameState;
+    if(!(transmitedPlayer.equals(SkatMain.lgs.getLocalClient())))
+    {
+      SkatMain.mainController.updateEnemy(transmitedPlayer);
+    }
+    
+    
+    // TODO Auto-generated method stub
+    
+  }
 }
