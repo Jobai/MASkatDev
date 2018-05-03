@@ -107,8 +107,8 @@ public class ChooseContractController {
 
   public void setContract() {
 
-    AdditionalMultipliers additionalMultipliers =
-        new AdditionalMultipliers(cbSchneider.isSelected(), cbSchwarz.isSelected(), false);
+    AdditionalMultipliers additionalMultipliers = new AdditionalMultipliers(
+        cbSchneider.isSelected(), cbSchwarz.isSelected(), cbOpengame.isSelected());
     SkatMain.mainController.contractSelected(currentContract, additionalMultipliers);
 
     this.root.setVisible(false);

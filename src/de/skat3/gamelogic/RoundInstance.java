@@ -127,10 +127,22 @@ class RoundInstance {
   }
 
   void updateEnemies() {
-    Player p1 = this.players[0].copyPlayer();
-    Player p2 = this.players[1].copyPlayer();
-    Player p3 = this.players[2].copyPlayer();
-    p1.hand = new Hand(this.players[0].hand.cards.length);
+    Player p1;
+    Player p2;
+    Player p3;
+    if (this.solo != null) {
+      p1 = this.solo.copyPlayer();
+      team = this.getTeamPlayer();
+      p2 = team[0].copyPlayer();
+      p3 = team[1].copyPlayer();
+    } else {
+      p1 = this.players[0].copyPlayer();
+      p2 = this.players[1].copyPlayer();
+      p3 = this.players[2].copyPlayer();
+    }
+    if (!this.addtionalMultipliers.isOpenHand()) {
+      p1.hand = new Hand(this.players[0].hand.cards.length);
+    }
     p2.hand = new Hand(this.players[1].hand.cards.length);
     p3.hand = new Hand(this.players[2].hand.cards.length);
     p1.wonTricks = null;
@@ -252,7 +264,9 @@ class RoundInstance {
       this.current = LogicAnswers.CONTRACT;
       this.lock.wait(); // Waits for the winner to select a contract, notified by
       // notifyLogicofContract()
-      System.out.println("logic solo: " + this.solo.isSolo);
+      if (this.addtionalMultipliers.isOpenHand()) {
+        this.updateEnemies();
+      }
 
 
 

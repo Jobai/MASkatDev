@@ -381,7 +381,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void updatePlayer(Player player) {
-    System.out.println("übergeben " + player.getHand());
+    System.out.println("ï¿½bergeben " + player.getHand());
     SkatMain.lgs.getLocalClient().updatePlayer(player);
   }
 
@@ -728,8 +728,19 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  private boolean openHandSet = false;
+
   public void updateEnemy(Player transmitedPlayer) {
     SkatMain.lgs.getPlayer(transmitedPlayer).updatePlayer(transmitedPlayer);
+    if (SkatMain.lgs.additionalMultipliers.isOpenHand() && !openHandSet) {
+      this.openHandSet = true;
+      Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+          SkatMain.guiController.getInGameController().startRound();
+        }
+      });
+    }
   }
 
   @Override
