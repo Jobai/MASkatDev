@@ -11,6 +11,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -138,6 +139,8 @@ public class InGameController implements InGameControllerInterface {
 
     RoundResultViewController roundResultViwController = fxmlLoader.getController();
     roundResultViwController.setResult(results);
+
+    stage.initModality(Modality.APPLICATION_MODAL);
     stage.show();
 
   }

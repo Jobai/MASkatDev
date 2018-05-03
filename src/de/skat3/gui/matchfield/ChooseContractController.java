@@ -25,7 +25,7 @@ public class ChooseContractController {
   @FXML
   private Label iconClub;
   @FXML
-  private ToggleButton toggleNullgame;
+  private ToggleButton toggleOpengame;
   @FXML
   private Label iconSpade;
   @FXML
@@ -94,12 +94,12 @@ public class ChooseContractController {
       }
     });
 
-    toggleNullgame.setOnMouseClicked(new EventHandler<MouseEvent>() {
+    toggleOpengame.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent event) {
         resetAllContracts();
         currentContract = Contract.NULL;
-        toggleNullgame.setSelected(true);
+        toggleOpengame.setSelected(true);
       }
     });
 
@@ -116,7 +116,7 @@ public class ChooseContractController {
 
   }
 
-  public void setHandGame() {
+  public void setOpenGame() {
 
   }
 
@@ -145,6 +145,6 @@ public class ChooseContractController {
     iconHeart.setStyle("");
 
     toggleGrand.setSelected(false);
-    toggleNullgame.setSelected(false);
+    toggleOpengame.setSelected(false);
   }
 }

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="653" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.resultscreen.RoundResultViewController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.resultscreen.RoundResultViewController">
 	<children>
 		<Pane layoutY="-1.0" prefHeight="80.0" prefWidth="600.0" style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
@@ -24,7 +24,7 @@
 				</Label>
 			</children>
 		</Pane>
-		<Pane layoutY="514.0" prefHeight="119.0" prefWidth="600.0" style="-fx-background-color: F0C808;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+		<Pane layoutY="500.0" prefHeight="119.0" prefWidth="600.0" style="-fx-background-color: F0C808;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 			<children>
 				<Label layoutX="52.0" layoutY="40.0" text="Solo Player:">
 					<font>
@@ -38,7 +38,7 @@
 				</Label>
 			</children>
 		</Pane>
-		<Pane layoutY="210.0" prefHeight="281.0" prefWidth="600.0" style="-fx-background-color: #086788;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+		<Pane layoutY="203.0" prefHeight="281.0" prefWidth="600.0" style="-fx-background-color: #086788;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 			<children>
 				<GridPane layoutX="34.0" layoutY="14.0" prefHeight="237.0" prefWidth="533.0">
 					<columnConstraints>
@@ -108,9 +108,9 @@
 				</GridPane>
 			</children>
 		</Pane>
-      <Pane layoutX="-2.0" layoutY="97.0" prefHeight="91.0" prefWidth="600.0" style="-fx-background-color: #d60202;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Pane layoutY="94.0" prefHeight="91.0" prefWidth="600.0" style="-fx-background-color: #d60202;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <GridPane layoutX="21.0" layoutY="4.0" prefHeight="91.0" prefWidth="576.0">
+            <GridPane layoutX="17.0" layoutY="4.0" prefHeight="91.0" prefWidth="579.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
