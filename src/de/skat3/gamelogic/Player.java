@@ -149,8 +149,8 @@ public class Player implements Serializable, Comparable {
     return this.position;
   }
 
-  public void setSolo() {
-    this.isSolo = true;
+  public void setSolo(boolean solo) {
+    this.isSolo = solo;
 
   }
 

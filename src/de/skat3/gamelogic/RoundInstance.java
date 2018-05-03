@@ -119,7 +119,7 @@ class RoundInstance {
 
   }
 
-  private void updatePlayer() {
+  protected void updatePlayer() {
     for (int i = 0; i < players.length; i++) {
       slc.updatePlayerDuringRound(this.players[i].copyPlayer());
     }
@@ -229,9 +229,11 @@ class RoundInstance {
   public void setDeclarer(Player winner) throws InterruptedException {
     synchronized (this.lock) {
 
-      winner.setSolo();
       this.solo = winner;
       this.team = this.getTeamPlayer();
+      winner.setSolo(true);
+      this.team[0].setSolo(false);
+      this.team[1].setSolo(false);
       for (int i = 0; i < this.soloPlayerStartHand.getAmountOfCards(); i++) {
         this.soloPlayerStartHand.cards[i] = this.solo.hand.cards[i].copy();
       }
@@ -308,15 +310,16 @@ class RoundInstance {
         if (this.kontaRekontraAvailable) {
           this.kontaRekontraAvailable = false;
         }
+
         Player trickWinner = this.determineTrickWinner();
-        if (trickWinner.equals(this.solo) && this.contract == Contract.NULL
-            || this.addtionalMultipliers.isSchwarzAnnounced() && !trickWinner.equals(this.solo)) {
-          break;
-        }
         for (Card card : this.trick) {
           trickWinner.wonTricks.add(card);
         }
         slc.broadcastTrickResult(trickWinner);
+        if (trickWinner.equals(this.solo) && this.contract == Contract.NULL
+            || this.addtionalMultipliers.isSchwarzAnnounced() && !trickWinner.equals(this.solo)) {
+          break;
+        }
         this.rotatePlayers(trickWinner);
       }
     }
@@ -393,10 +396,10 @@ class RoundInstance {
   Player[] getTeamPlayer() {
 
     Player[] temp = new Player[2];
-    int found = 0;
+    int position = 0;
     for (int i = 0; i < this.players.length; i++) {
-      if (!this.players[i].isSolo) {
-        temp[found++] = this.players[i];
+      if (!this.solo.equals(this.players[i])) {
+        temp[position++] = this.players[i];
       }
     }
     return temp;
