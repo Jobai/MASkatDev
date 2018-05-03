@@ -21,7 +21,7 @@ public class ChooseContractController {
   @FXML
   public AnchorPane root;
   @FXML
-  private CheckBox cbHandgame;
+  private CheckBox cbOpengame;
   @FXML
   private Label iconClub;
   @FXML
@@ -121,17 +121,17 @@ public class ChooseContractController {
   }
 
   public void setSchneider() {
-    cbHandgame.setSelected(true);
+    cbOpengame.setSelected(true);
   }
 
   public void setSchwarz() {
     cbSchneider.setSelected(true);
-    cbHandgame.setSelected(true);
+    cbOpengame.setSelected(true);
   }
 
   public void setOuvert() {
     cbSchneider.setSelected(true);
-    cbHandgame.setSelected(true);
+    cbOpengame.setSelected(true);
     cbSchwarz.setSelected(true);
   }
 
