@@ -126,7 +126,7 @@ class RoundInstance {
 
   }
 
-  private void updateEnemies() {
+  void updateEnemies() {
     Player p1 = this.players[0].copyPlayer();
     Player p2 = this.players[1].copyPlayer();
     Player p3 = this.players[2].copyPlayer();
@@ -235,8 +235,6 @@ class RoundInstance {
       for (int i = 0; i < this.soloPlayerStartHand.getAmountOfCards(); i++) {
         this.soloPlayerStartHand.cards[i] = this.solo.hand.cards[i].copy();
       }
-
-      // FIXME
       this.slc.callForHandOption(this.solo);
       this.current = LogicAnswers.HANDGAME;
       this.lock.wait();
@@ -248,10 +246,11 @@ class RoundInstance {
       }
 
 
-      this.slc.callForContract(this.solo);
+      this.slc.callForContract(this.solo.copyPlayer());
       this.current = LogicAnswers.CONTRACT;
       this.lock.wait(); // Waits for the winner to select a contract, notified by
       // notifyLogicofContract()
+      System.out.println("logic solo: " + this.solo.isSolo);
 
 
 

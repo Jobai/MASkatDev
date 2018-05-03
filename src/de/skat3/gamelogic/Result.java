@@ -229,8 +229,9 @@ public class Result implements Serializable {
     }
     this.ranks = new Player[roundInstance.gameThread.gc.allPlayers.length];
     for (int i = 0; i < ranks.length; i++) {
-      this.ranks[i] = roundInstance.gameThread.gc.allPlayers[i];
+      this.ranks[i] = roundInstance.gameThread.gc.allPlayers[i].copyPlayer();
     }
+
     Arrays.sort(this.ranks);
 
   }

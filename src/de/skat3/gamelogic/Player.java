@@ -70,6 +70,7 @@ public class Player implements Serializable, Comparable {
    * @param player
    */
   public Player(Player player) {
+    this.isSolo = player.isSolo;
     this.name = player.name;
     this.wonTricks = player.wonTricks;
     this.uuid = player.uuid;
@@ -248,6 +249,7 @@ public class Player implements Serializable, Comparable {
   }
 
   public void updatePlayer(Player player) {
+    this.isSolo = player.isSolo;
     this.wonTricks = player.wonTricks;
     this.points = player.points;
     this.setHand(player.hand);

@@ -54,8 +54,7 @@ public class GameController implements GameLogicInterface, Serializable {
 
 
 
-  public GameController() {
-  }
+  public GameController() {}
 
 
 
@@ -190,7 +189,10 @@ public class GameController implements GameLogicInterface, Serializable {
     this.roundInstance.contract = contract;
     additionalMultipliers.setHandGame(this.roundInstance.addtionalMultipliers.isHandGame());
     this.roundInstance.setAdditionalMultipliers(additionalMultipliers);
+    slc.updatePlayerDuringRound(roundInstance.solo.copyPlayer());
+    this.roundInstance.updateEnemies();
     this.slc.broadcastContract(contract, additionalMultipliers);
+
     this.roundInstance.notifyRoundInstance(LogicAnswers.CONTRACT);
   }
 
