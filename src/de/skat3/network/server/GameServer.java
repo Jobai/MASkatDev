@@ -13,6 +13,7 @@ import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
 import de.skat3.network.datatypes.CommandType;
+import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageCommand;
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -20,6 +21,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,7 +36,7 @@ import java.util.logging.Logger;
 public class GameServer extends Thread {
 
   private static Logger logger = Logger.getLogger("de.skat3.network.server");
-  public static ArrayList<GameServerProtocol> threadList;
+  public static List<GameServerProtocol> threadList;
   public static int port = 2018; // HARDCODED
   private ServerSocket serverSocket;
 
@@ -60,7 +63,7 @@ public class GameServer extends Thread {
     this.gc = gc;
     logger.setLevel(Level.ALL);
     logger.fine("test fine");
-    threadList = new ArrayList<GameServerProtocol>();
+    threadList = Collections.synchronizedList(new ArrayList<GameServerProtocol>());
     slc = new ServerLogicController(3, this);
 
     this.start();
@@ -77,7 +80,7 @@ public class GameServer extends Thread {
     this.gc = gc;
     logger.setLevel(Level.ALL);
     logger.fine("test fine");
-    threadList = new ArrayList<GameServerProtocol>();
+    threadList = Collections.synchronizedList(new ArrayList<GameServerProtocol>());
     slc = new ServerLogicController(lobbysettings, this);
     GameServer.lobby = lobbysettings;
     this.start();
@@ -189,11 +192,14 @@ public class GameServer extends Thread {
    * @author Jonas Bauer
    * @param mc the message to be broadcasted
    */
-  void broadcastMessage(MessageCommand mc) {
-    logger.log(Level.FINE, "Got ChatMessage: ");
-    for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
-      gameServerProtocol.sendMessage(mc);
+  void broadcastMessage(Message mc) {
+    synchronized (threadList) {
+      logger.log(Level.FINE, "Got ChatMessage: ");
+      for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
+        gameServerProtocol.sendMessage(mc);
+      }
     }
+   
   }
 
 

@@ -14,6 +14,7 @@ import de.skat3.gamelogic.Player;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
+import de.skat3.network.ObjectSizeFetcher;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
@@ -182,7 +183,11 @@ public class GameServerProtocol extends Thread {
 
     // gs.ls.setLobby(SkatMain.mainController.currentLobby);
     this.playerProfile = (Player) m.payload;
+    Lobby l = SkatMain.mainController.currentLobby;
     m.secondPayload = SkatMain.mainController.currentLobby;
+    byte[] b = l.convertToByteArray(l);
+
+    System.out.println("LOBBY SIZE!: " + b.length);
 
     gs.ls.getLobby().lobbyPlayer++;
 
@@ -268,10 +273,8 @@ public class GameServerProtocol extends Thread {
    * @param mc the message to be broadcasted
    */
   public void broadcastMessage(Message mc) {
-    // logger.log(Level.FINE, "Got ChatMessage: ");
-    for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
-      gameServerProtocol.sendMessage(mc);
-    }
+
+    gs.broadcastMessage(mc);
   }
 
   void handleLostConnection() {
