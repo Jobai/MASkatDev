@@ -27,6 +27,7 @@ public class Result implements Serializable {
   private int contractValue;
   public boolean roundCancelled;
   public String declarerName;
+  public int pointsSoloPlayer;
 
   /**
    * 
@@ -35,6 +36,7 @@ public class Result implements Serializable {
   // XXX TESTEN
   public Result(RoundInstance roundInstance) {
 
+    this.pointsSoloPlayer = 0;
     this.isBierlachs = (roundInstance.mode < 0) ? true : false;
     this.highestBid = BiddingValues.values[roundInstance.currentBiddingValue];
     this.handGame = roundInstance.addtionalMultipliers.isHandGame();
@@ -125,7 +127,6 @@ public class Result implements Serializable {
 
 
     boolean won;
-    int pointsSoloPlayer = 0;
     for (Card c : roundInstance.solo.wonTricks) {
       pointsSoloPlayer += c.getTrickValue();
     }

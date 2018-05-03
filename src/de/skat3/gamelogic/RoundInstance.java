@@ -38,7 +38,7 @@ class RoundInstance {
    * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
    *        number between -500 and -1000)
    */
-  public RoundInstance(ServerLogicController slc, Player[] players,GameController gc,
+  public RoundInstance(ServerLogicController slc, Player[] players, GameController gc,
       boolean kontraRekontraEnabled, int mode) {
     this.slc = slc;
     this.gc = gc;
@@ -89,7 +89,7 @@ class RoundInstance {
     }
   }
 
-    void dealCards() {
+  void dealCards() {
 
     ArrayList<Card> temp = new ArrayList<Card>();
 
@@ -255,7 +255,7 @@ class RoundInstance {
         this.slc.sendSkat(this.solo, this.skat);
         this.current = LogicAnswers.SKAT;
         this.lock.wait(); // notified by notifyLogicOfNewSkat(Card[] skat);
-        slc.updatePlayerDuringRound(solo);
+        slc.updatePlayerDuringRound(solo.copyPlayer());
       }
 
 
@@ -287,48 +287,47 @@ class RoundInstance {
         this.updatePlayer();
         this.updateEnemies();
         if (this.kontaRekontraAvailable) {
-          slc.kontraRequest(this.getTeamPlayer());
+          slc.kontraRequest(this.getTeamPlayer()); //XXX
         }
 
-        slc.callForPlay(this.players[0]);
+        slc.callForPlay(this.players[0].copyPlayer());
         this.current = LogicAnswers.CARD;
         this.lock.wait();
         if (this.kontaRekontraAvailable && !this.players[0].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[0]); XXX
         }
-        slc.updatePlayerDuringRound(this.players[0]);
-        slc.sendPlayedCard(this.players[0], this.trick[0]);
+        slc.updatePlayerDuringRound(this.players[0].copyPlayer());
+        slc.sendPlayedCard(this.players[0].copyPlayer(), this.trick[0]);
 
 
-        slc.callForPlay(this.players[1]);
+        slc.callForPlay(this.players[1].copyPlayer());
         this.current = LogicAnswers.CARD;
         this.lock.wait();
 
         if (this.kontaRekontraAvailable && !this.players[1].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[1]); XXX
         }
-        slc.updatePlayerDuringRound(this.players[1]);
-        slc.sendPlayedCard(this.players[1], this.trick[1]);
+        slc.updatePlayerDuringRound(this.players[1].copyPlayer());
+        slc.sendPlayedCard(this.players[1].copyPlayer(), this.trick[1]);
 
 
-        slc.callForPlay(this.players[2]);
+        slc.callForPlay(this.players[2].copyPlayer());
         this.current = LogicAnswers.CARD;
         this.lock.wait();
         if (this.kontaRekontraAvailable && !this.players[2].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[2]); XXX
         }
 
-        slc.updatePlayerDuringRound(this.players[2]);
-        slc.sendPlayedCard(this.players[2], this.trick[2]);
+        slc.updatePlayerDuringRound(this.players[2].copyPlayer());
+        slc.sendPlayedCard(this.players[2].copyPlayer(), this.trick[2]);
         if (this.kontaRekontraAvailable) {
           this.kontaRekontraAvailable = false;
         }
-
         Player trickWinner = this.determineTrickWinner();
         for (Card card : this.trick) {
-          trickWinner.wonTricks.add(card);
+          trickWinner.wonTricks.add(card.copy());
         }
-        slc.broadcastTrickResult(trickWinner);
+        slc.broadcastTrickResult(trickWinner.copyPlayer());
         if (trickWinner.equals(this.solo) && this.contract == Contract.NULL
             || this.addtionalMultipliers.isSchwarzAnnounced() && !trickWinner.equals(this.solo)) {
           break;

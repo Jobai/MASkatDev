@@ -72,7 +72,10 @@ public class Player implements Serializable, Comparable<Player> {
   public Player(Player player) {
     this.isSolo = player.isSolo;
     this.name = player.name;
-    this.wonTricks = player.wonTricks;
+    this.wonTricks = new ArrayList<Card>();
+    for (Card card : player.wonTricks) {
+      this.wonTricks.add(card);
+    }
     this.uuid = player.uuid;
     this.image = player.image;
     this.points = player.points;

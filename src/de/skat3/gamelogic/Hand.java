@@ -117,7 +117,7 @@ public class Hand implements Serializable {
             consecutiveMatadors++;
             for (int i = Value.length - 2; i >= 0; i--) {
               if (!this.contains(
-                  deck.getCard(Value.values()[i].name() + " OF " + contract.toString()))) {
+                  deck.getCard(Value.values()[i].name() + " OF " + contract.name()))) {
                 consecutiveMatadors++;
               } else {
                 break;
