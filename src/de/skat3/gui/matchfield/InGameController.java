@@ -31,6 +31,7 @@ public class InGameController implements InGameControllerInterface {
     if (value) {
       this.matchfield.overlayController.setRoundInfos(SkatMain.lgs.contract,
           SkatMain.lgs.additionalMultipliers);
+      this.matchfield.tableController.refreshHands();
     } else {
       this.matchfield.overlayController.setRoundInfos(null, null);
     }

@@ -14,6 +14,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.animation.Animation.Status;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -134,6 +135,8 @@ public class InGameOverlayController {
 
   @FXML
   private Label openInfo;
+
+  private Timeline localTimer;
   // Initializing
 
 
@@ -205,8 +208,17 @@ public class InGameOverlayController {
   }
 
   void showTimer(boolean value) {
+    if (this.localTimer != null) {
+      if (this.localTimer.getStatus().equals(Status.RUNNING)) {
+        this.localTimer.setOnFinished(e -> {
+        });
+        this.localTimer.stop();
+      }
+    }
     this.timerLabel.setVisible(value);
   }
+
+
 
   void setTimer(int remainingTime) {
 
@@ -221,11 +233,19 @@ public class InGameOverlayController {
     sp.set(" Sec");
     this.timerLabel.textProperty().bind(timeLeft.asString("%.2f").concat(sp));
 
-    Timeline timeline = new Timeline();
-    timeline.getKeyFrames().add(new KeyFrame(finalTime, new KeyValue(timeLeft, 0)));
-    timeline.play();
+    if (this.localTimer != null) {
+      if (this.localTimer.getStatus().equals(Status.RUNNING)) {
+        this.localTimer.setOnFinished(e -> {
+        });
+        this.localTimer.stop();
+      }
+    }
 
-    timeline.setOnFinished(e -> {
+    this.localTimer = new Timeline();
+    this.localTimer.getKeyFrames().add(new KeyFrame(finalTime, new KeyValue(timeLeft, 0)));
+    this.localTimer.play();
+
+    this.localTimer.setOnFinished(e -> {
       this.timerLabel.setVisible(false);
       if (SkatMain.guiController.getInGameController().matchfield.tableController.isPlaying) {
         Random rand = new Random();

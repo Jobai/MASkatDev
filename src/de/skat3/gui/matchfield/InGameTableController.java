@@ -350,6 +350,12 @@ public class InGameTableController {
     return null;
   }
 
+  void refreshHands() {
+    this.tableView.playerHand.resetPositions();
+    this.tableView.leftHand.resetPositions();
+    this.tableView.rightHand.resetPositions();
+  }
+
   /**
    * Is initializing all hands by first clearing them and than adding new cards form the
    * LocalGameState to them and setting the new owners.
