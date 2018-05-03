@@ -57,9 +57,6 @@ public class AiController {
 
     this.getBot(bot).updatePlayer(bot);
     this.getBot(bot).ai.setHand(bot.getHand());
-
-    System.out.println("KARTEN VOM BOT:" + this.getBot(bot));
-
   }
 
   public void selectSkatRequest(Card[] skat, Player bot) {
@@ -98,7 +95,6 @@ public class AiController {
   }
 
   public void bidRequest(int bid, Player bot) {
-    System.out.println("BOT WAS ASKED");
     Player p = this.getBot(bot);
     Ai ai = p.ai;
     boolean b = ai.acceptBid(bid);

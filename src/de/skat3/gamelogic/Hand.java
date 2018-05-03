@@ -22,7 +22,7 @@ public class Hand implements Serializable {
       this.cards[i] = new Card();
     }
   }
-  
+
   public Hand(int amountOfCards) {
     this.cards = new Card[amountOfCards];
     for (int i = 0; i < this.cards.length; i++) {
@@ -226,8 +226,10 @@ public class Hand implements Serializable {
         temp[i] = this.cards[i + skipped];
       }
     }
-
-    this.cards = temp;
+    this.cards = new Card[temp.length];
+    for (int i = 0; i < this.cards.length; i++) {
+      this.cards[i] = temp[i].copy();
+    }
   }
 
 

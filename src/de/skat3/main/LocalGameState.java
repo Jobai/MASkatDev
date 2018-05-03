@@ -32,7 +32,8 @@ public class LocalGameState {
    */
   public LocalGameState(int numberOfPlayers, int timerInSeconds, boolean singlePlayerGame) {
     this.localPosition = SkatMain.mainController.currentLobby.currentPlayers;
-    this.localClient = SkatMain.mainController.currentLobby.players[this.localPosition - 1];
+    this.localClient =
+        SkatMain.mainController.currentLobby.players[this.localPosition - 1].copyPlayer();
     this.singlePlayerGame = singlePlayerGame;
     this.timerInSeconds = timerInSeconds;
     this.trickcount = 0;

@@ -65,7 +65,6 @@ public class RandomAI extends Ai implements Serializable {
     int i;
     ArrayList<Card> temp = new ArrayList<Card>();
     for (Card c : this.hand.cards) {
-      System.out.println(c + " " + c.isPlayable());
       if (c.isPlayable()) {
         temp.add(c.copy());
       }

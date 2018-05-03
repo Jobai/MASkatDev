@@ -1,12 +1,5 @@
 package de.skat3.gamelogic;
-
-
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
-import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -190,7 +183,6 @@ public class Card implements Serializable {
   public boolean equals(Card card) throws Exception {
 
     if (this.value == null && this.suit == null && card.value == null && card.suit == null) {
-      System.err.println("Null cards compared");
       return true;
     } else {
       if (this.value == null ^ this.suit == null || card.value == null ^ card.suit == null) {

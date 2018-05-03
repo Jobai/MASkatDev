@@ -16,6 +16,7 @@ class RoundInstance {
   Card[] originalSkat;
   Hand soloPlayerStartHand;
   Contract contract;
+  LogicAnswers current;
   AdditionalMultipliers addtionalMultipliers;
   boolean kontra;
   boolean rekontra;
@@ -56,6 +57,10 @@ class RoundInstance {
   }
 
 
+
+  public RoundInstance() {
+
+  }
 
   void startRound() throws InterruptedException {
 
@@ -116,7 +121,7 @@ class RoundInstance {
 
   private void updatePlayer() {
     for (int i = 0; i < players.length; i++) {
-      slc.updatePlayerDuringRound(this.players[i]);
+      slc.updatePlayerDuringRound(this.players[i].copyPlayer());
     }
 
   }
@@ -183,9 +188,11 @@ class RoundInstance {
 
     while (this.currentBiddingValue < BiddingValues.values.length) {
       this.slc.callForBid(bid, BiddingValues.values[this.currentBiddingValue]);
+      this.current = LogicAnswers.BID;
       lock.wait();
       if (this.bidAccepted) {
         this.slc.callForBid(respond, BiddingValues.values[this.currentBiddingValue]);
+        this.current = LogicAnswers.BID;
         lock.wait();
         if (this.bidAccepted) {
           this.currentBiddingValue++;
@@ -231,15 +238,18 @@ class RoundInstance {
 
       // FIXME
       this.slc.callForHandOption(this.solo);
+      this.current = LogicAnswers.HANDGAME;
       this.lock.wait();
       if (!this.addtionalMultipliers.isHandGame()) {
         this.slc.sendSkat(this.solo, this.skat);
+        this.current = LogicAnswers.SKAT;
         this.lock.wait(); // notified by notifyLogicOfNewSkat(Card[] skat);
         slc.updatePlayerDuringRound(solo);
       }
 
 
       this.slc.callForContract(this.solo);
+      this.current = LogicAnswers.CONTRACT;
       this.lock.wait(); // Waits for the winner to select a contract, notified by
       // notifyLogicofContract()
 
@@ -267,36 +277,41 @@ class RoundInstance {
         }
 
         slc.callForPlay(this.players[0]);
+        this.current = LogicAnswers.CARD;
         this.lock.wait();
         if (this.kontaRekontraAvailable && !this.players[0].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[0]); XXX
         }
+        slc.updatePlayerDuringRound(this.players[0]);
         slc.sendPlayedCard(this.players[0], this.trick[0]);
 
 
         slc.callForPlay(this.players[1]);
+        this.current = LogicAnswers.CARD;
         this.lock.wait();
 
         if (this.kontaRekontraAvailable && !this.players[1].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[1]); XXX
         }
+        slc.updatePlayerDuringRound(this.players[1]);
         slc.sendPlayedCard(this.players[1], this.trick[1]);
 
 
-
         slc.callForPlay(this.players[2]);
+        this.current = LogicAnswers.CARD;
         this.lock.wait();
         if (this.kontaRekontraAvailable && !this.players[2].isSolo) {
           // slc.broadcastKontraRekontraExpired(this.players[2]); XXX
         }
 
+        slc.updatePlayerDuringRound(this.players[2]);
         slc.sendPlayedCard(this.players[2], this.trick[2]);
         if (this.kontaRekontraAvailable) {
           this.kontaRekontraAvailable = false;
         }
         Player trickWinner = this.determineTrickWinner();
-        if (!!trickWinner.equals(this.solo) && this.contract == Contract.NULL) {
-          this.slc.broadcastRoundResult(new Result(this));
+        if (trickWinner.equals(this.solo) && this.contract == Contract.NULL
+            || this.addtionalMultipliers.isSchwarzAnnounced() && !trickWinner.equals(this.solo)) {
           break;
         }
         for (Card card : this.trick) {
@@ -410,9 +425,13 @@ class RoundInstance {
 
 
 
-  void notifyRoundInstance() {
+  void notifyRoundInstance(LogicAnswers answer) {
     synchronized (lock) {
-      this.lock.notify();
+      if (answer == this.current) {
+        this.lock.notify();
+      } else {
+        System.err.println("Wrong Notify: " + answer + ", waiting for: " + this.current);
+      }
     }
   }
 

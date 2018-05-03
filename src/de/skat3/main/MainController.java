@@ -330,12 +330,9 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showCardPlayed(Player player, Card card) {
-    if (player.equals(SkatMain.lgs.getLocalClient())) {
-      SkatMain.lgs.getLocalHand().remove(card);
-    } else {
+    if (!player.equals(SkatMain.lgs.getLocalClient())) {
       SkatMain.lgs.getPlayer(player).getHand().remove(new Card());
     }
-
     Platform.runLater(new Runnable() {
 
       @Override
@@ -384,11 +381,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void updatePlayer(Player player) {
     System.out.println("übergeben " + player.getHand());
-    Player localPlayer = SkatMain.lgs.getLocalClient();
-    localPlayer.updatePlayer(player);
-    System.out.println("FOLGENDE KARTEN IM LGS: " + SkatMain.lgs.getLocalClient().getHand());
-    System.out.println("FOLGENDE KARTEN IM localPlayer" + localPlayer.getHand());
-    System.out.println("");
+    SkatMain.lgs.getLocalClient().updatePlayer(player);
   }
 
 
@@ -510,7 +503,6 @@ public class MainController implements MainControllerInterface {
         }
       });
     }
-    System.out.println("karten im LGS: " + SkatMain.lgs.getLocalClient().getHand());
     Platform.runLater(new Runnable() {
       @Override
       public void run() {

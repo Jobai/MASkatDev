@@ -54,6 +54,11 @@ public class GameController implements GameLogicInterface, Serializable {
 
 
 
+  public GameController() {
+  }
+
+
+
   public void startGame(Player[] players, ServerLogicController slc) {
 
     if (players.length != 3 && players.length != 4) {
@@ -157,7 +162,7 @@ public class GameController implements GameLogicInterface, Serializable {
       return;
     }
     this.roundInstance.addCardtoTrick(card);
-    this.roundInstance.notifyRoundInstance();
+    this.roundInstance.notifyRoundInstance(LogicAnswers.CARD);
 
   }
 
@@ -168,7 +173,7 @@ public class GameController implements GameLogicInterface, Serializable {
   public void notifyLogicofBid(boolean accepted) {
     this.roundInstance.setBid(accepted);
     this.slc.broadcastBid(accepted);
-    this.roundInstance.notifyRoundInstance();
+    this.roundInstance.notifyRoundInstance(LogicAnswers.BID);
 
   }
 
@@ -186,7 +191,7 @@ public class GameController implements GameLogicInterface, Serializable {
     additionalMultipliers.setHandGame(this.roundInstance.addtionalMultipliers.isHandGame());
     this.roundInstance.setAdditionalMultipliers(additionalMultipliers);
     this.slc.broadcastContract(contract, additionalMultipliers);
-    this.roundInstance.notifyRoundInstance();
+    this.roundInstance.notifyRoundInstance(LogicAnswers.CONTRACT);
   }
 
   @Override
@@ -217,7 +222,7 @@ public class GameController implements GameLogicInterface, Serializable {
   @Override
   public void notifyLogicOfHandGame(boolean accepted) {
     this.roundInstance.addtionalMultipliers.setHandGame(accepted);
-    this.roundInstance.notifyRoundInstance();
+    this.roundInstance.notifyRoundInstance(LogicAnswers.HANDGAME);
 
   }
 
@@ -233,7 +238,7 @@ public class GameController implements GameLogicInterface, Serializable {
     System.out.println("logic hand: " + hand);
     this.roundInstance.skat[0] = skat[0].copy();
     this.roundInstance.skat[1] = skat[1].copy();
-    this.roundInstance.notifyRoundInstance();
+    this.roundInstance.notifyRoundInstance(LogicAnswers.SKAT);
 
   }
 

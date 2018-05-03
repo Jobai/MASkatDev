@@ -225,7 +225,6 @@ public class Lobby implements Serializable {
   public Lobby convertFromByteArray(byte[] byteArray) {
     try (ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
         ObjectInput oIn = new ObjectInputStream(bais)) {
-      System.out.println(byteArray.length);
       return (Lobby) oIn.readObject();
     } catch (IOException e) {
       // TODO Auto-generated catch block
