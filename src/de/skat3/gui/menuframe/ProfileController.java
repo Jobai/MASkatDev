@@ -5,6 +5,7 @@ import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -97,10 +98,16 @@ public class ProfileController {
 
     File file = fileChooser.showOpenDialog(new Stage());
     if (file != null) {
-      Image i = new Image(file.toURI().toString());
+      Image image = new Image(file.toURI().toString());
+      if (file.length() > 1000000) {
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setContentText("Image is too big! \nMax. 1 MB allowed!");
+        a.showAndWait();
+        return;
+      }
       fileFormat = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1,
           file.getAbsolutePath().length());
-      profileImage.setImage(i);
+      profileImage.setImage(image);
     }
   }
 

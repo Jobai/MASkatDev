@@ -18,6 +18,8 @@ public class RoundResultViewController {
   @FXML
   private Label pointsSoloPlayer;
   @FXML
+  private Label declarerName;
+  @FXML
   private Label rounds;
   @FXML
   private Label namePlayer1;
@@ -82,10 +84,12 @@ public class RoundResultViewController {
     }
 
     if (result.soloWon) {
-      pointsSoloPlayer.setText("Gewonnen (" + result.scoringPoints + "Punkte)");
+      pointsSoloPlayer.setText("Won (" + result.scoringPoints + " Punkte)");
     } else {
-      pointsSoloPlayer.setText("Verloren (" + result.scoringPoints + "Punkte)");
+      pointsSoloPlayer.setText("Lost (" + result.scoringPoints + " Punkte)");
     }
+
+    declarerName.setText(result.declarerName);
 
     // Checkboxes
     cbHandgame.setSelected(result.handGame);
