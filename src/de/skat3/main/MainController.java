@@ -470,7 +470,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showSelectionInfos();
+        SkatMain.guiController.getInGameController().showSelectionInfos(true);
       }
     });
 

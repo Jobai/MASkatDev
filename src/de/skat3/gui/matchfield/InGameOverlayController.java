@@ -139,17 +139,33 @@ public class InGameOverlayController {
 
 
   void setRoundInfos(Contract con, AdditionalMultipliers addMulti) {
-    this.trumpInfo.setText(con.toString());
-    this.trumpInfo.setVisible(true);
 
-    this.schneiderInfo.setVisible(addMulti.isSchneiderAnnounced());
-    this.schwarzInfo.setVisible(addMulti.isSchwarzAnnounced());
-    this.openInfo.setVisible(addMulti.isOpenHand());
-    this.handInfo.setVisible(addMulti.isHandGame());
+    if (con != null) {
+      this.trumpInfo.setText(con.toString());
+      this.trumpInfo.setVisible(true);
 
-    this.extra1LocalClient.setText(SkatMain.lgs.getLocalClient().isSolo() ? "Solo" : "Team");
-    this.extraEnemyOne.setText(SkatMain.lgs.getEnemyOne().isSolo() ? "Solo" : "Team");
-    this.extraEnemyTwo.setText(SkatMain.lgs.getEnemyTwo().isSolo() ? "Solo" : "Team");
+      this.extra1LocalClient.setText(SkatMain.lgs.getLocalClient().isSolo() ? "Solo" : "Team");
+      this.extraEnemyOne.setText(SkatMain.lgs.getEnemyOne().isSolo() ? "Solo" : "Team");
+      this.extraEnemyTwo.setText(SkatMain.lgs.getEnemyTwo().isSolo() ? "Solo" : "Team");
+
+    } else {
+      this.trumpInfo.setVisible(false);
+      this.extra1LocalClient.setText("");
+      this.extraEnemyOne.setText("");
+      this.extraEnemyTwo.setText("");
+    }
+
+    if (addMulti != null) {
+      this.schneiderInfo.setVisible(addMulti.isSchneiderAnnounced());
+      this.schwarzInfo.setVisible(addMulti.isSchwarzAnnounced());
+      this.openInfo.setVisible(addMulti.isOpenHand());
+      this.handInfo.setVisible(addMulti.isHandGame());
+    } else {
+      this.schneiderInfo.setVisible(false);
+      this.schwarzInfo.setVisible(false);
+      this.openInfo.setVisible(false);
+      this.handInfo.setVisible(false);
+    }
   }
 
   public void handleSendMessage(KeyEvent e) {

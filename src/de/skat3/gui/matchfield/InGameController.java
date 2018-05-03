@@ -26,7 +26,7 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield = matchfield;
   }
 
-  public void showSelectionInfos() {
+  public void showSelectionInfos(boolean value) {
     this.matchfield.overlayController.setRoundInfos(SkatMain.lgs.contract,
         SkatMain.lgs.additionalMultipliers);
   }
