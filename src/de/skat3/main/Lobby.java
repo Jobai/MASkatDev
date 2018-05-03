@@ -41,7 +41,7 @@ public class Lobby implements Serializable {
   boolean singlePlayerGame;
   boolean kontraRekontraEnabled;
   private UUID uuid;
-  
+
   public int lobbyPlayer = 0;
 
   boolean hasPassword;
@@ -147,14 +147,16 @@ public class Lobby implements Serializable {
 
   public void removePlayer(Player player) {
     for (int i = 0; i < this.numberOfPlayers; i++) {
-      if (this.players[i].equals(player)) {
-        SkatMain.lgs.removePlayer(player);
-        this.players[i] = null;
-        this.currentPlayers--;
-        if (SkatMain.mainController.maxNumberOfPlayerProperty != null) {
-          SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
+      if (this.players[i] != null) {
+        if (this.players[i].equals(player)) {
+          SkatMain.lgs.removePlayer(player);
+          this.players[i] = null;
+          this.currentPlayers--;
+          if (SkatMain.mainController.maxNumberOfPlayerProperty != null) {
+            SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
+          }
+          break;
         }
-        break;
       }
       if (i == this.numberOfPlayers - 1) {
         System.err.println("Player not found: " + player);
@@ -252,11 +254,12 @@ public class Lobby implements Serializable {
   public void incrementconnectedPlayerNumberbyHand() {
     currentPlayers++;
   }
-  
+
 
   public int getTimer() {
     return this.timer;
   }
+
   public boolean getKontraRekontraEnabled() {
     return this.kontraRekontraEnabled;
   }
