@@ -732,14 +732,16 @@ public class MainController implements MainControllerInterface {
 
   public void updateEnemy(Player transmitedPlayer) {
     SkatMain.lgs.getPlayer(transmitedPlayer).updatePlayer(transmitedPlayer);
-    if (SkatMain.lgs.additionalMultipliers.isOpenHand() && !openHandSet) {
-      this.openHandSet = true;
-      Platform.runLater(new Runnable() {
-        @Override
-        public void run() {
-          SkatMain.guiController.getInGameController().startRound();
-        }
-      });
+    if (SkatMain.lgs.additionalMultipliers != null) {
+      if (SkatMain.lgs.additionalMultipliers.isOpenHand() && !openHandSet) {
+        this.openHandSet = true;
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            SkatMain.guiController.getInGameController().startRound();
+          }
+        });
+      }
     }
   }
 
