@@ -24,9 +24,9 @@ class RoundInstance {
   boolean bidAccepted;
   int mode;
   int trickcount;
-  GameThread gameThread;
   Object lock = new Object();
   boolean roundCancelled;
+  GameController gc;
 
 
   /**
@@ -38,9 +38,10 @@ class RoundInstance {
    * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
    *        number between -500 and -1000)
    */
-  public RoundInstance(ServerLogicController slc, Player[] players, GameThread gameThread,
+  public RoundInstance(ServerLogicController slc, Player[] players,GameController gc,
       boolean kontraRekontraEnabled, int mode) {
     this.slc = slc;
+    this.gc = gc;
     this.players = players;
     this.kontra = false;
     this.rekontra = false;
@@ -52,8 +53,6 @@ class RoundInstance {
     for (int i = 0; i < this.players.length; i++) {
       this.players[i].shortenPlayer(); // XXX
     }
-    this.gameThread = gameThread;
-
   }
 
 
@@ -90,7 +89,7 @@ class RoundInstance {
     }
   }
 
-  private void dealCards() {
+    void dealCards() {
 
     ArrayList<Card> temp = new ArrayList<Card>();
 
@@ -278,7 +277,7 @@ class RoundInstance {
    * Starts a single game round. Every player has to play a card and the winner is determined.
    * 
    */
-  public void startGame() throws InterruptedException {
+  void startGame() throws InterruptedException {
 
     synchronized (this.lock) {
       this.trick = new Card[3];

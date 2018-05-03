@@ -40,9 +40,11 @@ public interface MainControllerInterface {
 
 
   /**
-   * Opens the training mode menu.
+   * Starts a specific scenario in training mode:
+   * 
+   * @param scenario 0 = basic guide, 1-5 = scenarios.
    */
-  public void startTrainingMode();
+  void startTrainingMode(int scenario);
 
   /**
    * Joins the specified lobby.

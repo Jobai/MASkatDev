@@ -6,11 +6,13 @@ public class TrainingController extends GameController implements GameLogicInter
 
   private int scenario;
   private TrainingModeThread trainingModeThread;
-  private TrainingRoundInstance TrainingRoundInstance;
 
   public TrainingController(int scenario) {
     super();
     this.scenario = scenario;
+    this.numberOfPlayers = 3;
+    this.players = new Player[numberOfPlayers];
+    this.trainingModeThread = new TrainingModeThread(this);
   }
 
   @Override
@@ -19,7 +21,7 @@ public class TrainingController extends GameController implements GameLogicInter
 
     if (players.length != 3 && players.length != 4) {
       if (players.length < 3) {
-        System.err.println("LOGIC: Not enough layers connected: " + players.length);
+        System.err.println("LOGIC: Not enough players connected: " + players.length);
         return;
       } else {
         System.err.println("LOGIC: Too many players connected: " + players.length);
@@ -35,10 +37,8 @@ public class TrainingController extends GameController implements GameLogicInter
         }
       }
     }
-    this.numberOfPlayers = players.length;
-    this.allPlayers = new Player[numberOfPlayers];
     for (int i = 0; i < players.length; i++) {
-      this.allPlayers[i] = players[i].copyPlayer();
+      this.players[i] = players[i];
     }
     this.slc = slc;
     this.trainingModeThread.start();
@@ -46,10 +46,10 @@ public class TrainingController extends GameController implements GameLogicInter
 
 
   void startNewRound() {
-    this.TrainingRoundInstance =
-        new TrainingRoundInstance(this.scenario, slc, this.players, this.trainingModeThread);
+    this.roundInstance =
+        new TrainingRoundInstance(this.scenario, slc, this.players);
     try {
-      this.TrainingRoundInstance.startRound();
+      this.roundInstance.startRound();
     } catch (InterruptedException e) {
       System.err.println("LOGIC: Runde konnte nicht gestartet werden: " + e);
     }

@@ -44,9 +44,9 @@ public class Result implements Serializable {
     this.kontra = roundInstance.kontra;
     this.rekontra = roundInstance.rekontra;
     this.contract = roundInstance.contract;
-    this.currentRound = roundInstance.gameThread.gc.numberOfRounds;
+    this.currentRound = roundInstance.gc.numberOfRounds;
     if (!this.isBierlachs) {
-      this.maxRounds = roundInstance.gameThread.gc.mode;
+      this.maxRounds = roundInstance.gc.mode;
     }
     if (roundInstance.roundCancelled) {
       this.roundCancelled = true;
@@ -118,7 +118,7 @@ public class Result implements Serializable {
     int baseValue = roundInstance.soloPlayerStartHand
         .calcConsecutiveMatadors(roundInstance.contract, roundInstance.originalSkat);
     baseValue++;
-    System.out.println("baseValue: "+baseValue);
+    System.out.println("baseValue: " + baseValue);
     if (roundInstance.addtionalMultipliers.isHandGame()) {
       baseValue++;
     }
@@ -212,33 +212,30 @@ public class Result implements Serializable {
           this.scoringPoints = -2 * this.gameValue;
           Player[] team = roundInstance.getTeamPlayer();
           team[0].changePoints(this.scoringPoints, false);
-          roundInstance.gameThread.gc.matchResult.addScoreToHistory(team[0], this.scoringPoints);
+          roundInstance.gc.matchResult.addScoreToHistory(team[0], this.scoringPoints);
           team[1].changePoints(this.scoringPoints, false);
-          roundInstance.gameThread.gc.matchResult.addScoreToHistory(team[1], this.scoringPoints);
+          roundInstance.gc.matchResult.addScoreToHistory(team[1], this.scoringPoints);
         } else {
           this.scoringPoints = this.gameValue;
-          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
-              this.scoringPoints);
+          roundInstance.gc.matchResult.addScoreToHistory(roundInstance.solo, this.scoringPoints);
           roundInstance.solo.changePoints(this.scoringPoints, true);
         }
       } else {
         if (isBierlachs) {
           this.scoringPoints = -2 * this.gameValue;
           roundInstance.solo.changePoints(this.scoringPoints, false);
-          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
-              this.scoringPoints);
+          roundInstance.gc.matchResult.addScoreToHistory(roundInstance.solo, this.scoringPoints);
         } else {
           this.scoringPoints = -2 * this.gameValue;
-          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
-              this.scoringPoints);
+          roundInstance.gc.matchResult.addScoreToHistory(roundInstance.solo, this.scoringPoints);
           roundInstance.solo.changePoints(this.scoringPoints, true);
 
         }
       }
     }
-    this.ranks = new Player[roundInstance.gameThread.gc.allPlayers.length];
+    this.ranks = new Player[roundInstance.gc.allPlayers.length];
     for (int i = 0; i < ranks.length; i++) {
-      this.ranks[i] = roundInstance.gameThread.gc.allPlayers[i].copyPlayer();
+      this.ranks[i] = roundInstance.gc.allPlayers[i].copyPlayer();
     }
     Arrays.sort(this.ranks);
   }

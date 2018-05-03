@@ -119,6 +119,23 @@ public class Lobby implements Serializable {
 
   }
 
+  /**
+   * 
+   * @param ip
+   * @param serverMode
+   */
+  public Lobby(Inet4Address ip, int serverMode) {
+    this.numberOfPlayers = 3;
+    this.players = new Player[this.numberOfPlayers];
+    this.ip = ip;
+    this.serverMode = serverMode;
+    this.hasPassword = false;
+    this.currentPlayers = 0;
+    this.timer = 0;
+    uuid = UUID.randomUUID();
+    this.singlePlayerGame = true;
+  }
+
   public Player[] getPlayers() {
     return this.players;
   }

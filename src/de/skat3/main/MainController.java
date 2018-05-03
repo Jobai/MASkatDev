@@ -10,6 +10,7 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.gamelogic.Timer;
+import de.skat3.gamelogic.TrainingController;
 import de.skat3.io.profile.Profile;
 import de.skat3.network.client.ClientLogicController;
 import de.skat3.network.client.GameClient;
@@ -86,40 +87,42 @@ public class MainController implements MainControllerInterface {
     }
     SkatMain.guiController.goInGame();
 
-
-    // this.hostMultiplayerGame("SINGLEPLAYER", numberOfPlayers, timer, kontraRekontraEnabled,
-    // scoringMode);
-    // try {
-    //
-    // } catch (UnknownHostException e) {
-    // e.printStackTrace();
-    // }
-    // this.gameController =
-    // new GameController(this.currentLobby.kontraRekontraEnabled, this.currentLobby.scoringMode);
-    // this.gameServer =
-    // SkatMain.mainNetworkController.startLocalServer(this.currentLobby, this.gameController);
-    // this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
-    // this.isHost = true;
-    // SkatMain.clc = gameClient.getClc();
-    // SkatMain.mainNetworkController.addAItoLocalServer(hardBot);
-    // SkatMain.mainNetworkController.addAItoLocalServer(hardBot2);
-    // this.startGame();
-    // Platform.runLater(new Runnable() {
-    //
-    // @Override
-    // public void run() {
-    // SkatMain.guiController.goInGame();
-    //
-    //
-    // }
-    // });
-    //
-
   }
 
   @Override
-  public void startTrainingMode() {
-    // TODO Auto-generated method stub
+  public void startTrainingMode(int scenario) {
+    try {
+      this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0);
+    } catch (UnknownHostException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.numberOfPlayers);
+    this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.currentPlayers);
+    this.gameController = new TrainingController(scenario);
+    this.gameServer =
+        SkatMain.mainNetworkController.startLocalServer(this.currentLobby, this.gameController);
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
+    this.isHost = true;
+    SkatMain.clc = gameClient.getClc();
+
+    SkatMain.mainNetworkController.addAItoLocalServer(false);
+    SkatMain.mainNetworkController.addAItoLocalServer(false);
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    SkatMain.guiController.goInGame();
+
 
   }
 

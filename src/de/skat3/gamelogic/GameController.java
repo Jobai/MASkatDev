@@ -96,7 +96,7 @@ public class GameController implements GameLogicInterface, Serializable {
     } else {
       this.rotatePlayers();
     }
-    this.roundInstance = new RoundInstance(slc, this.players, this.gameThread,
+    this.roundInstance = new RoundInstance(slc, this.players, this,
         this.kontraRekontraEnabled, this.mode);
     try {
       this.roundInstance.startRound();
