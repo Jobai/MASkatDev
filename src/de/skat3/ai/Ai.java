@@ -5,7 +5,6 @@ import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
-import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Position;
 
 public abstract class Ai implements Serializable {
@@ -59,6 +58,11 @@ public abstract class Ai implements Serializable {
    */
   public abstract ReturnSkat selectSkat(Card[] skat);
 
+
+
   public abstract void setHand(Hand hand);
+
+  public abstract void setPosition(Position position);
+
 }
 

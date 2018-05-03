@@ -1,11 +1,11 @@
 package de.skat3.ai;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
-import de.skat3.gamelogic.Hand;
-import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
 
@@ -16,19 +16,6 @@ import de.skat3.gamelogic.Value;
  */
 public class AiHelper implements Serializable {
 
-  // TODO check if it is updated correctly
-  Hand hand;
-
-
-  public AiHelper() {
-    // TODO Auto-generated constructor stub
-  }
-
-
-  public void setHand(Hand hand) {
-    this.hand = new Hand(hand.cards);
-  }
-
   /**
    * Gets the suit with the most Cards in the CardsDeck (without considering the jacks!), without
    * considering the given suit
@@ -38,22 +25,45 @@ public class AiHelper implements Serializable {
    * @return Suit with most Cards in the CardList,<br>
    *         the highest ranking suit, if there the highest count gives more than one suit
    */
-  public Suit getMostFrequentSuit(final Suit exclude) {
+  public Suit getMostFrequentSuit(Card[] cards, Suit exclude) {
+    int diamondsCount = 0;
+    int heartsCount = 0;
+    int spadesCount = 0;
+    int clubsCount = 0;
 
-    int maxCount = 0;
-    Suit mostFrequentSuitColor = null;
     for (Suit suit : Suit.values()) {
-      if (exclude != null && suit == exclude) {
+      if (suit == exclude) {
         continue;
-      }
-      int cardCount = Suit.length;
-      if (cardCount > maxCount) {
-        mostFrequentSuitColor = suit;
-        maxCount = cardCount;
+      } else {
+        switch (suit) {
+          case DIAMONDS:
+            diamondsCount++;
+            break;
+          case HEARTS:
+            heartsCount++;
+            break;
+          case SPADES:
+            spadesCount++;
+            break;
+          case CLUBS:
+            clubsCount++;
+            break;
+        }
       }
     }
 
-    return mostFrequentSuitColor;
+    int biggestCount =
+        Math.max(Math.max(diamondsCount, heartsCount), Math.max(spadesCount, clubsCount));
+
+    if (diamondsCount == biggestCount) {
+      return Suit.DIAMONDS;
+    } else if (heartsCount == biggestCount) {
+      return Suit.HEARTS;
+    } else if (spadesCount == biggestCount) {
+      return Suit.SPADES;
+    } else {
+      return Suit.CLUBS;
+    }
   }
 
   /**
@@ -62,8 +72,8 @@ public class AiHelper implements Serializable {
    * @return Suit with most Cards in the CardList,<br>
    *         the highest ranking suit, if there the highest count gives more than one suit
    */
-  public Suit getMostFrequentSuit() {
-    return getMostFrequentSuit(null);
+  public Suit getMostFrequentSuit(Card[] cards) {
+    return getMostFrequentSuit(cards, null);
   }
 
   /**
@@ -73,13 +83,13 @@ public class AiHelper implements Serializable {
    * @param includeJacks flag whether to include jacks in the result
    * @return First index of a card with the given suit, -1 if there is no such card
    */
-  public int getFirstIndexOfSuit(final Suit suit, final boolean includeJacks) {
+  public int getFirstIndexOfSuit(Card[] cards, Suit suit, boolean includeJacks) {
     int result = -1;
     int index = 0;
-    for (int i = 0; i < this.hand.cards.length; i++) {
-      if (result == -1 && this.hand.cards[i].getSuit() == suit) {
-        if (this.hand.cards[i].getValue() != Value.JACK
-            || this.hand.cards[i].getValue() == Value.JACK && includeJacks) {
+    for (int i = 0; i < cards.length; i++) {
+      if (result == -1 && cards[i].getSuit() == suit) {
+        if (cards[i].getValue() != Value.JACK
+            || cards[i].getValue() == Value.JACK && includeJacks) {
           result = index;
         }
       }
@@ -94,9 +104,8 @@ public class AiHelper implements Serializable {
    * @param suit Suit to search
    * @return First index of a card with the given suit, -1 if there is no such card
    */
-  public int getFirstIndexOfSuit(final Suit suit) {
-
-    return getFirstIndexOfSuit(suit, true);
+  public int getFirstIndexOfSuit(Card[] cards, Suit suit) {
+    return getFirstIndexOfSuit(cards, suit, true);
   }
 
   /**
@@ -105,9 +114,8 @@ public class AiHelper implements Serializable {
    * @param suit Suit to search
    * @return Last index of a card with the given suit, -1 if there is no such card
    */
-  public int getLastIndexOfSuit(final Suit suit) {
-
-    return getLastIndexOfSuit(suit, true);
+  public int getLastIndexOfSuit(Card[] cards, Suit suit) {
+    return getLastIndexOfSuit(cards, suit, true);
   }
 
   /**
@@ -117,14 +125,13 @@ public class AiHelper implements Serializable {
    * @param includeJacks flag whether to include jacks in the result
    * @return Last index of a card with the given suit, -1 if there is no such card
    */
-  public int getLastIndexOfSuit(final Suit suit, final boolean includeJacks) {
-
+  public int getLastIndexOfSuit(Card[] cards, Suit suit, boolean includeJacks) {
     int result = -1;
     int index = 0;
-    for (int i = 0; i < this.hand.cards.length; i++) {
-      if (result == -1 && this.hand.cards[i].getSuit() == suit) {
-        if (this.hand.cards[i].getValue() != Value.JACK
-            || this.hand.cards[i].getValue() == Value.JACK && includeJacks) {
+    for (int i = 0; i < cards.length; i++) {
+      if (result == -1 && cards[i].getSuit() == suit) {
+        if (cards[i].getValue() != Value.JACK
+            || cards[i].getValue() == Value.JACK && includeJacks) {
           result = index;
         }
       }
@@ -139,16 +146,10 @@ public class AiHelper implements Serializable {
    * @param cards a hand
    * @return number of jacks
    */
-  public static int countJacks(Card[] cards) {
-    int counter = 0;
-    for (int i = 0; i < cards.length; i++) {
-      if (cards[i].getValue() == Value.JACK) {
-        counter++;
-      }
-    }
-    return counter;
-
+  public int countJacks(Card[] cards) {
+    return getAllCardsOfValue(cards, Value.JACK).size();
   }
+
 
   /**
    * Gets the number of trumps in the given hand
@@ -156,7 +157,7 @@ public class AiHelper implements Serializable {
    * @param cards a hand
    * @return number of trumps
    */
-  public static int countTrumps(Card[] cards, Contract contract) {
+  public int countTrumps(Card[] cards, Contract contract) {
     int counter = 0;
     for (int i = 0; i < cards.length; i++) {
       if (cards[i].isTrump(contract)) {
@@ -168,19 +169,13 @@ public class AiHelper implements Serializable {
   }
 
   /**
-   * Gets the number of jacks in the given hand
+   * Gets the number of aces in the given hand
    * 
    * @param cards a hand
-   * @return number of jacks
+   * @return number of aces
    */
-  public static int countAces(Card[] cards) {
-    int counter = 0;
-    for (int i = 0; i < cards.length; i++) {
-      if (cards[i].getValue() == Value.ACE) {
-        counter++;
-      }
-    }
-    return counter;
+  public int countAces(Card[] cards) {
+    return getAllCardsOfValue(cards, Value.ACE).size();
   }
 
   /**
@@ -231,11 +226,11 @@ public class AiHelper implements Serializable {
    *         HEARTS int[2] = anzahl der SPADES int[3] = anzahl der CLUBS
    * 
    */
-  private int[] calculateSuitsInHand() {
+  private int[] calculateSuits(Card[] cards) {
     int[] suitArray = {0, 0, 0, 0};
 
-    for (int i = 0; i < this.hand.cards.length; i++) {
-      switch (this.hand.cards[i].getSuit()) {
+    for (int i = 0; i < cards.length; i++) {
+      switch (cards[i].getSuit()) {
         case DIAMONDS:
           suitArray[0]++;
           break;
@@ -256,8 +251,8 @@ public class AiHelper implements Serializable {
     return suitArray;
   }
 
-  public int getAmountOfCardsWithSameSuit(Card card) {
-    int[] suitArray = calculateSuitsInHand();
+  public int getAmountOfCardsWithSameSuit(Card card, Card[] cards) {
+    int[] suitArray = calculateSuits(cards);
     switch (card.getSuit()) {
       case DIAMONDS:
         return suitArray[0];
@@ -268,36 +263,64 @@ public class AiHelper implements Serializable {
       case SPADES:
         return suitArray[2];
 
-      // es kann nicht anderes sein aks CLUBS
       default:
         return suitArray[3];
     }
   }
 
-  /**
-   * 
-   * @return returns a suit that most cards have and that is closer to begin
-   * 
-   */
-  public Suit getMostCommonSuit() {
-    int[] suitArray = calculateSuitsInHand();
-    int lengthDiamonds = suitArray[0];
-    int lengthHearts = suitArray[1];
-    int lengthSpades = suitArray[2];
-    int lengthClubs = suitArray[3];
-
-    int biggestLength =
-        Math.max(Math.max(lengthDiamonds, lengthHearts), Math.max(lengthSpades, lengthClubs));
-
-    if (biggestLength == lengthDiamonds) {
-      return Suit.DIAMONDS;
-    } else if (lengthHearts == lengthDiamonds) {
-      return Suit.HEARTS;
-    } else if (lengthSpades == lengthDiamonds) {
-      return Suit.SPADES;
-    } else {
-      return Suit.CLUBS;
+  public ArrayList<Card> getAllCardsOfValue(Card[] cards, Value value) {
+    ArrayList<Card> jacksList = new ArrayList<Card>();
+    for (Card card : cards) {
+      if (card.getValue() == value) {
+        jacksList.add(card);
+      }
     }
+    return jacksList;
+  }
+
+  public ArrayList<Card> getAllCardsOfSuit(Card[] cards, Suit suit) {
+    ArrayList<Card> suitList = new ArrayList<Card>();
+    for (int i = 0; i < cards.length; i++) {
+      if (cards[i].getSuit() == suit) {
+        suitList.add(cards[i]);
+      }
+    }
+    return suitList;
+  }
+
+  public Card getHighestCard(ArrayList<Card> cardsList) {
+    Iterator<Card> iter = cardsList.iterator();
+    Card highestCard = iter.next();
+    while (iter.hasNext()) {
+      Card current = iter.next();
+      if (current.getValue().ordinal() > highestCard.getValue().ordinal()) {
+        highestCard = current;
+      }
+    }
+
+    return highestCard;
+  }
+
+  public Card getLowestCard(ArrayList<Card> cardsList) {
+    Iterator<Card> iter = cardsList.iterator();
+    Card lowestCard = iter.next();
+    while (iter.hasNext()) {
+      Card current = iter.next();
+      if (current.getValue().ordinal() < lowestCard.getValue().ordinal()) {
+        lowestCard = current;
+      }
+    }
+
+    return lowestCard;
+  }
+
+  public Card getAnyPlayableCard(Card[] cards) {
+    for (Card card : cards) {
+      if (card.isPlayable()) {
+        return card;
+      }
+    }
+    return null;
   }
 
 }

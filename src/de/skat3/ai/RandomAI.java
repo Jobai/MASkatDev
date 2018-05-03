@@ -12,8 +12,7 @@ import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
-import de.skat3.gamelogic.Player;
-import de.skat3.main.SkatMain;
+import de.skat3.gamelogic.Position;
 
 
 public class RandomAI extends Ai implements Serializable {
@@ -91,13 +90,18 @@ public class RandomAI extends Ai implements Serializable {
     Card[] newSkat = new Card[2];
     newSkat[0] = cards.get(10);
     newSkat[1] = cards.get(11);
-    return new ReturnSkat(new Hand(temp),newSkat);
+    return new ReturnSkat(new Hand(temp), newSkat);
   }
 
   @Override
   public void setHand(Hand hand) {
     this.hand = new Hand(hand.cards);
 
+  }
+
+  @Override
+  public void setPosition(Position position) {
+    // Position is irrelevant
   }
 
   // 2. was braucht RandomAi von lgs
