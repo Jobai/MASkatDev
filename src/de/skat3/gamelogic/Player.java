@@ -306,17 +306,17 @@ public class Player implements Serializable, Comparable<Player> {
   @Override
   public int compareTo(Player p) {
     if (this.seegerPoints > p.seegerPoints) {
-      return 1;
+      return -1;
     }
     if (this.seegerPoints < p.seegerPoints) {
-      return -1;
+      return 1;
     }
     if (this.seegerPoints == p.seegerPoints) {
       if (this.points > p.points) {
-        return 1;
+        return -1;
       }
       if (this.points < p.points) {
-        return -1;
+        return 1;
       }
     }
     return 0;

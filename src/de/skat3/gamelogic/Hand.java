@@ -60,7 +60,7 @@ public class Hand implements Serializable {
     }
     String current;
     String x = "";
-    if (contract != null) {
+    if (contract != null && contract!= Contract.NULL && contract!= Contract.GRAND) {
       x = contract.name();
       for (int i = Value.length - 2; i >= 0; i--) {
         current = Value.values()[i].name() + " OF " + x;

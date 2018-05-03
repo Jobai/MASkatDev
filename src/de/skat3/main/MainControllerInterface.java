@@ -162,15 +162,11 @@ public interface MainControllerInterface {
    */
   public void roundRestarted();
 
-
-
   /**
    * Called when a wrong password is entered.
    * 
    */
   public void showWrongPassword();
-
-
 
   /**
    * Adds a bot to the lobby.

@@ -26,7 +26,7 @@ class GameThread extends Thread {
           try {
             Thread.sleep(5000); // XXX
           } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Logic Thread Interrupted");
           }
         }
       } else {
@@ -44,7 +44,7 @@ class GameThread extends Thread {
           try {
             Thread.sleep(5000); //XXX
           } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Logic Thread Interrupted");
           }
         }
       }

@@ -373,6 +373,7 @@ public class MainController implements MainControllerInterface {
   public void exitGame() {
 
     SkatMain.clc.leaveGame();
+    this.gameController.closeThread();
     // TODO go back to the menu
 
   }

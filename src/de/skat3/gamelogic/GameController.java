@@ -252,6 +252,12 @@ public class GameController implements GameLogicInterface, Serializable {
       }
     }
   }
+
+
+
+  public void closeThread() {
+    this.gameThread.interrupt();
+  }
 }
 
 
