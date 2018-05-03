@@ -148,6 +148,7 @@ public class Lobby implements Serializable {
   public void removePlayer(Player player) {
     for (int i = 0; i < this.numberOfPlayers; i++) {
       if (this.players[i].equals(player)) {
+        SkatMain.lgs.removePlayer(player);
         this.players[i] = null;
         this.currentPlayers--;
         if (SkatMain.mainController.maxNumberOfPlayerProperty != null) {

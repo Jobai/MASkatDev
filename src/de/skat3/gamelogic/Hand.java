@@ -134,6 +134,9 @@ public class Hand implements Serializable {
   boolean contains(Card c) {
     for (Card card : this.cards) {
       try {
+        if (c == null && card == null) {
+          return true;
+        }
         if (c.equals(card)) {
           return true;
         }

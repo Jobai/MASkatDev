@@ -18,7 +18,7 @@ import de.skat3.io.profile.ImageConverter;
 import de.skat3.io.profile.Profile;
 import javafx.scene.image.Image;
 
-public class Player implements Serializable, Comparable {
+public class Player implements Serializable, Comparable<Player> {
 
   /**
    * 
@@ -96,7 +96,6 @@ public class Player implements Serializable, Comparable {
     }
     this.isHardBot = hardBot;
     this.wonTricks = new ArrayList<Card>();
-    // this.image = festes Bild? TODO
     this.points = 0;
     this.uuid = UUID.randomUUID();
     this.hand = new Hand();
@@ -129,7 +128,7 @@ public class Player implements Serializable, Comparable {
       if (change > 0) {
         this.wonGames++;
       } else {
-        this.lostGames--;
+        this.lostGames++;
       }
       this.seegerPoints = this.points + (this.wonGames - this.lostGames) * 50;
     }
@@ -259,27 +258,6 @@ public class Player implements Serializable, Comparable {
     this.seegerPoints = player.seegerPoints;
   }
 
-  @Override
-  public int compareTo(Object player) {
-    Player p = (Player) player;
-
-    if (this.seegerPoints > p.seegerPoints) {
-      return 1;
-    }
-    if (this.seegerPoints < p.seegerPoints) {
-      return -1;
-    }
-    if (this.seegerPoints == p.seegerPoints) {
-      if (this.points > p.points) {
-        return 1;
-      }
-      if (this.points < p.points) {
-        return -1;
-      }
-    }
-    return 0;
-  }
-
 
   /**
    * Converts the lobby object to a byte array. <br>
@@ -323,6 +301,25 @@ public class Player implements Serializable, Comparable {
       e.printStackTrace();
     }
     return null;
+  }
+
+  @Override
+  public int compareTo(Player p) {
+    if (this.seegerPoints > p.seegerPoints) {
+      return 1;
+    }
+    if (this.seegerPoints < p.seegerPoints) {
+      return -1;
+    }
+    if (this.seegerPoints == p.seegerPoints) {
+      if (this.points > p.points) {
+        return 1;
+      }
+      if (this.points < p.points) {
+        return -1;
+      }
+    }
+    return 0;
   }
 
 }

@@ -186,6 +186,17 @@ public class LocalGameState {
     return this.contract;
   }
 
+  public void removePlayer(Player player) {
+    if (player.equals(this.enemyOne)) {
+      this.enemyOne = null;
+    }
+    if (player.equals(this.enemyTwo)) {
+      this.enemyTwo = null;
+    }
+    if (player.equals(this.dealer)) {
+      this.dealer = null;
+    }
+  }
 }
 
 

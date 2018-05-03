@@ -12,9 +12,9 @@ public class TrainingController extends GameController implements GameLogicInter
     super();
     this.scenario = scenario;
   }
-  
+
   @Override
-  
+
   public void startGame(Player[] players, ServerLogicController slc) {
 
     if (players.length != 3 && players.length != 4) {
@@ -44,12 +44,12 @@ public class TrainingController extends GameController implements GameLogicInter
     this.trainingModeThread.start();
   }
 
-  
+
   void startNewRound() {
-    this.TrainingRoundInstance = new TrainingRoundInstance(slc, this.players, this.trainingModeThread,
-        this.kontraRekontraEnabled, this.mode);
+    this.TrainingRoundInstance =
+        new TrainingRoundInstance(this.scenario, slc, this.players, this.trainingModeThread);
     try {
-      this.roundInstance.startRound();
+      this.TrainingRoundInstance.startRound();
     } catch (InterruptedException e) {
       System.err.println("LOGIC: Runde konnte nicht gestartet werden: " + e);
     }

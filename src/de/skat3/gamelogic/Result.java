@@ -26,6 +26,7 @@ public class Result implements Serializable {
   public Player[] ranks;
   private int contractValue;
   public boolean roundCancelled;
+  public String declarerName;
 
   /**
    * 
@@ -50,8 +51,11 @@ public class Result implements Serializable {
     if (roundInstance.roundCancelled) {
       this.roundCancelled = true;
     } else {
+      System.out.println(roundInstance.contract);
+      System.out.println(roundInstance.solo.getWonTricks());
       this.calcResult(roundInstance);
     }
+    this.declarerName = roundInstance.solo.getName();
 
 
   }
@@ -114,6 +118,7 @@ public class Result implements Serializable {
     int baseValue = roundInstance.soloPlayerStartHand
         .calcConsecutiveMatadors(roundInstance.contract, roundInstance.originalSkat);
     baseValue++;
+    System.out.println("baseValue: "+baseValue);
     if (roundInstance.addtionalMultipliers.isHandGame()) {
       baseValue++;
     }
@@ -127,6 +132,7 @@ public class Result implements Serializable {
     for (Card c : roundInstance.skat) {
       pointsSoloPlayer += c.getTrickValue();
     }
+    System.out.println("soloplayer points:" + pointsSoloPlayer);
     if (pointsSoloPlayer > 60) {
       won = true;
       if (pointsSoloPlayer >= 90) {
@@ -159,7 +165,9 @@ public class Result implements Serializable {
     if (roundInstance.addtionalMultipliers.isOpenHand()) {
       baseValue++;
     }
+    System.out.println("baseValue: " + baseValue + "  contractValue: " + contractValue);
     this.gameValue = baseValue * contractValue;
+    System.out.println("gameValue " + gameValue);
     if (won) {
       if (roundInstance.addtionalMultipliers.isSchneiderAnnounced() && !schneider
           || roundInstance.addtionalMultipliers.isSchneiderAnnounced() && !schwarz) {
@@ -232,9 +240,7 @@ public class Result implements Serializable {
     for (int i = 0; i < ranks.length; i++) {
       this.ranks[i] = roundInstance.gameThread.gc.allPlayers[i].copyPlayer();
     }
-
     Arrays.sort(this.ranks);
-
   }
 
 
