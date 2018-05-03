@@ -733,7 +733,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void addBot(boolean hardBot) {
-    // TODO Auto-generated method stub
+    SkatMain.mainNetworkController.addAItoLocalServer(hardBot);
 
   }
 
