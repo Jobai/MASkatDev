@@ -170,6 +170,8 @@ public interface MainControllerInterface {
    */
   public void showWrongPassword();
 
+  void addBot(boolean hardBot);
+
 
   /**
    * Adds a bot to the lobby.

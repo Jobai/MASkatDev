@@ -214,16 +214,16 @@ public class GameServerProtocol extends Thread {
 
   void sendMessage(Message message) {
     try {
-   
+
       toClient.writeObject(message);
       logger.fine("send message");
       if (((MessageCommand) message).getSubType() == CommandType.ROUND_GENERAL_INFO) {
-//        System.out.println("============= sendMessage [ROUND_GENERAL_INFO] ================");
-//
-//        System.out.println(((MessageCommand) message).gameState);
-//        System.out.println(((Player) ((MessageCommand) message).gameState));
-//        System.out.println(((Player) ((MessageCommand) message).gameState).getHand());
-//        System.out.println("=========================================");
+        // System.out.println("============= sendMessage [ROUND_GENERAL_INFO] ================");
+        //
+        // System.out.println(((MessageCommand) message).gameState);
+        // System.out.println(((Player) ((MessageCommand) message).gameState));
+        // System.out.println(((Player) ((MessageCommand) message).gameState).getHand());
+        // System.out.println("=========================================");
       }
     } catch (ClassCastException e) {
       //
@@ -275,7 +275,13 @@ public class GameServerProtocol extends Thread {
   }
 
   void handleLostConnection() {
-    logger.severe("LOST CONNECTION TO CLIENT!  " + playerProfile.getUuid());
+    if (playerProfile != null) {
+      logger.severe("LOST CONNECTION TO CLIENT!  " + playerProfile.getUuid());
+    } else {
+      logger.severe("LOST CONNECTION TO UNKNOWN CLIENT!");
+    }
+
+
     closeConnection();
   }
 
