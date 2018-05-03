@@ -96,8 +96,8 @@ public interface MainControllerInterface {
   public void localCardPlayed(Card card);
 
   public void localBid(boolean accepted);
-  
-  
+
+
   /**
    * 
    * @param contract
@@ -106,7 +106,8 @@ public interface MainControllerInterface {
 
   public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers);
 
-  /** Called when the local client chose to accept or decline a handgame.
+  /**
+   * Called when the local client chose to accept or decline a handgame.
    * 
    * @param accepted true if the local client plays a handgame.
    */
@@ -168,8 +169,6 @@ public interface MainControllerInterface {
    * 
    */
   public void showWrongPassword();
-
-  public void addBot(boolean hardBot);
 
 
   /**
