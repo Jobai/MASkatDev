@@ -97,7 +97,7 @@ public class Result implements Serializable {
             this.gameValue = 23;
           }
         }
-
+        System.out.println(roundInstance.solo.wonTricks.size());
         if (roundInstance.solo.wonTricks.size() == 0) {
           this.soloWon = true;
         } else {
@@ -132,7 +132,7 @@ public class Result implements Serializable {
       if (pointsSoloPlayer >= 90) {
         this.schneider = true;
       }
-      if (pointsSoloPlayer == 120) {
+      if (roundInstance.solo.wonTricks.size() == 30) {
         this.schwarz = true;
       }
     } else {
@@ -140,7 +140,7 @@ public class Result implements Serializable {
       if (pointsSoloPlayer <= 30) {
         this.schneider = true;
       }
-      if (pointsSoloPlayer == 0) {
+      if (roundInstance.solo.wonTricks.size() == 0) {
         this.schwarz = true;
       }
     }
@@ -197,6 +197,7 @@ public class Result implements Serializable {
     if (this.bidTooHigh) {
       this.scoringPoints = -leastMultiple * this.contractValue;
       roundInstance.solo.changePoints(this.scoringPoints, !isBierlachs);
+      this.soloWon = false;
     } else {
       if (this.soloWon) {
         if (isBierlachs) {
