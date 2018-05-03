@@ -111,7 +111,7 @@ public class GameServer extends Thread {
       this.serverSocket = server;
       Socket socket;
 
-      while (true) {
+      while (!this.isInterrupted()) {
         socket = server.accept();
         logger.info("New connection!");
         threadList.add(new GameServerProtocol(socket, gc, this));
@@ -119,7 +119,9 @@ public class GameServer extends Thread {
 
       }
     } catch (SocketException e) {
-      e.printStackTrace();
+      if (!(e.getMessage().equals("socket closed"))) {
+        e.printStackTrace();
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -136,6 +138,7 @@ public class GameServer extends Thread {
   public void stopServer() {
     if (!this.serverSocket.isClosed()) {
       try {
+        this.interrupt();
         this.serverSocket.close();
         logger.info("Server stopped!");
       } catch (SocketException e) {
@@ -165,13 +168,13 @@ public class GameServer extends Thread {
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       if (gameServerProtocol.playerProfile.equals(player)) {
         if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
-//          System.out
-//              .println("============= send To Player Log [ROUND_GENERAL_INFO] ================");
-//
-//          System.out.println(mc.gameState);
-//          System.out.println(((Player) mc.gameState).getUuid());
-//          System.out.println(((Player) mc.gameState).getHand());
-//          System.out.println("=========================================");
+          // System.out
+          // .println("============= send To Player Log [ROUND_GENERAL_INFO] ================");
+          //
+          // System.out.println(mc.gameState);
+          // System.out.println(((Player) mc.gameState).getUuid());
+          // System.out.println(((Player) mc.gameState).getHand());
+          // System.out.println("=========================================");
         }
 
         gameServerProtocol.sendMessage(mc);
@@ -199,7 +202,7 @@ public class GameServer extends Thread {
         gameServerProtocol.sendMessage(mc);
       }
     }
-   
+
   }
 
 

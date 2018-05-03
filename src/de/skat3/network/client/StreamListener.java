@@ -1,6 +1,7 @@
 package de.skat3.network.client;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.logging.Level;
 import de.skat3.gamelogic.Player;
 import de.skat3.network.datatypes.CommandType;
@@ -33,21 +34,26 @@ class StreamListener extends Thread {
 
         gc.clientProtocolHandler(o);
         if (((MessageCommand) message).getSubType() == CommandType.ROUND_GENERAL_INFO) {
-//          System.out.println("============= StreamListener [ROUND_GENERAL_INFO] ================");
-//
-//          System.out.println(((MessageCommand) message).gameState);
-//          System.out.println(((Player) ((MessageCommand) message).gameState));
-//         
-//          System.out.println("=========================================");
+          // System.out.println("============= StreamListener [ROUND_GENERAL_INFO]
+          // ================");
+          //
+          // System.out.println(((MessageCommand) message).gameState);
+          // System.out.println(((Player) ((MessageCommand) message).gameState));
+          //
+          // System.out.println("=========================================");
         }
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
       } catch (ClassCastException e) {
-        //
+        // silent
+      } catch (SocketException e) {
+        // silent
+
       } catch (IOException e) {
         gc.logger.log(Level.SEVERE, "Connection to server failed", e);
         gc.handleLostConnection();
         this.interrupt();
+
       }
     }
   }

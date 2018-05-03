@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -87,10 +88,15 @@ public class LobbyServer extends Thread {
         // new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
 
         while (!this.isInterrupted()) {
+//          System.out.println(SkatMain.mainController.currentLobby.hashCode());
+//          System.out.println(lobby.hashCode());
+//          System.out.println(SkatMain.mainController.currentLobby == lobby);
+//          lobby = SkatMain.mainController.currentLobby;
+//          System.out.println(Arrays.toString(lobby.getPlayers()));
           buff = lobby.convertToByteArray(lobby);
           // System.out.println(buff.length);
           if (buff.length > 4000) {
-            logger.severe("WARNING: BYTE ARRAY TO BIG! -  CHECK LOBBY CLASS AND LOBBY SERVER!");
+            logger.severe("WARNING: BYTE ARRAY TO BIG! -  CHECK LOBBY CLASS AND LOBBY SERVER!" + buff.length);
           }
           packet =
               new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
@@ -123,7 +129,7 @@ public class LobbyServer extends Thread {
 
         byte[] buff;
         buff = lobby.convertToByteArray(lobby);
-        System.out.println(buff.length);
+        System.out.println("Buffer lenght:"  + buff.length);
         DatagramPacket packet = new DatagramPacket(buff, buff.length, inetAdress, port);
 
         while (!this.isInterrupted()) {

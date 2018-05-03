@@ -80,11 +80,12 @@ public class ClientLogicController {
   public void leaveGame() {
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_CLOSE);
     gc.sendToServer(mc);
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      Thread.sleep(1000);
+//    } catch (InterruptedException e) {
+//      e.printStackTrace();
+//    }
+    gc.closedByClient = true;
     gc.closeConnection();
   }
 

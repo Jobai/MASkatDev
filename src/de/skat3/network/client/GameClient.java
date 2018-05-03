@@ -48,6 +48,8 @@ public class GameClient {
 
   boolean closedByServer;
 
+  boolean closedByClient;
+
   boolean kickedByServer;
 
   Player player;
@@ -335,17 +337,13 @@ public class GameClient {
 
   void closeConnection() {
     SkatMain.mainController.goToMenu();
-    SkatMain.mainController.showCustomAlertPormpt("Connection to the server failed",
-        "The connection to the server failed. "
-            + "Please check that a server is running and try again later"); // TODO
-                                                                            // change
-                                                                            // to
-                                                                            // "Connection
-                                                                            // to
-                                                                            // server
-                                                                            // failed"
+    if (!closedByClient) {
+      SkatMain.mainController.showCustomAlertPormpt("Connection to the server failed",
+          "The connection to the server failed. "
+              + "Please check that a server is running and try again later"); };
     sl.interrupt();
     try {
+      sl.interrupt();
       toSever.close();
       fromServer.close();
       socket.close();
@@ -387,6 +385,7 @@ public class GameClient {
     SkatMain.mainController.goToMenu();
 
     try {
+      sl.interrupt();
       toSever.close();
       fromServer.close();
       socket.close();

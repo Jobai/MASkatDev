@@ -72,6 +72,13 @@ public class GameServerProtocol extends Thread {
 
   }
 
+  /**
+   * Constructor for the GameServerProtocoll-Thread. Additionally set the GameServer.
+   * 
+   * @author Jonas Bauer
+   * @param socket created ServerSocket from the incoming connection (client).
+   * @param gc the gamecontroller provided by the gamelogic.
+   */
   public GameServerProtocol(Socket socket2, GameController gc, GameServer gameServer) {
     // TODO Auto-generated constructor stub
     this(socket2, gc);
@@ -97,7 +104,7 @@ public class GameServerProtocol extends Thread {
             this.openConnection(m);
             break;
           case CONNECTION_CLOSE:
-            this.closeConnection();
+            this.handleConnectionClose();
             break;
           case CHAT_MESSAGE:
             this.relayChat((MessageChat) m);
@@ -239,6 +246,12 @@ public class GameServerProtocol extends Thread {
 
   }
 
+  private void handleConnectionClose() {
+    if (gs.ls.getLobby().lobbyPlayer <= 1) {
+      gs.stopServer();
+    }
+    closeConnection();
+  }
 
   private void closeConnection() {
     try {
@@ -253,8 +266,11 @@ public class GameServerProtocol extends Thread {
     } finally {
       GameServer.threadList.remove(this);
       logger.info("Server closed a connection");
-      this.interrupt();
+      // SkatMain.mainController.currentLobby.removePlayer(playerProfile);
       sendDisconnectinfo(playerProfile);
+      gs.ls.getLobby().lobbyPlayer--;
+      this.interrupt();
+
     }
   }
 
@@ -277,6 +293,9 @@ public class GameServerProtocol extends Thread {
   }
 
   void handleLostConnection() {
+    if (gs.ls.getLobby().lobbyPlayer <= 1) {
+      gs.stopServer();
+    }
     if (playerProfile != null) {
       logger.severe("LOST CONNECTION TO CLIENT!  " + playerProfile.getUuid());
     } else {
