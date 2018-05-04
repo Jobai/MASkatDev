@@ -36,6 +36,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -236,7 +237,9 @@ public class MultiplayerMenuController {
 
     HostPopupController hostController = fxmlLoader.getController();
     hostController.setStage(stage);
-    stage.show();
+
+    stage.initModality(Modality.APPLICATION_MODAL);
+    stage.showAndWait();
 
   }
 

@@ -163,14 +163,15 @@ public class SingleplayerMenuController {
       e.printStackTrace();
     }
 
-    System.out.println(p.getPrefHeight() / 2);
-    
+    TrainingModeController c = fxmlLoader.getController();
+    c.setPanes(mainPane, p);
+
     p.translateXProperty()
         .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(mainPane.translateXProperty())
             .add((mainPane.getPrefWidth() / 2)).subtract((p.getPrefWidth() / 2)));
     p.translateYProperty()
         .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(mainPane.translateYProperty())
-            .add((mainPane.getPrefHeight() / 2)).subtract((p.getPrefHeight() / 2)));
+            .add((mainPane.getPrefHeight() / 2)).subtract((p.getPrefHeight() / 2) + 20));
 
     mainPane.getChildren().add(p);
 

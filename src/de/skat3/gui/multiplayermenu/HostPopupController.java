@@ -42,8 +42,13 @@ public class HostPopupController {
 
   @FXML
   private void initialize() {
-    btnHost.disableProperty().bind(
-        Bindings.isEmpty(serverName.textProperty()).or(Bindings.isEmpty(modeValue.textProperty())));
+    System.out.println(mode.valueProperty());
+    BooleanBinding b1 = Bindings.isEmpty(serverName.textProperty());
+    BooleanBinding b2 = Bindings.isEmpty(modeValue.textProperty());
+    BooleanBinding b3 = Bindings.equal("Seeger", mode.valueProperty());
+    BooleanBinding b4 = Bindings.equal("Bierlachs", mode.valueProperty());
+    
+    //btnHost.disableProperty().bind(b1.or(b2).or(Bindings.when(b3).then(Bindings.d)));
 
     timer.textProperty().addListener(new ChangeListener<String>() {
       @Override
@@ -62,23 +67,6 @@ public class HostPopupController {
         if (!newValue.matches("-?([1-9][0-9]*)?")) {
           modeValue.setText(oldValue);
         }
-
-        // int value = Integer.parseInt(modeValue.getText());
-        //
-        // if (mode.getSelectionModel().getSelectedItem() == "Seeger") {
-        // if ((value % 3) == 0) {
-        // btnHost.disableProperty().set(false);
-        // } else {
-        // btnHost.disableProperty().set(true);
-        // }
-        // } else if (mode.getSelectionModel().getSelectedItem() == "Bierlachs") {
-        // if ((value >= -1000) && (value <= -500)) {
-        // btnHost.disableProperty().set(false);
-        // } else {
-        // btnHost.disableProperty().set(true);
-        // }
-        // }
-
       }
     });
 
