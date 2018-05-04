@@ -1,7 +1,6 @@
 package de.skat3.gui.matchfield;
 
 import de.skat3.gamelogic.Card;
-import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
@@ -34,11 +33,10 @@ public class InGameController implements InGameControllerInterface {
       this.matchfield.overlayController.setRoundInfos(SkatMain.lgs.contract,
           SkatMain.lgs.additionalMultipliers);
 
-      // if (SkatMain.lgs.contract == Contract.NULL
-      // || SkatMain.lgs.additionalMultipliers.isSchwarzAnnounced()
-      // || SkatMain.lgs.additionalMultipliers.isOpenHand()) {
-      this.matchfield.tableController.iniHands();
-      // }
+      if (SkatMain.lgs.additionalMultipliers.isSchwarzAnnounced()
+          || SkatMain.lgs.additionalMultipliers.isOpenHand()) {
+        this.matchfield.tableController.reloadHands();
+      }
 
       this.matchfield.tableView.trick.showBidingCards(false);
       this.matchfield.tableController.refreshHands();
