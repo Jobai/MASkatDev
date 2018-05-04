@@ -17,7 +17,7 @@
 <AnchorPane fx:id="root" prefHeight="500.0" prefWidth="600.0"
 	style="-fx-background-color: #404040;"
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="de.skat3.gui.matchfield.TrainingModeController">
+	fx:controller="de.skat3.gui.singleplayermenu.TrainingModeController">
 	<children>
 		<GridPane layoutX="42.0" layoutY="98.0" prefHeight="389.0"
 			prefWidth="541.0">
