@@ -5,6 +5,11 @@ import java.util.Random;
 import de.skat3.main.SkatMain;
 import javafx.application.Platform;
 
+/**
+ * Deprecated class
+ * @author kai29
+ *
+ */
 public class Timer extends Thread {
 
 

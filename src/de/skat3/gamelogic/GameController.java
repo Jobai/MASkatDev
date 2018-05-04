@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 /**
+ * Controlls the start and end of the game and rotation of players between rounds.
  * 
  * @author kai29
  *
@@ -57,7 +58,9 @@ public class GameController implements GameLogicInterface, Serializable {
   public GameController() {}
 
 
-
+/**
+ * Starts the first round of the match.
+ */
   public void startGame(Player[] players, ServerLogicController slc) {
 
     if (players.length != 3 && players.length != 4) {
@@ -89,6 +92,9 @@ public class GameController implements GameLogicInterface, Serializable {
     this.gameThread.start();
   }
 
+  /**
+   * Starts a new round.
+   */
   void startNewRound() {
     if (firstRound) {
       this.firstRound = false;
@@ -96,8 +102,8 @@ public class GameController implements GameLogicInterface, Serializable {
     } else {
       this.rotatePlayers();
     }
-    this.roundInstance = new RoundInstance(slc, this.players, this,
-        this.kontraRekontraEnabled, this.mode);
+    this.roundInstance =
+        new RoundInstance(slc, this.players, this, this.kontraRekontraEnabled, this.mode);
     try {
       this.roundInstance.startRound();
     } catch (InterruptedException e) {
@@ -106,6 +112,9 @@ public class GameController implements GameLogicInterface, Serializable {
 
   }
 
+  /**
+   * Chooses a dealer at random.
+   */
   private void determineDealer() {
     int i = ThreadLocalRandom.current().nextInt(0, numberOfPlayers);
     if (numberOfPlayers == 3) {

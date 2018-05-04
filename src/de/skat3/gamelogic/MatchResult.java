@@ -3,11 +3,15 @@ package de.skat3.gamelogic;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Provides data for the endscreen of a game.
+ *
+ */
 public class MatchResult implements Serializable {
 
 
   private PlayerHistory[] list;
-  
+
   // TODO
 
   /**
@@ -35,6 +39,12 @@ public class MatchResult implements Serializable {
     }
   }
 
+  /**
+   * A tuple of a player and his point history.
+   * 
+   * @author kai29
+   *
+   */
   public class PlayerHistory {
     Player player;
     ArrayList<Integer> history;

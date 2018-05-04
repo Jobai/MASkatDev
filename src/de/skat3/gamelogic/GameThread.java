@@ -1,5 +1,11 @@
 package de.skat3.gamelogic;
 
+/**
+ * Runs while a match is played. Calls gamecontroller and roundinstance methods.
+ * 
+ * @author kai29
+ *
+ */
 class GameThread extends Thread {
 
   GameController gc;
@@ -10,6 +16,9 @@ class GameThread extends Thread {
     this.gc = gc;
   }
 
+  /**
+   * Starts a game. Thread is interrupted when the match is over or when the host leaves the game.
+   */
   @Override
   public void run() {
     while (!Thread.currentThread().isInterrupted()) {
@@ -42,7 +51,7 @@ class GameThread extends Thread {
           break;
         } else {
           try {
-            Thread.sleep(5000); //XXX
+            Thread.sleep(5000); // XXX
           } catch (InterruptedException e) {
             System.out.println("Logic Thread Interrupted");
           }

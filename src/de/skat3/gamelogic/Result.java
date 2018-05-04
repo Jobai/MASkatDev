@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.math.RoundingMode;
 import java.util.Arrays;
 
+/**
+ * Provides data for the result screen after a single round of play.
+ * 
+ * @author kai29
+ *
+ */
 public class Result implements Serializable {
 
   public int gameValue;
@@ -30,10 +36,8 @@ public class Result implements Serializable {
   public int pointsSoloPlayer;
 
   /**
-   * 
-   * @param roundInstance
+   * Calculates all relevant result data.
    */
-  // XXX TESTEN
   public Result(RoundInstance roundInstance) {
 
     this.pointsSoloPlayer = 0;
@@ -71,6 +75,9 @@ public class Result implements Serializable {
   }
 
 
+  /**
+   * Evaluates who is the winner of the round and how many points will every player win/lose.
+   */
   void calcResult(RoundInstance roundInstance) {
     switch (roundInstance.contract) {
       case DIAMONDS:
@@ -179,18 +186,15 @@ public class Result implements Serializable {
     } else {
       this.soloWon = false;
     }
-
-    if (this.kontra) {
-      this.gameValue *= 2;
-    }
-    if (this.rekontra) {
-      this.gameValue *= 2;
-    }
     this.applyChanges(roundInstance);
 
 
   }
 
+  /**
+   * called by calcResult to update the playerpoints and sort the ranks[].
+   * @param roundInstance
+   */
   private void applyChanges(RoundInstance roundInstance) {
     int leastMultiple = 0;
     if (this.gameValue < this.highestBid) {
@@ -201,6 +205,12 @@ public class Result implements Serializable {
         leastMultiple = this.highestBid / this.contractValue;
         leastMultiple++;
       }
+    }
+    if (this.kontra) {
+      this.gameValue *= 2;
+    }
+    if (this.rekontra) {
+      this.gameValue *= 2;
     }
 
     if (this.bidTooHigh) {

@@ -2,12 +2,18 @@ package de.skat3.gamelogic;
 
 import javafx.embed.swing.JFXPanel;
 
+/*
+ * Represents all 32 cards that exist in a skat game.
+ */
 public class CardDeck {
 
-  private Card[] cards = new Card[Suit.length * Value.length];
+  private Card[] cards;
 
+  /**
+   * Fills the deck with all 32 cards.
+   */
   public CardDeck() {
-
+    cards = new Card[Suit.length * Value.length];
     int i = 0;
     for (Suit s : Suit.values()) {
       for (Value v : Value.values()) {

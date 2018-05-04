@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
- * Main interface for gui-network and io-gui.
+ * Interface for gui-network, local logic-network and io-gui.
  * 
  * @author kai29
  *
@@ -59,53 +59,138 @@ public interface MainControllerInterface {
    */
   public void joinMultiplayerGame(Lobby lobby, String password);
 
+  /**
+   * Creates a lobby for a multiplayer game. s
+   * 
+   * @param timer 0 = no timer, >0 timer in seconds
+   * @param kontraRekontraEnabled true if feature is enabled
+   * @param scoringMode Mode is either Seeger (positive number divisible by 3) or Bierlachs
+   *        (negative number between -500 and -1000)
+   */
   public void hostMultiplayerGame(String name, String password, int numberOfPlayers, int timer,
       boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException;
+
+
+  /**
+   * Creates a lobby for a multiplayer game.
+   * 
+   * @param timer 0 = no timer, >0 timer in seconds
+   * @param kontraRekontraEnabled true if feature is enabled
+   * @param scoringMode Mode is either Seeger (positive number divisible by 3) or Bierlachs
+   *        (negative number between -500 and -1000)
+   */
 
   public void hostMultiplayerGame(String name, int numberOfPlayers, int timer,
       boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException;
 
+
+  /**
+   * Called by host client to start the game.
+   * 
+   */
   public void startGame();
-
-  public void showCardPlayed(Player player, Card card);
-
-  public void sendMessage(String message);
-
-  public void receiveMessage(String message);
-
-  public void exitGame();
-
-  public void selectSkatRequest(Card[] skat);
-
-  public void playCardRequest();
-
-  public void contractRequest();
-
-  public void handGameRequest();
-
-  public void showAuctionWinner(Player player);
-
-  public void bidRequest(int bid);
-
-  public void updatePlayer(Player player);
-
-  public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers);
-
-  public void showResults(Result result);
-
-  public void showEndScreen(MatchResult matchResult);
-
-  public void localCardPlayed(Card card);
-
-  public void localBid(boolean accepted);
 
 
   /**
+   * The specified player plays the specified card in the gui and adds it to the local trick.
    * 
-   * @param contract
-   * @param additionalMultipliers
    */
+  public void showCardPlayed(Player player, Card card);
 
+
+  /**
+   * Local client sends chat message to the server.
+   * 
+   * @param message
+   */
+  public void sendMessage(String message);
+
+  /**
+   * Adds a chat message to the chat in the gui.
+   * 
+   * @param message
+   */
+  public void receiveMessage(String message);
+
+  /**
+   * Local client leaves the match and returns to the Multiplayer menu.
+   */
+  public void exitGame();
+
+
+  /**
+   * Starts the skat selection in the gui.
+   */
+  public void selectSkatRequest(Card[] skat);
+
+  /**
+   * Asks the localClient to play a card from his hand.
+   */
+  public void playCardRequest();
+
+  /**
+   * Asks the localClient to play a specific card from his hand.
+   */
+  public void playSpecificCardRequest(Card card);
+
+  /**
+   * Asks the localClient to choose a contract.
+   */
+  public void contractRequest();
+
+  /**
+   * Asks the localClient to accept or decline a handgame.
+   */
+  public void handGameRequest();
+
+  /*
+   * Displays the auction winner in the gui.
+   */
+  public void showAuctionWinner(Player player);
+
+  /**
+   * Asks the localClient to accept or decline the specified bid.
+   * 
+   * @param bid
+   */
+  public void bidRequest(int bid);
+
+  /**
+   * Updates a player in the local gamestate.
+   * 
+   * @param player
+   */
+  public void updatePlayer(Player player);
+
+  /**
+   * Displays the specified contract in the gui.
+   */
+  public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers);
+
+  /**
+   * Shows the result in the gui and adds the result to the local statistics.
+   */
+  public void showResults(Result result);
+
+  /**
+   * Shows the match result in the gui.
+   */
+  public void showEndScreen(MatchResult matchResult);
+
+  /**
+   * Called by gui to send a played card to the server.
+   */
+  public void localCardPlayed(Card card);
+
+  /**
+   * Called by gui to send an accepted or declined bid to the server.
+   */
+  public void localBid(boolean accepted);
+
+
+/**
+ * Called by gui to send the locally selected contract to the server.
+ */
   public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers);
 
   /**
@@ -155,14 +240,6 @@ public interface MainControllerInterface {
    * 
    */
   public void localRekontraAnnounced();
-
-
-
-  /**
-   * TODO
-   * 
-   */
-  public void roundRestarted();
 
   /**
    * Called when a wrong password is entered.

@@ -1,8 +1,15 @@
 package de.skat3.gamelogic;
+
 import java.io.Serializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Represents a single Card from the skat game.
+ * 
+ * @author kai29
+ *
+ */
 public class Card implements Serializable {
 
 
@@ -18,13 +25,20 @@ public class Card implements Serializable {
   private int trickValue;
 
 
-
+  /**
+   * Creates an empty, facedown card
+   */
   public Card() {
     this.view = "cardImages/green_back.png";
     this.suit = null;
     this.value = null;
   }
 
+  /**
+   * Returns an exact copy of the card.
+   * 
+   * @return copied Card
+   */
   public Card copy() {
     Card copy = new Card();
     copy.value = this.value;
@@ -56,7 +70,9 @@ public class Card implements Serializable {
     return this.imageView;
   }
 
-
+  /**
+   * Adds the point value to the card for suit and grand games.
+   */
   void addTrickValue() {
     switch (this.value) {
       case SEVEN:
@@ -180,6 +196,12 @@ public class Card implements Serializable {
 
   }
 
+  /**
+   * Compares two cards
+   * 
+   * @return true if both cards are identical
+   * @throws Exception
+   */
   public boolean equals(Card card) throws Exception {
 
     if (this.value == null && this.suit == null && card.value == null && card.suit == null) {
@@ -194,7 +216,10 @@ public class Card implements Serializable {
 
   }
 
-
+/**
+ * Used for the null contract to change the order of the card rankings.
+ * @return
+ */
   private int calcNullValue() {
 
     switch (this.value) {
@@ -220,6 +245,9 @@ public class Card implements Serializable {
     }
   }
 
+  /**
+   * Returns a string to get an Image from the resources folder.
+   */
   private String getUrl() {
     return this.value.name().toLowerCase() + "_of_" + this.suit.name().toLowerCase();
   }

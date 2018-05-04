@@ -2,12 +2,15 @@ package de.skat3.gamelogic;
 
 import java.io.Serializable;
 
+/**
+ * Represents up to ten cards that a player has currently on his hand.
+ */
 public class Hand implements Serializable {
 
   public Card[] cards;
 
   /**
-   * Represents up to ten cards that a player has currently on his hand.
+   * Fills the hand with the specified cards.
    */
   public Hand(Card[] cards) {
     this.cards = new Card[cards.length];
@@ -16,6 +19,9 @@ public class Hand implements Serializable {
     }
   }
 
+  /**
+   * Creates an hand with 10 empty cards.
+   */
   public Hand() {
     this.cards = new Card[10];
     for (int i = 0; i < this.cards.length; i++) {
@@ -23,6 +29,9 @@ public class Hand implements Serializable {
     }
   }
 
+  /**
+   * Creates an empty hand with the amount of cards.
+   */
   public Hand(int amountOfCards) {
     this.cards = new Card[amountOfCards];
     for (int i = 0; i < this.cards.length; i++) {
@@ -38,10 +47,18 @@ public class Hand implements Serializable {
     return this.cards.length;
   }
 
+  /**
+   * Sorts the hand in this order: all jacks, clubs, spades, hearts, diamonds.
+   */
   void sort() {
     this.sort(null);
   }
 
+  /**
+   * Sorts the hand in this order: all trumps, clubs, spades, hearts, diamonds.
+   * 
+   * @param contract
+   */
   public void sort(Contract contract) {
     int pointer = 0;
     CardDeck deck = GameController.deck;
@@ -60,7 +77,7 @@ public class Hand implements Serializable {
     }
     String current;
     String x = "";
-    if (contract != null && contract!= Contract.NULL && contract!= Contract.GRAND) {
+    if (contract != null && contract != Contract.NULL && contract != Contract.GRAND) {
       x = contract.name();
       for (int i = Value.length - 2; i >= 0; i--) {
         current = Value.values()[i].name() + " OF " + x;
@@ -82,12 +99,12 @@ public class Hand implements Serializable {
     }
   }
 
-  // TODO skat
-  int calcConsecutiveMatadors(Contract contract, Card[] skat) {
+  /**
+   * Calculates the consecutive matators in the hand of the player.
+   */
+  int calcConsecutiveMatadors(Contract contract) {
     int consecutiveMatadors = 0;
     CardDeck deck = GameController.deck;
-
-
     if (this.contains(deck.getCard("JACK OF CLUBS"))) {
       consecutiveMatadors++;
       if (this.contains(deck.getCard("JACK OF SPADES"))) {
@@ -116,8 +133,8 @@ public class Hand implements Serializable {
           if (!this.contains(deck.getCard("JACK OF DIAMONDS"))) {
             consecutiveMatadors++;
             for (int i = Value.length - 2; i >= 0; i--) {
-              if (!this.contains(
-                  deck.getCard(Value.values()[i].name() + " OF " + contract.name()))) {
+              if (!this
+                  .contains(deck.getCard(Value.values()[i].name() + " OF " + contract.name()))) {
                 consecutiveMatadors++;
               } else {
                 break;
@@ -131,6 +148,72 @@ public class Hand implements Serializable {
 
   }
 
+  /*
+   * Calculates the amount of consecutive matadors in the a combined pool of the player's hand and
+   * the skat.
+   */
+  int calcConsecutiveMatadors(Contract contract, Card[] skat) {
+    int consecutiveMatadors = 0;
+
+    Card[] oldCards = new Card[this.cards.length];
+    for (int i = 0; i < oldCards.length; i++) {
+      oldCards[i] = this.cards[i].copy();
+    }
+    Card[] temporary = new Card[this.cards.length + skat.length];
+    for (int i = 0; i < this.cards.length; i++) {
+      temporary[i] = this.cards[i].copy();
+    }
+    temporary[temporary.length - 2] = skat[0];
+    temporary[temporary.length - 1] = skat[1];
+    this.cards = temporary;
+    CardDeck deck = GameController.deck;
+    if (this.contains(deck.getCard("JACK OF CLUBS"))) {
+      consecutiveMatadors++;
+      if (this.contains(deck.getCard("JACK OF SPADES"))) {
+        consecutiveMatadors++;
+        if (this.contains(deck.getCard("JACK OF HEARTS"))) {
+          consecutiveMatadors++;
+          if (this.contains(deck.getCard("JACK OF DIAMONDS"))) {
+            consecutiveMatadors++;
+            for (int i = Value.length - 2; i >= 0; i--) {
+              if (this.contains(
+                  deck.getCard(Value.values()[i].name() + " OF " + contract.toString()))) {
+                consecutiveMatadors++;
+              } else {
+                break;
+              }
+            }
+          }
+        }
+      }
+    } else {
+      consecutiveMatadors++;
+      if (!this.contains(deck.getCard("JACK OF SPADES"))) {
+        consecutiveMatadors++;
+        if (!this.contains(deck.getCard("JACK OF HEARTS"))) {
+          consecutiveMatadors++;
+          if (!this.contains(deck.getCard("JACK OF DIAMONDS"))) {
+            consecutiveMatadors++;
+            for (int i = Value.length - 2; i >= 0; i--) {
+              if (!this
+                  .contains(deck.getCard(Value.values()[i].name() + " OF " + contract.name()))) {
+                consecutiveMatadors++;
+              } else {
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+    this.cards = oldCards;
+    return consecutiveMatadors;
+
+  }
+
+  /**
+   * Returns true if the hand cointains the specific card.
+   */
   boolean contains(Card c) {
     for (Card card : this.cards) {
       try {
@@ -149,6 +232,10 @@ public class Hand implements Serializable {
 
   }
 
+  /**
+   * Sets all cards playable that are playable while the specific card is the first card that was
+   * played in the trick and the specific contract is selected.
+   */
   public void setPlayableCards(Card card, Contract contract) {
     boolean mustFollow = false;;
     boolean trumpCard = card.isTrump(contract);
@@ -235,7 +322,10 @@ public class Hand implements Serializable {
     }
   }
 
-
+  /**
+   * Calculates the maximum bid that a player can make while holding this hand with the specific
+   * contract.
+   */
   public int getMaximumBid(Contract contract) {
     if (this.cards.length == 10) {
 
@@ -265,6 +355,9 @@ public class Hand implements Serializable {
 
   }
 
+  /**
+   * Sets all cards playable that are in this hand.
+   */
   public void setAllCardsPlayable() {
     for (Card card : this.cards) {
       card.setPlayable(true);

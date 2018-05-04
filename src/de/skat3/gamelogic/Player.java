@@ -18,6 +18,12 @@ import de.skat3.io.profile.ImageConverter;
 import de.skat3.io.profile.Profile;
 import javafx.scene.image.Image;
 
+/**
+ * Represents a player in a skat match.
+ * 
+ * @author kai29
+ *
+ */
 public class Player implements Serializable, Comparable<Player> {
 
   /**
@@ -38,6 +44,11 @@ public class Player implements Serializable, Comparable<Player> {
   int seegerPoints;
   public Ai ai;
 
+  /**
+   * Creates a new player
+   * 
+   * @param profile the locally saved profile of this player.
+   */
   public Player(Profile profile) {
 
     this.name = profile.getName();
@@ -53,6 +64,9 @@ public class Player implements Serializable, Comparable<Player> {
 
   }
 
+  /**
+   * Creates an empty player.
+   */
   public Player() {
 
     this.wonTricks = new ArrayList<Card>();
@@ -66,8 +80,7 @@ public class Player implements Serializable, Comparable<Player> {
   }
 
   /**
-   * 
-   * @param player
+   * Clones a player.
    */
   public Player(Player player) {
     this.isSolo = player.isSolo;
@@ -88,8 +101,9 @@ public class Player implements Serializable, Comparable<Player> {
   }
 
   /**
+   * Creates a bot player.
    * 
-   * @param difficulty
+   * @param difficulty true if the ai is hard.
    */
   public Player(boolean hardBot) {
     if (hardBot) {
@@ -125,6 +139,11 @@ public class Player implements Serializable, Comparable<Player> {
     return this.hand;
   }
 
+  /**
+   * Updates the points of this player.
+   * 
+   * @param seeger true if the gamemode is seeger.
+   */
   void changePoints(int change, boolean seeger) {
     this.points += change;
     if (seeger) {
@@ -161,7 +180,9 @@ public class Player implements Serializable, Comparable<Player> {
    * @param p
    * @return
    */
-
+  /**
+   * Returns true if the uuid is identical.
+   */
   public boolean equals(Player p) {
     if (this.uuid.equals(p.uuid)) {
       return true;
@@ -176,7 +197,11 @@ public class Player implements Serializable, Comparable<Player> {
   // }
 
 
-
+  /**
+   * Returns a copy of the player.
+   * 
+   * @return
+   */
   public Player copyPlayer() {
     return new Player(this);
 
@@ -194,6 +219,9 @@ public class Player implements Serializable, Comparable<Player> {
     return this.name + " (" + this.uuid + ")\n" + this.hand;
   }
 
+  /**
+   * Converts the String to an image.
+   */
   public Image convertToImage() {
     ImageConverter ic = new ImageConverter();
     Image im = ic.encodedStringToImage(image);
@@ -250,6 +278,11 @@ public class Player implements Serializable, Comparable<Player> {
     this.image = null;
   }
 
+  /**
+   * Updates all attributes that can vary during a match.
+   * 
+   * @param player
+   */
   public void updatePlayer(Player player) {
     this.isSolo = player.isSolo;
     this.wonTricks = player.wonTricks;
@@ -306,6 +339,9 @@ public class Player implements Serializable, Comparable<Player> {
     return null;
   }
 
+  /**
+   * Used to sort an array of players. It will be sorted by (seeger)points in a descending order.
+   */
   @Override
   public int compareTo(Player p) {
     if (this.seegerPoints > p.seegerPoints) {

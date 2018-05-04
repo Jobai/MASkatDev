@@ -5,6 +5,12 @@ import de.skat3.network.server.ServerLogicController;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Represents a single round of play.
+ * 
+ * @author kai29
+ *
+ */
 class RoundInstance {
 
   ServerLogicController slc;
@@ -61,6 +67,9 @@ class RoundInstance {
 
   }
 
+  /**
+   * Starts a round.
+   */
   void startRound() throws InterruptedException {
 
     this.initializeAuction();
@@ -81,6 +90,9 @@ class RoundInstance {
 
   }
 
+  /**
+   * Deals the cards to the player and sets their poisiton.
+   */
   void initializeAuction() {
 
     this.dealCards();
@@ -89,6 +101,9 @@ class RoundInstance {
     }
   }
 
+  /**
+   * Randomly creates the skat and the hands that will be given to the players.
+   */
   void dealCards() {
 
     ArrayList<Card> temp = new ArrayList<Card>();
@@ -118,6 +133,9 @@ class RoundInstance {
 
   }
 
+  /**
+   * Updates all players participating in this round.
+   */
   protected void updatePlayer() {
     for (int i = 0; i < players.length; i++) {
       slc.updatePlayerDuringRound(this.players[i].copyPlayer());
@@ -125,6 +143,10 @@ class RoundInstance {
 
   }
 
+  /**
+   * Updates all enemies of every single player. The local enemies of the player will receive empty
+   * hands.
+   */
   void updateEnemies() {
     Player p1;
     Player p2;
@@ -168,9 +190,9 @@ class RoundInstance {
   int currentBiddingValue;
 
   /**
+   * Starts the auction.
    * 
-   * @return
-   * @throws InterruptedException
+   * @return Returns the winner, null if no one wins.
    */
   public Player startBidding() throws InterruptedException {
     synchronized (lock) {
@@ -193,7 +215,12 @@ class RoundInstance {
     }
   }
 
-
+  /**
+   * a bid duel between two players. ends when one player declines a bid.
+   * 
+   * @param bid the player that asks for a bid.
+   * @param respond the player that responds to the bids.
+   */
   private Player bidDuel(Player bid, Player respond) throws InterruptedException {
 
 
@@ -274,7 +301,8 @@ class RoundInstance {
   }
 
   /**
-   * Starts a single game round. Every player has to play a card and the winner is determined.
+   * Starts a single game round. Every player has to play a card and the winner is determined. This
+   * repeats up to 10 times.
    * 
    */
   void startGame() throws InterruptedException {
@@ -287,7 +315,7 @@ class RoundInstance {
         this.updatePlayer();
         this.updateEnemies();
         if (this.kontaRekontraAvailable) {
-          slc.kontraRequest(this.getTeamPlayer()); //XXX
+          slc.kontraRequest(this.getTeamPlayer()); // XXX
         }
 
         slc.callForPlay(this.players[0].copyPlayer());
@@ -338,8 +366,10 @@ class RoundInstance {
 
   }
 
-
-  public Player determineTrickWinner() {
+  /**
+   * Returns the winer of the trick.
+   */
+  protected Player determineTrickWinner() {
     Contract contract = this.getContract();
 
     if (this.getFirstCard().beats(contract, this.getSecondCard())
@@ -355,7 +385,12 @@ class RoundInstance {
   }
 
 
-
+  /**
+   * Rotates the trickWinner to position one and all other players according to the trickwinners
+   * position.
+   * 
+   * @param trickWinner
+   */
   private void rotatePlayers(Player trickWinner) {
     if (trickWinner.equals(this.getForehand())) {
       return;
@@ -438,7 +473,10 @@ class RoundInstance {
   }
 
 
-
+  /**
+   * Called to wake up the roundInstance (gameThread). Only wakes up if the answer fits to the
+   * current state of the game.
+   */
   void notifyRoundInstance(LogicAnswers answer) {
     synchronized (lock) {
       if (answer == this.current) {
@@ -449,8 +487,11 @@ class RoundInstance {
     }
   }
 
-  void setBid(boolean b) {
-    this.bidAccepted = b;
+  /**
+   * Sets the current bid true when a player accepts a bid.
+   */
+  void setBid(boolean accepted) {
+    this.bidAccepted = accepted;
 
   }
 

@@ -2,11 +2,22 @@ package de.skat3.gamelogic;
 
 import de.skat3.network.server.ServerLogicController;
 
+/**
+ * Controlls the game flow of a scenario in training mode
+ * 
+ * @author kai29, TODO emre!
+ *
+ */
 public class TrainingController extends GameController implements GameLogicInterface {
 
   private int scenario;
   private TrainingModeThread trainingModeThread;
 
+  /**
+   * Creates the training controller.
+   * 
+   * @param scenario the number of scenario that should be started.
+   */
   public TrainingController(int scenario) {
     super();
     this.scenario = scenario;
@@ -46,8 +57,7 @@ public class TrainingController extends GameController implements GameLogicInter
 
 
   void startNewRound() {
-    this.roundInstance =
-        new TrainingRoundInstance(this.scenario, slc, this.players);
+    this.roundInstance = new TrainingRoundInstance(this.scenario, slc, this.players);
     try {
       this.roundInstance.startRound();
     } catch (InterruptedException e) {

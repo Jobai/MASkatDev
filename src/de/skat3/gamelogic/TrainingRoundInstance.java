@@ -2,6 +2,12 @@ package de.skat3.gamelogic;
 
 import de.skat3.network.server.ServerLogicController;
 
+/**
+ * A scripted scenario for the training mode.
+ * 
+ * @author kai29
+ *
+ */
 public class TrainingRoundInstance extends RoundInstance {
 
   int startHandSize = 6;
@@ -9,7 +15,11 @@ public class TrainingRoundInstance extends RoundInstance {
   int scenario;
   int delay;
 
-
+  /**
+   * Creates the training mode scenario.
+   * 
+   * @param scenario number of scenario
+   */
   public TrainingRoundInstance(int scenario, ServerLogicController slc, Player[] players) {
     this.scenario = scenario;
     this.slc = slc;
@@ -24,9 +34,13 @@ public class TrainingRoundInstance extends RoundInstance {
       case 1:
         this.scenarioRoundLength = 2;
         break;
+      default:
+        System.err.println("Scenario does not exist: " + scenario);
+        break;
     }
   }
 
+  @Override
   void startRound() throws InterruptedException {
 
     this.initializeAuction();
@@ -38,7 +52,9 @@ public class TrainingRoundInstance extends RoundInstance {
     this.startGame();
   }
 
-
+  /**
+   * Sets the player that plays the first card in the first round of the scenario.
+   */
   private void setStartingPlayer() {
     switch (this.scenario) {
 
@@ -46,6 +62,9 @@ public class TrainingRoundInstance extends RoundInstance {
         break;
       case 2:
         this.setStartPlayer(1); // wenn in scenario 2 zb ai1 starten soll
+        break;
+      default:
+        System.err.println("Scenario does not exist: " + this.scenario);
         break;
 
 
@@ -121,6 +140,11 @@ public class TrainingRoundInstance extends RoundInstance {
 
   // CASES TODO ARTEM, EMRE
 
+  /**
+   * Returns the card that the player or ai should play in a specific scenario and round.
+   * 
+   * @return
+   */
   private Card getScriptedCard(int currentRound, int player) {
     switch (this.scenario) {
       case 0:
@@ -487,6 +511,9 @@ public class TrainingRoundInstance extends RoundInstance {
 
 
   // CASES TODO ARTEM,EMRE
+  /**
+   * Declares the solo/team players in the scenario and sets the contract.
+   */
   private void setSoloAndContract() {
 
     switch (this.scenario) {
@@ -536,6 +563,11 @@ public class TrainingRoundInstance extends RoundInstance {
   }
 
   // 1= ai1, 2= ai2
+  /**
+   * Sets the player that starts the first round of the scenario.
+   * 
+   * @param i 1 = ai1, 2 = ai2, no call = human player starts the first round.
+   */
   void setStartPlayer(int i) {
 
     if (i == 1) {
@@ -555,6 +587,9 @@ public class TrainingRoundInstance extends RoundInstance {
 
 
   // CASES TODO ARTEM,EMRE
+  /**
+   * Deals cards to every player depending on the current scenario. No cards are dealt at random!
+   */
   @Override
   void dealCards() {
 

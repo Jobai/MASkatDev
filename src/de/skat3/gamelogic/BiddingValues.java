@@ -3,11 +3,18 @@ package de.skat3.gamelogic;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Represents all possible biddingValues in skat;
+ * @author kai29
+ *
+ */
 public class BiddingValues {
 
   public static int[] values = fillBiddingValues();
   
-  
+  /**
+   * Adds all possible biddingValues to the values array.
+   */
   private static int[] fillBiddingValues() {
     ArrayList<Integer> temp = new ArrayList<Integer>();
     temp.add(23);

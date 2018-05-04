@@ -264,16 +264,7 @@ public class MainController implements MainControllerInterface {
   }
 
 
-  /**
-   * Creates a lobby for a multiplayer game.
-   * 
-   * @param spieler number of players
-   * @param timer 0 = no timer, >0 timer in seconds
-   * @param kontraRekontraEnabled true if feature is enabled
-   * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
-   *        number between -500 and -1000)
-   * @throws UnknownHostException
-   */
+
 
   @Override
   public void hostMultiplayerGame(String name, int numberOfPlayers, int timer,
@@ -282,19 +273,6 @@ public class MainController implements MainControllerInterface {
         scoringMode);
 
   }
-
-  /**
-   * Creates a lobby for a multiplayer game.
-   * 
-   * @param spieler number of players
-   * @param timer 0 = no timer, >0 timer in seconds
-   * @param password "" no password, any other String will be set as the password.
-   * @param kontraRekontraEnabled true if feature is enabled
-   * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
-   *        number between -500 and -1000)
-   * @throws UnknownHostException
-   */
-
   public void hostMultiplayerGame(String name, String password, int numberOfPlayers, int timer,
       boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException {
 
@@ -324,12 +302,11 @@ public class MainController implements MainControllerInterface {
 
 
   }
-
+@Deprecated
   void setLgs() {
     SkatMain.lgs = new LocalGameState(this.currentLobby.numberOfPlayers, this.currentLobby.timer,
         this.currentLobby.singlePlayerGame);
   }
-
 
   @Override
   public void showCardPlayed(Player player, Card card) {
@@ -340,9 +317,13 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().playCard(player, card);
+        if (player.equals(SkatMain.lgs.getEnemyThree())) {
 
-
+          SkatMain.guiController.getInGameController().playCard(SkatMain.lgs.getLocalClient(),
+              card);
+        } else {
+          SkatMain.guiController.getInGameController().playCard(player, card);
+        }
       }
     });
     SkatMain.lgs.addToTrick(card);
@@ -433,11 +414,6 @@ public class MainController implements MainControllerInterface {
     });
   }
 
-
-
-  /**
-   * 
-   */
   @Override
   public void handGameRequest() {
     Platform.runLater(new Runnable() {
@@ -514,6 +490,34 @@ public class MainController implements MainControllerInterface {
       }
     });
   }
+
+  @Override
+  public void playSpecificCardRequest(Card card) {
+    this.blinkAlert();
+    Card currentCard = SkatMain.lgs.getFirstCardPlayed();
+    if (currentCard != null) {
+      SkatMain.lgs.getLocalClient().getHand().setPlayableCards(currentCard, SkatMain.lgs.contract);
+    } else {
+      SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
+    }
+    if (SkatMain.lgs.timerInSeconds > 0) {
+      // new Timer(SkatMain.lgs.timerInSeconds); Replaced by -->
+      Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+          SkatMain.guiController.getInGameController().startTimer(SkatMain.lgs.timerInSeconds);
+        }
+      });
+    }
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().makeAMove(true);
+        // GUI TODO SPECIFIC CARD REQUEST
+      }
+    });
+  }
+
 
   @Override
   public void showResults(Result result) {
@@ -712,13 +716,6 @@ public class MainController implements MainControllerInterface {
     // GUI TODO
 
   }
-
-  @Override
-  public void roundRestarted() {
-    // GUI TODO
-
-  }
-
   @Override
   public void localKontraAnnounced() {
     SkatMain.clc.kontraAnswer(); // FIXME
