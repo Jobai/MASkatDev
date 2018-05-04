@@ -40,7 +40,7 @@ public interface MainControllerInterface {
 
 
   /**
-   * Starts a specific scenario in training mode:
+   * Starts a specific scenario in training mode.
    * 
    * @param scenario 0 = basic guide, 1-5 = scenarios.
    */
@@ -55,7 +55,6 @@ public interface MainControllerInterface {
   /**
    * Joins the specified lobby.
    * 
-   * @param password
    */
   public void joinMultiplayerGame(Lobby lobby, String password);
 
@@ -92,6 +91,11 @@ public interface MainControllerInterface {
 
 
   /**
+   * Tells the gui to go into ingame view.
+   */
+  public void roundStarted();
+
+  /**
    * The specified player plays the specified card in the gui and adds it to the local trick.
    * 
    */
@@ -101,14 +105,12 @@ public interface MainControllerInterface {
   /**
    * Local client sends chat message to the server.
    * 
-   * @param message
    */
   public void sendMessage(String message);
 
   /**
    * Adds a chat message to the chat in the gui.
    * 
-   * @param message
    */
   public void receiveMessage(String message);
 
@@ -151,16 +153,18 @@ public interface MainControllerInterface {
   /**
    * Asks the localClient to accept or decline the specified bid.
    * 
-   * @param bid
    */
   public void bidRequest(int bid);
 
   /**
-   * Updates a player in the local gamestate.
-   * 
-   * @param player
+   * Updates the local player in the local gamestate.
    */
   public void updatePlayer(Player player);
+
+  /**
+   * Updates an enemy in the local gamestate.
+   */
+  public void updateEnemy(Player transmitedPlayer);
 
   /**
    * Displays the specified contract in the gui.
@@ -188,9 +192,9 @@ public interface MainControllerInterface {
   public void localBid(boolean accepted);
 
 
-/**
- * Called by gui to send the locally selected contract to the server.
- */
+  /**
+   * Called by gui to send the locally selected contract to the server.
+   */
   public void contractSelected(Contract contract, AdditionalMultipliers additionalMultipliers);
 
   /**
@@ -253,6 +257,27 @@ public interface MainControllerInterface {
    * @param hardBot true if ai is hard.
    */
   public void addBot(boolean hardBot);
+
+
+  /**
+   * TODO Jonas
+   * 
+   * @param ip
+   * @param password
+   */
+  public void directConnectMultiplayerGame(String ip, String password);
+
+
+  /*
+   * TODO Aljo
+   */
+  public void reinitializePlayers();
+
+
+  /**
+   * TODO.
+   */
+  public void goToMenu();
 
 
 
