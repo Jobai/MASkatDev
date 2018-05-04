@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Represents all possible biddingValues in skat;
+ * Represents all possible biddingValues in skat.
+ * 
  * @author kai29
  *
  */

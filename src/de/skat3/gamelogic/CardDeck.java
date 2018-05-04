@@ -1,6 +1,5 @@
 package de.skat3.gamelogic;
 
-import javafx.embed.swing.JFXPanel;
 
 /*
  * Represents all 32 cards that exist in a skat game.

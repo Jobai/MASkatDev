@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * Provides data for the endscreen of a game.
  *
  */
+@SuppressWarnings("serial")
 public class MatchResult implements Serializable {
 
 
@@ -15,6 +16,7 @@ public class MatchResult implements Serializable {
   // TODO
 
   /**
+   * Creates the Match result with all players that are currently in the lobby.
    * 
    */
   public MatchResult(Player[] allPlayers) {

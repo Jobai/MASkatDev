@@ -10,13 +10,10 @@ import javafx.scene.image.ImageView;
  * @author kai29
  *
  */
+@SuppressWarnings("serial")
 public class Card implements Serializable {
 
 
-
-  /**
-   * 
-   */
   private Suit suit;
   private Value value;
   private String view;
@@ -26,7 +23,7 @@ public class Card implements Serializable {
 
 
   /**
-   * Creates an empty, facedown card
+   * Creates an empty, facedown card.
    */
   public Card() {
     this.view = "cardImages/green_back.png";
@@ -63,6 +60,10 @@ public class Card implements Serializable {
 
   }
 
+  /**
+   * Returns the Image of the card.
+   * 
+   */
   public ImageView getImage() {
     if (this.imageView == null) {
       this.imageView = new ImageView(new Image(this.view));
@@ -125,7 +126,7 @@ public class Card implements Serializable {
   /**
    * Checks if the card is a trump in the given contract.
    * 
-   * @param c current contract
+   * @param contract current contract
    * @return true if the card is a trump card.
    */
   public boolean isTrump(Contract contract) {
@@ -197,10 +198,9 @@ public class Card implements Serializable {
   }
 
   /**
-   * Compares two cards
+   * Compares two cards.
    * 
-   * @return true if both cards are identical
-   * @throws Exception
+   * @return true if both cards are identical.
    */
   public boolean equals(Card card) throws Exception {
 
@@ -216,10 +216,11 @@ public class Card implements Serializable {
 
   }
 
-/**
- * Used for the null contract to change the order of the card rankings.
- * @return
- */
+  /**
+   * Used for the null contract to change the order of the card rankings.
+   * 
+   * @return
+   */
   private int calcNullValue() {
 
     switch (this.value) {

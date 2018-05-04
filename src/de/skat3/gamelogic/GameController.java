@@ -1,7 +1,6 @@
 package de.skat3.gamelogic;
 
 import de.skat3.network.server.ServerLogicController;
-import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -11,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author kai29
  *
  */
-public class GameController implements GameLogicInterface, Serializable {
+public class GameController implements GameLogicInterface {
 
 
   boolean gameActive;
@@ -34,7 +33,6 @@ public class GameController implements GameLogicInterface, Serializable {
    * Creates a new match with 3-4 Players, an optional timer, optional kontra and rekontra feature
    * and a Seeger or Bierlachs scoring system.
    * 
-   * @param players All participants.
    * @param kontraRekontraEnabled true if the kontra/rekontra feature is enabled.
    * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
    *        number between -500 and -1000)
@@ -58,9 +56,9 @@ public class GameController implements GameLogicInterface, Serializable {
   public GameController() {}
 
 
-/**
- * Starts the first round of the match.
- */
+  /**
+   * Starts the first round of the match.
+   */
   public void startGame(Player[] players, ServerLogicController slc) {
 
     if (players.length != 3 && players.length != 4) {
@@ -245,7 +243,7 @@ public class GameController implements GameLogicInterface, Serializable {
       System.err.println("LOGIC: Wrong hand or Skat send to logic.");
       return;
     }
-    this.roundInstance.solo.setHand(new Hand(hand.cards)); // XXX ???
+    this.roundInstance.solo.setHand(new Hand(hand.cards)); 
     System.out.println("logic hand: " + hand);
     this.roundInstance.skat[0] = skat[0].copy();
     this.roundInstance.skat[1] = skat[1].copy();
@@ -253,6 +251,9 @@ public class GameController implements GameLogicInterface, Serializable {
 
   }
 
+  /**
+   * Replaces the oldPlayer with a newPlayer, usually a bot.
+   */
   public void exchangePlayer(Player oldPlayer, Player newPlayer) {
     for (int i = 0; i < this.allPlayers.length; i++) {
       if (this.allPlayers[i].equals(oldPlayer)) {

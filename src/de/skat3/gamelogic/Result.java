@@ -1,7 +1,6 @@
 package de.skat3.gamelogic;
 
 import java.io.Serializable;
-import java.math.RoundingMode;
 import java.util.Arrays;
 
 /**
@@ -10,6 +9,7 @@ import java.util.Arrays;
  * @author kai29
  *
  */
+@SuppressWarnings("serial")
 public class Result implements Serializable {
 
   public int gameValue;
@@ -193,7 +193,6 @@ public class Result implements Serializable {
 
   /**
    * called by calcResult to update the playerpoints and sort the ranks[].
-   * @param roundInstance
    */
   private void applyChanges(RoundInstance roundInstance) {
     int leastMultiple = 0;

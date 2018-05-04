@@ -1,6 +1,5 @@
 package de.skat3.gamelogic;
 
-import de.skat3.main.SkatMain;
 import de.skat3.network.server.ServerLogicController;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +39,7 @@ class RoundInstance {
    * 
    * @param players the three current players
    * @param gameThread The GameThread dictates the game flow of a match.
-   * @param kontraRekontraEnabled
+   * @param kontraRekontraEnabled true if kontra/Rekontra is enabled.
    * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
    *        number between -500 and -1000)
    */
@@ -389,7 +388,7 @@ class RoundInstance {
    * Rotates the trickWinner to position one and all other players according to the trickwinners
    * position.
    * 
-   * @param trickWinner
+   * @param trickWinner the player that won the last trick.
    */
   private void rotatePlayers(Player trickWinner) {
     if (trickWinner.equals(this.getForehand())) {

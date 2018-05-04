@@ -171,6 +171,7 @@ public class TrainingRoundInstance extends RoundInstance {
               case 2:
                 return new Card(Suit.DIAMONDS, Value.EIGHT);
               default:
+                return null;
             }
           case 2:
             switch (player) {

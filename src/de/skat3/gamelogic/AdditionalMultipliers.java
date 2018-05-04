@@ -8,6 +8,7 @@ import java.io.Serializable;
  * @author kai29
  *
  */
+@SuppressWarnings("serial")
 public class AdditionalMultipliers implements Serializable {
 
   private boolean schneiderAnnounced;

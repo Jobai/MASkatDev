@@ -3,7 +3,7 @@ package de.skat3.gamelogic;
 import de.skat3.network.server.ServerLogicController;
 
 /**
- * Controlls the game flow of a scenario in training mode
+ * Controlls the game flow of a scenario in training mode.
  * 
  * @author kai29, TODO emre!
  *

@@ -1,5 +1,10 @@
 package de.skat3.gamelogic;
 
+import de.skat3.ai.Ai;
+import de.skat3.ai.IntelligentAi;
+import de.skat3.ai.RandomAI;
+import de.skat3.io.profile.ImageConverter;
+import de.skat3.io.profile.Profile;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,13 +14,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.UUID;
-import de.skat3.ai.Ai;
-import de.skat3.ai.IntelligentAi;
-import de.skat3.ai.RandomAI;
-import de.skat3.io.profile.ImageConverter;
-import de.skat3.io.profile.Profile;
 import javafx.scene.image.Image;
 
 /**
@@ -24,11 +23,9 @@ import javafx.scene.image.Image;
  * @author kai29
  *
  */
+@SuppressWarnings("serial")
 public class Player implements Serializable, Comparable<Player> {
 
-  /**
-   * 
-   */
   boolean isSolo;
   String name;
   String image;
@@ -45,7 +42,7 @@ public class Player implements Serializable, Comparable<Player> {
   public Ai ai;
 
   /**
-   * Creates a new player
+   * Creates a new player.
    * 
    * @param profile the locally saved profile of this player.
    */
@@ -103,7 +100,7 @@ public class Player implements Serializable, Comparable<Player> {
   /**
    * Creates a bot player.
    * 
-   * @param difficulty true if the ai is hard.
+   * @param hardBot true if the ai is hard.
    */
   public Player(boolean hardBot) {
     if (hardBot) {
@@ -233,8 +230,7 @@ public class Player implements Serializable, Comparable<Player> {
   }
 
   /**
-   * 
-   * @return
+   * Returns true if the player is a hard bot.
    */
   public boolean isHardBot() {
     if (this.isBot) {
@@ -249,23 +245,14 @@ public class Player implements Serializable, Comparable<Player> {
     return this.isSolo;
   }
 
-  /**
-   * @return the name
-   */
   public String getName() {
     return name;
   }
 
-  /**
-   * @return the wonTricks
-   */
   public ArrayList<Card> getWonTricks() {
     return wonTricks;
   }
 
-  /**
-   * @return the points
-   */
   public int getPoints() {
     return points;
   }
@@ -280,8 +267,6 @@ public class Player implements Serializable, Comparable<Player> {
 
   /**
    * Updates all attributes that can vary during a match.
-   * 
-   * @param player
    */
   public void updatePlayer(Player player) {
     this.isSolo = player.isSolo;
@@ -330,10 +315,8 @@ public class Player implements Serializable, Comparable<Player> {
       System.out.println(byteArray.length);
       return (Player) oIn.readObject();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (ClassNotFoundException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return null;

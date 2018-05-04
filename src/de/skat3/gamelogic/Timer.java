@@ -1,12 +1,13 @@
 package de.skat3.gamelogic;
 
+import de.skat3.main.SkatMain;
 import java.util.ArrayList;
 import java.util.Random;
-import de.skat3.main.SkatMain;
 import javafx.application.Platform;
 
 /**
- * Deprecated class
+ * Deprecated class.
+ * 
  * @author kai29
  *
  */
@@ -16,8 +17,7 @@ public class Timer extends Thread {
   boolean isInterrupted;
 
   /**
-   * Replaced by simple call in InGameController.startTimer(int time)
-   * Timer that counts down.
+   * Replaced by simple call in InGameController.startTimer(int time) Timer that counts down.
    * 
    * @param seconds the time in seconds
    */

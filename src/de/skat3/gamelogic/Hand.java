@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * Represents up to ten cards that a player has currently on his hand.
  */
+@SuppressWarnings("serial")
 public class Hand implements Serializable {
 
   public Card[] cards;
@@ -57,7 +58,6 @@ public class Hand implements Serializable {
   /**
    * Sorts the hand in this order: all trumps, clubs, spades, hearts, diamonds.
    * 
-   * @param contract
    */
   public void sort(Contract contract) {
     int pointer = 0;
@@ -224,7 +224,6 @@ public class Hand implements Serializable {
           return true;
         }
       } catch (Exception e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }
