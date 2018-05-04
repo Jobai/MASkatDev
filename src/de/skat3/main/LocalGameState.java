@@ -6,22 +6,26 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 
-
+/**
+ * 
+ * @author kai29
+ *
+ */
 public class LocalGameState {
 
-  public boolean gameActive;
-  public boolean singlePlayerGame;
-  public int gameId;
-  public int timerInSeconds;
-  public Contract contract;
-  public AdditionalMultipliers additionalMultipliers;
-  public int trickcount;
+  private boolean gameActive;
+  private boolean singlePlayerGame;
+  private int gameId;
+  private int timerInSeconds;
+  private Contract contract;
+  private AdditionalMultipliers additionalMultipliers;
+  private int trickcount;
   private Player localClient;
   private Player enemyOne;
   private Player enemyTwo;
-  public Player enemyThree;
-  public Card[] trick;
-  public Card[] skat;
+  private Player enemyThree;
+  private Card[] trick;
+  private Card[] skat;
   private int localPosition;
 
   /**
@@ -34,11 +38,11 @@ public class LocalGameState {
     this.localPosition = SkatMain.mainController.currentLobby.currentPlayers;
     this.localClient =
         SkatMain.mainController.currentLobby.players[this.localPosition - 1].copyPlayer();
-    this.singlePlayerGame = singlePlayerGame;
-    this.timerInSeconds = timerInSeconds;
-    this.trickcount = 0;
-    this.trick = new Card[3];
-    this.skat = new Card[2];
+    this.setSinglePlayerGame(singlePlayerGame);
+    this.setTimerInSeconds(timerInSeconds);
+    this.setTrickcount(0);
+    this.setTrick(new Card[3]);
+    this.setSkat(new Card[2]);
     SkatMain.mainController.reinitializePlayers();
   }
 
@@ -168,14 +172,14 @@ public class LocalGameState {
    */
 
   public void addToTrick(Card card) {
-    this.trick[this.trickcount] = card;
-    this.trickcount = (trickcount + 1) % 3;
+    this.getTrick()[this.getTrickcount()] = card;
+    this.setTrickcount((getTrickcount() + 1) % 3);
   }
 
   public Card getCurrentCardInTrick() {
-    for (int i = 0; i < this.trick.length; i++) {
-      if (this.trick[i] == null && i - 1 > 0) {
-        return this.trick[i - 1];
+    for (int i = 0; i < this.getTrick().length; i++) {
+      if (this.getTrick()[i] == null && i - 1 > 0) {
+        return this.getTrick()[i - 1];
       }
     }
     return null;
@@ -183,8 +187,8 @@ public class LocalGameState {
 
 
   public Card getFirstCardPlayed() {
-    if (this.trick[0] != null && this.trickcount != 0) {
-      return this.trick[0];
+    if (this.getTrick()[0] != null && this.getTrickcount() != 0) {
+      return this.getTrick()[0];
     } else {
       return null;
     }
@@ -215,8 +219,8 @@ public class LocalGameState {
     if (this.getEnemyTwo().equals(player)) {
       return this.getEnemyTwo();
     }
-    if (this.enemyThree.equals(player)) {
-      return this.enemyThree;
+    if (this.getEnemyThree().equals(player)) {
+      return this.getEnemyThree();
     }
 
     System.err.println("No Player found");
@@ -272,12 +276,80 @@ public class LocalGameState {
         this.enemyTwo = null;
       }
     }
-    if (this.enemyThree != null) {
-      if (player.equals(this.enemyThree)) {
-        this.enemyThree = null;
+    if (this.getEnemyThree() != null) {
+      if (player.equals(this.getEnemyThree())) {
+        this.setEnemyThree(null);
       }
     }
     SkatMain.mainController.reinitializePlayers();
+  }
+
+  public Card[] getSkat() {
+    return skat;
+  }
+
+  public void setSkat(Card[] skat) {
+    this.skat = skat;
+  }
+
+  public Card[] getTrick() {
+    return trick;
+  }
+
+  public void setTrick(Card[] trick) {
+    this.trick = trick;
+  }
+
+  public int getTrickcount() {
+    return trickcount;
+  }
+
+  public void setTrickcount(int trickcount) {
+    this.trickcount = trickcount;
+  }
+
+  public AdditionalMultipliers getAdditionalMultipliers() {
+    return additionalMultipliers;
+  }
+
+  public void setAdditionalMultipliers(AdditionalMultipliers additionalMultipliers) {
+    this.additionalMultipliers = additionalMultipliers;
+  }
+
+  public void setContract(Contract contract) {
+    this.contract = contract;
+  }
+
+  public int getTimerInSeconds() {
+    return timerInSeconds;
+  }
+
+  public void setTimerInSeconds(int timerInSeconds) {
+    this.timerInSeconds = timerInSeconds;
+  }
+
+  public boolean isSinglePlayerGame() {
+    return singlePlayerGame;
+  }
+
+  public void setSinglePlayerGame(boolean singlePlayerGame) {
+    this.singlePlayerGame = singlePlayerGame;
+  }
+
+  public int getGameId() {
+    return gameId;
+  }
+
+  public void setGameId(int gameId) {
+    this.gameId = gameId;
+  }
+
+  public boolean isGameActive() {
+    return gameActive;
+  }
+
+  public void setGameActive(boolean gameActive) {
+    this.gameActive = gameActive;
   }
 }
 

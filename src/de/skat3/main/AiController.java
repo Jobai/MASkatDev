@@ -71,7 +71,7 @@ public class AiController {
   public void playCardRequest(Player bot) {
     Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {
-      this.getBot(bot).ai.hand.setPlayableCards(currentCard, SkatMain.lgs.contract);
+      this.getBot(bot).ai.hand.setPlayableCards(currentCard, SkatMain.lgs.getContract());
     } else {
       this.getBot(bot).ai.hand.setAllCardsPlayable();
     }

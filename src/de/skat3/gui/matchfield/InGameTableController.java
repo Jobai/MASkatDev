@@ -179,12 +179,12 @@ public class InGameTableController {
   void showSkatSelection() {
     GuiCard[] skat = new GuiCard[2];
 
-    skat[0] = new GuiCard(SkatMain.lgs.skat[0]);
+    skat[0] = new GuiCard(SkatMain.lgs.getSkat()[0]);
     skat[0].translateXProperty().bind(this.tableView.skatPositions[0].translateXProperty());
     skat[0].translateYProperty().bind(this.tableView.skatPositions[0].translateYProperty());
     skat[0].translateZProperty().bind(this.tableView.skatPositions[0].translateZProperty());
 
-    skat[1] = new GuiCard(SkatMain.lgs.skat[1]);
+    skat[1] = new GuiCard(SkatMain.lgs.getSkat()[1]);
     skat[1].translateXProperty().bind(this.tableView.skatPositions[1].translateXProperty());
     skat[1].translateYProperty().bind(this.tableView.skatPositions[1].translateYProperty());
     skat[1].translateZProperty().bind(this.tableView.skatPositions[1].translateZProperty());

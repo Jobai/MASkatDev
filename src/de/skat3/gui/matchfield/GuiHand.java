@@ -363,7 +363,7 @@ public class GuiHand extends Parent {
         j++;
       }
 
-      h.sort(SkatMain.lgs.contract);
+      h.sort(SkatMain.lgs.getContract());
 
       for (int z = 0; z < h.cards.length; z++) {
         GuiCard card = this.getGuiCard(h.cards[z]);

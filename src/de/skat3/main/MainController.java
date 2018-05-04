@@ -445,8 +445,8 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showContract(Contract contract, AdditionalMultipliers additionalMultipliers) {
-    SkatMain.lgs.contract = contract;
-    SkatMain.lgs.additionalMultipliers = additionalMultipliers;
+    SkatMain.lgs.setContract(contract);
+    SkatMain.lgs.setAdditionalMultipliers(additionalMultipliers);
     Platform.runLater(new Runnable() {
 
       @Override
@@ -474,16 +474,16 @@ public class MainController implements MainControllerInterface {
     this.blinkAlert();
     Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {
-      SkatMain.lgs.getLocalClient().getHand().setPlayableCards(currentCard, SkatMain.lgs.contract);
+      SkatMain.lgs.getLocalClient().getHand().setPlayableCards(currentCard, SkatMain.lgs.getContract());
     } else {
       SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
     }
-    if (SkatMain.lgs.timerInSeconds > 0) {
+    if (SkatMain.lgs.getTimerInSeconds() > 0) {
       // new Timer(SkatMain.lgs.timerInSeconds); Replaced by -->
       Platform.runLater(new Runnable() {
         @Override
         public void run() {
-          SkatMain.guiController.getInGameController().startTimer(SkatMain.lgs.timerInSeconds);
+          SkatMain.guiController.getInGameController().startTimer(SkatMain.lgs.getTimerInSeconds());
         }
       });
     }
@@ -500,7 +500,7 @@ public class MainController implements MainControllerInterface {
     this.blinkAlert();
     Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {
-      SkatMain.lgs.getLocalClient().getHand().setPlayableCards(currentCard, SkatMain.lgs.contract);
+      SkatMain.lgs.getLocalClient().getHand().setPlayableCards(currentCard, SkatMain.lgs.getContract());
     } else {
       SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
     }
@@ -546,13 +546,13 @@ public class MainController implements MainControllerInterface {
       case HEARTS:
       case DIAMONDS:
         if (localWinner) {
-          if (SkatMain.lgs.singlePlayerGame) {
+          if (SkatMain.lgs.isSinglePlayerGame()) {
             SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsWonSuit();
           } else {
             SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsWonSuit();
           }
         } else {
-          if (SkatMain.lgs.singlePlayerGame) {
+          if (SkatMain.lgs.isSinglePlayerGame()) {
             SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsLostSuit();
           } else {
             SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsLostSuit();
@@ -561,13 +561,13 @@ public class MainController implements MainControllerInterface {
         break;
       case GRAND:
         if (localWinner) {
-          if (SkatMain.lgs.singlePlayerGame) {
+          if (SkatMain.lgs.isSinglePlayerGame()) {
             SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsWonGrand();
           } else {
             SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsWonGrand();
           }
         } else {
-          if (SkatMain.lgs.singlePlayerGame) {
+          if (SkatMain.lgs.isSinglePlayerGame()) {
             SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsLostGrand();
           } else {
             SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsLostGrand();
@@ -576,13 +576,13 @@ public class MainController implements MainControllerInterface {
         break;
       case NULL:
         if (localWinner) {
-          if (SkatMain.lgs.singlePlayerGame) {
+          if (SkatMain.lgs.isSinglePlayerGame()) {
             SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsWonNull();
           } else {
             SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsWonNull();
           }
         } else {
-          if (SkatMain.lgs.singlePlayerGame) {
+          if (SkatMain.lgs.isSinglePlayerGame()) {
             SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerRoundsLostNull();
           } else {
             SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerRoundsLostNull();
@@ -604,7 +604,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void selectSkatRequest(Card[] skat) {
-    SkatMain.lgs.skat = skat;
+    SkatMain.lgs.setSkat(skat);
     Platform.runLater(new Runnable() {
 
 
@@ -681,8 +681,8 @@ public class MainController implements MainControllerInterface {
   @Override
   public void skatSelected(Hand hand, Card[] skat) {
     System.out.println("neue hand: " + hand);
-    SkatMain.lgs.skat[0] = skat[0];
-    SkatMain.lgs.skat[1] = skat[1];
+    SkatMain.lgs.getSkat()[0] = skat[0];
+    SkatMain.lgs.getSkat()[1] = skat[1];
     SkatMain.lgs.getLocalClient().setHand(hand);
     SkatMain.clc.throwAnswer(new Hand(hand.cards), skat);
   }

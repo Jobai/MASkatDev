@@ -206,7 +206,7 @@ public class InGameOverlayController {
   void iniStartRound() {
     this.root.requestFocus();
 
-    if (SkatMain.lgs.timerInSeconds > 0) {
+    if (SkatMain.lgs.getTimerInSeconds() > 0) {
       this.showTimer(true);
     } else {
       this.showTimer(false);

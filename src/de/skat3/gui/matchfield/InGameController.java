@@ -30,11 +30,11 @@ public class InGameController implements InGameControllerInterface {
 
   public void showSelectionInfos(boolean value) {
     if (value) {
-      this.matchfield.overlayController.setRoundInfos(SkatMain.lgs.contract,
-          SkatMain.lgs.additionalMultipliers);
+      this.matchfield.overlayController.setRoundInfos(SkatMain.lgs.getContract(),
+          SkatMain.lgs.getAdditionalMultipliers());
 
-      if (SkatMain.lgs.additionalMultipliers.isSchwarzAnnounced()
-          || SkatMain.lgs.additionalMultipliers.isOpenHand()) {
+      if (SkatMain.lgs.getAdditionalMultipliers().isSchwarzAnnounced()
+          || SkatMain.lgs.getAdditionalMultipliers().isOpenHand()) {
         this.matchfield.tableController.reloadHands();
       }
 
@@ -55,10 +55,10 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value, true);
     this.matchfield.tableController.setCardsPlayable(value,
         SkatMain.lgs.getLocalClient().getHand().getCards());
-    if (SkatMain.lgs.timerInSeconds > 0) {
+    if (SkatMain.lgs.getTimerInSeconds() > 0) {
       this.matchfield.overlayController.showTimer(value);
       if (value) {
-        this.matchfield.overlayController.setTimer(SkatMain.lgs.timerInSeconds);
+        this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
       }
     }
   }
@@ -87,10 +87,10 @@ public class InGameController implements InGameControllerInterface {
     }
     this.matchfield.tableController.setCardsPlayable(true, playableRef);
 
-    if (SkatMain.lgs.timerInSeconds > 0) {
+    if (SkatMain.lgs.getTimerInSeconds() > 0) {
       this.matchfield.overlayController.showTimer(value);
       if (value) {
-        this.matchfield.overlayController.setTimer(SkatMain.lgs.timerInSeconds);
+        this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
       }
     }
   }
