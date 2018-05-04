@@ -34,9 +34,24 @@ public class TrainingRoundInstance extends RoundInstance {
     this.updatePlayer();
     this.updateEnemies();
     slc.broadcastRoundStarted();
+    this.setStartingPlayer();
     this.startGame();
   }
 
+
+  private void setStartingPlayer() {
+    switch (this.scenario) {
+
+      case 1: // localClient starts
+        break;
+      case 2:
+        this.setStartPlayer(1); // wenn in scenario 2 zb ai1 starten soll
+        break;
+
+
+    }
+
+  }
 
   @Override
   void startGame() throws InterruptedException {
@@ -53,12 +68,13 @@ public class TrainingRoundInstance extends RoundInstance {
           Card current = this.getScriptedCard(currentRound, 0);
           this.addCardtoTrick(current);
         } else {
-          slc.callForPlay(this.players[0]); // XXX MODIFY
+          slc.callForSpecificPlay(this.players[0].copyPlayer(),
+              this.getScriptedCard(currentRound, 0)); // XXX
           this.current = LogicAnswers.CARD;
           this.lock.wait();
         }
-        slc.updatePlayerDuringRound(this.players[0]);
-        slc.sendPlayedCard(this.players[0], this.trick[0]);
+        slc.updatePlayerDuringRound(this.players[0].copyPlayer());
+        slc.sendPlayedCard(this.players[0].copyPlayer(), this.trick[0].copy());
 
 
         if (this.players[1].isBot) {
@@ -66,12 +82,13 @@ public class TrainingRoundInstance extends RoundInstance {
           Card current = this.getScriptedCard(currentRound, 1);
           this.addCardtoTrick(current);
         } else {
-          slc.callForPlay(this.players[1]); // XXX MODIFY
+          slc.callForSpecificPlay(this.players[1].copyPlayer(),
+              this.getScriptedCard(currentRound, 1));
           this.current = LogicAnswers.CARD;
           this.lock.wait();
         }
-        slc.updatePlayerDuringRound(this.players[1]);
-        slc.sendPlayedCard(this.players[1], this.trick[1]);
+        slc.updatePlayerDuringRound(this.players[1].copyPlayer());
+        slc.sendPlayedCard(this.players[1].copyPlayer(), this.trick[1].copy());
 
 
         if (this.players[2].isBot) {
@@ -79,12 +96,13 @@ public class TrainingRoundInstance extends RoundInstance {
           Card current = this.getScriptedCard(currentRound, 2);
           this.addCardtoTrick(current);
         } else {
-          slc.callForPlay(this.players[2]); // XXX MODIFY
+          slc.callForSpecificPlay(this.players[2].copyPlayer(),
+              this.getScriptedCard(currentRound, 2));
           this.current = LogicAnswers.CARD;
           this.lock.wait();
         }
-        slc.updatePlayerDuringRound(this.players[2]);
-        slc.sendPlayedCard(this.players[2], this.trick[2]);
+        slc.updatePlayerDuringRound(this.players[2].copyPlayer());
+        slc.sendPlayedCard(this.players[2].copyPlayer(), this.trick[2].copy());
 
         Player trickWinner = this.determineTrickWinner();
         for (Card card : this.trick) {
@@ -100,7 +118,7 @@ public class TrainingRoundInstance extends RoundInstance {
     }
   }
 
-  
+
   // CASES TODO ARTEM, EMRE
 
   private Card getScriptedCard(int currentRound, int player) {
@@ -467,8 +485,8 @@ public class TrainingRoundInstance extends RoundInstance {
 
   }
 
-  
-  //CASES TODO ARTEM,EMRE
+
+  // CASES TODO ARTEM,EMRE
   private void setSoloAndContract() {
 
     switch (this.scenario) {
@@ -517,7 +535,25 @@ public class TrainingRoundInstance extends RoundInstance {
 
   }
 
-  
+  // 1= ai1, 2= ai2
+  void setStartPlayer(int i) {
+
+    if (i == 1) {
+      Player temp = this.players[0];
+      this.players[0] = this.players[1];
+      this.players[1] = this.players[2];
+      this.players[2] = temp;
+    }
+    if (i == 2) {
+      Player temp = this.players[0];
+      this.players[0] = this.players[2];
+      this.players[2] = this.players[1];
+      this.players[1] = temp;
+    }
+  }
+
+
+
   // CASES TODO ARTEM,EMRE
   @Override
   void dealCards() {
