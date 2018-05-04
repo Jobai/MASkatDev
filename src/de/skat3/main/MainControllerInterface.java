@@ -192,6 +192,7 @@ public interface MainControllerInterface {
   public void localBid(boolean accepted);
 
 
+  public void showBid(String bid, Player player);
   /**
    * Called by gui to send the locally selected contract to the server.
    */

@@ -504,20 +504,11 @@ public class MainController implements MainControllerInterface {
     } else {
       SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
     }
-    if (SkatMain.lgs.timerInSeconds > 0) {
-      // new Timer(SkatMain.lgs.timerInSeconds); Replaced by -->
-      Platform.runLater(new Runnable() {
-        @Override
-        public void run() {
-          SkatMain.guiController.getInGameController().startTimer(SkatMain.lgs.timerInSeconds);
-        }
-      });
-    }
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().makeAMoveRequest(true);
-        // GUI TODO SPECIFIC CARD REQUEST
+        SkatMain.guiController.getInGameController().singleMakeAMoveRequest(card, true);
       }
     });
   }
@@ -698,13 +689,12 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void kontraAnnounced() {
-    SkatMain.clc.kontraAnswer();
 
   }
 
   @Override
   public void rekontraAnnounced() {
-    SkatMain.clc.reKontraAnswer();
+
 
   }
 
@@ -740,6 +730,12 @@ public class MainController implements MainControllerInterface {
   @Override
   public void addBot(boolean hardBot) {
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot);
+
+  }
+
+  @Override
+  public void showBid(String bid, Player player) {
+    SkatMain.guiController.getInGameController().showBidActivity(player, bid);
 
   }
 

@@ -178,7 +178,7 @@ public class GameController implements GameLogicInterface {
   @Override
   public void notifyLogicofBid(boolean accepted) {
     this.roundInstance.setBid(accepted);
-    this.slc.broadcastBid(accepted);
+    this.roundInstance.broadcastBid();
     this.roundInstance.notifyRoundInstance(LogicAnswers.BID);
 
   }

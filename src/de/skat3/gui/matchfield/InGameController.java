@@ -219,9 +219,9 @@ public class InGameController implements InGameControllerInterface {
    * @param player Player who has set this bid.
    * @param bid Bid value the player has set.
    */
-  public void showBidActivity(Player player, int bid) {
+  public void showBidActivity(Player player, String bid) {
     if (!player.equals(SkatMain.lgs.getLocalClient())) {
-      this.matchfield.overlayController.showInMainInfo(player.getName() + " is biding " + bid,
+      this.matchfield.overlayController.showInMainInfo(player.getName() + ": " + bid,
           Duration.seconds(2));
     }
   }
