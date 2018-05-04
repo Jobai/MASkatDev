@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -182,6 +183,43 @@ public class AiHelper implements Serializable {
   public int countAces(Card[] cards) {
     return getAllPlayableCardsOfValue(cards, Value.ACE).size();
   }
+  
+  /**
+   * Gets the number of Nines in the given hand
+   * 
+   * @param cards a hand
+   * @return number of aces
+   */
+  public int countNines(Card[] cards) {
+    return getAllCardsOfValue(cards, Value.NINE).size();
+  }
+  /**
+   * Gets the number of Eights in the given hand
+   * 
+   * @param cards a hand
+   * @return number of aces
+   */
+  public int countEights(Card[] cards) {
+    return getAllCardsOfValue(cards, Value.EIGHT).size();
+  }
+  /**
+   * Gets the number of Sevens in the given hand
+   * 
+   * @param cards a hand
+   * @return number of aces
+   */
+  public int countSevens(Card[] cards) {
+    return getAllCardsOfValue(cards, Value.SEVEN).size();
+  }
+  /**
+   * Gets the number of Tens in the given hand
+   * 
+   * @param cards a hand
+   * @return number of Tens
+   */
+  public int countTens(Card[] cards) {
+    return getAllCardsOfValue(cards, Value.TEN).size();
+  }
 
   /**
    * @param acceptedHandGame Tells if a hand game was accepted
@@ -355,6 +393,78 @@ public class AiHelper implements Serializable {
     return null;
   }
 
+	public boolean checkGrand(Card[] cards) {
+		int noOfJacks = countJacks(cards);
+		int noOfAces = countAces(cards);
+		int noOfTens = countTens(cards);
+		boolean grand = false;
+
+		if (noOfJacks >= 2 && noOfAces >= 3) {
+			grand = true;
+		} else if (noOfJacks >= 1 && noOfAces > 2 && noOfTens > 2) {
+			grand = true;
+		}
+		return grand;
+	}
+
+	public boolean checkNull(Card[] cards) {
+		int noOfAces = countAces(cards);
+		int noOfTens = countTens(cards);
+		int noOfLusche = countSevens(cards) + countEights(cards) + countNines(cards);
+		boolean nullB = false;
+
+		if (noOfLusche >= 5) {
+			nullB = true;
+		} else if (noOfLusche >= 3 && noOfAces == 0 && noOfTens == 0) {
+			nullB = true;
+		}
+		return nullB;
+	}
+
+	public boolean checkSuit(Card[] cards,Suit suit) {
+		int noOfAces = countAces(cards);
+		int noOfTens = countTens(cards);
+		int noOfLusche = countSevens(cards) + countEights(cards) + countNines(cards);
+		boolean suites = false;
+
+		int noOfTrumpsSpades = countTrumps(cards, Contract.SPADES);
+		if ((noOfTrumpsSpades >= 5)) {
+			suites = true;
+		} else if (noOfTrumpsSpades >= 3 && noOfAces >= 3) {
+			suites = true;
+		} else if (noOfTrumpsSpades >= 2 && noOfAces >= 3 && noOfTens >= 3) {
+			suites = true;
+		}
+	
+		int noOfTrumpsDiamonds = countTrumps(cards, Contract.DIAMONDS);
+		if ((noOfTrumpsDiamonds >= 5)) {
+			suites = true;
+		} else if (noOfTrumpsDiamonds >= 3 && noOfAces >= 3) {
+			suites = true;
+		} else if (noOfTrumpsDiamonds >= 2 && noOfAces >= 3 && noOfTens >= 3) {
+			suites = true;
+		}
+	
+		int noOfTrumpsHearts = countTrumps(cards, Contract.HEARTS);
+		if ((noOfTrumpsHearts >= 5)) {
+			suites = true;
+		} else if( noOfTrumpsHearts >= 3 && noOfAces >= 3) {
+			suites = true;
+		} else if (noOfTrumpsHearts>= 2 && noOfAces >= 3 && noOfTens >= 3) {
+			suites = true;
+		}
+
+	int noOfTrumpsClubs = countTrumps(cards, Contract.CLUBS);
+
+		if ((noOfTrumpsClubs >= 5)) {
+			suites = true;
+		} else if (noOfTrumpsClubs >= 3 && noOfAces >= 3) {
+			suites = true;
+		} else if (noOfTrumpsClubs >= 2 && noOfAces >= 3 && noOfTens >= 3) {
+			suites = true;
+		}
+		return suites;
+	}
   /**
    * Position == REARHAND!!!!!!!
    *

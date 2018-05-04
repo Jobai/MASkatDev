@@ -1,18 +1,21 @@
 package ai;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
+
 import org.junit.Test;
+
 import de.skat3.ai.IntelligentAi;
+import de.skat3.ai.ReturnSkat;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
-import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
-import de.skat3.io.profile.Profile;
 
 public class TestIntelligentAI {
 
@@ -28,7 +31,7 @@ public class TestIntelligentAI {
     int suitOrdinal;
     int valueOrdinal;
 
-    IntelligentAi ai = new IntelligentAi(new Player(new Profile("testUser")));
+		IntelligentAi ai = new IntelligentAi();
 
     for (int j = 0; j < 5; j++) {
       contractOrdinal = random.nextInt(contractLength);
@@ -71,5 +74,27 @@ public class TestIntelligentAI {
     // Contract contractNull = (Contract.NULL);
 
   }
+
+	@Test
+	public void testSelectSkat() {
+		IntelligentAi ai = new IntelligentAi();
+		Card card1 = new Card(Suit.CLUBS, Value.JACK);
+		Card card2 = new Card(Suit.CLUBS, Value.ACE);
+		Card[] skat = { card1, card2 };
+		assertEquals(ai.selectSkat(skat), new ReturnSkat(ai.hand, skat));
+	}
+
+	@Test
+	public void testChooseContract() {
+		IntelligentAi ai = new IntelligentAi();
+		assertEquals(ai.chooseContract(), Contract.GRAND);
+	}
+
+	@Test
+	public void testBidding() {
+		IntelligentAi ai = new IntelligentAi();
+		int bid = 18;
+		assertTrue(ai.acceptBid(bid));
+	}
 
 }
