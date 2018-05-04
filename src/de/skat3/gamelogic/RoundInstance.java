@@ -56,7 +56,7 @@ class RoundInstance {
     this.addtionalMultipliers = new AdditionalMultipliers();
     this.soloPlayerStartHand = new Hand();
     for (int i = 0; i < this.players.length; i++) {
-      this.players[i].shortenPlayer(); // XXX
+      this.players[i].shortenPlayer();
     }
   }
 
@@ -193,6 +193,10 @@ class RoundInstance {
    * 
    * @return Returns the winner, null if no one wins.
    */
+
+  private boolean respond;
+  private Player currentBidder;
+
   public Player startBidding() throws InterruptedException {
     synchronized (lock) {
       this.currentBiddingValue = 0;
@@ -208,9 +212,6 @@ class RoundInstance {
       } else {
         return currentWinner;
       }
-
-
-
     }
   }
 
@@ -224,10 +225,12 @@ class RoundInstance {
 
 
     while (this.currentBiddingValue < BiddingValues.values.length) {
+      this.currentBidder = bid;
       this.slc.callForBid(bid, BiddingValues.values[this.currentBiddingValue]);
       this.current = LogicAnswers.BID;
       lock.wait();
       if (this.bidAccepted) {
+        this.currentBidder = respond;
         this.slc.callForBid(respond, BiddingValues.values[this.currentBiddingValue]);
         this.current = LogicAnswers.BID;
         lock.wait();
@@ -243,6 +246,23 @@ class RoundInstance {
       }
     }
     return bid;
+
+  }
+
+  protected void broadcastBid() {
+
+    String bid;
+    if (this.bidAccepted) {
+      if (this.respond) {
+        bid = BiddingValues.values[this.currentBiddingValue] + "!";
+      } else {
+        bid = BiddingValues.values[this.currentBiddingValue] + "?";
+      }
+    } else {
+      bid = "Im out!";
+    }
+    slc.broadcastBid(bid,this.currentBidder.copyPlayer());
+    this.respond = !this.respond;
 
   }
 
@@ -320,9 +340,6 @@ class RoundInstance {
         slc.callForPlay(this.players[0].copyPlayer());
         this.current = LogicAnswers.CARD;
         this.lock.wait();
-        if (this.kontaRekontraAvailable && !this.players[0].isSolo) {
-          // slc.broadcastKontraRekontraExpired(this.players[0]); XXX
-        }
         slc.updatePlayerDuringRound(this.players[0].copyPlayer());
         slc.sendPlayedCard(this.players[0].copyPlayer(), this.trick[0]);
 
@@ -331,9 +348,6 @@ class RoundInstance {
         this.current = LogicAnswers.CARD;
         this.lock.wait();
 
-        if (this.kontaRekontraAvailable && !this.players[1].isSolo) {
-          // slc.broadcastKontraRekontraExpired(this.players[1]); XXX
-        }
         slc.updatePlayerDuringRound(this.players[1].copyPlayer());
         slc.sendPlayedCard(this.players[1].copyPlayer(), this.trick[1]);
 
@@ -341,15 +355,10 @@ class RoundInstance {
         slc.callForPlay(this.players[2].copyPlayer());
         this.current = LogicAnswers.CARD;
         this.lock.wait();
-        if (this.kontaRekontraAvailable && !this.players[2].isSolo) {
-          // slc.broadcastKontraRekontraExpired(this.players[2]); XXX
-        }
 
         slc.updatePlayerDuringRound(this.players[2].copyPlayer());
         slc.sendPlayedCard(this.players[2].copyPlayer(), this.trick[2]);
-        if (this.kontaRekontraAvailable) {
-          this.kontaRekontraAvailable = false;
-        }
+        this.kontaRekontraAvailable = false;
         Player trickWinner = this.determineTrickWinner();
         for (Card card : this.trick) {
           trickWinner.wonTricks.add(card.copy());

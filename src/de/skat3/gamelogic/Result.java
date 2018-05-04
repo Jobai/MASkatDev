@@ -57,11 +57,9 @@ public class Result implements Serializable {
     if (roundInstance.roundCancelled) {
       this.roundCancelled = true;
     } else {
-      System.out.println(roundInstance.contract);
-      System.out.println(roundInstance.solo.getWonTricks());
+      this.declarerName = roundInstance.solo.getName();
       this.calcResult(roundInstance);
     }
-    this.declarerName = roundInstance.solo.getName();
 
 
   }
