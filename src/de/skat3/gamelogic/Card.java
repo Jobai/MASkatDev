@@ -114,7 +114,7 @@ public class Card implements Serializable {
     return this.value;
   }
 
-  void setPlayable(boolean b) {
+  public void setPlayable(boolean b) {
     this.playable = b;
   }
 

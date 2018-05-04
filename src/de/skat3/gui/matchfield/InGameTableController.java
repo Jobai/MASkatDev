@@ -45,13 +45,14 @@ public class InGameTableController {
    * Is refreshing the color of all cards in your hand. Only playable cards are in a normal color.
    * 
    * @param value True to show to color effect. False to disable the color effect.
+   * @param playableRef TODO
    */
-  void showPlayableColor(boolean value) {
+  void showPlayableColor(boolean value, Card[] playableRef) {
     if (value) {
       ColorAdjust grey = new ColorAdjust();
       grey.setBrightness(-0.4);
 
-      for (Card c : SkatMain.lgs.getLocalClient().getHand().cards) {
+      for (Card c : playableRef) {
         if (!c.isPlayable()) {
           GuiCard card = this.tableView.playerHand.getGuiCard(c);
           if (card != null) {
@@ -69,7 +70,7 @@ public class InGameTableController {
         }
       }
     } else {
-      for (Card c : SkatMain.lgs.getLocalClient().getHand().cards) {
+      for (Card c : playableRef) {
         GuiCard card = this.tableView.playerHand.getGuiCard(c);
         if (card != null) {
           try {
@@ -83,16 +84,17 @@ public class InGameTableController {
 
   }
 
+
   /**
    * Enables/Disables the option to play a card via the GUI from the local hand.
    * 
    * @param value Value.
    */
-  void setCardsPlayable(boolean value) {
+  void setCardsPlayable(boolean value, Card[] playableRef) {
 
     this.isPlaying = value;
 
-    this.showPlayableColor(value);
+    this.showPlayableColor(value, playableRef);
 
     this.showCardAnimationInLCHand(value);
 
@@ -104,23 +106,16 @@ public class InGameTableController {
         try {
           if (node.getParent().getParent().equals(this.tableView.playerHand)) {
             GuiCard card = (GuiCard) node.getParent();
-            for (Card c : SkatMain.lgs.getLocalClient().getHand().cards) {
-              if (card.getCard().equals(c)) {
-                if (c.isPlayable()) {
-                  if (this.selectedCard.equals(card)) {
-                    this.selectedCard = null;
-                  }
-                  // Play card
-                  SkatMain.mainController.localCardPlayed(card.getCard());
-                  // Disable cards
-                  SkatMain.guiController.getInGameController().makeAMove(false);
-                  // hide timer
-                  SkatMain.guiController.getInGameController().matchfield.overlayController
-                      .showTimer(false);
-                  break;
-                }
+            if (card.isPlayable(playableRef, card)) {
+              if (this.selectedCard.equals(card)) {
+                this.selectedCard = null;
               }
+              // Play card
+              SkatMain.mainController.localCardPlayed(card.getCard());
+              // Disable cards
+              SkatMain.guiController.getInGameController().makeAMoveRequest(false);
             }
+
           }
         } catch (Exception e) {
           // No parent so an error is thrown every time when the cursor is not over a card.
@@ -207,7 +202,7 @@ public class InGameTableController {
           GuiCard card = (GuiCard) node.getParent();
           skat[0] = null;
           this.tableView.table.getChildren().remove(card);
-          this.tableView.playerHand.add(card);
+          this.tableView.playerHand.add(card, true);
           if (this.selectedCard.equals(card)) {
             this.selectedCard = null;
           }
@@ -218,7 +213,7 @@ public class InGameTableController {
           GuiCard card = (GuiCard) node.getParent();
           skat[1] = null;
           this.tableView.table.getChildren().remove(card);
-          this.tableView.playerHand.add(card);
+          this.tableView.playerHand.add(card, true);
           if (this.selectedCard.equals(card)) {
             this.selectedCard = null;
           }
@@ -307,7 +302,7 @@ public class InGameTableController {
         Hand hand = new Hand(cards);
         SkatMain.mainController.skatSelected(hand, skat2);
         this.tableView.table.getChildren().removeAll(button, skat[0], skat[1]);
-        SkatMain.guiController.getInGameController().makeAMove(false);
+        SkatMain.guiController.getInGameController().makeAMoveRequest(false);
       }
     });
     this.tableView.table.getChildren().add(button);
@@ -367,13 +362,23 @@ public class InGameTableController {
     this.tableView.leftHand.clear();
     this.tableView.leftHand.clear();
 
-    this.tableView.playerHand.addAll(SkatMain.lgs.getLocalClient().getHand().getCards());
+
     this.tableView.playerHand.setPlayer(SkatMain.lgs.getLocalClient());
-    this.tableView.leftHand.addAll(SkatMain.lgs.getEnemyOne().getHand().getCards());
     this.tableView.leftHand.setPlayer(SkatMain.lgs.getEnemyOne());
-    this.tableView.rightHand.addAll(SkatMain.lgs.getEnemyTwo().getHand().getCards());
     this.tableView.rightHand.setPlayer(SkatMain.lgs.getEnemyTwo());
 
+    this.reloadHands();
+
+  }
+
+  public void reloadHands() {
+    this.tableView.playerHand.clear();
+    this.tableView.leftHand.clear();
+    this.tableView.leftHand.clear();
+
+    this.tableView.playerHand.addAll(SkatMain.lgs.getLocalClient().getHand().getCards(), false);
+    this.tableView.leftHand.addAll(SkatMain.lgs.getEnemyOne().getHand().getCards(), false);
+    this.tableView.rightHand.addAll(SkatMain.lgs.getEnemyTwo().getHand().getCards(), false);
   }
 
 }

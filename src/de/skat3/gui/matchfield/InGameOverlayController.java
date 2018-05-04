@@ -138,10 +138,33 @@ public class InGameOverlayController {
   @FXML
   private Label openInfo;
 
+  @FXML
+  private Label mainInfoLabel;
+
   private Timeline localTimer;
+  private Timeline mainInfoFader;
   // Initializing
 
 
+  void showInMainInfo(String text, Duration time) {
+    this.mainInfoLabel.setVisible(true);
+    this.mainInfoLabel.setDisable(true);
+    this.mainInfoLabel.setText(text);
+    FadeTransition fading = new FadeTransition();
+    fading.setNode(this.mainInfoLabel);
+    fading.setDuration(Duration.millis(500));
+    fading.setFromValue(1);
+    fading.setToValue(0);
+    if (this.mainInfoFader != null) {
+      if (this.mainInfoFader.getStatus().equals(Status.RUNNING)) {
+        this.mainInfoFader.stop();
+      }
+    }
+    this.mainInfoFader = new Timeline();
+    this.mainInfoFader.getKeyFrames()
+        .add(new KeyFrame(time.subtract(Duration.millis(500)), e -> fading.play()));
+    this.mainInfoFader.play();
+  }
 
   void setRoundInfos(Contract con, AdditionalMultipliers addMulti) {
 
@@ -216,12 +239,11 @@ public class InGameOverlayController {
         this.localTimer.setOnFinished(e -> {
         });
         this.localTimer.stop();
+        this.timerLabel.setText("");
       }
     }
     this.timerLabel.setVisible(value);
   }
-
-
 
   void setTimer(int remainingTime) {
 
@@ -262,7 +284,7 @@ public class InGameOverlayController {
         i = rand.nextInt(temp.size());
 
         SkatMain.mainController.localCardPlayed(temp.get(i));
-        SkatMain.guiController.getInGameController().makeAMove(false);
+        SkatMain.guiController.getInGameController().makeAMoveRequest(false);
       }
     });
 
@@ -336,17 +358,19 @@ public class InGameOverlayController {
 
   }
 
-  void setPlayText(String text, boolean show) {
+  void setPlayText(String text, boolean show, boolean showAnimation) {
     if (show) {
       this.playInfo.setText(text);
-      FadeTransition fading = new FadeTransition();
-      fading.setNode(this.playInfo);
-      fading.setFromValue(1);
-      fading.setToValue(0.5);
-      fading.setCycleCount(MediaPlayer.INDEFINITE);
-      fading.setAutoReverse(true);
-      fading.setDuration(Duration.millis(200));
-      fading.play();
+      if (showAnimation) {
+        FadeTransition fading = new FadeTransition();
+        fading.setNode(this.playInfo);
+        fading.setFromValue(1);
+        fading.setToValue(0.5);
+        fading.setCycleCount(MediaPlayer.INDEFINITE);
+        fading.setAutoReverse(true);
+        fading.setDuration(Duration.millis(200));
+        fading.play();
+      }
     }
     this.playInfo.setVisible(show);
   }
@@ -379,7 +403,7 @@ public class InGameOverlayController {
       boolean old =
           SkatMain.guiController.getInGameController().matchfield.tableController.isPlaying;
 
-      SkatMain.guiController.getInGameController().makeAMove(false);
+      SkatMain.guiController.getInGameController().makeAMoveRequest(false);
 
       Alert alert = new Alert(AlertType.CONFIRMATION);
       alert.setTitle("Leave game");
@@ -394,7 +418,7 @@ public class InGameOverlayController {
       if (result.get() == buttonTypeYes) {
         SkatMain.mainController.exitGame();
       } else {
-        SkatMain.guiController.getInGameController().makeAMove(old);
+        SkatMain.guiController.getInGameController().makeAMoveRequest(old);
       }
     }
   }
@@ -435,7 +459,7 @@ public class InGameOverlayController {
 
     if (player == null) {
       this.nameEnemyOne.setText("");
-      this.extraEnemyOne.setText("");
+      this.extra2EnemyOne.setText("");
       this.imageEnemyOne.setImage(null);
 
       if (SkatMain.mainController.isHost) {
@@ -465,7 +489,7 @@ public class InGameOverlayController {
       } catch (Exception e) {
         System.err.println("EnemyOne: Image Could not be added.");
       }
-      this.extraEnemyOne.setText(String.valueOf(player.getPoints()));
+      this.extra2EnemyOne.setText(String.valueOf(player.getPoints()));
     }
   }
 
@@ -476,7 +500,7 @@ public class InGameOverlayController {
 
     if (player == null) {
       this.nameEnemyTwo.setText("");
-      this.extraEnemyTwo.setText("");
+      this.extra2EnemyTwo.setText("");
       this.imageEnemyTwo.setImage(null);
 
       if (SkatMain.mainController.isHost) {
@@ -506,7 +530,7 @@ public class InGameOverlayController {
       } catch (Exception e) {
         System.err.println("EnemyTwo: Image Could not be added.");
       }
-      this.extraEnemyTwo.setText(String.valueOf(player.getPoints()));
+      this.extra2EnemyTwo.setText(String.valueOf(player.getPoints()));
     }
   }
 
@@ -600,9 +624,7 @@ public class InGameOverlayController {
   }
 
   public void showTrainingModeInfoText(String text) {
-
     this.trainingModeTextController.setText(text);
-
     this.trainingModeTextController.root.setVisible(true);
     this.trainingModeTextController.root.setDisable(false);
 

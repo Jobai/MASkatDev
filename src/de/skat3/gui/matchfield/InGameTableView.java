@@ -72,7 +72,7 @@ public class InGameTableView {
 
     this.trick = new GuiTrick(this.tableScene.widthProperty().divide(2.5),
         this.tableScene.heightProperty().divide(1.4),
-        this.tableScene.widthProperty().multiply(0).add(400), -80, 0, 0);
+        this.tableScene.widthProperty().multiply(0).add(400), -80, 0, 0, this.table);
 
     this.table.getChildren().addAll(this.playerHand, this.leftHand, this.rightHand);
 

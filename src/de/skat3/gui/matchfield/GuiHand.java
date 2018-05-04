@@ -64,8 +64,9 @@ public class GuiHand extends Parent {
    * Add a card to this hand.
    * 
    * @param newCard GuiCard to add.
+   * @param animation TODO
    */
-  public synchronized void add(GuiCard newCard) {
+  public synchronized void add(GuiCard newCard, boolean animation) {
 
     // Order of cards are important
     newCard.translateXProperty().unbind();
@@ -73,11 +74,20 @@ public class GuiHand extends Parent {
     newCard.translateZProperty().unbind();
     newCard.getTransforms().clear();
     this.cards.add(newCard);
-    this.raiseCard(newCard, true, true, true, false, null);
+    if (animation) {
+      this.raiseCard(newCard, true, true, true, false, null);
+    }
     this.getChildren().add(newCard);
     this.resetPositions();
   }
 
+  /**
+   * Add a card to this hand.
+   * 
+   * @param index Index the card will be added.
+   * @param newCard Card.
+   * @param animation Show animations while adding the card.
+   */
   public synchronized void add(int index, GuiCard newCard, boolean animation) {
 
     // Order of cards are important
@@ -97,10 +107,11 @@ public class GuiHand extends Parent {
    * Add all cards to this hand.
    * 
    * @param cards Cards to be added.
+   * @param animations TODO
    */
-  public void addAll(Card[] cards) {
+  public void addAll(Card[] cards, boolean animations) {
     for (Card card : cards) {
-      this.add(new GuiCard(card));
+      this.add(new GuiCard(card), animations);
     }
   }
 
@@ -111,7 +122,7 @@ public class GuiHand extends Parent {
    */
   public void addAll(Collection<GuiCard> cards) {
     for (GuiCard card : cards) {
-      this.add(card);
+      this.add(card, true);
     }
   }
 
@@ -122,7 +133,7 @@ public class GuiHand extends Parent {
    */
   public void addAll(GuiCard... cards) {
     for (GuiCard card : cards) {
-      this.add(card);
+      this.add(card, true);
     }
   }
 

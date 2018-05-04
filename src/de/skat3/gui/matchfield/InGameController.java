@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * InGame Gui controller class.
@@ -31,6 +32,13 @@ public class InGameController implements InGameControllerInterface {
     if (value) {
       this.matchfield.overlayController.setRoundInfos(SkatMain.lgs.contract,
           SkatMain.lgs.additionalMultipliers);
+
+      if (SkatMain.lgs.additionalMultipliers.isSchwarzAnnounced()
+          || SkatMain.lgs.additionalMultipliers.isOpenHand()) {
+        this.matchfield.tableController.reloadHands();
+      }
+
+      this.matchfield.tableView.trick.showBidingCards(false);
       this.matchfield.tableController.refreshHands();
     } else {
       this.matchfield.overlayController.setRoundInfos(null, null);
@@ -43,9 +51,48 @@ public class InGameController implements InGameControllerInterface {
    * @see de.skat3.gui.matchfield.InGameControllerInterface#makeAMove(boolean)
    */
   @Override
-  public void makeAMove(boolean value) {
-    this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value);
-    this.matchfield.tableController.setCardsPlayable(value);
+  public void makeAMoveRequest(boolean value) {
+    this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value, true);
+    this.matchfield.tableController.setCardsPlayable(value,
+        SkatMain.lgs.getLocalClient().getHand().getCards());
+    if (SkatMain.lgs.timerInSeconds > 0) {
+      this.matchfield.overlayController.showTimer(value);
+      if (value) {
+        this.matchfield.overlayController.setTimer(SkatMain.lgs.timerInSeconds);
+      }
+    }
+  }
+
+
+  /**
+   * Is setting only the card which is passed with this method to be playable in the gui. So only
+   * this card can be played via click on it.
+   * 
+   * @param card
+   */
+  public void singleMakeAMoveRequest(Card card, boolean value) {
+    this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value, true);
+
+    Card[] playableRef = SkatMain.lgs.getLocalClient().getHand().getCards().clone();
+    for (int i = 0; i < playableRef.length; i++) {
+      try {
+        if (playableRef[i].equals(card)) {
+          playableRef[i].setPlayable(true);
+        } else {
+          playableRef[i].setPlayable(false);
+        }
+      } catch (Exception e) {
+        // not important
+      }
+    }
+    this.matchfield.tableController.setCardsPlayable(true, playableRef);
+
+    if (SkatMain.lgs.timerInSeconds > 0) {
+      this.matchfield.overlayController.showTimer(value);
+      if (value) {
+        this.matchfield.overlayController.setTimer(SkatMain.lgs.timerInSeconds);
+      }
+    }
   }
 
   /*
@@ -73,8 +120,9 @@ public class InGameController implements InGameControllerInterface {
    * @see de.skat3.gui.matchfield.InGameControllerInterface#setRemainingTime(javafx.util.Duration)
    */
   @Override
+  @Deprecated
   public void startTimer(int time) {
-    this.matchfield.overlayController.setTimer(time);
+    // this.matchfield.overlayController.setTimer(time);
   }
 
   /*
@@ -85,7 +133,6 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void showAuctionWinner() {
     // TODO Auto-generated method stub
-
   }
 
   /*
@@ -149,6 +196,7 @@ public class InGameController implements InGameControllerInterface {
 
   @Override
   public void showSkatSelectionRequest() {
+    this.matchfield.tableView.trick.showBidingCards(false);
     this.matchfield.tableController.showSkatSelection();
   }
 
@@ -161,6 +209,21 @@ public class InGameController implements InGameControllerInterface {
   public void startRound() {
     this.matchfield.tableController.iniHands();
     this.matchfield.overlayController.iniStartRound();
+    this.matchfield.tableView.trick.showBidingCards(true);
+  }
+
+
+  /**
+   * Is showing a value on the screen which represents a bid which has been set by an other player.
+   * 
+   * @param player Player who has set this bid.
+   * @param bid Bid value the player has set.
+   */
+  public void showBidActivity(Player player, int bid) {
+    if (!player.equals(SkatMain.lgs.getLocalClient())) {
+      this.matchfield.overlayController.showInMainInfo(player.getName() + " is biding " + bid,
+          Duration.seconds(2));
+    }
   }
 
   @Override

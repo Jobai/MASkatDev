@@ -486,7 +486,7 @@ public class MainController implements MainControllerInterface {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().makeAMove(true);
+        SkatMain.guiController.getInGameController().makeAMoveRequest(true);
       }
     });
   }
