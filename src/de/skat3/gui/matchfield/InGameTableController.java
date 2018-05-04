@@ -357,21 +357,10 @@ public class InGameTableController {
    * 
    */
   public void iniHands() {
-
-    this.tableView.playerHand.clear();
-    this.tableView.leftHand.clear();
-    this.tableView.leftHand.clear();
-
-
     this.tableView.playerHand.setPlayer(SkatMain.lgs.getLocalClient());
     this.tableView.leftHand.setPlayer(SkatMain.lgs.getEnemyOne());
     this.tableView.rightHand.setPlayer(SkatMain.lgs.getEnemyTwo());
 
-    this.reloadHands();
-
-  }
-
-  public void reloadHands() {
     this.tableView.playerHand.clear();
     this.tableView.leftHand.clear();
     this.tableView.leftHand.clear();
@@ -379,6 +368,7 @@ public class InGameTableController {
     this.tableView.playerHand.addAll(SkatMain.lgs.getLocalClient().getHand().getCards(), false);
     this.tableView.leftHand.addAll(SkatMain.lgs.getEnemyOne().getHand().getCards(), false);
     this.tableView.rightHand.addAll(SkatMain.lgs.getEnemyTwo().getHand().getCards(), false);
+
   }
 
 }
