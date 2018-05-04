@@ -244,6 +244,7 @@ public class MenuFrameController {
     // prompt create profile
     if (allProfile.isEmpty()) {
       openProfile(null);
+      return;
     }
 
     allProfile = SkatMain.ioController.getProfileList();

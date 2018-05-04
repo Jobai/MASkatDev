@@ -105,6 +105,9 @@ public class ChooseContractController {
 
   }
 
+  /**
+   * .
+   */
   public void setContract() {
 
     AdditionalMultipliers additionalMultipliers = new AdditionalMultipliers(
@@ -116,27 +119,68 @@ public class ChooseContractController {
 
   }
 
-  public void setOpenGame() {
-
+  private void clear() {
+    cbOpengame.setSelected(false);
+    cbSchneider.setSelected(false);
+    cbSchwarz.setSelected(false);
+    cbOuvert.setSelected(false);
   }
 
+  public void setOpenGame() {
+    if (!cbOpengame.isSelected()) {
+      clear();
+    }
+  }
+
+  /**
+   * .
+   */
   public void setSchneider() {
+
+
+    if (!cbSchneider.isSelected()) {
+      clear();
+      cbSchneider.setSelected(false);
+    } else {
+      cbSchneider.setSelected(true);
+    }
     cbOpengame.setSelected(true);
   }
 
+  /**
+   * .
+   */
   public void setSchwarz() {
+
+    if (!cbSchwarz.isSelected()) {
+      clear();
+      cbSchwarz.setSelected(false);
+    } else {
+      cbSchwarz.setSelected(true);
+    }
+
     cbSchneider.setSelected(true);
     cbOpengame.setSelected(true);
   }
 
+  /**
+   * .
+   */
   public void setOuvert() {
+
+    if (!cbOuvert.isSelected()) {
+      clear();
+      cbOuvert.setSelected(false);
+    } else {
+      cbOuvert.setSelected(true);
+    }
     cbSchneider.setSelected(true);
     cbOpengame.setSelected(true);
     cbSchwarz.setSelected(true);
   }
 
   /**
-   * rest all gui contract fields (togglebutton, checkboxes) to default
+   * rest all gui contract fields (togglebutton, checkboxes) to default.
    */
   private void resetAllContracts() {
     iconClub.setStyle("");

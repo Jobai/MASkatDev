@@ -241,7 +241,7 @@ public class MultiplayerMenuController {
   }
 
   /**
-   * Opens a popup with 2 input fields (ip and password) and connects to a server
+   * Opens a popup with 2 input fields (ip and password) and connects to a server.
    */
   public void directConnect() {
 
@@ -310,7 +310,12 @@ public class MultiplayerMenuController {
    * .
    */
   public void joinServer() {
+    if (currentLobby == null) {
+      return;
+    }
+
     joinButton.setDisable(true);
+
     if (!currentLobby.isHasPassword()) {
       SkatMain.mainController.joinMultiplayerGame(currentLobby);
     } else {
