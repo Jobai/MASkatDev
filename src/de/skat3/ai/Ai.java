@@ -64,5 +64,9 @@ public abstract class Ai implements Serializable {
 
   public abstract void setPosition(Position position);
 
+  public abstract void setIsSolo(boolean isSolo);
+    
+
+
 }
 

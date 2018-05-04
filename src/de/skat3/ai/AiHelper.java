@@ -2,12 +2,15 @@ package de.skat3.ai;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.Position;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
+import de.skat3.main.LocalGameState;
 
 /**
  * 
@@ -147,7 +150,7 @@ public class AiHelper implements Serializable {
    * @return number of jacks
    */
   public int countJacks(Card[] cards) {
-    return getAllCardsOfValue(cards, Value.JACK).size();
+    return getAllPlayableCardsOfValue(cards, Value.JACK).size();
   }
 
 
@@ -159,14 +162,16 @@ public class AiHelper implements Serializable {
    */
   public int countTrumps(Card[] cards, Contract contract) {
     int counter = 0;
-    for (int i = 0; i < cards.length; i++) {
-      if (cards[i].isTrump(contract)) {
+    for (Card card : cards) {
+      if (card.isTrump(contract)) {
         counter++;
       }
 
     }
     return counter;
   }
+
+
 
   /**
    * Gets the number of aces in the given hand
@@ -175,7 +180,7 @@ public class AiHelper implements Serializable {
    * @return number of aces
    */
   public int countAces(Card[] cards) {
-    return getAllCardsOfValue(cards, Value.ACE).size();
+    return getAllPlayableCardsOfValue(cards, Value.ACE).size();
   }
 
   /**
@@ -268,55 +273,298 @@ public class AiHelper implements Serializable {
     }
   }
 
-  public ArrayList<Card> getAllCardsOfValue(Card[] cards, Value value) {
+  public ArrayList<Card> getAllPlayableCardsOfValue(Card[] cards, Value value) {
     ArrayList<Card> jacksList = new ArrayList<Card>();
     for (Card card : cards) {
-      if (card.getValue() == value) {
+      if (card.getValue() == value && card.isPlayable()) {
         jacksList.add(card);
       }
     }
     return jacksList;
   }
 
-  public ArrayList<Card> getAllCardsOfSuit(Card[] cards, Suit suit) {
+  public ArrayList<Card> getAllPlayableCardsOfSuit(Card[] cards, Suit suit) {
     ArrayList<Card> suitList = new ArrayList<Card>();
-    for (int i = 0; i < cards.length; i++) {
-      if (cards[i].getSuit() == suit) {
-        suitList.add(cards[i]);
+    for (Card card : cards) {
+      if (card.getSuit() == suit && card.isPlayable()) {
+        suitList.add(card);
       }
     }
     return suitList;
   }
 
-  public Card getHighestCard(ArrayList<Card> cardsList) {
+  public Card getHighestPlayableCardExcludeSuitIfPossible(ArrayList<Card> cardsList,
+      Contract contract) {
     Iterator<Card> iter = cardsList.iterator();
-    Card highestCard = iter.next();
+    Suit exclude = convertContractToTrump(contract);
+    Card highestCard = null;
+    Card highestCardWithoutExcludedSuit = null;
+    // get first highestCard
     while (iter.hasNext()) {
       Card current = iter.next();
-      if (current.getValue().ordinal() > highestCard.getValue().ordinal()) {
+      if ((highestCard == null || current.getTrickValue() > highestCard.getTrickValue())
+          && current.isPlayable()) {
         highestCard = current;
       }
-    }
-
-    return highestCard;
-  }
-
-  public Card getLowestCard(ArrayList<Card> cardsList) {
-    Iterator<Card> iter = cardsList.iterator();
-    Card lowestCard = iter.next();
-    while (iter.hasNext()) {
-      Card current = iter.next();
-      if (current.getValue().ordinal() < lowestCard.getValue().ordinal()) {
-        lowestCard = current;
+      if ((highestCard == null || current.getTrickValue() > highestCard.getTrickValue())
+          && current.isPlayable() && !(current.getSuit() != exclude)) {
+        highestCardWithoutExcludedSuit = current;
       }
     }
 
-    return lowestCard;
+    if (highestCardWithoutExcludedSuit != null) {
+      return highestCardWithoutExcludedSuit;
+    } else {
+      return highestCard;
+    }
   }
+
+  public Card getLowestPlayableCardExcludeSuitIfPossible(ArrayList<Card> cardsList,
+      Contract contract) {
+    Iterator<Card> iter = cardsList.iterator();
+    Suit exclude = convertContractToTrump(contract);
+    Card lowestCard = null;
+    Card lowestCardWithoutExcludedSuit = null;
+    // get first lowestCard
+    while (iter.hasNext()) {
+      Card current = iter.next();
+      if ((lowestCard == null || current.getTrickValue() < lowestCard.getTrickValue())
+          && current.isPlayable()) {
+        lowestCard = current;
+      }
+      if ((lowestCard == null || current.getTrickValue() < lowestCard.getTrickValue())
+          && current.isPlayable() && !(current.getSuit() != exclude)) {
+        lowestCardWithoutExcludedSuit = current;
+      }
+    }
+
+    if (lowestCardWithoutExcludedSuit != null) {
+      return lowestCardWithoutExcludedSuit;
+    } else {
+      return lowestCard;
+    }
+  }
+
 
   public Card getAnyPlayableCard(Card[] cards) {
     for (Card card : cards) {
       if (card.isPlayable()) {
+        return card;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Position == REARHAND!!!!!!!
+   *
+   * 
+   **/
+  public boolean willTrickBeWonByTeammate(LocalGameState lgs, Card[] cards, Position myPosition,
+      boolean isSolo) {
+    Contract contract = lgs.getContract();
+    Card[] trick = lgs.getTrick();
+    if (isSolo) {
+      return false;
+    } else {
+      Position teammatesPosition = getTeammatePosition(lgs, myPosition);
+      if (teammatesPosition == Position.FOREHAND) {
+        if (trick[0].beats(contract, trick[1])) {
+          return true;
+        } else {
+          return false;
+        }
+      } else if (teammatesPosition == Position.MIDDLEHAND) {
+        if (trick[1].beats(contract, trick[03])) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  private Position getSoloPosition(LocalGameState lgs) {
+    if (lgs.getEnemyOne().isSolo()) {
+      return lgs.getEnemyOne().getPosition();
+    } else if (lgs.getEnemyTwo().isSolo()) {
+      return lgs.getEnemyTwo().getPosition();
+    } else {
+      return lgs.getLocalClient().getPosition();
+    }
+  }
+
+
+  /**
+   * 
+   * !!!!! Only call if you are not solo!!!!! !!!!! Only call if your position is MIDDLEHAND or
+   * REARHAND !!!!!! returns position of my teammate
+   * 
+   * @param lgs
+   * @param myPosition
+   * @return position of my teammate
+   */
+  public Position getTeammatePosition(LocalGameState lgs, Position myPosition) {
+    Position teamMatePosition = null;
+    if (myPosition == Position.MIDDLEHAND) {
+      if (getSoloPosition(lgs) == Position.REARHAND) {
+        teamMatePosition = Position.FOREHAND;
+      } else if (getSoloPosition(lgs) == Position.FOREHAND) {
+        teamMatePosition = Position.REARHAND;
+      }
+    } else if (myPosition == Position.REARHAND) {
+      if (getSoloPosition(lgs) == Position.MIDDLEHAND) {
+        teamMatePosition = Position.FOREHAND;
+      } else if (getSoloPosition(lgs) == Position.FOREHAND) {
+        teamMatePosition = Position.MIDDLEHAND;
+      }
+    }
+    return teamMatePosition;
+  }
+
+  public boolean isFirstCardInTrickFromTeammate(LocalGameState lgs, Position myPosition) {
+    if (getTeammatePosition(lgs, myPosition) == Position.FOREHAND) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Returns the Most Expensive Card That Is Not Trump If there is such
+   *
+   * @param
+   * 
+   * @return if contract == suit -> return highest card not trump
+   * @return if contract == grand -> return highest card
+   * @return if contract == null -> return
+   * 
+   */
+  public Card playMostExpensiveCardThatIsNotTrumpIfPossible(Card[] cards, Contract contract) {
+    ArrayList<Card> list = new ArrayList<Card>(Arrays.asList(cards));
+    Card toPlay;
+
+    if (contract == Contract.NULL) {
+      toPlay = getLowestPlayableCardExcludeSuitIfPossible(list, null);
+    } else if (contract == Contract.GRAND) {
+      toPlay = getHighestPlayableCardExcludeSuitIfPossible(list, null);
+    } else {
+      toPlay = getHighestPlayableCardExcludeSuitIfPossible(list, contract);
+    }
+
+    return toPlay;
+  }
+
+  public Card playLeastExpensiveCardThatIsNotTrumpIfPossible(Card[] cards, Contract contract) {
+    ArrayList<Card> list = new ArrayList<Card>(Arrays.asList(cards));
+    Card toPlay;
+
+    if (contract == Contract.NULL) {
+      toPlay = getHighestPlayableCardExcludeSuitIfPossible(list, null);
+    } else if (contract == Contract.GRAND) {
+      toPlay = getLowestPlayableCardExcludeSuitIfPossible(list, null);
+    } else {
+      toPlay = getLowestPlayableCardExcludeSuitIfPossible(list, contract);
+    }
+
+    return toPlay;
+  }
+
+
+
+  /**
+   *
+   *
+   * 
+   **/
+  public boolean isCardExpensive(Card card, Contract contract) {
+    if (contract != Contract.NULL) {
+      if (card.getTrickValue() >= 10 || card.getValue() == Value.JACK) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (card.getTrickValue() >= 4 || card.getValue() == Value.JACK) {
+        return false;
+      } else {
+        return true;
+      }
+
+    }
+  }
+
+  public Suit convertContractToTrump(Contract contract) {
+    switch (contract) {
+      case DIAMONDS:
+        return Suit.DIAMONDS;
+      case HEARTS:
+        return Suit.DIAMONDS;
+      case SPADES:
+        return Suit.DIAMONDS;
+      case CLUBS:
+        return Suit.DIAMONDS;
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * Position == MiddleHand!!!!!!!
+   *
+   * 
+   **/
+  public boolean canTrickBeBeatenByMiddleHand(Card[] cards, Card[] trick, Contract contract) {
+    for (Card card : cards) {
+      if (card.beats(contract, trick[0])) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * To use only after canTrickBeBeatenByMiddleHand
+   *
+   * 
+   **/
+  public Card winTrickAsMiddleHand(Card[] cards, Card[] trick, Contract contract) {
+    for (Card card : cards) {
+      if (card.beats(contract, trick[0])) {
+        return card;
+      }
+    }
+    return null;
+  }
+
+
+
+  /**
+   * Position == REARHAND!!!!!!!
+   *
+   * 
+   **/
+  public boolean canTrickBeBeatenByRearHand(Card[] cards, Card[] trick, Contract contract) {
+    for (Card card : cards) {
+      if (card.beats(contract, trick[0]) && card.beats(contract, trick[1])) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * To use only after canTrickBeBeatenByRearHand
+   *
+   * 
+   **/
+  public Card winTrickAsRearHand(Card[] cards, Card[] trick, Contract contract) {
+    for (Card card : cards) {
+      if (card.beats(contract, trick[0]) && card.beats(contract, trick[1])) {
         return card;
       }
     }

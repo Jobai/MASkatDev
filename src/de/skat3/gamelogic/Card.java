@@ -162,7 +162,7 @@ public class Card implements Serializable {
    * @param card the other card.
    * @return only true if the card is better than the @param card.
    */
-  boolean beats(Contract contract, Card card) {
+  public boolean beats(Contract contract, Card card) {
 
     switch (contract) {
 

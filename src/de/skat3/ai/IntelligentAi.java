@@ -1,25 +1,32 @@
 package de.skat3.ai;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Position;
 import de.skat3.gamelogic.Suit;
-import de.skat3.gamelogic.Value;
 import de.skat3.main.LocalGameState;
 
+@SuppressWarnings("serial")
 public class IntelligentAi extends Ai {
 
   /**
    * private static final long serialVersionUID = 1L;
    */
   AiHelper aiHelper;
-  Contract contract;
   LocalGameState lgs;
+  boolean isSolo;
 
   public IntelligentAi() {
     this.aiHelper = new AiHelper();
+  }
+
+  @Override
+  public void setIsSolo(boolean isSolo) {
+    this.isSolo = isSolo;
   }
 
   @Override
@@ -34,7 +41,8 @@ public class IntelligentAi extends Ai {
 
   @Override
   public Contract chooseContract() {
-    return contract;
+    // TODO
+    return null;
   }
 
   // FIXME always return false
@@ -58,22 +66,11 @@ public class IntelligentAi extends Ai {
       maxBid = 0;
     }
 
-    if (maxBid > 0) {
-      switch (mostFrequentSuitColor) {
-        case CLUBS:
-          contract = Contract.CLUBS;
-          break;
-        case SPADES:
-          contract = Contract.SPADES;
-          break;
-        case HEARTS:
-          contract = Contract.HEARTS;
-          break;
-        case DIAMONDS:
-          contract = Contract.DIAMONDS;
-          break;
-      }
-    }
+    /*
+     * if (maxBid > 0) { switch (mostFrequentSuitColor) { case CLUBS: contract = Contract.CLUBS;
+     * break; case SPADES: contract = Contract.SPADES; break; case HEARTS: contract =
+     * Contract.HEARTS; break; case DIAMONDS: contract = Contract.DIAMONDS; break; } }
+     */
     return false;
   }
 
@@ -122,78 +119,49 @@ public class IntelligentAi extends Ai {
 
   private Card playForeHand() {
     Card[] cards = hand.getCards();
-    // 1: check, if there are still trump cards out
-
-    // FIXME
-    // if (card.getValue() == Value.JACK || card.isTrump(contract)) {
-    // return card;
-    // }
-
-    // do i have any aces?
-    for (int i = 0; i < cards.length; i++) {
-      if (cards[i].getValue() == Value.ACE) {
-        return cards[i];
-      } else if (cards[i].getValue() == Value.TEN) {
-        return cards[i];
-      } else if (cards[i].getValue() == Value.KING)
-        return cards[i];
-    }
-
-    int help = 0;
-    // fallback: just play the first valid card
-    for (int i = 0; i < cards.length; i++) {
-      if (cards[i].isPlayable())
-        help = i;
-    }
-    return cards[help];
+    return aiHelper.playMostExpensiveCardThatIsNotTrumpIfPossible(cards, lgs.getContract());
   }
 
   private Card playMiddlehandCard() {
     Card[] cards = hand.getCards();
-    // "kurzer Weg, lange Farbe zum Freund"
-    Suit biggestSuit = aiHelper.getMostFrequentSuit(cards);
-    int firstIndex = aiHelper.getFirstIndexOfSuit(cards, biggestSuit);
-    if (cards[firstIndex].getValue() == Value.ACE) {
-      return cards[firstIndex];
+    Card[] trick = lgs.getTrick();
+    Contract contract = lgs.getContract();
+    ArrayList<Card> cardList = new ArrayList<Card>(Arrays.asList(cards));
+
+    boolean firstCardFromTeammate = aiHelper.isFirstCardInTrickFromTeammate(lgs, position);
+    if (firstCardFromTeammate) {
+      if (aiHelper.isCardExpensive(lgs.getTrick()[0],contract)) {
+        return aiHelper.getHighestPlayableCardExcludeSuitIfPossible(cardList, null);
+      } else {
+        return aiHelper.getLowestPlayableCardExcludeSuitIfPossible(cardList, contract);
+      }
     } else {
-      Suit secondBiggestSuit = aiHelper.getMostFrequentSuit(cards, biggestSuit);
-      int lastIndex = aiHelper.getLastIndexOfSuit(cards, secondBiggestSuit);
-      return cards[lastIndex];
+      boolean canBeBeaten = aiHelper.canTrickBeBeatenByMiddleHand(cards, trick, contract);
+      if (canBeBeaten) {
+        return aiHelper.winTrickAsMiddleHand(cards, trick, contract);
+      } else {
+        return aiHelper.getLowestPlayableCardExcludeSuitIfPossible(cardList, contract);
+      }
     }
   }
 
 
   private Card playRearhandCard() {
     Card[] cards = hand.getCards();
-    // "langer Weg, kurze Farbe"
-    int minCount = 9;
-    Card result = null;
-    for (Card card : hand.cards) {
-      if (result == null || result.isTrump(lgs.getContract())) {
-        result = card;
-        continue;
-      }
+    Contract contract = lgs.getContract();
 
-
-      int amountOfCardsOfSameSuit = aiHelper.getAmountOfCardsWithSameSuit(card, hand.getCards());
-      if (amountOfCardsOfSameSuit < minCount
-          && !(amountOfCardsOfSameSuit == 1 && card.getValue() == Value.TEN)) {
-        result = card;
-        minCount = amountOfCardsOfSameSuit;
-        continue;
-      }
-      if (amountOfCardsOfSameSuit == minCount
-          && !(amountOfCardsOfSameSuit == 1 && card.getValue() == Value.ACE)) {
-        result = card;
-        continue;
-      }
-      if (card.getSuit() == result.getSuit() && amountOfCardsOfSameSuit == minCount) {
-        result = card;
-        continue;
+    boolean teammateWinTrick = aiHelper.willTrickBeWonByTeammate(lgs, cards, position, isSolo);
+    if (teammateWinTrick) {
+      return aiHelper.playMostExpensiveCardThatIsNotTrumpIfPossible(cards, contract);
+    } else {
+      boolean canTrickBeBeaten =
+          aiHelper.canTrickBeBeatenByRearHand(cards, lgs.getTrick(), contract);
+      if (canTrickBeBeaten) {
+        return aiHelper.winTrickAsRearHand(cards, lgs.getTrick(), contract);
+      } else {
+        return aiHelper.playLeastExpensiveCardThatIsNotTrumpIfPossible(cards, contract);
       }
     }
-
-    return aiHelper.getAnyPlayableCard(cards);
   }
 
 }

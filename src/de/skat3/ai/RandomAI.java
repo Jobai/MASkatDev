@@ -15,6 +15,7 @@ import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Position;
 
 
+@SuppressWarnings("serial")
 public class RandomAI extends Ai implements Serializable {
   boolean acceptHandGame;
   AiHelper aiHelper;
@@ -96,7 +97,6 @@ public class RandomAI extends Ai implements Serializable {
   @Override
   public void setHand(Hand hand) {
     this.hand = new Hand(hand.cards);
-
   }
 
   @Override
@@ -104,97 +104,9 @@ public class RandomAI extends Ai implements Serializable {
     // Position is irrelevant
   }
 
-  // 2. was braucht RandomAi von lgs
+  @Override
+  public void setIsSolo(boolean isSolo) {
+    // isSolo is irrelevant
+  }
 
-  // 3. was ist kontra/rekontra? braucht RandomAI etwas davon?
-  // soll Ai kotra/rekotra "announcen" können?
-
-  // 4. getPlayer() right?)
-
-  // 5. how exaclty selectSkat works
-
-  //
-  // public boolean pickUpSkat() {
-  // return random.nextBoolean();
-  // }
-  //
-  // public boolean playGrandHand() {
-  // return random.nextBoolean();
-  // }
-  //
-  // public void getContract() {
-  // // TODO
-  // }
-  //
-  // public Integer bidMore(int nextBidValue) {
-  // int result = 0;
-  //
-  // if (random.nextBoolean()) {
-  //
-  // result = nextBidValue;
-  // }
-  //
-  // return result;
-  // }
-  //
-  // public Boolean holdBid(int currBidValue) {
-  // return random.nextBoolean();
-  // }
-  //
-  // public void startGame() {
-  // // do nothing
-  // }
-  //
-  // public Card playCard() {
-  // // first find all possible cards
-  // Card[] possibleCards = decks.getCards();
-  //
-  // // then choose a random one
-  // int index = random.nextInt(possibleCards.length);
-  //
-  // return possibleCards[index];
-  // }
-  //
-  // public CardDeck getCardsToDiscard() {
-  // // just discard two random cards
-  // // TODO
-  //
-  // return null;
-  // }
-  //
-  // public void announceGame() {
-  // // TODO
-  // // Select Game Mode
-  // // select a random game type (without RAMSCH and PASSED_IN)
-  // }
-  //
-  // public void preparateForNewGame() {
-  // // nothing to do for AIPlayer
-  // }
-  //
-  //
-  // public void finalizeGame() {
-  // // nothing to do for AIPlayer
-  // }
-  //
-  // public Boolean callContra() {
-  // return random.nextBoolean();
-  // }
-  //
-  // public Boolean callRe() {
-  // return random.nextBoolean();
-  // }
-  //
-  // @Override
-  // public Player getPlayer() {
-  // // TODO Auto-generated method stub
-  // return null;
-  // }
-  //
-  // @Override
-  // public Card[] selectSkat(Card[] skat) {
-  // //
-  // return null;
-  // }
-  //
 }
