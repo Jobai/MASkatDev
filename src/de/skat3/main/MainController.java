@@ -1,31 +1,27 @@
 package de.skat3.main;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-import de.skat3.ai.Ai;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.GameController;
+import de.skat3.gamelogic.Hand;
+import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
-import de.skat3.gamelogic.Timer;
 import de.skat3.gamelogic.TrainingController;
 import de.skat3.io.profile.Profile;
-import de.skat3.network.client.ClientLogicController;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import java.net.Inet4Address;
-import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
-import de.skat3.gamelogic.GameController;
-import de.skat3.gamelogic.Hand;
-import de.skat3.gamelogic.MatchResult;
 
 
 
@@ -146,8 +142,7 @@ public class MainController implements MainControllerInterface {
   }
 
   /**
-   * 
-   * @param ip
+   * Jonas TODO.
    */
   public void directConnectMultiplayerGame(String ip) {
 
@@ -161,7 +156,7 @@ public class MainController implements MainControllerInterface {
       e.printStackTrace();
       SkatMain.mainController.showCustomAlertPormpt("Invalid IP Adress!",
           "The entered IP Adress is invalid! Please check and try again.");; // TODO change to
-                                                                             // "invalid IP Adress"
+      // "invalid IP Address"
       return;
     }
 
@@ -174,6 +169,7 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  @Override
   public void directConnectMultiplayerGame(String ip, String password) {
 
     Lobby lobby = new Lobby();
@@ -187,7 +183,7 @@ public class MainController implements MainControllerInterface {
       e.printStackTrace();
       SkatMain.mainController.showCustomAlertPormpt("Invalid IP Adress!",
           "The entered IP Adress is invalid! Please check and try again.");; // TODO change to
-                                                                             // "invalid IP Adress"
+      // "invalid IP Adress"
       return;
     }
 
@@ -223,7 +219,7 @@ public class MainController implements MainControllerInterface {
   }
 
 
-
+  @Override
   public void showWrongPassword() {
     Platform.runLater(new Runnable() {
 
@@ -253,6 +249,7 @@ public class MainController implements MainControllerInterface {
     });
   }
 
+  @Override
   public void goToMenu() {
     Platform.runLater(new Runnable() {
 
@@ -265,7 +262,6 @@ public class MainController implements MainControllerInterface {
 
 
 
-
   @Override
   public void hostMultiplayerGame(String name, int numberOfPlayers, int timer,
       boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException {
@@ -273,6 +269,8 @@ public class MainController implements MainControllerInterface {
         scoringMode);
 
   }
+
+  @Override
   public void hostMultiplayerGame(String name, String password, int numberOfPlayers, int timer,
       boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException {
 
@@ -302,7 +300,8 @@ public class MainController implements MainControllerInterface {
 
 
   }
-@Deprecated
+
+  @Deprecated
   void setLgs() {
     SkatMain.lgs = new LocalGameState(this.currentLobby.numberOfPlayers, this.currentLobby.timer,
         this.currentLobby.singlePlayerGame);
@@ -317,10 +316,14 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        if (player.equals(SkatMain.lgs.getEnemyThree())) {
+        if (currentLobby.numberOfPlayers == 4) {
+          if (player.equals(SkatMain.lgs.getEnemyThree())) {
 
-          SkatMain.guiController.getInGameController().playCard(SkatMain.lgs.getLocalClient(),
-              card);
+            SkatMain.guiController.getInGameController().playCard(SkatMain.lgs.getLocalClient(),
+                card);
+          }
+
+
         } else {
           SkatMain.guiController.getInGameController().playCard(player, card);
         }
@@ -334,14 +337,12 @@ public class MainController implements MainControllerInterface {
     SkatMain.clc.sendChatMessage(message);
   }
 
-  /**
-   * Leave current game/lobby
-   */
   @Override
   public void receiveMessage(String message) {
     this.chatMessages.add(message);
   }
 
+  @Override
   public void reinitializePlayers() {
     System.out.println("reinitializePlayers");
     Platform.runLater(new Runnable() {
@@ -369,7 +370,7 @@ public class MainController implements MainControllerInterface {
     SkatMain.lgs.getLocalClient().updatePlayer(player);
   }
 
-
+  @Override
   public void roundStarted() {
     SkatMain.lgs.getEnemyOne().setHand(new Hand());
     SkatMain.lgs.getEnemyTwo().setHand(new Hand());
@@ -456,6 +457,9 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  /**
+   * Jonas TODO.
+   */
   public void blinkAlert() {
     Platform.runLater(new Runnable() {
       @Override
@@ -512,7 +516,7 @@ public class MainController implements MainControllerInterface {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().makeAMove(true);
+        SkatMain.guiController.getInGameController().makeAMoveRequest(true);
         // GUI TODO SPECIFIC CARD REQUEST
       }
     });
@@ -677,9 +681,8 @@ public class MainController implements MainControllerInterface {
         this.gameServer.getSeverLogicController());
   }
 
-  /**
-   * 
-   */
+
+  @Deprecated
   public void initializeLocalGameState() {
     // this.currentLobby.sortPlayers();
   }
@@ -716,6 +719,7 @@ public class MainController implements MainControllerInterface {
     // GUI TODO
 
   }
+
   @Override
   public void localKontraAnnounced() {
     SkatMain.clc.kontraAnswer(); // FIXME
@@ -730,6 +734,7 @@ public class MainController implements MainControllerInterface {
 
   private boolean openHandSet = false;
 
+  @Override
   public void updateEnemy(Player transmitedPlayer) {
     SkatMain.lgs.getPlayer(transmitedPlayer).updatePlayer(transmitedPlayer);
     if (SkatMain.lgs.additionalMultipliers != null) {
