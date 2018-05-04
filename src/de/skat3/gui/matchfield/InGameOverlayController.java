@@ -52,6 +52,8 @@ public class InGameOverlayController {
 
   private ChooseContractController contractController;
 
+  private TrainingModeTextController trainingModeTextController;
+
   @FXML
   private Label schwarzInfo;
 
@@ -197,6 +199,7 @@ public class InGameOverlayController {
     this.iniScoreboard();
     this.iniPopUp();
     this.iniContract();
+    this.iniTextPopup();
     this.bindChat();
   }
 
@@ -283,6 +286,22 @@ public class InGameOverlayController {
     this.bindCentral(this.contractController.root);
 
     this.contractController.root.setVisible(false);
+  }
+
+
+  void iniTextPopup() {
+    URL u = InGameOverlayController.class.getResource("TrainingModeTextView.fxml");
+    FXMLLoader loader = new FXMLLoader(u);
+    try {
+      this.root.getChildren().add((AnchorPane) loader.load());
+      this.trainingModeTextController = loader.getController();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    this.bindCentral(this.trainingModeTextController.root);
+
+    this.trainingModeTextController.root.setVisible(false);
   }
 
   private void iniScoreboard() {
@@ -578,6 +597,15 @@ public class InGameOverlayController {
     this.nameEnemyOne.toFront();
     this.nameEnemyTwo.toFront();
     this.nameLocalClient.toFront();
+  }
+
+  public void showTrainingModeInfoText(String text) {
+
+    this.trainingModeTextController.setText(text);
+
+    this.trainingModeTextController.root.setVisible(true);
+    this.trainingModeTextController.root.setDisable(false);
+
   }
 
 }

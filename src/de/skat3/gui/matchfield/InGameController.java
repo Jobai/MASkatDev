@@ -185,4 +185,9 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.overlayController.showContractRequest();
   }
 
+  @Override
+  public void showTrainingModeInfoText(String text) {
+    this.matchfield.overlayController.showTrainingModeInfoText(text);
+  }
+
 }
