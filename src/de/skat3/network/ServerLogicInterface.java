@@ -57,8 +57,6 @@ public interface ServerLogicInterface {
 
   public void reKontraRequest(Player player);
 
-  public void broadcastKontraRekontraExpired();
-
   public void broadcastRoundRestarted();
 
   public void broadcastServerStateChange(int serverState);

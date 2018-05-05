@@ -300,12 +300,6 @@ public class GameClient {
       case REKONTRA_SHOW_OPTION_INFO:
         clh.reKontraShowHandler(m);
         break;
-      case KONTRA_HIDE_OPTION_INFO:
-        clh.KontraHideHandler(m);
-        break;
-      case REKONTRA_HIDE_OPTION_INFO:
-        clh.reKontraHideHandler(m);
-        break;
       case ROUND_RESTART_INFO:
         clh.roundRestartHandler(m);
         break;

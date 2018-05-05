@@ -283,13 +283,6 @@ public class ServerLogicController implements ServerLogicInterface {
 
   }
 
-  @Override
-  public void broadcastKontraRekontraExpired() {
-    MessageCommand mc =
-        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_HIDE_OPTION_INFO);
-    gs.broadcastMessage(mc);
-
-  }
 
   @Override
   public void broadcastRoundRestarted() {
