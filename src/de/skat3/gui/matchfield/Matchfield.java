@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Box;
 import javafx.util.Duration;
 
 /**
@@ -65,6 +68,19 @@ public class Matchfield {
     return this.scene;
   }
 
+  private void iniBackground() {
+    try {
+      URL url = Matchfield.class.getResource("xyz.jpg");
+      Image background = new Image(url.openStream());
+      ImageView iv = new ImageView(background);
+      this.root.getChildren().add(iv);
+      iv.toBack();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+  }
+
   /**
    * Initializes all preset components of this Matchfield.
    */
@@ -79,6 +95,7 @@ public class Matchfield {
       this.overlayController.showStartButton();
     }
 
+    // this.iniBackground();
     // this.overlayController.bindChat();
   }
 

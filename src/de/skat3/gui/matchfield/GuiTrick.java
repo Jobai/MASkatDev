@@ -7,6 +7,7 @@ import javafx.animation.Timeline;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Affine;
@@ -38,10 +39,10 @@ public class GuiTrick {
    * @param xr Rotate x.
    * @param yr Rotate y.
    * @param zr Rotate z.
-   * @param pane TODO
+   * @param table TODO
    */
   public GuiTrick(DoubleBinding x, DoubleBinding y, DoubleBinding z, double xr, double yr,
-      double zr, Pane pane) {
+      double zr, Group table) {
     this.cards = new GuiCard[3];
     this.postions = new Parent[3];
     this.translateXOne = new SimpleDoubleProperty();
@@ -108,7 +109,7 @@ public class GuiTrick {
     this.bidingCard1.setVisible(false);
     this.bidingCard2.setVisible(false);
 
-    pane.getChildren().addAll(this.bidingCard1, this.bidingCard2);
+    table.getChildren().addAll(this.bidingCard1, this.bidingCard2);
 
   }
 

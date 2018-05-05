@@ -149,6 +149,7 @@ public class InGameOverlayController {
   void showInMainInfo(String text, Duration time) {
     this.mainInfoLabel.setVisible(true);
     this.mainInfoLabel.setDisable(true);
+    this.mainInfoLabel.setOpacity(1);
     this.mainInfoLabel.setText(text);
     FadeTransition fading = new FadeTransition();
     fading.setNode(this.mainInfoLabel);

@@ -14,6 +14,7 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
@@ -228,7 +229,7 @@ public class GuiHand extends Parent {
    * @param targetPos Parent of which the transitions and rotations are used.
    * 
    */
-  synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Pane root) {
+  synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Group table) {
     Transform t = card.getLocalToSceneTransform();
     Affine sourceTr = new Affine(t);
     sourceTr.getClass();
@@ -242,7 +243,7 @@ public class GuiHand extends Parent {
 
     card.getTransforms().add(sourceTr);
 
-    root.getChildren().add(card);
+    table.getChildren().add(card);
 
     Duration time = Matchfield.animationTime;
     Timeline timeline = new Timeline();

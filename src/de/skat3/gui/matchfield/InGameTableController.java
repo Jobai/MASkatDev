@@ -1,5 +1,6 @@
 package de.skat3.gui.matchfield;
 
+import java.util.Iterator;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
@@ -306,6 +307,25 @@ public class InGameTableController {
       }
     });
     this.tableView.table.getChildren().add(button);
+
+    Iterator<Node> t = this.tableView.table.getChildren().iterator();
+
+    System.out.println("-------------------------LIST OF CHILDREN--------------------");
+    int i = 0;
+    while (t.hasNext()) {
+      Node d = t.next();
+      System.out.println(i++ + " " + d.getClass());
+      if (d.getClass().equals(GuiHand.class)) {
+        Iterator<Node> l = ((GuiHand) d).getChildrenUnmodifiable().iterator();
+        int j = 0;
+        while (l.hasNext()) {
+          Node n = l.next();
+          System.out.println("\t " + j++ + " " + n.getClass());
+        }
+      }
+    }
+    System.out.println("-------------------------END OF LIST OF CHILDREN--------------------");
+
   }
 
   /**
