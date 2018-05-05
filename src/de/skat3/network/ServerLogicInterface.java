@@ -67,9 +67,12 @@ public interface ServerLogicInterface {
 
   void broadcastDeclarer(Player p);
 
-  void broadcastBid(boolean bid);
 
   void updateEnemy(Player p);
+
+  void broadcastBid(String message, Player p);
+
+  void callForSpecificPlay(Player player, Card card);
 
 }
 

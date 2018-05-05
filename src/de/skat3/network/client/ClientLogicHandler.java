@@ -44,9 +44,10 @@ public class ClientLogicHandler {
     System.out.println("BID INFO HANDELD");
 
     MessageCommand mc = (MessageCommand) m;
-    boolean accept = (boolean) mc.gameState;
-    // TODO
-    // SkatMain.mainController. FIXME
+    String message = (String) mc.gameState;
+    Player p = mc.originSender;
+    SkatMain.mainController.showBid(message, p);
+ 
   }
 
   // tell GUI
@@ -259,6 +260,7 @@ public class ClientLogicHandler {
       Card c = (Card) mc.gameState;
       SkatMain.mainController.playSpecificCardRequest(c);
     }
+    
     
 
 
