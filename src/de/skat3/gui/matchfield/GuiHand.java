@@ -5,6 +5,7 @@ import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -29,7 +30,8 @@ import javafx.util.Duration;
  */
 public class GuiHand extends Parent {
 
-  private ObservableList<GuiCard> cards = FXCollections.observableArrayList();
+  private ObservableList<GuiCard> cards = 
+      FXCollections.synchronizedObservableList(FXCollections.observableArrayList()); //JB 
   private Player owner;
 
   /**
@@ -142,9 +144,12 @@ public class GuiHand extends Parent {
    * 
    */
   public void clear() {
-    for (GuiCard c : this.cards) {
+    Iterator<GuiCard> iter = cards.iterator();
+    while (iter.hasNext()) {
+      GuiCard c =  iter.next();
+      iter.remove();
       this.remove(c);
-    }
+      }
   }
 
   /**
@@ -186,7 +191,7 @@ public class GuiHand extends Parent {
    * @param oldCard Card to remove.
    */
   public synchronized void remove(GuiCard oldCard) {
-    this.cards.remove(oldCard);
+//    this.cards.remove(oldCard);
     this.getChildren().remove(oldCard);
     this.resetPositions();
   }
@@ -228,6 +233,7 @@ public class GuiHand extends Parent {
     Affine sourceTr = new Affine(t);
     sourceTr.getClass();
 
+    cards.remove(card);
     this.remove(card);
     card.getTransforms().clear();
     card.setTranslateX(0);
