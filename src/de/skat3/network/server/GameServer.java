@@ -12,10 +12,12 @@ package de.skat3.network.server;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
+import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageCommand;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -118,6 +120,15 @@ public class GameServer extends Thread {
         threadList.get(threadList.size() - 1).start();
 
       }
+    } catch (BindException e) {
+
+      logger.severe(
+          "PORT ALREADY IN USE! SERVER CANT BIND OR START! Is another server already running?!");
+      SkatMain.mainController.showCustomAlertPormpt("Server already running!",
+          "There is already a server running on this computer! "
+              + "\n Please stop it befor you start a new one.");
+      SkatMain.mainController.goToMenu();
+      stopServer();
     } catch (SocketException e) {
       if (!(e.getMessage().equals("socket closed"))) {
         e.printStackTrace();
@@ -136,16 +147,17 @@ public class GameServer extends Thread {
    * @author Jonas Bauer
    */
   public void stopServer() {
-    if (!this.serverSocket.isClosed()) {
-      try {
-        this.interrupt();
-        this.serverSocket.close();
-        logger.info("Server stopped!");
-      } catch (SocketException e) {
-        e.printStackTrace();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+
+    try {
+      this.interrupt();
+      this.serverSocket.close();
+      logger.info("Server stopped!");
+    } catch (SocketException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (NullPointerException e) {
+      // just keep it
     }
 
   }
