@@ -7,9 +7,8 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Position;
 
+@SuppressWarnings("serial")
 public abstract class Ai implements Serializable {
-  Position position;
-  public Hand hand;
 
 
 
@@ -65,7 +64,7 @@ public abstract class Ai implements Serializable {
   public abstract void setPosition(Position position);
 
   public abstract void setIsSolo(boolean isSolo);
-    
+
 
 
 }

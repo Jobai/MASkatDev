@@ -17,9 +17,9 @@ import de.skat3.gamelogic.Position;
 
 @SuppressWarnings("serial")
 public class RandomAI extends Ai implements Serializable {
-  boolean acceptHandGame;
-  AiHelper aiHelper;
-
+  private boolean acceptHandGame;
+  private AiHelper aiHelper;
+  private Hand hand;
 
   /**
    * Random generator for decision making.
@@ -31,7 +31,11 @@ public class RandomAI extends Ai implements Serializable {
    */
   public RandomAI() {
     aiHelper = new AiHelper();
-    acceptHandGame = random.nextBoolean();
+    setHandGame(random.nextBoolean());
+  }
+
+  private void setHandGame(boolean handGame) {
+    acceptHandGame= handGame;
   }
 
   @Override
@@ -79,7 +83,7 @@ public class RandomAI extends Ai implements Serializable {
   public ReturnSkat selectSkat(Card[] skat) {
     ArrayList<Card> cards = new ArrayList<Card>();
     for (int i = 0; i < 10; i++) {
-      cards.add(this.hand.cards[i]);
+      cards.add(hand.getCards()[i]);
     }
     cards.add(skat[0]);
     cards.add(skat[1]);
