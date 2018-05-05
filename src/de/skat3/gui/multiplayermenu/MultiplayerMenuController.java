@@ -9,6 +9,7 @@ import de.skat3.io.profile.Profile;
 import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -206,7 +207,14 @@ public class MultiplayerMenuController {
 
               hostListView.setCellFactory(param -> new HostCell(item));
 
-              items.add(item);
+              Platform.runLater(new Runnable() { //JB
+
+                @Override
+                public void run() {
+                  items.add(item);
+                }
+              });
+              
             }
 
             hostListView.setItems(items);
