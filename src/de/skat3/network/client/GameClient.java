@@ -392,12 +392,10 @@ public class GameClient {
     } else {
       SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
           "The game server closed your connection. \n"
-              + "You can try again later or chose a different server"); // TODO change to
-                                                                        // "Connection to server
-                                                                        // failed"
+              + "You can try again later or chose a different server");
     }
     sl.interrupt();
-    System.out.println("GO to menu");
+    logger.fine("GO to menu");
     SkatMain.mainController.goToMenu();
 
     try {
@@ -413,7 +411,7 @@ public class GameClient {
   void sendToServer(Message m) {
     try {
       toSever.writeObject(m);
-      logger.log(Level.INFO, "tried to send" + m.subType);
+      logger.log(Level.FINE, "tried to send" + m.subType);
     } catch (IOException e) {
       e.printStackTrace();
       handleLostConnection();

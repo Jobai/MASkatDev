@@ -25,7 +25,6 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -63,8 +62,6 @@ public class GameServer extends Thread {
   @Deprecated
   GameServer(GameController gc) {
     this.gc = gc;
-    logger.setLevel(Level.ALL);
-    logger.fine("test fine");
     threadList = Collections.synchronizedList(new ArrayList<GameServerProtocol>());
     slc = new ServerLogicController(3, this);
 
@@ -80,8 +77,6 @@ public class GameServer extends Thread {
    */
   public GameServer(Lobby lobbysettings, GameController gc) {
     this.gc = gc;
-    logger.setLevel(Level.ALL);
-    logger.fine("test fine");
     threadList = Collections.synchronizedList(new ArrayList<GameServerProtocol>());
     slc = new ServerLogicController(lobbysettings, this);
     GameServer.lobby = lobbysettings;
@@ -180,20 +175,10 @@ public class GameServer extends Thread {
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       if (gameServerProtocol.playerProfile.equals(player)) {
         if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
-          // System.out
-          // .println("============= send To Player Log [ROUND_GENERAL_INFO] ================");
-          //
-          // System.out.println(mc.gameState);
-          // System.out.println(((Player) mc.gameState).getUuid());
-          // System.out.println(((Player) mc.gameState).getHand());
-          // System.out.println("=========================================");
+          logger.fine("round general info" + player.getUuid());
         }
-
         gameServerProtocol.sendMessage(mc);
-
-
-
-        logger.info("send to:  " + player.getUuid() + "  succesful");
+        logger.fine("send to:  " + player.getUuid() + "  succesful");
         return;
       }
     }
@@ -209,7 +194,6 @@ public class GameServer extends Thread {
    */
   void broadcastMessage(Message mc) {
     synchronized (threadList) {
-      logger.log(Level.FINE, "Got ChatMessage: ");
       for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
         gameServerProtocol.sendMessage(mc);
       }

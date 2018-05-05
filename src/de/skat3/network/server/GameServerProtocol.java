@@ -14,10 +14,8 @@ import de.skat3.gamelogic.Player;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
-import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
-import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageConnection;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.datatypes.SubType;
@@ -55,7 +53,7 @@ public class GameServerProtocol extends Thread {
    * 
    * @author Jonas Bauer
    * @param socket created ServerSocket from the incoming connection (client).
-   * @param gc the gamecontroller provided by the gamelogic.
+   * @param gc the gameController provided by the gamelogic.
    */
   public GameServerProtocol(Socket socket, GameController gc) {
     this.socket = socket;
@@ -76,11 +74,11 @@ public class GameServerProtocol extends Thread {
    * Constructor for the GameServerProtocoll-Thread. Additionally set the GameServer.
    * 
    * @author Jonas Bauer
-   * @param socket created ServerSocket from the incoming connection (client).
+   * @param socket2 created ServerSocket from the incoming connection (client).
    * @param gc the gamecontroller provided by the gamelogic.
+   * @param gameServer the parent gameServer instance.
    */
   public GameServerProtocol(Socket socket2, GameController gc, GameServer gameServer) {
-    // TODO Auto-generated constructor stub
     this(socket2, gc);
     this.gs = gameServer;
 
@@ -140,16 +138,9 @@ public class GameServerProtocol extends Thread {
   }
 
   private void handleStateChange(Message m) {
-    // TODO Auto-generated method stub
-
-
-    gs.ls.stopLobbyBroadcast(); // XXX
-
-
+    gs.ls.stopLobbyBroadcast();
     broadcastMessage(m);
-    logger.info("HANDELING STATE CHANGE");
-
-
+    logger.fine("HANDELING STATE CHANGE");
   }
 
   private void openConnection(Message m) {
@@ -160,15 +151,15 @@ public class GameServerProtocol extends Thread {
 
     String serverPw = GameServer.lobby.getPassword();
     if (!(serverPw == null || serverPw.isEmpty() || (op.getUuid().equals(p.getUuid())))) {
-      System.out.println("SERVER HAS PASSWORD!: CHECKING!");
-      System.out.println("SERVER PW: '" + serverPw + "' ; GIVEN PW '" + mc.lobbyPassword + "'");
+      logger.fine("SERVER HAS PASSWORD!: CHECKING!");
+      logger.fine("SERVER PW: '" + serverPw + "' ; GIVEN PW '" + mc.lobbyPassword + "'");
       if (!(serverPw.equals(mc.lobbyPassword))) {
         kickConnection("PASSWORD");
         return;
       }
-      System.out.println("Check succesful!");
+      logger.fine("Check succesful!");
     }
-    System.out.println(
+    logger.fine(
         "CONNECTED Current: " + SkatMain.mainController.currentLobby.getCurrentNumberOfPlayers()
             + " CONNECTED Lobby: " + SkatMain.mainController.currentLobby.lobbyPlayer);
     if (SkatMain.mainController.currentLobby
@@ -178,22 +169,12 @@ public class GameServerProtocol extends Thread {
       return;
     }
 
-
-
-    // Lobby backup = SkatMain.mainController.currentLobby;
-    // SkatMain.mainController.currentLobby.addPlayer(op);
-    // gs.ls.setLobby(SkatMain.mainController.currentLobby);
-    // SkatMain.mainController.currentLobby = backup;
-
-    // gs.ls.getLobby().incrementconnectedPlayerNumberbyHand();
-
-    // gs.ls.setLobby(SkatMain.mainController.currentLobby);
     this.playerProfile = (Player) m.payload;
     Lobby l = SkatMain.mainController.currentLobby;
     m.secondPayload = SkatMain.mainController.currentLobby;
     byte[] b = l.convertToByteArray(l);
 
-    System.out.println("LOBBY SIZE!: " + b.length);
+    logger.fine("LOBBY SIZE!: " + b.length);
 
     gs.ls.getLobby().lobbyPlayer++;
 
@@ -228,16 +209,8 @@ public class GameServerProtocol extends Thread {
 
       toClient.writeObject(message);
       logger.fine("send message");
-      if (((MessageCommand) message).getSubType() == CommandType.ROUND_GENERAL_INFO) {
-        // System.out.println("============= sendMessage [ROUND_GENERAL_INFO] ================");
-        //
-        // System.out.println(((MessageCommand) message).gameState);
-        // System.out.println(((Player) ((MessageCommand) message).gameState));
-        // System.out.println(((Player) ((MessageCommand) message).gameState).getHand());
-        // System.out.println("=========================================");
-      }
     } catch (ClassCastException e) {
-      //
+      e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
       handleLostConnection();
@@ -255,22 +228,17 @@ public class GameServerProtocol extends Thread {
 
   private void closeConnection() {
     try {
+      this.interrupt();
       toClient.close();
       fromClient.close();
       socket.close();
-      // GameServer.threadList.remove(this);
-      // logger.info("Server closed a connection");
-      // this.interrupt();
     } catch (IOException e) {
       e.printStackTrace();
     } finally {
       GameServer.threadList.remove(this);
       logger.info("Server closed a connection");
-      // SkatMain.mainController.currentLobby.removePlayer(playerProfile);
       sendDisconnectinfo(playerProfile);
       gs.ls.getLobby().lobbyPlayer--;
-      this.interrupt();
-
     }
   }
 
@@ -322,11 +290,4 @@ public class GameServerProtocol extends Thread {
     }
     closeConnection();
   }
-
-
-
-  // TODO Functions that handels the different scenarios
-
-
-
 }
