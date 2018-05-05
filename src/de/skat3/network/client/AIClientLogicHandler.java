@@ -313,11 +313,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    * @see de.skat3.network.client.ClientLogicHandler#KontraHideHandler(de.skat3.network.datatypes.
    * Message)
    */
-  @Override
-  void KontraHideHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.KontraHideHandler(m);
-  }
+
 
 
 
@@ -327,11 +323,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    * @see de.skat3.network.client.ClientLogicHandler#reKontraHideHandler(de.skat3.network.datatypes.
    * Message)
    */
-  @Override
-  void reKontraHideHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.reKontraHideHandler(m);
-  }
+
 
 
 
