@@ -3,10 +3,7 @@ package ai;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Random;
-
+import org.junit.Before;
 import org.junit.Test;
 
 import de.skat3.ai.IntelligentAi;
@@ -18,66 +15,31 @@ import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
 
 public class TestIntelligentAI {
+	
+	Hand handAi;
 
-  @Test
-  public void test() {
-    Random random = new Random();
+	@Before
+	public void setUp() {
 
-    int contractLength = Contract.values().length;
-    int suitLength = Suit.values().length;
-    int valueLength = Value.values().length;
+			Card card1 = new Card(Suit.CLUBS, Value.ACE);
+			Card card2 = new Card(Suit.CLUBS, Value.TEN);
+			Card card3 = new Card(Suit.CLUBS, Value.KING);
+			Card card4 = new Card(Suit.SPADES, Value.ACE);
+			Card card5 = new Card(Suit.SPADES, Value.TEN);
+			Card card6 = new Card(Suit.SPADES, Value.KING);
+			Card card7 = new Card(Suit.SPADES, Value.QUEEN);
+			Card card8 = new Card(Suit.SPADES, Value.EIGHT);
+			Card card9 = new Card(Suit.SPADES, Value.NINE);
+			Card card10 = new Card(Suit.HEARTS, Value.ACE);
 
-    int contractOrdinal;
-    int suitOrdinal;
-    int valueOrdinal;
-
-		IntelligentAi ai = new IntelligentAi();
-
-    for (int j = 0; j < 5; j++) {
-      contractOrdinal = random.nextInt(contractLength);
-      Contract contract = Contract.values()[contractOrdinal];
-
-      HashSet<Card> cardSet = new HashSet<Card>();
-
-      // full cardSet with 10 unique Cards
-      while (cardSet.size() < 10) {
-        suitOrdinal = random.nextInt(suitLength);
-        Suit suit = Suit.values()[suitOrdinal];
-
-        valueOrdinal = random.nextInt(valueLength);
-        Value value = Value.values()[valueOrdinal];
-
-        Card card = new Card(suit, value);
-        cardSet.add(card);
-      }
-
-      // put 10 unique Cards from set to array
-      Iterator<Card> iter = cardSet.iterator();
-      Card[] cardArray = new Card[10];
-      int i = 0;
-      while (iter.hasNext()) {
-        cardArray[i] = iter.next();
-      }
-
-      Hand hand = new Hand(cardArray);
-      ai.getPlayer().setHand(hand);
-
-      // check if played Card contains in a set
-      Card aiChosenCard = ai.chooseCard();
-      assertTrue(cardSet.contains(aiChosenCard));
-    }
-    // Contract contractDiamonds = (Contract.DIAMONDS);
-    // Contract contractHearts = (Contract.HEARTS);
-    // Contract contractSpades = (Contract.SPADES);
-    // Contract contractClubs = (Contract.CLUBS);
-    // Contract contractGrand = (Contract.GRAND);
-    // Contract contractNull = (Contract.NULL);
-
-  }
+		Card[] cards = { card1, card2, card3, card4, card5, card6, card7, card8, card9, card10 };
+		handAi = new Hand(cards);
+	    }
 
 	@Test
 	public void testSelectSkat() {
 		IntelligentAi ai = new IntelligentAi();
+		ai.setHand(handAi);
 		Card card1 = new Card(Suit.CLUBS, Value.JACK);
 		Card card2 = new Card(Suit.CLUBS, Value.ACE);
 		Card[] skat = { card1, card2 };
@@ -88,13 +50,22 @@ public class TestIntelligentAI {
 	public void testChooseContract() {
 		IntelligentAi ai = new IntelligentAi();
 		assertEquals(ai.chooseContract(), Contract.GRAND);
+
 	}
 
 	@Test
 	public void testBidding() {
 		IntelligentAi ai = new IntelligentAi();
+		ai.setHand(handAi);
 		int bid = 18;
 		assertTrue(ai.acceptBid(bid));
+	}
+
+	@Test
+	public void testHandGame() {
+		IntelligentAi ai = new IntelligentAi();
+		ai.setHand(handAi);
+		assertTrue(ai.acceptHandGame());
 	}
 
 }
