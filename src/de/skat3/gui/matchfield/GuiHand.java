@@ -30,8 +30,7 @@ import javafx.util.Duration;
  */
 public class GuiHand extends Parent {
 
-  private ObservableList<GuiCard> cards = 
-      FXCollections.synchronizedObservableList(FXCollections.observableArrayList()); //JB 
+  private ObservableList<GuiCard> cards;
   private Player owner;
 
   /**
@@ -46,8 +45,8 @@ public class GuiHand extends Parent {
    */
   public GuiHand(DoubleBinding x, DoubleBinding y, DoubleBinding z, double xr, double yr, double zr,
       List<GuiCard> cards) {
-    this.cards = FXCollections.observableArrayList();
-    // this.setTranslateX(x);
+    this.cards = FXCollections.synchronizedObservableList(FXCollections.observableArrayList()); // JB
+
     this.translateXProperty().bind(x);
     this.translateYProperty().bind(y);
     this.translateZProperty().bind(z);
@@ -146,10 +145,11 @@ public class GuiHand extends Parent {
   public void clear() {
     Iterator<GuiCard> iter = cards.iterator();
     while (iter.hasNext()) {
-      GuiCard c =  iter.next();
+      GuiCard c = iter.next();
       iter.remove();
-      this.remove(c);
-      }
+      this.getChildren().remove(c);
+    }
+    this.resetPositions();
   }
 
   /**
@@ -191,7 +191,7 @@ public class GuiHand extends Parent {
    * @param oldCard Card to remove.
    */
   public synchronized void remove(GuiCard oldCard) {
-//    this.cards.remove(oldCard);
+    this.cards.remove(oldCard);
     this.getChildren().remove(oldCard);
     this.resetPositions();
   }
