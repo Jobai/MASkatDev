@@ -302,7 +302,6 @@ public class MainController implements MainControllerInterface {
 
   }
 
-  @Deprecated
   void setLgs() {
     SkatMain.lgs = new LocalGameState(this.currentLobby.numberOfPlayers, this.currentLobby.timer,
         this.currentLobby.singlePlayerGame);

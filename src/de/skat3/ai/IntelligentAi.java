@@ -857,6 +857,11 @@ public class IntelligentAi extends Ai {
     return null;
   }
 
+  @Override
+  public Hand getHand() {
+    return this.hand;
+  }
+
 }
 
 

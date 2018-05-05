@@ -60,6 +60,8 @@ public abstract class Ai implements Serializable {
 
 
   public abstract void setHand(Hand hand);
+  
+  public abstract Hand getHand();
 
   public abstract void setPosition(Position position);
 

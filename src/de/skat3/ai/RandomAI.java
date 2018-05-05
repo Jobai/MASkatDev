@@ -113,4 +113,9 @@ public class RandomAI extends Ai implements Serializable {
     // isSolo is irrelevant
   }
 
+  @Override
+  public Hand getHand() {
+    return this.hand;
+  }
+
 }
