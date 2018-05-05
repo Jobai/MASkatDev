@@ -56,6 +56,7 @@ public class MainController implements MainControllerInterface {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    chatMessages = FXCollections.observableArrayList();
     this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.numberOfPlayers);
     this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.currentPlayers);
     this.gameController =
@@ -474,7 +475,8 @@ public class MainController implements MainControllerInterface {
     this.blinkAlert();
     Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {
-      SkatMain.lgs.getLocalClient().getHand().setPlayableCards(currentCard, SkatMain.lgs.getContract());
+      SkatMain.lgs.getLocalClient().getHand().setPlayableCards(currentCard,
+          SkatMain.lgs.getContract());
     } else {
       SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
     }
@@ -500,7 +502,8 @@ public class MainController implements MainControllerInterface {
     this.blinkAlert();
     Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {
-      SkatMain.lgs.getLocalClient().getHand().setPlayableCards(currentCard, SkatMain.lgs.getContract());
+      SkatMain.lgs.getLocalClient().getHand().setPlayableCards(currentCard,
+          SkatMain.lgs.getContract());
     } else {
       SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
     }
@@ -735,9 +738,13 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showBid(String bid, Player player) {
-    SkatMain.guiController.getInGameController().showBidActivity(player, bid);
+    Platform.runLater(new Runnable() {
 
+
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().showBidActivity(player, bid);
+      }
+    });
   }
-
-
 }

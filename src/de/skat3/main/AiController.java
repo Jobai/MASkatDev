@@ -58,7 +58,7 @@ public class AiController {
     this.getBot(bot).updatePlayer(bot);
     this.getBot(bot).ai.setHand(bot.getHand());
     this.getBot(bot).ai.setPosition(bot.getPosition());
-    this.getBot(bot).ai.setSolo(bot.isSolo());
+    this.getBot(bot).ai.setIsSolo(bot.isSolo());
   }
 
   public void selectSkatRequest(Card[] skat, Player bot) {

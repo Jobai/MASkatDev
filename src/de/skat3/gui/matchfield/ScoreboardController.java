@@ -85,10 +85,10 @@ public class ScoreboardController {
       System.out.println("Could not set enemy two score in scoreboard");
     }
     try {
-      if (SkatMain.lgs.dealer != null) {
-        scores[t][0] = SkatMain.lgs.dealer.getName();
-        scores[t][1] = String.valueOf(SkatMain.lgs.dealer.getPoints());
-        scores[t][2] = String.valueOf(SkatMain.lgs.dealer.getSeegerPoints());
+      if (SkatMain.lgs.getEnemyThree() != null) {
+        scores[t][0] = SkatMain.lgs.getEnemyThree().getName();
+        scores[t][1] = String.valueOf(SkatMain.lgs.getEnemyThree().getPoints());
+        scores[t][2] = String.valueOf(SkatMain.lgs.getEnemyThree().getSeegerPoints());
         t++;
       }
     } catch (NullPointerException e) {

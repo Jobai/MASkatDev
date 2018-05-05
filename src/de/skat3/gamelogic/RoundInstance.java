@@ -75,9 +75,11 @@ class RoundInstance {
     this.updatePlayer();
     this.updateEnemies();
     slc.broadcastRoundStarted();
+    Thread.sleep(2500);
     Player winner = this.startBidding();
     if (winner == null) {
       this.roundCancelled = true;
+      System.out.println("LOGIC ROUND IS CANCELLED");
     } else {
       this.setDeclarer(winner);
       this.updatePlayer();
@@ -200,7 +202,9 @@ class RoundInstance {
   public Player startBidding() throws InterruptedException {
     synchronized (lock) {
       this.currentBiddingValue = 0;
+      respond = false;
       Player currentWinner = bidDuel(this.players[1], this.players[0]);
+      respond = false;
       currentWinner = bidDuel(this.players[2], currentWinner);
       if (currentWinner.equals(this.players[0]) && this.currentBiddingValue == 0) {
         this.slc.callForBid(this.players[0], BiddingValues.values[this.currentBiddingValue]);
@@ -226,12 +230,12 @@ class RoundInstance {
 
     while (this.currentBiddingValue < BiddingValues.values.length) {
       this.currentBidder = bid;
-      this.slc.callForBid(bid, BiddingValues.values[this.currentBiddingValue]);
+      this.slc.callForBid(bid.copyPlayer(), BiddingValues.values[this.currentBiddingValue]);
       this.current = LogicAnswers.BID;
       lock.wait();
       if (this.bidAccepted) {
         this.currentBidder = respond;
-        this.slc.callForBid(respond, BiddingValues.values[this.currentBiddingValue]);
+        this.slc.callForBid(respond.copyPlayer(), BiddingValues.values[this.currentBiddingValue]);
         this.current = LogicAnswers.BID;
         lock.wait();
         if (this.bidAccepted) {
@@ -261,7 +265,7 @@ class RoundInstance {
     } else {
       bid = "Im out!";
     }
-    slc.broadcastBid(bid,this.currentBidder.copyPlayer());
+    slc.broadcastBid(bid, this.currentBidder.copyPlayer());
     this.respond = !this.respond;
 
   }
