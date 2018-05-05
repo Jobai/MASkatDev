@@ -20,6 +20,7 @@ public class SkatMain {
   public static IoController ioController;
   public static MainNetworkController mainNetworkController;
   public static AiController aiController;
+  public static MasterLogger masterLogger;
 
 
   /**
@@ -29,6 +30,7 @@ public class SkatMain {
    */
   public static void main(String[] args) {
 
+    SkatMain.masterLogger = new MasterLogger();
     SkatMain.mainController = new MainController();
     SkatMain.guiController = new GuiController();
     SkatMain.ioController = new IoController();
