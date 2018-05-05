@@ -5,6 +5,7 @@ import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -47,6 +48,10 @@ public class ProfileController {
     this.profileStage = s;
   }
 
+  /**
+   * Fills screen fields with profile data.
+   * @param p Profile which should be displayed
+   */
   public void setProfile(Profile p) {
     this.profile = p;
     fileFormat = "";
@@ -62,7 +67,7 @@ public class ProfileController {
   }
 
   /**
-   * Dummy.
+   * Saves current profile data.
    **/
   public void handleSaveProfile() {
 
@@ -80,13 +85,16 @@ public class ProfileController {
     profileStage.close();
   }
 
+  /**
+   * Handle action, when user wants to delete his profile.
+   */
   public void handleDelProfile() {
     SkatMain.ioController.deleteProfile(this.profile);
     profileStage.close();
   }
 
   /**
-   * opens a FileChooser and set the selected image from the user to screen
+   * Opens a FileChooser and set the selected image from the user to screen.
    */
   public void handleChangeProfilePic() {
     FileChooser fileChooser = new FileChooser();
@@ -97,10 +105,17 @@ public class ProfileController {
 
     File file = fileChooser.showOpenDialog(new Stage());
     if (file != null) {
-      Image i = new Image(file.toURI().toString());
+      Image image = new Image(file.toURI().toString());
+      if (file.length() > 1000000) {
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setContentText("Image is too big! \nMax. 1 MB allowed!");
+        a.setHeaderText(null);
+        a.showAndWait();
+        return;
+      }
       fileFormat = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf(".") + 1,
           file.getAbsolutePath().length());
-      profileImage.setImage(i);
+      profileImage.setImage(image);
     }
   }
 

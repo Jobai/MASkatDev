@@ -30,6 +30,9 @@ public class OptionsMenuController {
 
   private MediaPlayer backgroundMusicPlayer;
 
+  /**
+   * Initialize listeners and preset values.
+   */
   @FXML
   public void initialize() {
 
@@ -70,25 +73,28 @@ public class OptionsMenuController {
 
   }
 
-
+  /**
+   * Handles event when user turn on / off the music.
+   */
   public void handleMusicSwitched() {
 
     if (btnMusic.isSelected()) {
       // Music on
       btnMusic.setText("ON");
 
-//      String path = "F:/MusicPlayer/src/musicplayer/adcBicycle_-_02_-_poor_economic_policies.mp3";
-//      Media media = new Media(new File(path).toURI().toString());
-//      backgroundMusicPlayer = new MediaPlayer(media);
-//      backgroundMusicPlayer.setAutoPlay(true);
-//      backgroundMusicPlayer = new MediaView(mediaPlayer);
-      
-      
-//      String url = getClass().getResource("../../../../music/backgroundMusic.mp3").toString();
-//      Media media = new Media(new File(url).toString());
-//      backgroundMusicPlayer = new MediaPlayer(media);
-//      backgroundMusicPlayer.setVolume(volumeMusic.getValue());
-//      backgroundMusicPlayer.play();
+      // String path =
+      // "F:/MusicPlayer/src/musicplayer/adcBicycle_-_02_-_poor_economic_policies.mp3";
+      // Media media = new Media(new File(path).toURI().toString());
+      // backgroundMusicPlayer = new MediaPlayer(media);
+      // backgroundMusicPlayer.setAutoPlay(true);
+      // backgroundMusicPlayer = new MediaView(mediaPlayer);
+
+
+      // String url = getClass().getResource("../../../../music/backgroundMusic.mp3").toString();
+      // Media media = new Media(new File(url).toString());
+      // backgroundMusicPlayer = new MediaPlayer(media);
+      // backgroundMusicPlayer.setVolume(volumeMusic.getValue());
+      // backgroundMusicPlayer.play();
 
     } else {
       // Music off
@@ -99,6 +105,9 @@ public class OptionsMenuController {
 
   }
 
+  /**
+   * Handles event when user turn on / off game sound.
+   */
   public void handleGameSoundSwitched() {
 
     if (btnSound.isSelected()) {

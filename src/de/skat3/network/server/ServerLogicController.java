@@ -9,7 +9,6 @@
 
 package de.skat3.network.server;
 
-import java.util.ArrayList;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -18,11 +17,12 @@ import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.main.Lobby;
-import de.skat3.main.SkatMain;
 import de.skat3.network.ServerLogicInterface;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageType;
+import java.util.ArrayList;
+
 
 /**
  * Receives orders from the GameLogic and handles them to be send over the network to the clients.
@@ -73,31 +73,17 @@ public class ServerLogicController implements ServerLogicInterface {
   public void updatePlayerDuringRound(Player player) {
     // player.secretBackupHand
 
-    Hand neuHand = new Hand();
-    Hand aldHand = player.getHand();
-
-    for (int i = 0; i < neuHand.cards.length; i++) {
-      neuHand.cards[i] = aldHand.cards[i];
-    }
-    
-    
-    
-    player.secretBackupHand = neuHand;
-    
-    player.secretBackupArray = player.convertToByteArray(player);
-    
-
-
 
     player.wonTricks = new ArrayList<Card>();
-    System.out.println("SERVER RECEIVED: " + player.getName() + "CARDS" + player.getHand());
-    System.out.println("UPDATEPLAYER SLC CALL:" + player.getUuid() + "\n \n" + player);
+    // System.out.println("SERVER RECEIVED: " + player.getName() + "CARDS" + player.getHand());
+    // System.out.println("UPDATEPLAYER SLC CALL:" + player.getUuid() + "\n \n" + player);
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, player.toString(),
         CommandType.ROUND_GENERAL_INFO);
     mc.gameState = player;
     for (int i = 0; i < player.getHand().cards.length; i++) {
       player.getHand().cards[i].imageView = null;
     }
+    mc.playerTarget = player;
     gs.sendToPlayer(player, mc);
   }
 
@@ -111,14 +97,14 @@ public class ServerLogicController implements ServerLogicInterface {
   @Override
   public void callForBid(Player player, int biddingValue) {
 
-    if (!player.isBot()) {
-      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, player.toString(),
-          CommandType.BID_REQUEST);
-      mc.gameState = (Integer) biddingValue;
-      mc.payload = player;
-      gs.sendToPlayer(player, mc);
-    } else {
-    }
+
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.BID_REQUEST);
+    mc.gameState = (Integer) biddingValue;
+    mc.payload = player;
+    mc.playerTarget = player;
+    gs.sendToPlayer(player, mc);
+
   }
 
   /*
@@ -128,13 +114,12 @@ public class ServerLogicController implements ServerLogicInterface {
    */
   @Override
   public void callForPlay(Player player) {
-    if (!player.isBot()) {
-      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, player.toString(),
-          CommandType.PLAY_REQUEST);
 
-      gs.sendToPlayer(player, mc);
-    } else {
-    }
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.PLAY_REQUEST);
+
+    mc.playerTarget = player;
+    gs.sendToPlayer(player, mc);
   }
 
   /*
@@ -216,49 +201,49 @@ public class ServerLogicController implements ServerLogicInterface {
   @Override
   public void callForHandOption(Player p) {
 
-    if (!p.isBot()) {
-      MessageCommand mc =
-          new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.HAND_REQUEST);
 
-      gs.sendToPlayer(p, mc);
-    } else {
-    }
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.HAND_REQUEST);
+
+    mc.playerTarget = p;
+    gs.sendToPlayer(p, mc);
+
 
   }
 
   @Override
   public void callForContract(Player p) {
 
-    if (!p.isBot()) {
-      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, p.toString(),
-          CommandType.CONTRACT_REQUEST);
 
-      gs.sendToPlayer(p, mc);
-    } else {
-    }
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.CONTRACT_REQUEST);
+
+    mc.playerTarget = p;
+    gs.sendToPlayer(p, mc);
+
 
   }
 
   @Override
   public void sendSkat(Player p, Card[] skat) {
 
-    if (!p.isBot()) {
-      MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, p.toString(),
-          CommandType.SKAT_INFO_REQUEST);
-      mc.gameState = skat;
 
-      gs.sendToPlayer(p, mc);
-    } else {
-    }
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_ACTION, p.toString(), CommandType.SKAT_INFO_REQUEST);
+    mc.gameState = skat;
+    mc.playerTarget = p;
+
+    gs.sendToPlayer(p, mc);
 
   }
 
   @Override
-  public void broadcastBid(boolean bid) {
-    System.out.println("broadcasting bid [SERVER / LOGIC] : " + bid);
+  public void broadcastBid(String message, Player p) {
+    System.out.println("broadcasting bid [SERVER / LOGIC] : " + message);
 
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.BID_INFO);
-    mc.gameState = bid;
+    mc.gameState = message;
+    mc.originSender = p;
 
     gs.broadcastMessage(mc);
   }
@@ -298,13 +283,6 @@ public class ServerLogicController implements ServerLogicInterface {
 
   }
 
-  @Override
-  public void broadcastKontraRekontraExpired() {
-    MessageCommand mc =
-        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.KONTRA_HIDE_OPTION_INFO);
-    gs.broadcastMessage(mc);
-
-  }
 
   @Override
   public void broadcastRoundRestarted() {
@@ -338,7 +316,31 @@ public class ServerLogicController implements ServerLogicInterface {
     gs.broadcastMessage(mc);
   }
 
+  @Override
+  public void updateEnemy(Player p) {
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, "SOME", CommandType.UPDATE_ENEMY_INFO);
+    mc.gameState = p;
+    gs.broadcastMessage(mc);
+  }
+
+  @Override
+  public void callForSpecificPlay(Player player, Card card) {
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, player.toString(),
+        CommandType.TRAINING_CALL_FOR_SPECIFIC_PLAY);
+    mc.gameState = card;
+    mc.playerTarget = player;
+    gs.sendToPlayer(player, mc);
+  }
+
+  @Override
+  public void setDealer(Player dealer) {
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, dealer.toString(), CommandType.SET_DEALER);
+    mc.gameState = dealer;
+    gs.broadcastMessage(mc);
+    
+  }
 
 
 }
-

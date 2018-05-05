@@ -2,6 +2,13 @@ package de.skat3.gamelogic;
 
 import java.io.Serializable;
 
+/**
+ * This class represents any additional Multiliers announced by the solo player.
+ * 
+ * @author kai29
+ *
+ */
+@SuppressWarnings("serial")
 public class AdditionalMultipliers implements Serializable {
 
   private boolean schneiderAnnounced;

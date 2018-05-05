@@ -1,5 +1,7 @@
 package de.skat3.main;
 
+import javafx.application.Platform;
+
 public class PlayTimeTimer extends Thread {
 
   long playTime;
@@ -22,6 +24,16 @@ public class PlayTimeTimer extends Thread {
         if (this.playTime % 60 == 0) {
           SkatMain.ioController.getLastUsedProfile().setPlayerGameTime(this.playTime);
           SkatMain.ioController.updateLastUsed(SkatMain.ioController.getLastUsedProfile());
+
+          Platform.runLater(new Runnable() {
+
+            @Override
+            public void run() {
+              SkatMain.guiController.refreshStatistik();
+            }
+          });
+
+
         }
       } catch (InterruptedException e) {
         e.printStackTrace();

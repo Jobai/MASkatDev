@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Random;
 import org.junit.Test;
 import de.skat3.ai.AiHelper;
-import de.skat3.ai.IntelligentAI;
+import de.skat3.ai.IntelligentAi;
 import de.skat3.ai.RandomAI;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
@@ -66,7 +66,7 @@ public class TestRandomIAI {
     int suitOrdinal;
     int valueOrdinal;
 
-    IntelligentAI ai = new IntelligentAI(new Player(new Profile("testUser")));
+    IntelligentAi ai = new IntelligentAi(new Player(new Profile("testUser")));
 
     for (int j = 0; j < 5; j++) {
       contractOrdinal = random.nextInt(contractLength);

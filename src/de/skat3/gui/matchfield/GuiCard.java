@@ -37,6 +37,21 @@ public class GuiCard extends Parent {
     this.card = card;
   }
 
+  public boolean isPlayable(Card[] playableRef, GuiCard card) {
+    for (Card c : playableRef) {
+      try {
+        if (card.getCard().equals(c)) {
+          if (c.isPlayable()) {
+            return true;
+          }
+        }
+      } catch (Exception e) {
+        // not important
+      }
+    }
+    return false;
+  }
+
   /**
    * To String.
    * 

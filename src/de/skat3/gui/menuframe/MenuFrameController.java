@@ -1,8 +1,10 @@
 package de.skat3.gui.menuframe;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
+import javax.swing.BorderFactory;
 import de.skat3.gui.Menu;
 import de.skat3.gui.multiplayermenu.MultiplayerMenu;
 import de.skat3.gui.optionsmenu.OptionsMenu;
@@ -27,8 +29,10 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -42,6 +46,8 @@ public class MenuFrameController {
   // FXML file imports
   @FXML
   public AnchorPane mainPane;
+  @FXML
+  private HBox HBoxProfile;
   @FXML
   public Button singleplayerMenuButton;
   @FXML
@@ -77,6 +83,7 @@ public class MenuFrameController {
   private Profile currentProfile;
   private PlayTimeTimer timer;
 
+
   // Button handler
 
   public void showSingleplayerMenu() {
@@ -100,6 +107,11 @@ public class MenuFrameController {
   private ScaleTransition buttonSizeAnimation;
   private TranslateTransition menuLinePostionAnimation;
 
+  /**
+   * Starts the underline animation.
+   * 
+   * @param targetButton Button which should be underlined
+   */
   private void startMenuUnderlineAnimation(Button targetButton) {
     // Changing the width of the line to the width of the button.
     this.menuNameLine
@@ -219,6 +231,9 @@ public class MenuFrameController {
     }
   }
 
+  /**
+   * Initialize the menu frame with all the sub menus and set the current profile.
+   */
   protected void initialize() {
     this.singleplayerMenu = new SingleplayerMenu();
     this.multiplayerMenu = new MultiplayerMenu();
@@ -229,6 +244,9 @@ public class MenuFrameController {
     setCurrentProfile(SkatMain.ioController.getLastUsedProfile());
   }
 
+  /**
+   * Fills the profile dropdown with all the available profiles.
+   */
   private void fillProfileMenu() {
     // clear old data
     profileMenuButton.getItems().clear();
@@ -237,6 +255,8 @@ public class MenuFrameController {
     // prompt create profile
     if (allProfile.isEmpty()) {
       openProfile(null);
+      fillProfileMenu();
+      return;
     }
 
     allProfile = SkatMain.ioController.getProfileList();
@@ -267,19 +287,32 @@ public class MenuFrameController {
       @Override
       public void handle(ActionEvent event) {
         openProfile(null);
+        fillProfileMenu();
+        setCurrentProfile(SkatMain.ioController.getLastUsedProfile());
       }
     });
     profileMenuButton.getItems().add(new CustomMenuItem(add));
   }
 
+  /**
+   * Initialization after screen is created.
+   */
   public void delayedInitialize() {
     this.showSingleplayerMenu();
   }
 
+  /**
+   * Handels user mouse click on profile.
+   */
   public void handleMouseClickProfileMenu() {
     openProfile(currentProfile);
   }
 
+  /**
+   * Opens a popup in which the current profile is shown.
+   * 
+   * @param p Profile which sould be opened
+   */
   private void openProfile(Profile p) {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProfilePopupView.fxml"));
     Parent root = null;
@@ -300,13 +333,8 @@ public class MenuFrameController {
       profileController.setHeaderText("Create a profile");
     }
 
+    stage.initModality(Modality.APPLICATION_MODAL);
     stage.showAndWait();
-
-    // Update Profiles
-    fillProfileMenu();
-    currentProfile = SkatMain.ioController.getLastUsedProfile();
-
-    setCurrentProfile(currentProfile);
   }
 
   private void setCurrentProfile(Profile p) {
@@ -314,7 +342,7 @@ public class MenuFrameController {
     try {
       currentProfileImage.setImage(p.getImage());
     } catch (Exception e) {
-
+      // Do nothing
     }
     currentProfileName.setText(p.getName());
 
@@ -326,6 +354,15 @@ public class MenuFrameController {
     }
     timer = new PlayTimeTimer(p.getPlayerGameTime());
 
+  }
+
+  /**
+   * Returns Statistik Menu.
+   * 
+   * @return Statistik Menu
+   */
+  public StatsMenu getStatsMenu() {
+    return this.statsMenu;
   }
 
 }

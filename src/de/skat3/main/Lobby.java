@@ -9,18 +9,11 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Inet4Address;
-import java.util.Arrays;
 import java.util.UUID;
 import de.skat3.gamelogic.Player;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 
 public class Lobby implements Serializable {
-
-
-  /**
-   * 
-   */
+  
   private static final long serialVersionUID = 7279502331048915007L;
 
 
@@ -44,7 +37,7 @@ public class Lobby implements Serializable {
   boolean singlePlayerGame;
   boolean kontraRekontraEnabled;
   private UUID uuid;
-  
+
   public int lobbyPlayer = 0;
 
   boolean hasPassword;
@@ -122,6 +115,23 @@ public class Lobby implements Serializable {
 
   }
 
+  /**
+   * 
+   * @param ip
+   * @param serverMode
+   */
+  public Lobby(Inet4Address ip, int serverMode) {
+    this.numberOfPlayers = 3;
+    this.players = new Player[this.numberOfPlayers];
+    this.ip = ip;
+    this.serverMode = serverMode;
+    this.hasPassword = false;
+    this.currentPlayers = 0;
+    this.timer = 0;
+    uuid = UUID.randomUUID();
+    this.singlePlayerGame = true;
+  }
+
   public Player[] getPlayers() {
     return this.players;
   }
@@ -150,13 +160,16 @@ public class Lobby implements Serializable {
 
   public void removePlayer(Player player) {
     for (int i = 0; i < this.numberOfPlayers; i++) {
-      if (this.players[i].equals(player)) {
-        this.players[i] = null;
-        this.currentPlayers--;
-        if (SkatMain.mainController.maxNumberOfPlayerProperty != null) {
-          SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
+      if (this.players[i] != null) {
+        if (this.players[i].equals(player)) {
+          SkatMain.lgs.removePlayer(player);
+          this.players[i] = null;
+          this.currentPlayers--;
+          if (SkatMain.mainController.maxNumberOfPlayerProperty != null) {
+            SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
+          }
+          break;
         }
-        break;
       }
       if (i == this.numberOfPlayers - 1) {
         System.err.println("Player not found: " + player);
@@ -186,8 +199,6 @@ public class Lobby implements Serializable {
   @Override
   public boolean equals(Object obj) {
     Lobby lo = (Lobby) obj;
-    // System.out.println(this.uuid);
-    // System.out.println(lo.uuid);
     if (this.uuid.equals(lo.uuid)) {
       return true;
     } else {
@@ -228,13 +239,10 @@ public class Lobby implements Serializable {
   public Lobby convertFromByteArray(byte[] byteArray) {
     try (ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
         ObjectInput oIn = new ObjectInputStream(bais)) {
-      System.out.println(byteArray.length);
       return (Lobby) oIn.readObject();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (ClassNotFoundException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return null;
@@ -255,6 +263,13 @@ public class Lobby implements Serializable {
   public void incrementconnectedPlayerNumberbyHand() {
     currentPlayers++;
   }
-  
 
+
+  public int getTimer() {
+    return this.timer;
+  }
+
+  public boolean getKontraRekontraEnabled() {
+    return this.kontraRekontraEnabled;
+  }
 }

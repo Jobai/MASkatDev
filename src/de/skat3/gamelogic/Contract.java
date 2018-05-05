@@ -2,6 +2,11 @@ package de.skat3.gamelogic;
 
 import java.io.Serializable;
 
+/**
+ * All possible contracts in skat.
+ * @author kai29
+ *
+ */
 public enum Contract implements Serializable {
 
   DIAMONDS, HEARTS, SPADES, CLUBS, GRAND, NULL;

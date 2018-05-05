@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- @author tistraub -->
+
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -15,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="454.0" prefWidth="461.0"
-	xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.menuframe.ProfileController">
 	<children>
@@ -27,8 +29,9 @@
 					url="@../../../../../resources/guifiles/dummy_avatar.jpg" />
 			</image>
 		</ImageView>
-		<Button layoutX="88.0" layoutY="382.0" fx:id="btnSave" mnemonicParsing="false"
-			onAction="#handleSaveProfile" prefHeight="45.0" prefWidth="324.0"
+		<Button layoutX="88.0" layoutY="382.0" fx:id="btnSave"
+			mnemonicParsing="false" onAction="#handleSaveProfile"
+			prefHeight="45.0" prefWidth="324.0"
 			style="-fx-background-color: linear-gradient(#f00000, #d60202);"
 			text="Save" textFill="WHITE" />
 		<Button layoutX="159.0" layoutY="265.0" mnemonicParsing="false"

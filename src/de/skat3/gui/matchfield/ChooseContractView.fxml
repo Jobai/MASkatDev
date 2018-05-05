@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="467.0" prefWidth="400.0"
-	style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-width: 1;"
-	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane fx:id="root" prefHeight="423.0" prefWidth="404.0"
+	style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-width: 2;"
+	xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.matchfield.ChooseContractController">
 	<children>
 		<Pane layoutX="-1.0" layoutY="-2.0" prefHeight="68.0"
@@ -38,9 +38,9 @@
 			prefWidth="373.0">
 			<columnConstraints>
 				<ColumnConstraints hgrow="SOMETIMES"
-					minWidth="10.0" prefWidth="100.0" />
+					maxWidth="287.0" minWidth="10.0" prefWidth="150.0" />
 				<ColumnConstraints hgrow="SOMETIMES"
-					minWidth="10.0" prefWidth="100.0" />
+					maxWidth="238.0" minWidth="10.0" prefWidth="223.0" />
 			</columnConstraints>
 			<rowConstraints>
 				<RowConstraints minHeight="10.0" prefHeight="30.0"
@@ -52,7 +52,7 @@
 						<Font size="20.0" />
 					</font>
 				</Label>
-				<HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
+				<HBox alignment="CENTER" prefHeight="68.0" prefWidth="220.0"
 					spacing="12.0" GridPane.columnIndex="1">
 					<children>
 						<Label fx:id="iconSpade" text="♠">
@@ -81,50 +81,49 @@
 		</GridPane>
 		<ToggleButton fx:id="toggleGrand" layoutX="14.0"
 			layoutY="176.0" mnemonicParsing="false" prefHeight="25.0"
-			prefWidth="373.0" style="-fx-background-color: #d60202;;"
-			text="Grand" textFill="WHITE">
+			prefWidth="373.0" stylesheets="@toggleButton.css" text="Grand">
 			<font>
 				<Font size="20.0" />
 			</font>
 		</ToggleButton>
-		<ToggleButton fx:id="toggleNullgame" layoutX="14.0"
+		<ToggleButton fx:id="toggleOpengame" layoutX="14.0"
 			layoutY="230.0" mnemonicParsing="false" prefHeight="25.0"
-			prefWidth="373.0" style="-fx-background-color: #d60202;;"
-			text="Nullgame" textFill="WHITE">
+			prefWidth="373.0" stylesheets="@toggleButton.css" text="Nullgame"
+			textFill="WHITE">
 			<font>
 				<Font size="20.0" />
 			</font>
 		</ToggleButton>
-		<HBox layoutX="14.0" layoutY="309.0" prefHeight="30.0"
-			prefWidth="373.0" spacing="17.0">
+		<HBox alignment="CENTER" layoutX="14.0" layoutY="309.0"
+			prefHeight="30.0" prefWidth="373.0" spacing="17.0">
 			<children>
-				<CheckBox fx:id="cbHandgame" mnemonicParsing="false"
-					onAction="#setHandGame" text="Hand">
+				<CheckBox fx:id="cbOpengame" mnemonicParsing="false"
+					onAction="#setOpenGame" text="Open">
 					<font>
-						<Font size="15.0" />
+						<Font size="14.0" />
 					</font>
 				</CheckBox>
 				<CheckBox fx:id="cbSchneider" mnemonicParsing="false"
 					onAction="#setSchneider" text="Schneider">
 					<font>
-						<Font size="15.0" />
+						<Font size="14.0" />
 					</font>
 				</CheckBox>
 				<CheckBox fx:id="cbSchwarz" mnemonicParsing="false"
 					onAction="#setSchwarz" text="Schwarz">
 					<font>
-						<Font size="15.0" />
+						<Font size="14.0" />
 					</font>
 				</CheckBox>
 				<CheckBox fx:id="cbOuvert" mnemonicParsing="false"
 					onAction="#setOuvert" text="Ouvert">
 					<font>
-						<Font size="15.0" />
+						<Font size="14.0" />
 					</font>
 				</CheckBox>
 			</children>
 		</HBox>
-		<Button layoutX="129.0" layoutY="398.0" mnemonicParsing="false"
+		<Button layoutX="130.0" layoutY="360.0" mnemonicParsing="false"
 			onAction="#setContract" prefHeight="25.0" prefWidth="144.0"
 			style="-fx-background-color: #d60202;" text="Save" textFill="WHITE">
 			<font>

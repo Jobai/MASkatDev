@@ -1,24 +1,18 @@
 package de.skat3.gui.matchfield;
 
-import java.awt.Point;
-import java.io.IOException;
-import java.net.URL;
-import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
-import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.gui.resultscreen.GameResultViewController;
 import de.skat3.gui.resultscreen.RoundResultViewController;
 import de.skat3.main.SkatMain;
+import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Polygon;
+import javafx.scene.control.Alert;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -35,15 +29,26 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield = matchfield;
   }
 
-  public void showSelectionInfos() {
-    this.matchfield.overlayController.setTrump(SkatMain.lgs.contract);
+  /**
+   * asd.
+   * 
+   * @param value .
+   */
+  public void showSelectionInfos(boolean value) {
+    if (value) {
+      this.matchfield.overlayController.setRoundInfos(SkatMain.lgs.getContract(),
+          SkatMain.lgs.getAdditionalMultipliers());
 
-    this.matchfield.overlayController.extra1LocalClient
-        .setText(SkatMain.lgs.getLocalClient().isSolo() ? "Solo" : "Team");
-    this.matchfield.overlayController.extraEnemyOne
-        .setText(SkatMain.lgs.getEnemyOne().isSolo() ? "Solo" : "Team");
-    this.matchfield.overlayController.extraEnemyTwo
-        .setText(SkatMain.lgs.getEnemyTwo().isSolo() ? "Solo" : "Team");
+      if (SkatMain.lgs.getAdditionalMultipliers().isSchwarzAnnounced()
+          || SkatMain.lgs.getAdditionalMultipliers().isOpenHand()) {
+        this.matchfield.tableController.iniHands();
+      }
+    } else {
+      this.matchfield.overlayController.setRoundInfos(null, null);
+    }
+
+    this.matchfield.tableView.trick.showBidingCards(false);
+    this.matchfield.tableController.refreshHands();
   }
 
   /*
@@ -52,9 +57,48 @@ public class InGameController implements InGameControllerInterface {
    * @see de.skat3.gui.matchfield.InGameControllerInterface#makeAMove(boolean)
    */
   @Override
-  public void makeAMove(boolean value) {
-    this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value);
-    this.matchfield.tableController.setCardsPlayable(value);
+  public void makeAMoveRequest(boolean value) {
+    this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value, true);
+    this.matchfield.tableController.setCardsPlayable(value,
+        SkatMain.lgs.getLocalClient().getHand().getCards());
+    if (SkatMain.lgs.getTimerInSeconds() > 0) {
+      this.matchfield.overlayController.showTimer(value);
+      if (value) {
+        this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
+      }
+    }
+  }
+
+
+  /**
+   * Is setting only the card which is passed with this method to be playable in the gui. So only
+   * this card can be played via click on it.
+   * 
+   * @param card
+   */
+  public void singleMakeAMoveRequest(Card card, boolean value) {
+    this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value, true);
+
+    Card[] playableRef = SkatMain.lgs.getLocalClient().getHand().getCards().clone();
+    for (int i = 0; i < playableRef.length; i++) {
+      try {
+        if (playableRef[i].equals(card)) {
+          playableRef[i].setPlayable(true);
+        } else {
+          playableRef[i].setPlayable(false);
+        }
+      } catch (Exception e) {
+        // not important
+      }
+    }
+    this.matchfield.tableController.setCardsPlayable(true, playableRef);
+
+    if (SkatMain.lgs.getTimerInSeconds() > 0) {
+      this.matchfield.overlayController.showTimer(value);
+      if (value) {
+        this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
+      }
+    }
   }
 
   /*
@@ -82,9 +126,9 @@ public class InGameController implements InGameControllerInterface {
    * @see de.skat3.gui.matchfield.InGameControllerInterface#setRemainingTime(javafx.util.Duration)
    */
   @Override
-  public void setRemainingTime(Duration remaningTime) {
-    // TODO Auto-generated method stub
-
+  @Deprecated
+  public void startTimer(int time) {
+    // this.matchfield.overlayController.setTimer(time);
   }
 
   /*
@@ -95,7 +139,6 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void showAuctionWinner() {
     // TODO Auto-generated method stub
-
   }
 
   /*
@@ -136,6 +179,13 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void showResults(Result results) {
 
+    if (results.roundCancelled) {
+      Alert a = new Alert(Alert.AlertType.INFORMATION);
+      a.setContentText("Round canceled!");
+      a.showAndWait();
+      return;
+    }
+
     FXMLLoader fxmlLoader =
         new FXMLLoader(getClass().getResource("../resultscreen/RoundResultView.fxml"));
     Parent root = null;
@@ -150,6 +200,8 @@ public class InGameController implements InGameControllerInterface {
 
     RoundResultViewController roundResultViwController = fxmlLoader.getController();
     roundResultViwController.setResult(results);
+
+    stage.initModality(Modality.APPLICATION_MODAL);
     stage.show();
 
   }
@@ -157,6 +209,7 @@ public class InGameController implements InGameControllerInterface {
 
   @Override
   public void showSkatSelectionRequest() {
+    this.matchfield.tableView.trick.showBidingCards(false);
     this.matchfield.tableController.showSkatSelection();
   }
 
@@ -168,16 +221,25 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void startRound() {
     this.matchfield.tableController.iniHands();
-
-    System.out.println("Start Round lgs lc: " + SkatMain.lgs.getLocalClient().getHand());
-    System.out.println("Start Round lgs eo: " + SkatMain.lgs.getEnemyOne().getHand());
-    System.out.println("Start round lgs ew: " + SkatMain.lgs.getEnemyTwo().getHand());
-
-    this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.getEnemyOne());
-    this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.getEnemyTwo());
-    this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.getLocalClient());
+    this.matchfield.overlayController.iniStartRound();
+    this.matchfield.tableView.trick.showBidingCards(true);
   }
 
+
+  /**
+   * Is showing a value on the screen which represents a bid which has been set by an other player.
+   * 
+   * @param player Player who has set this bid.
+   * @param bid Bid value the player has set.
+   */
+  public void showBidActivity(Player player, String bid) {
+    if (!player.equals(SkatMain.lgs.getLocalClient())) {
+      this.matchfield.overlayController.showInMainInfo(player.getName() + ": " + bid,
+          Duration.seconds(2));
+    }
+  }
+
+  @Override
   public void showBidRequest(int bid) {
     this.matchfield.overlayController.showBidRequest(bid);
 
@@ -189,12 +251,19 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.getLocalClient());
   }
 
+  @Override
   public void showHandGameRequest() {
     this.matchfield.overlayController.showHandGameRequest();
   }
 
+  @Override
   public void showContractRequest() {
     this.matchfield.overlayController.showContractRequest();
+  }
+
+  @Override
+  public void showTrainingModeInfoText(String text) {
+    this.matchfield.overlayController.showTrainingModeInfoText(text);
   }
 
 }

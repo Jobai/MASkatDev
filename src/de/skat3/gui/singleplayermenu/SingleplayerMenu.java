@@ -14,6 +14,9 @@ import javafx.scene.layout.AnchorPane;
 public class SingleplayerMenu extends Menu {
   private SingleplayerMenuController controller;
 
+  /**
+   * Initialize the Singleplay Menu with the design in the corresponding fxml file.
+   */
   public SingleplayerMenu() {
     super(1);
     URL u = SingleplayerMenu.class.getResource("SingleplayerMenuView.fxml");
@@ -28,7 +31,7 @@ public class SingleplayerMenu extends Menu {
   }
 
   /**
-   * returns the controller which handles the SinglePlayerMenu content.
+   * Returns the controller which handles the SinglePlayerMenu content.
    * 
    * @return the controllerClass of the corresponding Scene
    */

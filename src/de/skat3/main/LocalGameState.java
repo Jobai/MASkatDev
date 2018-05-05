@@ -6,21 +6,26 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 
+/**
+ * 
+ * @author kai29
+ *
+ */
 public class LocalGameState {
 
-  public boolean gameActive;
-  public boolean singlePlayerGame;
-  public int gameId;
-  public int timerInSeconds;
-  public Contract contract;
-  public AdditionalMultipliers additionalMultipliers;
-  public int trickcount;
+  private boolean gameActive;
+  private boolean singlePlayerGame;
+  private int gameId;
+  private int timerInSeconds;
+  private Contract contract;
+  private AdditionalMultipliers additionalMultipliers;
+  private int trickcount;
   private Player localClient;
   private Player enemyOne;
   private Player enemyTwo;
-  public Player dealer;
-  public Card[] trick;
-  public Card[] skat;
+  private Player enemyThree;
+  private Card[] trick;
+  private Card[] skat;
   private int localPosition;
 
   /**
@@ -31,11 +36,13 @@ public class LocalGameState {
    */
   public LocalGameState(int numberOfPlayers, int timerInSeconds, boolean singlePlayerGame) {
     this.localPosition = SkatMain.mainController.currentLobby.currentPlayers;
-    this.localClient = SkatMain.mainController.currentLobby.players[this.localPosition - 1];
-    this.singlePlayerGame = singlePlayerGame;
-    this.trickcount = 0;
-    this.trick = new Card[3];
-    this.skat = new Card[2];
+    this.localClient =
+        SkatMain.mainController.currentLobby.players[this.localPosition - 1].copyPlayer();
+    this.setSinglePlayerGame(singlePlayerGame);
+    this.setTimerInSeconds(timerInSeconds);
+    this.setTrickcount(0);
+    this.setTrick(new Card[3]);
+    this.setSkat(new Card[2]);
     SkatMain.mainController.reinitializePlayers();
   }
 
@@ -47,44 +54,112 @@ public class LocalGameState {
   public void addPlayer() {
 
 
-    if (SkatMain.mainController.currentLobby.currentPlayers == 2) {
-      switch (this.localPosition) {
-        case 1:
-          this.setEnemyOne(SkatMain.mainController.currentLobby.players[1]);
-          break;
-        case 2:
-          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[0]);
-          break;
+    if (SkatMain.mainController.currentLobby.numberOfPlayers == 3) {
 
-        default:
-          System.err.println("addPlayer klappt net ");
-          break;
+      if (SkatMain.mainController.currentLobby.currentPlayers == 2) {
+        switch (this.localPosition) {
+          case 1:
+            this.setEnemyOne(SkatMain.mainController.currentLobby.players[1].copyPlayer());
+            break;
+          case 2:
+            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+            break;
+
+          default:
+            System.err.println("addPlayer klappt net ");
+            break;
+        }
+
+      }
+      if (SkatMain.mainController.currentLobby.currentPlayers == 3) {
+        switch (this.localPosition) {
+          case 1:
+            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[2].copyPlayer());
+            break;
+          case 2:
+            this.setEnemyOne(SkatMain.mainController.currentLobby.players[2].copyPlayer());
+            break;
+          case 3:
+            this.setEnemyOne(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[1].copyPlayer());
+            break;
+          default:
+            System.err.println("addPlayer klappt net ");
+            break;
+        }
       }
 
-    }
-    if (SkatMain.mainController.currentLobby.currentPlayers == 3) {
-      switch (this.localPosition) {
-        case 1:
-          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[2]);
-          break;
-        case 2:
-          this.setEnemyOne(SkatMain.mainController.currentLobby.players[2]);
-          break;
-        case 3:
-          this.setEnemyOne(SkatMain.mainController.currentLobby.players[0]);
-          this.setEnemyTwo(SkatMain.mainController.currentLobby.players[1]);
-        default:
-          System.err.println("addPlayer klappt net ");
-          break;
+    } else {
+      if (SkatMain.mainController.currentLobby.currentPlayers == 2) {
+        switch (this.localPosition) {
+          case 1:
+            this.setEnemyOne(SkatMain.mainController.currentLobby.players[1].copyPlayer());
+            break;
+          case 2:
+            this.setEnemyThree(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+            break;
+
+          default:
+            System.err.println("addPlayer klappt net ");
+            break;
+        }
+
+      }
+      if (SkatMain.mainController.currentLobby.currentPlayers == 3) {
+        switch (this.localPosition) {
+          case 1:
+            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[2].copyPlayer());
+            break;
+          case 2:
+            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[2].copyPlayer());
+            break;
+          case 3:
+            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+            this.setEnemyThree(SkatMain.mainController.currentLobby.players[1].copyPlayer());
+            break;
+          default:
+            System.err.println("addPlayer klappt net ");
+            break;
+        }
+      }
+      if (SkatMain.mainController.currentLobby.currentPlayers == 4) {
+        switch (this.localPosition) {
+          case 1:
+            this.setEnemyThree(SkatMain.mainController.currentLobby.players[3].copyPlayer());
+            break;
+          case 2:
+            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[3].copyPlayer());
+            break;
+          case 3:
+            this.setEnemyOne(SkatMain.mainController.currentLobby.players[3].copyPlayer());
+            break;
+          case 4:
+            this.setEnemyOne(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[1].copyPlayer());
+            this.setEnemyThree(SkatMain.mainController.currentLobby.players[2].copyPlayer());
+            break;
+          default:
+            System.err.println("addPlayer klappt net ");
+            break;
+        }
       }
 
 
-      // case 4: // TODO
     }
+
 
     SkatMain.mainController.reinitializePlayers();
 
 
+
+  }
+
+
+  public void rotatePlayers() {
+
+  }
+
+  public void rotatePlayers(int dealerPosition) {
 
   }
 
@@ -97,14 +172,14 @@ public class LocalGameState {
    */
 
   public void addToTrick(Card card) {
-    this.trick[this.trickcount] = card;
-    this.trickcount = (trickcount + 1) % 3;
+    this.getTrick()[this.getTrickcount()] = card;
+    this.setTrickcount((getTrickcount() + 1) % 3);
   }
 
   public Card getCurrentCardInTrick() {
-    for (int i = 0; i < this.trick.length; i++) {
-      if (this.trick[i] == null && i - 1 > 0) {
-        return this.trick[i - 1];
+    for (int i = 0; i < this.getTrick().length; i++) {
+      if (this.getTrick()[i] == null && i - 1 > 0) {
+        return this.getTrick()[i - 1];
       }
     }
     return null;
@@ -112,8 +187,8 @@ public class LocalGameState {
 
 
   public Card getFirstCardPlayed() {
-    if (this.trick[0] != null && this.trickcount != 0) {
-      return this.trick[0];
+    if (this.getTrick()[0] != null && this.getTrickcount() != 0) {
+      return this.getTrick()[0];
     } else {
       return null;
     }
@@ -122,8 +197,6 @@ public class LocalGameState {
   public Hand getLocalHand() {
     return this.getLocalClient().getHand();
   }
-
-
 
   /**
    * 
@@ -146,8 +219,8 @@ public class LocalGameState {
     if (this.getEnemyTwo().equals(player)) {
       return this.getEnemyTwo();
     }
-    if (this.dealer.equals(player)) {
-      return this.dealer;
+    if (this.getEnemyThree().equals(player)) {
+      return this.getEnemyThree();
     }
 
     System.err.println("No Player found");
@@ -158,9 +231,9 @@ public class LocalGameState {
     try {
       throw new Exception();
     } catch (Exception e) {
-      System.out.println("-------getLocalClient--------");
-      e.printStackTrace();
-      System.out.println("-------end of getLocalClient--------");
+      // System.out.println("-------getLocalClient--------");
+      // e.printStackTrace();
+      // System.out.println("-------end of getLocalClient--------");
     }
     return localClient;
   }
@@ -173,8 +246,15 @@ public class LocalGameState {
     this.enemyOne = enemyOne;
   }
 
+  public void setEnemyThree(Player enemyThree) {
+    this.enemyThree = enemyThree;
+  }
+
   public Player getEnemyTwo() {
-    return enemyTwo;
+    return this.enemyTwo;
+  }
+  public Player getEnemyThree() {
+    return this.enemyThree;
   }
 
   public void setEnemyTwo(Player enemyTwo) {
@@ -185,6 +265,92 @@ public class LocalGameState {
     return this.contract;
   }
 
+  public void removePlayer(Player player) {
+    if (this.enemyOne != null) {
+      if (player.equals(this.enemyOne)) {
+        this.enemyOne = null;
+      }
+    }
+    if (this.enemyTwo != null) {
+      if (player.equals(this.enemyTwo)) {
+        this.enemyTwo = null;
+      }
+    }
+    if (this.getEnemyThree() != null) {
+      if (player.equals(this.getEnemyThree())) {
+        this.setEnemyThree(null);
+      }
+    }
+    SkatMain.mainController.reinitializePlayers();
+  }
+
+  public Card[] getSkat() {
+    return skat;
+  }
+
+  public void setSkat(Card[] skat) {
+    this.skat = skat;
+  }
+
+  public Card[] getTrick() {
+    return trick;
+  }
+
+  public void setTrick(Card[] trick) {
+    this.trick = trick;
+  }
+
+  public int getTrickcount() {
+    return trickcount;
+  }
+
+  public void setTrickcount(int trickcount) {
+    this.trickcount = trickcount;
+  }
+
+  public AdditionalMultipliers getAdditionalMultipliers() {
+    return additionalMultipliers;
+  }
+
+  public void setAdditionalMultipliers(AdditionalMultipliers additionalMultipliers) {
+    this.additionalMultipliers = additionalMultipliers;
+  }
+
+  public void setContract(Contract contract) {
+    this.contract = contract;
+  }
+
+  public int getTimerInSeconds() {
+    return timerInSeconds;
+  }
+
+  public void setTimerInSeconds(int timerInSeconds) {
+    this.timerInSeconds = timerInSeconds;
+  }
+
+  public boolean isSinglePlayerGame() {
+    return singlePlayerGame;
+  }
+
+  public void setSinglePlayerGame(boolean singlePlayerGame) {
+    this.singlePlayerGame = singlePlayerGame;
+  }
+
+  public int getGameId() {
+    return gameId;
+  }
+
+  public void setGameId(int gameId) {
+    this.gameId = gameId;
+  }
+
+  public boolean isGameActive() {
+    return gameActive;
+  }
+
+  public void setGameActive(boolean gameActive) {
+    this.gameActive = gameActive;
+  }
 }
 
 

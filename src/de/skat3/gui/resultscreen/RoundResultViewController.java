@@ -7,19 +7,16 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
 /**
- * @author tistraub
+ * Controller class to handle the events of the result screen.
  * 
- *         Controller class to handle the events of the result screen.
- *
- */
-/**
- * @author Timo
- *
+ * @author tistraub
  */
 public class RoundResultViewController {
 
   @FXML
   private Label pointsSoloPlayer;
+  @FXML
+  private Label declarerName;
   @FXML
   private Label rounds;
   @FXML
@@ -85,10 +82,12 @@ public class RoundResultViewController {
     }
 
     if (result.soloWon) {
-      pointsSoloPlayer.setText("Gewonnen (" + result.scoringPoints + "Punkte)");
+      pointsSoloPlayer.setText("Won (" + result.scoringPoints + " Punkte)");
     } else {
-      pointsSoloPlayer.setText("Verloren (" + result.scoringPoints + "Punkte)");
+      pointsSoloPlayer.setText("Lost (" + result.scoringPoints + " Punkte)");
     }
+
+    declarerName.setText(result.declarerName);
 
     // Checkboxes
     cbHandgame.setSelected(result.handGame);

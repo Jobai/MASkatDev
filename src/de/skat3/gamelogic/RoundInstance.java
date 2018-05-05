@@ -4,6 +4,12 @@ import de.skat3.network.server.ServerLogicController;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Represents a single round of play.
+ * 
+ * @author kai29
+ *
+ */
 class RoundInstance {
 
   ServerLogicController slc;
@@ -15,6 +21,7 @@ class RoundInstance {
   Card[] originalSkat;
   Hand soloPlayerStartHand;
   Contract contract;
+  LogicAnswers current;
   AdditionalMultipliers addtionalMultipliers;
   boolean kontra;
   boolean rekontra;
@@ -22,8 +29,9 @@ class RoundInstance {
   boolean bidAccepted;
   int mode;
   int trickcount;
-  GameThread gameThread;
   Object lock = new Object();
+  boolean roundCancelled;
+  GameController gc;
 
 
   /**
@@ -31,13 +39,14 @@ class RoundInstance {
    * 
    * @param players the three current players
    * @param gameThread The GameThread dictates the game flow of a match.
-   * @param kontraRekontraEnabled
+   * @param kontraRekontraEnabled true if kontra/Rekontra is enabled.
    * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
    *        number between -500 and -1000)
    */
-  public RoundInstance(ServerLogicController slc, Player[] players, GameThread gameThread,
+  public RoundInstance(ServerLogicController slc, Player[] players, GameController gc,
       boolean kontraRekontraEnabled, int mode) {
     this.slc = slc;
+    this.gc = gc;
     this.players = players;
     this.kontra = false;
     this.rekontra = false;
@@ -47,26 +56,34 @@ class RoundInstance {
     this.addtionalMultipliers = new AdditionalMultipliers();
     this.soloPlayerStartHand = new Hand();
     for (int i = 0; i < this.players.length; i++) {
-      this.players[i].shortenPlayer(); // XXX
+      this.players[i].shortenPlayer();
     }
-    this.gameThread = gameThread;
-
   }
 
 
 
+  public RoundInstance() {
+
+  }
+
+  /**
+   * Starts a round.
+   */
   void startRound() throws InterruptedException {
 
     this.initializeAuction();
     this.updatePlayer();
-    Thread.sleep(5000);
+    this.updateEnemies();
     slc.broadcastRoundStarted();
+    Thread.sleep(2500);
     Player winner = this.startBidding();
     if (winner == null) {
-      // this.slc.broacastRoundRestarded(); TODO
+      this.roundCancelled = true;
+      System.out.println("LOGIC ROUND IS CANCELLED");
     } else {
       this.setDeclarer(winner);
       this.updatePlayer();
+      this.updateEnemies();
       this.startGame();
     }
     this.slc.broadcastRoundResult(new Result(this));
@@ -74,6 +91,9 @@ class RoundInstance {
 
   }
 
+  /**
+   * Deals the cards to the player and sets their poisiton.
+   */
   void initializeAuction() {
 
     this.dealCards();
@@ -82,7 +102,10 @@ class RoundInstance {
     }
   }
 
-  private void dealCards() {
+  /**
+   * Randomly creates the skat and the hands that will be given to the players.
+   */
+  void dealCards() {
 
     ArrayList<Card> temp = new ArrayList<Card>();
 
@@ -111,11 +134,48 @@ class RoundInstance {
 
   }
 
-  private void updatePlayer() {
+  /**
+   * Updates all players participating in this round.
+   */
+  protected void updatePlayer() {
     for (int i = 0; i < players.length; i++) {
-      slc.updatePlayerDuringRound(this.players[i]);
-      System.out.println("LOGIC KARTEN GESENDET: " + this.players[i].getHand());
+      slc.updatePlayerDuringRound(this.players[i].copyPlayer());
     }
+
+  }
+
+  /**
+   * Updates all enemies of every single player. The local enemies of the player will receive empty
+   * hands.
+   */
+  void updateEnemies() {
+    Player p1;
+    Player p2;
+    Player p3;
+    if (this.solo != null) {
+      p1 = this.solo.copyPlayer();
+      team = this.getTeamPlayer();
+      p2 = team[0].copyPlayer();
+      p3 = team[1].copyPlayer();
+    } else {
+      p1 = this.players[0].copyPlayer();
+      p2 = this.players[1].copyPlayer();
+      p3 = this.players[2].copyPlayer();
+    }
+    if (!this.addtionalMultipliers.isOpenHand()) {
+      p1.hand = new Hand(this.players[0].hand.cards.length);
+    }
+    p2.hand = new Hand(this.players[1].hand.cards.length);
+    p3.hand = new Hand(this.players[2].hand.cards.length);
+    p1.wonTricks = null;
+    p2.wonTricks = null;
+    p3.wonTricks = null;
+    p1.ai = null;
+    p2.ai = null;
+    p3.ai = null;
+    slc.updateEnemy(p1);
+    slc.updateEnemy(p2);
+    slc.updateEnemy(p3);
 
   }
 
@@ -131,17 +191,25 @@ class RoundInstance {
   int currentBiddingValue;
 
   /**
+   * Starts the auction.
    * 
-   * @return
-   * @throws InterruptedException
+   * @return Returns the winner, null if no one wins.
    */
+
+  private boolean respond;
+  private Player currentBidder;
+
   public Player startBidding() throws InterruptedException {
     synchronized (lock) {
       this.currentBiddingValue = 0;
+      respond = false;
       Player currentWinner = bidDuel(this.players[1], this.players[0]);
+      respond = false;
       currentWinner = bidDuel(this.players[2], currentWinner);
       if (currentWinner.equals(this.players[0]) && this.currentBiddingValue == 0) {
         this.slc.callForBid(this.players[0], BiddingValues.values[this.currentBiddingValue]);
+        this.current = LogicAnswers.BID;
+        lock.wait();
         if (this.bidAccepted) {
           return this.players[0];
         } else {
@@ -150,21 +218,27 @@ class RoundInstance {
       } else {
         return currentWinner;
       }
-
-
-
     }
   }
 
-
+  /**
+   * a bid duel between two players. ends when one player declines a bid.
+   * 
+   * @param bid the player that asks for a bid.
+   * @param respond the player that responds to the bids.
+   */
   private Player bidDuel(Player bid, Player respond) throws InterruptedException {
 
 
     while (this.currentBiddingValue < BiddingValues.values.length) {
-      this.slc.callForBid(bid, BiddingValues.values[this.currentBiddingValue]);
+      this.currentBidder = bid;
+      this.slc.callForBid(bid.copyPlayer(), BiddingValues.values[this.currentBiddingValue]);
+      this.current = LogicAnswers.BID;
       lock.wait();
       if (this.bidAccepted) {
-        this.slc.callForBid(respond, BiddingValues.values[this.currentBiddingValue]);
+        this.currentBidder = respond;
+        this.slc.callForBid(respond.copyPlayer(), BiddingValues.values[this.currentBiddingValue]);
+        this.current = LogicAnswers.BID;
         lock.wait();
         if (this.bidAccepted) {
           this.currentBiddingValue++;
@@ -178,6 +252,23 @@ class RoundInstance {
       }
     }
     return bid;
+
+  }
+
+  protected void broadcastBid() {
+
+    String bid;
+    if (this.bidAccepted) {
+      if (this.respond) {
+        bid = BiddingValues.values[this.currentBiddingValue] + "!";
+      } else {
+        bid = BiddingValues.values[this.currentBiddingValue] + "?";
+      }
+    } else {
+      bid = "Im out!";
+    }
+    slc.broadcastBid(bid, this.currentBidder.copyPlayer());
+    this.respond = !this.respond;
 
   }
 
@@ -201,26 +292,32 @@ class RoundInstance {
   public void setDeclarer(Player winner) throws InterruptedException {
     synchronized (this.lock) {
 
-      winner.setSolo();
       this.solo = winner;
       this.team = this.getTeamPlayer();
+      winner.setSolo(true);
+      this.team[0].setSolo(false);
+      this.team[1].setSolo(false);
       for (int i = 0; i < this.soloPlayerStartHand.getAmountOfCards(); i++) {
-        this.soloPlayerStartHand.cards[i] = this.solo.hand.cards[i];
+        this.soloPlayerStartHand.cards[i] = this.solo.hand.cards[i].copy();
       }
-      
-      // FIXME
       this.slc.callForHandOption(this.solo);
+      this.current = LogicAnswers.HANDGAME;
       this.lock.wait();
       if (!this.addtionalMultipliers.isHandGame()) {
         this.slc.sendSkat(this.solo, this.skat);
+        this.current = LogicAnswers.SKAT;
         this.lock.wait(); // notified by notifyLogicOfNewSkat(Card[] skat);
-        slc.updatePlayerDuringRound(solo);
+        slc.updatePlayerDuringRound(solo.copyPlayer());
       }
 
 
-      this.slc.callForContract(this.solo);
+      this.slc.callForContract(this.solo.copyPlayer());
+      this.current = LogicAnswers.CONTRACT;
       this.lock.wait(); // Waits for the winner to select a contract, notified by
       // notifyLogicofContract()
+      if (this.addtionalMultipliers.isOpenHand()) {
+        this.updateEnemies();
+      }
 
 
 
@@ -229,69 +326,64 @@ class RoundInstance {
   }
 
   /**
-   * Starts a single game round. Every player has to play a card and the winner is determined.
+   * Starts a single game round. Every player has to play a card and the winner is determined. This
+   * repeats up to 10 times.
    * 
    */
-  public void startGame() throws InterruptedException {
+  void startGame() throws InterruptedException {
 
     synchronized (this.lock) {
       this.trick = new Card[3];
 
       for (int i = 0; i < 10; i++) {
 
-
+        this.updatePlayer();
+        this.updateEnemies();
         if (this.kontaRekontraAvailable) {
-          slc.kontraRequest(this.getTeamPlayer());
+          slc.kontraRequest(this.getTeamPlayer()); // XXX
         }
 
-        slc.callForPlay(this.players[0]);
+        slc.callForPlay(this.players[0].copyPlayer());
+        this.current = LogicAnswers.CARD;
         this.lock.wait();
-        System.out.println("LOGIC: first card played");
-        if (this.kontaRekontraAvailable && !this.players[0].isSolo) {
-          // slc.broadcastKontraRekontraExpired(this.players[0]); XXX
-        }
-        slc.sendPlayedCard(this.players[0], this.trick[0]);
+        slc.updatePlayerDuringRound(this.players[0].copyPlayer());
+        slc.sendPlayedCard(this.players[0].copyPlayer(), this.trick[0]);
 
 
-        slc.callForPlay(this.players[1]);
+        slc.callForPlay(this.players[1].copyPlayer());
+        this.current = LogicAnswers.CARD;
         this.lock.wait();
-        System.out.println("LOGIC: second card played");
 
-        if (this.kontaRekontraAvailable && !this.players[1].isSolo) {
-          // slc.broadcastKontraRekontraExpired(this.players[1]); XXX
-        }
-        slc.sendPlayedCard(this.players[1], this.trick[1]);
+        slc.updatePlayerDuringRound(this.players[1].copyPlayer());
+        slc.sendPlayedCard(this.players[1].copyPlayer(), this.trick[1]);
 
 
-
-        slc.callForPlay(this.players[2]);
+        slc.callForPlay(this.players[2].copyPlayer());
+        this.current = LogicAnswers.CARD;
         this.lock.wait();
-        System.out.println("LOGIC: third card played");
-        if (this.kontaRekontraAvailable && !this.players[2].isSolo) {
-          // slc.broadcastKontraRekontraExpired(this.players[2]); XXX
-        }
 
-        slc.sendPlayedCard(this.players[2], this.trick[2]);
-        if (this.kontaRekontraAvailable) {
-          this.kontaRekontraAvailable = false;
-        }
+        slc.updatePlayerDuringRound(this.players[2].copyPlayer());
+        slc.sendPlayedCard(this.players[2].copyPlayer(), this.trick[2]);
+        this.kontaRekontraAvailable = false;
         Player trickWinner = this.determineTrickWinner();
-        if (!!trickWinner.equals(this.solo) && this.contract == Contract.NULL) {
-          this.slc.broadcastRoundResult(new Result(this));
+        for (Card card : this.trick) {
+          trickWinner.wonTricks.add(card.copy());
+        }
+        slc.broadcastTrickResult(trickWinner.copyPlayer());
+        if (trickWinner.equals(this.solo) && this.contract == Contract.NULL
+            || this.addtionalMultipliers.isSchwarzAnnounced() && !trickWinner.equals(this.solo)) {
           break;
         }
-        for (Card card : this.trick) {
-          trickWinner.wonTricks.add(card);
-        }
-        slc.broadcastTrickResult(trickWinner);
         this.rotatePlayers(trickWinner);
       }
     }
 
   }
 
-
-  public Player determineTrickWinner() {
+  /**
+   * Returns the winer of the trick.
+   */
+  protected Player determineTrickWinner() {
     Contract contract = this.getContract();
 
     if (this.getFirstCard().beats(contract, this.getSecondCard())
@@ -307,7 +399,12 @@ class RoundInstance {
   }
 
 
-
+  /**
+   * Rotates the trickWinner to position one and all other players according to the trickwinners
+   * position.
+   * 
+   * @param trickWinner the player that won the last trick.
+   */
   private void rotatePlayers(Player trickWinner) {
     if (trickWinner.equals(this.getForehand())) {
       return;
@@ -360,10 +457,10 @@ class RoundInstance {
   Player[] getTeamPlayer() {
 
     Player[] temp = new Player[2];
-    int found = 0;
+    int position = 0;
     for (int i = 0; i < this.players.length; i++) {
-      if (!this.players[i].isSolo) {
-        temp[found++] = this.players[i];
+      if (!this.solo.equals(this.players[i])) {
+        temp[position++] = this.players[i];
       }
     }
     return temp;
@@ -390,15 +487,25 @@ class RoundInstance {
   }
 
 
-
-  void notifyRoundInstance() {
+  /**
+   * Called to wake up the roundInstance (gameThread). Only wakes up if the answer fits to the
+   * current state of the game.
+   */
+  void notifyRoundInstance(LogicAnswers answer) {
     synchronized (lock) {
-      this.lock.notify();
+      if (answer == this.current) {
+        this.lock.notify();
+      } else {
+        System.err.println("Wrong Notify: " + answer + ", waiting for: " + this.current);
+      }
     }
   }
 
-  void setBid(boolean b) {
-    this.bidAccepted = b;
+  /**
+   * Sets the current bid true when a player accepts a bid.
+   */
+  void setBid(boolean accepted) {
+    this.bidAccepted = accepted;
 
   }
 

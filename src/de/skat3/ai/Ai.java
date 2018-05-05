@@ -3,24 +3,14 @@ package de.skat3.ai;
 import java.io.Serializable;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
-import de.skat3.gamelogic.CardDeck;
 import de.skat3.gamelogic.Contract;
-import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Hand;
-import de.skat3.gamelogic.Player;
-import de.skat3.gamelogic.Position;
-import de.skat3.gamelogic.RoundInstance;
-import de.skat3.gamelogic.Suit;
-import de.skat3.gamelogic.Value;
 import de.skat3.gamelogic.Position;
 
+@SuppressWarnings("serial")
 public abstract class Ai implements Serializable {
-  Player ai;
 
 
-  public Ai(Player player) {
-    this.ai = player;
-  };
 
   /**
    * Called when the Ai has to decide if it accepts a bid.
@@ -60,16 +50,23 @@ public abstract class Ai implements Serializable {
    * 
    */
 
-  public abstract Player getPlayer();
-
-
-
   /**
    * 
-   * @param skat 
+   * @param skat
    * @return Card[0-9] = hand Card[10-11] = skat
    */
-  public abstract Card[] selectSkat(Card[] skat);
+  public abstract ReturnSkat selectSkat(Card[] skat);
+
+
+
+  public abstract void setHand(Hand hand);
+  
+  public abstract Hand getHand();
+
+  public abstract void setPosition(Position position);
+
+  public abstract void setIsSolo(boolean isSolo);
+
 
 
 }

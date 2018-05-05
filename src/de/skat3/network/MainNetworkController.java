@@ -20,7 +20,6 @@ import de.skat3.network.server.GameServer;
 import de.skat3.network.server.LobbyServer;
 import java.net.Inet4Address;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 
@@ -99,7 +98,6 @@ public class MainNetworkController implements MainNetworkInterface {
    */
   @Override
   public GameClient addAItoLocalServer(boolean hardAi) {
-    // TODO Auto-generated method stub
     Player player = new Player(hardAi);
     AIGameClient gc = new AIGameClient("localhost", 2018, player);
     SkatMain.aiController.addBot(player);
@@ -123,16 +121,13 @@ public class MainNetworkController implements MainNetworkInterface {
     LobbyDiscover ld = new LobbyDiscover();
     ld.start();
     try {
-      TimeUnit.SECONDS.sleep(6);
+      TimeUnit.SECONDS.sleep(6); //Hardcoded so every Lobby is found.
 
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
 
     ld.stopDiscovery();
-    String s = Arrays.toString(ld.lobbyList.toArray());
-    // System.out.println("FOUND LOBBYS: \n" + s);
-
     return ld.lobbyList;
   }
 
@@ -149,7 +144,7 @@ public class MainNetworkController implements MainNetworkInterface {
    * @see de.skat3.network.MainNetworkInterface#leaveLobby()
    */
   @Override
-  public Object[] playAndHostSinglePlayer(Lobby lobbySettings, GameController gcon) { // FIXME
+  public Object[] playAndHostSinglePlayer(Lobby lobbySettings, GameController gcon) {
     GameServer gs = new GameServer(lobbySettings, gcon);
     GameClient gc =
         new GameClient("localhost", 2018, new Player(SkatMain.ioController.getLastUsedProfile()));

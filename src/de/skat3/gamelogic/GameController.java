@@ -1,11 +1,16 @@
 package de.skat3.gamelogic;
 
 import de.skat3.network.server.ServerLogicController;
-import java.io.Serializable;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class GameController implements GameLogicInterface, Serializable {
+/**
+ * Controlls the start and end of the game and rotation of players between rounds.
+ * 
+ * @author kai29
+ *
+ */
+public class GameController implements GameLogicInterface {
 
 
   boolean gameActive;
@@ -28,7 +33,6 @@ public class GameController implements GameLogicInterface, Serializable {
    * Creates a new match with 3-4 Players, an optional timer, optional kontra and rekontra feature
    * and a Seeger or Bierlachs scoring system.
    * 
-   * @param players All participants.
    * @param kontraRekontraEnabled true if the kontra/rekontra feature is enabled.
    * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
    *        number between -500 and -1000)
@@ -47,10 +51,13 @@ public class GameController implements GameLogicInterface, Serializable {
 
   }
 
+
+
+  public GameController() {}
+
+
   /**
-   * 
-   * @param players
-   * @param slc
+   * Starts the first round of the match.
    */
   public void startGame(Player[] players, ServerLogicController slc) {
 
@@ -83,6 +90,9 @@ public class GameController implements GameLogicInterface, Serializable {
     this.gameThread.start();
   }
 
+  /**
+   * Starts a new round.
+   */
   void startNewRound() {
     if (firstRound) {
       this.firstRound = false;
@@ -90,8 +100,8 @@ public class GameController implements GameLogicInterface, Serializable {
     } else {
       this.rotatePlayers();
     }
-    this.roundInstance = new RoundInstance(slc, this.players, this.gameThread,
-        this.kontraRekontraEnabled, this.mode);
+    this.roundInstance =
+        new RoundInstance(slc, this.players, this, this.kontraRekontraEnabled, this.mode);
     try {
       this.roundInstance.startRound();
     } catch (InterruptedException e) {
@@ -100,6 +110,9 @@ public class GameController implements GameLogicInterface, Serializable {
 
   }
 
+  /**
+   * Chooses a dealer at random.
+   */
   private void determineDealer() {
     int i = ThreadLocalRandom.current().nextInt(0, numberOfPlayers);
     if (numberOfPlayers == 3) {
@@ -155,7 +168,7 @@ public class GameController implements GameLogicInterface, Serializable {
       return;
     }
     this.roundInstance.addCardtoTrick(card);
-    this.roundInstance.notifyRoundInstance();
+    this.roundInstance.notifyRoundInstance(LogicAnswers.CARD);
 
   }
 
@@ -165,8 +178,8 @@ public class GameController implements GameLogicInterface, Serializable {
   @Override
   public void notifyLogicofBid(boolean accepted) {
     this.roundInstance.setBid(accepted);
-    this.slc.broadcastBid(accepted);
-    this.roundInstance.notifyRoundInstance();
+    this.roundInstance.broadcastBid();
+    this.roundInstance.notifyRoundInstance(LogicAnswers.BID);
 
   }
 
@@ -183,8 +196,11 @@ public class GameController implements GameLogicInterface, Serializable {
     this.roundInstance.contract = contract;
     additionalMultipliers.setHandGame(this.roundInstance.addtionalMultipliers.isHandGame());
     this.roundInstance.setAdditionalMultipliers(additionalMultipliers);
+    slc.updatePlayerDuringRound(roundInstance.solo.copyPlayer());
+    this.roundInstance.updateEnemies();
     this.slc.broadcastContract(contract, additionalMultipliers);
-    this.roundInstance.notifyRoundInstance();
+
+    this.roundInstance.notifyRoundInstance(LogicAnswers.CONTRACT);
   }
 
   @Override
@@ -215,7 +231,7 @@ public class GameController implements GameLogicInterface, Serializable {
   @Override
   public void notifyLogicOfHandGame(boolean accepted) {
     this.roundInstance.addtionalMultipliers.setHandGame(accepted);
-    this.roundInstance.notifyRoundInstance();
+    this.roundInstance.notifyRoundInstance(LogicAnswers.HANDGAME);
 
   }
 
@@ -227,14 +243,17 @@ public class GameController implements GameLogicInterface, Serializable {
       System.err.println("LOGIC: Wrong hand or Skat send to logic.");
       return;
     }
-    this.roundInstance.solo.setHand(hand); //XXX
-    System.out.println("logic hand: "+hand);
-    this.roundInstance.skat[0] = skat[0];
-    this.roundInstance.skat[1] = skat[1];
-    this.roundInstance.notifyRoundInstance();
+    this.roundInstance.solo.setHand(new Hand(hand.cards)); 
+    System.out.println("logic hand: " + hand);
+    this.roundInstance.skat[0] = skat[0].copy();
+    this.roundInstance.skat[1] = skat[1].copy();
+    this.roundInstance.notifyRoundInstance(LogicAnswers.SKAT);
 
   }
 
+  /**
+   * Replaces the oldPlayer with a newPlayer, usually a bot.
+   */
   public void exchangePlayer(Player oldPlayer, Player newPlayer) {
     for (int i = 0; i < this.allPlayers.length; i++) {
       if (this.allPlayers[i].equals(oldPlayer)) {
@@ -242,6 +261,12 @@ public class GameController implements GameLogicInterface, Serializable {
         return; // XXX
       }
     }
+  }
+
+
+
+  public void closeThread() {
+    this.gameThread.interrupt();
   }
 }
 

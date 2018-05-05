@@ -1,5 +1,10 @@
 package de.skat3.gamelogic;
 
+import de.skat3.ai.Ai;
+import de.skat3.ai.IntelligentAi;
+import de.skat3.ai.RandomAI;
+import de.skat3.io.profile.ImageConverter;
+import de.skat3.io.profile.Profile;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,20 +14,18 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.UUID;
-import de.skat3.ai.Ai;
-import de.skat3.ai.IntelligentAi;
-import de.skat3.ai.RandomAI;
-import de.skat3.io.profile.ImageConverter;
-import de.skat3.io.profile.Profile;
 import javafx.scene.image.Image;
 
-public class Player implements Serializable, Comparable {
+/**
+ * Represents a player in a skat match.
+ * 
+ * @author kai29
+ *
+ */
+@SuppressWarnings("serial")
+public class Player implements Serializable, Comparable<Player> {
 
-  /**
-   * 
-   */
   boolean isSolo;
   String name;
   String image;
@@ -38,10 +41,11 @@ public class Player implements Serializable, Comparable {
   int seegerPoints;
   public Ai ai;
 
-  public Hand secretBackupHand;
-
-  public byte[] secretBackupArray;
-
+  /**
+   * Creates a new player.
+   * 
+   * @param profile the locally saved profile of this player.
+   */
   public Player(Profile profile) {
 
     this.name = profile.getName();
@@ -57,6 +61,9 @@ public class Player implements Serializable, Comparable {
 
   }
 
+  /**
+   * Creates an empty player.
+   */
   public Player() {
 
     this.wonTricks = new ArrayList<Card>();
@@ -70,31 +77,39 @@ public class Player implements Serializable, Comparable {
   }
 
   /**
-   * 
-   * @param player
+   * Clones a player.
    */
   public Player(Player player) {
+    this.isSolo = player.isSolo;
     this.name = player.name;
-    this.wonTricks = player.wonTricks;
+    this.wonTricks = new ArrayList<Card>();
+    for (Card card : player.wonTricks) {
+      this.wonTricks.add(card);
+    }
     this.uuid = player.uuid;
     this.image = player.image;
     this.points = player.points;
-    this.hand = player.hand;
+    this.setHand(player.hand);
     this.isBot = player.isBot;
+    this.ai = player.ai;
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;
     this.seegerPoints = player.seegerPoints;
   }
 
   /**
+   * Creates a bot player.
    * 
-   * @param difficulty
+   * @param hardBot true if the ai is hard.
    */
   public Player(boolean hardBot) {
-    this.name = "Ai";
+    if (hardBot) {
+      this.name = "Hard Ai";
+    } else {
+      this.name = "Easy Ai";
+    }
     this.isHardBot = hardBot;
     this.wonTricks = new ArrayList<Card>();
-    // this.image = festes Bild? TODO
     this.points = 0;
     this.uuid = UUID.randomUUID();
     this.hand = new Hand();
@@ -103,9 +118,9 @@ public class Player implements Serializable, Comparable {
     this.lostGames = 0;
     this.seegerPoints = 0;
     if (this.isHardBot) {
-      this.ai = new IntelligentAi(this);
+      this.ai = new IntelligentAi();
     } else {
-      this.ai = new RandomAI(this);
+      this.ai = new RandomAI();
     }
   }
 
@@ -114,20 +129,25 @@ public class Player implements Serializable, Comparable {
   }
 
   public void setHand(Hand hand) {
-     this.hand = hand;
+    this.hand = new Hand(hand.cards);
   }
 
   public Hand getHand() {
     return this.hand;
   }
 
+  /**
+   * Updates the points of this player.
+   * 
+   * @param seeger true if the gamemode is seeger.
+   */
   void changePoints(int change, boolean seeger) {
     this.points += change;
     if (seeger) {
       if (change > 0) {
         this.wonGames++;
       } else {
-        this.lostGames--;
+        this.lostGames++;
       }
       this.seegerPoints = this.points + (this.wonGames - this.lostGames) * 50;
     }
@@ -147,8 +167,8 @@ public class Player implements Serializable, Comparable {
     return this.position;
   }
 
-  public void setSolo() {
-    this.isSolo = true;
+  public void setSolo(boolean solo) {
+    this.isSolo = solo;
 
   }
 
@@ -157,7 +177,9 @@ public class Player implements Serializable, Comparable {
    * @param p
    * @return
    */
-
+  /**
+   * Returns true if the uuid is identical.
+   */
   public boolean equals(Player p) {
     if (this.uuid.equals(p.uuid)) {
       return true;
@@ -172,7 +194,11 @@ public class Player implements Serializable, Comparable {
   // }
 
 
-
+  /**
+   * Returns a copy of the player.
+   * 
+   * @return
+   */
   public Player copyPlayer() {
     return new Player(this);
 
@@ -187,13 +213,12 @@ public class Player implements Serializable, Comparable {
    */
   @Override
   public String toString() {
-    return "Player [isSolo=" + isSolo + ", name=" + name + ", image=" + image + ", hand=" + hand
-        + ", wonTricks=" + wonTricks + ", position=" + position + ", uuid=" + uuid + ", points="
-        + points + ", isBot=" + isBot + ", isHardBot=" + isHardBot + ", wonGames=" + wonGames
-        + ", lostGames=" + lostGames + ", seegerPoints=" + seegerPoints + ", ai=" + ai
-        + ", getHand()=" + getHand() + "]";
+    return this.name + " (" + this.uuid + ")\n" + this.hand;
   }
 
+  /**
+   * Converts the String to an image.
+   */
   public Image convertToImage() {
     ImageConverter ic = new ImageConverter();
     Image im = ic.encodedStringToImage(image);
@@ -205,8 +230,7 @@ public class Player implements Serializable, Comparable {
   }
 
   /**
-   * 
-   * @return
+   * Returns true if the player is a hard bot.
    */
   public boolean isHardBot() {
     if (this.isBot) {
@@ -221,23 +245,14 @@ public class Player implements Serializable, Comparable {
     return this.isSolo;
   }
 
-  /**
-   * @return the name
-   */
   public String getName() {
     return name;
   }
 
-  /**
-   * @return the wonTricks
-   */
   public ArrayList<Card> getWonTricks() {
     return wonTricks;
   }
 
-  /**
-   * @return the points
-   */
   public int getPoints() {
     return points;
   }
@@ -247,56 +262,21 @@ public class Player implements Serializable, Comparable {
   }
 
   void shortenPlayer() {
-    this.name = null;
     this.image = null;
   }
 
+  /**
+   * Updates all attributes that can vary during a match.
+   */
   public void updatePlayer(Player player) {
-    System.out.println("UPDATE PLAYER CALLED");
+    this.isSolo = player.isSolo;
     this.wonTricks = player.wonTricks;
     this.points = player.points;
-    this.hand = player.hand;
-    System.out.println("THE UPDATED CARDS ARE: " + this.hand);
-    Random r = new Random();
-    int i = r.nextInt(3);
-  /*  switch (i) {
-      case 0:
-        this.hand = player.secretBackupHand;
-        break;
-      case 1:
-        this.hand = player.hand;
-        break;
-      case 2:
-       
-        break;
-    }
-    */
-    this.hand = player.secretBackupHand; // XXX Why just why?! TODO
+    this.setHand(player.hand);
     this.isBot = player.isBot;
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;
     this.seegerPoints = player.seegerPoints;
-  }
-
-  @Override
-  public int compareTo(Object player) {
-    Player p = (Player) player;
-
-    if (this.seegerPoints > p.seegerPoints) {
-      return 1;
-    }
-    if (this.seegerPoints < p.seegerPoints) {
-      return -1;
-    }
-    if (this.seegerPoints == p.seegerPoints) {
-      if (this.points > p.points) {
-        return 1;
-      }
-      if (this.points < p.points) {
-        return -1;
-      }
-    }
-    return 0;
   }
 
 
@@ -335,13 +315,33 @@ public class Player implements Serializable, Comparable {
       System.out.println(byteArray.length);
       return (Player) oIn.readObject();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (ClassNotFoundException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return null;
+  }
+
+  /**
+   * Used to sort an array of players. It will be sorted by (seeger)points in a descending order.
+   */
+  @Override
+  public int compareTo(Player p) {
+    if (this.seegerPoints > p.seegerPoints) {
+      return -1;
+    }
+    if (this.seegerPoints < p.seegerPoints) {
+      return 1;
+    }
+    if (this.seegerPoints == p.seegerPoints) {
+      if (this.points > p.points) {
+        return -1;
+      }
+      if (this.points < p.points) {
+        return 1;
+      }
+    }
+    return 0;
   }
 
 }

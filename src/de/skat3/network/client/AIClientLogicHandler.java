@@ -6,6 +6,7 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
+
 package de.skat3.network.client;
 
 import de.skat3.gamelogic.AdditionalMultipliers;
@@ -22,6 +23,7 @@ import de.skat3.network.datatypes.MessageCommand;
  * @author Jonas Bauer
  *
  */
+
 public class AIClientLogicHandler extends ClientLogicHandler {
   
   Player aiPlayer;
@@ -70,6 +72,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void bidRequestHandler(Message m) {
     // TODO Auto-generated method stub
+    System.out.println("AI bidRequest received");
     int b = (int) ((MessageCommand) m).gameState;
     SkatMain.aiController.bidRequest(b, aiPlayer);
   }
@@ -128,8 +131,10 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   void roundInfoHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     //Round stated - start hand is set
-    if (mc.getSubType() == CommandType.ROUND_START_INFO) {
-      SkatMain.aiController.updatePlayer((Player) mc.gameState, aiPlayer);
+    if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
+      Player payloadPlayer = (Player) mc.gameState;
+      System.out.println("RIH AI:" + payloadPlayer);
+      SkatMain.aiController.updatePlayer(payloadPlayer, aiPlayer);
     }
     
     //Round ended - round results are shown. 
@@ -174,25 +179,13 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   /*
    * (non-Javadoc)
    * 
-   * @see de.skat3.network.client.ClientLogicHandler#sendChatMessage(java.lang.String)
-   */
-  @Override
-  void sendChatMessage(String chatString) {
-    // TODO Auto-generated method stub
-    super.sendChatMessage(chatString);
-  }
-
-
-
-  /*
-   * (non-Javadoc)
-   * 
    * @see
    * de.skat3.network.client.ClientLogicHandler#contractRequestHandler(de.skat3.network.datatypes.
    * Message)
    */
   @Override
   void contractRequestHandler(Message m) {
+    System.out.println("AI CONTRACT REQUEST");
     MessageCommand mc = (MessageCommand) m;
     Contract c = (Contract) mc.payload;
     AdditionalMultipliers am = (AdditionalMultipliers) mc.secondPayload;
@@ -224,7 +217,9 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void handRequestHandler(Message m) {
     // TODO Auto-generated method stub
-    super.handRequestHandler(m);
+    MessageCommand mc = (MessageCommand) m;
+    Player p = (Player) mc.gameState;
+    SkatMain.aiController.handGameRequest(aiPlayer);
   }
 
 
@@ -237,8 +232,10 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void skatRequestHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.skatRequestHandler(m);
+    MessageCommand mc = (MessageCommand) m;
+    Card[] skat = (Card[]) mc.gameState;
+    Player p = mc.playerTarget;
+    SkatMain.aiController.selectSkatRequest(skat, aiPlayer);
   }
 
 
@@ -278,9 +275,9 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    * Message)
    */
   @Override
-  void KontraShowHandler(Message m) {
+  void kontraShowHandler(Message m) {
     // TODO Auto-generated method stub
-    super.KontraShowHandler(m);
+    super.kontraShowHandler(m);
   }
 
 
@@ -305,11 +302,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    * @see de.skat3.network.client.ClientLogicHandler#KontraHideHandler(de.skat3.network.datatypes.
    * Message)
    */
-  @Override
-  void KontraHideHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.KontraHideHandler(m);
-  }
+
 
 
 
@@ -319,11 +312,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    * @see de.skat3.network.client.ClientLogicHandler#reKontraHideHandler(de.skat3.network.datatypes.
    * Message)
    */
-  @Override
-  void reKontraHideHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.reKontraHideHandler(m);
-  }
+
 
 
 
@@ -353,15 +342,5 @@ public class AIClientLogicHandler extends ClientLogicHandler {
     super.contractInfoHandler(m);
   }
 
-
-
-  /**
-   * @author Jonas Bauer
-   * @param args
-   */
-  public static void main(String[] args) {
-    // TODO Auto-generated method stub
-
-  }
 
 }

@@ -34,6 +34,7 @@ public abstract class Message implements Serializable {
   public SubType subType;
   public Object payload;
   public Object secondPayload;
+  public Player playerTarget;
 
   /**
    * broad constructor for messages. Sets many information. Used rarely.

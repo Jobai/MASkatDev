@@ -18,6 +18,7 @@ import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 
 /**
@@ -25,12 +26,10 @@ import java.util.ArrayList;
  * a method via multicasting and via broadcasting. However, the LobbyServer AND the LobbyDiscover
  * need to use the same. Default is broadcasting.
  * 
- * <p>
- * Discovery works by listening for UDP packets repeatedly send out by the LobbyServer on the
+ * <p>Discovery works by listening for UDP packets repeatedly send out by the LobbyServer on the
  * network.
  * 
- * <p>
- * The <b> Port 2011 </b> is hardcoded for the communication.
+ * <p>The <b> Port 2011 </b> and  <b> buffer size 4096 </b> is hardcoded for the communication.
  * 
  * @author Jonas Bauer
  *
@@ -38,8 +37,12 @@ import java.util.ArrayList;
 public class LobbyDiscover extends Thread {
 
 
+  Logger logger = Logger.getLogger("de.skat3.network.server.LobbyServer");
 
-  int port = 2011; // Hardcoded
+  final int port = 2011; // Hardcoded
+  final int buffSize = 4096; // Hardcoded, needs to be big enough for a full lobby class.
+  String mutlicastAdress;
+  
   InetAddress inetAdressMulticast;
   InetAddress inetAdressBroadcasting;
   MulticastSocket ms;
@@ -54,8 +57,7 @@ public class LobbyDiscover extends Thread {
   /**
    * Default construcor for the LobbyDiscover.
    * 
-   * <p>
-   * Sets the IP for Multicast listening to <b> 239.4.5.6 </b> <br>
+   * <p>Sets the IP for Multicast listening to <b> 239.4.5.6 </b> <br>
    * Sets the IP for Broadcasting listening <b> to 0.0.0.0 </b>
    * 
    * @author Jonas Bauer
@@ -100,15 +102,15 @@ public class LobbyDiscover extends Thread {
 
 
       while (run) {
-        buffer = new byte[4096]; // Hardcoded, needs to be big enough for a full lobby class.
+        buffer = new byte[buffSize]; 
         DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
-        System.out.println("RECEIVING NEXT");
+        logger.finer("RECEIVING NEXT");
         ds.receive(dp);
-        System.out.println("RECEIVED");
+        logger.finer("RECEIVED");
 
         Lobby lb = new Lobby();
         lb = lb.convertFromByteArray(buffer);
-        System.out.println(lb.getName());
+        logger.finer(lb.getName());
 
         addDiscoveryToLobbyList(lb);
 
@@ -124,7 +126,7 @@ public class LobbyDiscover extends Thread {
     } catch (IOException e) {
       e.printStackTrace();
     } finally {
-      System.out.println("Finnaly LobbyDiscover Broadcasting");
+      logger.finest("Finnaly LobbyDiscover Broadcasting");
       run = false;
     }
 
@@ -139,14 +141,14 @@ public class LobbyDiscover extends Thread {
       ms.joinGroup(inetAdressMulticast);
       lobbyList = new ArrayList<Lobby>();
       while (run) {
-        buffer = new byte[4096]; // XXX
+        buffer = new byte[buffSize];
         DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
-        System.out.println("RECEIVING NEXT");
+        logger.finer("RECEIVING NEXT");
         ms.receive(dp);
-        System.out.println("RECEIVED");
+        logger.finer("RECEIVED");
         Lobby lb = new Lobby();
         lb = lb.convertFromByteArray(buffer);
-        System.out.println(lb.getName());
+        logger.finer(lb.getName());
 
         addDiscoveryToLobbyList(lb);
 
@@ -170,7 +172,7 @@ public class LobbyDiscover extends Thread {
     }
     if (!contains) {
       lobbyList.add(lb);
-      System.out.println("Lobby added");
+      logger.fine("Lobby added");
     }
   }
 
@@ -181,24 +183,24 @@ public class LobbyDiscover extends Thread {
    */
   public void stopDiscovery() {
     try {
-      System.out.println("STOP DISCOVERY");
+      logger.fine("STOP DISCOVERY");
       run = false;
       this.interrupt();
       ds.close();
 
       ms.leaveGroup(inetAdressMulticast);
-      ms.close(); // FIXME
-      System.out.println("STOP END");
+      ms.close();
+      logger.finer("STOP END");
 
     } catch (IOException e) {
       e.printStackTrace();
     } catch (NullPointerException e) {
-//      e.printStackTrace();
+      // silent drop ok
     } finally {
-      System.out.println("FINNALY stop Discovery");
+      logger.finer("FINNALY stop Discovery");
       //
     }
-    System.out.println("FINISHED stopDiscovery");
+    logger.finer("FINISHED stopDiscovery");
   }
 
 
@@ -210,7 +212,6 @@ public class LobbyDiscover extends Thread {
    * @param args args.
    */
   public static void main(String[] args) {
-    // TODO Auto-generated method stub
     LobbyDiscover ld = new LobbyDiscover();
     ld.start();
 

@@ -1,22 +1,19 @@
 package de.skat3.gamelogic;
 
-
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
-import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Represents a single Card from the skat game.
+ * 
+ * @author kai29
+ *
+ */
+@SuppressWarnings("serial")
 public class Card implements Serializable {
 
 
-
-  /**
-   * 
-   */
   private Suit suit;
   private Value value;
   private String view;
@@ -25,11 +22,30 @@ public class Card implements Serializable {
   private int trickValue;
 
 
-
+  /**
+   * Creates an empty, facedown card.
+   */
   public Card() {
     this.view = "cardImages/green_back.png";
     this.suit = null;
     this.value = null;
+  }
+
+  /**
+   * Returns an exact copy of the card.
+   * 
+   * @return copied Card
+   */
+  public Card copy() {
+    Card copy = new Card();
+    copy.value = this.value;
+    copy.suit = this.suit;
+    copy.playable = this.playable;
+    copy.trickValue = this.trickValue;
+    copy.view = this.view;
+    copy.imageView = this.imageView;
+    return copy;
+
   }
 
   /**
@@ -44,6 +60,10 @@ public class Card implements Serializable {
 
   }
 
+  /**
+   * Returns the Image of the card.
+   * 
+   */
   public ImageView getImage() {
     if (this.imageView == null) {
       this.imageView = new ImageView(new Image(this.view));
@@ -51,7 +71,9 @@ public class Card implements Serializable {
     return this.imageView;
   }
 
-
+  /**
+   * Adds the point value to the card for suit and grand games.
+   */
   void addTrickValue() {
     switch (this.value) {
       case SEVEN:
@@ -92,7 +114,7 @@ public class Card implements Serializable {
     return this.value;
   }
 
-  void setPlayable(boolean b) {
+  public void setPlayable(boolean b) {
     this.playable = b;
   }
 
@@ -104,11 +126,13 @@ public class Card implements Serializable {
   /**
    * Checks if the card is a trump in the given contract.
    * 
-   * @param c current contract
+   * @param contract current contract
    * @return true if the card is a trump card.
    */
   public boolean isTrump(Contract contract) {
     switch (contract) {
+      case NULL:
+        return false;
       case DIAMONDS:
         return (this.suit.equals(Suit.DIAMONDS) || this.isJack()) ? true : false;
       case HEARTS:
@@ -140,7 +164,7 @@ public class Card implements Serializable {
    * @param card the other card.
    * @return only true if the card is better than the @param card.
    */
-  boolean beats(Contract contract, Card card) {
+  public boolean beats(Contract contract, Card card) {
 
     switch (contract) {
 
@@ -175,10 +199,14 @@ public class Card implements Serializable {
 
   }
 
+  /**
+   * Compares two cards.
+   * 
+   * @return true if both cards are identical.
+   */
   public boolean equals(Card card) throws Exception {
 
     if (this.value == null && this.suit == null && card.value == null && card.suit == null) {
-      System.err.println("Null cards compared");
       return true;
     } else {
       if (this.value == null ^ this.suit == null || card.value == null ^ card.suit == null) {
@@ -190,7 +218,11 @@ public class Card implements Serializable {
 
   }
 
-
+  /**
+   * Used for the null contract to change the order of the card rankings.
+   * 
+   * @return
+   */
   private int calcNullValue() {
 
     switch (this.value) {
@@ -216,6 +248,9 @@ public class Card implements Serializable {
     }
   }
 
+  /**
+   * Returns a string to get an Image from the resources folder.
+   */
   private String getUrl() {
     return this.value.name().toLowerCase() + "_of_" + this.suit.name().toLowerCase();
   }

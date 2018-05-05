@@ -22,7 +22,7 @@ public interface InGameControllerInterface {
    * 
    * @param value True if the player is allowed to do a move. False if not.
    */
-  public void makeAMove(boolean value);
+  public void makeAMoveRequest(boolean value);
 
   /**
    * Play a card of a hand.
@@ -32,17 +32,19 @@ public interface InGameControllerInterface {
    */
   public void playCard(Player player, Card card);
 
-  public void setRemainingTime(Duration remaningTime);
+  public void startTimer(int remainingTime);
 
   public void showAuctionWinner();
 
   public void showContractRequest();
 
   public void showEndScreen(MatchResult matchResult);
-  
+
   public void showBidRequest(int bid);
 
   public void showResults(Result results);
+  
+  public void showTrainingModeInfoText(String text);
 
   public void showHandGameRequest();
 

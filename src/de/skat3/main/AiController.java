@@ -1,13 +1,14 @@
 package de.skat3.main;
 
+import de.skat3.ai.Ai;
+import de.skat3.ai.ReturnSkat;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
-import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
 
 public class AiController {
 
-
+  int botDelay = 1500;
   Player firstBot;
   Player secondBot;
   Player thirdBot;
@@ -19,15 +20,18 @@ public class AiController {
    */
   public void addBot(Player bot) {
     if (this.firstBot == null) {
-      this.firstBot = bot;
+      this.firstBot = bot.copyPlayer();
+      System.out.println("first bot added");
       return;
     }
     if (this.secondBot == null) {
-      this.secondBot = bot;
+      System.out.println("second bot added");
+      this.secondBot = bot.copyPlayer();
       return;
     }
     if (this.thirdBot == null) {
-      this.thirdBot = bot;
+      System.out.println("third bot added");
+      this.thirdBot = bot.copyPlayer();
       return;
     }
     System.err.println("Already three bots added");
@@ -49,18 +53,29 @@ public class AiController {
   }
 
 
-  public void updatePlayer(Player bot, Player unnoetig) {
-    this.getBot(bot).setHand(bot.getHand());
-    this.getBot(bot).setPosition(bot.getPosition().ordinal());
+  public void updatePlayer(Player bot, Player un) {
 
+    this.getBot(bot).updatePlayer(bot);
+    this.getBot(bot).ai.setHand(bot.getHand());
+    this.getBot(bot).ai.setPosition(bot.getPosition());
+    this.getBot(bot).ai.setIsSolo(bot.isSolo());
   }
 
   public void selectSkatRequest(Card[] skat, Player bot) {
-    // TODO
+    ReturnSkat rs = this.getBot(bot).ai.selectSkat(skat);
+    SkatMain.clc.throwAnswer(rs.getHand(), rs.getSkat());
+
 
   }
 
   public void playCardRequest(Player bot) {
+    Card currentCard = SkatMain.lgs.getFirstCardPlayed();
+    if (currentCard != null) {
+      this.getBot(bot).ai.getHand().setPlayableCards(currentCard, SkatMain.lgs.getContract());
+    } else {
+      this.getBot(bot).ai.getHand().setAllCardsPlayable();
+    }
+    this.delay();
     SkatMain.clc.playAnswer(this.getBot(bot).ai.chooseCard());
 
   }
@@ -70,17 +85,23 @@ public class AiController {
    * @param bot
    */
   public void contractRequest(Player bot) {
+    this.delay();
     SkatMain.clc.contractAnswer(this.getBot(bot).ai.chooseContract(),
         this.getBot(bot).ai.chooseAdditionalMultipliers());
 
   }
 
   public void handGameRequest(Player bot) {
+    this.delay();
     SkatMain.clc.handAnswer(this.getBot(bot).ai.acceptHandGame());
   }
 
   public void bidRequest(int bid, Player bot) {
-    SkatMain.clc.bidAnswer(this.getBot(bot).ai.acceptBid(bid));
+    Player p = this.getBot(bot);
+    Ai ai = p.ai;
+    boolean b = ai.acceptBid(bid);
+    this.delay();
+    SkatMain.clc.bidAnswer(b);
 
   }
 
@@ -95,6 +116,14 @@ public class AiController {
 
   }
 
+  public void delay() {
+    try {
+      Thread.sleep(this.botDelay);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
 
 
 }

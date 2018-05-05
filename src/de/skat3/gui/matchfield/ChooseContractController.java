@@ -21,11 +21,11 @@ public class ChooseContractController {
   @FXML
   public AnchorPane root;
   @FXML
-  private CheckBox cbHandgame;
+  private CheckBox cbOpengame;
   @FXML
   private Label iconClub;
   @FXML
-  private ToggleButton toggleNullgame;
+  private ToggleButton toggleOpengame;
   @FXML
   private Label iconSpade;
   @FXML
@@ -52,12 +52,8 @@ public class ChooseContractController {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.SPADES;
-
+        resetAllContracts();
         iconSpade.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
-
-        iconHeart.setStyle("");
-        iconDiamond.setStyle("");
-        iconClub.setStyle("");
       }
     });
 
@@ -65,12 +61,8 @@ public class ChooseContractController {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.HEARTS;
-
+        resetAllContracts();
         iconHeart.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
-
-        iconSpade.setStyle("");
-        iconDiamond.setStyle("");
-        iconClub.setStyle("");
       }
     });
 
@@ -78,13 +70,9 @@ public class ChooseContractController {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.DIAMONDS;
-
+        resetAllContracts();
         iconDiamond
             .setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
-
-        iconSpade.setStyle("");
-        iconHeart.setStyle("");
-        iconClub.setStyle("");
       }
     });
 
@@ -92,22 +80,38 @@ public class ChooseContractController {
       @Override
       public void handle(MouseEvent e) {
         currentContract = Contract.CLUBS;
-
+        resetAllContracts();
         iconClub.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
+      }
+    });
 
-        iconSpade.setStyle("");
-        iconDiamond.setStyle("");
-        iconHeart.setStyle("");
+    toggleGrand.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        resetAllContracts();
+        currentContract = Contract.GRAND;
+        toggleGrand.setSelected(true);
+      }
+    });
+
+    toggleOpengame.setOnMouseClicked(new EventHandler<MouseEvent>() {
+      @Override
+      public void handle(MouseEvent event) {
+        resetAllContracts();
+        currentContract = Contract.NULL;
+        toggleOpengame.setSelected(true);
       }
     });
 
   }
 
+  /**
+   * .
+   */
   public void setContract() {
 
-    // AdditionalMultipliers additionalMultipliers = new AdditionalMultipliers();
-    AdditionalMultipliers additionalMultipliers =
-        new AdditionalMultipliers(cbSchneider.isSelected(), cbSchwarz.isSelected(), false);
+    AdditionalMultipliers additionalMultipliers = new AdditionalMultipliers(
+        cbSchneider.isSelected(), cbSchwarz.isSelected(), cbOpengame.isSelected());
     SkatMain.mainController.contractSelected(currentContract, additionalMultipliers);
 
     this.root.setVisible(false);
@@ -115,22 +119,76 @@ public class ChooseContractController {
 
   }
 
-  public void setHandGame() {
-
+  private void clear() {
+    cbOpengame.setSelected(false);
+    cbSchneider.setSelected(false);
+    cbSchwarz.setSelected(false);
+    cbOuvert.setSelected(false);
   }
 
+  public void setOpenGame() {
+    if (!cbOpengame.isSelected()) {
+      clear();
+    }
+  }
+
+  /**
+   * .
+   */
   public void setSchneider() {
-    cbHandgame.setSelected(true);
+
+
+    if (!cbSchneider.isSelected()) {
+      clear();
+      cbSchneider.setSelected(false);
+    } else {
+      cbSchneider.setSelected(true);
+    }
+    cbOpengame.setSelected(true);
   }
 
+  /**
+   * .
+   */
   public void setSchwarz() {
+
+    if (!cbSchwarz.isSelected()) {
+      clear();
+      cbSchwarz.setSelected(false);
+    } else {
+      cbSchwarz.setSelected(true);
+    }
+
     cbSchneider.setSelected(true);
-    cbHandgame.setSelected(true);
+    cbOpengame.setSelected(true);
   }
 
+  /**
+   * .
+   */
   public void setOuvert() {
+
+    if (!cbOuvert.isSelected()) {
+      clear();
+      cbOuvert.setSelected(false);
+    } else {
+      cbOuvert.setSelected(true);
+    }
     cbSchneider.setSelected(true);
-    cbHandgame.setSelected(true);
+    cbOpengame.setSelected(true);
     cbSchwarz.setSelected(true);
+  }
+
+  /**
+   * rest all gui contract fields (togglebutton, checkboxes) to default.
+   */
+  private void resetAllContracts() {
+    iconClub.setStyle("");
+    iconSpade.setStyle("");
+    iconDiamond.setStyle("");
+    iconHeart.setStyle("");
+
+    toggleGrand.setSelected(false);
+    toggleOpengame.setSelected(false);
   }
 }

@@ -1,11 +1,15 @@
 package de.skat3.gui.matchfield;
 
+import de.skat3.gamelogic.Card;
+import de.skat3.main.SkatMain;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
@@ -23,6 +27,9 @@ public class GuiTrick {
   private Parent[] postions;
   private DoubleProperty translateXOne;
 
+  public GuiCard bidingCard1;
+  public GuiCard bidingCard2;
+
   /**
    * Creates a trick on the specified postion.
    * 
@@ -32,9 +39,10 @@ public class GuiTrick {
    * @param xr Rotate x.
    * @param yr Rotate y.
    * @param zr Rotate z.
+   * @param table TODO
    */
   public GuiTrick(DoubleBinding x, DoubleBinding y, DoubleBinding z, double xr, double yr,
-      double zr) {
+      double zr, Group table) {
     this.cards = new GuiCard[3];
     this.postions = new Parent[3];
     this.translateXOne = new SimpleDoubleProperty();
@@ -64,6 +72,51 @@ public class GuiTrick {
     this.postions[2].getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
     this.postions[2].getTransforms().add(new Rotate(zr + 30, Rotate.Z_AXIS));
 
+    this.bidingCard1 = new GuiCard(new Card());
+
+    Affine newTr = new Affine(this.postions[0].getLocalToParentTransform());
+    this.bidingCard1.setTranslateX(newTr.getTx());
+    this.bidingCard1.setTranslateY(newTr.getTy());
+    this.bidingCard1.setTranslateZ(newTr.getTz());
+    newTr.setTx(0);
+    newTr.setTy(0);
+    newTr.setTz(0);
+
+    this.bidingCard1.getTransforms().clear();
+    this.bidingCard1.getTransforms().add(newTr);
+
+    this.bidingCard1.translateXProperty().bind(this.postions[0].translateXProperty());
+    this.bidingCard1.translateYProperty().bind(this.postions[0].translateYProperty());
+    this.bidingCard1.translateZProperty().bind(this.postions[0].translateZProperty());
+
+    this.bidingCard2 = new GuiCard(new Card());
+
+    Affine newTr2 = new Affine(this.postions[2].getLocalToParentTransform());
+    this.bidingCard2.setTranslateX(newTr2.getTx());
+    this.bidingCard2.setTranslateY(newTr2.getTy());
+    this.bidingCard2.setTranslateZ(newTr2.getTz());
+    newTr2.setTx(0);
+    newTr2.setTy(0);
+    newTr2.setTz(0);
+
+    this.bidingCard2.getTransforms().clear();
+    this.bidingCard2.getTransforms().add(newTr2);
+
+    this.bidingCard2.translateXProperty().bind(this.postions[2].translateXProperty());
+    this.bidingCard2.translateYProperty().bind(this.postions[2].translateYProperty());
+    this.bidingCard2.translateZProperty().bind(this.postions[2].translateZProperty());
+
+    this.bidingCard1.setVisible(false);
+    this.bidingCard2.setVisible(false);
+
+    table.getChildren().addAll(this.bidingCard1, this.bidingCard2);
+
+  }
+
+
+  void showBidingCards(boolean value) {
+    this.bidingCard1.setVisible(value);
+    this.bidingCard2.setVisible(value);
   }
 
   /**
@@ -79,26 +132,26 @@ public class GuiTrick {
 
     this.cards[index] = card;
 
-//    int i = index;
-//    Timeline tl = new Timeline();
-//    tl.getKeyFrames().add(new KeyFrame(Matchfield.animationTime.add(Duration.millis(20)), e -> {
-//
-//      Affine newTr = new Affine(card.getTransforms().get(0));
-//      card.setTranslateX(newTr.getTx());
-//      card.setTranslateY(newTr.getTy());
-//      card.setTranslateZ(newTr.getTz());
-//      newTr.setTx(0);
-//      newTr.setTy(0);
-//      newTr.setTz(0);
-//
-//      card.getTransforms().clear();
-//      card.getTransforms().add(newTr);
-//
-//      card.translateXProperty().bind(this.postions[i].translateXProperty());
-//      card.translateYProperty().bind(this.postions[i].translateYProperty());
-//      card.translateZProperty().bind(this.postions[i].translateZProperty());
-//    }));
-//    tl.play();
+    // int i = index;
+    // Timeline tl = new Timeline();
+    // tl.getKeyFrames().add(new KeyFrame(Matchfield.animationTime.add(Duration.millis(20)), e -> {
+    //
+    // Affine newTr = new Affine(card.getTransforms().get(0));
+    // card.setTranslateX(newTr.getTx());
+    // card.setTranslateY(newTr.getTy());
+    // card.setTranslateZ(newTr.getTz());
+    // newTr.setTx(0);
+    // newTr.setTy(0);
+    // newTr.setTz(0);
+    //
+    // card.getTransforms().clear();
+    // card.getTransforms().add(newTr);
+    //
+    // card.translateXProperty().bind(this.postions[i].translateXProperty());
+    // card.translateYProperty().bind(this.postions[i].translateYProperty());
+    // card.translateZProperty().bind(this.postions[i].translateZProperty());
+    // }));
+    // tl.play();
 
     if (index == 2) {
       GuiCard old = this.cards[index];
@@ -126,6 +179,8 @@ public class GuiTrick {
   public synchronized void clear() {
     for (GuiCard c : this.cards) {
       c.setVisible(false);
+      SkatMain.guiController.getInGameController().matchfield.tableView.table.getChildren()
+          .remove(c);
     }
 
     this.cards = new GuiCard[3];

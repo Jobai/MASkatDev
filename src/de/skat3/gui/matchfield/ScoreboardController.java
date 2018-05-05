@@ -85,10 +85,10 @@ public class ScoreboardController {
       System.out.println("Could not set enemy two score in scoreboard");
     }
     try {
-      if (SkatMain.lgs.dealer != null) {
-        scores[t][0] = SkatMain.lgs.dealer.getName();
-        scores[t][1] = String.valueOf(SkatMain.lgs.dealer.getPoints());
-        scores[t][2] = String.valueOf(SkatMain.lgs.dealer.getSeegerPoints());
+      if (SkatMain.lgs.getEnemyThree() != null) {
+        scores[t][0] = SkatMain.lgs.getEnemyThree().getName();
+        scores[t][1] = String.valueOf(SkatMain.lgs.getEnemyThree().getPoints());
+        scores[t][2] = String.valueOf(SkatMain.lgs.getEnemyThree().getSeegerPoints());
         t++;
       }
     } catch (NullPointerException e) {
@@ -97,13 +97,15 @@ public class ScoreboardController {
 
     int v = 1;
 
-    if (SkatMain.lgs.getLocalClient().getSeegerPoints() != 0
-        && SkatMain.lgs.getEnemyOne().getSeegerPoints() != 0
-        && SkatMain.lgs.getEnemyTwo().getSeegerPoints() != 0) {
-      v = 2;
+    try {
+      if (SkatMain.lgs.getLocalClient().getSeegerPoints() != 0
+          && SkatMain.lgs.getEnemyOne().getSeegerPoints() != 0
+          && SkatMain.lgs.getEnemyTwo().getSeegerPoints() != 0) {
+        v = 2;
+      }
+    } catch (NullPointerException e) {
+      e.getMessage();
     }
-
-
 
     for (int i = 0; i < t; i++) {
       for (int j = 1; j < t - i; j++) {

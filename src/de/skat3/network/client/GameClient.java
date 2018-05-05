@@ -15,7 +15,6 @@ import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
-import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageConnection;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.datatypes.SubType;
@@ -47,6 +46,8 @@ public class GameClient {
   ClientLogicHandler clh;
 
   boolean closedByServer;
+
+  boolean closedByClient;
 
   boolean kickedByServer;
 
@@ -129,16 +130,27 @@ public class GameClient {
 
   }
 
-  private void openConnection(String lobbyPassword2) {
+  /**
+   * Sends a "introduction" / OpenConenction Message to the server which includes the player class.
+   * This method includes the LobbyPassword and is used for authentication.
+   * 
+   * @author Jonas Bauer
+   * @param lobbyPassword the lobby password
+   */
+  private void openConnection(String lobbyPassword) {
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
     mc.payload = player;
-    mc.lobbyPassword = lobbyPassword2;
+    mc.lobbyPassword = lobbyPassword;
     mc.originSender = player;
     sendToServer(mc);
 
   }
 
-
+  /**
+   * Sends a "introduction" / OpenConenction Message to the server which includes the player class.
+   * 
+   * @author Jonas Bauer
+   */
   private void openConnection() {
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
     mc.payload = player;
@@ -148,7 +160,7 @@ public class GameClient {
   }
 
   /**
-   * handles and understands the incomming messages. Relays them to the proper methods for action.
+   * Handles and understands the incomming messages. Relays them to the proper methods for action.
    * 
    * @author Jonas Bauer
    * @param o received message from the server (still as object).
@@ -158,19 +170,6 @@ public class GameClient {
     Message m = (Message) receivedObject;
     MessageType mt = m.getType();
     SubType st = m.getSubType();
-
-
-    if (st == CommandType.ROUND_GENERAL_INFO) {
-      System.out
-          .println("============= clientProtocolHandler [ROUND_GENERAL_INFO] ================");
-
-      MessageCommand mc = (MessageCommand) m;
-      System.out.println(mc.gameState);
-      System.out.println(((Player) mc.gameState).getUuid());
-      System.out.println(((Player) mc.gameState).getHand());
-      System.out.println("=========================================");
-
-    }
 
     switch (mt) {
       case CONNECTION_OPEN:
@@ -202,7 +201,14 @@ public class GameClient {
     }
   }
 
-  private void handleConnectionInfo(Message m) {
+  /**
+   * Handles all ConnectionInfo Messages which include Information about the leaving of another
+   * player.
+   * 
+   * @author Jonas Bauer
+   * @param m the network message
+   */
+  void handleConnectionInfo(Message m) {
     // TODO Auto-generated method stub
     MessageConnection mc = (MessageConnection) m;
 
@@ -212,12 +218,20 @@ public class GameClient {
 
   }
 
+
   private void updateLGS() {
 
   }
 
 
-  private void handleOpendConnection(Message m) { // XXX
+  /**
+   * Handels openConnection Messages which are send by all players after connection. Used to add the
+   * player to the local lobby.
+   * 
+   * @author Jonas Bauer
+   * @param m the network message
+   */
+  void handleOpendConnection(Message m) { // XXX
 
     Player p = (Player) m.payload;
     Lobby l = (Lobby) m.secondPayload;
@@ -228,7 +242,13 @@ public class GameClient {
 
   }
 
-  private void handleStateChange(Message m, SubType st) {
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m
+   * @param st
+   */
+  void handleStateChange(Message m, SubType st) {
 
     String state = (String) m.payload;
     logger.info("GAME STATE CHANGE REGISTERED:" + state);
@@ -239,7 +259,7 @@ public class GameClient {
 
   }
 
-  private void handleCommandAction(Message m, SubType st) {
+  void handleCommandAction(Message m, SubType st) {
     CommandType ct = (CommandType) st;
     logger.info("Handeling received message!" + ct);
 
@@ -293,16 +313,10 @@ public class GameClient {
         clh.reKontraAnnouncedInfoHandler(m);
         break;
       case KONTRA_SHOW_OPTION_INFO:
-        clh.KontraShowHandler(m);
+        clh.kontraShowHandler(m);
         break;
       case REKONTRA_SHOW_OPTION_INFO:
         clh.reKontraShowHandler(m);
-        break;
-      case KONTRA_HIDE_OPTION_INFO:
-        clh.KontraHideHandler(m);
-        break;
-      case REKONTRA_HIDE_OPTION_INFO:
-        clh.reKontraHideHandler(m);
         break;
       case ROUND_RESTART_INFO:
         clh.roundRestartHandler(m);
@@ -316,6 +330,14 @@ public class GameClient {
       case CONTRACT_INFO:
         clh.contractInfoHandler(m);
         break;
+      case UPDATE_ENEMY_INFO:
+        clh.updateEnemyInfoHandler(m);
+        break;
+      case TRAINING_CALL_FOR_SPECIFIC_PLAY:
+        clh.specificPlayHandler(m);
+        break;
+      case SET_DEALER:
+        clh.setDealerHandler(m);
       default:
         logger.severe("Message Type not handeld!  " + " --- " + st);
         throw new AssertionError();
@@ -324,7 +346,7 @@ public class GameClient {
 
   }
 
-  private void handleChatMessage(MessageChat m) {
+  void handleChatMessage(MessageChat m) {
     logger.log(Level.INFO, "Got Chatmessage" + m.message);
     SkatMain.mainController.receiveMessage(m.nick + ": " + m.message);
   }
@@ -332,17 +354,14 @@ public class GameClient {
 
   void closeConnection() {
     SkatMain.mainController.goToMenu();
-    SkatMain.mainController.showCustomAlertPormpt("Connection to the server failed",
-        "The connection to the server failed. "
-            + "Please check that a server is running and try again later"); // TODO
-                                                                            // change
-                                                                            // to
-                                                                            // "Connection
-                                                                            // to
-                                                                            // server
-                                                                            // failed"
+    if (!closedByClient) {
+      SkatMain.mainController.showCustomAlertPormpt("Connection to the server failed",
+          "The connection to the server failed. "
+              + "Please check that a server is running and try again later");
+    }
     sl.interrupt();
     try {
+      sl.interrupt();
       toSever.close();
       fromServer.close();
       socket.close();
@@ -358,19 +377,31 @@ public class GameClient {
     if (reason != null) {
       kickedByServer = true;
       closedByServer = true;
+      switch (reason) {
+        case "PASSWORD":
+          SkatMain.mainController.showWrongPassword();
+          break;
+        case "FULL":
+          SkatMain.mainController.showCustomAlertPormpt("Lobby is full!",
+              "Sorry, the selected Lobby is already full. Please select another lobby.");
+          break;
+        default:
+          SkatMain.mainController.showCustomAlertPormpt("You got kicked!",
+              "The server ended you connection. ");
+          break;
+      }
       SkatMain.mainController.showWrongPassword();
     } else {
       SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
           "The game server closed your connection. \n"
-              + "You can try again later or chose a different server"); // TODO change to
-                                                                        // "Connection to server
-                                                                        // failed"
+              + "You can try again later or chose a different server");
     }
     sl.interrupt();
-    System.out.println("GO to menu");
+    logger.fine("GO to menu");
     SkatMain.mainController.goToMenu();
 
     try {
+      sl.interrupt();
       toSever.close();
       fromServer.close();
       socket.close();
@@ -382,7 +413,7 @@ public class GameClient {
   void sendToServer(Message m) {
     try {
       toSever.writeObject(m);
-      logger.log(Level.INFO, "tried to send" + m.subType);
+      logger.log(Level.FINE, "tried to send" + m.subType);
     } catch (IOException e) {
       e.printStackTrace();
       handleLostConnection();
@@ -402,7 +433,7 @@ public class GameClient {
 
     for (int i = 1; i <= 1000000; i++) {
 
-      gc.clh.sendChatMessage("Test  Message" + i);
+      gc.clc.sendChatMessage("Test  Message" + i);
     }
 
   }

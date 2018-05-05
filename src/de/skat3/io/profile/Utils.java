@@ -22,7 +22,12 @@ public final class Utils {
   public static final String IMAGE_2_PNG = "resources/profile pictures/IMAGE_2_PNG.png";
   public static final String IMAGE_2_JPG = "resources/profile pictures/IMAGE_2_JPG.jpg";
   // Singleplayer constant names
-  public static final String JSON_SINGLEPLAYER_TOTAL_GAMETIME = "singlePlayerGameTime";
+  public static final String JSON_SINGLEPLAYER_TOTAL_GAMES = "singlePlayerTotalGames";
+  public static final String JSON_SINGLEPLAYER_TOTAL_GAMES_WON = "singlePlayerTotalGamesWon";
+  public static final String JSON_SINGLEPLAYER_TOTAL_GAMES_LOST = "singlePlayerTotalGamesLost";
+
+  public static final String JSON_SINGLEPLAYER_AND_MULTIPLAYER_TOTAL_GAMETIME =
+      "singleAndMultiplayerTotalGameTime";
   public static final String JSON_SINGLEPLAYER_TOTAL_ROUNDS = "singlePlayerTotalRounds";
   public static final String JSON_SINGLEPLAYER_TOTAL_ROUNDS_GRAND = "singlePlayerTotalRoundsGrand";
   public static final String JSON_SINGLEPLAYER_TOTAL_ROUNDS_NULL = "singlePlayerTotalRoundsNull";
@@ -38,6 +43,10 @@ public final class Utils {
   public static final String JSON_SINGLEPLAYER_HIGHEST_SCORE = "singlePlayerHighestScore";
   public static final String JSON_SINGLEPLAYER_LOWEST_SCORE = "singlePlayerLowestScore";
   // Multiplayer constant names
+  public static final String JSON_MULTIPLAYER_TOTAL_GAMES = "multiPlayerTotalGames";
+  public static final String JSON_MULTIPLAYER_TOTAL_GAMES_LOST = "multiPlayerTotalGamesLost";
+  public static final String JSON_MULTIPLAYER_TOTAL_GAMES_WON = "multiPlayerTotalGamesWon";
+
   public static final String JSON_MULTIPLAYER_TOTAL_GAMETIME = "multiPlayerGameTime";
   public static final String JSON_MULTIPLAYER_TOTAL_ROUNDS = "multiPlayerTotalRounds";
   public static final String JSON_MULTIPLAYER_TOTAL_ROUNDS_GRAND = "multiPlayerTotalRoundsGrand";

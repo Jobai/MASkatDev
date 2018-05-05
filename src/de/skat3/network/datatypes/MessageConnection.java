@@ -1,7 +1,7 @@
 package de.skat3.network.datatypes;
 
-import java.io.Serializable;
 import de.skat3.gamelogic.Player;
+import java.io.Serializable;
 
 
 /**

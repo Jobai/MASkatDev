@@ -12,15 +12,19 @@ package de.skat3.network.server;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
+import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
+import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageCommand;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.logging.Level;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -33,7 +37,7 @@ import java.util.logging.Logger;
 public class GameServer extends Thread {
 
   private static Logger logger = Logger.getLogger("de.skat3.network.server");
-  public static ArrayList<GameServerProtocol> threadList;
+  public static List<GameServerProtocol> threadList;
   public static int port = 2018; // HARDCODED
   private ServerSocket serverSocket;
 
@@ -58,9 +62,7 @@ public class GameServer extends Thread {
   @Deprecated
   GameServer(GameController gc) {
     this.gc = gc;
-    logger.setLevel(Level.ALL);
-    logger.fine("test fine");
-    threadList = new ArrayList<GameServerProtocol>();
+    threadList = Collections.synchronizedList(new ArrayList<GameServerProtocol>());
     slc = new ServerLogicController(3, this);
 
     this.start();
@@ -75,9 +77,7 @@ public class GameServer extends Thread {
    */
   public GameServer(Lobby lobbysettings, GameController gc) {
     this.gc = gc;
-    logger.setLevel(Level.ALL);
-    logger.fine("test fine");
-    threadList = new ArrayList<GameServerProtocol>();
+    threadList = Collections.synchronizedList(new ArrayList<GameServerProtocol>());
     slc = new ServerLogicController(lobbysettings, this);
     GameServer.lobby = lobbysettings;
     this.start();
@@ -108,15 +108,26 @@ public class GameServer extends Thread {
       this.serverSocket = server;
       Socket socket;
 
-      while (true) {
+      while (!this.isInterrupted()) {
         socket = server.accept();
         logger.info("New connection!");
         threadList.add(new GameServerProtocol(socket, gc, this));
         threadList.get(threadList.size() - 1).start();
 
       }
+    } catch (BindException e) {
+
+      logger.severe(
+          "PORT ALREADY IN USE! SERVER CANT BIND OR START! Is another server already running?!");
+      SkatMain.mainController.showCustomAlertPormpt("Server already running!",
+          "There is already a server running on this computer! "
+              + "\n Please stop it befor you start a new one.");
+      SkatMain.mainController.goToMenu();
+      stopServer();
     } catch (SocketException e) {
-      e.printStackTrace();
+      if (!(e.getMessage().equals("socket closed"))) {
+        e.printStackTrace();
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -131,15 +142,17 @@ public class GameServer extends Thread {
    * @author Jonas Bauer
    */
   public void stopServer() {
-    if (!this.serverSocket.isClosed()) {
-      try {
-        this.serverSocket.close();
-        logger.info("Server stopped!");
-      } catch (SocketException e) {
-        e.printStackTrace();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+
+    try {
+      this.interrupt();
+      this.serverSocket.close();
+      logger.info("Server stopped!");
+    } catch (SocketException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (NullPointerException e) {
+      // just keep it
     }
 
   }
@@ -162,20 +175,10 @@ public class GameServer extends Thread {
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       if (gameServerProtocol.playerProfile.equals(player)) {
         if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
-          System.out
-              .println("============= send To Player Log [ROUND_GENERAL_INFO] ================");
-
-          System.out.println(mc.gameState);
-          System.out.println(((Player) mc.gameState).getUuid());
-          System.out.println(((Player) mc.gameState).getHand());
-          System.out.println("=========================================");
+          logger.fine("round general info" + player.getUuid());
         }
-
         gameServerProtocol.sendMessage(mc);
-
-
-
-        logger.info("send to:  " + player.getUuid() + "  succesful");
+        logger.fine("send to:  " + player.getUuid() + "  succesful");
         return;
       }
     }
@@ -189,11 +192,13 @@ public class GameServer extends Thread {
    * @author Jonas Bauer
    * @param mc the message to be broadcasted
    */
-  void broadcastMessage(MessageCommand mc) {
-    logger.log(Level.FINE, "Got ChatMessage: ");
-    for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
-      gameServerProtocol.sendMessage(mc);
+  void broadcastMessage(Message mc) {
+    synchronized (threadList) {
+      for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
+        gameServerProtocol.sendMessage(mc);
+      }
     }
+
   }
 
 

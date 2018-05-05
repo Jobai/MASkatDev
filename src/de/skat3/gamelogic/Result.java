@@ -1,9 +1,15 @@
 package de.skat3.gamelogic;
 
 import java.io.Serializable;
-import java.math.RoundingMode;
 import java.util.Arrays;
 
+/**
+ * Provides data for the result screen after a single round of play.
+ * 
+ * @author kai29
+ *
+ */
+@SuppressWarnings("serial")
 public class Result implements Serializable {
 
   public int gameValue;
@@ -25,14 +31,16 @@ public class Result implements Serializable {
   public Contract contract;
   public Player[] ranks;
   private int contractValue;
+  public boolean roundCancelled;
+  public String declarerName;
+  public int pointsSoloPlayer;
 
   /**
-   * 
-   * @param roundInstance
+   * Calculates all relevant result data.
    */
-  // XXX TESTEN
   public Result(RoundInstance roundInstance) {
 
+    this.pointsSoloPlayer = 0;
     this.isBierlachs = (roundInstance.mode < 0) ? true : false;
     this.highestBid = BiddingValues.values[roundInstance.currentBiddingValue];
     this.handGame = roundInstance.addtionalMultipliers.isHandGame();
@@ -42,11 +50,16 @@ public class Result implements Serializable {
     this.kontra = roundInstance.kontra;
     this.rekontra = roundInstance.rekontra;
     this.contract = roundInstance.contract;
-    this.currentRound = roundInstance.gameThread.gc.numberOfRounds;
+    this.currentRound = roundInstance.gc.numberOfRounds;
     if (!this.isBierlachs) {
-      this.maxRounds = roundInstance.gameThread.gc.mode;
+      this.maxRounds = roundInstance.gc.mode;
     }
-    this.calcResult(roundInstance);
+    if (roundInstance.roundCancelled) {
+      this.roundCancelled = true;
+    } else {
+      this.declarerName = roundInstance.solo.getName();
+      this.calcResult(roundInstance);
+    }
 
 
   }
@@ -60,6 +73,9 @@ public class Result implements Serializable {
   }
 
 
+  /**
+   * Evaluates who is the winner of the round and how many points will every player win/lose.
+   */
   void calcResult(RoundInstance roundInstance) {
     switch (roundInstance.contract) {
       case DIAMONDS:
@@ -92,7 +108,7 @@ public class Result implements Serializable {
             this.gameValue = 23;
           }
         }
-
+        System.out.println(roundInstance.solo.wonTricks.size());
         if (roundInstance.solo.wonTricks.size() == 0) {
           this.soloWon = true;
         } else {
@@ -109,25 +125,26 @@ public class Result implements Serializable {
     int baseValue = roundInstance.soloPlayerStartHand
         .calcConsecutiveMatadors(roundInstance.contract, roundInstance.originalSkat);
     baseValue++;
+    System.out.println("baseValue: " + baseValue);
     if (roundInstance.addtionalMultipliers.isHandGame()) {
       baseValue++;
     }
 
 
     boolean won;
-    int pointsSoloPlayer = 0;
     for (Card c : roundInstance.solo.wonTricks) {
       pointsSoloPlayer += c.getTrickValue();
     }
     for (Card c : roundInstance.skat) {
       pointsSoloPlayer += c.getTrickValue();
     }
+    System.out.println("soloplayer points:" + pointsSoloPlayer);
     if (pointsSoloPlayer > 60) {
       won = true;
       if (pointsSoloPlayer >= 90) {
         this.schneider = true;
       }
-      if (pointsSoloPlayer == 120) {
+      if (roundInstance.solo.wonTricks.size() == 30) {
         this.schwarz = true;
       }
     } else {
@@ -135,7 +152,7 @@ public class Result implements Serializable {
       if (pointsSoloPlayer <= 30) {
         this.schneider = true;
       }
-      if (pointsSoloPlayer == 0) {
+      if (roundInstance.solo.wonTricks.size() == 0) {
         this.schwarz = true;
       }
     }
@@ -154,7 +171,9 @@ public class Result implements Serializable {
     if (roundInstance.addtionalMultipliers.isOpenHand()) {
       baseValue++;
     }
+    System.out.println("baseValue: " + baseValue + "  contractValue: " + contractValue);
     this.gameValue = baseValue * contractValue;
+    System.out.println("gameValue " + gameValue);
     if (won) {
       if (roundInstance.addtionalMultipliers.isSchneiderAnnounced() && !schneider
           || roundInstance.addtionalMultipliers.isSchneiderAnnounced() && !schwarz) {
@@ -165,18 +184,14 @@ public class Result implements Serializable {
     } else {
       this.soloWon = false;
     }
-
-    if (this.kontra) {
-      this.gameValue *= 2;
-    }
-    if (this.rekontra) {
-      this.gameValue *= 2;
-    }
     this.applyChanges(roundInstance);
 
 
   }
 
+  /**
+   * called by calcResult to update the playerpoints and sort the ranks[].
+   */
   private void applyChanges(RoundInstance roundInstance) {
     int leastMultiple = 0;
     if (this.gameValue < this.highestBid) {
@@ -188,46 +203,49 @@ public class Result implements Serializable {
         leastMultiple++;
       }
     }
+    if (this.kontra) {
+      this.gameValue *= 2;
+    }
+    if (this.rekontra) {
+      this.gameValue *= 2;
+    }
 
     if (this.bidTooHigh) {
       this.scoringPoints = -leastMultiple * this.contractValue;
       roundInstance.solo.changePoints(this.scoringPoints, !isBierlachs);
+      this.soloWon = false;
     } else {
       if (this.soloWon) {
         if (isBierlachs) {
           this.scoringPoints = -2 * this.gameValue;
           Player[] team = roundInstance.getTeamPlayer();
           team[0].changePoints(this.scoringPoints, false);
-          roundInstance.gameThread.gc.matchResult.addScoreToHistory(team[0], this.scoringPoints);
+          roundInstance.gc.matchResult.addScoreToHistory(team[0], this.scoringPoints);
           team[1].changePoints(this.scoringPoints, false);
-          roundInstance.gameThread.gc.matchResult.addScoreToHistory(team[1], this.scoringPoints);
+          roundInstance.gc.matchResult.addScoreToHistory(team[1], this.scoringPoints);
         } else {
           this.scoringPoints = this.gameValue;
-          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
-              this.scoringPoints);
+          roundInstance.gc.matchResult.addScoreToHistory(roundInstance.solo, this.scoringPoints);
           roundInstance.solo.changePoints(this.scoringPoints, true);
         }
       } else {
         if (isBierlachs) {
           this.scoringPoints = -2 * this.gameValue;
           roundInstance.solo.changePoints(this.scoringPoints, false);
-          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
-              this.scoringPoints);
+          roundInstance.gc.matchResult.addScoreToHistory(roundInstance.solo, this.scoringPoints);
         } else {
           this.scoringPoints = -2 * this.gameValue;
-          roundInstance.gameThread.gc.matchResult.addScoreToHistory(roundInstance.solo,
-              this.scoringPoints);
+          roundInstance.gc.matchResult.addScoreToHistory(roundInstance.solo, this.scoringPoints);
           roundInstance.solo.changePoints(this.scoringPoints, true);
 
         }
       }
     }
-    this.ranks = new Player[roundInstance.gameThread.gc.allPlayers.length];
+    this.ranks = new Player[roundInstance.gc.allPlayers.length];
     for (int i = 0; i < ranks.length; i++) {
-      this.ranks[i] = roundInstance.gameThread.gc.allPlayers[i];
+      this.ranks[i] = roundInstance.gc.allPlayers[i].copyPlayer();
     }
     Arrays.sort(this.ranks);
-
   }
 
 

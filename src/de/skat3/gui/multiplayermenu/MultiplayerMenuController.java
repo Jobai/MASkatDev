@@ -3,13 +3,13 @@ package de.skat3.gui.multiplayermenu;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 import de.skat3.gamelogic.Player;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,16 +22,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -39,6 +37,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -53,6 +52,8 @@ public class MultiplayerMenuController {
   @FXML
   private Label serverPlayer;
   @FXML
+  private Label kontraRekontra;
+  @FXML
   private ImageView imageP2;
   @FXML
   private ImageView imageP1;
@@ -63,7 +64,7 @@ public class MultiplayerMenuController {
   @FXML
   private ImageView imageP3;
   @FXML
-  private ListView<String> hostListView;
+  private ListView<CellItem> hostListView;
   @FXML
   private Label nameP4;
   @FXML
@@ -79,68 +80,130 @@ public class MultiplayerMenuController {
   @FXML
   private Label serverIP;
   @FXML
+  private Label serverDomain;
+  @FXML
   private Label serverPW;
   @FXML
   private AnchorPane root;
+  @FXML
+  private ImageView imageViewPwLock;
 
   Lobby currentLobby;
-
   ArrayList<Lobby> hostList = new ArrayList<Lobby>();
 
+  class CellItem {
+    public String name;
+    public boolean hasPw;
+    public boolean hasTimer;
+    public String time;
 
-  public static class HostCell extends ListCell<String> {
+    /**
+     * Constructor for a new cell in the server listview.
+     * 
+     * @param name server name
+     * @param hasPassword if server has password
+     * @param timer if server has timer
+     */
+    public CellItem(String name, boolean hasPassword, int timer) {
+      this.name = name;
+      this.hasPw = hasPassword;
+      if (timer > 0) {
+        this.hasTimer = true;
+        this.time = String.valueOf(timer);
+      } else {
+        this.hasTimer = false;
+      }
+    }
+  }
+
+  private static class HostCell extends ListCell<CellItem> {
     HBox hbox = new HBox();
     Image serverImage = new Image("guifiles/AppIcon.png");
     Image passwordImage = new Image("guifiles/lock.png");
     Image timerImage = new Image("guifiles/alarm-clock.png");
+    Label timerTime = new Label();
     ImageView ivServer = new ImageView(serverImage);
     ImageView ivPassword = new ImageView(passwordImage);
     ImageView ivTimer = new ImageView(timerImage);
     Pane pane = new Pane();
     Label label = new Label();
 
-    public HostCell() {
+    /**
+     * Constructor for a new HostCell, which represent the design of a row in the listview.
+     * 
+     * @param item cell data
+     */
+    public HostCell(CellItem item) {
       super();
       ivServer.setFitWidth(30);
       ivServer.setFitHeight(30);
+      ivTimer.setFitHeight(22);
+      ivTimer.setFitWidth(22);
       hbox.setPrefHeight(50);
       hbox.setAlignment(Pos.CENTER_LEFT);
       hbox.setSpacing(20);
       label.setFont(new Font(20));
-      hbox.getChildren().addAll(ivServer, label, ivPassword, ivTimer, pane);
+      timerTime.setFont(new Font(15));
+
+      hbox.getChildren().addAll(ivServer, label, ivPassword, ivTimer, timerTime, pane);
     }
 
-    public void updateItem(String name, boolean empty) {
-      super.updateItem(name, empty);
+    @Override
+    public void updateItem(CellItem cell, boolean empty) {
+      super.updateItem(cell, empty);
       setText(null);
       setGraphic(null);
 
-      if (name != null && !empty) {
-        label.setText(name);
+      if (cell != null && !empty) {
+        label.setText(cell.name);
+
+        if (cell.hasTimer) {
+
+          Duration time = Duration.seconds(Integer.parseInt(cell.time));
+
+          double timeText = time.toSeconds();
+
+          String text = "Sec";
+
+          if (time.greaterThan(Duration.minutes(1))) {
+            timeText = time.toMinutes();
+            text = "Min";
+          }
+          if (time.greaterThan(Duration.hours(1))) {
+            timeText = time.toHours();
+            text = "H";
+          }
+
+          timerTime.setText(timeText + " " + text);
+        } else {
+          ivTimer.setVisible(false);
+        }
+
+        if (!cell.hasPw) {
+          ivPassword.setVisible(false);
+        }
+
         setGraphic(hbox);
       }
     }
   }
 
-
   /**
-   * .
+   * Starts a new game.
    */
-  public MultiplayerMenuController() {
-
-  }
-
   public void startGame() {
     SkatMain.mainController.startGame();
   }
 
   /**
-   * .
+   * Searche for servers in the network and display them in a listview.
    */
   public void fillHostList() {
 
+    ObservableList<CellItem> items = FXCollections.observableArrayList();
+    items.clear();
     hostList.clear();
-    hostListView.setCellFactory(param -> new HostCell());
+    hostListView.setItems(items);
 
     Service<String> playService;
     class PlayService extends Service<String> {
@@ -149,12 +212,24 @@ public class MultiplayerMenuController {
         return new Task<String>() {
           @Override
           protected String call() {
-            ObservableList<String> items = FXCollections.observableArrayList();
 
             hostList = SkatMain.mainController.getLocalHosts();
             for (Lobby lobby : hostList) {
-              items.add(lobby.getName() + "(" + lobby.lobbyPlayer + "/"
-                  + lobby.getMaximumNumberOfPlayers() + ")");
+              String serverName = lobby.getName() + " (" + lobby.lobbyPlayer + "/"
+                  + lobby.getMaximumNumberOfPlayers() + " players)";
+
+              CellItem item = new CellItem(serverName, lobby.isHasPassword(), lobby.getTimer());
+
+              hostListView.setCellFactory(param -> new HostCell(item));
+
+              Platform.runLater(new Runnable() { // JB
+
+                @Override
+                public void run() {
+                  items.add(item);
+                }
+              });
+
             }
 
             hostListView.setItems(items);
@@ -163,12 +238,13 @@ public class MultiplayerMenuController {
         };
       }
     }
+
     playService = new PlayService();
     playService.restart();
   }
 
   /**
-   * .
+   * Hosts a new server with the inserted values.
    */
   public void hostServer() {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HostPopup.fxml"));
@@ -185,12 +261,14 @@ public class MultiplayerMenuController {
 
     HostPopupController hostController = fxmlLoader.getController();
     hostController.setStage(stage);
-    stage.show();
+
+    stage.initModality(Modality.APPLICATION_MODAL);
+    stage.showAndWait();
 
   }
 
   /**
-   * .
+   * Opens a popup with 2 input fields (ip and password) and connects to a server.
    */
   public void directConnect() {
 
@@ -248,7 +326,7 @@ public class MultiplayerMenuController {
   }
 
   /**
-   * .
+   * Display a loaging screen and refresh the server list.
    */
   public void refresh() {
     showLoadingScreen();
@@ -256,10 +334,15 @@ public class MultiplayerMenuController {
   }
 
   /**
-   * .
+   * Join to the currently selected game server.
    */
   public void joinServer() {
+    if (currentLobby == null) {
+      return;
+    }
+
     joinButton.setDisable(true);
+
     if (!currentLobby.isHasPassword()) {
       SkatMain.mainController.joinMultiplayerGame(currentLobby);
     } else {
@@ -276,7 +359,7 @@ public class MultiplayerMenuController {
   }
 
   /**
-   * .
+   * Handle event, when user select a server in the listview.
    */
   public void handleHostSelected() {
 
@@ -288,11 +371,26 @@ public class MultiplayerMenuController {
 
     joinButton.setDisable(false);
 
+    if (currentLobby.isHasPassword()) {
+      imageViewPwLock.setImage(
+          new Image(getClass().getResourceAsStream("../../../../guifiles/lock-7-xxl.png")));
+    } else {
+      imageViewPwLock.setImage(
+          new Image(getClass().getResourceAsStream("../../../../guifiles/lock-unlocked-xxl.png")));
+    }
+
     // fill view fields
+    if (currentLobby.getKontraRekontraEnabled()) {
+      kontraRekontra.setText("Aktiviert");
+    } else {
+      kontraRekontra.setText("Deaktiviert");
+    }
+
     serverName.setText(currentLobby.getName());
-    serverIP.setText(currentLobby.getIp().toString());
-    // serverPW.setText(currentLobby.);
-    serverPlayer.setText(currentLobby.lobbyPlayer + "/" + currentLobby.getMaximumNumberOfPlayers());
+
+    serverDomain.setText(currentLobby.getIp().toString().replaceAll("\\/.*$", ""));
+
+    serverIP.setText(currentLobby.getIp().toString().replace(serverDomain.getText() + "/", ""));
 
     // Players
     Player[] players = currentLobby.getPlayers();
@@ -323,7 +421,7 @@ public class MultiplayerMenuController {
   }
 
   /**
-   * .
+   * Shows a loading screen.
    */
   private void showLoadingScreen() {
 

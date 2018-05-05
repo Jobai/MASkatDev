@@ -5,6 +5,7 @@ import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -13,6 +14,7 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
@@ -29,7 +31,7 @@ import javafx.util.Duration;
  */
 public class GuiHand extends Parent {
 
-  private ObservableList<GuiCard> cards = FXCollections.observableArrayList();
+  private ObservableList<GuiCard> cards;
   private Player owner;
 
   /**
@@ -44,8 +46,8 @@ public class GuiHand extends Parent {
    */
   public GuiHand(DoubleBinding x, DoubleBinding y, DoubleBinding z, double xr, double yr, double zr,
       List<GuiCard> cards) {
-    this.cards = FXCollections.observableArrayList();
-    // this.setTranslateX(x);
+    this.cards = FXCollections.synchronizedObservableList(FXCollections.observableArrayList()); // JB
+
     this.translateXProperty().bind(x);
     this.translateYProperty().bind(y);
     this.translateZProperty().bind(z);
@@ -64,8 +66,9 @@ public class GuiHand extends Parent {
    * Add a card to this hand.
    * 
    * @param newCard GuiCard to add.
+   * @param animation TODO
    */
-  public synchronized void add(GuiCard newCard) {
+  public synchronized void add(GuiCard newCard, boolean animation) {
 
     // Order of cards are important
     newCard.translateXProperty().unbind();
@@ -73,11 +76,20 @@ public class GuiHand extends Parent {
     newCard.translateZProperty().unbind();
     newCard.getTransforms().clear();
     this.cards.add(newCard);
-    this.raiseCard(newCard, true, true, true, false, null);
+    if (animation) {
+      this.raiseCard(newCard, true, true, true, false, null);
+    }
     this.getChildren().add(newCard);
     this.resetPositions();
   }
 
+  /**
+   * Add a card to this hand.
+   * 
+   * @param index Index the card will be added.
+   * @param newCard Card.
+   * @param animation Show animations while adding the card.
+   */
   public synchronized void add(int index, GuiCard newCard, boolean animation) {
 
     // Order of cards are important
@@ -97,10 +109,11 @@ public class GuiHand extends Parent {
    * Add all cards to this hand.
    * 
    * @param cards Cards to be added.
+   * @param animations TODO
    */
-  public void addAll(Card[] cards) {
+  public void addAll(Card[] cards, boolean animations) {
     for (Card card : cards) {
-      this.add(new GuiCard(card));
+      this.add(new GuiCard(card), animations);
     }
   }
 
@@ -111,7 +124,7 @@ public class GuiHand extends Parent {
    */
   public void addAll(Collection<GuiCard> cards) {
     for (GuiCard card : cards) {
-      this.add(card);
+      this.add(card, true);
     }
   }
 
@@ -122,7 +135,7 @@ public class GuiHand extends Parent {
    */
   public void addAll(GuiCard... cards) {
     for (GuiCard card : cards) {
-      this.add(card);
+      this.add(card, true);
     }
   }
 
@@ -131,9 +144,13 @@ public class GuiHand extends Parent {
    * 
    */
   public void clear() {
-    for (GuiCard c : this.cards) {
-      this.remove(c);
+    Iterator<GuiCard> iter = cards.iterator();
+    while (iter.hasNext()) {
+      GuiCard c = iter.next();
+      iter.remove();
+      this.getChildren().remove(c);
     }
+    this.resetPositions();
   }
 
   /**
@@ -212,11 +229,12 @@ public class GuiHand extends Parent {
    * @param targetPos Parent of which the transitions and rotations are used.
    * 
    */
-  synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Pane root) {
+  synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Group table) {
     Transform t = card.getLocalToSceneTransform();
     Affine sourceTr = new Affine(t);
     sourceTr.getClass();
 
+    cards.remove(card);
     this.remove(card);
     card.getTransforms().clear();
     card.setTranslateX(0);
@@ -225,7 +243,7 @@ public class GuiHand extends Parent {
 
     card.getTransforms().add(sourceTr);
 
-    root.getChildren().add(card);
+    table.getChildren().add(card);
 
     Duration time = Matchfield.animationTime;
     Timeline timeline = new Timeline();
@@ -352,7 +370,7 @@ public class GuiHand extends Parent {
         j++;
       }
 
-      h.sort(SkatMain.lgs.contract);
+      h.sort(SkatMain.lgs.getContract());
 
       for (int z = 0; z < h.cards.length; z++) {
         GuiCard card = this.getGuiCard(h.cards[z]);

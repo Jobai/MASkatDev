@@ -1,12 +1,16 @@
 package de.skat3.gui.matchfield;
 
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 
 /**
@@ -19,7 +23,7 @@ public class InGameTableView {
 
   SubScene tableScene;
 
-  Pane table;
+  Group table;
 
   GuiTrick trick;
 
@@ -31,7 +35,7 @@ public class InGameTableView {
 
   public InGameTableView(Matchfield m) {
     this.matchfield = m;
-    this.table = new Pane();
+    this.table = new Group();
     this.tableScene = new SubScene(this.table, this.matchfield.sceneWidth,
         this.matchfield.sceneHeight, false, SceneAntialiasing.BALANCED);
 
@@ -72,7 +76,7 @@ public class InGameTableView {
 
     this.trick = new GuiTrick(this.tableScene.widthProperty().divide(2.5),
         this.tableScene.heightProperty().divide(1.4),
-        this.tableScene.widthProperty().multiply(0).add(400), -80, 0, 0);
+        this.tableScene.widthProperty().multiply(0).add(400), -80, 0, 0, this.table);
 
     this.table.getChildren().addAll(this.playerHand, this.leftHand, this.rightHand);
 

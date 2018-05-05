@@ -57,8 +57,6 @@ public interface ServerLogicInterface {
 
   public void reKontraRequest(Player player);
 
-  public void broadcastKontraRekontraExpired();
-
   public void broadcastRoundRestarted();
 
   public void broadcastServerStateChange(int serverState);
@@ -67,7 +65,13 @@ public interface ServerLogicInterface {
 
   void broadcastDeclarer(Player p);
 
-  void broadcastBid(boolean bid);
+  void updateEnemy(Player p);
+
+  void broadcastBid(String message, Player p);
+
+  void callForSpecificPlay(Player player, Card card);
+
+  void setDealer(Player dealer);
 
 }
 

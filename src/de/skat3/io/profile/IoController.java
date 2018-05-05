@@ -211,7 +211,7 @@ public class IoController implements IoInterface {
       jsonArray = jsonElement.getAsJsonArray();
     } catch (FileNotFoundException e) {
       System.out.println("The json file was not found");
-      e.printStackTrace();
+      //e.printStackTrace();
     } catch (NullPointerException ex) {
       return null;
     }
