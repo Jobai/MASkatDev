@@ -29,7 +29,8 @@ import javafx.util.Duration;
  */
 public class GuiHand extends Parent {
 
-  private ObservableList<GuiCard> cards = FXCollections.observableArrayList();
+  private ObservableList<GuiCard> cards =
+      FXCollections.synchronizedObservableList(FXCollections.observableArrayList()); //JB
   private Player owner;
 
   /**
@@ -142,9 +143,12 @@ public class GuiHand extends Parent {
    * 
    */
   public void clear() {
-    for (GuiCard c : this.cards) {
-      this.remove(c);
+    synchronized (cards) { //JB
+      for (GuiCard c : this.cards) {
+        this.remove(c);
+      }
     }
+    
   }
 
   /**
