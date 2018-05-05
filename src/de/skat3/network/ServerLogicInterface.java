@@ -71,5 +71,7 @@ public interface ServerLogicInterface {
 
   void callForSpecificPlay(Player player, Card card);
 
+  void setDealer(Player dealer);
+
 }
 

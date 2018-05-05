@@ -333,7 +333,14 @@ public class ServerLogicController implements ServerLogicInterface {
     gs.sendToPlayer(player, mc);
   }
 
+  @Override
+  public void setDealer(Player dealer) {
+    MessageCommand mc =
+        new MessageCommand(MessageType.COMMAND_INFO, dealer.toString(), CommandType.SET_DEALER);
+    mc.gameState = dealer;
+    gs.broadcastMessage(mc);
+    
+  }
 
 
 }
-

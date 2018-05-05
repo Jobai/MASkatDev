@@ -336,6 +336,8 @@ public class GameClient {
       case TRAINING_CALL_FOR_SPECIFIC_PLAY:
         clh.specificPlayHandler(m);
         break;
+      case SET_DEALER:
+        clh.setDealerHandler(m);
       default:
         logger.severe("Message Type not handeld!  " + " --- " + st);
         throw new AssertionError();

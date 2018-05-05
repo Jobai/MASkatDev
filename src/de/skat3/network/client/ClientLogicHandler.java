@@ -341,5 +341,13 @@ public class ClientLogicHandler {
   }
 
 
+  void setDealerHandler(Message m) {
+    // TODO Auto-generated method stub
+    MessageCommand mc = (MessageCommand) m;
+    Player dealer = (Player) mc.gameState;
+    SkatMain.mainController.setDealer(dealer);
+  }
+
+
 
 }
