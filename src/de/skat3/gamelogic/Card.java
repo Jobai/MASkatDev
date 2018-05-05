@@ -131,6 +131,8 @@ public class Card implements Serializable {
    */
   public boolean isTrump(Contract contract) {
     switch (contract) {
+      case NULL:
+        return false;
       case DIAMONDS:
         return (this.suit.equals(Suit.DIAMONDS) || this.isJack()) ? true : false;
       case HEARTS:

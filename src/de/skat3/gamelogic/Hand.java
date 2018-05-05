@@ -63,34 +63,47 @@ public class Hand implements Serializable {
     int pointer = 0;
     CardDeck deck = GameController.deck;
     Card[] sortedHand = new Card[this.cards.length];
-    if (this.contains(deck.getCard("JACK OF CLUBS"))) {
-      sortedHand[pointer++] = deck.getCard("JACK OF CLUBS");
-    }
-    if (this.contains(deck.getCard("JACK OF SPADES"))) {
-      sortedHand[pointer++] = deck.getCard("JACK OF SPADES");
-    }
-    if (this.contains(deck.getCard("JACK OF HEARTS"))) {
-      sortedHand[pointer++] = deck.getCard("JACK OF HEARTS");
-    }
-    if (this.contains(deck.getCard("JACK OF DIAMONDS"))) {
-      sortedHand[pointer++] = deck.getCard("JACK OF DIAMONDS");
-    }
     String current;
     String x = "";
-    if (contract != null && contract != Contract.NULL && contract != Contract.GRAND) {
-      x = contract.name();
-      for (int i = Value.length - 2; i >= 0; i--) {
-        current = Value.values()[i].name() + " OF " + x;
-        if (this.contains(deck.getCard(current))) {
-          sortedHand[pointer++] = deck.getCard(current);
+    if (contract != Contract.NULL) {
+      if (this.contains(deck.getCard("JACK OF CLUBS"))) {
+        sortedHand[pointer++] = deck.getCard("JACK OF CLUBS");
+      }
+      if (this.contains(deck.getCard("JACK OF SPADES"))) {
+        sortedHand[pointer++] = deck.getCard("JACK OF SPADES");
+      }
+      if (this.contains(deck.getCard("JACK OF HEARTS"))) {
+        sortedHand[pointer++] = deck.getCard("JACK OF HEARTS");
+      }
+      if (this.contains(deck.getCard("JACK OF DIAMONDS"))) {
+        sortedHand[pointer++] = deck.getCard("JACK OF DIAMONDS");
+      }
+      if (contract != null && contract != Contract.NULL && contract != Contract.GRAND) {
+        x = contract.name();
+        for (int i = Value.length - 2; i >= 0; i--) {
+          current = Value.values()[i].name() + " OF " + x;
+          if (this.contains(deck.getCard(current))) {
+            sortedHand[pointer++] = deck.getCard(current);
+          }
         }
       }
-    }
-    for (int i = 3; i >= 0; i--) {
-      for (int j = Value.length - 2; j >= 0; j--) {
-        current = Value.values()[j].name() + " OF " + Suit.values()[i].name();
-        if (this.contains(deck.getCard(current)) && !Suit.values()[i].name().equals(x)) {
-          sortedHand[pointer++] = deck.getCard(current);
+      for (int i = 3; i >= 0; i--) {
+        for (int j = Value.length - 2; j >= 0; j--) {
+          current = Value.values()[j].name() + " OF " + Suit.values()[i].name();
+          if (this.contains(deck.getCard(current)) && !Suit.values()[i].name().equals(x)) {
+            sortedHand[pointer++] = deck.getCard(current);
+          }
+        }
+      }
+    } else {
+      Value[] nullValues = {Value.SEVEN, Value.EIGHT, Value.NINE, Value.TEN, Value.JACK,
+          Value.QUEEN, Value.KING, Value.ACE};
+      for (int i = 3; i >= 0; i--) {
+        for (int j = Value.length - 1; j >= 0; j--) {
+          current = nullValues[j].name() + " OF " + Suit.values()[i].name();
+          if (this.contains(deck.getCard(current))) {
+            sortedHand[pointer++] = deck.getCard(current);
+          }
         }
       }
     }
@@ -246,7 +259,7 @@ public class Hand implements Serializable {
           mustFollow = true;
         }
       } else {
-        if (c.getSuit() == card.getSuit() && !c.isJack()) {
+        if (c.getSuit() == card.getSuit() && !c.isTrump(contract)) {
           mustFollow = true;
         }
       }
@@ -261,7 +274,7 @@ public class Hand implements Serializable {
           }
         } else {
 
-          if (c.getSuit() == card.getSuit() && !c.isJack()) {
+          if (c.getSuit() == card.getSuit() && !c.isTrump(contract)) {
             c.setPlayable(true);
           } else {
             c.setPlayable(false);
@@ -328,7 +341,7 @@ public class Hand implements Serializable {
   public int getMaximumBid(Contract contract) {
     if (this.cards.length == 10) {
 
-      int trumps = this.calcConsecutiveMatadors(contract, null);
+      int trumps = this.calcConsecutiveMatadors(contract);
 
       switch (contract) {
         case CLUBS:
