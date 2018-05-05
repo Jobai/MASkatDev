@@ -13,6 +13,9 @@ import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_ROUNDS_WON;
 import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_ROUNDS_WON_GRAND;
 import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_ROUNDS_WON_NULL;
 import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_ROUNDS_WON_SUIT;
+import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_TOTAL_GAMES;
+import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_TOTAL_GAMES_LOST;
+import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_TOTAL_GAMES_WON;
 import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_TOTAL_ROUNDS;
 import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_TOTAL_ROUNDS_GRAND;
 import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_TOTAL_ROUNDS_NULL;
@@ -28,6 +31,9 @@ import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_ROUNDS_WON;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_ROUNDS_WON_GRAND;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_ROUNDS_WON_NULL;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_ROUNDS_WON_SUIT;
+import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_GAMES;
+import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_GAMES_LOST;
+import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_GAMES_WON;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_GAMETIME;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_ROUNDS;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_ROUNDS_GRAND;
@@ -50,8 +56,16 @@ public class Profile implements ProfileStatisticsInterface {
   @SerializedName(JSON_LAST_USED_FIELD)
   boolean lastUsed;
 
+
   @SerializedName(JSON_SINGLEPLAYER_TOTAL_GAMETIME)
   long playerGameTime;
+
+  @SerializedName(JSON_SINGLEPLAYER_TOTAL_GAMES)
+  int singlePlayerTotalGames;
+  @SerializedName(JSON_SINGLEPLAYER_TOTAL_GAMES_WON)
+  int singlePlayerTotalGamesWon;
+  @SerializedName(JSON_SINGLEPLAYER_TOTAL_GAMES_LOST)
+  int singlePlayerTotalGamesLost;
 
   @SerializedName(JSON_SINGLEPLAYER_TOTAL_ROUNDS)
   int singlePlayerTotalRounds;
@@ -81,6 +95,14 @@ public class Profile implements ProfileStatisticsInterface {
   int singlePlayerHighestScore;
   @SerializedName(JSON_SINGLEPLAYER_LOWEST_SCORE)
   int singlePlayerLowestScore;
+
+
+  @SerializedName(JSON_MULTIPLAYER_TOTAL_GAMES)
+  int multiPlayerTotalGames;
+  @SerializedName(JSON_MULTIPLAYER_TOTAL_GAMES_WON)
+  int multiPlayerTotalGamesLost;
+  @SerializedName(JSON_MULTIPLAYER_TOTAL_GAMES_LOST)
+  int multiPlayerTotalGamesWon;
 
   @SerializedName(JSON_MULTIPLAYER_TOTAL_ROUNDS)
   int multiPlayerTotalRounds;
@@ -175,6 +197,32 @@ public class Profile implements ProfileStatisticsInterface {
   }
 
   // Singleplayer
+
+  // Games
+
+  public int getSinglePlayerTotalGames() {
+    return singlePlayerTotalGames;
+  }
+
+  public int getSinglePlayerTotalGamesWon() {
+    return singlePlayerTotalGamesWon;
+  }
+
+  public int getSinglePlayerTotalGamesLost() {
+    return singlePlayerTotalGamesLost;
+  }
+
+  public void incrementSinglePlayerTotalGamesWon() {
+    singlePlayerTotalGamesWon++;
+    singlePlayerTotalGames++;
+  }
+
+  public void incrementSinglePlayerTotalGamesLost() {
+    singlePlayerTotalGamesLost++;
+    singlePlayerTotalGames++;
+  }
+
+
 
   // Rounds
 
@@ -312,6 +360,32 @@ public class Profile implements ProfileStatisticsInterface {
 
 
   // Multiplayer
+
+  // Games
+
+  public int getMultiPlayerTotalGames() {
+    return multiPlayerTotalGames;
+  }
+
+  public int getMultiPlayerTotalGamesWon() {
+    return multiPlayerTotalGamesWon;
+  }
+
+  public int getMultiPlayerTotalGamesLost() {
+    return multiPlayerTotalGamesLost;
+  }
+
+  public void incrementMultiPlayerTotalGamesWon() {
+    multiPlayerTotalGamesWon++;
+    multiPlayerTotalGames++;
+  }
+
+  public void incrementMultiPlayerTotalGamesLost() {
+    multiPlayerTotalGamesLost++;
+    multiPlayerTotalGames++;
+  }
+
+
   // Rounds
 
   public int getMultiPlayerTotalRounds() {
