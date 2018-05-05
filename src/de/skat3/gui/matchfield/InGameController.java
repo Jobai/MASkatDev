@@ -11,6 +11,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -172,6 +173,13 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void showResults(Result results) {
+
+    if (results.roundCancelled) {
+      Alert a = new Alert(Alert.AlertType.INFORMATION);
+      a.setContentText("Round canceled!");
+      a.showAndWait();
+      return;
+    }
 
     FXMLLoader fxmlLoader =
         new FXMLLoader(getClass().getResource("../resultscreen/RoundResultView.fxml"));
