@@ -255,6 +255,8 @@ public class MenuFrameController {
     // prompt create profile
     if (allProfile.isEmpty()) {
       openProfile(null);
+      fillProfileMenu();
+      return;
     }
 
     allProfile = SkatMain.ioController.getProfileList();
@@ -285,6 +287,8 @@ public class MenuFrameController {
       @Override
       public void handle(ActionEvent event) {
         openProfile(null);
+        fillProfileMenu();
+        setCurrentProfile(SkatMain.ioController.getLastUsedProfile());
       }
     });
     profileMenuButton.getItems().add(new CustomMenuItem(add));
