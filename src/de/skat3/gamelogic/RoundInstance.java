@@ -208,6 +208,8 @@ class RoundInstance {
       currentWinner = bidDuel(this.players[2], currentWinner);
       if (currentWinner.equals(this.players[0]) && this.currentBiddingValue == 0) {
         this.slc.callForBid(this.players[0], BiddingValues.values[this.currentBiddingValue]);
+        this.current = LogicAnswers.BID;
+        lock.wait();
         if (this.bidAccepted) {
           return this.players[0];
         } else {
