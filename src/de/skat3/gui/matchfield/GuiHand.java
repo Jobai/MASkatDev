@@ -142,7 +142,7 @@ public class GuiHand extends Parent {
    * Clears this hand from all cards.
    * 
    */
-  public void clear() {
+  public synchronized void clear() {
     synchronized (cards) { //JB
       for (GuiCard c : this.cards) {
         this.remove(c);
