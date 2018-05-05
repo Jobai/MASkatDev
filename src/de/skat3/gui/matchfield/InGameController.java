@@ -29,6 +29,11 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield = matchfield;
   }
 
+  /**
+   * asd.
+   * 
+   * @param value .
+   */
   public void showSelectionInfos(boolean value) {
     if (value) {
       this.matchfield.overlayController.setRoundInfos(SkatMain.lgs.getContract(),
@@ -36,14 +41,14 @@ public class InGameController implements InGameControllerInterface {
 
       if (SkatMain.lgs.getAdditionalMultipliers().isSchwarzAnnounced()
           || SkatMain.lgs.getAdditionalMultipliers().isOpenHand()) {
-        this.matchfield.tableController.reloadHands();
+        this.matchfield.tableController.iniHands();
       }
-
-      this.matchfield.tableView.trick.showBidingCards(false);
-      this.matchfield.tableController.refreshHands();
     } else {
       this.matchfield.overlayController.setRoundInfos(null, null);
     }
+
+    this.matchfield.tableView.trick.showBidingCards(false);
+    this.matchfield.tableController.refreshHands();
   }
 
   /*
