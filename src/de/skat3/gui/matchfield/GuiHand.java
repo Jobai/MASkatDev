@@ -110,7 +110,7 @@ public class GuiHand extends Parent {
    * @param cards Cards to be added.
    * @param animations TODO
    */
-  public void addAll(Card[] cards, boolean animations) {
+  public synchronized void addAll(Card[] cards, boolean animations) {
     for (Card card : cards) {
       this.add(new GuiCard(card), animations);
     }
@@ -121,7 +121,7 @@ public class GuiHand extends Parent {
    * 
    * @param cards Cards to be added.
    */
-  public void addAll(Collection<GuiCard> cards) {
+  public synchronized void addAll(Collection<GuiCard> cards) {
     for (GuiCard card : cards) {
       this.add(card, true);
     }
@@ -132,7 +132,7 @@ public class GuiHand extends Parent {
    * 
    * @param cards Cards to be added.
    */
-  public void addAll(GuiCard... cards) {
+  public synchronized void addAll(GuiCard... cards) {
     for (GuiCard card : cards) {
       this.add(card, true);
     }
@@ -156,7 +156,7 @@ public class GuiHand extends Parent {
    * 
    * @return A unmodifiableObservableList.
    */
-  public ObservableList<GuiCard> getCards() {
+  public synchronized ObservableList<GuiCard> getCards() {
     return FXCollections.unmodifiableObservableList(this.cards);
   }
 
@@ -166,7 +166,7 @@ public class GuiHand extends Parent {
    * @param card ASD.
    * @return
    */
-  public GuiCard getGuiCard(Card card) {
+  public synchronized GuiCard getGuiCard(Card card) {
     for (GuiCard c : this.cards) {
       try {
         if (c.getCard().equals(card)) {
@@ -180,7 +180,7 @@ public class GuiHand extends Parent {
     return null;
   }
 
-  public Player getOwner() {
+  public synchronized Player getOwner() {
     return this.owner;
   }
 
@@ -208,7 +208,7 @@ public class GuiHand extends Parent {
    
   }
 
-  public void setPlayer(Player owner) {
+  public synchronized void setPlayer(Player owner) {
     this.owner = owner;
   }
 
@@ -216,7 +216,7 @@ public class GuiHand extends Parent {
    * ASD.
    */
   @Override
-  public String toString() {
+  public synchronized String toString() {
     StringBuffer s = new StringBuffer();
     for (Node child : this.getChildren()) {
       GuiCard c = (GuiCard) child;
@@ -312,7 +312,7 @@ public class GuiHand extends Parent {
    * @param duration Duration of the animation played. If null duration will be set to the standard
    *        value stored in Matchfield.
    */
-  void raiseCard(GuiCard card, boolean raise, boolean underneathPos, boolean hoverPositon,
+  void synchronized raiseCard(GuiCard card, boolean raise, boolean underneathPos, boolean hoverPositon,
       boolean showAnimation, Duration duration) {
     if (duration == null) {
       duration = Matchfield.animationTime;
@@ -444,7 +444,7 @@ public class GuiHand extends Parent {
    * @return Array of postions and angles. int[n][0] = x cordinate. int[n][1] y cordiante. int[n][3]
    *         angle.
    */
-  private Parent[] caculateCardPostions(int size, double objectWidth, double xoffset,
+  private synchronized Parent[] caculateCardPostions(int size, double objectWidth, double xoffset,
       double yoffset, double zoffset) {
     // double maxHandWidth = 1000;
     double maxHandWidth = this.getScene().getWidth() / 2;
