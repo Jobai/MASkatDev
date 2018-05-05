@@ -21,6 +21,7 @@ import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_TOTAL_ROUNDS_GRAND;
 import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_TOTAL_ROUNDS_NULL;
 import static de.skat3.io.profile.Utils.JSON_MULTIPLAYER_TOTAL_ROUNDS_SUIT;
 import static de.skat3.io.profile.Utils.JSON_NAME_FIELD;
+import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_AND_MULTIPLAYER_TOTAL_GAMETIME;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_HIGHEST_SCORE;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_LOWEST_SCORE;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_ROUNDS_LOST;
@@ -34,7 +35,6 @@ import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_ROUNDS_WON_SUIT;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_GAMES;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_GAMES_LOST;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_GAMES_WON;
-import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_GAMETIME;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_ROUNDS;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_ROUNDS_GRAND;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_ROUNDS_NULL;
@@ -57,7 +57,7 @@ public class Profile implements ProfileStatisticsInterface {
   boolean lastUsed;
 
 
-  @SerializedName(JSON_SINGLEPLAYER_TOTAL_GAMETIME)
+  @SerializedName(JSON_SINGLEPLAYER_AND_MULTIPLAYER_TOTAL_GAMETIME)
   long playerGameTime;
 
   @SerializedName(JSON_SINGLEPLAYER_TOTAL_GAMES)

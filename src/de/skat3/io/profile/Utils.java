@@ -26,7 +26,8 @@ public final class Utils {
   public static final String JSON_SINGLEPLAYER_TOTAL_GAMES_WON = "singlePlayerTotalGamesWon";
   public static final String JSON_SINGLEPLAYER_TOTAL_GAMES_LOST = "singlePlayerTotalGamesLost";
 
-  public static final String JSON_SINGLEPLAYER_TOTAL_GAMETIME = "singlePlayerGameTime";
+  public static final String JSON_SINGLEPLAYER_AND_MULTIPLAYER_TOTAL_GAMETIME =
+      "singleAndMultiplayerTotalGameTime";
   public static final String JSON_SINGLEPLAYER_TOTAL_ROUNDS = "singlePlayerTotalRounds";
   public static final String JSON_SINGLEPLAYER_TOTAL_ROUNDS_GRAND = "singlePlayerTotalRoundsGrand";
   public static final String JSON_SINGLEPLAYER_TOTAL_ROUNDS_NULL = "singlePlayerTotalRoundsNull";
