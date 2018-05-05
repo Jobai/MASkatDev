@@ -321,6 +321,9 @@ public class GameClient {
       case UPDATE_ENEMY_INFO:
         clh.updateEnemyInfoHandler(m);
         break;
+      case TRAINING_CALL_FOR_SPECIFIC_PLAY:
+        clh.specificPlayHandler(m);
+        break;
       default:
         logger.severe("Message Type not handeld!  " + " --- " + st);
         throw new AssertionError();

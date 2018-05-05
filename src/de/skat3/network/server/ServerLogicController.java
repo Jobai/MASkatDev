@@ -330,6 +330,14 @@ public class ServerLogicController implements ServerLogicInterface {
     gs.broadcastMessage(mc);
   }
 
+  public void callForSpecificPlay(Player player, Card card) {
+    MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, player.toString(),
+        CommandType.TRAINING_CALL_FOR_SPECIFIC_PLAY);
+    mc.gameState = card;
+    mc.playerTarget = player;
+    gs.sendToPlayer(player, mc);
+  }
+
 
 }
 

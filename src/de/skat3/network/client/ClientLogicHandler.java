@@ -122,10 +122,10 @@ public class ClientLogicHandler {
 
     if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
       Player player = (Player) mc.gameState;
-//      System.out.println("update player");
-//      System.out.println("CLIENT RECEIVED" + player.getName() + " CARDS: "
-//          + player.getHand());
-      
+      // System.out.println("update player");
+      // System.out.println("CLIENT RECEIVED" + player.getName() + " CARDS: "
+      // + player.getHand());
+
       SkatMain.mainController.updatePlayer(player);
     }
 
@@ -217,6 +217,7 @@ public class ClientLogicHandler {
   void KontraHideHandler(Message m) {
     // TODO Auto-generated method stub
 
+
   }
 
 
@@ -245,14 +246,20 @@ public class ClientLogicHandler {
 
 
   public void updateEnemyInfoHandler(Message m) {
-    MessageCommand  mc = (MessageCommand) m;
+    MessageCommand mc = (MessageCommand) m;
     Player transmitedPlayer = (Player) mc.gameState;
-    if(!(transmitedPlayer.equals(SkatMain.lgs.getLocalClient())))
-    {
+    if (!(transmitedPlayer.equals(SkatMain.lgs.getLocalClient()))) {
       SkatMain.mainController.updateEnemy(transmitedPlayer);
     }
-    
-    
- 
   }
+    
+    public void specificPlayHandler(Message m)
+    {
+      MessageCommand mc = (MessageCommand) m;
+      Card c = (Card) mc.gameState;
+      SkatMain.mainController.playSpecificCardRequest(c);
+    }
+    
+
+
 }
