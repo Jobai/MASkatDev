@@ -215,19 +215,6 @@ public class ClientLogicHandler {
   }
 
 
-  void KontraHideHandler(Message m) {
-    // TODO Auto-generated method stub
-
-
-  }
-
-
-  void reKontraHideHandler(Message m) {
-    // TODO Auto-generated method stub
-
-  }
-
-
   void roundRestartHandler(Message m) {
     // TODO Auto-generated method stub
 

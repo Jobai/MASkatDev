@@ -15,7 +15,6 @@ import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
-import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageConnection;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.datatypes.SubType;
@@ -131,16 +130,27 @@ public class GameClient {
 
   }
 
-  private void openConnection(String lobbyPassword2) {
+  /**
+   * Sends a "introduction" / OpenConenction Message to the server which includes the player class.
+   * This method includes the LobbyPassword and is used for authentication.
+   * 
+   * @author Jonas Bauer
+   * @param lobbyPassword the lobby password
+   */
+  private void openConnection(String lobbyPassword) {
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
     mc.payload = player;
-    mc.lobbyPassword = lobbyPassword2;
+    mc.lobbyPassword = lobbyPassword;
     mc.originSender = player;
     sendToServer(mc);
 
   }
 
-
+  /**
+   * Sends a "introduction" / OpenConenction Message to the server which includes the player class.
+   * 
+   * @author Jonas Bauer
+   */
   private void openConnection() {
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_OPEN);
     mc.payload = player;
@@ -150,7 +160,7 @@ public class GameClient {
   }
 
   /**
-   * handles and understands the incomming messages. Relays them to the proper methods for action.
+   * Handles and understands the incomming messages. Relays them to the proper methods for action.
    * 
    * @author Jonas Bauer
    * @param o received message from the server (still as object).
@@ -160,19 +170,6 @@ public class GameClient {
     Message m = (Message) receivedObject;
     MessageType mt = m.getType();
     SubType st = m.getSubType();
-
-
-    if (st == CommandType.ROUND_GENERAL_INFO) {
-      // System.out
-      // .println("============= clientProtocolHandler [ROUND_GENERAL_INFO] ================");
-      //
-      // MessageCommand mc = (MessageCommand) m;
-      // System.out.println(mc.gameState);
-      // System.out.println(((Player) mc.gameState).getUuid());
-      // System.out.println(((Player) mc.gameState).getHand());
-      // System.out.println("=========================================");
-
-    }
 
     switch (mt) {
       case CONNECTION_OPEN:
@@ -204,6 +201,13 @@ public class GameClient {
     }
   }
 
+  /**
+   * Handles all ConnectionInfo Messages which include Information about the leaving of another
+   * player.
+   * 
+   * @author Jonas Bauer
+   * @param m the network message
+   */
   void handleConnectionInfo(Message m) {
     // TODO Auto-generated method stub
     MessageConnection mc = (MessageConnection) m;
@@ -214,11 +218,19 @@ public class GameClient {
 
   }
 
+
   private void updateLGS() {
 
   }
 
 
+  /**
+   * Handels openConnection Messages which are send by all players after connection. Used to add the
+   * player to the local lobby.
+   * 
+   * @author Jonas Bauer
+   * @param m the network message
+   */
   void handleOpendConnection(Message m) { // XXX
 
     Player p = (Player) m.payload;
@@ -230,6 +242,12 @@ public class GameClient {
 
   }
 
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m
+   * @param st
+   */
   void handleStateChange(Message m, SubType st) {
 
     String state = (String) m.payload;
@@ -337,7 +355,8 @@ public class GameClient {
     if (!closedByClient) {
       SkatMain.mainController.showCustomAlertPormpt("Connection to the server failed",
           "The connection to the server failed. "
-              + "Please check that a server is running and try again later"); };
+              + "Please check that a server is running and try again later");
+    }
     sl.interrupt();
     try {
       sl.interrupt();

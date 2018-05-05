@@ -65,7 +65,6 @@ public interface ServerLogicInterface {
 
   void broadcastDeclarer(Player p);
 
-
   void updateEnemy(Player p);
 
   void broadcastBid(String message, Player p);
