@@ -205,7 +205,7 @@ public class GuiHand extends Parent {
       this.getChildren().remove(index);
       this.resetPositions();
     }
-   
+
   }
 
   public synchronized void setPlayer(Player owner) {
@@ -312,8 +312,8 @@ public class GuiHand extends Parent {
    * @param duration Duration of the animation played. If null duration will be set to the standard
    *        value stored in Matchfield.
    */
-  void synchronized raiseCard(GuiCard card, boolean raise, boolean underneathPos, boolean hoverPositon,
-      boolean showAnimation, Duration duration) {
+  synchronized void raiseCard(GuiCard card, boolean raise, boolean underneathPos,
+      boolean hoverPositon, boolean showAnimation, Duration duration) {
     if (duration == null) {
       duration = Matchfield.animationTime;
     }
