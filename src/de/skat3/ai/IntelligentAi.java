@@ -3,15 +3,14 @@ package de.skat3.ai;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
-import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Position;
 import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
-import de.skat3.main.SkatMain;
 
 @SuppressWarnings("serial")
 public class IntelligentAi extends Ai {
@@ -26,14 +25,21 @@ public class IntelligentAi extends Ai {
   private Position myPosition;
   private boolean isSolo;
   private Hand hand;
+	private Contract contract; // just for testing
 
   // Updated from lgs
-  private Contract contract = SkatMain.lgs.getContract();
-  private Card[] trick = SkatMain.lgs.getTrick();
-  private Player enemyOne = SkatMain.lgs.getEnemyOne();
-  private Player enemyTwo = SkatMain.lgs.getEnemyTwo();
-  private Player localClient = SkatMain.lgs.getLocalClient();
+	/*
+	 * private Contract contract = SkatMain.lgs.getContract(); private Card[] trick
+	 * = SkatMain.lgs.getTrick(); private Player enemyOne =
+	 * SkatMain.lgs.getEnemyOne(); private Player enemyTwo =
+	 * SkatMain.lgs.getEnemyTwo(); private Player localClient =
+	 * SkatMain.lgs.getLocalClient();
+	 */
 
+	// just for testing
+	public void setContractTest(Contract contract) {
+		this.contract = contract;
+	}
 
   @Override
   public void setPosition(Position position) {
@@ -50,10 +56,9 @@ public class IntelligentAi extends Ai {
     this.hand = new Hand(hand.getCards());
   }
 
-  // TODO check if return null possible
   @Override
   public Contract chooseContract() {
-    Contract contract = null;
+		Contract contract;
 
     if (checkGrand()) {
       contract = Contract.GRAND;
@@ -67,15 +72,17 @@ public class IntelligentAi extends Ai {
     } else if (checkSuit(Suit.DIAMONDS)) {
       contract = Contract.DIAMONDS;
       return contract;
-
     } else if (checkSuit(Suit.HEARTS)) {
       contract = Contract.HEARTS;
       return contract;
     } else if (checkSuit(Suit.CLUBS)) {
       contract = Contract.CLUBS;
       return contract;
+		} else {
+			// just fallback never happens
+			contract = Contract.GRAND;
+			return contract;
     }
-    return contract;
   }
 
 
@@ -173,73 +180,74 @@ public class IntelligentAi extends Ai {
     }
 
     return null;
-  }
+	}
 
-  @Override
-  public ReturnSkat selectSkat(Card[] skat) {
-    Contract contract = chooseContract();
-    ArrayList<Card> cards = new ArrayList<Card>();
+	@Override
+	public ReturnSkat selectSkat(Card[] skat) {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		Contract potentialContract = chooseContract();
+		
+		if (skat[0].getTrickValue() == 2 && skat[1].getTrickValue() == 2 && potentialContract.equals(Contract.GRAND)) {
+			for (int i = 0; i < 10; i++) {
+				cards.add(this.hand.cards[i]);
+			}
+			cards.add(skat[0]);
+			cards.add(skat[1]);
+			Card[] newSkat = new Card[2];
+			Card highestCard = getHighestCard();
+			newSkat[0] = highestCard;
+			cards.remove(highestCard);
+			Card highestCard2 = getLowestPlayableCardExcludeTrumpIfPossible();
+			newSkat[1] = highestCard2;
+			cards.remove(highestCard2);
+			newSkat[0] = skat[0];
+			newSkat[1] = skat[1];
+			Card[] temp = new Card[10];
+			for (int i = 0; i < temp.length; i++) {
+				temp[i] = cards.get(i).copy();
+			}
+			return new ReturnSkat(new Hand(temp), newSkat);
+		} else if (skat[0].getTrickValue() <= NINE && skat[1].getTrickValue() <= NINE
+				&& potentialContract.equals(Contract.NULL)) {
+				for (int i = 0; i < 10; i++) {
+					cards.add(this.hand.cards[i]);
+				}
+				cards.add(skat[0]);
+				cards.add(skat[1]);
+				Card[] newSkat = new Card[2];
+			Card highestCard = getHighestCard();
+				newSkat[0] = highestCard;
+				cards.remove(highestCard);
+			Card highestCard2 = getLowestPlayableCardExcludeTrumpIfPossible();
+				newSkat[1] = highestCard2;
+				cards.remove(highestCard2);
+				newSkat[0] = skat[0];
+				newSkat[1] = skat[1];
+				Card[] temp = new Card[10];
+				for (int i = 0; i < temp.length; i++) {
+					temp[i] = cards.get(i).copy();
+				}
+				return new ReturnSkat(new Hand(temp), newSkat);
+			}else {
+				for (int i = 0; i < 10; i++) {
+				cards.add(this.hand.cards[i]);
+				}
+				cards.add(skat[0]);
+				cards.add(skat[1]);
+				Card[] newSkat = new Card[2];
 
-    if (skat[0].getTrickValue() == 2 && skat[1].getTrickValue() == 2) {
-      for (int i = 0; i < 10; i++) {
-        cards.add(this.hand.cards[i]);
-      }
-      cards.add(skat[0]);
-      cards.add(skat[1]);
-      Card[] newSkat = new Card[2];
-      Card highestCard = getHighestCard();
-      newSkat[0] = highestCard;
-      cards.remove(highestCard);
-      Card highestCard2 = getLowestPlayableCardExcludeTrumpIfPossible();
-      newSkat[1] = highestCard2;
-      cards.remove(highestCard2);
-      newSkat[0] = skat[0];
-      newSkat[1] = skat[1];
-      Card[] temp = new Card[10];
-      for (int i = 0; i < temp.length; i++) {
-        temp[i] = cards.get(i).copy();
-      }
-      return new ReturnSkat(new Hand(temp), newSkat);
-    } else if (skat[0].getTrickValue() <= NINE && skat[1].getTrickValue() <= NINE) {
-      for (int i = 0; i < 10; i++) {
-        cards.add(this.hand.cards[i]);
-      }
-      cards.add(skat[0]);
-      cards.add(skat[1]);
-      Card[] newSkat = new Card[2];
-      Card highestCard = getHighestCard();
-      newSkat[0] = highestCard;
-      cards.remove(highestCard);
-      Card highestCard2 = getLowestPlayableCardExcludeTrumpIfPossible();
-      newSkat[1] = highestCard2;
-      cards.remove(highestCard2);
-      newSkat[0] = skat[0];
-      newSkat[1] = skat[1];
-      Card[] temp = new Card[10];
-      for (int i = 0; i < temp.length; i++) {
-        temp[i] = cards.get(i).copy();
-      }
-      return new ReturnSkat(new Hand(temp), newSkat);
-    } else {
-      for (int i = 0; i < 10; i++) {
-        cards.add(this.hand.cards[i]);
-      }
-      cards.add(skat[0]);
-      cards.add(skat[1]);
-      Card[] newSkat = new Card[2];
-
-      Card lowestCard = getLowestPlayableCardExcludeTrumpIfPossible();
-      newSkat[0] = lowestCard;
-      cards.remove(lowestCard);
-      newSkat[1] = lowestCard;
-      cards.remove(lowestCard);
-      Card[] temp = new Card[10];
-      for (int i = 0; i < temp.length; i++) {
-        temp[i] = cards.get(i).copy();
-      }
-      return new ReturnSkat(new Hand(temp), newSkat);
-    }
-  }
+			Card lowestCard = getLowestPlayableCardExcludeTrumpIfPossible();
+				newSkat[0] = lowestCard;
+				cards.remove(lowestCard);
+			newSkat[1] = lowestCard;
+			cards.remove(lowestCard);
+				Card[] temp = new Card[10];
+				for (int i = 0; i < temp.length; i++) {
+					temp[i] = cards.get(i).copy();
+				}
+				return new ReturnSkat(new Hand(temp), newSkat);
+		}
+	}
 
 
   private Card playForeHand() {
@@ -416,9 +424,8 @@ public class IntelligentAi extends Ai {
     Card[] cards = hand.getCards();
     Card output = null;
     for (Card card : cards) {
-      if (output == null || card.getTrickValue() > output.getTrickValue()) {
-
-        // nullnullnull;
+			if (output == null || card.getValue().ordinal() > output.getValue().ordinal()) {
+				output = card;
       }
     }
     return output;
@@ -428,8 +435,8 @@ public class IntelligentAi extends Ai {
     Card[] cards = hand.getCards();
     Card output = null;
     for (Card card : cards) {
-      if (output == null || card.getTrickValue() < output.getTrickValue()) {
-        // nullnullnull;
+			if (output == null || card.getValue().ordinal() < output.getValue().ordinal()) {
+				output = card;
       }
     }
     return output;
@@ -785,7 +792,9 @@ public class IntelligentAi extends Ai {
   }
 
   public Suit convertContractToTrump() {
-    switch (contract) {
+		Contract potentialContract = chooseContract();
+		// changed contract with potentialContract for testing
+		switch (potentialContract) {
       case DIAMONDS:
         return Suit.DIAMONDS;
       case HEARTS:
@@ -863,7 +872,6 @@ public class IntelligentAi extends Ai {
     return null;
   }
 
-  @Override
   public Hand getHand() {
     return this.hand;
   }
