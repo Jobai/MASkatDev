@@ -37,6 +37,7 @@ public class IntelligentAi extends Ai {
 
   // Updated intern
   private boolean acceptHandGame;
+	private Contract potentialContract;
 
   @Override
   public void setPosition(Position position) {
@@ -80,6 +81,7 @@ public class IntelligentAi extends Ai {
     }
     return contract;
   }
+
 
   @Override
   public boolean acceptBid(int bid) {
@@ -168,6 +170,7 @@ public class IntelligentAi extends Ai {
 
 	@Override
 	public ReturnSkat selectSkat(Card[] skat) {
+		Contract contract = chooseContract();
 		ArrayList<Card> cards = new ArrayList<Card>();
 		
 		if (skat[0].getTrickValue() == 2 && skat[1].getTrickValue() == 2) {
