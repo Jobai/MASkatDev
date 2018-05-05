@@ -160,12 +160,6 @@ public class AIGameClient extends GameClient {
       case REKONTRA_SHOW_OPTION_INFO:
         aiCLH.reKontraShowHandler(m);
         break;
-      case KONTRA_HIDE_OPTION_INFO:
-        aiCLH.KontraHideHandler(m);
-        break;
-      case REKONTRA_HIDE_OPTION_INFO:
-        aiCLH.reKontraHideHandler(m);
-        break;
       case ROUND_RESTART_INFO:
         aiCLH.roundRestartHandler(m);
         break;
