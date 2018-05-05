@@ -238,11 +238,12 @@ public class ServerLogicController implements ServerLogicInterface {
   }
 
   @Override
-  public void broadcastBid(boolean bid) {
-    System.out.println("broadcasting bid [SERVER / LOGIC] : " + bid);
+  public void broadcastBid(String message, Player p) {
+    System.out.println("broadcasting bid [SERVER / LOGIC] : " + message);
 
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.BID_INFO);
-    mc.gameState = bid;
+    mc.gameState = message;
+    mc.originSender = p;
 
     gs.broadcastMessage(mc);
   }
@@ -330,6 +331,7 @@ public class ServerLogicController implements ServerLogicInterface {
     gs.broadcastMessage(mc);
   }
 
+  @Override
   public void callForSpecificPlay(Player player, Card card) {
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_ACTION, player.toString(),
         CommandType.TRAINING_CALL_FOR_SPECIFIC_PLAY);
@@ -337,6 +339,7 @@ public class ServerLogicController implements ServerLogicInterface {
     mc.playerTarget = player;
     gs.sendToPlayer(player, mc);
   }
+
 
 
 }
