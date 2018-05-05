@@ -30,7 +30,7 @@ import javafx.util.Duration;
 public class GuiHand extends Parent {
 
   private ObservableList<GuiCard> cards =
-      FXCollections.synchronizedObservableList(FXCollections.observableArrayList()); //JB
+      FXCollections.synchronizedObservableList(FXCollections.observableArrayList()); // JB
   private Player owner;
 
   /**
@@ -143,12 +143,12 @@ public class GuiHand extends Parent {
    * 
    */
   public synchronized void clear() {
-    synchronized (cards) { //JB
+    synchronized (cards) { // JB
       for (GuiCard c : this.cards) {
         this.remove(c);
       }
     }
-    
+
   }
 
   /**
@@ -190,15 +190,22 @@ public class GuiHand extends Parent {
    * @param oldCard Card to remove.
    */
   public synchronized void remove(GuiCard oldCard) {
-    this.cards.remove(oldCard);
-    this.getChildren().remove(oldCard);
-    this.resetPositions();
+
+    synchronized (cards) {
+      this.cards.remove(oldCard);
+      this.getChildren().remove(oldCard);
+      this.resetPositions();
+    }
+
   }
 
   public synchronized void remove(int index) {
-    this.cards.remove(index);
-    this.getChildren().remove(index);
-    this.resetPositions();
+    synchronized (cards) {
+      this.cards.remove(index);
+      this.getChildren().remove(index);
+      this.resetPositions();
+    }
+   
   }
 
   public void setPlayer(Player owner) {
@@ -358,26 +365,29 @@ public class GuiHand extends Parent {
 
     Duration time = Matchfield.animationTime;
 
-    if (this.cards.get(0).getCard().getValue() != null) {
-      Hand h = new Hand();
-      h.cards = new Card[this.cards.size()];
-      int j = 0;
-      for (GuiCard c : this.cards) {
-        h.cards[j] = c.getCard();
-        j++;
-      }
+    synchronized (cards) {
+      if (this.cards.get(0).getCard().getValue() != null) {
+        Hand h = new Hand();
+        h.cards = new Card[this.cards.size()];
+        int j = 0;
+        for (GuiCard c : this.cards) {
+          h.cards[j] = c.getCard();
+          j++;
+        }
 
-      h.sort(SkatMain.lgs.getContract());
+        h.sort(SkatMain.lgs.getContract());
 
-      for (int z = 0; z < h.cards.length; z++) {
-        GuiCard card = this.getGuiCard(h.cards[z]);
-        GuiCard temp;
-        int index = this.cards.indexOf(card);
-        temp = this.cards.get(z);
-        this.cards.set(z, card);
-        this.cards.set(index, temp);
+        for (int z = 0; z < h.cards.length; z++) {
+          GuiCard card = this.getGuiCard(h.cards[z]);
+          GuiCard temp;
+          int index = this.cards.indexOf(card);
+          temp = this.cards.get(z);
+          this.cards.set(z, card);
+          this.cards.set(index, temp);
+        }
       }
     }
+
 
     int i = 0;
     for (GuiCard card : this.cards) {
