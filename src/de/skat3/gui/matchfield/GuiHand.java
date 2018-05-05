@@ -29,8 +29,7 @@ import javafx.util.Duration;
  */
 public class GuiHand extends Parent {
 
-  private ObservableList<GuiCard> cards =
-      FXCollections.synchronizedObservableList(FXCollections.observableArrayList()); // JB
+  private ObservableList<GuiCard> cards = FXCollections.observableArrayList();
   private Player owner;
 
   /**
@@ -110,7 +109,7 @@ public class GuiHand extends Parent {
    * @param cards Cards to be added.
    * @param animations TODO
    */
-  public synchronized void addAll(Card[] cards, boolean animations) {
+  public void addAll(Card[] cards, boolean animations) {
     for (Card card : cards) {
       this.add(new GuiCard(card), animations);
     }
@@ -121,7 +120,7 @@ public class GuiHand extends Parent {
    * 
    * @param cards Cards to be added.
    */
-  public synchronized void addAll(Collection<GuiCard> cards) {
+  public void addAll(Collection<GuiCard> cards) {
     for (GuiCard card : cards) {
       this.add(card, true);
     }
@@ -132,7 +131,7 @@ public class GuiHand extends Parent {
    * 
    * @param cards Cards to be added.
    */
-  public synchronized void addAll(GuiCard... cards) {
+  public void addAll(GuiCard... cards) {
     for (GuiCard card : cards) {
       this.add(card, true);
     }
@@ -142,13 +141,10 @@ public class GuiHand extends Parent {
    * Clears this hand from all cards.
    * 
    */
-  public synchronized void clear() {
-    synchronized (cards) { // JB
-      for (GuiCard c : this.cards) {
-        this.remove(c);
-      }
+  public void clear() {
+    for (GuiCard c : this.cards) {
+      this.remove(c);
     }
-
   }
 
   /**
@@ -156,7 +152,7 @@ public class GuiHand extends Parent {
    * 
    * @return A unmodifiableObservableList.
    */
-  public synchronized ObservableList<GuiCard> getCards() {
+  public ObservableList<GuiCard> getCards() {
     return FXCollections.unmodifiableObservableList(this.cards);
   }
 
@@ -166,7 +162,7 @@ public class GuiHand extends Parent {
    * @param card ASD.
    * @return
    */
-  public synchronized GuiCard getGuiCard(Card card) {
+  public GuiCard getGuiCard(Card card) {
     for (GuiCard c : this.cards) {
       try {
         if (c.getCard().equals(card)) {
@@ -180,7 +176,7 @@ public class GuiHand extends Parent {
     return null;
   }
 
-  public synchronized Player getOwner() {
+  public Player getOwner() {
     return this.owner;
   }
 
@@ -190,25 +186,18 @@ public class GuiHand extends Parent {
    * @param oldCard Card to remove.
    */
   public synchronized void remove(GuiCard oldCard) {
-
-    synchronized (cards) {
-      this.cards.remove(oldCard);
-      this.getChildren().remove(oldCard);
-      this.resetPositions();
-    }
-
+    this.cards.remove(oldCard);
+    this.getChildren().remove(oldCard);
+    this.resetPositions();
   }
 
   public synchronized void remove(int index) {
-    synchronized (cards) {
-      this.cards.remove(index);
-      this.getChildren().remove(index);
-      this.resetPositions();
-    }
-
+    this.cards.remove(index);
+    this.getChildren().remove(index);
+    this.resetPositions();
   }
 
-  public synchronized void setPlayer(Player owner) {
+  public void setPlayer(Player owner) {
     this.owner = owner;
   }
 
@@ -216,7 +205,7 @@ public class GuiHand extends Parent {
    * ASD.
    */
   @Override
-  public synchronized String toString() {
+  public String toString() {
     StringBuffer s = new StringBuffer();
     for (Node child : this.getChildren()) {
       GuiCard c = (GuiCard) child;
@@ -312,8 +301,8 @@ public class GuiHand extends Parent {
    * @param duration Duration of the animation played. If null duration will be set to the standard
    *        value stored in Matchfield.
    */
-  synchronized void raiseCard(GuiCard card, boolean raise, boolean underneathPos,
-      boolean hoverPositon, boolean showAnimation, Duration duration) {
+  void raiseCard(GuiCard card, boolean raise, boolean underneathPos, boolean hoverPositon,
+      boolean showAnimation, Duration duration) {
     if (duration == null) {
       duration = Matchfield.animationTime;
     }
@@ -365,29 +354,26 @@ public class GuiHand extends Parent {
 
     Duration time = Matchfield.animationTime;
 
-    synchronized (cards) {
-      if (this.cards.get(0).getCard().getValue() != null) {
-        Hand h = new Hand();
-        h.cards = new Card[this.cards.size()];
-        int j = 0;
-        for (GuiCard c : this.cards) {
-          h.cards[j] = c.getCard();
-          j++;
-        }
+    if (this.cards.get(0).getCard().getValue() != null) {
+      Hand h = new Hand();
+      h.cards = new Card[this.cards.size()];
+      int j = 0;
+      for (GuiCard c : this.cards) {
+        h.cards[j] = c.getCard();
+        j++;
+      }
 
-        h.sort(SkatMain.lgs.getContract());
+      h.sort(SkatMain.lgs.getContract());
 
-        for (int z = 0; z < h.cards.length; z++) {
-          GuiCard card = this.getGuiCard(h.cards[z]);
-          GuiCard temp;
-          int index = this.cards.indexOf(card);
-          temp = this.cards.get(z);
-          this.cards.set(z, card);
-          this.cards.set(index, temp);
-        }
+      for (int z = 0; z < h.cards.length; z++) {
+        GuiCard card = this.getGuiCard(h.cards[z]);
+        GuiCard temp;
+        int index = this.cards.indexOf(card);
+        temp = this.cards.get(z);
+        this.cards.set(z, card);
+        this.cards.set(index, temp);
       }
     }
-
 
     int i = 0;
     for (GuiCard card : this.cards) {
@@ -444,7 +430,7 @@ public class GuiHand extends Parent {
    * @return Array of postions and angles. int[n][0] = x cordinate. int[n][1] y cordiante. int[n][3]
    *         angle.
    */
-  private synchronized Parent[] caculateCardPostions(int size, double objectWidth, double xoffset,
+  private Parent[] caculateCardPostions(int size, double objectWidth, double xoffset,
       double yoffset, double zoffset) {
     // double maxHandWidth = 1000;
     double maxHandWidth = this.getScene().getWidth() / 2;
