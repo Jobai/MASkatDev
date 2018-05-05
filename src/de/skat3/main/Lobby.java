@@ -13,11 +13,7 @@ import java.util.UUID;
 import de.skat3.gamelogic.Player;
 
 public class Lobby implements Serializable {
-
-
-  /**
-   * 
-   */
+  
   private static final long serialVersionUID = 7279502331048915007L;
 
 
@@ -203,8 +199,6 @@ public class Lobby implements Serializable {
   @Override
   public boolean equals(Object obj) {
     Lobby lo = (Lobby) obj;
-    // System.out.println(this.uuid);
-    // System.out.println(lo.uuid);
     if (this.uuid.equals(lo.uuid)) {
       return true;
     } else {
@@ -247,10 +241,8 @@ public class Lobby implements Serializable {
         ObjectInput oIn = new ObjectInputStream(bais)) {
       return (Lobby) oIn.readObject();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     } catch (ClassNotFoundException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return null;

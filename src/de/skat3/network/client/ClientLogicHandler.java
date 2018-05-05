@@ -9,7 +9,6 @@ import de.skat3.gamelogic.Result;
 import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
-import de.skat3.network.datatypes.MessageChat;
 import de.skat3.network.datatypes.MessageCommand;
 
 /**
@@ -39,6 +38,11 @@ public class ClientLogicHandler {
 
 
   // tell GUI
+  /**
+   * Handels bidInfoMessages and tells the GUI to display the current bid of another player.
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void bidInfoHandler(Message m) {
 
     System.out.println("BID INFO HANDELD");
@@ -47,7 +51,7 @@ public class ClientLogicHandler {
     String message = (String) mc.gameState;
     Player p = mc.originSender;
     SkatMain.mainController.showBid(message, p);
- 
+
   }
 
   // tell GUI
@@ -60,6 +64,11 @@ public class ClientLogicHandler {
   }
 
   // tell GUI
+  /**
+   * Handels bidRequest message and tells the gui to ask the player for a bid.
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void bidRequestHandler(Message m) {
 
     System.out.println("BID REQUEST HANDELD");
@@ -71,6 +80,11 @@ public class ClientLogicHandler {
   }
 
   // tell GUI
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void playInfoHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     Card c = (Card) mc.gameState;
@@ -87,11 +101,21 @@ public class ClientLogicHandler {
   }
 
   // tell GUI
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void playRequestHandler(Message m) {
     SkatMain.mainController.playCardRequest();
   }
 
   // tell GUI
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void trickInfoHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     Player trickWinner = (Player) mc.gameState;
@@ -101,6 +125,11 @@ public class ClientLogicHandler {
   }
 
   // Round = All tricks are won, all cards played, the contract is finished.
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void roundInfoHandler(Message m) {
     System.out.println("AUFGERUFEN - round info handler");
     MessageCommand mc = (MessageCommand) m;
@@ -132,6 +161,11 @@ public class ClientLogicHandler {
 
   }
 
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void matchInfoHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     MatchResult mr = (MatchResult) mc.gameState;
@@ -139,6 +173,12 @@ public class ClientLogicHandler {
 
   }
 
+  
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void gameInfoHandler(Message m) {
     // TODO Auto-generated method stub
     System.out.println("AUFGERUFEN + Set Starthand");
@@ -153,13 +193,14 @@ public class ClientLogicHandler {
 
   }
 
-  void sendChatMessage(String chatString) {
-    MessageChat mc = new MessageChat(chatString, "NICK NAME PLACEHOLDER"); // FIXME
-    gc.sendToServer(mc);
-
-  }
+ 
 
 
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void contractRequestHandler(Message m) {
 
 
@@ -168,6 +209,11 @@ public class ClientLogicHandler {
   }
 
 
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void declarerInfoHander(Message m) {
 
     MessageCommand mc = (MessageCommand) m;
@@ -176,6 +222,11 @@ public class ClientLogicHandler {
   }
 
 
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void handRequestHandler(Message m) {
 
     SkatMain.mainController.handGameRequest();
@@ -183,6 +234,11 @@ public class ClientLogicHandler {
   }
 
 
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void skatRequestHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     Card[] skat = (Card[]) mc.gameState;
@@ -191,12 +247,22 @@ public class ClientLogicHandler {
   }
 
 
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void kontraAnnouncedInfoHandler(Message m) {
     SkatMain.mainController.kontraAnnounced();
 
   }
 
 
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void reKontraAnnouncedInfoHandler(Message m) {
     SkatMain.mainController.rekontraAnnounced();
 
@@ -204,11 +270,21 @@ public class ClientLogicHandler {
 
 
 
-  void KontraShowHandler(Message m) {
+  /**
+   * Show a Kontra popup in the GUI.
+   * @author Jonas Bauer
+   * @param m network message
+   */
+  void kontraShowHandler(Message m) {
     SkatMain.mainController.kontraRequest();
   }
 
 
+  /**
+   * Show a reKontra popup in the GUI.
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void reKontraShowHandler(Message m) {
     SkatMain.mainController.rekontraRequest();
 
@@ -222,9 +298,13 @@ public class ClientLogicHandler {
   }
 
 
+  /**
+   * Understands the network message and sets the chosen contract in the GUI.
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
   void contractInfoHandler(Message m) {
-    // TODO Auto-generated method stub
-
     MessageCommand mc = (MessageCommand) m;
     Contract c = (Contract) mc.payload;
     AdditionalMultipliers am = (AdditionalMultipliers) mc.secondPayload;
@@ -233,22 +313,33 @@ public class ClientLogicHandler {
   }
 
 
-  public void updateEnemyInfoHandler(Message m) {
+  /**
+   * Understands the network message and Sets the info in the GUI which players are in a team.
+   * 
+   * @author Jonas Bauer
+   * @param m network message
+   */
+  void updateEnemyInfoHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     Player transmitedPlayer = (Player) mc.gameState;
     if (!(transmitedPlayer.equals(SkatMain.lgs.getLocalClient()))) {
       SkatMain.mainController.updateEnemy(transmitedPlayer);
     }
   }
-    
-    public void specificPlayHandler(Message m)
-    {
-      MessageCommand mc = (MessageCommand) m;
-      Card c = (Card) mc.gameState;
-      SkatMain.mainController.playSpecificCardRequest(c);
-    }
-    
-    
+
+  /**
+   * Understands the network message and Calls the GUI and orders to user to play a specified card.
+   * Used in tutorials an scenarios.
+   * 
+   * @author Jonas Bauer
+   * @param m network message with the card.
+   */
+  void specificPlayHandler(Message m) {
+    MessageCommand mc = (MessageCommand) m;
+    Card c = (Card) mc.gameState;
+    SkatMain.mainController.playSpecificCardRequest(c);
+  }
+
 
 
 }

@@ -155,7 +155,7 @@ public class AIGameClient extends GameClient {
         aiCLH.reKontraAnnouncedInfoHandler(m);
         break;
       case KONTRA_SHOW_OPTION_INFO:
-        aiCLH.KontraShowHandler(m);
+        aiCLH.kontraShowHandler(m);
         break;
       case REKONTRA_SHOW_OPTION_INFO:
         aiCLH.reKontraShowHandler(m);

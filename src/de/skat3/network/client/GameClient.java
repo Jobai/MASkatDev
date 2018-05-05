@@ -313,7 +313,7 @@ public class GameClient {
         clh.reKontraAnnouncedInfoHandler(m);
         break;
       case KONTRA_SHOW_OPTION_INFO:
-        clh.KontraShowHandler(m);
+        clh.kontraShowHandler(m);
         break;
       case REKONTRA_SHOW_OPTION_INFO:
         clh.reKontraShowHandler(m);
@@ -431,7 +431,7 @@ public class GameClient {
 
     for (int i = 1; i <= 1000000; i++) {
 
-      gc.clh.sendChatMessage("Test  Message" + i);
+      gc.clc.sendChatMessage("Test  Message" + i);
     }
 
   }

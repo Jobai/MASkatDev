@@ -6,6 +6,7 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
+
 package de.skat3.network.client;
 
 import de.skat3.gamelogic.AdditionalMultipliers;
@@ -22,6 +23,7 @@ import de.skat3.network.datatypes.MessageCommand;
  * @author Jonas Bauer
  *
  */
+
 public class AIClientLogicHandler extends ClientLogicHandler {
   
   Player aiPlayer;
@@ -177,19 +179,6 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   /*
    * (non-Javadoc)
    * 
-   * @see de.skat3.network.client.ClientLogicHandler#sendChatMessage(java.lang.String)
-   */
-  @Override
-  void sendChatMessage(String chatString) {
-    // TODO Auto-generated method stub
-    super.sendChatMessage(chatString);
-  }
-
-
-
-  /*
-   * (non-Javadoc)
-   * 
    * @see
    * de.skat3.network.client.ClientLogicHandler#contractRequestHandler(de.skat3.network.datatypes.
    * Message)
@@ -286,9 +275,9 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    * Message)
    */
   @Override
-  void KontraShowHandler(Message m) {
+  void kontraShowHandler(Message m) {
     // TODO Auto-generated method stub
-    super.KontraShowHandler(m);
+    super.kontraShowHandler(m);
   }
 
 
@@ -353,15 +342,5 @@ public class AIClientLogicHandler extends ClientLogicHandler {
     super.contractInfoHandler(m);
   }
 
-
-
-  /**
-   * @author Jonas Bauer
-   * @param args
-   */
-  public static void main(String[] args) {
-    // TODO Auto-generated method stub
-
-  }
 
 }
