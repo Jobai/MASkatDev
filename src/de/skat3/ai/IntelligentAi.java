@@ -2,9 +2,6 @@ package de.skat3.ai;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -21,18 +18,13 @@ public class IntelligentAi extends Ai {
 	final int ACE = 11;
 	final int TEN = 10;
 	final int JACK = 2;
-	/**
-	 * private static final long serialVersionUID = 1L;
-	 */
-	AiHelper aiHelper;
-	LocalGameState lgs;
 
-  /**
-   * private static final long serialVersionUID = 1L;
-   */
+
   AiHelper aiHelper;
   LocalGameState lgs;
   boolean isSolo;
+
+
 	public IntelligentAi() {
 		this.aiHelper = new AiHelper();
 	}
@@ -47,10 +39,6 @@ public class IntelligentAi extends Ai {
     this.isSolo = isSolo;
   }
 
-  @Override
-  public void setPosition(Position position) {
-    this.position = position;
-  }
 	@Override
 	public void setHand(Hand hand) {
 		this.hand = new Hand(hand.getCards());
@@ -62,11 +50,6 @@ public class IntelligentAi extends Ai {
 		Card[] cards = hand.getCards();
 		Contract contract = null;
 
-  @Override
-  public Contract chooseContract() {
-    // TODO
-    return null;
-  }
 		if (aiHelper.checkGrand(cards)) {
 			contract = Contract.GRAND;
 			return contract;
@@ -98,8 +81,7 @@ public class IntelligentAi extends Ai {
      * break; case SPADES: contract = Contract.SPADES; break; case HEARTS: contract =
      * Contract.HEARTS; break; case DIAMONDS: contract = Contract.DIAMONDS; break; } }
      */
-    return false;
-  }
+
 		Card[] cards = this.hand.getCards();
 		int maxBidSpades = hand.getMaximumBid(Contract.SPADES);
 		int maxBidDiamonds = hand.getMaximumBid(Contract.DIAMONDS);
@@ -211,6 +193,8 @@ public class IntelligentAi extends Ai {
 				cards.add(skat[0]);
 				cards.add(skat[1]);
 				Card[] newSkat = new Card[2];
+      // TODO should these be highest value or trick value?
+      // TODO should contract be considered?
 				Card lowestCard = aiHelper.getLowestCard(cards);
 				newSkat[0] = lowestCard;
 				cards.remove(lowestCard);
@@ -225,63 +209,11 @@ public class IntelligentAi extends Ai {
 		}
 	}
 
-	private Card playForeHand() {
-		Card[] cards = hand.getCards();
-		// 1: check, if there are still trump cards out
-
-		// FIXME
-		// if (card.getValue() == Value.JACK || card.isTrump(contract)) {
-		// return card;
-		// }
 
   private Card playForeHand() {
     Card[] cards = hand.getCards();
     return aiHelper.playMostExpensiveCardThatIsNotTrumpIfPossible(cards, lgs.getContract());
   }
-		// do i have any aces?
-		for (int i = 0; i < cards.length; i++) {
-			if (cards[i].getValue() == Value.ACE) {
-				return cards[i];
-			} else if (cards[i].getValue() == Value.TEN) {
-				return cards[i];
-			} else if (cards[i].getValue() == Value.KING)
-				return cards[i];
-		}
-
-		int help = 0;
-		// fallback: just play the first valid card
-		for (int i = 0; i < cards.length; i++) {
-			if (cards[i].isPlayable())
-				help = i;
-		}
-		return cards[help];
-	}
-
-	private Card playMiddlehandCard() {
-		Card[] cards = hand.getCards();
-		// "kurzer Weg, lange Farbe zum Freund"
-		Suit biggestSuit = aiHelper.getMostFrequentSuit(cards);
-		int firstIndex = aiHelper.getFirstIndexOfSuit(cards, biggestSuit);
-		if (cards[firstIndex].getValue() == Value.ACE) {
-			return cards[firstIndex];
-		} else {
-			Suit secondBiggestSuit = aiHelper.getMostFrequentSuit(cards, biggestSuit);
-			int lastIndex = aiHelper.getLastIndexOfSuit(cards, secondBiggestSuit);
-			return cards[lastIndex];
-		}
-	}
-
-	private Card playRearhandCard() {
-		Card[] cards = hand.getCards();
-		// "langer Weg, kurze Farbe"
-		int minCount = 9;
-		Card result = null;
-		for (Card card : hand.cards) {
-			if (result == null || result.isTrump(lgs.getContract())) {
-				result = card;
-				continue;
-			}
-
   private Card playMiddlehandCard() {
     Card[] cards = hand.getCards();
     Card[] trick = lgs.getTrick();
@@ -304,25 +236,6 @@ public class IntelligentAi extends Ai {
       }
     }
   }
-			int amountOfCardsOfSameSuit = aiHelper.getAmountOfCardsWithSameSuit(card, hand.getCards());
-			if (amountOfCardsOfSameSuit < minCount && !(amountOfCardsOfSameSuit == 1 && card.getValue() == Value.TEN)) {
-				result = card;
-				minCount = amountOfCardsOfSameSuit;
-				continue;
-			}
-			if (amountOfCardsOfSameSuit == minCount
-					&& !(amountOfCardsOfSameSuit == 1 && card.getValue() == Value.ACE)) {
-				result = card;
-				continue;
-			}
-			if (card.getSuit() == result.getSuit() && amountOfCardsOfSameSuit == minCount) {
-				result = card;
-				continue;
-			}
-		}
-
-		return aiHelper.getAnyPlayableCard(cards);
-	}
 
   private Card playRearhandCard() {
     Card[] cards = hand.getCards();

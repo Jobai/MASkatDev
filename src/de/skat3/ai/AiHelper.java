@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -263,6 +262,22 @@ public class AiHelper implements Serializable {
     }
   }
 
+
+  public Card getHighestCard(Card[] cards, Contract contract) {
+
+    return new Card();
+  }
+
+  private Card getHighestCard(Card[] cards) {
+    Card output = null;
+    for ( Card card : cards) {
+      if (output == null || card.getTrickValue() > output.getTrickValue()){
+    nullnullnull;
+      }
+    }
+    return output;
+  }
+
   /**
    * 
    * @return return an array of ints int[0] = anzahl der DIAMONDS aus cards int[1] = anzahl der
@@ -309,6 +324,16 @@ public class AiHelper implements Serializable {
       default:
         return suitArray[3];
     }
+  }
+
+  public ArrayList<Card> getAllCardsOfValue(Card[] cards, Value value) {
+    ArrayList<Card> jacksList = new ArrayList<Card>();
+    for (Card card : cards) {
+      if (card.getValue() == value) {
+        jacksList.add(card);
+      }
+    }
+    return jacksList;
   }
 
   public ArrayList<Card> getAllPlayableCardsOfValue(Card[] cards, Value value) {
