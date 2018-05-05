@@ -8,6 +8,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
+/**
+ * Class to control the corresponding game result view file.
+ * 
+ * @author tistraub
+ */
 public class GameResultViewController {
 
   @FXML
@@ -35,7 +40,11 @@ public class GameResultViewController {
   @FXML
   private ListView<String> listViewHistP3;
 
-
+  /**
+   * Set result value to screen.
+   * 
+   * @param matchResult Result values of the match
+   */
   public void setResult(MatchResult matchResult) {
 
     PlayerHistory[] history = matchResult.getData();

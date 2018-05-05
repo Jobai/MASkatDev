@@ -15,6 +15,9 @@ import javafx.scene.layout.AnchorPane;
 public class MultiplayerMenu extends Menu {
   private MultiplayerMenuController controller;
 
+  /**
+   * Constructor for Multiplayer Menu.
+   */
   public MultiplayerMenu() {
     super(2);
     URL u = MultiplayerMenu.class.getResource("MultiplayerMenuView.fxml");

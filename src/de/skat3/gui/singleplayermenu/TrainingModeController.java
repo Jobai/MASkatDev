@@ -4,6 +4,11 @@ import de.skat3.main.SkatMain;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+/**
+ * Class to control the corresponding training mode view file.
+ * 
+ * @author tistraub
+ */
 public class TrainingModeController {
   private AnchorPane main;
   private Pane trainingMode;

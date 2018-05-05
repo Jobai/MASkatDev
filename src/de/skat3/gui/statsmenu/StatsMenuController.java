@@ -76,7 +76,9 @@ public class StatsMenuController {
   private Label gameTime;
 
 
-
+  /**
+   * Initialize statistic menu and set values of the last used profile to screen.
+   */
   @FXML
   public void initialize() {
     Profile p = SkatMain.ioController.getLastUsedProfile();
@@ -86,8 +88,14 @@ public class StatsMenuController {
     }
 
     // Time
-    String time = new SimpleDateFormat("mm:ss").format(new Date(p.getPlayerGameTime()));
-    gameTime.setText(time + " h");
+    long hours = p.getPlayerGameTime() / 3600;
+    long minutes = (p.getPlayerGameTime() % 3600) / 60;
+
+    String hoursForm = String.format("%02d", hours);
+    String minutesForm = String.format("%02d", minutes);
+
+    String time = hoursForm + ":" + minutesForm;
+    gameTime.setText(time);
 
     // Singleplayer
     // Rounds
@@ -129,6 +137,9 @@ public class StatsMenuController {
 
   }
 
+  /**
+   * Refresh statistic.
+   */
   public void refresh() {
     initialize();
   }

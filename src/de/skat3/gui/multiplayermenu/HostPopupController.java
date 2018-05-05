@@ -47,8 +47,8 @@ public class HostPopupController {
     BooleanBinding b2 = Bindings.isEmpty(modeValue.textProperty());
     BooleanBinding b3 = Bindings.equal("Seeger", mode.valueProperty());
     BooleanBinding b4 = Bindings.equal("Bierlachs", mode.valueProperty());
-    
-    //btnHost.disableProperty().bind(b1.or(b2).or(Bindings.when(b3).then(Bindings.d)));
+
+    // btnHost.disableProperty().bind(b1.or(b2).or(Bindings.when(b3).then(Bindings.d)));
 
     timer.textProperty().addListener(new ChangeListener<String>() {
       @Override
@@ -84,6 +84,7 @@ public class HostPopupController {
   }
 
   /**
+   * Save current stage, which is needed to close them later.
    * 
    * @param s current Stage
    */
@@ -92,10 +93,10 @@ public class HostPopupController {
   }
 
   /**
-   * .
+   * Host a new game with the inserted values.
    * 
-   * @throws NumberFormatException TODO
-   * @throws UnknownHostException TODO
+   * @throws NumberFormatException exception
+   * @throws UnknownHostException exception
    */
   public void hostGame() throws NumberFormatException, UnknownHostException {
 
@@ -119,9 +120,9 @@ public class HostPopupController {
   }
 
   /**
-   * . TODO
+   * Handles action, if user change dropdown value.
    * 
-   * @param e Event
+   * @param e ActionEvent
    */
   public void switchMode(ActionEvent e) {
     if (mode.getValue() == "Seeger") {

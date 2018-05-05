@@ -15,7 +15,7 @@ public class StatsMenu extends Menu {
   private StatsMenuController controller;
 
   /**
-   * .
+   * Creates a statistic menu with the design in the corresponding fxml file.
    */
   public StatsMenu() {
     super(3);
@@ -30,7 +30,7 @@ public class StatsMenu extends Menu {
   }
 
   /**
-   * returns the controller which handles the StatsMenu content.
+   * Returns the controller which handles the StatsMenu content.
    * 
    * @return the controllerClass of the corresponding pane
    */

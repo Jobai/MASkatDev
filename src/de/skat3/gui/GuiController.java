@@ -126,4 +126,9 @@ public class GuiController implements GuiControllerInterface {
     gameResultViewController.setResult(matchResult);
     stage.show();
   }
+
+  @Override
+  public void refreshStatistik() {
+    this.gui.getMenuFrame().getController().getStatsMenu().getController().refresh();
+  }
 }

@@ -48,7 +48,7 @@ public class SingleplayerMenuController {
   private ScaleTransition imageSizeAnimation;
 
   /**
-   * Show popup to select difficulty of KI players and start a Singleplayer Game
+   * Show a popup to select difficulty of KI players and start a Singleplayer Game.
    */
   public void startSinglePlayerGame() {
     List<String> difficulty = new ArrayList<>();
@@ -82,8 +82,6 @@ public class SingleplayerMenuController {
     TextField scoreValue = new TextField();
     scoreValue.setText(String.valueOf(48));
 
-    CheckBox kontraRekontra = new CheckBox();
-
     // Set the button types.
     ButtonType startGame = new ButtonType("Start", ButtonData.OK_DONE);
     dialog.getDialogPane().getButtonTypes().addAll(startGame, ButtonType.CANCEL);
@@ -97,6 +95,8 @@ public class SingleplayerMenuController {
     grid.add(new Label("Scoring Mode"), 0, 3);
     grid.add(scoringMode, 1, 3);
     grid.add(scoreValue, 1, 4);
+
+    CheckBox kontraRekontra = new CheckBox();
 
     grid.add(new Label(""), 0, 5);
     grid.add(new Label("Kontra/Rekontra"), 0, 6);
@@ -151,7 +151,7 @@ public class SingleplayerMenuController {
   }
 
   /**
-   * .
+   * Start training mode.
    */
   public void startTrainingMode() {
 

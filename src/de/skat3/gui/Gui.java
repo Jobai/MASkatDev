@@ -91,4 +91,8 @@ public class Gui extends Application {
   public Stage getMainStage() {
     return this.mainStage;
   }
+
+  public MenuFrame getMenuFrame() {
+    return this.menuFrame;
+  }
 }

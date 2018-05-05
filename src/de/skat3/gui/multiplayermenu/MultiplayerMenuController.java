@@ -97,6 +97,13 @@ public class MultiplayerMenuController {
     public boolean hasTimer;
     public String time;
 
+    /**
+     * Constructor for a new cell in the server listview.
+     * 
+     * @param name server name
+     * @param hasPassword if server has password
+     * @param timer if server has timer
+     */
     public CellItem(String name, boolean hasPassword, int timer) {
       this.name = name;
       this.hasPw = hasPassword;
@@ -121,6 +128,11 @@ public class MultiplayerMenuController {
     Pane pane = new Pane();
     Label label = new Label();
 
+    /**
+     * Constructor for a new HostCell, which represent the design of a row in the listview.
+     * 
+     * @param item cell data
+     */
     public HostCell(CellItem item) {
       super();
       ivServer.setFitWidth(30);
@@ -176,12 +188,15 @@ public class MultiplayerMenuController {
     }
   }
 
+  /**
+   * Starts a new game.
+   */
   public void startGame() {
     SkatMain.mainController.startGame();
   }
 
   /**
-   * .
+   * Searche for servers in the network and display them in a listview.
    */
   public void fillHostList() {
 
@@ -207,14 +222,14 @@ public class MultiplayerMenuController {
 
               hostListView.setCellFactory(param -> new HostCell(item));
 
-              Platform.runLater(new Runnable() { //JB
+              Platform.runLater(new Runnable() { // JB
 
                 @Override
                 public void run() {
                   items.add(item);
                 }
               });
-              
+
             }
 
             hostListView.setItems(items);
@@ -223,12 +238,13 @@ public class MultiplayerMenuController {
         };
       }
     }
+
     playService = new PlayService();
     playService.restart();
   }
 
   /**
-   * .
+   * Hosts a new server with the inserted values.
    */
   public void hostServer() {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HostPopup.fxml"));
@@ -310,7 +326,7 @@ public class MultiplayerMenuController {
   }
 
   /**
-   * .
+   * Display a loaging screen and refresh the server list.
    */
   public void refresh() {
     showLoadingScreen();
@@ -318,7 +334,7 @@ public class MultiplayerMenuController {
   }
 
   /**
-   * .
+   * Join to the currently selected game server.
    */
   public void joinServer() {
     if (currentLobby == null) {
@@ -343,7 +359,7 @@ public class MultiplayerMenuController {
   }
 
   /**
-   * .
+   * Handle event, when user select a server in the listview.
    */
   public void handleHostSelected() {
 
@@ -375,8 +391,6 @@ public class MultiplayerMenuController {
     serverDomain.setText(currentLobby.getIp().toString().replaceAll("\\/.*$", ""));
 
     serverIP.setText(currentLobby.getIp().toString().replace(serverDomain.getText() + "/", ""));
-    // serverPlayer.setText(currentLobby.lobbyPlayer + "/" +
-    // currentLobby.getMaximumNumberOfPlayers());
 
     // Players
     Player[] players = currentLobby.getPlayers();
@@ -407,7 +421,7 @@ public class MultiplayerMenuController {
   }
 
   /**
-   * .
+   * Shows a loading screen.
    */
   private void showLoadingScreen() {
 

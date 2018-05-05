@@ -7,11 +7,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
 /**
- *
- * @author tistraub
+ * Controller class to handle the events of the result screen.
  * 
- *         Controller class to handle the events of the result screen.
- *
+ * @author tistraub
  */
 public class RoundResultViewController {
 

@@ -14,6 +14,9 @@ import javafx.scene.layout.AnchorPane;
 public class OptionsMenu extends Menu {
   private OptionsMenuController controller;
 
+  /**
+   * Creates a new Option Menu with the design described in the corresponding fxml file.
+   */
   public OptionsMenu() {
     super(4);
     URL u = OptionsMenu.class.getResource("OptionsMenuView.fxml");

@@ -107,6 +107,11 @@ public class MenuFrameController {
   private ScaleTransition buttonSizeAnimation;
   private TranslateTransition menuLinePostionAnimation;
 
+  /**
+   * Starts the underline animation.
+   * 
+   * @param targetButton Button which should be underlined
+   */
   private void startMenuUnderlineAnimation(Button targetButton) {
     // Changing the width of the line to the width of the button.
     this.menuNameLine
@@ -226,6 +231,9 @@ public class MenuFrameController {
     }
   }
 
+  /**
+   * Initialize the menu frame with all the sub menus and set the current profile.
+   */
   protected void initialize() {
     this.singleplayerMenu = new SingleplayerMenu();
     this.multiplayerMenu = new MultiplayerMenu();
@@ -236,6 +244,9 @@ public class MenuFrameController {
     setCurrentProfile(SkatMain.ioController.getLastUsedProfile());
   }
 
+  /**
+   * Fills the profile dropdown with all the available profiles.
+   */
   private void fillProfileMenu() {
     // clear old data
     profileMenuButton.getItems().clear();
@@ -244,7 +255,6 @@ public class MenuFrameController {
     // prompt create profile
     if (allProfile.isEmpty()) {
       openProfile(null);
-      return;
     }
 
     allProfile = SkatMain.ioController.getProfileList();
@@ -280,14 +290,25 @@ public class MenuFrameController {
     profileMenuButton.getItems().add(new CustomMenuItem(add));
   }
 
+  /**
+   * Initialization after screen is created.
+   */
   public void delayedInitialize() {
     this.showSingleplayerMenu();
   }
 
+  /**
+   * Handels user mouse click on profile.
+   */
   public void handleMouseClickProfileMenu() {
     openProfile(currentProfile);
   }
 
+  /**
+   * Opens a popup in which the current profile is shown.
+   * 
+   * @param p Profile which sould be opened
+   */
   private void openProfile(Profile p) {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ProfilePopupView.fxml"));
     Parent root = null;
@@ -310,12 +331,6 @@ public class MenuFrameController {
 
     stage.initModality(Modality.APPLICATION_MODAL);
     stage.showAndWait();
-
-    // Update Profiles
-    fillProfileMenu();
-    currentProfile = SkatMain.ioController.getLastUsedProfile();
-
-    setCurrentProfile(currentProfile);
   }
 
   private void setCurrentProfile(Profile p) {
@@ -323,7 +338,7 @@ public class MenuFrameController {
     try {
       currentProfileImage.setImage(p.getImage());
     } catch (Exception e) {
-
+      // Do nothing
     }
     currentProfileName.setText(p.getName());
 
@@ -335,6 +350,15 @@ public class MenuFrameController {
     }
     timer = new PlayTimeTimer(p.getPlayerGameTime());
 
+  }
+
+  /**
+   * Returns Statistik Menu.
+   * 
+   * @return Statistik Menu
+   */
+  public StatsMenu getStatsMenu() {
+    return this.statsMenu;
   }
 
 }

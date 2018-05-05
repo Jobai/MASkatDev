@@ -10,5 +10,7 @@ public interface GuiControllerInterface {
   public void showRoundResult(Result result);
 
   public void showGameResult(MatchResult matchResult);
+  
+  public void refreshStatistik();
 
 }
