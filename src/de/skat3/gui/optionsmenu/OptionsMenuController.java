@@ -1,6 +1,8 @@
 package de.skat3.gui.optionsmenu;
 
 import java.io.File;
+import de.skat3.io.SoundVolumeUtil;
+import de.skat3.main.SkatMain;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -49,7 +51,8 @@ public class OptionsMenuController {
       public void changed(ObservableValue<? extends Number> observable, //
           Number oldValue, Number newValue) {
 
-        backgroundMusicPlayer.setVolume(volumeMusic.getValue());
+//        backgroundMusicPlayer.setVolume(volumeMusic.getValue());
+        SoundVolumeUtil.setVolume((float) volumeMusic.getValue());
       }
     });
 
@@ -80,26 +83,13 @@ public class OptionsMenuController {
 
     if (btnMusic.isSelected()) {
       // Music on
-      btnMusic.setText("ON");
-
-      // String path =
-      // "F:/MusicPlayer/src/musicplayer/adcBicycle_-_02_-_poor_economic_policies.mp3";
-      // Media media = new Media(new File(path).toURI().toString());
-      // backgroundMusicPlayer = new MediaPlayer(media);
-      // backgroundMusicPlayer.setAutoPlay(true);
-      // backgroundMusicPlayer = new MediaView(mediaPlayer);
-
-
-      // String url = getClass().getResource("../../../../music/backgroundMusic.mp3").toString();
-      // Media media = new Media(new File(url).toString());
-      // backgroundMusicPlayer = new MediaPlayer(media);
-      // backgroundMusicPlayer.setVolume(volumeMusic.getValue());
-      // backgroundMusicPlayer.play();
+      btnMusic.setText("OFF");
+      SkatMain.soundPlayer.stopBackgroundMusic();
 
     } else {
       // Music off
-      btnMusic.setText("OFF");
-      backgroundMusicPlayer.stop();
+      btnMusic.setText("ON");
+      SkatMain.soundPlayer.playBackgroundMusic();
 
     }
 
