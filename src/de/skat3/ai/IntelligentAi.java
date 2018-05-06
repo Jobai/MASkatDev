@@ -22,6 +22,8 @@ public class IntelligentAi extends Ai {
   final int TEN = 10;
   final int JACK = 2;
 
+  AiHelper aiHelper = new AiHelper();
+
   // Updated with setters
   private Position myPosition;
   private boolean isSolo;
@@ -156,7 +158,7 @@ public class IntelligentAi extends Ai {
     int noOfJacks = countJacks();
     int noOfAces = countAces();
     int noOfTens = countTens();
-    int noOfLusche = countSevens() + countEights() + countNines();
+    int noOfLows = countSevens() + countEights() + countNines();
     Card lowestCard = getLowestCard();
     Card highestCard = getHighestCard();
 
@@ -166,9 +168,9 @@ public class IntelligentAi extends Ai {
       handGame = true;
     } else if (noOfJacks >= 2 && noOfAces >= 3 && lowestCard.getTrickValue() >= QUEEN) {
       handGame = true;
-    } else if (noOfLusche >= 7) {
+    } else if (noOfLows >= 7) {
       handGame = true;
-    } else if (noOfLusche >= 5 && highestCard.getTrickValue() <= QUEEN) {
+    } else if (noOfLows >= 5 && highestCard.getTrickValue() <= QUEEN) {
       handGame = true;
     } else if ((noOfTrumps >= 7)) {
       handGame = true;
@@ -182,14 +184,44 @@ public class IntelligentAi extends Ai {
 
   @Override
   public AdditionalMultipliers chooseAdditionalMultipliers() {
-    // TODO Auto-generated method stub
+    int noOfJacks = countJacks();
+    int noOfTrumps = countTrumps(chooseContract());
+    int noOfAces = countAces();
+    int noOfTens = countTens();
+    int noOfLows = countSevens() + countEights() + countNines();
     if (acceptHandGame()) {
-
-    } else {
-
+      if (chooseContract() == Contract.NULL) {
+        if (noOfLows == 10) {
+          return aiHelper.getNullOuvert();
+        }
+        if (noOfLows > 8 && noOfJacks == 0 && noOfAces == 0 && noOfTens == 0) {
+          return aiHelper.getNullHand();
+        } else {
+          return aiHelper.getHandGameNoMultipliers();
+        }
+      } else if (chooseContract() == Contract.GRAND) {
+        if (noOfJacks == 4 && noOfAces == 4) {
+          return aiHelper.getOpenHand();
+        } else if (noOfJacks == 4 && noOfAces >= 3 && noOfTens >= 2) {
+          return aiHelper.getSchwarz();
+        } else if (noOfJacks >= 3 && noOfAces >= 2 && noOfTens >= 2) {
+          return aiHelper.getSchneider();
+        } else {
+          aiHelper.getHandGameNoMultipliers();
+        }
+      } else {
+        if (noOfTrumps >= 9) {
+          return aiHelper.getSchwarz();
+        } else if (noOfJacks == 4 && noOfTrumps >= 8) {
+          return aiHelper.getSchwarz();
+        } else if (noOfTrumps >= 7 && noOfJacks >= 2) {
+          return aiHelper.getSchneider();
+        } else {
+          aiHelper.getHandGameNoMultipliers();
+        }
+      }
     }
-
-    return null;
+    return aiHelper.getNoHandGameNoMultipliers();
   }
 
   @Override
@@ -567,9 +599,6 @@ public class IntelligentAi extends Ai {
           cards[j + 1] = temp;
         }
       }
-    }
-    for (int i = 0; i < cards.length; i++) {
-      System.out.println(cards[i].toString());
     }
     return cards;
   }
