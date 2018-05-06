@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * Controller class to handle the events of the result screen.
@@ -54,6 +55,8 @@ public class RoundResultViewController {
   private CheckBox cbRekontra;
   @FXML
   private Button closeButton;
+  @FXML
+  private AnchorPane root;
 
 
   /**

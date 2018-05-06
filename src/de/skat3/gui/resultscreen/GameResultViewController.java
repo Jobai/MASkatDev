@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * Class to control the corresponding game result view file.
@@ -43,6 +44,8 @@ public class GameResultViewController {
   private ListView<String> listViewHistP3;
   @FXML
   private Button closeButton;
+  @FXML
+  private AnchorPane root;
 
   /**
    * Set result value to screen.

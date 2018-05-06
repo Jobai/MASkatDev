@@ -13,13 +13,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="653.0" prefWidth="600.0"
+<AnchorPane fx:id="root" prefHeight="653.0" prefWidth="600.0"
 	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.resultscreen.GameResultViewController">
 	<children>
 		<TitledPane expanded="false" layoutY="380.0"
-			prefHeight="274.0" prefWidth="600.0" text="Punkte pro Runde">
+			prefHeight="274.0" prefWidth="600.0" text="Points per round">
 			<content>
 				<AnchorPane minHeight="0.0" minWidth="0.0"
 					prefHeight="246.0" prefWidth="405.0">
@@ -73,7 +73,7 @@
 		<Pane layoutY="95.0" prefHeight="61.0" prefWidth="600.0"
 			style="-fx-background-color: #F0C808;">
 			<children>
-				<Label layoutX="23.0" layoutY="12.0" text="Gewinner">
+				<Label layoutX="23.0" layoutY="12.0" text="Winner">
 					<font>
 						<Font size="30.0" />
 					</font>
@@ -153,7 +153,7 @@
 								<Font size="16.0" />
 							</font>
 						</Label>
-						<Label text="Punkte" textFill="WHITE">
+						<Label text="Points" textFill="WHITE">
 							<font>
 								<Font name="System Bold" size="21.0" />
 							</font>
