@@ -5,6 +5,8 @@ package de.skat3.main;
 import java.util.Properties;
 import de.skat3.gui.Gui;
 import de.skat3.gui.GuiController;
+import de.skat3.io.SoundPlayer;
+import de.skat3.io.SoundVolumeUtil;
 import de.skat3.io.profile.IoController;
 import de.skat3.main.AiController;
 import de.skat3.main.LocalGameState;
@@ -22,6 +24,8 @@ public class SkatMain {
   public static MainNetworkController mainNetworkController;
   public static AiController aiController;
   public static MasterLogger masterLogger;
+  public static SoundPlayer soundPlayer;
+  public static SoundVolumeUtil soundVolumeUtil;
 
 
   /**
@@ -32,6 +36,9 @@ public class SkatMain {
   public static void main(String[] args) {
 
     SkatMain.masterLogger = new MasterLogger();
+    SkatMain.soundPlayer = new SoundPlayer();
+    soundPlayer.playBackgroundMusic();
+    SkatMain.soundVolumeUtil = new SoundVolumeUtil();
     SkatMain.mainController = new MainController();
     SkatMain.guiController = new GuiController();
     SkatMain.ioController = new IoController();
