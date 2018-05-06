@@ -87,6 +87,7 @@ public class Player implements Serializable, Comparable<Player> {
     for (Card card : player.wonTricks) {
       this.wonTricks.add(card);
     }
+    this.position = player.position;
     this.uuid = player.uuid;
     this.image = player.image;
     this.points = player.points;
@@ -105,9 +106,9 @@ public class Player implements Serializable, Comparable<Player> {
    */
   public Player(boolean hardBot) {
     if (hardBot) {
-      this.name = AiNames.getRandomName(hardBot) + " (Hard)";
+      this.name = AiNames.getRandomName(hardBot);
     } else {
-      this.name = AiNames.getRandomName(hardBot) + " (Easy)";
+      this.name = AiNames.getRandomName(hardBot);
     }
     this.isHardBot = hardBot;
     this.wonTricks = new ArrayList<Card>();
@@ -270,6 +271,7 @@ public class Player implements Serializable, Comparable<Player> {
    * Updates all attributes that can vary during a match.
    */
   public void updatePlayer(Player player) {
+    this.position = player.position;
     this.isSolo = player.isSolo;
     this.wonTricks = player.wonTricks;
     this.points = player.points;

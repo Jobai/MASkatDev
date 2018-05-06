@@ -166,6 +166,9 @@ public class Hand implements Serializable {
    * the skat.
    */
   int calcConsecutiveMatadors(Contract contract, Card[] skat) {
+    if (contract == Contract.NULL) {
+      return 0;
+    }
     int consecutiveMatadors = 0;
 
     Card[] oldCards = new Card[this.cards.length];
@@ -188,12 +191,14 @@ public class Hand implements Serializable {
           consecutiveMatadors++;
           if (this.contains(deck.getCard("JACK OF DIAMONDS"))) {
             consecutiveMatadors++;
-            for (int i = Value.length - 2; i >= 0; i--) {
-              if (this.contains(
-                  deck.getCard(Value.values()[i].name() + " OF " + contract.toString()))) {
-                consecutiveMatadors++;
-              } else {
-                break;
+            if (contract != Contract.GRAND) {
+              for (int i = Value.length - 2; i >= 0; i--) {
+                if (this.contains(
+                    deck.getCard(Value.values()[i].name() + " OF " + contract.toString()))) {
+                  consecutiveMatadors++;
+                } else {
+                  break;
+                }
               }
             }
           }
@@ -207,12 +212,14 @@ public class Hand implements Serializable {
           consecutiveMatadors++;
           if (!this.contains(deck.getCard("JACK OF DIAMONDS"))) {
             consecutiveMatadors++;
-            for (int i = Value.length - 2; i >= 0; i--) {
-              if (!this
-                  .contains(deck.getCard(Value.values()[i].name() + " OF " + contract.name()))) {
-                consecutiveMatadors++;
-              } else {
-                break;
+            if (contract != Contract.GRAND) {
+              for (int i = Value.length - 2; i >= 0; i--) {
+                if (!this
+                    .contains(deck.getCard(Value.values()[i].name() + " OF " + contract.name()))) {
+                  consecutiveMatadors++;
+                } else {
+                  break;
+                }
               }
             }
           }

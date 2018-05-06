@@ -752,11 +752,15 @@ public class MainController implements MainControllerInterface {
   @Override
   public void showBid(String bid, Player player) {
     Platform.runLater(new Runnable() {
-
-
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showText(player.getName() + ": " + bid);
+        if (currentLobby.numberOfPlayers == 3) {
+          if (!player.equals(SkatMain.lgs.getLocalClient())) {
+            SkatMain.guiController.getInGameController().showText(player.getName() + ": " + bid);
+          }
+        } else {
+          SkatMain.guiController.getInGameController().showText(player.getName() + ": " + bid);
+        }
       }
     });
   }
