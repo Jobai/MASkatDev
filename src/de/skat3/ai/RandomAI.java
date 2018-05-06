@@ -52,24 +52,32 @@ public class RandomAI extends Ai implements Serializable {
 
   @Override
   public AdditionalMultipliers chooseAdditionalMultipliers() {
+    boolean random1 = random.nextBoolean();
+    boolean random2 = random.nextBoolean();
+    boolean random3 = random.nextBoolean();
+    boolean random4 = random.nextBoolean();
+    boolean random5 = random.nextBoolean();
+
     if (acceptHandGame()) {
       if (contract == Contract.NULL) {
-        if (random.nextBoolean() && random.nextBoolean()) {
-          return aiHelper.getNullHand();
+        if (random1 && random2 && random3 && random4) {
+          return aiHelper.getHandGameNoMultipliers();
         } else {
           aiHelper.getHandGameNoMultipliers();
         }
       } else if (contract == Contract.GRAND) {
-        if (random.nextBoolean() && random.nextBoolean()) {
-          return aiHelper.getSchneider();
+        if (random1 && random2 && random3 && random4) {
+          return aiHelper.getHandGameNoMultipliers();
         } else {
-          aiHelper.getHandGameNoMultipliers();
+          aiHelper.getNoHandGameNoMultipliers();
         }
       } else {
-        if (random.nextBoolean() && random.nextBoolean()) {
+        if (random1 && random2 && random3 && random4 && random5) {
           return aiHelper.getSchneider();
-        } else {
-          aiHelper.getHandGameNoMultipliers();
+        } else if (random1 && random2 && random3 && random4) {
+         return aiHelper.getHandGameNoMultipliers();
+        }else {
+          aiHelper.getNoHandGameNoMultipliers();
         }
       }
     }
