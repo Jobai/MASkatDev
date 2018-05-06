@@ -54,6 +54,8 @@ public class InGameOverlayController {
 
   private TrainingModeTextController trainingModeTextController;
 
+  private boolean isHandgame;
+
   @FXML
   private Label schwarzInfo;
 
@@ -563,6 +565,7 @@ public class InGameOverlayController {
     this.popUpController.yesButton.setText("Yes");
 
     this.popUpController.yesButton.setOnAction(e -> {
+      isHandgame = true;
       SkatMain.mainController.handGameSelected(true);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
@@ -571,6 +574,7 @@ public class InGameOverlayController {
     this.popUpController.noButton.setText("NO");
 
     this.popUpController.noButton.setOnAction(e -> {
+      isHandgame = false;
       SkatMain.mainController.handGameSelected(false);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
@@ -629,6 +633,10 @@ public class InGameOverlayController {
     this.trainingModeTextController.root.setVisible(true);
     this.trainingModeTextController.root.setDisable(false);
 
+  }
+
+  public boolean isHandgame() {
+    return isHandgame;
   }
 
 }

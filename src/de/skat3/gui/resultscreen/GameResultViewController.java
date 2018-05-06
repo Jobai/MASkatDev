@@ -3,6 +3,7 @@ package de.skat3.gui.resultscreen;
 import java.util.ArrayList;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.MatchResult.PlayerHistory;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -73,9 +74,9 @@ public class GameResultViewController {
 
     // Points histroy
 
-    ObservableList<String> listP1 = null;
-    ObservableList<String> listP2 = null;
-    ObservableList<String> listP3 = null;
+    ObservableList<String> listP1 = FXCollections.observableArrayList();
+    ObservableList<String> listP2 = FXCollections.observableArrayList();
+    ObservableList<String> listP3 = FXCollections.observableArrayList();
     ArrayList<Integer> arrayList;
     int i;
 

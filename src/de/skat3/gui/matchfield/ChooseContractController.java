@@ -103,6 +103,15 @@ public class ChooseContractController {
       }
     });
 
+
+    // If handgame disable all checkboxes
+    if (SkatMain.guiController.getInGameController().matchfield.overlayController.isHandgame()) {
+      cbOpengame.setDisable(true);
+      cbSchneider.setDisable(true);
+      cbSchwarz.setDisable(true);
+      cbOuvert.setDisable(true);
+    }
+
   }
 
   /**
