@@ -687,24 +687,42 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void kontraAnnounced() {
-
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().showText("Kontra announcend by...");
+      }
+    });
   }
 
   @Override
   public void rekontraAnnounced() {
-
-
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().showText("Kontra announced by...");
+      }
+    });
   }
 
   @Override
   public void kontraRequest() {
-    // GUI TODO
-
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().showKontraButton();;
+      }
+    });
   }
 
   @Override
   public void rekontraRequest() {
-    // GUI TODO
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().showReKontraButton();
+      }
+    });
 
   }
 
@@ -738,7 +756,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showText(player, bid);
+        SkatMain.guiController.getInGameController().showText(player.getName() + ": " + bid);
       }
     });
   }
