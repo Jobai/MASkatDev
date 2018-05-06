@@ -30,11 +30,12 @@ public class IntelligentAi extends Ai {
   private Hand hand;
 
   // Updated from lgs
-  private Contract contract = SkatMain.lgs.getContract();
-  private Card[] trick = SkatMain.lgs.getTrick();
-  private Player enemyOne = SkatMain.lgs.getEnemyOne();
-  private Player enemyTwo = SkatMain.lgs.getEnemyTwo();
-  private Player localClient = SkatMain.lgs.getLocalClient();
+
+  private Contract contract;
+  private Card[] trick;
+  private Player enemyOne;
+  private Player enemyTwo;
+  private Player localClient;
 
   // just for testing
   // private Contract contract;
@@ -47,6 +48,20 @@ public class IntelligentAi extends Ai {
   // this.contract = contract;
   // }
   //
+
+  private void initializePlayers() {
+     enemyOne = SkatMain.lgs.getEnemyOne();
+     enemyTwo = SkatMain.lgs.getEnemyTwo();
+     localClient = SkatMain.lgs.getLocalClient();
+  }
+  
+  private void initializeTrick() {
+  trick = SkatMain.lgs.getTrick();
+  }
+  
+  private void initializeContract() {
+    contract = SkatMain.lgs.getContract();
+  }
 
   @Override
   public void setPosition(Position position) {
@@ -62,6 +77,7 @@ public class IntelligentAi extends Ai {
   public void setHand(Hand hand) {
     this.hand = new Hand(hand.getCards());
   }
+
 
   @Override
   public Contract chooseContract() {
@@ -128,7 +144,8 @@ public class IntelligentAi extends Ai {
 
   @Override
   public Card chooseCard() {
-
+    initializeContract();
+    initializeTrick();
     try {
       if (myPosition.equals(Position.FOREHAND)) {
         return playForeHand();
@@ -854,6 +871,7 @@ public class IntelligentAi extends Ai {
   }
 
   private Position getSoloPosition() {
+    initializePlayers();
     if (enemyOne.isSolo()) {
       return enemyOne.getPosition();
     } else if (enemyTwo.isSolo()) {
@@ -900,6 +918,7 @@ public class IntelligentAi extends Ai {
   }
 
   private Card playMostExpensiveCardThatIsNotTrumpIfPossible() {
+
     Card toPlay;
 
     if (contract == Contract.NULL) {
@@ -914,6 +933,7 @@ public class IntelligentAi extends Ai {
   }
 
   private Card playLeastExpensiveCardThatIsNotTrumpIfPossible() {
+
     Card toPlay;
 
     if (contract == Contract.NULL) {
@@ -935,6 +955,7 @@ public class IntelligentAi extends Ai {
    * 
    **/
   private boolean isCardExpensive(Card card) {
+
     if (contract != Contract.NULL) {
       if (card.getTrickValue() >= 10 || card.getValue() == Value.JACK) {
         return true;
@@ -974,6 +995,7 @@ public class IntelligentAi extends Ai {
    * 
    **/
   private boolean canTrickBeBeatenByMiddleHand() {
+
     Card[] cards = hand.getCards();
     for (Card card : cards) {
       if (card.beats(contract, trick[0])) {
@@ -990,6 +1012,7 @@ public class IntelligentAi extends Ai {
    * 
    **/
   private Card winTrickAsMiddleHand() {
+
     Card[] cards = hand.getCards();
     for (Card card : cards) {
       if (card.beats(contract, trick[0])) {
@@ -1007,6 +1030,7 @@ public class IntelligentAi extends Ai {
    * 
    **/
   private boolean canTrickBeBeatenByRearHand() {
+
     Card[] cards = hand.getCards();
     for (Card card : cards) {
       if (card.beats(contract, trick[0]) && card.beats(contract, trick[1])) {
