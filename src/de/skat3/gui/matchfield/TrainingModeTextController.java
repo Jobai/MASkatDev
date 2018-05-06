@@ -2,7 +2,6 @@ package de.skat3.gui.matchfield;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -14,7 +13,7 @@ public class TrainingModeTextController {
   @FXML
   private WebView text;
 
-  final WebEngine webEngine = text.getEngine();
+  // final WebEngine webEngine = null;
 
   @FXML
   void close(ActionEvent event) {
@@ -23,7 +22,8 @@ public class TrainingModeTextController {
 
 
   public void setText(String text) {
-    webEngine.loadContent(text);
+    // webEngine = text.getEngine();
+    // webEngine.loadContent(text);
   }
 
 

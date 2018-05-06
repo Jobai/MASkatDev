@@ -31,14 +31,7 @@ public class SkatMain {
    */
   public static void main(String[] args) {
 
-<<<<<<< Updated upstream
     SkatMain.masterLogger = new MasterLogger();
-=======
-//    System.setProperty("sun.java2d.dpiaware", "false");
-    // Properties props = System.getProperties();
-    // props.setProperty("-Dsun.java2d.dpiaware=false");
-
->>>>>>> Stashed changes
     SkatMain.mainController = new MainController();
     SkatMain.guiController = new GuiController();
     SkatMain.ioController = new IoController();
