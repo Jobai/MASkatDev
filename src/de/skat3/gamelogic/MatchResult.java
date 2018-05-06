@@ -28,6 +28,13 @@ public class MatchResult implements Serializable {
 
   }
 
+  public MatchResult(MatchResult matchResult) {
+    list = new PlayerHistory[matchResult.list.length];
+    for (int i = 0; i < this.list.length; i++) {
+      list[i] = new PlayerHistory(matchResult.list[i]);
+    }
+  }
+
   public PlayerHistory[] getData() {
     return this.list;
   }
@@ -54,6 +61,11 @@ public class MatchResult implements Serializable {
     PlayerHistory(Player player) {
       this.player = player;
       history = new ArrayList<Integer>();
+    }
+
+    public PlayerHistory(PlayerHistory playerHistory) {
+      this.player = playerHistory.player.copyPlayer();
+      this.history = playerHistory.history;
     }
 
     public String getName() {

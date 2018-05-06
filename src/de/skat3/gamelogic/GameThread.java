@@ -41,7 +41,7 @@ class GameThread extends Thread {
         }
       }
       if (matchOver) {
-        this.gc.slc.broadcastMatchResult(gc.matchResult);
+        this.gc.slc.broadcastMatchResult(new MatchResult(gc.matchResult));
         break;
       } else {
         try {
