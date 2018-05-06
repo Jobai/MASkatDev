@@ -380,9 +380,12 @@ public class InGameOverlayController {
         }
         i = rand.nextInt(temp.size());
 
-        SkatMain.mainController.localCardPlayed(temp.get(i));
-        SkatMain.guiController.getInGameController().makeAMoveRequest(false);
+        GuiCard card = SkatMain.guiController.getInGameController().matchfield.tableView.playerHand
+            .getGuiCard(temp.get(i));
+
+        SkatMain.guiController.getInGameController().matchfield.tableController.playCard(card);
       }
+
     });
 
   }

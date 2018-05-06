@@ -81,6 +81,19 @@ public class InGameTableController {
 
   }
 
+  void playCard(GuiCard card) {
+    if (this.selectedCard != null && this.selectedCard.equals(card)) {
+      this.selectedCard = null;
+    }
+
+    // Play card
+    SkatMain.mainController.localCardPlayed(card.getCard());
+    // Disable local cards
+    SkatMain.guiController.getInGameController().makeAMoveRequest(false);
+    // hide kontra
+    SkatMain.guiController.getInGameController().matchfield.overlayController.annouceContraButton
+        .setVisible(false);
+  }
 
   /**
    * Enables/Disables the option to play a card via the GUI from the local hand.
@@ -104,17 +117,8 @@ public class InGameTableController {
           if (node.getParent().getParent().equals(this.tableView.playerHand)) {
             GuiCard card = (GuiCard) node.getParent();
             if (card.isPlayable(playableRef, card)) {
-              if (this.selectedCard.equals(card)) {
-                this.selectedCard = null;
-              }
-              // Play card
-              SkatMain.mainController.localCardPlayed(card.getCard());
-              // Disable cards
-              SkatMain.guiController.getInGameController().makeAMoveRequest(false);
-              // hide kontra
-              SkatMain.guiController
-                  .getInGameController().matchfield.overlayController.annouceContraButton
-                      .setVisible(false);
+              // PLAY CARD
+              this.playCard(card);
             }
 
           }
