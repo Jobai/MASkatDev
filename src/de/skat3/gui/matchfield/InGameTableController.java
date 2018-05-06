@@ -289,7 +289,7 @@ public class InGameTableController {
     // Button the Save your selection
     Button button = new Button("Save");
     button.setFont(Font.font(40));
-    button.setPrefSize(150, 100);
+    button.setPrefSize(170, 100);
     button.setStyle("-fx-background-color: #d60202");
     button.translateXProperty().bind(this.tableView.skatPositions[0].translateXProperty().add(225));
     button.translateYProperty().bind(this.tableView.skatPositions[0].translateYProperty().add(100));

@@ -94,6 +94,10 @@ public class InGameOverlayController {
   @FXML
   private Label extra2EnemyOne;
   @FXML
+  private Label extra3EnemyOne;
+  @FXML
+  private Label extra3EnemyTwo;
+  @FXML
   private Button addEasyBotLeftButton;
   @FXML
   private Label trumpInfo;
@@ -211,7 +215,10 @@ public class InGameOverlayController {
   private void addAndSetupButton(AnchorPane pane, Button closeButton) {
     this.root.getChildren().add(pane);
     if (closeButton != null) {
-      closeButton.setOnAction(e -> this.root.getChildren().remove(pane));
+      closeButton.setOnAction(e -> {
+        System.out.println("--------------------------------------------------JOO" + pane);
+        this.remove(pane);
+      });
     }
     this.bindCentral(pane);
   }
@@ -495,7 +502,7 @@ public class InGameOverlayController {
       } catch (NullPointerException e) {
         System.err.println("LocalClient: No player name given");
       }
-      this.extra2LocalClient.setText(String.valueOf(player.getPoints()));
+      this.extra2LocalClient.setText(String.valueOf(player.getPoints()) + " Points");
     }
   }
 
@@ -536,7 +543,10 @@ public class InGameOverlayController {
       } catch (Exception e) {
         System.err.println("EnemyOne: Image Could not be added.");
       }
-      this.extra2EnemyOne.setText(String.valueOf(player.getPoints()));
+      this.extra2EnemyOne.setText(String.valueOf(player.getPoints()) + " Points");
+      if (player.isBot()) {
+        this.extra3EnemyOne.setText(player.isHardBot() ? "Hard Bot" : "Easy Bot");
+      }
     }
   }
 
@@ -577,8 +587,13 @@ public class InGameOverlayController {
       } catch (Exception e) {
         System.err.println("EnemyTwo: Image Could not be added.");
       }
-      this.extra2EnemyTwo.setText(String.valueOf(player.getPoints()));
+      this.extra2EnemyTwo.setText(String.valueOf(player.getPoints()) + " Points");
     }
+
+    if (player.isBot()) {
+      this.extra3EnemyTwo.setText(player.isHardBot() ? "Hard Bot" : "Easy Bot");
+    }
+
   }
 
   void showBidRequest(int bid) {
