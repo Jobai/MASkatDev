@@ -27,18 +27,24 @@ public class IntelligentAi extends Ai {
   private boolean isSolo;
   private Hand hand;
 
-  // just for testing
-  // private Contract contract;
-  // public void setContractTest(Contract contract) {
-  // this.contract = contract;
-  // }
-
   // Updated from lgs
   private Contract contract = SkatMain.lgs.getContract();
   private Card[] trick = SkatMain.lgs.getTrick();
   private Player enemyOne = SkatMain.lgs.getEnemyOne();
   private Player enemyTwo = SkatMain.lgs.getEnemyTwo();
   private Player localClient = SkatMain.lgs.getLocalClient();
+
+  // just for testing
+  // private Contract contract;
+  // private Card[] trick;
+  // private Player enemyOne;
+  // private Player enemyTwo;
+  // private Player localClient;
+  //
+  // public void setContractTest(Contract contract) {
+  // this.contract = contract;
+  // }
+  //
 
   @Override
   public void setPosition(Position position) {
@@ -121,12 +127,17 @@ public class IntelligentAi extends Ai {
   @Override
   public Card chooseCard() {
 
-    if (myPosition.equals(Position.FOREHAND)) {
-      return playForeHand();
-    } else if (myPosition.equals(Position.MIDDLEHAND)) {
-      return playMiddlehandCard();
-    } else {
-      return playRearhandCard();
+    try {
+      if (myPosition.equals(Position.FOREHAND)) {
+        return playForeHand();
+      } else if (myPosition.equals(Position.MIDDLEHAND)) {
+        return playMiddlehandCard();
+      } else {
+        return playRearhandCard();
+      }
+    } catch (Exception ex) {
+      ex.printStackTrace();
+      return getAnyPlayableCard();
     }
   }
 
@@ -184,6 +195,7 @@ public class IntelligentAi extends Ai {
   @Override
   public ReturnSkat selectSkat(Card[] skat) {
     Contract potentialContract = chooseContract();
+
 
     if (skat[0].getTrickValue() == 2 && skat[1].getTrickValue() == 2
         && potentialContract.equals(Contract.GRAND)) {
@@ -556,7 +568,9 @@ public class IntelligentAi extends Ai {
         }
       }
     }
-
+    for (int i = 0; i < cards.length; i++) {
+      System.out.println(cards[i].toString());
+    }
     return cards;
   }
 
