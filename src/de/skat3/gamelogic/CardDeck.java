@@ -25,7 +25,7 @@ public class CardDeck {
     return this.cards;
   }
 
-  Card getCard(String s) {
+  public Card getCard(String s) {
     for (Card c : this.cards) {
       if (c.toString().equals(s)) {
         return c;

@@ -1,5 +1,6 @@
 package de.skat3.main;
 
+import java.util.UUID;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -23,10 +24,11 @@ public class LocalGameState {
   private Player localClient;
   private Player enemyOne;
   private Player enemyTwo;
-  private Player enemyThree;
+  private Player dealer;
   private Card[] trick;
   private Card[] skat;
   private int localPosition;
+  private UUID localUuid;
 
   /**
    * The current state of a game.
@@ -38,6 +40,7 @@ public class LocalGameState {
     this.localPosition = SkatMain.mainController.currentLobby.currentPlayers;
     this.localClient =
         SkatMain.mainController.currentLobby.players[this.localPosition - 1].copyPlayer();
+    this.localUuid = SkatMain.mainController.currentLobby.players[this.localPosition - 1].getUuid();
     this.setSinglePlayerGame(singlePlayerGame);
     this.setTimerInSeconds(timerInSeconds);
     this.setTrickcount(0);
@@ -96,7 +99,7 @@ public class LocalGameState {
             this.setEnemyOne(SkatMain.mainController.currentLobby.players[1].copyPlayer());
             break;
           case 2:
-            this.setEnemyThree(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+            this.setDealer(SkatMain.mainController.currentLobby.players[0].copyPlayer());
             break;
 
           default:
@@ -111,11 +114,11 @@ public class LocalGameState {
             this.setEnemyTwo(SkatMain.mainController.currentLobby.players[2].copyPlayer());
             break;
           case 2:
-            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[2].copyPlayer());
+            this.setEnemyOne(SkatMain.mainController.currentLobby.players[2].copyPlayer());
             break;
           case 3:
             this.setEnemyTwo(SkatMain.mainController.currentLobby.players[0].copyPlayer());
-            this.setEnemyThree(SkatMain.mainController.currentLobby.players[1].copyPlayer());
+            this.setDealer(SkatMain.mainController.currentLobby.players[1].copyPlayer());
             break;
           default:
             System.err.println("addPlayer klappt net ");
@@ -125,7 +128,7 @@ public class LocalGameState {
       if (SkatMain.mainController.currentLobby.currentPlayers == 4) {
         switch (this.localPosition) {
           case 1:
-            this.setEnemyThree(SkatMain.mainController.currentLobby.players[3].copyPlayer());
+            this.setDealer(SkatMain.mainController.currentLobby.players[3].copyPlayer());
             break;
           case 2:
             this.setEnemyTwo(SkatMain.mainController.currentLobby.players[3].copyPlayer());
@@ -136,7 +139,7 @@ public class LocalGameState {
           case 4:
             this.setEnemyOne(SkatMain.mainController.currentLobby.players[0].copyPlayer());
             this.setEnemyTwo(SkatMain.mainController.currentLobby.players[1].copyPlayer());
-            this.setEnemyThree(SkatMain.mainController.currentLobby.players[2].copyPlayer());
+            this.setDealer(SkatMain.mainController.currentLobby.players[2].copyPlayer());
             break;
           default:
             System.err.println("addPlayer klappt net ");
@@ -151,15 +154,6 @@ public class LocalGameState {
     SkatMain.mainController.reinitializePlayers();
 
 
-
-  }
-
-
-  public void rotatePlayers() {
-
-  }
-
-  public void rotatePlayers(int dealerPosition) {
 
   }
 
@@ -219,8 +213,8 @@ public class LocalGameState {
     if (this.getEnemyTwo().equals(player)) {
       return this.getEnemyTwo();
     }
-    if (this.getEnemyThree().equals(player)) {
-      return this.getEnemyThree();
+    if (this.getDealer().equals(player)) {
+      return this.getDealer();
     }
 
     System.err.println("No Player found");
@@ -228,13 +222,6 @@ public class LocalGameState {
   }
 
   public Player getLocalClient() {
-    try {
-      throw new Exception();
-    } catch (Exception e) {
-      // System.out.println("-------getLocalClient--------");
-      // e.printStackTrace();
-      // System.out.println("-------end of getLocalClient--------");
-    }
     return localClient;
   }
 
@@ -246,15 +233,16 @@ public class LocalGameState {
     this.enemyOne = enemyOne;
   }
 
-  public void setEnemyThree(Player enemyThree) {
-    this.enemyThree = enemyThree;
+  public void setDealer(Player dealer) {
+    this.dealer = dealer;
   }
 
   public Player getEnemyTwo() {
     return this.enemyTwo;
   }
-  public Player getEnemyThree() {
-    return this.enemyThree;
+
+  public Player getDealer() {
+    return this.dealer;
   }
 
   public void setEnemyTwo(Player enemyTwo) {
@@ -276,12 +264,43 @@ public class LocalGameState {
         this.enemyTwo = null;
       }
     }
-    if (this.getEnemyThree() != null) {
-      if (player.equals(this.getEnemyThree())) {
-        this.setEnemyThree(null);
+    if (this.getDealer() != null) {
+      if (player.equals(this.getDealer())) {
+        this.setDealer(null);
       }
     }
     SkatMain.mainController.reinitializePlayers();
+  }
+
+
+  void setDealerAndRotatePlayers(Player player) {
+    Player temp;
+
+    if (player.equals(this.getLocalClient())) {
+      temp = this.getDealer();
+      this.dealer = this.localClient;
+      this.localClient = temp;
+    }
+    if (player.equals(this.getEnemyOne())) {
+      temp = this.getDealer();
+      this.dealer = this.enemyOne;
+      this.enemyOne = this.enemyTwo;
+      this.enemyTwo = dealer;
+    }
+    if (player.equals(this.getEnemyTwo())) {
+      temp = this.getDealer();
+      this.dealer = this.getEnemyTwo();
+      this.enemyTwo = temp;
+    }
+    System.out.println("lc: " + this.localClient.getName());
+    System.out.println("e1 " + this.getEnemyOne().getName());
+    System.out.println("e2: " + this.getEnemyTwo().getName());
+    System.out.println("D: " + this.dealer.getName());
+  }
+
+  void rotatePlayers() {
+
+
   }
 
   public Card[] getSkat() {
@@ -350,6 +369,27 @@ public class LocalGameState {
 
   public void setGameActive(boolean gameActive) {
     this.gameActive = gameActive;
+  }
+
+  public boolean localPlayerIsDealer() {
+    if (SkatMain.mainController.currentLobby.numberOfPlayers == 3) {
+      return false;
+    } else {
+      return (this.localUuid.equals(this.getDealer().getUuid())) ? true : false;
+    }
+  }
+
+  void clearAfterRound() {
+    this.contract = null;
+    this.additionalMultipliers = null;
+    this.skat = new Card[2];
+    this.trick = new Card[3];
+    this.getEnemyOne().setHand(new Hand());
+    this.getEnemyTwo().setHand(new Hand());
+    if (this.localPlayerIsDealer()) {
+      this.getLocalClient().setHand(new Hand());
+    }
+
   }
 }
 

@@ -10,7 +10,7 @@ import java.util.Collections;
  * @author kai29
  *
  */
-class RoundInstance {
+public class RoundInstance {
 
   ServerLogicController slc;
   Player[] players;
@@ -57,13 +57,15 @@ class RoundInstance {
     this.soloPlayerStartHand = new Hand();
     for (int i = 0; i < this.players.length; i++) {
       this.players[i].shortenPlayer();
+      this.players[i].clearWonTricks();
     }
   }
 
 
 
   public RoundInstance() {
-
+    this.players = new Player[3];
+    this.trick = new Card[3];
   }
 
   /**
@@ -383,7 +385,7 @@ class RoundInstance {
   /**
    * Returns the winer of the trick.
    */
-  protected Player determineTrickWinner() {
+  public Player determineTrickWinner() {
     Contract contract = this.getContract();
 
     if (this.getFirstCard().beats(contract, this.getSecondCard())
@@ -429,16 +431,27 @@ class RoundInstance {
   }
 
 
+  public void setForehand(Player player) {
+    this.players[0] = player;
+  }
 
-  Player getForehand() {
+  public void setMiddlehand(Player player) {
+    this.players[1] = player;
+  }
+
+  public void setRearhand(Player player) {
+    this.players[2] = player;
+  }
+
+  public Player getForehand() {
     return this.players[0];
   }
 
-  Player getMiddlehand() {
+  public Player getMiddlehand() {
     return this.players[1];
   }
 
-  Player getRearhand() {
+  public Player getRearhand() {
     return this.players[2];
   }
 
@@ -452,6 +465,10 @@ class RoundInstance {
 
   public Card getThirdCard() {
     return this.trick[2];
+  }
+
+  public void setContract(Contract contract) {
+    this.contract = contract;
   }
 
   Player[] getTeamPlayer() {

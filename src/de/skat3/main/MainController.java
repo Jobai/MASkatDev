@@ -309,24 +309,14 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showCardPlayed(Player player, Card card) {
-    if (!player.equals(SkatMain.lgs.getLocalClient())) {
+    if (!player.equals(SkatMain.lgs.getLocalClient()) || SkatMain.lgs.localPlayerIsDealer()) {
       SkatMain.lgs.getPlayer(player).getHand().remove(new Card());
     }
     Platform.runLater(new Runnable() {
 
       @Override
       public void run() {
-        if (currentLobby.numberOfPlayers == 4) {
-          if (player.equals(SkatMain.lgs.getEnemyThree())) {
-
-            SkatMain.guiController.getInGameController().playCard(SkatMain.lgs.getLocalClient(),
-                card);
-          }
-
-
-        } else {
-          SkatMain.guiController.getInGameController().playCard(player, card);
-        }
+        SkatMain.guiController.getInGameController().playCard(player, card);
       }
     });
     SkatMain.lgs.addToTrick(card);
@@ -372,8 +362,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void roundStarted() {
-    SkatMain.lgs.getEnemyOne().setHand(new Hand());
-    SkatMain.lgs.getEnemyTwo().setHand(new Hand());
+    SkatMain.lgs.clearAfterRound();
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
@@ -601,7 +590,14 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showEndScreen(MatchResult matchResult) {
-    SkatMain.guiController.getInGameController().showEndScreen(matchResult);
+    Platform.runLater(new Runnable() {
+
+
+      @Override
+      public void run() {
+        SkatMain.guiController.getInGameController().showEndScreen(matchResult);
+      }
+    });
   }
 
   @Override
@@ -745,5 +741,9 @@ public class MainController implements MainControllerInterface {
         SkatMain.guiController.getInGameController().showBidActivity(player, bid);
       }
     });
+  }
+
+  public void setDealer(Player dealer) {
+    SkatMain.lgs.setDealerAndRotatePlayers(dealer);
   }
 }

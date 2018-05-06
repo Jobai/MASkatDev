@@ -344,6 +344,11 @@ public class Player implements Serializable, Comparable<Player> {
     return 0;
   }
 
+
+  public void clearWonTricks() {
+    this.wonTricks.clear();
+  }
+
 }
 
 

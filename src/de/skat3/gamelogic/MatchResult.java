@@ -47,7 +47,7 @@ public class MatchResult implements Serializable {
    * @author kai29
    *
    */
-  public class PlayerHistory {
+  public class PlayerHistory implements Serializable {
     Player player;
     ArrayList<Integer> history;
 
