@@ -225,20 +225,21 @@ public class InGameOverlayController {
   }
 
   void showInMainInfo(String text, Duration time) {
-    this.mainInfoLabel.setVisible(true);
-    this.mainInfoLabel.setDisable(true);
-    this.mainInfoLabel.setOpacity(1);
-    this.mainInfoLabel.setText(text);
-    FadeTransition fading = new FadeTransition();
-    fading.setNode(this.mainInfoLabel);
-    fading.setDuration(Duration.millis(500));
-    fading.setFromValue(1);
-    fading.setToValue(0);
     if (this.mainInfoFader != null) {
       if (this.mainInfoFader.getStatus().equals(Status.RUNNING)) {
         this.mainInfoFader.stop();
       }
     }
+    this.mainInfoLabel.setText(text);
+    this.mainInfoLabel.setVisible(true);
+    this.mainInfoLabel.setOpacity(1);
+
+    FadeTransition fading = new FadeTransition();
+    fading.setNode(this.mainInfoLabel);
+    fading.setDuration(Duration.millis(500));
+    fading.setFromValue(1);
+    fading.setToValue(0);
+
     this.mainInfoFader = new Timeline();
     this.mainInfoFader.getKeyFrames()
         .add(new KeyFrame(time.subtract(Duration.millis(500)), e -> fading.play()));

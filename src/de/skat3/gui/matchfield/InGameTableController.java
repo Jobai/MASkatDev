@@ -141,7 +141,7 @@ public class InGameTableController {
    */
   private void showCardAnimationInLCHand(boolean value) {
     if (value) {
-      this.tableView.table.setOnMouseMoved(event -> {
+      this.tableView.tableScene.setOnMouseMoved(event -> {
         Node node = event.getPickResult().getIntersectedNode();
         try {
           if (node.getParent().getParent().equals(this.tableView.playerHand)) {
@@ -173,7 +173,7 @@ public class InGameTableController {
         }
       });
     } else {
-      this.tableView.table.setOnMouseMoved(event -> {
+      this.tableView.tableScene.setOnMouseMoved(event -> {
       });
     }
   }
