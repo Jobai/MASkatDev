@@ -241,6 +241,7 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.tableController.iniHands();
     this.matchfield.overlayController.iniStartRound();
     this.matchfield.tableView.trick.showBidingCards(true);
+    this.showSelectionInfos(false);
   }
 
 

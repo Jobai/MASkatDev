@@ -314,7 +314,6 @@ public class InGameOverlayController {
     this.contractController.root.setVisible(false);
   }
 
-
   void iniTextPopup() {
     URL u = InGameOverlayController.class.getResource("TrainingModeTextView.fxml");
     FXMLLoader loader = new FXMLLoader(u);
@@ -451,8 +450,7 @@ public class InGameOverlayController {
       } catch (NullPointerException e) {
         System.err.println("LocalClient: No player name given");
       }
-      this.extra1LocalClient.setText(String.valueOf(player.getPoints()));
-      this.extra2LocalClient.setText("INFO2");
+      this.extra2LocalClient.setText(String.valueOf(player.getPoints()));
     }
   }
 
