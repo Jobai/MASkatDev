@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
@@ -22,12 +23,6 @@
 			style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0"
 			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
-				<Label layoutX="196.0" layoutY="5.0" text="You win!"
-					textFill="WHITE">
-					<font>
-						<Font size="49.0" />
-					</font>
-				</Label>
 				<Button fx:id="closeButton" layoutX="549.0" layoutY="25.0"
 					mnemonicParsing="false" style="-fx-background-color: #d60202;"
 					text="X" textFill="WHITE">
@@ -35,6 +30,16 @@
 						<Font name="System Bold" size="15.0" />
 					</font>
 				</Button>
+				<HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0">
+					<children>
+						<Label fx:id="headerLabel" alignment="CENTER" text="..."
+							textFill="WHITE">
+							<font>
+								<Font size="49.0" />
+							</font>
+						</Label>
+					</children>
+				</HBox>
 			</children>
 		</Pane>
 		<Pane layoutY="500.0" prefHeight="119.0" prefWidth="600.0"

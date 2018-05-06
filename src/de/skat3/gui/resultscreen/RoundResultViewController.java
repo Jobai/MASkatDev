@@ -2,6 +2,7 @@ package de.skat3.gui.resultscreen;
 
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
+import de.skat3.main.SkatMain;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -17,6 +18,10 @@ public class RoundResultViewController {
 
   @FXML
   private Label pointsSoloPlayer;
+  @FXML
+  private Label scoringPoints;
+  @FXML
+  private Label headerLabel;
   @FXML
   private Label declarerName;
   @FXML
@@ -88,12 +93,38 @@ public class RoundResultViewController {
     }
 
     if (result.soloWon) {
-      pointsSoloPlayer.setText("Won (" + result.scoringPoints + " Punkte)");
+      if (result.isBierlachs) {
+        scoringPoints.setText("Team lost (" + result.scoringPoints + " Points)");
+      } else {
+        scoringPoints.setText("Won (" + result.scoringPoints + " Points)");
+      }
     } else {
-      pointsSoloPlayer.setText("Lost (" + result.scoringPoints + " Punkte)");
+      if (result.isBierlachs) {
+        scoringPoints.setText("Solo lost (" + result.scoringPoints + " Points)");
+      } else {
+        scoringPoints.setText("Lost (" + result.scoringPoints + " Points)");
+      }
     }
 
+    pointsSoloPlayer.setText("" + result.pointsSoloPlayer + " / 120");
+
     declarerName.setText(result.declarerName);
+
+
+    if (SkatMain.lgs.getLocalClient().isSolo()) {
+      if (result.soloWon) {
+        headerLabel.setText("You win!");
+      } else {
+        headerLabel.setText("You lose!");
+      }
+    } else {
+      if (!result.soloWon) {
+        headerLabel.setText("You win!");
+      } else {
+        headerLabel.setText("You lose!");
+      }
+    }
+
 
     // Checkboxes
     cbHandgame.setSelected(result.handGame);
@@ -106,5 +137,4 @@ public class RoundResultViewController {
     cbRekontra.setSelected(result.rekontra);
 
   }
-
 }

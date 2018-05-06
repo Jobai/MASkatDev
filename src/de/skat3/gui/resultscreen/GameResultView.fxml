@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="root" prefHeight="653.0" prefWidth="600.0"
-	style="-fx-background-color: #FFFFFF;"
+	style="-fx-background-color: #FFFFFF; -fx-border-width: 1; -fx-border-color: #000000;"
 	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.resultscreen.GameResultViewController">
@@ -54,7 +54,8 @@
 			</content>
 		</TitledPane>
 		<Pane layoutY="-1.0" prefHeight="80.0" prefWidth="600.0"
-			style="-fx-background-color: #404040;">
+			style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0">
 			<children>
 				<Label layoutX="234.0" layoutY="5.0" text="Result"
 					textFill="WHITE">
@@ -72,7 +73,7 @@
 			</children>
 		</Pane>
 		<Pane layoutY="95.0" prefHeight="61.0" prefWidth="600.0"
-			style="-fx-background-color: #F0C808;">
+			style="-fx-background-color: #F0C808;" AnchorPane.rightAnchor="0.0">
 			<children>
 				<Label layoutX="23.0" layoutY="12.0" text="Winner">
 					<font>
@@ -87,7 +88,7 @@
 			</children>
 		</Pane>
 		<Pane layoutY="179.0" prefHeight="188.0" prefWidth="600.0"
-			style="-fx-background-color: #086788;">
+			style="-fx-background-color: #086788;" AnchorPane.leftAnchor="0.0">
 			<children>
 				<GridPane layoutX="24.0" layoutY="17.0" prefHeight="155.0"
 					prefWidth="555.0">

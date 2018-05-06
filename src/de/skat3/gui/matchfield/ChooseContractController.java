@@ -4,6 +4,9 @@ import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Contract;
 import de.skat3.main.SkatMain;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanExpression;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -112,7 +115,7 @@ public class ChooseContractController {
       }
     });
 
-    // saveButton.disableProperty().bind(Bindings.);
+    // saveButton.disableProperty().bind(BooleanExpression.booleanExpression(value));
 
   }
 
