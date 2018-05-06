@@ -13,6 +13,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="root"
+	style="-fx-background-color: #FFFFFF;"
 	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.resultscreen.RoundResultViewController">
@@ -21,7 +22,7 @@
 			style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0"
 			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
-				<Label layoutX="226.0" layoutY="5.0" text="Result"
+				<Label layoutX="196.0" layoutY="5.0" text="You win!"
 					textFill="WHITE">
 					<font>
 						<Font size="49.0" />
@@ -46,12 +47,19 @@
 						<Font size="32.0" />
 					</font>
 				</Label>
-				<Label fx:id="pointsSoloPlayer" layoutX="261.0" layoutY="17.0">
+				<Label fx:id="scoringPoints" layoutX="261.0" layoutY="17.0"
+					text="test">
 					<font>
 						<Font size="32.0" />
 					</font>
 				</Label>
 				<Label fx:id="declarerName" layoutX="56.0" layoutY="57.0"
+					text="Timo">
+					<font>
+						<Font size="22.0" />
+					</font>
+				</Label>
+				<Label fx:id="pointsSoloPlayer" layoutX="261.0" layoutY="57.0"
 					text="Timo">
 					<font>
 						<Font size="22.0" />

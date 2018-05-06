@@ -1,5 +1,6 @@
 package de.skat3.gui.matchfield;
 
+import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
@@ -13,17 +14,21 @@ public class TrainingModeTextController {
   @FXML
   private WebView text;
 
-  // final WebEngine webEngine = null;
+  private WebEngine webEngine = null;
+
+  @FXML
+  public void initialize() {
+    webEngine = text.getEngine();
+  }
 
   @FXML
   void close(ActionEvent event) {
     this.root.setVisible(false);
   }
 
-
-  public void setText(String text) {
-    // webEngine = text.getEngine();
-    // webEngine.loadContent(text);
+  public void setText(String path) {
+    File f = new File(path);
+    webEngine.load(f.toURI().toString());
   }
 
 

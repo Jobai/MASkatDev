@@ -51,7 +51,6 @@ public class OptionsMenuController {
       public void changed(ObservableValue<? extends Number> observable, //
           Number oldValue, Number newValue) {
 
-//        backgroundMusicPlayer.setVolume(volumeMusic.getValue());
         SoundVolumeUtil.setVolume((float) volumeMusic.getValue());
       }
     });

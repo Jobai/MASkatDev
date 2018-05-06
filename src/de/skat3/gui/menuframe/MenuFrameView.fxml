@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="mainPane"
-	xmlns="http://javafx.com/javafx/8"
+	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.menuframe.MenuFrameController">
 	<children>
