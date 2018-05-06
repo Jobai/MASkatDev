@@ -24,6 +24,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -314,6 +316,7 @@ public class InGameOverlayController {
     if (result.roundCancelled) {
       Alert a = new Alert(Alert.AlertType.INFORMATION);
       a.setContentText("Round canceled!");
+      a.setHeaderText(null);
       a.showAndWait();
       return;
     }

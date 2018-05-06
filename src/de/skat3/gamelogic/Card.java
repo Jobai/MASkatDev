@@ -26,7 +26,7 @@ public class Card implements Serializable {
    * Creates an empty, facedown card.
    */
   public Card() {
-    this.view = "cardImages/green_back.png";
+    this.view = "cardImages/back_silver2.png";
     this.suit = null;
     this.value = null;
   }

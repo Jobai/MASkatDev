@@ -381,9 +381,9 @@ public class MultiplayerMenuController {
 
     // fill view fields
     if (currentLobby.getKontraRekontraEnabled()) {
-      kontraRekontra.setText("Aktiviert");
+      kontraRekontra.setText("Enabled");
     } else {
-      kontraRekontra.setText("Deaktiviert");
+      kontraRekontra.setText("Disabled");
     }
 
     serverName.setText(currentLobby.getName());
