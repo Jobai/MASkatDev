@@ -74,9 +74,9 @@ public class LobbyServer extends Thread {
       try (DatagramSocket ds = new DatagramSocket()) {
 
 
-        System.out.println(SkatMain.mainController.currentLobby.hashCode());
-        System.out.println(lobby.hashCode());
-        System.out.println(SkatMain.mainController.currentLobby == lobby);
+//        System.out.println(SkatMain.mainController.currentLobby.hashCode());
+//        System.out.println(lobby.hashCode());
+//        System.out.println(SkatMain.mainController.currentLobby == lobby);
         this.ds = ds;
         ds.setBroadcast(true);
         byte[] buff;
