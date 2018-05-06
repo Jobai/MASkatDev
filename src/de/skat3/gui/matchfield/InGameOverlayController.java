@@ -317,9 +317,10 @@ public class InGameOverlayController {
   }
 
   void showMatchResult(MatchResult result) {
+
+    this.addAndSetupButton(this.gameResultcontroller.root, this.gameResultcontroller.closeButton);
+
     this.gameResultcontroller.setResult(result);
-    this.root.getChildren().add(this.gameResultcontroller.root);
-    this.bindCentral(this.gameResultcontroller.root);
   }
 
   private void bindCentral(AnchorPane p) {
