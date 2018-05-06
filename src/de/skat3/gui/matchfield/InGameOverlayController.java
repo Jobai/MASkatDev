@@ -410,7 +410,6 @@ public class InGameOverlayController {
   }
 
   public void handleKeyPressed(KeyEvent e) {
-
     if (KeyCode.TAB.equals(e.getCode()) && !this.scoreboardController.root.isVisible()) {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
           .setDisable(true);
@@ -418,7 +417,14 @@ public class InGameOverlayController {
       this.scoreboardController.setScores();
       this.scoreboardController.root.toFront();
       this.scoreboardController.root.setVisible(true);
+      e.consume();
       this.root.requestFocus();
+      return;
+    }
+
+    if (KeyCode.TAB.equals(e.getCode())) {
+      e.consume();
+      return;
     }
   }
 
@@ -428,16 +434,13 @@ public class InGameOverlayController {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
           .setDisable(false);
       this.scoreboardController.root.setVisible(false);
-
+      e.consume();
       this.root.requestFocus();
     }
 
     if (KeyCode.ESCAPE.equals(e.getCode())) {
 
-      boolean old =
-          SkatMain.guiController.getInGameController().matchfield.tableController.isPlaying;
-
-      SkatMain.guiController.getInGameController().makeAMoveRequest(false);
+      SkatMain.guiController.getInGameController().matchfield.root.setDisable(true);
 
       Alert alert = new Alert(AlertType.CONFIRMATION);
       alert.setTitle("Leave game");
@@ -452,7 +455,7 @@ public class InGameOverlayController {
       if (result.get() == buttonTypeYes) {
         SkatMain.mainController.exitGame();
       } else {
-        SkatMain.guiController.getInGameController().makeAMoveRequest(old);
+        SkatMain.guiController.getInGameController().matchfield.root.setDisable(false);
       }
     }
   }

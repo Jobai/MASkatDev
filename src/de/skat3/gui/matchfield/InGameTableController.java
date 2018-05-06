@@ -111,6 +111,10 @@ public class InGameTableController {
               SkatMain.mainController.localCardPlayed(card.getCard());
               // Disable cards
               SkatMain.guiController.getInGameController().makeAMoveRequest(false);
+              // hide kontra
+              SkatMain.guiController
+                  .getInGameController().matchfield.overlayController.annouceContraButton
+                      .setVisible(false);
             }
 
           }
