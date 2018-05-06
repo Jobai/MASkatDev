@@ -43,9 +43,9 @@ public class GameResultViewController {
   @FXML
   private ListView<String> listViewHistP3;
   @FXML
-  private Button closeButton;
+  public Button closeButton;
   @FXML
-  private AnchorPane root;
+  public AnchorPane root;
 
   /**
    * Set result value to screen.

@@ -1,16 +1,12 @@
 package de.skat3.gui.matchfield;
 
-import java.util.Iterator;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.text.Font;

@@ -54,9 +54,9 @@ public class RoundResultViewController {
   @FXML
   private CheckBox cbRekontra;
   @FXML
-  private Button closeButton;
+  public Button closeButton;
   @FXML
-  private AnchorPane root;
+  public AnchorPane root;
 
 
   /**

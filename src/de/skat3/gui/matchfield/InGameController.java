@@ -166,23 +166,7 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void showEndScreen(MatchResult matchResult) {
-
-    FXMLLoader fxmlLoader =
-        new FXMLLoader(getClass().getResource("../resultscreen/GameResultView.fxml"));
-    Parent root = null;
-    try {
-      root = fxmlLoader.load();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    Stage stage = new Stage();
-    stage.setTitle("Game Result");
-    stage.setScene(new Scene(root));
-
-    GameResultViewController gameResultViewController = fxmlLoader.getController();
-    gameResultViewController.setResult(matchResult);
-    stage.show();
-
+    this.matchfield.overlayController.showMatchResult(matchResult);
   }
 
   /*
@@ -196,32 +180,7 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void showResults(Result results) {
-
-    if (results.roundCancelled) {
-      Alert a = new Alert(Alert.AlertType.INFORMATION);
-      a.setContentText("Round canceled!");
-      a.showAndWait();
-      return;
-    }
-
-    FXMLLoader fxmlLoader =
-        new FXMLLoader(getClass().getResource("../resultscreen/RoundResultView.fxml"));
-    Parent root = null;
-    try {
-      root = fxmlLoader.load();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    Stage stage = new Stage();
-    stage.setTitle("Round Result");
-    stage.setScene(new Scene(root));
-
-    RoundResultViewController roundResultViwController = fxmlLoader.getController();
-    roundResultViwController.setResult(results);
-
-    stage.initModality(Modality.APPLICATION_MODAL);
-    stage.show();
-
+    this.matchfield.overlayController.showRoundResult(results);
   }
 
 

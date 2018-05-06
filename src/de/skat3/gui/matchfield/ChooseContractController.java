@@ -111,8 +111,8 @@ public class ChooseContractController {
         toggleOpengame.setSelected(true);
       }
     });
-    
-    //saveButton.disableProperty().bind(Bindings.);
+
+    // saveButton.disableProperty().bind(Bindings.);
 
   }
 
@@ -138,8 +138,7 @@ public class ChooseContractController {
         cbSchneider.isSelected(), cbSchwarz.isSelected(), cbOuvert.isSelected());
     SkatMain.mainController.contractSelected(currentContract, additionalMultipliers);
 
-    this.root.setVisible(false);
-    this.root.setDisable(true);
+    SkatMain.guiController.getInGameController().matchfield.overlayController.remove(this.root);
 
   }
 

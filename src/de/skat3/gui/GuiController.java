@@ -88,6 +88,7 @@ public class GuiController implements GuiControllerInterface {
   }
 
   @Override
+  @Deprecated
   public void showRoundResult(Result result) {
 
     FXMLLoader fxmlLoader =
@@ -108,6 +109,7 @@ public class GuiController implements GuiControllerInterface {
   }
 
   @Override
+  @Deprecated
   public void showGameResult(MatchResult matchResult) {
 
     FXMLLoader fxmlLoader =
