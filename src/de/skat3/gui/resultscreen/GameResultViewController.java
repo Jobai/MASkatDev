@@ -6,6 +6,7 @@ import de.skat3.gamelogic.MatchResult.PlayerHistory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
@@ -40,6 +41,8 @@ public class GameResultViewController {
   private ListView<String> listViewHistP2;
   @FXML
   private ListView<String> listViewHistP3;
+  @FXML
+  private Button closeButton;
 
   /**
    * Set result value to screen.

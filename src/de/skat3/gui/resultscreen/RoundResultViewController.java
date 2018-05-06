@@ -3,6 +3,7 @@ package de.skat3.gui.resultscreen;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
@@ -51,6 +52,8 @@ public class RoundResultViewController {
   private CheckBox cbKontra;
   @FXML
   private CheckBox cbRekontra;
+  @FXML
+  private Button closeButton;
 
 
   /**
