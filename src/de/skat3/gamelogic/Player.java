@@ -1,6 +1,7 @@
 package de.skat3.gamelogic;
 
 import de.skat3.ai.Ai;
+import de.skat3.ai.AiNames;
 import de.skat3.ai.IntelligentAi;
 import de.skat3.ai.RandomAI;
 import de.skat3.io.profile.ImageConverter;
@@ -104,9 +105,9 @@ public class Player implements Serializable, Comparable<Player> {
    */
   public Player(boolean hardBot) {
     if (hardBot) {
-      this.name = "Hard Ai";
+      this.name = AiNames.getRandomName(hardBot) + " (Hard)";
     } else {
-      this.name = "Easy Ai";
+      this.name = AiNames.getRandomName(hardBot) + " (Easy)";
     }
     this.isHardBot = hardBot;
     this.wonTricks = new ArrayList<Card>();
