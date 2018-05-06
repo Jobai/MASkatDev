@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="653.0" prefWidth="600.0"
-	xmlns="http://javafx.com/javafx/9.0.1"
+	xmlns="http://javafx.com/javafx/8"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.resultscreen.GameResultViewController">
 	<children>

@@ -294,6 +294,7 @@ public class InGameOverlayController {
   }
 
   void showContractRequest() {
+    this.contractController.checkIfHandgame();
     this.contractController.root.setVisible(true);
     this.contractController.root.setDisable(false);
   }

@@ -14,14 +14,13 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" prefHeight="720"
-	prefWidth="1280" style="-fx-min-width: 1280; -fx-min-height: 720;"
-	xmlns="http://javafx.com/javafx/9.0.1"
+<AnchorPane fx:id="mainPane"
+	xmlns="http://javafx.com/javafx/8"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.menuframe.MenuFrameController">
 	<children>
-		<ImageView fx:id="backgroundImage" fitHeight="720.0"
-			fitWidth="1280.0" opacity="0.73" pickOnBounds="true">
+		<ImageView fx:id="backgroundImage" opacity="0.73"
+			pickOnBounds="true">
 			<image>
 				<Image url="@../../../../../resources/guifiles/bg.png" />
 			</image>

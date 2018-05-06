@@ -2,6 +2,7 @@
 
 package de.skat3.main;
 
+import java.util.Properties;
 import de.skat3.gui.Gui;
 import de.skat3.gui.GuiController;
 import de.skat3.io.profile.IoController;
@@ -30,7 +31,14 @@ public class SkatMain {
    */
   public static void main(String[] args) {
 
+<<<<<<< Updated upstream
     SkatMain.masterLogger = new MasterLogger();
+=======
+//    System.setProperty("sun.java2d.dpiaware", "false");
+    // Properties props = System.getProperties();
+    // props.setProperty("-Dsun.java2d.dpiaware=false");
+
+>>>>>>> Stashed changes
     SkatMain.mainController = new MainController();
     SkatMain.guiController = new GuiController();
     SkatMain.ioController = new IoController();

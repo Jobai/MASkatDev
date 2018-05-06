@@ -23,6 +23,7 @@ public class MenuFrame {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    
     this.controller = loader.getController();
     // For the first start.
     this.controller.initialize();
