@@ -738,7 +738,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showBidActivity(player, bid);
+        SkatMain.guiController.getInGameController().showText(player, bid);
       }
     });
   }

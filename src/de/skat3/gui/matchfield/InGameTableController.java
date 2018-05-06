@@ -286,6 +286,7 @@ public class InGameTableController {
     Button button = new Button("Save");
     button.setFont(Font.font(40));
     button.setPrefSize(150, 100);
+    button.setStyle("-fx-background-color: #d60202");
     button.translateXProperty().bind(this.tableView.skatPositions[0].translateXProperty().add(225));
     button.translateYProperty().bind(this.tableView.skatPositions[0].translateYProperty().add(100));
     button.translateZProperty().bind(this.tableView.skatPositions[0].translateZProperty());
@@ -307,24 +308,6 @@ public class InGameTableController {
       }
     });
     this.tableView.table.getChildren().add(button);
-
-    Iterator<Node> t = this.tableView.table.getChildren().iterator();
-
-    System.out.println("-------------------------LIST OF CHILDREN--------------------");
-    int i = 0;
-    while (t.hasNext()) {
-      Node d = t.next();
-      System.out.println(i++ + " " + d.getClass());
-      if (d.getClass().equals(GuiHand.class)) {
-        Iterator<Node> l = ((GuiHand) d).getChildrenUnmodifiable().iterator();
-        int j = 0;
-        while (l.hasNext()) {
-          Node n = l.next();
-          System.out.println("\t " + j++ + " " + n.getClass());
-        }
-      }
-    }
-    System.out.println("-------------------------END OF LIST OF CHILDREN--------------------");
 
   }
 

@@ -72,10 +72,10 @@ public class InGameOverlayController {
   private Label extra2EnemyTwo;
 
   @FXML
-  private Button annouceContraButton;
+  public Button annouceContraButton;
 
   @FXML
-  AnchorPane root;
+  public AnchorPane root;
 
   @FXML
   private Label nameEnemyOne;

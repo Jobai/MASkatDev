@@ -29,6 +29,24 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield = matchfield;
   }
 
+  public void showKontraButton() {
+    this.matchfield.overlayController.annouceContraButton.setVisible(true);
+    this.matchfield.overlayController.annouceContraButton.setText("Announce Kontra");
+    this.matchfield.overlayController.annouceContraButton.setOnAction(e -> {
+      SkatMain.mainController.localKontraAnnounced();
+      this.matchfield.overlayController.annouceContraButton.setVisible(false);
+    });
+  }
+
+  public void showReKontraButton() {
+    this.matchfield.overlayController.annouceContraButton.setVisible(true);
+    this.matchfield.overlayController.annouceContraButton.setText("Announce Rekontra");
+    this.matchfield.overlayController.annouceContraButton.setOnAction(e -> {
+      SkatMain.mainController.localRekontraAnnounced();
+      this.matchfield.overlayController.annouceContraButton.setVisible(false);
+    });
+  }
+
   /**
    * asd.
    * 
@@ -227,16 +245,12 @@ public class InGameController implements InGameControllerInterface {
 
 
   /**
-   * Is showing a value on the screen which represents a bid which has been set by an other player.
+   * Is showing a text on the screen.
    * 
-   * @param player Player who has set this bid.
-   * @param bid Bid value the player has set.
+   * @param text Text to be shown.
    */
-  public void showBidActivity(Player player, String bid) {
-    if (!player.equals(SkatMain.lgs.getLocalClient())) {
-      this.matchfield.overlayController.showInMainInfo(player.getName() + ": " + bid,
-          Duration.seconds(2));
-    }
+  public void showText(String text) {
+    this.matchfield.overlayController.showInMainInfo(text, Duration.seconds(3));
   }
 
   @Override
