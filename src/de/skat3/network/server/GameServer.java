@@ -49,7 +49,7 @@ public class GameServer extends Thread {
 
   public LobbyServer ls;
 
-  static Lobby lobby;
+  Lobby lobbySettings;
   
   public boolean failure;
 
@@ -81,7 +81,7 @@ public class GameServer extends Thread {
     this.gc = gc;
     threadList = Collections.synchronizedList(new ArrayList<GameServerProtocol>());
     slc = new ServerLogicController(lobbysettings, this);
-    GameServer.lobby = lobbysettings;
+    lobbySettings = lobbysettings;
     this.start();
   }
 

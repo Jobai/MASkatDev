@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -149,7 +150,7 @@ public class GameServerProtocol extends Thread {
     Player op = mc.originSender;
     Profile p = SkatMain.ioController.getLastUsedProfile();
 
-    String serverPw = GameServer.lobby.getPassword();
+    String serverPw = gs.lobbySettings.getPassword();
     if (!(serverPw == null || serverPw.isEmpty() || (op.getUuid().equals(p.getUuid())))) {
       logger.fine("SERVER HAS PASSWORD!: CHECKING!");
       logger.fine("SERVER PW: '" + serverPw + "' ; GIVEN PW '" + mc.lobbyPassword + "'");
@@ -220,7 +221,9 @@ public class GameServerProtocol extends Thread {
   }
 
   private void handleConnectionClose() {
-    if (gs.ls.getLobby().lobbyPlayer <= 1) {
+    Player[] connectedPlayer = SkatMain.mainController.currentLobby.getPlayers();
+    if (connectedPlayer[0].equals(playerProfile)) {
+      logger.warning("HOST LEFT THE GAME! Shutting down the server");
       gs.stopServer();
     }
     closeConnection();
