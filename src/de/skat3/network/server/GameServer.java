@@ -50,6 +50,8 @@ public class GameServer extends Thread {
   public LobbyServer ls;
 
   static Lobby lobby;
+  
+  public boolean failure;
 
 
 
@@ -122,14 +124,17 @@ public class GameServer extends Thread {
       SkatMain.mainController.showCustomAlertPormpt("Server already running!",
           "There is already a server running on this computer! "
               + "\n Please stop it befor you start a new one.");
+      failure = true;
       SkatMain.mainController.goToMenu();
       stopServer();
     } catch (SocketException e) {
       if (!(e.getMessage().equals("socket closed"))) {
         e.printStackTrace();
       }
+      failure = true;
     } catch (IOException e) {
       e.printStackTrace();
+      failure = true;
     }
 
 
@@ -144,9 +149,11 @@ public class GameServer extends Thread {
   public void stopServer() {
 
     try {
+      logger.info("Server is stopping");
       this.interrupt();
       this.serverSocket.close();
-      logger.info("Server stopped!");
+      this.interrupt();
+      logger.info("Server stopped!" +  this.isInterrupted());
     } catch (SocketException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -192,7 +199,7 @@ public class GameServer extends Thread {
    * @author Jonas Bauer
    * @param mc the message to be broadcasted
    */
-  void broadcastMessage(Message mc) {
+  public void broadcastMessage(Message mc) {
     synchronized (threadList) {
       for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
         gameServerProtocol.sendMessage(mc);
