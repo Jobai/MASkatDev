@@ -534,6 +534,28 @@ public class IntelligentAi extends Ai {
     return getAllCardsOfValue(Value.ACE).size();
   }
 
+
+  /**
+   * Gets the number of kings in the given hand
+   * 
+   * @param cards a hand
+   * @return number of aces
+   */
+  private int countKings() {
+    return getAllCardsOfValue(Value.KING).size();
+  }
+
+  /**
+   * Gets the number of queen in the given hand
+   * 
+   * @param cards a hand
+   * @return number of aces
+   */
+  private int countQueens() {
+    return getAllCardsOfValue(Value.QUEEN).size();
+  }
+
+
   /**
    * Gets the number of Nines in the given hand
    * 
@@ -787,13 +809,14 @@ public class IntelligentAi extends Ai {
 
   private boolean checkNull() {
     int noOfAces = countAces();
-    int noOfTens = countTens();
+    int noOfKings = countKings();
+    int noOfQueens = countQueens();
     int noOfLusche = countSevens() + countEights() + countNines();
     boolean nullB = false;
 
-    if (noOfLusche >= 5) {
+    if (noOfLusche >= 6) {
       nullB = true;
-    } else if (noOfLusche >= 3 && noOfAces == 0 && noOfTens == 0) {
+    } else if (noOfLusche >= 3 && noOfAces == 0 && noOfKings == 0 && noOfQueens) {
       nullB = true;
     }
     return nullB;
