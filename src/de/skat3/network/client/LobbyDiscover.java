@@ -78,7 +78,7 @@ public class LobbyDiscover extends Thread {
    * conversion to lobbys.
    */
   public void run() {
-
+    Thread.currentThread().setName("LobbyDiscoverThreat");
 
     if (!multicast) {
       broadcastingDiscovery();

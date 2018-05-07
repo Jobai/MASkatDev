@@ -66,6 +66,7 @@ public class LobbyServer extends Thread {
 
 
   public void run() {
+    Thread.currentThread().setName("LobbyServerThread");
 
     if (!multicast) {
 

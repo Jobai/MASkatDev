@@ -89,6 +89,7 @@ public class GameServerProtocol extends Thread {
    * GameServerProtocol-Thread that handles all incoming messages by the clients.
    */
   public void run() {
+    Thread.currentThread().setName("GameServerProtocolThread_");
     while (!this.isInterrupted()) {
       try {
         Object receivedObject = fromClient.readObject();

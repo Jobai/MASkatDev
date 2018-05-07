@@ -21,6 +21,7 @@ class StreamListener extends Thread {
 
 
   public void run() {
+    Thread.currentThread().setName("GameClientStreamListenerThreat_" + gc.player.getName());
     while (!this.isInterrupted()) {
       try {
         Object o = gc.fromServer.readObject();

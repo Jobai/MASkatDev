@@ -85,6 +85,7 @@ public class GameServer extends Thread {
     slc = new ServerLogicController(lobbysettings, this);
     lobbySettings = lobbysettings;
     this.start();
+   
   }
 
   /**
@@ -105,6 +106,7 @@ public class GameServer extends Thread {
    * GameServer-Thread. Handles all new connections and starts foreach a GameServerProtocol.
    */
   public void run() {
+    Thread.currentThread().setName("GameServerThread");
     try (ServerSocket server = new ServerSocket(port)) {
       logger
           .info("Server started on " + Inet4Address.getLocalHost().getHostAddress() + ": " + port);
