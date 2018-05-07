@@ -296,6 +296,12 @@ public class InGameOverlayController {
 
   public void handleSendMessage(KeyEvent e) {
     if (e.getCode().equals(KeyCode.ENTER)) {
+      if (this.chatField.getText().trim().equals("iniHands")) {
+        SkatMain.guiController.getInGameController().matchfield.tableController.iniHands();
+        return;
+      }
+      SkatMain.mainController.execCommand(this.chatField.getText());
+
       SkatMain.mainController.sendMessage(this.chatField.getText().trim());
       this.chatField.clear();
     }
@@ -551,6 +557,7 @@ public class InGameOverlayController {
         this.addBotLeftRoot.setDisable(false);
         this.addBotLeftRoot.setVisible(true);
       }
+      this.extra3EnemyOne.setText("");
 
     } else {
 
@@ -595,6 +602,7 @@ public class InGameOverlayController {
         this.addBotRightRoot.setDisable(false);
         this.addBotRightRoot.setVisible(true);
       }
+      this.extra3EnemyTwo.setText("");
 
     } else {
 
@@ -609,12 +617,11 @@ public class InGameOverlayController {
         System.err.println("EnemyTwo: Image Could not be added.");
       }
       this.extra2EnemyTwo.setText(String.valueOf(player.getPoints()) + " Points");
-    }
 
-    if (player.isBot()) {
-      this.extra3EnemyTwo.setText(player.isHardBot() ? "Hard Bot" : "Easy Bot");
+      if (player.isBot()) {
+        this.extra3EnemyTwo.setText(player.isHardBot() ? "Hard Bot" : "Easy Bot");
+      }
     }
-
   }
 
   void showBidRequest(int bid) {

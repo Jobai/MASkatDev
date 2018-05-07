@@ -39,6 +39,24 @@ public class MainController implements MainControllerInterface {
 
 
 
+  /**
+   * Enter any case with a keyWord command which can be entered in the chat field. Dont call this
+   * Method only add a case! This method will be called by the gui.
+   * 
+   * @param command Command word.
+   */
+  public void execCommand(String command) {
+    switch (command) {
+      case "$exit": {
+        System.exit(0);
+      }
+
+      default: {
+
+      }
+    }
+  }
+
   @Override
   public ArrayList<Lobby> getLocalHosts() {
     ArrayList<Lobby> lobbys = SkatMain.mainNetworkController.discoverServer();
