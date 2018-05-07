@@ -233,7 +233,6 @@ public class InGameOverlayController {
     this.root.getChildren().add(pane);
     if (closeButton != null) {
       closeButton.setOnAction(e -> {
-        System.out.println("--------------------------------------------------JOO" + pane);
         this.remove(pane);
       });
     }
@@ -310,14 +309,33 @@ public class InGameOverlayController {
 
   public void handleSendMessage(KeyEvent e) {
     if (e.getCode().equals(KeyCode.ENTER)) {
-      if (this.chatField.getText().trim().equals("iniHands")) {
-        SkatMain.guiController.getInGameController().matchfield.tableController.iniHands();
-        return;
-      }
-      SkatMain.mainController.execCommand(this.chatField.getText());
 
-      SkatMain.mainController.sendMessage(this.chatField.getText().trim());
+      switch (this.chatField.getText()) {
+        case "&inihands": {
+          SkatMain.guiController.getInGameController().matchfield.tableController.iniHands();
+          break;
+        }
+
+        case "&blingLefton": {
+          SkatMain.guiController.getInGameController().matchfield.tableView.leftHand
+              .setBlingBling(true);
+          break;
+        }
+        case "&blingLeftoff": {
+          SkatMain.guiController.getInGameController().matchfield.tableView.leftHand
+              .setBlingBling(false);
+          break;
+        }
+
+        default: {
+          SkatMain.mainController.execCommand(this.chatField.getText());
+
+          SkatMain.mainController.sendMessage(this.chatField.getText().trim());
+        }
+      }
+
       this.chatField.clear();
+
     }
   }
 

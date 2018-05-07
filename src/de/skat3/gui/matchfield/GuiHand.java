@@ -235,6 +235,7 @@ public class GuiHand extends Parent {
    * 
    */
   synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Group table) {
+    card.setBlingBling(false);
     Transform t = card.getLocalToSceneTransform();
     Affine sourceTr = new Affine(t);
     sourceTr.getClass();
@@ -364,23 +365,9 @@ public class GuiHand extends Parent {
   private FadeTransition bling;
 
   void setBlingBling(boolean value) {
-    if (this.bling == null) {
-      this.bling = new FadeTransition();
-      bling.setNode(this);
-      bling.setDuration(Duration.seconds(0.5));
-      bling.setFromValue(1);
-      bling.setToValue(0.5);
-      bling.setAutoReverse(true);
-      bling.setCycleCount(MediaPlayer.INDEFINITE);
+    for (GuiCard c : this.cards) {
+      c.setBlingBling(value);
     }
-
-    if (value) {
-      this.bling.playFromStart();
-    } else {
-      this.bling.stop();
-      this.setOpacity(1);
-    }
-
   }
 
   synchronized void resetPositions() {
@@ -510,18 +497,6 @@ public class GuiHand extends Parent {
       pos.setTranslateZ(-1 * i + zoffset);
       postions[i] = pos;
     }
-    // System.out.println("--------------------------DEBUG
-    // START-----------------------------------");
-    // for (Parent p : postions) {
-    // System.out.println(
-    // "X " + p.getTranslateX() + " Y " + p.getTranslateY() + " Z " + p.getTranslateZ());
-    // }
-    // System.out.println("Parent Bounds x -> x " + this.getBoundsInParent().getMinX() + " --> "
-    // + this.getBoundsInParent().getMaxX());
-    // System.out.println("Local Bounds x -> x " + this.getBoundsInLocal().getMinX() + " --> "
-    // + this.getBoundsInLocal().getMaxX());
-    // System.out.println("--------------------------DEBUG END-----------------------------------");
-
 
     return postions;
   }

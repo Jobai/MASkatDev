@@ -41,16 +41,15 @@ public class InGameController implements InGameControllerInterface {
   }
 
   public void showWhoIsPlaying(Player player) {
-    Node n = null;
 
     if (player.equals(SkatMain.lgs.getEnemyOne())) {
-      n = this.matchfield.overlayController.rootEnemyOne;
+      this.matchfield.tableView.leftHand.setBlingBling(true);
+      this.matchfield.tableView.rightHand.setBlingBling(false);
     }
+
     if (player.equals(SkatMain.lgs.getEnemyTwo())) {
-      n = this.matchfield.overlayController.rootEnemyTwo;
-    }
-    if (player.equals(SkatMain.lgs.getLocalClient())) {
-      n = this.matchfield.overlayController.rootLocalClient;
+      this.matchfield.tableView.leftHand.setBlingBling(false);
+      this.matchfield.tableView.rightHand.setBlingBling(true);
     }
   }
 
@@ -113,7 +112,10 @@ public class InGameController implements InGameControllerInterface {
   public void singleMakeAMoveRequest(Card card, boolean value) {
     this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value, true);
 
-    Card[] playableRef = SkatMain.lgs.getLocalClient().getHand().getCards().clone();
+    Card[] playableRef = new Card[SkatMain.lgs.getLocalClient().getHand().getCards().length];
+    for (int i = 0; i < SkatMain.lgs.getLocalClient().getHand().getCards().length; i++) {
+      playableRef[i] = SkatMain.lgs.getLocalClient().getHand().getCards()[i].copy();
+    }
     Card d = null;
     for (int i = 0; i < playableRef.length; i++) {
       try {
@@ -128,6 +130,8 @@ public class InGameController implements InGameControllerInterface {
       }
     }
     this.matchfield.tableController.setCardsPlayable(true, playableRef);
+
+
     this.matchfield.tableController.showPlayableColor(true,
         SkatMain.lgs.getLocalClient().getHand().getCards());
 

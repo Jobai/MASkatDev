@@ -49,6 +49,7 @@ public class MainController implements MainControllerInterface {
     switch (command) {
       case "$exit": {
         System.exit(0);
+        break;
       }
 
       default: {
