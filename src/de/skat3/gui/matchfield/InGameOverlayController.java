@@ -148,6 +148,47 @@ public class InGameOverlayController {
   public static final String BACKGROUNDRADIUS = "-fx-background-radius: ";
   public static final String BORDERRADIUS = "-fx-border-radius: ";
 
+  public void handleSendMessage(KeyEvent e) {
+    if (e.getCode().equals(KeyCode.ENTER)) {
+
+      switch (this.chatField.getText()) {
+        case "&inihands": {
+          SkatMain.guiController.getInGameController().matchfield.tableController.iniHands();
+          break;
+        }
+
+        case "&blinglefton": {
+          SkatMain.guiController.getInGameController().matchfield.tableView.leftHand
+              .setBlingBling(true);
+          break;
+        }
+        case "&blingleftoff": {
+          SkatMain.guiController.getInGameController().matchfield.tableView.leftHand
+              .setBlingBling(false);
+          break;
+        }
+        case "&showbidcards": {
+          SkatMain.guiController.getInGameController().matchfield.tableView.trick
+              .showBidingCards(true);
+          break;
+        }
+        case "&hidebidcards": {
+          SkatMain.guiController.getInGameController().matchfield.tableView.trick
+              .showBidingCards(false);
+          break;
+        }
+
+        default: {
+          SkatMain.mainController.execCommand(this.chatField.getText());
+
+          SkatMain.mainController.sendMessage(this.chatField.getText().trim());
+        }
+      }
+
+      this.chatField.clear();
+
+    }
+  }
 
   private void loadFXMLFiles() {
     // GameResults
@@ -304,38 +345,6 @@ public class InGameOverlayController {
       this.schwarzInfo.setVisible(false);
       this.openInfo.setVisible(false);
       this.handInfo.setVisible(false);
-    }
-  }
-
-  public void handleSendMessage(KeyEvent e) {
-    if (e.getCode().equals(KeyCode.ENTER)) {
-
-      switch (this.chatField.getText()) {
-        case "&inihands": {
-          SkatMain.guiController.getInGameController().matchfield.tableController.iniHands();
-          break;
-        }
-
-        case "&blingLefton": {
-          SkatMain.guiController.getInGameController().matchfield.tableView.leftHand
-              .setBlingBling(true);
-          break;
-        }
-        case "&blingLeftoff": {
-          SkatMain.guiController.getInGameController().matchfield.tableView.leftHand
-              .setBlingBling(false);
-          break;
-        }
-
-        default: {
-          SkatMain.mainController.execCommand(this.chatField.getText());
-
-          SkatMain.mainController.sendMessage(this.chatField.getText().trim());
-        }
-      }
-
-      this.chatField.clear();
-
     }
   }
 

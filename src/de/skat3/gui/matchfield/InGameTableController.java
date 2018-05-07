@@ -11,6 +11,7 @@ import javafx.animation.Animation.Status;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
@@ -330,7 +331,9 @@ public class InGameTableController {
     Button button = new Button("Save");
     button.setFont(Font.font(40));
     button.setPrefSize(170, 100);
-    button.setStyle("-fx-background-color: #d60202");
+    button.setTextFill(Color.WHITE);
+    button.setStyle("-fx-background-color: #d60202; -fx-background-radius: 30; "
+        + "-fx-border-color: #404040; -fx-border-radius: 30;");
     button.translateXProperty().bind(this.tableView.skatPositions[0].translateXProperty().add(215));
     button.translateYProperty().bind(this.tableView.skatPositions[0].translateYProperty().add(100));
     button.translateZProperty().bind(this.tableView.skatPositions[0].translateZProperty());

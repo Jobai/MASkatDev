@@ -11,8 +11,8 @@ public enum AiNames {
       true), Gertrud(true), Chantal(false), Justin(false), Kevin(
           false), Albert(true), Jacqueline(true), Herbert(false), Angie(false), Siri(false);
 
-  private boolean hard;
-  private boolean used;
+  public boolean hard;
+  public boolean used;
 
   private AiNames(boolean hard) {
     this.hard = hard;

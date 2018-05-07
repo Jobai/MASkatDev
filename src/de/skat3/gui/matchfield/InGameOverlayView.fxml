@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -11,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" onKeyPressed="#handleKeyPressed" onKeyReleased="#handleKeyReleased" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.matchfield.InGameOverlayController">
+<AnchorPane fx:id="root" onKeyPressed="#handleKeyPressed" onKeyReleased="#handleKeyReleased" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.skat3.gui.matchfield.InGameOverlayController">
 	<children>
 		<VBox layoutX="1038.0" layoutY="472.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
 			<children>
@@ -127,21 +133,44 @@
             <Insets right="5.0" />
          </padding>
 		</AnchorPane>
-		<HBox alignment="CENTER" layoutX="440.0" layoutY="-11.0" prefHeight="40.0" prefWidth="400.0" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="440.0" AnchorPane.topAnchor="-11.0">
-			<children>
-				<HBox fx:id="rootLocalClient" alignment="BOTTOM_CENTER" opacity="0.8" prefHeight="30.0" prefWidth="400.0" spacing="30.0" style="-fx-border-color: #ffffff; -fx-border-radius: 10;">
-					<children>
-						<Label fx:id="extra1LocalClient" prefHeight="30.0" prefWidth="60.0" textFill="WHITE" />
-						<Label fx:id="nameLocalClient" prefHeight="30.0" text="Player 1" textFill="WHITE">
-							<font>
-								<Font size="18.0" />
-							</font>
-						</Label>
-						<Label fx:id="extra2LocalClient" prefHeight="28.0" prefWidth="60.0" textFill="WHITE" />
-					</children>
-				</HBox>
-			</children>
-		</HBox>
+      <HBox alignment="CENTER" layoutX="440.0" layoutY="-11.0" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="440.0" AnchorPane.topAnchor="-10.0">
+         <children>
+            <VBox alignment="CENTER" layoutX="440.0" layoutY="-11.0">
+               <children>
+      				<HBox fx:id="rootLocalClient" alignment="BOTTOM_CENTER" opacity="0.8" prefHeight="30.0" prefWidth="400.0" spacing="30.0" style="-fx-border-color: #ffffff; -fx-border-radius: 10;">
+      					<children>
+      						<Label fx:id="extra1LocalClient" prefHeight="30.0" prefWidth="60.0" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+      						<Label fx:id="nameLocalClient" prefHeight="30.0" text="Player 1" textFill="WHITE">
+      							<font>
+      								<Font size="30.0" />
+      							</font>
+      						</Label>
+      						<Label fx:id="extra2LocalClient" prefHeight="28.0" prefWidth="60.0" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+      					</children>
+                     <padding>
+                        <Insets top="6.0" />
+                     </padding>
+      				</HBox>
+      				<Label fx:id="playInfo" alignment="CENTER" style="-fx-background-color: #404040; -fx-background-radius: 10;" text="YOUR MOVE" textFill="WHITE" visible="false">
+      					<font>
+      						<Font size="21.0" />
+      					</font>
+      					<padding>
+      						<Insets left="10.0" right="10.0" />
+      					</padding>
+      				</Label>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
 		<HBox alignment="CENTER_RIGHT" layoutX="8.0" layoutY="384.0" prefHeight="30.0" prefWidth="182.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="1090.0" AnchorPane.topAnchor="384.0" />
 		<AnchorPane layoutX="-1.0" layoutY="350.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="170.0" AnchorPane.leftAnchor="0.0">
 			<children>
@@ -152,7 +181,7 @@
 								<Font name="System Bold" size="14.0" />
 							</font>
 						</Button>
-						<Label fx:id="trumpInfo" contentDisplay="CENTER" prefHeight="31.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" textAlignment="CENTER" textFill="WHITE" visible="false">
+						<Label fx:id="trumpInfo" contentDisplay="CENTER" prefHeight="31.0" style="-fx-background-color: #404040; -fx-background-radius: 4; -fx-border-color: #d60202; -fx-border-radius: 4;" textAlignment="CENTER" textFill="WHITE" visible="false">
 							<font>
 								<Font size="21.0" />
 							</font>
@@ -160,7 +189,7 @@
 								<Insets left="20.0" right="10.0" />
 							</padding>
 						</Label>
-						<Label fx:id="schneiderInfo" prefHeight="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="Schneider" textFill="WHITE" visible="false">
+						<Label fx:id="schneiderInfo" prefHeight="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4; -fx-border-color: #d60202; -fx-border-radius: 4;" text="Schneider" textFill="WHITE" visible="false">
 							<padding>
 								<Insets left="20.0" right="10.0" />
 							</padding>
@@ -168,7 +197,7 @@
 								<Font size="19.0" />
 							</font>
 						</Label>
-						<Label fx:id="schwarzInfo" prefHeight="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="Schwarz" textFill="WHITE" visible="false">
+						<Label fx:id="schwarzInfo" prefHeight="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4; -fx-border-color: #d60202; -fx-border-radius: 4;" text="Schwarz" textFill="WHITE" visible="false">
 							<padding>
 								<Insets left="20.0" right="10.0" />
 							</padding>
@@ -176,7 +205,7 @@
 								<Font size="19.0" />
 							</font>
 						</Label>
-						<Label fx:id="openInfo" prefHeight="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="Open" textFill="WHITE" visible="false">
+						<Label fx:id="openInfo" prefHeight="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4; -fx-border-color: #d60202; -fx-border-radius: 4;" text="Open" textFill="WHITE" visible="false">
 							<font>
 								<Font size="19.0" />
 							</font>
@@ -184,7 +213,7 @@
 								<Insets left="20.0" right="10.0" />
 							</padding>
 						</Label>
-						<Label fx:id="handInfo" prefHeight="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4;" text="Hand" textFill="WHITE" visible="false">
+						<Label fx:id="handInfo" prefHeight="28.0" style="-fx-background-color: #404040; -fx-background-radius: 4; -fx-border-color: #d60202; -fx-border-radius: 4;" text="Hand" textFill="WHITE" visible="false">
 							<font>
 								<Font size="19.0" />
 							</font>
@@ -196,18 +225,6 @@
 				</VBox>
 			</children>
 		</AnchorPane>
-		<HBox alignment="CENTER" layoutX="571.0" layoutY="30.0" AnchorPane.leftAnchor="571.0" AnchorPane.rightAnchor="570.0">
-			<children>
-				<Label fx:id="playInfo" alignment="CENTER" layoutX="571.0" layoutY="60.0" style="-fx-background-color: #404040; -fx-background-radius: 10;" text="YOUR MOVE" textFill="WHITE" visible="false">
-					<font>
-						<Font size="21.0" />
-					</font>
-					<padding>
-						<Insets left="10.0" right="10.0" />
-					</padding>
-				</Label>
-			</children>
-		</HBox>
 		<Label fx:id="timerLabel" alignment="CENTER" layoutX="-10.0" layoutY="264.0" prefHeight="58.0" prefWidth="151.0" style="-fx-background-color: #404040; -fx-background-radius: 10;" textFill="RED" visible="false" AnchorPane.bottomAnchor="398.0" AnchorPane.leftAnchor="-10.0">
 			<font>
 				<Font size="30.0" />

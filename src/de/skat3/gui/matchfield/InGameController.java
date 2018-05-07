@@ -41,7 +41,6 @@ public class InGameController implements InGameControllerInterface {
   }
 
   public void showWhoIsPlaying(Player player) {
-
     if (player.equals(SkatMain.lgs.getEnemyOne())) {
       this.matchfield.tableView.leftHand.setBlingBling(true);
       this.matchfield.tableView.rightHand.setBlingBling(false);
@@ -76,11 +75,12 @@ public class InGameController implements InGameControllerInterface {
           || SkatMain.lgs.getAdditionalMultipliers().isOpenHand()) {
         this.matchfield.tableController.iniHands();
       }
+
+      this.matchfield.tableView.trick.showBidingCards(false);
     } else {
       this.matchfield.overlayController.setRoundInfos(null, null);
     }
 
-    this.matchfield.tableView.trick.showBidingCards(false);
     this.matchfield.tableController.refreshHands();
   }
 
