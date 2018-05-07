@@ -51,7 +51,7 @@ public class AIGameClient extends GameClient {
   
   @Override
   void clientProtocolHandler(Object o) {
-    logger.info("AI got a MEssage!");
+    logger.fine("AI got a MEssage!");
     Object receivedObject = o;
     Message m = (Message) receivedObject;
     MessageType mt = m.getType();
@@ -103,7 +103,7 @@ public class AIGameClient extends GameClient {
 
   void handleCommandAction(Message m, SubType st) {
     CommandType ct = (CommandType) st;
-    logger.info("Handeling AI received message!" + ct);
+    logger.fine("Handeling AI received message!" + ct);
 
     switch (ct) {
       case BID_INFO:

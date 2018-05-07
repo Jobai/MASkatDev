@@ -46,7 +46,6 @@ public class LobbyServer extends Thread {
   boolean multicast = false;
 
   public LobbyServer(Lobby lobby) {
-    logger.setLevel(Level.ALL);
     logger.fine("test fine");
     try {
       inetAdress = InetAddress.getByName("239.4.5.6");
@@ -59,7 +58,6 @@ public class LobbyServer extends Thread {
   }
 
   public LobbyServer(Lobby lobby, InetAddress iAdress) {
-    logger.setLevel(Level.ALL);
     logger.fine("test fine");
     this.lobby = lobby;
     this.inetAdress = iAdress;
@@ -129,7 +127,7 @@ public class LobbyServer extends Thread {
 
         byte[] buff;
         buff = lobby.convertToByteArray(lobby);
-        System.out.println("Buffer lenght:"  + buff.length);
+        logger.fine("Buffer lenght:"  + buff.length);
         DatagramPacket packet = new DatagramPacket(buff, buff.length, inetAdress, port);
 
         while (!this.isInterrupted()) {

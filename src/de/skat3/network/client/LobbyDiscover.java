@@ -92,7 +92,7 @@ public class LobbyDiscover extends Thread {
 
 
   private void broadcastingDiscovery() {
-    System.out.println("BROADCAST LOBBY MODE");
+    logger.info("BROADCAST LOBBY MODE");
 
     try (DatagramSocket dds = new DatagramSocket(port, inetAdressBroadcasting)) {
       ds = dds;
