@@ -6,6 +6,7 @@ import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.Animation.Status;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
@@ -178,6 +179,29 @@ public class InGameTableController {
     }
   }
 
+  private boolean animationRunning;
+  Timeline animationTimer;
+
+  private void setAnimationRunning(Duration d) {
+    if (this.animationTimer == null) {
+      this.animationTimer = new Timeline();
+    }
+    if (this.animationTimer.getStatus().equals(Status.RUNNING)) {
+      this.animationTimer.setOnFinished(e -> {
+      });
+      this.animationTimer.stop();
+      this.animationTimer.getKeyFrames().clear();
+      this.setAnimationRunning(d);
+    } else {
+      this.animationRunning = true;
+      this.animationTimer.getKeyFrames().add(new KeyFrame(d, e -> {
+      }));
+      this.animationTimer.setOnFinished(e -> this.animationRunning = false);
+      this.animationTimer.play();
+    }
+
+  }
+
   /**
    * Shows the skat selection.
    */
@@ -200,6 +224,11 @@ public class InGameTableController {
     this.showCardAnimationInLCHand(true);
 
     this.tableView.table.setOnMouseClicked(event -> {
+
+      if (this.animationRunning) {
+        return;
+      }
+
       Node node = event.getPickResult().getIntersectedNode();
       try {
         // add skat card 1 to the local hand
@@ -211,6 +240,7 @@ public class InGameTableController {
           if (this.selectedCard.equals(card)) {
             this.selectedCard = null;
           }
+          this.setAnimationRunning(Matchfield.animationTime);
           return;
         }
         // add skat card 2 to the local hand
@@ -222,6 +252,7 @@ public class InGameTableController {
           if (this.selectedCard.equals(card)) {
             this.selectedCard = null;
           }
+          this.setAnimationRunning(Matchfield.animationTime);
           return;
         }
         if (node.getParent().getParent().equals(this.tableView.playerHand)) {
@@ -253,6 +284,7 @@ public class InGameTableController {
               }
             }));
             tl.play();
+            this.setAnimationRunning(Matchfield.animationTime);
             return;
           }
           // is adding the selected card from your hand to the skat in postion 2.
@@ -278,12 +310,15 @@ public class InGameTableController {
               }
             }));
             tl.play();
+            this.setAnimationRunning(Matchfield.animationTime);
             return;
           }
         }
       } catch (Exception e) {
         // No parent so an error is thrown every time when the cursor is not over a card.
       }
+
+
     });
 
     // Button the Save your selection
@@ -291,7 +326,7 @@ public class InGameTableController {
     button.setFont(Font.font(40));
     button.setPrefSize(170, 100);
     button.setStyle("-fx-background-color: #d60202");
-    button.translateXProperty().bind(this.tableView.skatPositions[0].translateXProperty().add(225));
+    button.translateXProperty().bind(this.tableView.skatPositions[0].translateXProperty().add(215));
     button.translateYProperty().bind(this.tableView.skatPositions[0].translateYProperty().add(100));
     button.translateZProperty().bind(this.tableView.skatPositions[0].translateZProperty());
     button.setOnAction(e -> {

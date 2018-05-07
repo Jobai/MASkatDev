@@ -1,5 +1,6 @@
 package de.skat3.gui.matchfield;
 
+import de.skat3.main.SkatMain;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -62,7 +63,7 @@ public class InGameTableView {
     this.tableScene.widthProperty().bind(this.matchfield.scene.widthProperty());
     this.tableScene.heightProperty().bind(this.matchfield.scene.heightProperty());
 
-    this.playerHand = new GuiHand(this.tableScene.widthProperty().divide(2.3),
+    this.playerHand = new GuiHand(this.tableScene.widthProperty().divide(2),
         this.tableScene.heightProperty().add(-200),
         this.tableScene.heightProperty().multiply(0).add(-100), -20, 0, 0, null);
 
@@ -74,7 +75,7 @@ public class InGameTableView {
         this.tableScene.heightProperty().multiply(0.7),
         this.tableScene.heightProperty().multiply(0).add(1200), 0, 55, 0, null);
 
-    this.trick = new GuiTrick(this.tableScene.widthProperty().divide(2.5),
+    this.trick = new GuiTrick(this.tableScene.widthProperty().divide(2).subtract(GuiCard.width / 2),
         this.tableScene.heightProperty().divide(1.4),
         this.tableScene.widthProperty().multiply(0).add(400), -80, 0, 0, this.table);
 
@@ -83,16 +84,18 @@ public class InGameTableView {
     this.skatPositions = new Parent[2];
 
     this.skatPositions[0] = new Parent() {};
-    this.skatPositions[0].translateXProperty().bind(ReadOnlyDoubleProperty
-        .readOnlyDoubleProperty(this.playerHand.translateXProperty()).subtract(200));
+    this.skatPositions[0].translateXProperty()
+        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(this.playerHand.translateXProperty())
+            .subtract(200).subtract(GuiCard.width / 2));
     this.skatPositions[0].translateYProperty().bind(ReadOnlyDoubleProperty
         .readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
     this.skatPositions[0].translateZProperty().bind(ReadOnlyDoubleProperty
         .readOnlyDoubleProperty(this.playerHand.translateZProperty()).add(300));
 
     this.skatPositions[1] = new Parent() {};
-    this.skatPositions[1].translateXProperty().bind(ReadOnlyDoubleProperty
-        .readOnlyDoubleProperty(this.playerHand.translateXProperty()).add(200));
+    this.skatPositions[1].translateXProperty()
+        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(this.playerHand.translateXProperty())
+            .add(200).subtract(GuiCard.width / 2));
     this.skatPositions[1].translateYProperty().bind(ReadOnlyDoubleProperty
         .readOnlyDoubleProperty(this.playerHand.translateYProperty()).multiply(0.6));
     this.skatPositions[1].translateZProperty().bind(ReadOnlyDoubleProperty

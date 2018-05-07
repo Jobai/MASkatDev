@@ -12,6 +12,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
@@ -46,7 +47,9 @@ public class GuiHand extends Parent {
    */
   public GuiHand(DoubleBinding x, DoubleBinding y, DoubleBinding z, double xr, double yr, double zr,
       List<GuiCard> cards) {
-    this.cards = FXCollections.synchronizedObservableList(FXCollections.observableArrayList()); // JB
+    this.cards = FXCollections.synchronizedObservableList(FXCollections.observableArrayList());
+
+
 
     this.translateXProperty().bind(x);
     this.translateYProperty().bind(y);
@@ -249,8 +252,14 @@ public class GuiHand extends Parent {
     Timeline timeline = new Timeline();
     Transform tarTr = targetPos.getLocalToSceneTransform();
 
+    double offset = 0;
+    if (!this
+        .equals(SkatMain.guiController.getInGameController().matchfield.tableView.playerHand)) {
+      offset = GuiCard.width / 2;
+    }
+
     timeline.getKeyFrames()
-        .add(new KeyFrame(time, new KeyValue(sourceTr.txProperty(), tarTr.getTx())));
+        .add(new KeyFrame(time, new KeyValue(sourceTr.txProperty(), tarTr.getTx() + offset)));
     timeline.getKeyFrames()
         .add(new KeyFrame(time, new KeyValue(sourceTr.tyProperty(), tarTr.getTy())));
     timeline.getKeyFrames()
@@ -439,6 +448,8 @@ public class GuiHand extends Parent {
    */
   private Parent[] caculateCardPostions(int size, double objectWidth, double xoffset,
       double yoffset, double zoffset) {
+
+    xoffset = -GuiCard.width / 2 + xoffset;
     // double maxHandWidth = 1000;
     double maxHandWidth = this.getScene().getWidth() / 2;
     if (maxHandWidth > objectWidth * (size - 1) / 1.3) {
@@ -475,6 +486,18 @@ public class GuiHand extends Parent {
       pos.setTranslateZ(-1 * i + zoffset);
       postions[i] = pos;
     }
+    // System.out.println("--------------------------DEBUG
+    // START-----------------------------------");
+    // for (Parent p : postions) {
+    // System.out.println(
+    // "X " + p.getTranslateX() + " Y " + p.getTranslateY() + " Z " + p.getTranslateZ());
+    // }
+    // System.out.println("Parent Bounds x -> x " + this.getBoundsInParent().getMinX() + " --> "
+    // + this.getBoundsInParent().getMaxX());
+    // System.out.println("Local Bounds x -> x " + this.getBoundsInLocal().getMinX() + " --> "
+    // + this.getBoundsInLocal().getMaxX());
+    // System.out.println("--------------------------DEBUG END-----------------------------------");
+
 
     return postions;
   }
