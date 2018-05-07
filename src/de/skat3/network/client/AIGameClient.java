@@ -94,6 +94,7 @@ public class AIGameClient extends GameClient {
       case STATE_CHANGE:
         this.handleStateChange(m, st);
         break;
+        
       default:
         logger.severe("Message Type not handeld!  " + mt + " --- " + st);
         throw new AssertionError();
@@ -174,6 +175,12 @@ public class AIGameClient extends GameClient {
         break;
       case UPDATE_ENEMY_INFO:
         aiCLH.updateEnemyInfoHandler(m);
+        break;
+      case TRAINING_CALL_FOR_SPECIFIC_PLAY:
+        aiCLH.specificPlayHandler(m);
+        break;
+      case SET_DEALER:
+        aiCLH.setDealerHandler(m);
         break;
       default:
         logger.severe("Message Type not handeld!  " + " --- " + st);

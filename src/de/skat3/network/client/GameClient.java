@@ -76,7 +76,6 @@ public class GameClient {
     this.clh = new ClientLogicHandler(this);
     this.clc = new ClientLogicController(this);
     this.player = player;
-    logger.setLevel(Level.ALL);
     this.connect();
   }
 
@@ -96,7 +95,6 @@ public class GameClient {
     this.clh = new ClientLogicHandler(this);
     this.clc = new ClientLogicController(this);
     this.player = player;
-    logger.setLevel(Level.ALL);
     this.lobbyPassword = lobbyPassword;
     this.connect();
   }
@@ -251,17 +249,17 @@ public class GameClient {
   void handleStateChange(Message m, SubType st) {
 
     String state = (String) m.payload;
-    logger.info("GAME STATE CHANGE REGISTERED:" + state);
+    logger.fine("GAME STATE CHANGE REGISTERED:" + state);
     if (state.equals("START")) {
       SkatMain.mainController.initializeLocalGameState();
-      logger.info("SET GAME STATE");
+      logger.fine("SET GAME STATE");
     }
 
   }
 
   void handleCommandAction(Message m, SubType st) {
     CommandType ct = (CommandType) st;
-    logger.info("Handeling received message!" + ct);
+    logger.finer("Handeling received message!" + ct);
 
     switch (ct) {
       case BID_INFO:
@@ -338,6 +336,7 @@ public class GameClient {
         break;
       case SET_DEALER:
         clh.setDealerHandler(m);
+        break;
       default:
         logger.severe("Message Type not handeld!  " + " --- " + st);
         throw new AssertionError();
@@ -347,7 +346,7 @@ public class GameClient {
   }
 
   void handleChatMessage(MessageChat m) {
-    logger.log(Level.INFO, "Got Chatmessage" + m.message);
+    logger.log(Level.FINE, "Got Chatmessage" + m.message);
     SkatMain.mainController.receiveMessage(m.nick + ": " + m.message);
   }
 
@@ -402,6 +401,7 @@ public class GameClient {
 
     try {
       sl.interrupt();
+      sl.stop();
       toSever.close();
       fromServer.close();
       socket.close();
