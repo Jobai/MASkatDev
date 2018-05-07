@@ -370,17 +370,13 @@ public class InGameOverlayController {
 
   void showRoundResult(Result result) {
     if (result.roundCancelled) {
-      AnchorPane p = new AnchorPane();
-      VBox box = new VBox();
-      p.setPrefWidth(150);
-      p.setPrefHeight(100);
-      p.setStyle("-fx-background-color:#404040;");
-      Label l = new Label("Round cancelled!");
-      Button closeButton = new Button("Close");
-      closeButton.setStyle("-fx-background-color:#d60202;");
-      box.getChildren().add(l);
-      box.getChildren().add(closeButton);
-      p.getChildren().add(box);
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("RoundCancelledView.fxml"));
+      AnchorPane p = null;
+      try {
+        p = loader.load();
+      } catch (IOException e) {
+      }
+      Button closeButton = (Button) p.getChildren().get(1);
 
       this.addAndSetupButton(p, closeButton);
       return;

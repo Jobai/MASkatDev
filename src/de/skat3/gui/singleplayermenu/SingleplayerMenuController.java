@@ -146,8 +146,6 @@ public class SingleplayerMenuController {
       SkatMain.mainController.startSingleplayerGame(ai1Hard, ai2Hard, intScoreValue, konRekon);
     });
 
-
-
   }
 
   /**
@@ -170,8 +168,7 @@ public class SingleplayerMenuController {
         .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(mainPane.translateXProperty())
             .add((mainPane.getPrefWidth() / 2)).subtract((p.getPrefWidth() / 2)));
     p.translateYProperty()
-        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(mainPane.translateYProperty())
-            .add((mainPane.getPrefHeight() / 2)).subtract((p.getPrefHeight() / 2) + 20));
+        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(mainPane.translateYProperty()).add(20));
 
     mainPane.getChildren().add(p);
 
