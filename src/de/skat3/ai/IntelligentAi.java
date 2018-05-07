@@ -814,9 +814,7 @@ public class IntelligentAi extends Ai {
     int noOfLusche = countSevens() + countEights() + countNines();
     boolean nullB = false;
 
-    if (noOfLusche >= 6) {
-      nullB = true;
-    } else if (noOfLusche >= 3 && noOfAces == 0 && noOfKings == 0 && noOfQueens == 0) {
+    if (noOfLusche >= 6 && noOfAces == 0 && noOfKings == 0 && noOfQueens == 0) {
       nullB = true;
     }
     return nullB;
