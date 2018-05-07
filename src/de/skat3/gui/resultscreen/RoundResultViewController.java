@@ -59,6 +59,8 @@ public class RoundResultViewController {
   @FXML
   private CheckBox cbRekontra;
   @FXML
+  private Label contract;
+  @FXML
   public Button closeButton;
   @FXML
   public AnchorPane root;
@@ -109,6 +111,8 @@ public class RoundResultViewController {
     pointsSoloPlayer.setText("" + result.pointsSoloPlayer + " / 120");
 
     declarerName.setText(result.declarerName);
+
+    contract.setText("" + result.contract);
 
 
     if (SkatMain.lgs.getLocalClient().isSolo()) {

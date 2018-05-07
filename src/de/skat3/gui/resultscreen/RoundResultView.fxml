@@ -19,66 +19,93 @@
 
 <AnchorPane fx:id="root"
 	style="-fx-background-color: #FFFFFF; -fx-border-width: 2; -fx-border-color: #000000;"
-	xmlns="http://javafx.com/javafx/9.0.1"
-	xmlns:fx="http://javafx.com/fxml/1"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.resultscreen.RoundResultViewController">
 	<children>
-		<Pane layoutY="-1.0" prefHeight="80.0" prefWidth="600.0" style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+		<Pane layoutY="-1.0" prefHeight="80.0" prefWidth="600.0"
+			style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
 				<HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0">
 					<children>
-						<Label fx:id="headerLabel" alignment="CENTER" text="..." textFill="WHITE">
+						<Label fx:id="headerLabel" alignment="CENTER" text="..."
+							textFill="WHITE">
 							<font>
 								<Font size="49.0" />
 							</font>
 						</Label>
 					</children>
 				</HBox>
-				<Button fx:id="closeButton" layoutX="549.0" layoutY="25.0" mnemonicParsing="false" style="-fx-background-color: #d60202;" text="X" textFill="WHITE">
+				<Button fx:id="closeButton" layoutX="549.0" layoutY="25.0"
+					mnemonicParsing="false" style="-fx-background-color: #d60202;"
+					text="X" textFill="WHITE">
 					<font>
 						<Font name="System Bold" size="15.0" />
 					</font>
 				</Button>
 			</children>
 		</Pane>
-		<Pane layoutY="500.0" prefHeight="119.0" prefWidth="600.0" style="-fx-background-color: F0C808;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+		<Pane layoutY="500.0" prefHeight="119.0" prefWidth="600.0"
+			style="-fx-background-color: F0C808;" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0">
 			<children>
-				<Label layoutX="53.0" layoutY="17.0" prefHeight="47.0" prefWidth="132.0" text="Declarer">
+				<Label layoutX="56.0" layoutY="13.0" prefHeight="47.0"
+					prefWidth="132.0" text="Declarer">
 					<font>
 						<Font size="32.0" />
 					</font>
 				</Label>
-				<Label fx:id="scoringPoints" layoutX="261.0" layoutY="17.0" text="test">
+				<Label fx:id="scoringPoints" layoutX="257.0" layoutY="17.0"
+					text="test">
 					<font>
 						<Font size="32.0" />
 					</font>
 				</Label>
-				<Label fx:id="declarerName" layoutX="56.0" layoutY="57.0" text="Timo">
+				<Label fx:id="declarerName" layoutX="56.0" layoutY="57.0"
+					text="Timo">
 					<font>
 						<Font size="22.0" />
 					</font>
 				</Label>
-				<Label fx:id="pointsSoloPlayer" layoutX="261.0" layoutY="57.0" text="Timo">
+				<Label fx:id="pointsSoloPlayer" layoutX="257.0" layoutY="57.0"
+					text="Timo">
+					<font>
+						<Font size="22.0" />
+					</font>
+				</Label>
+				<Label fx:id="contract" layoutX="257.0" layoutY="85.0"
+					text="Timo">
 					<font>
 						<Font size="22.0" />
 					</font>
 				</Label>
 			</children>
 		</Pane>
-		<Pane layoutY="203.0" prefHeight="281.0" prefWidth="600.0" style="-fx-background-color: #086788;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+		<Pane layoutY="203.0" prefHeight="281.0" prefWidth="600.0"
+			style="-fx-background-color: #086788;" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0">
 			<children>
-				<GridPane layoutX="34.0" layoutY="14.0" prefHeight="237.0" prefWidth="533.0">
+				<GridPane layoutX="34.0" layoutY="14.0" prefHeight="237.0"
+					prefWidth="533.0">
 					<columnConstraints>
-						<ColumnConstraints hgrow="SOMETIMES" maxWidth="303.0" minWidth="10.0" prefWidth="293.0" />
-						<ColumnConstraints hgrow="SOMETIMES" maxWidth="262.0" minWidth="10.0" prefWidth="240.0" />
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="303.0" minWidth="10.0" prefWidth="293.0" />
+						<ColumnConstraints hgrow="SOMETIMES"
+							maxWidth="262.0" minWidth="10.0" prefWidth="240.0" />
 					</columnConstraints>
 					<rowConstraints>
-						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
 					</rowConstraints>
 					<children>
 						<Label text="Round:" textFill="WHITE">
@@ -86,47 +113,56 @@
 								<Font size="24.0" />
 							</font>
 						</Label>
-						<Label fx:id="rounds" textFill="WHITE" GridPane.columnIndex="1">
+						<Label fx:id="rounds" textFill="WHITE"
+							GridPane.columnIndex="1">
 							<font>
 								<Font size="24.0" />
 							</font>
 						</Label>
-						<Label fx:id="namePlayer1" textFill="WHITE" GridPane.rowIndex="2">
+						<Label fx:id="namePlayer1" textFill="WHITE"
+							GridPane.rowIndex="2">
 							<font>
 								<Font size="20.0" />
 							</font>
 						</Label>
-						<Label fx:id="namePlayer2" textFill="WHITE" GridPane.rowIndex="3">
+						<Label fx:id="namePlayer2" textFill="WHITE"
+							GridPane.rowIndex="3">
 							<font>
 								<Font size="20.0" />
 							</font>
 						</Label>
-						<Label fx:id="namePlayer3" textFill="WHITE" GridPane.rowIndex="4">
+						<Label fx:id="namePlayer3" textFill="WHITE"
+							GridPane.rowIndex="4">
 							<font>
 								<Font size="20.0" />
 							</font>
 						</Label>
-						<Label fx:id="namePlayer4" textFill="WHITE" GridPane.rowIndex="5">
+						<Label fx:id="namePlayer4" textFill="WHITE"
+							GridPane.rowIndex="5">
 							<font>
 								<Font size="20.0" />
 							</font>
 						</Label>
-						<Label fx:id="pointsPlayer1" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+						<Label fx:id="pointsPlayer1" textFill="WHITE"
+							GridPane.columnIndex="1" GridPane.rowIndex="2">
 							<font>
 								<Font size="20.0" />
 							</font>
 						</Label>
-						<Label fx:id="pointsPlayer2" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
+						<Label fx:id="pointsPlayer2" textFill="WHITE"
+							GridPane.columnIndex="1" GridPane.rowIndex="3">
 							<font>
 								<Font size="20.0" />
 							</font>
 						</Label>
-						<Label fx:id="pointsPlayer3" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="4">
+						<Label fx:id="pointsPlayer3" textFill="WHITE"
+							GridPane.columnIndex="1" GridPane.rowIndex="4">
 							<font>
 								<Font size="20.0" />
 							</font>
 						</Label>
-						<Label fx:id="pointsPlayer4" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
+						<Label fx:id="pointsPlayer4" textFill="WHITE"
+							GridPane.columnIndex="1" GridPane.rowIndex="5">
 							<font>
 								<Font size="20.0" />
 							</font>
@@ -135,28 +171,53 @@
 				</GridPane>
 			</children>
 		</Pane>
-		<Pane layoutY="94.0" prefHeight="91.0" prefWidth="600.0" style="-fx-background-color: #d60202;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+		<Pane layoutY="94.0" prefHeight="91.0" prefWidth="600.0"
+			style="-fx-background-color: #d60202;" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0">
 			<children>
-				<GridPane layoutX="17.0" layoutY="4.0" prefHeight="91.0" prefWidth="579.0">
+				<GridPane layoutX="17.0" layoutY="4.0" prefHeight="91.0"
+					prefWidth="579.0">
 					<columnConstraints>
-						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+						<ColumnConstraints hgrow="SOMETIMES"
+							minWidth="10.0" />
+						<ColumnConstraints hgrow="SOMETIMES"
+							minWidth="10.0" />
+						<ColumnConstraints hgrow="SOMETIMES"
+							minWidth="10.0" />
+						<ColumnConstraints hgrow="SOMETIMES"
+							minWidth="10.0" />
 					</columnConstraints>
 					<rowConstraints>
 						<RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-						<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+						<RowConstraints minHeight="10.0" prefHeight="30.0"
+							vgrow="SOMETIMES" />
 					</rowConstraints>
 					<children>
-						<CheckBox fx:id="cbHandgame" disable="true" mnemonicParsing="false" style="-fx-opacity: 1;" text="Hand Game" textFill="WHITE" />
-						<CheckBox fx:id="cbSchneider" disable="true" mnemonicParsing="false" style="-fx-opacity: 1;" text="Schneider" textFill="WHITE" GridPane.columnIndex="1" />
-						<CheckBox fx:id="cbSchneiderAnnounced" disable="true" mnemonicParsing="false" style="-fx-opacity: 1;" text="Schneider Announced" textFill="WHITE" GridPane.columnIndex="2" />
-						<CheckBox fx:id="cbSchwarz" disable="true" mnemonicParsing="false" style="-fx-opacity: 1;" text="Schwarz" textFill="WHITE" GridPane.columnIndex="3" />
-						<CheckBox fx:id="cbSchwarzAnnounced" disable="true" mnemonicParsing="false" style="-fx-opacity: 1;" text="Schwarz Announced" textFill="WHITE" GridPane.rowIndex="1" />
-						<CheckBox fx:id="cbKontra" disable="true" mnemonicParsing="false" style="-fx-opacity: 1;" text="Kontra" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-						<CheckBox fx:id="cbRekontra" disable="true" mnemonicParsing="false" style="-fx-opacity: 1;" text="Rekontra" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-						<CheckBox fx:id="cbOpenGame" disable="true" mnemonicParsing="false" style="-fx-opacity: 1;" text="Open Game" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+						<CheckBox fx:id="cbHandgame" disable="true"
+							mnemonicParsing="false" style="-fx-opacity: 1;" text="Hand Game"
+							textFill="WHITE" />
+						<CheckBox fx:id="cbSchneider" disable="true"
+							mnemonicParsing="false" style="-fx-opacity: 1;" text="Schneider"
+							textFill="WHITE" GridPane.columnIndex="1" />
+						<CheckBox fx:id="cbSchneiderAnnounced" disable="true"
+							mnemonicParsing="false" style="-fx-opacity: 1;"
+							text="Schneider Announced" textFill="WHITE"
+							GridPane.columnIndex="2" />
+						<CheckBox fx:id="cbSchwarz" disable="true"
+							mnemonicParsing="false" style="-fx-opacity: 1;" text="Schwarz"
+							textFill="WHITE" GridPane.columnIndex="3" />
+						<CheckBox fx:id="cbSchwarzAnnounced" disable="true"
+							mnemonicParsing="false" style="-fx-opacity: 1;"
+							text="Schwarz Announced" textFill="WHITE" GridPane.rowIndex="1" />
+						<CheckBox fx:id="cbKontra" disable="true"
+							mnemonicParsing="false" style="-fx-opacity: 1;" text="Kontra"
+							textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+						<CheckBox fx:id="cbRekontra" disable="true"
+							mnemonicParsing="false" style="-fx-opacity: 1;" text="Rekontra"
+							textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+						<CheckBox fx:id="cbOpenGame" disable="true"
+							mnemonicParsing="false" style="-fx-opacity: 1;" text="Open Game"
+							textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 					</children>
 				</GridPane>
 			</children>
