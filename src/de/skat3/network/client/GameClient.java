@@ -352,13 +352,36 @@ public class GameClient {
 
 
   void closeConnection() {
+    sl.interrupt();
+    try {
+      sl.interrupt();
+      sl.closeStreamListener();
+      fromServer.close();
+      sl.interrupt();
+      toSever.close();
+      socket.close();
+      logger.info("Client: Closed connection to server!");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+
     SkatMain.mainController.goToMenu();
     if (!closedByClient) {
       SkatMain.mainController.showCustomAlertPormpt("Connection to the server failed",
           "The connection to the server failed. "
               + "Please check that a server is running and try again later");
     }
+  }
+
+
+  void closeConnection(Message m) {
+
+    showConnectionErro(m);
     sl.interrupt();
+    logger.fine("GO to menu");
+    SkatMain.mainController.goToMenu();
+
     try {
       sl.interrupt();
       toSever.close();
@@ -369,8 +392,7 @@ public class GameClient {
     }
   }
 
-  void closeConnection(Message m) {
-
+  void showConnectionErro(Message m) {
     MessageConnection mc = (MessageConnection) m;
     String reason = mc.reason;
     if (reason != null) {
@@ -391,22 +413,11 @@ public class GameClient {
       }
       SkatMain.mainController.showWrongPassword();
     } else {
-      SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
-          "The game server closed your connection. \n"
-              + "You can try again later or chose a different server");
-    }
-    sl.interrupt();
-    logger.fine("GO to menu");
-    SkatMain.mainController.goToMenu();
-
-    try {
-      sl.interrupt();
-      sl.stop();
-      toSever.close();
-      fromServer.close();
-      socket.close();
-    } catch (IOException e) {
-      e.printStackTrace();
+      if (!closedByClient) {
+        SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
+            "The game server closed your connection. \n"
+                + "You can try again later or chose a different server");
+      }
     }
   }
 

@@ -52,8 +52,9 @@ public class GameServer extends Thread {
   Lobby lobbySettings;
 
   public boolean failure;
-  
+
   boolean stopped;
+  private boolean stoppingInProgess;
 
 
 
@@ -85,7 +86,7 @@ public class GameServer extends Thread {
     slc = new ServerLogicController(lobbysettings, this);
     lobbySettings = lobbysettings;
     this.start();
-   
+
   }
 
   /**
@@ -152,6 +153,11 @@ public class GameServer extends Thread {
    */
   public void stopServer() {
 
+    if (stoppingInProgess) {
+      logger.warning("Server already stopping!");
+      return;
+    }
+    stoppingInProgess = true;
     try {
       logger.info("Server is stopping");
       this.interrupt();
@@ -165,7 +171,7 @@ public class GameServer extends Thread {
     } catch (IOException e) {
       e.printStackTrace();
     } catch (NullPointerException e) {
-      // just keep it
+      e.printStackTrace();
     }
 
   }
@@ -176,6 +182,7 @@ public class GameServer extends Thread {
   }
 
   private void endAllClients() {
+    logger.info("ending all clients");
     Object[] gspa = GameServer.threadList.toArray();
     synchronized (threadList) {
       for (Object gameServerProtocol : gspa) {
@@ -219,8 +226,7 @@ public class GameServer extends Thread {
    * @param mc the message to be broadcasted
    */
   public void broadcastMessage(Message mc) {
-    if(isInterrupted() || stopped)
-    {
+    if (isInterrupted() || stopped) {
       return;
     }
     synchronized (threadList) {

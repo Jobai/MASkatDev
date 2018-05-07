@@ -189,4 +189,15 @@ public class AIGameClient extends GameClient {
     }
 
   }
+
+  /* (non-Javadoc)
+   * @see de.skat3.network.client.GameClient#showConnectionErro(de.skat3.network.datatypes.Message)
+   */
+  @Override
+  void showConnectionErro(Message m) {
+    //Don't show ConnectionErrors for the AI in the GUI!
+    logger.warning("AI got Disconnected!");
+  }
+  
+  
 }

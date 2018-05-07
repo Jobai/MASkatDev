@@ -151,11 +151,13 @@ public class GameServerProtocol extends Thread {
     Player op = mc.originSender;
     Profile p = SkatMain.ioController.getLastUsedProfile();
 
+
     String serverPw = gs.lobbySettings.getPassword();
     if (!(serverPw == null || serverPw.isEmpty() || (op.getUuid().equals(p.getUuid())))) {
       logger.fine("SERVER HAS PASSWORD!: CHECKING!");
       logger.fine("SERVER PW: '" + serverPw + "' ; GIVEN PW '" + mc.lobbyPassword + "'");
       if (!(serverPw.equals(mc.lobbyPassword))) {
+        logger.warning("Player joined with wrong password");
         kickConnection("PASSWORD");
         return;
       }
@@ -167,6 +169,7 @@ public class GameServerProtocol extends Thread {
     if (SkatMain.mainController.currentLobby
         .getCurrentNumberOfPlayers() >= SkatMain.mainController.currentLobby
             .getMaximumNumberOfPlayers()) {
+      logger.warning("Lobby Full - Kicking Client!");
       kickConnection("FULL");
       return;
     }
@@ -178,8 +181,11 @@ public class GameServerProtocol extends Thread {
 
     logger.fine("LOBBY SIZE!: " + b.length);
 
-    gs.ls.getLobby().lobbyPlayer++;
-
+    try {
+      gs.ls.getLobby().lobbyPlayer++;
+    } catch (NullPointerException e) {
+      // Silent - if the lobby is not present
+    }
 
     logger.info("Player" + this.playerProfile.getUuid() + "joined the server!");
     broadcastMessage(m);
@@ -222,12 +228,23 @@ public class GameServerProtocol extends Thread {
   }
 
   private void handleConnectionClose() {
+    logger.info("Client is leaving!");
     Player[] connectedPlayer = SkatMain.mainController.currentLobby.getPlayers();
-    if (connectedPlayer[0].equals(playerProfile)) {
-      logger.warning("HOST LEFT THE GAME! Shutting down the server");
+    Player gspPlayer = playerProfile;
+    try {
+      if (connectedPlayer[0].equals(playerProfile)) {
+        logger.warning("HOST LEFT THE GAME! Shutting down the server");
+        closeConnection();
+        gs.stopServer();
+      } else {
+        closeConnection();
+      }
+    } catch (NullPointerException e) {
+      logger.warning("handleConnectionClose NullPointer! (Disregard if in test case)");
+      closeConnection();
       gs.stopServer();
     }
-    closeConnection();
+
   }
 
   private void closeConnection() {
@@ -241,12 +258,38 @@ public class GameServerProtocol extends Thread {
       e.printStackTrace();
     } finally {
       GameServer.threadList.remove(this);
-      logger.info("Server closed a connection");
       sendDisconnectinfo(playerProfile);
-      gs.ls.getLobby().lobbyPlayer--;
+      try {
+        gs.ls.getLobby().lobbyPlayer--;
+      } catch (NullPointerException e) {
+        // Silent - if no lobby is present
+      }
       this.interrupt();
-      this.stop();
     }
+    logger.info("Server closed a connection");
+  }
+  
+  void closeLostConnection()
+  {
+    try {
+      this.interrupt();
+      toClient.close();
+      fromClient.close();
+      socket.close();
+      this.interrupt();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      GameServer.threadList.remove(this);
+      sendDisconnectinfo(playerProfile);
+      try {
+        gs.ls.getLobby().lobbyPlayer--;
+      } catch (NullPointerException e) {
+        // Silent - if no lobby is present
+      }
+      this.interrupt();
+    }
+    logger.info("Server closed a LOST connection");
   }
 
   @SuppressWarnings("unused")
@@ -268,7 +311,15 @@ public class GameServerProtocol extends Thread {
   }
 
   void handleLostConnection() {
-    if (gs.ls.getLobby().lobbyPlayer <= 1) {
+    Player[] connectedPlayer = SkatMain.mainController.currentLobby.getPlayers();
+
+    try {
+      if (connectedPlayer[0].equals(playerProfile)) {
+        logger.severe("HOST LOST CONNECTION! Shutting down the server");
+        gs.stopServer();
+      }
+    } catch (NullPointerException e) {
+      logger.warning("NullPointer! (Disregard if JUNIT test)");
       gs.stopServer();
     }
     if (playerProfile != null) {
@@ -288,14 +339,14 @@ public class GameServerProtocol extends Thread {
   }
 
   void kickConnection(String string) {
-    logger.info("kicking User: " + playerProfile);
+    logger.info("Kicking User: " + playerProfile + " !");
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_CLOSE, string);
     sendMessage(mc);
-//    try {
-//      sleep(1000);
-//    } catch (InterruptedException e) {
-//      e.printStackTrace();
-//    }
+    // try {
+    // sleep(1000);
+    // } catch (InterruptedException e) {
+    // e.printStackTrace();
+    // }
     closeConnection();
   }
 }

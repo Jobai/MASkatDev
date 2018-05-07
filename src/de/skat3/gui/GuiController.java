@@ -37,7 +37,13 @@ public class GuiController implements GuiControllerInterface {
   }
 
   public void goToMenu() {
+    try{
     this.gui.showMenu();
+    }
+    catch(NullPointerException e)
+    {
+      System.err.println("NO GUI Present!");
+    }
   }
 
   public InGameController getInGameController() {

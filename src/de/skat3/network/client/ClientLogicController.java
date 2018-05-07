@@ -37,7 +37,14 @@ public class ClientLogicController {
 
   public ClientLogicController(GameClient gameClient) {
     this.gc = gameClient;
-    userName = SkatMain.ioController.getLastUsedProfile().getName();
+    try{
+      userName = SkatMain.ioController.getLastUsedProfile().getName();
+    }
+    catch(NullPointerException e)
+    {
+      //silent for JUNIT testing purposes.
+    }
+   
   }
 
   /**
