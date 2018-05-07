@@ -41,6 +41,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
@@ -132,7 +133,20 @@ public class InGameOverlayController {
   private Label openInfo;
   @FXML
   private Label mainInfoLabel;
+  @FXML
+  public AnchorPane rootEnemyOne;
+  @FXML
+  public AnchorPane rootEnemyTwo;
+  @FXML
+  public HBox rootLocalClient;
   // Initializing
+
+  public static final String RED = "#d60202";
+  public static final String BLACK = "#404040";
+  public static final String BORDER = "-fx-border-color: ";
+  public static final String BACKGROUND = "-fx-background-color: ";
+  public static final String BACKGROUNDRADIUS = "-fx-background-radius: ";
+  public static final String BORDERRADIUS = "-fx-border-radius: ";
 
 
   private void loadFXMLFiles() {
