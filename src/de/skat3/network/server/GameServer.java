@@ -36,7 +36,7 @@ import java.util.logging.Logger;
  */
 public class GameServer extends Thread {
 
-  private static Logger logger = Logger.getLogger("de.skat3.network.server");
+  static Logger logger = Logger.getLogger("de.skat3.network.server");
   public static List<GameServerProtocol> threadList;
   public static int port = 2018; // HARDCODED
   private ServerSocket serverSocket;
@@ -50,8 +50,10 @@ public class GameServer extends Thread {
   public LobbyServer ls;
 
   Lobby lobbySettings;
-  
+
   public boolean failure;
+  
+  boolean stopped;
 
 
 
@@ -151,9 +153,11 @@ public class GameServer extends Thread {
     try {
       logger.info("Server is stopping");
       this.interrupt();
+      endAllClients();
       this.serverSocket.close();
       this.interrupt();
-      logger.info("Server stopped!" +  this.isInterrupted());
+      logger.info("Server stopped!" + this.isInterrupted());
+      this.stop();
     } catch (SocketException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -169,6 +173,16 @@ public class GameServer extends Thread {
 
   }
 
+  private void endAllClients() {
+    Object[] gspa = GameServer.threadList.toArray();
+    synchronized (threadList) {
+      for (Object gameServerProtocol : gspa) {
+
+        ((GameServerProtocol) gameServerProtocol).kickConnection(null);
+      }
+    }
+  }
+
 
 
   /**
@@ -179,6 +193,9 @@ public class GameServer extends Thread {
    * @param mc message to be transmitted.
    */
   public void sendToPlayer(Player player, MessageCommand mc) {
+    if (this.isInterrupted() || stopped) {
+      return;
+    }
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       if (gameServerProtocol.playerProfile.equals(player)) {
         if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
@@ -200,6 +217,10 @@ public class GameServer extends Thread {
    * @param mc the message to be broadcasted
    */
   public void broadcastMessage(Message mc) {
+    if(isInterrupted() || stopped)
+    {
+      return;
+    }
     synchronized (threadList) {
       for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
         gameServerProtocol.sendMessage(mc);

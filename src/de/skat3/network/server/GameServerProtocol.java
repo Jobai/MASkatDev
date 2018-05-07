@@ -235,6 +235,7 @@ public class GameServerProtocol extends Thread {
       toClient.close();
       fromClient.close();
       socket.close();
+      this.interrupt();
     } catch (IOException e) {
       e.printStackTrace();
     } finally {
@@ -242,6 +243,8 @@ public class GameServerProtocol extends Thread {
       logger.info("Server closed a connection");
       sendDisconnectinfo(playerProfile);
       gs.ls.getLobby().lobbyPlayer--;
+      this.interrupt();
+      this.stop();
     }
   }
 
@@ -283,14 +286,15 @@ public class GameServerProtocol extends Thread {
     broadcastMessage(mc);
   }
 
-  private void kickConnection(String string) {
+  void kickConnection(String string) {
+    logger.info("kicking User: " + playerProfile);
     MessageConnection mc = new MessageConnection(MessageType.CONNECTION_CLOSE, string);
     sendMessage(mc);
-    try {
-      sleep(1000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      sleep(1000);
+//    } catch (InterruptedException e) {
+//      e.printStackTrace();
+//    }
     closeConnection();
   }
 }
