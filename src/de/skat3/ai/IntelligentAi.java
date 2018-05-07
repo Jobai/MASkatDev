@@ -816,7 +816,7 @@ public class IntelligentAi extends Ai {
 
     if (noOfLusche >= 6) {
       nullB = true;
-    } else if (noOfLusche >= 3 && noOfAces == 0 && noOfKings == 0 && noOfQueens) {
+    } else if (noOfLusche >= 3 && noOfAces == 0 && noOfKings == 0 && noOfQueens == 0) {
       nullB = true;
     }
     return nullB;
