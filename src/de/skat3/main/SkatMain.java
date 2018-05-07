@@ -34,7 +34,7 @@ public class SkatMain {
    * @param args not used
    */
   public static void main(String[] args) {
-
+    Thread.currentThread().setName("MainThread");
     SkatMain.masterLogger = new MasterLogger();
     SkatMain.soundPlayer = new SoundPlayer();
     soundPlayer.playBackgroundMusic();

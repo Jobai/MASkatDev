@@ -17,6 +17,7 @@ public class PlayTimeTimer extends Thread {
    * 
    */
   public void run() {
+    Thread.currentThread().setName("PlayTimeTimerThread");
     while (!this.isInterrupted) {
       try {
         this.playTime++;

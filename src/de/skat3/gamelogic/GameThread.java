@@ -21,6 +21,7 @@ class GameThread extends Thread {
    */
   @Override
   public void run() {
+    Thread.currentThread().setName("GameThread");
     while (!Thread.currentThread().isInterrupted()) {
       synchronized (lock) {
         gc.numberOfRounds++;
@@ -48,6 +49,7 @@ class GameThread extends Thread {
           Thread.sleep(5000); // XXX
         } catch (InterruptedException e) {
           System.out.println("Logic Thread Interrupted");
+          this.interrupt();
         }
       }
     }

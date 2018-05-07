@@ -28,6 +28,7 @@ public class MasterLogger {
   public static final Logger networkAIGameClient =
       Logger.getLogger("de.skat3.network.AIGameClient");
   public static final Logger global = Logger.getGlobal();
+  public static final Logger gameLogicLogger = Logger.getLogger("de.skat3.gamelogic");
 
   /**
    * @author Jonas Bauer
@@ -35,7 +36,7 @@ public class MasterLogger {
   public MasterLogger() {
 
     Handler handlerObj = new ConsoleHandler();
-    handlerObj.setLevel(Level.INFO);
+    handlerObj.setLevel(Level.ALL);
 
     networkGameServer.addHandler(handlerObj);
     networkGameServer.setLevel(Level.INFO);
@@ -52,6 +53,10 @@ public class MasterLogger {
     networkAIGameClient.addHandler(handlerObj);
     networkAIGameClient.setLevel(Level.INFO);
     networkAIGameClient.setUseParentHandlers(false);
+    
+    gameLogicLogger.addHandler(handlerObj);
+    gameLogicLogger.setLevel(Level.ALL);
+    gameLogicLogger.setUseParentHandlers(false);
 
     global.addHandler(handlerObj);
     global.setLevel(Level.SEVERE);

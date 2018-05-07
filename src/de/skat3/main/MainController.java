@@ -111,6 +111,7 @@ public class MainController implements MainControllerInterface {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    chatMessages = FXCollections.observableArrayList();
     this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.numberOfPlayers);
     this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.currentPlayers);
     this.gameController = new TrainingController(scenario);
@@ -365,7 +366,9 @@ public class MainController implements MainControllerInterface {
   public void exitGame() {
 
     SkatMain.clc.leaveGame();
-    this.gameController.closeThread();
+    if (this.gameController != null) {
+      this.gameController.closeThread();
+    }
     // TODO go back to the menu
 
   }

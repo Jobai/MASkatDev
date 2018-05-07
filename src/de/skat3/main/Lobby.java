@@ -10,12 +10,14 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Inet4Address;
 import java.util.UUID;
+import java.util.logging.Logger;
 import de.skat3.gamelogic.Player;
 
 public class Lobby implements Serializable {
-  
+
   private static final long serialVersionUID = 7279502331048915007L;
 
+  private transient Logger logger = Logger.getLogger("de.skat3.gamelogic");
 
   String name;
 
@@ -138,7 +140,7 @@ public class Lobby implements Serializable {
 
   public void addPlayer(Player player) {
     if (this.currentPlayers < this.numberOfPlayers && this.players[currentPlayers] == null) {
-      this.players[currentPlayers] = player;
+      this.players[currentPlayers] = player; // XXX
       this.currentPlayers++;
       if (SkatMain.mainController.numberOfPlayerProperty != null) {
         SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
@@ -172,7 +174,8 @@ public class Lobby implements Serializable {
         }
       }
       if (i == this.numberOfPlayers - 1) {
-        System.err.println("Player not found: " + player);
+        logger.severe("Player not found: " + player);
+       
       }
     }
   }

@@ -107,6 +107,7 @@ public class GameController implements GameLogicInterface {
       this.roundInstance.startRound();
     } catch (InterruptedException e) {
       System.err.println("LOGIC: Runde konnte nicht gestartet werden: " + e);
+      this.gameThread.interrupt();
     }
 
   }
