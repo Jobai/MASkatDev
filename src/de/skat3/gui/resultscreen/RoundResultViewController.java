@@ -19,6 +19,8 @@ public class RoundResultViewController {
   @FXML
   private Label pointsSoloPlayer;
   @FXML
+  private Label overbid;
+  @FXML
   private Label scoringPoints;
   @FXML
   private Label headerLabel;
@@ -114,6 +116,11 @@ public class RoundResultViewController {
 
     contract.setText("" + result.contract);
 
+    if (result.bidTooHigh) {
+      overbid.setText("Overbid");
+    } else {
+      overbid.setText("");
+    }
 
     if (SkatMain.lgs.getLocalClient().isSolo()) {
       if (result.soloWon) {

@@ -13,14 +13,15 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="653.0" prefWidth="600.0"
+<AnchorPane fx:id="root" prefHeight="653.0" prefWidth="625.0"
 	style="-fx-background-color: #FFFFFF; -fx-border-width: 2; -fx-border-color: #000000;"
 	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.resultscreen.GameResultViewController">
 	<children>
 		<TitledPane expanded="false" layoutY="380.0"
-			prefHeight="274.0" prefWidth="600.0" text="Points per round">
+			prefHeight="274.0" prefWidth="600.0" text="Points per round"
+			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 			<content>
 				<AnchorPane minHeight="0.0" minWidth="0.0"
 					prefHeight="246.0" prefWidth="405.0">
@@ -57,13 +58,13 @@
 			style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0"
 			AnchorPane.rightAnchor="0.0">
 			<children>
-				<Label layoutX="234.0" layoutY="5.0" text="Result"
+				<Label layoutX="245.0" layoutY="5.0" text="Result"
 					textFill="WHITE">
 					<font>
 						<Font size="49.0" />
 					</font>
 				</Label>
-				<Button fx:id="closeButton" layoutX="550.0" layoutY="28.0"
+				<Button fx:id="closeButton" layoutX="577.0" layoutY="25.0"
 					mnemonicParsing="false" style="-fx-background-color: #d60202;"
 					text="X" textFill="WHITE">
 					<font>
@@ -73,7 +74,8 @@
 			</children>
 		</Pane>
 		<Pane layoutY="95.0" prefHeight="61.0" prefWidth="600.0"
-			style="-fx-background-color: #F0C808;" AnchorPane.rightAnchor="0.0">
+			style="-fx-background-color: #F0C808;" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0">
 			<children>
 				<Label layoutX="23.0" layoutY="12.0" text="Winner">
 					<font>
@@ -88,7 +90,8 @@
 			</children>
 		</Pane>
 		<Pane layoutY="179.0" prefHeight="188.0" prefWidth="600.0"
-			style="-fx-background-color: #086788;" AnchorPane.leftAnchor="0.0">
+			style="-fx-background-color: #086788;" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0">
 			<children>
 				<GridPane layoutX="24.0" layoutY="17.0" prefHeight="155.0"
 					prefWidth="555.0">

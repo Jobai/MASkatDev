@@ -89,7 +89,7 @@ public class GameResultViewController {
     arrayList = history[0].getHistory();
     i = 1;
     for (Integer integer : arrayList) {
-      listP1.add("" + i + ": " + integer.toString());
+      listP1.add("Round" + i + ": " + integer.toString());
       i++;
     }
 
