@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 
 public final class Utils {
   static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-  static final String JSON_PATH_PRODUCTION = "data/profiles.json";
+  // static final String JSON_PATH_PRODUCTION = "data/profiles.json";
   // Production constant names
   static final String JSON_ID_FIELD = "id";
   static final String JSON_NAME_FIELD = "name";
