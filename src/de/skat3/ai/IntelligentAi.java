@@ -82,6 +82,7 @@ public class IntelligentAi extends Ai {
   @Override
   public Contract chooseContract() {
     Contract contract;
+    System.out.println("IST WIRKLICH HARD");
 
     if (checkGrand()) {
       contract = Contract.GRAND;
