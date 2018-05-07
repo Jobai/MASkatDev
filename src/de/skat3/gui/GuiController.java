@@ -8,6 +8,7 @@ import de.skat3.gui.matchfield.InGameController;
 import de.skat3.gui.resultscreen.GameResultViewController;
 import de.skat3.gui.resultscreen.RoundResultViewController;
 import java.io.IOException;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,6 +29,8 @@ public class GuiController implements GuiControllerInterface {
   private Gui gui;
 
   private InGameController inGameController;
+
+  public Logger logger = Logger.getLogger("de.skat3.gui");
 
   public void goInGame() {
     this.inGameController = this.gui.showMatchfield();

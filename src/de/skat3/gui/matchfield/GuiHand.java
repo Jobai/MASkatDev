@@ -7,6 +7,7 @@ import de.skat3.main.SkatMain;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -19,6 +20,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
@@ -355,6 +357,28 @@ public class GuiHand extends Parent {
         card.setTranslateX(positions[cardIndex].getTranslateX());
         card.setTranslateY(positions[cardIndex].getTranslateY());
       }
+    }
+
+  }
+
+  private FadeTransition bling;
+
+  void setBlingBling(boolean value) {
+    if (this.bling == null) {
+      this.bling = new FadeTransition();
+      bling.setNode(this);
+      bling.setDuration(Duration.seconds(0.5));
+      bling.setFromValue(1);
+      bling.setToValue(0.5);
+      bling.setAutoReverse(true);
+      bling.setCycleCount(MediaPlayer.INDEFINITE);
+    }
+
+    if (value) {
+      this.bling.playFromStart();
+    } else {
+      this.bling.stop();
+      this.setOpacity(1);
     }
 
   }

@@ -1,5 +1,6 @@
 package de.skat3.gui.matchfield;
 
+import java.util.logging.Logger;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
@@ -73,6 +74,7 @@ public class InGameTableController {
         if (card != null) {
           try {
             ((ColorAdjust) card.getCard().getImage().getEffect()).setBrightness(0);
+            card.setBlingBling(false);
           } catch (NullPointerException e) {
             e.toString();
           }
@@ -142,7 +144,7 @@ public class InGameTableController {
    */
   private void showCardAnimationInLCHand(boolean value) {
     if (value) {
-      this.tableView.tableScene.setOnMouseMoved(event -> {
+      SkatMain.guiController.getInGameController().matchfield.root.setOnMouseMoved(event -> {
         Node node = event.getPickResult().getIntersectedNode();
         try {
           if (node.getParent().getParent().equals(this.tableView.playerHand)) {
@@ -174,7 +176,7 @@ public class InGameTableController {
         }
       });
     } else {
-      this.tableView.tableScene.setOnMouseMoved(event -> {
+      SkatMain.guiController.getInGameController().matchfield.root.setOnMouseMoved(event -> {
       });
     }
   }
@@ -183,6 +185,8 @@ public class InGameTableController {
   Timeline animationTimer;
 
   private void setAnimationRunning(Duration d) {
+    SkatMain.guiController.logger.entering(this.getClass().getName(), "setAnimationRunning");
+
     if (this.animationTimer == null) {
       this.animationTimer = new Timeline();
     }

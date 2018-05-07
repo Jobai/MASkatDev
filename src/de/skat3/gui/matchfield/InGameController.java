@@ -9,9 +9,11 @@ import de.skat3.gui.resultscreen.RoundResultViewController;
 import de.skat3.main.SkatMain;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -36,6 +38,20 @@ public class InGameController implements InGameControllerInterface {
       SkatMain.mainController.localKontraAnnounced();
       this.matchfield.overlayController.annouceContraButton.setVisible(false);
     });
+  }
+
+  public void showWhoIsPlaying(Player player) {
+    Node n = null;
+
+    if (player.equals(SkatMain.lgs.getEnemyOne())) {
+      n = this.matchfield.overlayController.rootEnemyOne;
+    }
+    if (player.equals(SkatMain.lgs.getEnemyTwo())) {
+      n = this.matchfield.overlayController.rootEnemyTwo;
+    }
+    if (player.equals(SkatMain.lgs.getLocalClient())) {
+      n = this.matchfield.overlayController.rootLocalClient;
+    }
   }
 
   public void showReKontraButton() {
@@ -98,10 +114,12 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value, true);
 
     Card[] playableRef = SkatMain.lgs.getLocalClient().getHand().getCards().clone();
+    Card d = null;
     for (int i = 0; i < playableRef.length; i++) {
       try {
         if (playableRef[i].equals(card)) {
-          playableRef[i].setPlayable(true);
+          d = playableRef[i];
+          d.setPlayable(true);
         } else {
           playableRef[i].setPlayable(false);
         }
@@ -110,6 +128,10 @@ public class InGameController implements InGameControllerInterface {
       }
     }
     this.matchfield.tableController.setCardsPlayable(true, playableRef);
+    this.matchfield.tableController.showPlayableColor(true,
+        SkatMain.lgs.getLocalClient().getHand().getCards());
+
+    this.matchfield.tableView.playerHand.getGuiCard(d).setBlingBling(true);
 
     if (SkatMain.lgs.getTimerInSeconds() > 0) {
       this.matchfield.overlayController.showTimer(value);
