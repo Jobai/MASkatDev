@@ -192,12 +192,13 @@ public class InGameTableController {
       this.animationTimer.stop();
       this.animationTimer.getKeyFrames().clear();
       this.setAnimationRunning(d);
+      return;
     } else {
       this.animationRunning = true;
       this.animationTimer.getKeyFrames().add(new KeyFrame(d, e -> {
       }));
       this.animationTimer.setOnFinished(e -> this.animationRunning = false);
-      this.animationTimer.play();
+      this.animationTimer.playFromStart();
     }
 
   }

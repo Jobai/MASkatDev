@@ -233,26 +233,34 @@ public class InGameOverlayController {
     }
   }
 
-  void showInMainInfo(String text, Duration time) {
-    if (this.mainInfoFader != null) {
-      if (this.mainInfoFader.getStatus().equals(Status.RUNNING)) {
-        this.mainInfoFader.stop();
-      }
+  synchronized void showInMainInfo(String text, Duration time) {
+    if (this.mainInfoFader == null) {
+      this.mainInfoFader = new Timeline();
     }
-    this.mainInfoLabel.setText(text);
-    this.mainInfoLabel.setVisible(true);
-    this.mainInfoLabel.setOpacity(1);
 
-    FadeTransition fading = new FadeTransition();
-    fading.setNode(this.mainInfoLabel);
-    fading.setDuration(Duration.millis(500));
-    fading.setFromValue(1);
-    fading.setToValue(0);
-
-    this.mainInfoFader = new Timeline();
-    this.mainInfoFader.getKeyFrames()
-        .add(new KeyFrame(time.subtract(Duration.millis(500)), e -> fading.play()));
-    this.mainInfoFader.play();
+    if (this.mainInfoFader.getStatus().equals(Status.RUNNING)) {
+      this.mainInfoFader.setOnFinished(e -> {
+      });
+      this.mainInfoFader.stop();
+      this.mainInfoFader.getKeyFrames().clear();
+      this.showInMainInfo(text, time);
+      return;
+    } else {
+      this.mainInfoLabel.setText(text);
+      this.mainInfoLabel.setVisible(true);
+      this.mainInfoLabel.setOpacity(1);
+      this.mainInfoFader.getKeyFrames().add(new KeyFrame(time, e -> {
+      }));
+      this.mainInfoFader.setOnFinished(e -> {
+        FadeTransition fading = new FadeTransition();
+        fading.setNode(this.mainInfoLabel);
+        fading.setDuration(Duration.millis(500));
+        fading.setFromValue(1);
+        fading.setToValue(0);
+        fading.play();
+      });
+      this.mainInfoFader.playFromStart();
+    }
   }
 
   void setRoundInfos(Contract con, AdditionalMultipliers addMulti) {
