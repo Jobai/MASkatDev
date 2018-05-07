@@ -23,10 +23,10 @@ public class MasterLogger {
 
   public static final Logger networkGameServer = Logger.getLogger("de.skat3.network.server");
   public static final Logger networkGameClient = Logger.getLogger("de.skat3.network.client");
+  public static final Logger networkAIGameClient = 
+      Logger.getLogger("de.skat3.network.AIGameClient");
   public static final Logger networkLobbyServer =
       Logger.getLogger("de.skat3.network.server.LobbyServer");
-  public static final Logger networkAIGameClient =
-      Logger.getLogger("de.skat3.network.AIGameClient");
   public static final Logger guiLogger =
       Logger.getLogger("de.skat3.gui");
   public static final Logger global = Logger.getGlobal();

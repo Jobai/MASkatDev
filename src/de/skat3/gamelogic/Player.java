@@ -94,6 +94,7 @@ public class Player implements Serializable, Comparable<Player> {
     this.setHand(player.hand);
     this.isBot = player.isBot;
     this.ai = player.ai;
+    this.isHardBot = player.isHardBot;
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;
     this.seegerPoints = player.seegerPoints;

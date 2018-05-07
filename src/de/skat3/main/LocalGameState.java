@@ -27,9 +27,7 @@ public class LocalGameState {
   private Card[] trick;
   private Card[] skat;
   private int localPosition;
-  private String localUuid;
   private int lastDealerPositon;
-  public boolean rotate;
 
   /**
    * The current state of a game.
@@ -41,7 +39,6 @@ public class LocalGameState {
     this.localPosition = SkatMain.mainController.currentLobby.currentPlayers;
     this.localClient =
         SkatMain.mainController.currentLobby.players[this.localPosition - 1].copyPlayer();
-    this.localUuid = localClient.getUuid().toString();
     this.setSinglePlayerGame(singlePlayerGame);
     this.setTimerInSeconds(timerInSeconds);
     this.setTrickcount(0);
@@ -277,16 +274,16 @@ public class LocalGameState {
   void setDealerAndRotatePlayers(Player player) {
     Player temp;
     if (player.equals(SkatMain.mainController.currentLobby.players[0])) {
-      this.lastDealerPositon = 0;
-    }
-    if (player.equals(SkatMain.mainController.currentLobby.players[1])) {
       this.lastDealerPositon = 1;
     }
-    if (player.equals(SkatMain.mainController.currentLobby.players[2])) {
+    if (player.equals(SkatMain.mainController.currentLobby.players[1])) {
       this.lastDealerPositon = 2;
     }
-    if (player.equals(SkatMain.mainController.currentLobby.players[3])) {
+    if (player.equals(SkatMain.mainController.currentLobby.players[2])) {
       this.lastDealerPositon = 3;
+    }
+    if (player.equals(SkatMain.mainController.currentLobby.players[3])) {
+      this.lastDealerPositon = 4;
     }
     if (player.equals(this.getLocalClient())) {
       temp = this.getDealer();
@@ -320,7 +317,7 @@ public class LocalGameState {
 
     } else {
       switch (this.lastDealerPositon) {
-        case 0:
+        case 1:
           switch (this.localPosition) {
             case 2:
               temp = this.localClient;
@@ -342,7 +339,7 @@ public class LocalGameState {
               break;
           }
           break;
-        case 1:
+        case 2:
           switch (this.localPosition) {
             case 1:
               temp = this.enemyOne;
@@ -364,7 +361,7 @@ public class LocalGameState {
               break;
           }
           break;
-        case 2:
+        case 3:
           switch (this.localPosition) {
             case 1:
               temp = this.enemyTwo;
@@ -386,7 +383,7 @@ public class LocalGameState {
               break;
           }
           break;
-        case 3:
+        case 4:
           switch (this.localPosition) {
             case 1:
               temp = this.dealer;
@@ -407,13 +404,17 @@ public class LocalGameState {
               System.err.println("Error in rotatePlayers");
               break;
           }
+          break;
         default:
           System.err.println("Error in rotatePlayers");
           break;
       }
     }
 
-    this.lastDealerPositon = (this.lastDealerPositon + 1) % 3;
+    this.lastDealerPositon = (this.lastDealerPositon + 1);
+    if (this.lastDealerPositon == 5) {
+      this.lastDealerPositon = 1;
+    }
   }
 
   public Card[] getSkat() {
@@ -488,7 +489,8 @@ public class LocalGameState {
     if (SkatMain.mainController.currentLobby.numberOfPlayers == 3) {
       return false;
     } else {
-      return (this.localUuid.equals(this.getDealer().getUuid().toString())) ? true : false;
+      return (this.localClient.getUuid()
+          .equals(SkatMain.ioController.getLastUsedProfile().getUuid())) ? false : true;
     }
   }
 

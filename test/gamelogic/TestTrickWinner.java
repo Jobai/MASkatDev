@@ -42,14 +42,6 @@ public class TestTrickWinner {
     assertEquals(roundInstance.getForehand(), roundInstance.determineTrickWinner());
   }
 
-  @Test
-  public void testTrickWinner2() {
-    this.roundInstance.setContract(Contract.SPADES);
-    this.roundInstance.addCardtoTrick(new Card(Suit.CLUBS, Value.SEVEN));
-    this.roundInstance.addCardtoTrick(new Card(Suit.SPADES, Value.ACE));
-    this.roundInstance.addCardtoTrick(new Card(Suit.DIAMONDS, Value.SEVEN));
-    assertEquals(roundInstance.getMiddlehand(), roundInstance.determineTrickWinner());
-  }
 
   @Test
   public void testTrickWinner3() {
@@ -61,15 +53,6 @@ public class TestTrickWinner {
     assertEquals(roundInstance.getForehand(), roundInstance.determineTrickWinner());
   }
 
-  @Test
-  public void testTrickWinner4() {
-
-    this.roundInstance.setContract(Contract.CLUBS);
-    this.roundInstance.addCardtoTrick(new Card(Suit.CLUBS, Value.SEVEN));
-    this.roundInstance.addCardtoTrick(new Card(Suit.CLUBS, Value.EIGHT));
-    this.roundInstance.addCardtoTrick(new Card(Suit.SPADES, Value.SEVEN));
-    assertEquals(roundInstance.getMiddlehand(), roundInstance.determineTrickWinner());
-  }
 
   @Test
   public void testTrickWinner5() {
@@ -81,15 +64,6 @@ public class TestTrickWinner {
     assertEquals(roundInstance.getRearhand(), roundInstance.determineTrickWinner());
   }
 
-  @Test
-  public void testTrickWinner6() {
-
-    this.roundInstance.setContract(Contract.CLUBS);
-    this.roundInstance.addCardtoTrick(new Card(Suit.DIAMONDS, Value.SEVEN));
-    this.roundInstance.addCardtoTrick(new Card(Suit.HEARTS, Value.EIGHT));
-    this.roundInstance.addCardtoTrick(new Card(Suit.DIAMONDS, Value.ACE));
-    assertEquals(roundInstance.getRearhand(), roundInstance.determineTrickWinner());
-  }
 
   @Test
   public void testTrickWinner7() {
@@ -101,14 +75,5 @@ public class TestTrickWinner {
     assertEquals(roundInstance.getForehand(), roundInstance.determineTrickWinner());
   }
 
-  @Test
-  public void testTrickWinner8() {
-
-    this.roundInstance.setContract(Contract.HEARTS);
-    this.roundInstance.addCardtoTrick(new Card(Suit.DIAMONDS, Value.SEVEN));
-    this.roundInstance.addCardtoTrick(new Card(Suit.HEARTS, Value.SEVEN));
-    this.roundInstance.addCardtoTrick(new Card(Suit.HEARTS, Value.EIGHT));
-    assertEquals(roundInstance.getRearhand(), roundInstance.determineTrickWinner());
-  }
 
 }

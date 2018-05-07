@@ -126,12 +126,14 @@ public class Hand implements Serializable {
           consecutiveMatadors++;
           if (this.contains(deck.getCard("JACK OF DIAMONDS"))) {
             consecutiveMatadors++;
-            for (int i = Value.length - 2; i >= 0; i--) {
-              if (this.contains(
-                  deck.getCard(Value.values()[i].name() + " OF " + contract.toString()))) {
-                consecutiveMatadors++;
-              } else {
-                break;
+            if (contract != Contract.GRAND) {
+              for (int i = Value.length - 2; i >= 0; i--) {
+                if (this.contains(
+                    deck.getCard(Value.values()[i].name() + " OF " + contract.toString()))) {
+                  consecutiveMatadors++;
+                } else {
+                  break;
+                }
               }
             }
           }
@@ -145,12 +147,14 @@ public class Hand implements Serializable {
           consecutiveMatadors++;
           if (!this.contains(deck.getCard("JACK OF DIAMONDS"))) {
             consecutiveMatadors++;
-            for (int i = Value.length - 2; i >= 0; i--) {
-              if (!this
-                  .contains(deck.getCard(Value.values()[i].name() + " OF " + contract.name()))) {
-                consecutiveMatadors++;
-              } else {
-                break;
+            if (contract != Contract.GRAND) {
+              for (int i = Value.length - 2; i >= 0; i--) {
+                if (!this
+                    .contains(deck.getCard(Value.values()[i].name() + " OF " + contract.name()))) {
+                  consecutiveMatadors++;
+                } else {
+                  break;
+                }
               }
             }
           }
@@ -348,8 +352,10 @@ public class Hand implements Serializable {
   public int getMaximumBid(Contract contract) {
     if (this.cards.length == 10) {
 
-      int trumps = this.calcConsecutiveMatadors(contract);
-
+      int trumps = 0;
+      if (contract != Contract.NULL) {
+        trumps = this.calcConsecutiveMatadors(contract);
+      }
       switch (contract) {
         case CLUBS:
           return (trumps + 1) * 12;
@@ -364,6 +370,7 @@ public class Hand implements Serializable {
         case SPADES:
           return (trumps + 1) * 11;
         default:
+          System.out.println("error in maxBid");
           return 0;
 
       }

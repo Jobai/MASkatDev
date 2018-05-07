@@ -389,18 +389,15 @@ public class RoundInstance {
   public Player determineTrickWinner() {
     Contract contract = this.getContract();
 
-    if (this.getFirstCard().beats(contract, this.getSecondCard())) {
-      if (this.getFirstCard().beats(contract, this.getThirdCard())) {
-        return this.getForehand();
-      } else {
-        return (this.getSecondCard().beats(contract, this.getThirdCard())) ? this.getMiddlehand()
-            : this.getRearhand();
-      }
-
-    } else {
-      return (this.getSecondCard().beats(contract, this.getThirdCard())) ? this.getMiddlehand()
-          : this.getRearhand();
+    if (this.getSecondCard().beats(contract, this.getFirstCard())
+        && this.getSecondCard().beats(contract, getThirdCard())) {
+      return this.getMiddlehand();
     }
+    if (this.getThirdCard().beats(contract, this.getFirstCard())
+        && this.getThirdCard().beats(contract, getSecondCard())) {
+      return this.getRearhand();
+    }
+    return this.getForehand();
   }
 
 

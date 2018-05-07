@@ -75,6 +75,7 @@ public class MainController implements MainControllerInterface {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    SkatMain.lgs = null;
     chatMessages = FXCollections.observableArrayList();
     this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.numberOfPlayers);
     this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.currentPlayers);
@@ -112,6 +113,7 @@ public class MainController implements MainControllerInterface {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    SkatMain.lgs = null;
     chatMessages = FXCollections.observableArrayList();
     this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.numberOfPlayers);
     this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.currentPlayers);
@@ -144,6 +146,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void joinMultiplayerGame(Lobby lobby) {
+    SkatMain.lgs = null;
     this.currentLobby = lobby;
     chatMessages = FXCollections.observableArrayList();
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
@@ -165,7 +168,7 @@ public class MainController implements MainControllerInterface {
    * Jonas TODO.
    */
   public void directConnectMultiplayerGame(String ip) {
-
+    SkatMain.lgs = null;
     Lobby lobby = new Lobby();
     Inet4Address i4;
     try {
@@ -192,6 +195,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void directConnectMultiplayerGame(String ip, String password) {
 
+    SkatMain.lgs = null;
     Lobby lobby = new Lobby();
     lobby.password = password;
     Inet4Address i4;
@@ -218,6 +222,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void joinMultiplayerGame(Lobby lobby, String password) {
+    SkatMain.lgs = null;
     System.out.println("Entered password: '" + password + "'");
     this.currentLobby = lobby;
     lobby.password = password;
@@ -294,8 +299,7 @@ public class MainController implements MainControllerInterface {
   public void hostMultiplayerGame(String name, String password, int numberOfPlayers, int timer,
       boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException {
 
-
-
+    SkatMain.lgs = null;
     this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, name, password,
         numberOfPlayers, timer, scoringMode, kontraRekontraEnabled);
     chatMessages = FXCollections.observableArrayList();
@@ -498,10 +502,12 @@ public class MainController implements MainControllerInterface {
       });
     }
     Platform.runLater(new Runnable() {
+
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().makeAMoveRequest(true);
       }
+
     });
   }
 
@@ -530,19 +536,15 @@ public class MainController implements MainControllerInterface {
     if (!result.roundCancelled) {
       this.modifyStatistic(result);
     }
-    if (SkatMain.lgs.rotate) {
-      SkatMain.lgs.rotatePlayers();
-    } else {
-      if (this.currentLobby.numberOfPlayers == 4) {
-        SkatMain.lgs.rotate = true;
-      }
-    }
     Platform.runLater(new Runnable() {
 
 
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().showResults(result);
+        if (SkatMain.mainController.currentLobby.numberOfPlayers == 4) {
+          SkatMain.lgs.rotatePlayers();
+        }
       }
     });
 
@@ -703,7 +705,6 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void skatSelected(Hand hand, Card[] skat) {
-    System.out.println("neue hand: " + hand);
     SkatMain.lgs.getSkat()[0] = skat[0];
     SkatMain.lgs.getSkat()[1] = skat[1];
     SkatMain.lgs.getLocalClient().setHand(hand);
@@ -784,7 +785,9 @@ public class MainController implements MainControllerInterface {
             SkatMain.guiController.getInGameController().showText(player.getName() + ": " + bid);
           }
         } else {
-          SkatMain.guiController.getInGameController().showText(player.getName() + ": " + bid);
+          if (!player.equals(SkatMain.lgs.getLocalClient()) || SkatMain.lgs.localPlayerIsDealer()) {
+            SkatMain.guiController.getInGameController().showText(player.getName() + ": " + bid);
+          }
         }
       }
     });

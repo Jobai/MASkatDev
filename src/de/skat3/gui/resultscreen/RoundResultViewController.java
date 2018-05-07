@@ -122,19 +122,24 @@ public class RoundResultViewController {
       overbid.setText("");
     }
 
-    if (SkatMain.lgs.getLocalClient().isSolo()) {
-      if (result.soloWon) {
-        headerLabel.setText("You win!");
-      } else {
-        headerLabel.setText("You lose!");
-      }
+    if (SkatMain.lgs.localPlayerIsDealer()) {
+      headerLabel.setText("Spectator");
     } else {
-      if (!result.soloWon) {
-        headerLabel.setText("You win!");
+      if (SkatMain.lgs.getLocalClient().isSolo()) {
+        if (result.soloWon) {
+          headerLabel.setText("You win!");
+        } else {
+          headerLabel.setText("You lose!");
+        }
       } else {
-        headerLabel.setText("You lose!");
+        if (!result.soloWon) {
+          headerLabel.setText("You win!");
+        } else {
+          headerLabel.setText("You lose!");
+        }
       }
     }
+
 
 
     // Checkboxes
