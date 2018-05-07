@@ -728,8 +728,8 @@ public class InGameOverlayController {
     this.nameLocalClient.toFront();
   }
 
-  public void showTrainingModeInfoText(String text, int width, int height) {
-    this.trainingModeTextController.setText(text);
+  public void showTrainingModeInfoText(String path, int width, int height) {
+    this.trainingModeTextController.setPath(path);
     this.trainingModeTextController.setSize(width, height);
     this.trainingModeTextController.root.setVisible(true);
     this.trainingModeTextController.root.setDisable(false);

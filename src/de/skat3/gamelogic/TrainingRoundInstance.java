@@ -138,12 +138,12 @@ public class TrainingRoundInstance extends RoundInstance {
   String filePop;
 
   private void showPopUp(int currentRound) {
-    filePop = "../../../../trainingPopups/";
+    filePop = "resources/trainingPopups/";
     switch (this.scenario) {
       case 0:
         switch (currentRound) {
           case 0:
-            filePop += "/Skat Strategies/Scenario1/Scenario1_popup1.html";
+            filePop += "/Skat Strategies/Scenario1/Scenario1_Popup1.html";
             break;
           case 1:
             filePop += "/Skat Strategies/Scenario1/Scenario1_Popup2.html";
@@ -164,7 +164,7 @@ public class TrainingRoundInstance extends RoundInstance {
       case 1:
         switch (currentRound) {
           case 0:
-            filePop += "/Skat Strategies/Scenario1/Scenario2_Popup1.html";
+            filePop += "/Skat Strategies/Scenario2/Scenario2_Popup1.html";
             break;
           case 1:
             break;
@@ -183,16 +183,16 @@ public class TrainingRoundInstance extends RoundInstance {
       case 2:
         switch (currentRound) {
           case 0:
-            filePop += "/Skat Strategies/Scenario1/Scenario3_Popup1.html";
+            filePop += "/Skat Strategies/Scenario3/Scenario3_Popup1.html";
             break;
           case 1:
-            filePop += "/Skat Strategies/Scenario1/Scenario3_Popup2.html";
+            filePop += "/Skat Strategies/Scenario3/Scenario3_Popup2.html";
             break;
           case 2:
-            filePop += "/Skat Strategies/Scenario1/Scenario3_Popup3.html";
+            filePop += "/Skat Strategies/Scenario3/Scenario3_Popup3.html";
             break;
           case 3:
-            filePop += "/Skat Strategies/Scenario1/Scenario3_Popup4.html";
+            filePop += "/Skat Strategies/Scenario3/Scenario3_Popup4.html";
             break;
           case 4:
             break;
@@ -205,16 +205,16 @@ public class TrainingRoundInstance extends RoundInstance {
       case 3:
         switch (currentRound) {
           case 0:
-            filePop += "/Skat Strategies/Scenario1/Scenario4_Popup1.html";
+            filePop += "/Skat Strategies/Scenario4/Scenario4_Popup1.html";
             break;
           case 1:
-            filePop += "/Skat Strategies/Scenario1/Scenario4_Popup2.html";
+            filePop += "/Skat Strategies/Scenario4/Scenario4_Popup2.html";
             break;
           case 2:
-            filePop += "/Skat Strategies/Scenario1/Scenario4_Popup3.html";
+            filePop += "/Skat Strategies/Scenario4/Scenario4_Popup3.html";
             break;
           case 3:
-            filePop += "/Skat Strategies/Scenario1/Scenario4_Popup4.html";
+            filePop += "/Skat Strategies/Scenario4/Scenario4_Popup4.html";
             break;
           case 4:
             break;
@@ -227,13 +227,13 @@ public class TrainingRoundInstance extends RoundInstance {
       case 4:
         switch (currentRound) {
           case 0:
-            filePop += "/Skat Strategies/Scenario1/Scenario5_Popup1.html";
+            filePop += "/Skat Strategies/Scenario5/Scenario5_Popup1.html";
             break;
           case 1:
-            filePop += "/Skat Strategies/Scenario1/Scenario5_Popup2.html";
+            filePop += "/Skat Strategies/Scenario5/Scenario5_Popup2.html";
             break;
           case 2:
-            filePop += "/Skat Strategies/Scenario1/Scenario5_Popup3.html";
+            filePop += "/Skat Strategies/Scenario5/Scenario5_Popup3.html";
             break;
           case 3:
             break;
@@ -270,7 +270,7 @@ public class TrainingRoundInstance extends RoundInstance {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop);
+        SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, 400, 600);
       }
     });
   }
@@ -696,7 +696,7 @@ public class TrainingRoundInstance extends RoundInstance {
       default:
         break;
     }
-
+    slc.broadcastContract(this.contract, new AdditionalMultipliers());
 
   }
 

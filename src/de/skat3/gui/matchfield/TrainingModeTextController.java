@@ -26,8 +26,10 @@ public class TrainingModeTextController {
     this.root.setVisible(false);
   }
 
-  public void setText(String path) {
+  public void setPath(String path) {
     File f = new File(path);
+    System.out.println(f);
+    System.out.println(f.toURI().toString());
     webEngine.load(f.toURI().toString());
   }
 
