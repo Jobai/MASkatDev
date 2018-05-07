@@ -1,4 +1,4 @@
-package de.skat3.gui.resultscreen;
+package de.skat3.gui.matchfield;
 
 import java.util.ArrayList;
 import de.skat3.gamelogic.MatchResult;

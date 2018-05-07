@@ -17,7 +17,7 @@
 	style="-fx-background-color: #FFFFFF; -fx-border-width: 2; -fx-border-color: #000000;"
 	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="de.skat3.gui.resultscreen.GameResultViewController">
+	fx:controller="de.skat3.gui.matchfield.GameResultViewController">
 	<children>
 		<TitledPane expanded="false" layoutY="380.0"
 			prefHeight="274.0" prefWidth="600.0" text="Points per round"

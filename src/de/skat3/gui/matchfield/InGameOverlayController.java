@@ -6,9 +6,8 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
-import de.skat3.gui.resultscreen.GameResultViewController;
-import de.skat3.gui.resultscreen.RoundResultViewController;
 import de.skat3.main.SkatMain;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -192,8 +191,7 @@ public class InGameOverlayController {
 
   private void loadFXMLFiles() {
     // GameResults
-    FXMLLoader fxmlLoader =
-        new FXMLLoader(getClass().getResource("../resultscreen/GameResultView.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("GameResultView.fxml"));
     try {
       fxmlLoader.load();
     } catch (IOException e) {
@@ -203,7 +201,7 @@ public class InGameOverlayController {
     this.gameResultcontroller = fxmlLoader.getController();
 
     // RoundResults
-    fxmlLoader = new FXMLLoader(getClass().getResource("../resultscreen/RoundResultView.fxml"));
+    fxmlLoader = new FXMLLoader(this.getClass().getResource("RoundResultView.fxml"));
 
     try {
       fxmlLoader.load();

@@ -1,4 +1,4 @@
-package de.skat3.gui.resultscreen;
+package de.skat3.gui.matchfield;
 
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;

@@ -17,7 +17,7 @@
 	style="-fx-background-color: #FFFFFF; -fx-border-width: 2; -fx-border-color: #000000;"
 	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="de.skat3.gui.resultscreen.RoundResultViewController">
+	fx:controller="de.skat3.gui.matchfield.RoundResultViewController">
 	<children>
 		<Pane layoutY="-1.0" prefHeight="80.0" prefWidth="600.0"
 			style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0"
