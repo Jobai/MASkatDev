@@ -22,7 +22,7 @@
 		<ImageView fx:id="backgroundImage" opacity="0.73"
 			pickOnBounds="true">
 			<image>
-				<Image url="@../../../../../resources/guifiles/bg.png" />
+				<Image url="@/guifiles/bg.png" />
 			</image>
 		</ImageView>
 		<AnchorPane layoutY="97.0" AnchorPane.leftAnchor="0.0"
@@ -88,7 +88,7 @@
 		<ImageView fitHeight="89.0" fitWidth="389.0" layoutX="14.0"
 			layoutY="4.0" pickOnBounds="true" preserveRatio="true">
 			<image>
-				<Image url="@../../../../../resources/guifiles/Logo.png" />
+				<Image url="@/guifiles/Logo.png" />
 			</image>
 		</ImageView>
 		<AnchorPane layoutX="760.0" layoutY="21.0"

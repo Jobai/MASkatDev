@@ -26,6 +26,7 @@ import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -324,6 +325,8 @@ public class MenuFrameController {
     Stage stage = new Stage();
     stage.setTitle("Profile");
     stage.setScene(new Scene(root));
+
+    stage.getIcons().add(new Image(getClass().getResourceAsStream("/guifiles/AppIcon.png")));
 
     ProfileController profileController = fxmlLoader.getController();
     profileController.setProfile(p);

@@ -30,7 +30,7 @@
 				<ImageView fitHeight="19.0" fitWidth="53.0"
 					pickOnBounds="true" preserveRatio="true">
 					<image>
-						<Image url="@../../../../../resources/guifiles/refresh.png" />
+						<Image url="@/guifiles/refresh.png" />
 					</image>
 				</ImageView>
 			</graphic>

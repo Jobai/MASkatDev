@@ -65,7 +65,7 @@ public class Gui extends Application {
 
     this.mainStage.setTitle("MA Skat");
     this.mainStage.getIcons()
-        .add(new Image(getClass().getResourceAsStream("../../../guifiles/AppIcon.png")));
+        .add(new Image(getClass().getResourceAsStream("/guifiles/AppIcon.png")));
 
     this.mainStage.setScene(this.menuFrame.getScene());
     this.mainStage.show();

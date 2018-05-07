@@ -70,7 +70,7 @@ public class Matchfield {
 
   private void iniBackground() {
     try {
-      URL url = Matchfield.class.getResource("DSC01542_1.jpg");
+      URL url = Matchfield.class.getResource("DSC01542_1_orginal-3.jpg");
       Image background = new Image(url.openStream());
       ImageView iv = new ImageView(background);
       iv.fitHeightProperty().bind(this.root.widthProperty());

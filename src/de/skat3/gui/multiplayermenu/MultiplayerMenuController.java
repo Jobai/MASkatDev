@@ -259,6 +259,8 @@ public class MultiplayerMenuController {
     stage.setTitle("Host Server");
     stage.setScene(new Scene(root));
 
+    stage.getIcons().add(new Image(getClass().getResourceAsStream("/guifiles/AppIcon.png")));
+
     HostPopupController hostController = fxmlLoader.getController();
     hostController.setStage(stage);
 
