@@ -135,18 +135,20 @@ public class TrainingRoundInstance extends RoundInstance {
   // CASES TODO ARTEM, EMRE
 
   private void showPopUp(int currentRound) {
-    String filePop = "../../../../trainingPopups/";
+		String filePop = "../../../../trainingPopups/";
     switch (this.scenario) {
       case 0:
         switch (currentRound) {
           case 0:
+				filePop += "/Skat Strategies/Scenario1/Scenario1_popup1.html";
             break;
           case 1:
-            filePop += "NAME VOM SCENARIO POP FILE";
+				filePop += "/Skat Strategies/Scenario1/Scenario1_Popup2.html";
             break;
           case 2:
             break;
           case 3:
+				filePop += "/Skat Strategies/Scenario1/Scenario1_Popup4.html";
             break;
           case 4:
             break;
@@ -159,6 +161,7 @@ public class TrainingRoundInstance extends RoundInstance {
       case 1:
         switch (currentRound) {
           case 0:
+				filePop += "/Skat Strategies/Scenario1/Scenario2_Popup1.html";
             break;
           case 1:
             break;
@@ -177,12 +180,16 @@ public class TrainingRoundInstance extends RoundInstance {
       case 2:
         switch (currentRound) {
           case 0:
+				filePop += "/Skat Strategies/Scenario1/Scenario3_Popup1.html";
             break;
           case 1:
+				filePop += "/Skat Strategies/Scenario1/Scenario3_Popup2.html";
             break;
           case 2:
+				filePop += "/Skat Strategies/Scenario1/Scenario3_Popup3.html";
             break;
           case 3:
+				filePop += "/Skat Strategies/Scenario1/Scenario3_Popup4.html";
             break;
           case 4:
             break;
@@ -195,12 +202,16 @@ public class TrainingRoundInstance extends RoundInstance {
       case 3:
         switch (currentRound) {
           case 0:
+				filePop += "/Skat Strategies/Scenario1/Scenario4_Popup1.html";
             break;
           case 1:
+				filePop += "/Skat Strategies/Scenario1/Scenario4_Popup2.html";
             break;
           case 2:
+				filePop += "/Skat Strategies/Scenario1/Scenario4_Popup3.html";
             break;
           case 3:
+				filePop += "/Skat Strategies/Scenario1/Scenario4_Popup4.html";
             break;
           case 4:
             break;
@@ -213,10 +224,13 @@ public class TrainingRoundInstance extends RoundInstance {
       case 4:
         switch (currentRound) {
           case 0:
+				filePop += "/Skat Strategies/Scenario1/Scenario5_Popup1.html";
             break;
           case 1:
+				filePop += "/Skat Strategies/Scenario1/Scenario5_Popup2.html";
             break;
           case 2:
+				filePop += "/Skat Strategies/Scenario1/Scenario5_Popup3.html";
             break;
           case 3:
             break;
@@ -250,7 +264,7 @@ public class TrainingRoundInstance extends RoundInstance {
         break;
 
     }
-    SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop);
+		SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop);
   }
 
   /**
