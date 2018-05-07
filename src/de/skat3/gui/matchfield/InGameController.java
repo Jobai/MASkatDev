@@ -4,8 +4,6 @@ import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
-import de.skat3.gui.resultscreen.GameResultViewController;
-import de.skat3.gui.resultscreen.RoundResultViewController;
 import de.skat3.main.SkatMain;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
