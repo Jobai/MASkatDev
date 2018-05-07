@@ -22,6 +22,7 @@ import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageType;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 
 /**
@@ -43,6 +44,7 @@ public class ServerLogicController implements ServerLogicInterface {
 
   //
   GameServer gs;
+  Logger logger = gs.logger;
 
 
   ServerLogicController(int maxPlayer, GameServer gs) {
@@ -181,7 +183,7 @@ public class ServerLogicController implements ServerLogicInterface {
         new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.ROUND_END_INFO);
     mc.payload = result;
     gs.broadcastMessage(mc);
-    System.out.println("Round out");
+    System.out.print("Round out");
   }
 
   /*
@@ -239,7 +241,7 @@ public class ServerLogicController implements ServerLogicInterface {
 
   @Override
   public void broadcastBid(String message, Player p) {
-    System.out.println("broadcasting bid [SERVER / LOGIC] : " + message);
+    logger.fine("broadcasting bid [SERVER / LOGIC] : " + message);
 
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.BID_INFO);
     mc.gameState = message;

@@ -35,7 +35,7 @@ public class MasterLogger {
   public MasterLogger() {
 
     Handler handlerObj = new ConsoleHandler();
-    handlerObj.setLevel(Level.SEVERE);
+    handlerObj.setLevel(Level.INFO);
 
     networkGameServer.addHandler(handlerObj);
     networkGameServer.setLevel(Level.INFO);

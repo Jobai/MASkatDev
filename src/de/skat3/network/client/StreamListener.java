@@ -30,7 +30,9 @@ class StreamListener extends Thread {
       } catch (ClassCastException e) {
         e.printStackTrace();
       } catch (SocketException e) {
-        e.printStackTrace();
+        gc.logger.log(Level.SEVERE, "Connection to server failed", e);
+        gc.handleLostConnection();
+        this.interrupt();
 
       } catch (IOException e) {
         gc.logger.log(Level.SEVERE, "Connection to server failed", e);

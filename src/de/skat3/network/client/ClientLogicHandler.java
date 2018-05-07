@@ -1,5 +1,6 @@
 package de.skat3.network.client;
 
+import java.util.logging.Logger;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -23,6 +24,7 @@ import de.skat3.network.datatypes.MessageCommand;
  */
 public class ClientLogicHandler {
 
+  Logger logger = Logger.getLogger("de.skat3.network.client");
 
   GameClient gc;
 
@@ -45,7 +47,8 @@ public class ClientLogicHandler {
    */
   void bidInfoHandler(Message m) {
 
-    System.out.println("BID INFO HANDELD");
+  
+    logger.entering(this.getClass().getName(), "bidInfoHandler(Message m)");
 
     MessageCommand mc = (MessageCommand) m;
     String message = (String) mc.gameState;
@@ -71,7 +74,8 @@ public class ClientLogicHandler {
    */
   void bidRequestHandler(Message m) {
 
-    System.out.println("BID REQUEST HANDELD");
+    logger.entering(this.getClass().getName(), "bidRequestHandler(Message m)");
+    logger.fine("BID REQUEST HANDLED!");
     int b = (int) ((MessageCommand) m).gameState;
     SkatMain.mainController.bidRequest(b);
 
