@@ -236,8 +236,8 @@ public class InGameController implements InGameControllerInterface {
   }
 
   @Override
-  public void showTrainingModeInfoText(String text) {
-    this.matchfield.overlayController.showTrainingModeInfoText(text);
+  public void showTrainingModeInfoText(String text, int width, int height) {
+    this.matchfield.overlayController.showTrainingModeInfoText(text, width, height);
   }
 
 }

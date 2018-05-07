@@ -67,9 +67,6 @@ public class Gui extends Application {
     this.mainStage.getIcons()
         .add(new Image(getClass().getResourceAsStream("../../../guifiles/AppIcon.png")));
 
-    // this.mainStage.setWidth(java.awt.Toolkit.getDefaultToolkit().getScreenSize().width);
-    // this.mainStage.setHeight(java.awt.Toolkit.getDefaultToolkit().getScreenSize().height);
-
     this.mainStage.setScene(this.menuFrame.getScene());
     this.mainStage.show();
     this.delayedInitialize();
@@ -78,8 +75,8 @@ public class Gui extends Application {
 
   private void initializeComponents() {
     // size stuff. These are not the max values...s
-    this.mainStage.setMinWidth(1280);
-    this.mainStage.setMinHeight(720);
+    this.mainStage.setWidth(1280);
+    this.mainStage.setHeight(720);
     this.mainStage.setMaximized(true);
     this.menuFrame = new MenuFrame();
   }

@@ -31,6 +31,11 @@ public class TrainingModeTextController {
     webEngine.load(f.toURI().toString());
   }
 
+  public void setSize(int width, int height) {
+    this.root.setPrefWidth(width);
+    this.root.setPrefHeight(height);
+  }
+
 
 
 }

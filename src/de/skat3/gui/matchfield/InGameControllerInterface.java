@@ -43,8 +43,8 @@ public interface InGameControllerInterface {
   public void showBidRequest(int bid);
 
   public void showResults(Result results);
-  
-  public void showTrainingModeInfoText(String text);
+
+  public void showTrainingModeInfoText(String text, int width, int height);
 
   public void showHandGameRequest();
 

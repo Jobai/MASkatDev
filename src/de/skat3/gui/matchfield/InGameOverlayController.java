@@ -41,6 +41,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -322,10 +323,19 @@ public class InGameOverlayController {
 
   void showRoundResult(Result result) {
     if (result.roundCancelled) {
-      Alert a = new Alert(Alert.AlertType.INFORMATION);
-      a.setContentText("Round canceled!");
-      a.setHeaderText(null);
-      a.showAndWait();
+      AnchorPane p = new AnchorPane();
+      VBox box = new VBox();
+      p.setPrefWidth(150);
+      p.setPrefHeight(100);
+      p.setStyle("-fx-background-color:#404040;");
+      Label l = new Label("Round cancelled!");
+      Button closeButton = new Button("Close");
+      closeButton.setStyle("-fx-background-color:#d60202;");
+      box.getChildren().add(l);
+      box.getChildren().add(closeButton);
+      p.getChildren().add(box);
+
+      this.addAndSetupButton(p, closeButton);
       return;
     }
 
@@ -697,8 +707,9 @@ public class InGameOverlayController {
     this.nameLocalClient.toFront();
   }
 
-  public void showTrainingModeInfoText(String text) {
+  public void showTrainingModeInfoText(String text, int width, int height) {
     this.trainingModeTextController.setText(text);
+    this.trainingModeTextController.setSize(width, height);
     this.trainingModeTextController.root.setVisible(true);
     this.trainingModeTextController.root.setDisable(false);
 
