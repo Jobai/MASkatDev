@@ -73,7 +73,6 @@ public class MainController implements MainControllerInterface {
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
     this.isHost = true;
     SkatMain.clc = gameClient.getClc();
-
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot);
     SkatMain.mainNetworkController.addAItoLocalServer(hardBot2);
     try {
@@ -356,7 +355,6 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void updatePlayer(Player player) {
-    System.out.println("�bergeben " + player.getHand());
     SkatMain.lgs.getLocalClient().updatePlayer(player);
   }
 
@@ -510,13 +508,18 @@ public class MainController implements MainControllerInterface {
     if (!result.roundCancelled) {
       this.modifyStatistic(result);
     }
-
+    if (SkatMain.lgs.rotate) {
+      SkatMain.lgs.rotatePlayers();
+    } else {
+      if (this.currentLobby.numberOfPlayers == 4) {
+        SkatMain.lgs.rotate = true;
+      }
+    }
     Platform.runLater(new Runnable() {
 
 
       @Override
       public void run() {
-        System.out.println(Arrays.toString(result.ranks));
         SkatMain.guiController.getInGameController().showResults(result);
       }
     });
@@ -739,8 +742,8 @@ public class MainController implements MainControllerInterface {
   }
 
   @Override
-  public void updateEnemy(Player transmitedPlayer) {
-    SkatMain.lgs.getPlayer(transmitedPlayer).updatePlayer(transmitedPlayer);
+  public void updateEnemy(Player transmittedPlayer) {
+    SkatMain.lgs.getPlayer(transmittedPlayer).updatePlayer(transmittedPlayer);
   }
 
   @Override

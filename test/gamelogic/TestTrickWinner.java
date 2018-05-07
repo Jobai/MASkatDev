@@ -81,4 +81,34 @@ public class TestTrickWinner {
     assertEquals(roundInstance.getRearhand(), roundInstance.determineTrickWinner());
   }
 
+  @Test
+  public void testTrickWinner6() {
+
+    this.roundInstance.setContract(Contract.CLUBS);
+    this.roundInstance.addCardtoTrick(new Card(Suit.DIAMONDS, Value.SEVEN));
+    this.roundInstance.addCardtoTrick(new Card(Suit.HEARTS, Value.EIGHT));
+    this.roundInstance.addCardtoTrick(new Card(Suit.DIAMONDS, Value.ACE));
+    assertEquals(roundInstance.getRearhand(), roundInstance.determineTrickWinner());
+  }
+
+  @Test
+  public void testTrickWinner7() {
+
+    this.roundInstance.setContract(Contract.CLUBS);
+    this.roundInstance.addCardtoTrick(new Card(Suit.DIAMONDS, Value.QUEEN));
+    this.roundInstance.addCardtoTrick(new Card(Suit.HEARTS, Value.SEVEN));
+    this.roundInstance.addCardtoTrick(new Card(Suit.HEARTS, Value.ACE));
+    assertEquals(roundInstance.getForehand(), roundInstance.determineTrickWinner());
+  }
+
+  @Test
+  public void testTrickWinner8() {
+
+    this.roundInstance.setContract(Contract.HEARTS);
+    this.roundInstance.addCardtoTrick(new Card(Suit.DIAMONDS, Value.SEVEN));
+    this.roundInstance.addCardtoTrick(new Card(Suit.HEARTS, Value.SEVEN));
+    this.roundInstance.addCardtoTrick(new Card(Suit.HEARTS, Value.EIGHT));
+    assertEquals(roundInstance.getRearhand(), roundInstance.determineTrickWinner());
+  }
+
 }

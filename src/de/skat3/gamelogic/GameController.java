@@ -127,6 +127,7 @@ public class GameController implements GameLogicInterface {
       this.players[1] = allPlayers[(i + 2) % 4];
       this.players[2] = allPlayers[(i + 3) % 4];
       SkatMain.mainController.setDealer(this.dealer.copyPlayer());
+      slc.setDealer(this.dealer.copyPlayer());
     }
   }
 

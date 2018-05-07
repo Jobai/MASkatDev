@@ -105,15 +105,11 @@ public class Player implements Serializable, Comparable<Player> {
    * @param hardBot true if the ai is hard.
    */
   public Player(boolean hardBot) {
-    if (hardBot) {
-      this.name = AiNames.getRandomName(hardBot);
-    } else {
-      this.name = AiNames.getRandomName(hardBot);
-    }
+    this.uuid = UUID.randomUUID();
+    this.name = AiNames.getRandomName(hardBot);
     this.isHardBot = hardBot;
     this.wonTricks = new ArrayList<Card>();
-    this.points = 0;
-    this.uuid = UUID.randomUUID();
+    this.points = 0;;
     this.hand = new Hand();
     this.isBot = true;
     this.wonGames = 0;

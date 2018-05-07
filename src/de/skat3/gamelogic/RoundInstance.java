@@ -77,7 +77,7 @@ public class RoundInstance {
     this.updatePlayer();
     this.updateEnemies();
     slc.broadcastRoundStarted();
-    Thread.sleep(2500);
+    Thread.sleep(4000);
     Player winner = this.startBidding();
     if (winner == null) {
       this.roundCancelled = true;
@@ -209,8 +209,9 @@ public class RoundInstance {
       respond = false;
       currentWinner = bidDuel(this.players[2], currentWinner);
       if (currentWinner.equals(this.players[0]) && this.currentBiddingValue == 0) {
-        this.slc.callForBid(this.players[0], BiddingValues.values[this.currentBiddingValue]);
         this.current = LogicAnswers.BID;
+        this.currentBidder = this.players[0];
+        this.slc.callForBid(this.players[0], BiddingValues.values[this.currentBiddingValue]);
         lock.wait();
         if (this.bidAccepted) {
           return this.players[0];
@@ -388,17 +389,20 @@ public class RoundInstance {
   public Player determineTrickWinner() {
     Contract contract = this.getContract();
 
-    if (this.getFirstCard().beats(contract, this.getSecondCard())
-        && this.getFirstCard().beats(contract, this.getThirdCard())) {
-      return this.getForehand();
+    if (this.getFirstCard().beats(contract, this.getSecondCard())) {
+      if (this.getFirstCard().beats(contract, this.getThirdCard())) {
+        return this.getForehand();
+      } else {
+        return (this.getSecondCard().beats(contract, this.getThirdCard())) ? this.getMiddlehand()
+            : this.getRearhand();
+      }
 
     } else {
       return (this.getSecondCard().beats(contract, this.getThirdCard())) ? this.getMiddlehand()
           : this.getRearhand();
     }
-
-
   }
+
 
 
   /**

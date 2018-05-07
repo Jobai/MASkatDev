@@ -1,6 +1,5 @@
 package de.skat3.main;
 
-import java.util.UUID;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -28,7 +27,9 @@ public class LocalGameState {
   private Card[] trick;
   private Card[] skat;
   private int localPosition;
-  private UUID localUuid;
+  private String localUuid;
+  private int lastDealerPositon;
+  public boolean rotate;
 
   /**
    * The current state of a game.
@@ -40,7 +41,7 @@ public class LocalGameState {
     this.localPosition = SkatMain.mainController.currentLobby.currentPlayers;
     this.localClient =
         SkatMain.mainController.currentLobby.players[this.localPosition - 1].copyPlayer();
-    this.localUuid = SkatMain.mainController.currentLobby.players[this.localPosition - 1].getUuid();
+    this.localUuid = localClient.getUuid().toString();
     this.setSinglePlayerGame(singlePlayerGame);
     this.setTimerInSeconds(timerInSeconds);
     this.setTrickcount(0);
@@ -275,32 +276,144 @@ public class LocalGameState {
 
   void setDealerAndRotatePlayers(Player player) {
     Player temp;
-
+    if (player.equals(SkatMain.mainController.currentLobby.players[0])) {
+      this.lastDealerPositon = 0;
+    }
+    if (player.equals(SkatMain.mainController.currentLobby.players[1])) {
+      this.lastDealerPositon = 1;
+    }
+    if (player.equals(SkatMain.mainController.currentLobby.players[2])) {
+      this.lastDealerPositon = 2;
+    }
+    if (player.equals(SkatMain.mainController.currentLobby.players[3])) {
+      this.lastDealerPositon = 3;
+    }
     if (player.equals(this.getLocalClient())) {
       temp = this.getDealer();
       this.dealer = this.localClient;
       this.localClient = temp;
+      return;
     }
     if (player.equals(this.getEnemyOne())) {
       temp = this.getDealer();
       this.dealer = this.enemyOne;
       this.enemyOne = this.enemyTwo;
-      this.enemyTwo = dealer;
+      this.enemyTwo = temp;
+      return;
     }
     if (player.equals(this.getEnemyTwo())) {
       temp = this.getDealer();
       this.dealer = this.getEnemyTwo();
       this.enemyTwo = temp;
+      return;
     }
-    System.out.println("lc: " + this.localClient.getName());
-    System.out.println("e1 " + this.getEnemyOne().getName());
-    System.out.println("e2: " + this.getEnemyTwo().getName());
-    System.out.println("D: " + this.dealer.getName());
   }
 
   void rotatePlayers() {
+    Player temp;
+    if (this.localPlayerIsDealer()) {
+      temp = this.dealer;
+      this.dealer = this.enemyOne;
+      this.enemyOne = this.enemyTwo;
+      this.enemyTwo = this.localClient;
+      this.localClient = temp;
 
+    } else {
+      switch (this.lastDealerPositon) {
+        case 0:
+          switch (this.localPosition) {
+            case 2:
+              temp = this.localClient;
+              this.localClient = this.dealer;
+              this.dealer = temp;
+              break;
+            case 3:
+              temp = this.enemyTwo;
+              this.enemyTwo = this.dealer;
+              this.dealer = temp;
+              break;
+            case 4:
+              temp = this.dealer;
+              this.dealer = this.enemyOne;
+              this.enemyOne = temp;
+              break;
+            default:
+              System.err.println("Error in rotatePlayers");
+              break;
+          }
+          break;
+        case 1:
+          switch (this.localPosition) {
+            case 1:
+              temp = this.enemyOne;
+              this.enemyOne = this.dealer;
+              this.dealer = temp;
+              break;
+            case 3:
+              temp = this.localClient;
+              this.localClient = this.dealer;
+              this.dealer = temp;
+              break;
+            case 4:
+              temp = this.enemyTwo;
+              this.enemyTwo = this.dealer;
+              this.dealer = temp;
+              break;
+            default:
+              System.err.println("Error in rotatePlayers");
+              break;
+          }
+          break;
+        case 2:
+          switch (this.localPosition) {
+            case 1:
+              temp = this.enemyTwo;
+              this.enemyTwo = this.dealer;
+              this.dealer = temp;
+              break;
+            case 2:
+              temp = this.enemyOne;
+              this.enemyOne = this.dealer;
+              this.dealer = temp;
+              break;
+            case 4:
+              temp = this.dealer;
+              this.dealer = this.localClient;
+              this.localClient = temp;
+              break;
+            default:
+              System.err.println("Error in rotatePlayers");
+              break;
+          }
+          break;
+        case 3:
+          switch (this.localPosition) {
+            case 1:
+              temp = this.dealer;
+              this.dealer = localClient;
+              this.localClient = temp;
+              break;
+            case 2:
+              temp = this.enemyTwo;
+              this.enemyTwo = this.dealer;
+              this.dealer = temp;
+              break;
+            case 3:
+              temp = this.enemyOne;
+              this.enemyOne = this.getDealer();
+              this.dealer = temp;
+              break;
+            default:
+              System.err.println("Error in rotatePlayers");
+              break;
+          }
+        default:
+          System.err.println("Error in rotatePlayers");
+          break;
+      }
+    }
 
+    this.lastDealerPositon = (this.lastDealerPositon + 1) % 3;
   }
 
   public Card[] getSkat() {
@@ -375,7 +488,7 @@ public class LocalGameState {
     if (SkatMain.mainController.currentLobby.numberOfPlayers == 3) {
       return false;
     } else {
-      return (this.localUuid.equals(this.getDealer().getUuid())) ? true : false;
+      return (this.localUuid.equals(this.getDealer().getUuid().toString())) ? true : false;
     }
   }
 
@@ -390,6 +503,21 @@ public class LocalGameState {
       this.getLocalClient().setHand(new Hand());
     }
 
+  }
+
+
+  Player getCurrentPlayer() {
+    if (this.localClient.getPosition().ordinal() == trickcount) {
+      return this.localClient;
+    }
+    if (this.enemyOne.getPosition().ordinal() == trickcount) {
+      return this.enemyOne;
+    }
+    if (this.enemyTwo.getPosition().ordinal() == trickcount) {
+      return this.enemyTwo;
+    }
+    System.err.println("No Player found");
+    return null;
   }
 }
 
