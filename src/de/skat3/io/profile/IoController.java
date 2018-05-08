@@ -51,44 +51,23 @@ public class IoController implements IoInterface {
     determineLastUsedProfile();
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.IoInterface#getLastUsedProfile()
-   */
   @Override
   public Profile getLastUsedProfile() {
     determineLastUsedProfile();
     return lastUsed;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.IoInterface#getProfileList()
-   */
   @Override
   public ArrayList<Profile> getProfileList() {
     return this.profileList;
   }
 
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.IoInterface#addProfile(de.skat3.io.profile.Profile)
-   */
   @Override
   public void addProfile(Profile profile) {
     profileList.add(profile);
     updateLastUsed(profile);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.IoInterface#deleteProfile(de.skat3.io.profile.Profile)
-   */
   @Override
   public boolean deleteProfile(Profile profile) {
     boolean deleted = profileList.remove(profile);
@@ -97,11 +76,6 @@ public class IoController implements IoInterface {
     return deleted;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.IoInterface#updateProfileStatistics(de.skat3.io.profile.Profile)
-   */
   @Override
   public void updateProfileStatistics(Profile profileToSave) throws NullPointerException {
     boolean profileFoundInProfileList = false;
@@ -122,12 +96,6 @@ public class IoController implements IoInterface {
     }
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.IoInterface#editProfile(de.skat3.io.profile.Profile, java.lang.String,
-   * javafx.scene.image.Image, java.lang.String)
-   */
   @Override
   public void editProfile(Profile profile, String name, Image image, String imageFormat) {
     Profile toEdit = null;
@@ -148,11 +116,6 @@ public class IoController implements IoInterface {
     updateLastUsed(profile);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.IoInterface#readProfile(java.util.UUID)
-   */
   @Override
   public Profile readProfile(UUID id) {
     Iterator<Profile> iter = profileList.iterator();
@@ -178,7 +141,7 @@ public class IoController implements IoInterface {
    * Calls on profile passed as a parameter setLastUsed(true) and then calls setLastUsed(false) on
    * all other profiles.
    * 
-   * @param profile is a profile to be set as current
+   * @param profile this profile is to be set as current.
    */
   public void updateLastUsed(Profile profile) {
     profile.setLastUsed(true);
@@ -232,7 +195,7 @@ public class IoController implements IoInterface {
   /**
    * Reads all profiles from json fil.e Used only to initialize profileList.
    * 
-   * @return list of all profiles
+   * @return list of all profiles.
    */
   private ArrayList<Profile> getAllProfileAsList() {
     ArrayList<Profile> list = new ArrayList<Profile>();
@@ -252,7 +215,7 @@ public class IoController implements IoInterface {
   /**
    * Converts profiles.json file to JsonArray. Used only in getAllProfilesAsList().
    * 
-   * @return JsonArray consisting of all profiles
+   * @return JsonArray consisting of all profiles.
    */
   private JsonArray convertFileToJsonArray() {
     JsonArray jsonArray = new JsonArray();

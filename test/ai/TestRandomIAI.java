@@ -8,7 +8,7 @@ import java.util.Random;
 import org.junit.Test;
 import de.skat3.ai.AiHelper;
 import de.skat3.ai.IntelligentAi;
-import de.skat3.ai.RandomAI;
+import de.skat3.ai.RandomAi;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -26,7 +26,7 @@ public class TestRandomIAI {
     for (int i = 0; i < 20; i++) {
       Profile profile = new Profile("testUser");
       Player player = new Player(profile);
-      RandomAI ai = new RandomAI();
+      RandomAi ai = new RandomAi();
 
       boolean handGameAccepted = ai.acceptHandGame();
       AdditionalMultipliers multiplier = ai.chooseAdditionalMultipliers();

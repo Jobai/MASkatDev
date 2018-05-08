@@ -142,7 +142,7 @@ public class Profile implements ProfileStatisticsInterface {
    * Creates new profile with name as parameter name and initializes all statistics variables with
    * zero.
    * 
-   * @param name name to be setted.
+   * @param name name to be set.
    */
   public Profile(String name) {
     this.name = name;
@@ -153,9 +153,9 @@ public class Profile implements ProfileStatisticsInterface {
    * Creates new profile with name as parameter name and image as parameter image and initializes
    * all statistics variables with zero.
    * 
-   * @param name name to be setted.
-   * @param image image to be setted.
-   * @param imageFormat format of the image that is to be setted.
+   * @param name name to be set.
+   * @param image image to be set.
+   * @param imageFormat format of the image that is to be set.
    */
   public Profile(String name, Image image, String imageFormat) {
     this.name = name;
@@ -186,8 +186,8 @@ public class Profile implements ProfileStatisticsInterface {
   /**
    * Sets image as JavaFX Image and encodedImage as String.
    * 
-   * @param image image to be set
-   * @param imageFormat format of the image
+   * @param image image to be set.
+   * @param imageFormat format of the image.
    */
   public void setImage(Image image, String imageFormat) {
     ImageConverter adapter = new ImageConverter();

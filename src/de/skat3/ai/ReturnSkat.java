@@ -3,10 +3,22 @@ package de.skat3.ai;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Hand;
 
+/**
+ * ReturnSkat represents a construct constisting of 10 cards - hand and 2 cards - skat. This class
+ * alows returning skat and hand in one method.
+ * 
+ * @author Kai Baumann
+ */
 public class ReturnSkat {
   Hand hand;
   Card[] skat;
 
+  /**
+   * Constructor.
+   * 
+   * @param hand represents hand of player after selecting skat.
+   * @param skat represents skat after player selected skat.
+   */
   public ReturnSkat(Hand hand, Card[] skat) {
     this.hand = new Hand(hand.cards);
     this.skat = new Card[2];
