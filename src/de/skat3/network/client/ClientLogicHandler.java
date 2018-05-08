@@ -186,14 +186,9 @@ public class ClientLogicHandler {
    * @param m network message
    */
   void gameInfoHandler(Message m) {
-    // TODO Auto-generated method stub
     System.out.println("AUFGERUFEN + Set Starthand");
     MessageCommand mc = (MessageCommand) m;
     Player pl = (Player) mc.gameState;
-    // SkatMain.lgs.setPlayer((Player) mc.gameState); // FIXME ?
-    // System.out.println(pl);
-
-
     System.out.println(pl.getHand());
     SkatMain.mainController.updatePlayer(pl);
 
@@ -298,10 +293,8 @@ public class ClientLogicHandler {
   }
 
 
+  @Deprecated
   void roundRestartHandler(Message m) {
-    // TODO Auto-generated method stub
-
-
   }
 
 

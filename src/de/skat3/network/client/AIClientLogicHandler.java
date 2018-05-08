@@ -26,7 +26,7 @@ import de.skat3.network.datatypes.MessageCommand;
  */
 
 public class AIClientLogicHandler extends ClientLogicHandler {
-  
+
   Logger logger = Logger.getLogger("de.skat3.network.AIGameClient");
   Player aiPlayer;
 
@@ -45,8 +45,8 @@ public class AIClientLogicHandler extends ClientLogicHandler {
     // TODO Auto-generated constructor stub
     super(aiGameClient);
     this.aiPlayer = player;
-    
-    
+
+
   }
 
 
@@ -59,8 +59,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void bidInfoHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.bidInfoHandler(m);
+    // do nothing
   }
 
 
@@ -89,10 +88,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void playInfoHandler(Message m) {
-    MessageCommand mc = (MessageCommand) m;
-    Card c = (Card) mc.gameState;
-    Player op = (Player) mc.originSender;
-//    SkatMain.aiController.showCardPlayed(op, c, aiPlayer);
+    // do nothing
   }
 
 
@@ -117,8 +113,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void trickInfoHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.trickInfoHandler(m);
+    // do nothing
   }
 
 
@@ -132,20 +127,12 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void roundInfoHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
-    //Round stated - start hand is set
+    // Round stated - start hand is set
     if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
       Player payloadPlayer = (Player) mc.gameState;
       logger.finer("RIH AI:" + payloadPlayer);
       SkatMain.aiController.updatePlayer(payloadPlayer, aiPlayer);
     }
-    
-    //Round ended - round results are shown. 
-    if (mc.getSubType() == CommandType.ROUND_END_INFO) {
-      Result result = (Result) mc.payload;
-//      SkatMain.aiController.showResults(result, aiPlayer);
-      // FIXME
-    }
-
   }
 
 
@@ -158,8 +145,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void matchInfoHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.matchInfoHandler(m);
+    // do nothing
   }
 
 
@@ -172,8 +158,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void gameInfoHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.gameInfoHandler(m);
+    // super.gameInfoHandler(m);
   }
 
 
@@ -204,8 +189,8 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void declarerInfoHander(Message m) {
-    // TODO Auto-generated method stub
-//   super.declarerInfoHander(m);
+
+    // do nothing
   }
 
 
@@ -218,7 +203,6 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void handRequestHandler(Message m) {
-    // TODO Auto-generated method stub
     MessageCommand mc = (MessageCommand) m;
     Player p = (Player) mc.gameState;
     SkatMain.aiController.handGameRequest(aiPlayer);
@@ -250,8 +234,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void kontraAnnouncedInfoHandler(Message m) {
-    // TODO Auto-generated method stub
-//    super.kontraAnnouncedInfoHandler(m);
+    // do nothing
   }
 
 
@@ -264,8 +247,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void reKontraAnnouncedInfoHandler(Message m) {
-    // TODO Auto-generated method stub
-//    super.reKontraAnnouncedInfoHandler(m);
+    // do nothing
   }
 
 
@@ -278,8 +260,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void kontraShowHandler(Message m) {
-    // TODO Auto-generated method stub
-//    super.kontraShowHandler(m);
+    // do nothing
   }
 
 
@@ -292,44 +273,8 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void reKontraShowHandler(Message m) {
-    // TODO Auto-generated method stub
-//    super.reKontraShowHandler(m);
+    // do nothing
   }
-
-
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.network.client.ClientLogicHandler#KontraHideHandler(de.skat3.network.datatypes.
-   * Message)
-   */
-
-
-
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.network.client.ClientLogicHandler#reKontraHideHandler(de.skat3.network.datatypes.
-   * Message)
-   */
-
-
-
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.network.client.ClientLogicHandler#roundRestartHandler(de.skat3.network.datatypes.
-   * Message)
-   */
-  @Override
-  void roundRestartHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.roundRestartHandler(m);
-  }
-
 
 
   /*
@@ -340,8 +285,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void contractInfoHandler(Message m) {
-    // TODO Auto-generated method stub
-    super.contractInfoHandler(m);
+    // do nothing
   }
 
 
