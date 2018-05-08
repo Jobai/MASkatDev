@@ -29,7 +29,7 @@ public class LocalGameState {
   private Card[] skat;
   private int localPosition;
   private int lastDealerPositon;
-  LogicAnswers currentRequestState;
+  public LogicAnswers currentRequestState;
 
   /**
    * The current state of a game.
@@ -38,7 +38,16 @@ public class LocalGameState {
    * 
    */
   public LocalGameState(int numberOfPlayers, int timerInSeconds, boolean singlePlayerGame) {
-    this.localPosition = SkatMain.mainController.currentLobby.currentPlayers;
+    for (int i = 0; i < SkatMain.mainController.currentLobby.numberOfPlayers; i++) {
+      System.out.println(i);
+      if (SkatMain.mainController.currentLobby.players[i] != null) {
+        if (SkatMain.mainController.currentLobby.players[i].getUuid()
+            .equals(SkatMain.ioController.getLastUsedProfile().getUuid())) {
+          this.localPosition = i + 1;
+        }
+        break;
+      }
+    }
     this.localClient =
         SkatMain.mainController.currentLobby.players[this.localPosition - 1].copyPlayer();
     this.setSinglePlayerGame(singlePlayerGame);
