@@ -13,7 +13,6 @@ public enum CommandType implements SubType {
   /**
    * User is informed that is last bid was illegal and he is ordered to redo.
    */
-  BID_REDO,
 
   /**
    * User is ordered to play a card.
@@ -23,10 +22,6 @@ public enum CommandType implements SubType {
    * User is informed of a played card by a different player.
    */
   PLAY_INFO,
-  /**
-   * User is informed that is last played card was illegal and he is ordered to redo.
-   */
-  PLAY_REDO,
   /**
    * User is asked if he wants to play a hand game (Take up the skat).
    */
@@ -69,8 +64,6 @@ public enum CommandType implements SubType {
   KONTRA_SHOW_OPTION_INFO,
   
   REKONTRA_SHOW_OPTION_INFO,
-  
-  ROUND_RESTART_INFO,
   
   AUCTION_WINNER_INFO,
   

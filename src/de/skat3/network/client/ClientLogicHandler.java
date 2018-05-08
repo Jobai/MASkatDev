@@ -304,5 +304,11 @@ public class ClientLogicHandler {
   }
 
 
+  void trickInfoHandler(Message m) {
+    //not used
+    
+  }
+
+
 
 }
