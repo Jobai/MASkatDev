@@ -4,7 +4,6 @@
 
 package de.skat3.network.client;
 
-import java.util.logging.Logger;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -16,6 +15,8 @@ import de.skat3.network.datatypes.MessageChat;
 import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageConnection;
 import de.skat3.network.datatypes.MessageType;
+import java.util.logging.Logger;
+
 
 /**
  * Handles all calls by the GUI and sends them to the netwokr (using the GameClient).
@@ -35,6 +36,11 @@ public class ClientLogicController {
   Logger logger = Logger.getLogger("de.skat3.network.client");
 
 
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param gameClient
+   */
   public ClientLogicController(GameClient gameClient) {
     this.gc = gameClient;
     try {
@@ -164,9 +170,8 @@ public class ClientLogicController {
   public void announceGameStarted() {
     logger.fine("START GAME SEND OUT");
     MessageCommand mc = new MessageCommand(MessageType.STATE_CHANGE, "ALL", null);
-    mc.payload = "START"; // XXX
+    mc.payload = "START";
     gc.sendToServer(mc);
-
   }
 
 }
