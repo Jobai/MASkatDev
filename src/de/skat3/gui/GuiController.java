@@ -5,7 +5,7 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Result;
 import de.skat3.gui.matchfield.GameResultViewController;
-import de.skat3.gui.matchfield.InGameControllerInterface;
+import de.skat3.gui.matchfield.InGameController;
 import de.skat3.gui.matchfield.RoundResultViewController;
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -28,7 +28,7 @@ import javafx.scene.layout.Pane;
 public class GuiController implements GuiControllerInterface {
   private Gui gui;
 
-  private InGameControllerInterface inGameController;
+  private InGameController inGameController;
 
   public Logger logger = Logger.getLogger("de.skat3.gui");
 
@@ -44,7 +44,7 @@ public class GuiController implements GuiControllerInterface {
     }
   }
 
-  public InGameControllerInterface getInGameController() {
+  public InGameController getInGameController() {
     return this.inGameController;
   }
 
