@@ -141,7 +141,7 @@ public class Lobby implements Serializable {
   public void addPlayer(Player player) {
     if (this.currentPlayers < this.numberOfPlayers) {
       for (int i = 0; i < this.numberOfPlayers; i++) {
-        if (this.players[0] == null) {
+        if (this.players[i] == null) {
           this.players[i] = player; // XXX
           this.currentPlayers++;
           if (SkatMain.mainController.numberOfPlayerProperty != null) {
