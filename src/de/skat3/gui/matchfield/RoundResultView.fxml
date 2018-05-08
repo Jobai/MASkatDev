@@ -33,7 +33,7 @@
 						</Label>
 					</children>
 				</HBox>
-				<Button fx:id="closeButton" layoutX="549.0" layoutY="25.0"
+				<Button fx:id="closeButton" layoutX="608.0" layoutY="25.0"
 					mnemonicParsing="false" style="-fx-background-color: #d60202;"
 					text="X" textFill="WHITE">
 					<font>

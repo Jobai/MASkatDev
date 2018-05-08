@@ -255,7 +255,7 @@ public class TrainingRoundInstance extends RoundInstance {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, 400,600);
+        SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, 600, 400);
       }
     });
   }

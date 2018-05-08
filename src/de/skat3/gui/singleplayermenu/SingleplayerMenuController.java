@@ -11,6 +11,7 @@ import javafx.animation.ScaleTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -81,6 +82,18 @@ public class SingleplayerMenuController {
     scoringMode.getSelectionModel().selectFirst();
     TextField scoreValue = new TextField();
     scoreValue.setText(String.valueOf(48));
+
+    scoringMode.setOnAction(new EventHandler<ActionEvent>() {
+
+      @Override
+      public void handle(ActionEvent event) {
+        if (scoringMode.getSelectionModel().getSelectedItem() == "Seeger") {
+          scoreValue.setText(String.valueOf(48));
+        } else {
+          scoreValue.setText(String.valueOf(-750));
+        }
+      }
+    });
 
     // Set the button types.
     ButtonType startGame = new ButtonType("Start", ButtonData.OK_DONE);
