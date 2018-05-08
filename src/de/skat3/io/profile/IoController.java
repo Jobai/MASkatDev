@@ -20,6 +20,10 @@ import com.google.gson.JsonParser;
 import javafx.scene.image.Image;
 
 
+/**
+ * @author Artem Zamarajev
+ *
+ */
 public class IoController implements IoInterface {
 
   private ArrayList<Profile> profileList;
@@ -27,7 +31,12 @@ public class IoController implements IoInterface {
   private static String dataFolderUrl;
   private static String jsonProfilesUrl;
 
-  // TODO change Json prod Path
+
+  /**
+   * Creates IoController and checks if the data folder and profiles.json file exist. If yes - reads
+   * information from it and initializes class attributes. Otherwise creates new data folder and
+   * profiles.json file.
+   */
   public IoController() {
     File directory = new File(".");
     try {
@@ -41,31 +50,44 @@ public class IoController implements IoInterface {
     determineLastUsedProfile();
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.IoInterface#getLastUsedProfile()
+   */
   @Override
   public Profile getLastUsedProfile() {
     determineLastUsedProfile();
     return lastUsed;
   }
 
-  public void setLastUsedProfile(Profile lastUsed) {
-    this.lastUsed = lastUsed;
-  }
-
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.IoInterface#getProfileList()
+   */
   @Override
   public ArrayList<Profile> getProfileList() {
     return this.profileList;
   }
 
-  public void setProfileList(ArrayList<Profile> profileList) {
-    this.profileList = profileList;
-  }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.IoInterface#addProfile(de.skat3.io.profile.Profile)
+   */
   @Override
   public void addProfile(Profile profile) {
     profileList.add(profile);
     updateLastUsed(profile);
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.IoInterface#deleteProfile(de.skat3.io.profile.Profile)
+   */
   @Override
   public boolean deleteProfile(Profile profile) {
     boolean deleted = profileList.remove(profile);
@@ -78,6 +100,11 @@ public class IoController implements IoInterface {
   /**
    * 
    * Throws NullPointerException if profileToSave is not in the profileList
+   */
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.IoInterface#updateProfileStatistics(de.skat3.io.profile.Profile)
    */
   @Override
   public void updateProfileStatistics(Profile profileToSave) throws NullPointerException {
@@ -108,6 +135,12 @@ public class IoController implements IoInterface {
    *
    *
    */
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.IoInterface#editProfile(de.skat3.io.profile.Profile, java.lang.String,
+   * javafx.scene.image.Image, java.lang.String)
+   */
   @Override
   public void editProfile(Profile profile, String name, Image image, String imageFormat) {
     Profile toEdit = null;
@@ -128,6 +161,11 @@ public class IoController implements IoInterface {
     updateLastUsed(profile);
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.IoInterface#readProfile(java.util.UUID)
+   */
   @Override
   public Profile readProfile(UUID id) {
     Iterator<Profile> iter = profileList.iterator();
@@ -139,6 +177,20 @@ public class IoController implements IoInterface {
       }
     }
     return null;
+  }
+
+  /**
+   * @param profileList
+   */
+  public void setProfileList(ArrayList<Profile> profileList) {
+    this.profileList = profileList;
+  }
+
+  /**
+   * @param lastUsed
+   */
+  public void setLastUsedProfile(Profile lastUsed) {
+    this.lastUsed = lastUsed;
   }
 
   /**
@@ -237,7 +289,9 @@ public class IoController implements IoInterface {
   }
 
 
-  // checks if the profiles.json exists
+  /**
+   * @return
+   */
   private boolean checkProfilesFileExistance() {
     File yourFile = new File(jsonProfilesUrl);
     boolean created = false;
@@ -282,6 +336,5 @@ public class IoController implements IoInterface {
     }
   }
 
-  // JarRsrcLoader
 }
 

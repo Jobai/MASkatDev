@@ -46,6 +46,8 @@ import javafx.scene.image.Image;
 
 /**
  * @author Artem Zamarajev
+ * 
+ *         Represents profile of a player.
  *
  */
 public class Profile implements ProfileStatisticsInterface {
@@ -633,10 +635,14 @@ public class Profile implements ProfileStatisticsInterface {
   public void initializeAllGameStatisticsVariablesWithZero() {
     playerGameTime = 0;
 
+    // Singleplayer
+
+    // Games
     singlePlayerTotalGames = 0;
     singlePlayerTotalGamesWon = 0;
     singlePlayerTotalGamesLost = 0;
 
+    // Rounds
     singlePlayerTotalRounds = 0;
     singlePlayerTotalRoundsGrand = 0;
     singlePlayerTotalRoundsNull = 0;
@@ -649,13 +655,19 @@ public class Profile implements ProfileStatisticsInterface {
     singlePlayerRoundsLostGrand = 0;
     singlePlayerRoundsLostNull = 0;
     singlePlayerRoundsLostSuit = 0;
+
+    // Score
     singlePlayerHighestScore = 0;
     singlePlayerLowestScore = 0;
 
+    // Multiplayer
+
+    // Games
     multiPlayerTotalGames = 0;
     multiPlayerTotalGamesWon = 0;
     multiPlayerTotalGamesLost = 0;
 
+    // Rounds
     multiPlayerTotalRounds = 0;
     multiPlayerTotalRoundsGrand = 0;
     multiPlayerTotalRoundsNull = 0;
@@ -668,9 +680,10 @@ public class Profile implements ProfileStatisticsInterface {
     multiPlayerRoundsLostGrand = 0;
     multiPlayerRoundsLostNull = 0;
     multiPlayerRoundsLostSuit = 0;
+
+    // Score
     multiPlayerHighestScore = 0;
     multiPlayerLowestScore = 0;
   }
-  // End of Block with Game Statistics Getters and Setters
 
 }
