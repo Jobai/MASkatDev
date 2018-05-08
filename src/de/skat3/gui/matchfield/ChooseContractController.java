@@ -145,6 +145,7 @@ public class ChooseContractController {
         cbSchneider.isSelected(), cbSchwarz.isSelected(), cbOuvert.isSelected());
     SkatMain.mainController.contractSelected(currentContract, additionalMultipliers);
 
+    SkatMain.guiController.getInGameController().matchfield.overlayController.showTimer(false);
     SkatMain.guiController.getInGameController().matchfield.overlayController.remove(this.root);
 
   }

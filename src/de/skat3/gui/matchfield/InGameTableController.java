@@ -370,6 +370,7 @@ public class InGameTableController {
         .bind(this.tableView.skatPositions[0].translateZProperty());
     this.tableView.saveSkatButton.setOnAction(e -> {
       if (this.tableView.skat[0] != null && this.tableView.skat[1] != null) {
+        SkatMain.guiController.getInGameController().matchfield.overlayController.showTimer(false);
         Card[] skat2 = new Card[2];
         skat2[0] = this.tableView.skat[0].getCard();
         skat2[1] = this.tableView.skat[1].getCard();

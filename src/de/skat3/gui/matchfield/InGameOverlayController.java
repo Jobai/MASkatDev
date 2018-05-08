@@ -407,7 +407,7 @@ public class InGameOverlayController {
 
   void setTimer(int remainingTime) {
 
-    this.timerLabel.setVisible(true);
+    this.showTimer(true);
 
     Duration finalTime = Duration.seconds(remainingTime);
 
@@ -431,7 +431,7 @@ public class InGameOverlayController {
     this.localTimer.play();
 
     this.localTimer.setOnFinished(e -> {
-      this.timerLabel.setVisible(false);
+      this.showTimer(false);
 
       switch (SkatMain.lgs.currentRequestState) {
         case BID: {
@@ -479,8 +479,6 @@ public class InGameOverlayController {
       }
     });
   }
-
-  private boolean isBidding;
 
   void showContractRequest() {
     this.contractController.checkIfHandgame();
@@ -690,6 +688,7 @@ public class InGameOverlayController {
     this.popUpController.yesButton.setText("Bid");
 
     this.popUpController.yesButton.setOnAction(e -> {
+      this.showTimer(false);
       SkatMain.mainController.localBid(true);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
@@ -698,6 +697,7 @@ public class InGameOverlayController {
     this.popUpController.noButton.setText("Pass");
 
     this.popUpController.noButton.setOnAction(e -> {
+      this.showTimer(false);
       SkatMain.mainController.localBid(false);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
@@ -740,6 +740,7 @@ public class InGameOverlayController {
     this.popUpController.yesButton.setText("Yes");
 
     this.popUpController.yesButton.setOnAction(e -> {
+      this.showTimer(false);
       isHandgame = true;
       SkatMain.mainController.handGameSelected(true);
       this.popUpController.root.setVisible(false);

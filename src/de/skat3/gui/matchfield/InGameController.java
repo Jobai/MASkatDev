@@ -220,6 +220,9 @@ public class InGameController implements InGameControllerInterface {
 
   @Override
   public void showSkatSelectionRequest() {
+    if (SkatMain.lgs.getTimerInSeconds() > 0) {
+      this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
+    }
     this.matchfield.tableView.trick.showBidingCards(false);
     this.matchfield.tableController.showSkatSelection(true);
   }
@@ -256,6 +259,9 @@ public class InGameController implements InGameControllerInterface {
 
   @Override
   public void showBidRequest(int bid) {
+    if (SkatMain.lgs.getTimerInSeconds() > 0) {
+      this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
+    }
     this.matchfield.overlayController.showBidRequest(bid);
 
   }
@@ -280,11 +286,17 @@ public class InGameController implements InGameControllerInterface {
 
   @Override
   public void showHandGameRequest() {
+    if (SkatMain.lgs.getTimerInSeconds() > 0) {
+      this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
+    }
     this.matchfield.overlayController.showHandGameRequest();
   }
 
   @Override
   public void showContractRequest() {
+    if (SkatMain.lgs.getTimerInSeconds() > 0) {
+      this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
+    }
     this.matchfield.overlayController.showContractRequest();
   }
 
