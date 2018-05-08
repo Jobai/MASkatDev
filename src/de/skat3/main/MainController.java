@@ -15,7 +15,6 @@ import de.skat3.network.server.GameServer;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
@@ -74,6 +73,8 @@ public class MainController implements MainControllerInterface {
   @Override
   public void startSingleplayerGame(boolean hardBot, boolean hardBot2, int scoringMode,
       boolean kontraRekontraEnabled) {
+    SkatMain.lgs = null;
+    SkatMain.aiController = new AiController();
     try {
       this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, scoringMode,
           kontraRekontraEnabled);
@@ -81,7 +82,6 @@ public class MainController implements MainControllerInterface {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    SkatMain.lgs = null;
     chatMessages = FXCollections.observableArrayList();
     this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.numberOfPlayers);
     this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.currentPlayers);
@@ -113,13 +113,14 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void startTrainingMode(int scenario) {
+    SkatMain.lgs = null;
+    SkatMain.aiController = new AiController();
     try {
       this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0);
     } catch (UnknownHostException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    SkatMain.lgs = null;
     chatMessages = FXCollections.observableArrayList();
     this.maxNumberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.numberOfPlayers);
     this.numberOfPlayerProperty = new SimpleDoubleProperty(this.currentLobby.currentPlayers);
@@ -152,19 +153,12 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void joinMultiplayerGame(Lobby lobby) {
+    SkatMain.aiController = new AiController();
     SkatMain.lgs = null;
     this.currentLobby = lobby;
     chatMessages = FXCollections.observableArrayList();
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     SkatMain.clc = gameClient.getClc();
-    // while (SkatMain.lgs == null) {
-    // try {
-    // TimeUnit.MILLISECONDS.sleep(10);
-    // } catch (InterruptedException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    // }
     SkatMain.guiController.goInGame();
     this.isHost = false;
 
@@ -174,6 +168,7 @@ public class MainController implements MainControllerInterface {
    * Jonas TODO.
    */
   public void directConnectMultiplayerGame(String ip) {
+    SkatMain.aiController = new AiController();
     SkatMain.lgs = null;
     Lobby lobby = new Lobby();
     Inet4Address i4;
@@ -200,7 +195,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void directConnectMultiplayerGame(String ip, String password) {
-
+    SkatMain.aiController = new AiController();
     SkatMain.lgs = null;
     Lobby lobby = new Lobby();
     lobby.password = password;
@@ -228,6 +223,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void joinMultiplayerGame(Lobby lobby, String password) {
+    SkatMain.aiController = new AiController();
     SkatMain.lgs = null;
     System.out.println("Entered password: '" + password + "'");
     this.currentLobby = lobby;
@@ -235,14 +231,6 @@ public class MainController implements MainControllerInterface {
     chatMessages = FXCollections.observableArrayList();
     this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
     SkatMain.clc = gameClient.getClc();
-    // while (SkatMain.lgs == null) {
-    // try {
-    // TimeUnit.MILLISECONDS.sleep(10);
-    // } catch (InterruptedException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    // }
     SkatMain.guiController.goInGame();
     this.isHost = false;
 
@@ -305,6 +293,7 @@ public class MainController implements MainControllerInterface {
   public void hostMultiplayerGame(String name, String password, int numberOfPlayers, int timer,
       boolean kontraRekontraEnabled, int scoringMode) throws UnknownHostException {
 
+    SkatMain.aiController = new AiController();
     SkatMain.lgs = null;
     this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, name, password,
         numberOfPlayers, timer, scoringMode, kontraRekontraEnabled);
@@ -318,14 +307,6 @@ public class MainController implements MainControllerInterface {
     this.gameClient = SkatMain.mainNetworkController.joinLocalServerAsClient();
     this.isHost = true;
     SkatMain.clc = gameClient.getClc();
-    // while (SkatMain.lgs == null) {
-    // try {
-    // TimeUnit.MILLISECONDS.sleep(10);
-    // } catch (InterruptedException e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    // }
     SkatMain.guiController.goInGame();
 
 
@@ -470,10 +451,10 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
+        System.out.println("wird aufgerufen showContract");
         SkatMain.guiController.getInGameController().showSelectionInfos(true);
       }
     });
-
   }
 
   /**

@@ -198,8 +198,8 @@ public class RoundInstance {
    * @return Returns the winner, null if no one wins.
    */
 
-  private boolean respond;
-  private Player currentBidder;
+  protected boolean respond;
+  protected Player currentBidder;
 
   public Player startBidding() throws InterruptedException {
     synchronized (lock) {
@@ -230,7 +230,7 @@ public class RoundInstance {
    * @param bid the player that asks for a bid.
    * @param respond the player that responds to the bids.
    */
-  private Player bidDuel(Player bid, Player respond) throws InterruptedException {
+  Player bidDuel(Player bid, Player respond) throws InterruptedException {
 
 
     while (this.currentBiddingValue < BiddingValues.values.length) {

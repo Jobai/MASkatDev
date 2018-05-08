@@ -165,6 +165,9 @@ public class Lobby implements Serializable {
       if (this.players[i] != null) {
         if (this.players[i].equals(player)) {
           SkatMain.lgs.removePlayer(player);
+          if (player.isBot()) {
+            SkatMain.aiController.removeBot(player);
+          }
           this.players[i] = null;
           this.currentPlayers--;
           if (SkatMain.mainController.maxNumberOfPlayerProperty != null) {
@@ -174,8 +177,13 @@ public class Lobby implements Serializable {
         }
       }
       if (i == this.numberOfPlayers - 1) {
+        if(player!=null) {
         logger.severe("Player not found: " + player);
-       
+        }else {
+          logger.severe("Player is null");
+          
+        }
+
       }
     }
   }

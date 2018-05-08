@@ -33,14 +33,120 @@ public class TrainingRoundInstance extends RoundInstance {
 
   @Override
   void startRound() throws InterruptedException {
+    if (this.scenario == 0) {
+      int startHandSize = 10;
 
-    this.initializeAuction();
-    this.setSoloAndContract();
-    this.updatePlayer();
-    this.updateEnemies();
-    slc.broadcastRoundStarted();
-    this.setStartingPlayer();
-    this.startGame();
+      // 1a)
+      this.currentPartInSkatBasics = 0;
+      this.initializeAuction();
+      this.updatePlayer();
+      this.updateEnemies();
+      this.slc.broadcastRoundStarted();
+
+      // bidding starts
+
+      this.startBidding();
+
+      // 1b)
+      this.currentPartInSkatBasics = 1;
+      this.initializeAuction();
+      this.updatePlayer();
+      this.updateEnemies();
+      this.slc.broadcastRoundStarted();
+
+      // bidding starts
+
+      this.startBidding();
+
+      // 2a)
+      this.currentPartInSkatBasics = 2;
+      this.initializeAuction();
+      this.updatePlayer();
+      this.updateEnemies();
+      this.slc.broadcastRoundStarted();
+
+      // bidding starts
+
+      this.startBidding();
+      this.startGame();
+
+
+      // 2b)
+      this.currentPartInSkatBasics = 3;
+      this.initializeAuction();
+      this.updatePlayer();
+      this.updateEnemies();
+      this.slc.broadcastRoundStarted();
+
+      // bidding starts
+
+      this.startBidding();
+      this.startGame();
+
+      // 2c
+      this.currentPartInSkatBasics = 4;
+      this.initializeAuction();
+      this.updatePlayer();
+      this.updateEnemies();
+      this.slc.broadcastRoundStarted();
+
+      // bidding starts
+
+      this.startBidding();
+      this.startGame();
+
+
+      // 3a
+      this.currentPartInSkatBasics = 5;
+      this.initializeAuction();
+      this.updatePlayer();
+      this.updateEnemies();
+      this.slc.broadcastRoundStarted();
+
+      // bidding starts
+
+      this.startBidding();
+      this.startGame();
+
+      // 3b
+      this.currentPartInSkatBasics = 5;
+      this.initializeAuction();
+      this.updatePlayer();
+      this.updateEnemies();
+      this.slc.broadcastRoundStarted();
+
+      // bidding starts
+
+      this.startBidding();
+      this.startGame();
+
+
+      // 3c
+      this.currentPartInSkatBasics = 5;
+      this.initializeAuction();
+      this.updatePlayer();
+      this.updateEnemies();
+      this.slc.broadcastRoundStarted();
+
+      // bidding starts
+
+      this.startBidding();
+      this.startGame();
+
+
+
+    } else {
+      this.initializeAuction();
+      this.setSoloAndContract();
+      this.updatePlayer();
+      this.updateEnemies();
+      slc.broadcastRoundStarted();
+      this.setStartingPlayer();
+      this.startGame();
+    }
+    
+    SkatMain.guiController.goToMenu();
+
   }
 
   /**
@@ -132,10 +238,65 @@ public class TrainingRoundInstance extends RoundInstance {
     }
   }
 
+  @Override
+  public Player startBidding() throws InterruptedException {
+    synchronized (lock) {
+      this.currentBiddingValue = 0;
+      respond = false;
+      Player currentWinner = bidDuel(this.players[1], this.players[0]);
+      respond = false;
+      currentWinner = bidDuel(this.players[2], currentWinner);
+      if (currentWinner.equals(this.players[0]) && this.currentBiddingValue == 0) {
+        this.current = LogicAnswers.BID;
+        this.currentBidder = this.players[0];
+        this.slc.callForBid(this.players[0], BiddingValues.values[this.currentBiddingValue]);
+        lock.wait();
+        if (this.bidAccepted) {
+          return this.players[0];
+        } else {
+          return null;
+        }
+      } else {
+        return currentWinner;
+      }
+    }
+  }
+
+  @Override
+  Player bidDuel(Player bid, Player respond) throws InterruptedException {
+
+
+    while (this.currentBiddingValue < BiddingValues.values.length) {
+      this.currentBidder = bid;
+      this.slc.callForBid(bid.copyPlayer(), BiddingValues.values[this.currentBiddingValue]);
+      this.current = LogicAnswers.BID;
+      lock.wait();
+      if (this.bidAccepted) {
+        this.currentBidder = respond;
+        this.slc.callForBid(respond.copyPlayer(), BiddingValues.values[this.currentBiddingValue]);
+        this.current = LogicAnswers.BID;
+        lock.wait();
+        if (this.bidAccepted) {
+          this.currentBiddingValue++;
+          continue;
+        } else {
+          this.currentBiddingValue++;
+          return bid;
+        }
+      } else {
+        return respond;
+      }
+    }
+    return bid;
+
+  }
+
+
 
   // CASES TODO ARTEM, EMRE
 
   String filePop;
+  private int currentPartInSkatBasics;
 
   private void showPopUp(int currentRound) {
     filePop = "resources/trainingPopups/";
@@ -681,6 +842,7 @@ public class TrainingRoundInstance extends RoundInstance {
       default:
         break;
     }
+    this.addtionalMultipliers = new AdditionalMultipliers();
     slc.broadcastContract(this.contract, new AdditionalMultipliers());
 
   }
@@ -739,6 +901,48 @@ public class TrainingRoundInstance extends RoundInstance {
     switch (this.scenario) {
 
       case 0:
+        switch (this.currentPartInSkatBasics) {
+          case 0:
+            Card[] playerCards = new Card[this.startHandSize];
+            playerCards[0] = new Card(Suit.HEARTS, Value.JACK);
+            playerCards[1] = new Card(Suit.DIAMONDS, Value.JACK);
+            playerCards[2] = new Card(Suit.CLUBS, Value.JACK);
+            playerCards[3] = new Card(Suit.SPADES, Value.JACK);
+            playerCards[4] = new Card(Suit.CLUBS, Value.ACE);
+            playerCards[5] = new Card(Suit.CLUBS, Value.TEN);
+            playerCards[6] = new Card(Suit.SPADES, Value.ACE);
+            playerCards[7] = new Card(Suit.SPADES, Value.TEN);
+            playerCards[8] = new Card(Suit.HEARTS, Value.SEVEN);
+            playerCards[9] = new Card(Suit.HEARTS, Value.EIGHT);
+
+
+            Card[] enemyOneCards = new Card[this.startHandSize];
+            enemyOneCards[0] = new Card(Suit.CLUBS, Value.KING);
+            enemyOneCards[1] = new Card(Suit.HEARTS, Value.TEN);
+            enemyOneCards[2] = new Card(Suit.SPADES, Value.ACE);
+            enemyOneCards[3] = new Card(Suit.SPADES, Value.JACK);
+            enemyOneCards[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
+            enemyOneCards[5] = new Card(Suit.CLUBS, Value.EIGHT);
+            enemyOneCards[6] = new Card(Suit.SPADES, Value.JACK);
+            enemyOneCards[7] = new Card(Suit.DIAMONDS, Value.SEVEN);
+            enemyOneCards[8] = new Card(Suit.CLUBS, Value.EIGHT);
+            enemyOneCards[9] = new Card(Suit.CLUBS, Value.EIGHT);
+
+
+
+            Card[] enemyTwoCards = new Card[this.startHandSize];
+            enemyTwoCards[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
+            enemyTwoCards[1] = new Card(Suit.HEARTS, Value.QUEEN);
+            enemyTwoCards[2] = new Card(Suit.DIAMONDS, Value.TEN);
+            enemyTwoCards[3] = new Card(Suit.CLUBS, Value.NINE);
+            enemyTwoCards[4] = new Card(Suit.DIAMONDS, Value.ACE);
+            enemyTwoCards[5] = new Card(Suit.CLUBS, Value.ACE);
+
+            this.players[0].setHand(new Hand(playerCards));
+            this.players[1].setHand(new Hand(enemyOneCards));
+            this.players[2].setHand(new Hand(enemyTwoCards));
+            break;
+        } // TODO
         break;
 
       case 1:
