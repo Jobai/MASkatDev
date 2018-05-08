@@ -173,16 +173,36 @@ public class Card implements Serializable {
       case SPADES:
       case CLUBS:
       case GRAND:
-        if (this.suit == card.suit) {
-          return (this.value.ordinal() > card.value.ordinal()) ? true : false;
-        } else {
-          if (this.isJack() && card.isJack()) {
-            return (this.suit.ordinal() > card.suit.ordinal()) ? true : false;
-          }
-          if (this.isTrump(contract)) {
-            return true;
+
+
+
+        if (this.isTrump(contract)) {
+          if (card.isTrump(contract)) {
+            if (this.isJack()) {
+              if (card.isJack()) {
+                return (this.suit.ordinal() > card.suit.ordinal()) ? true : false;
+              } else {
+                return true;
+              }
+            } else {
+              if (card.isJack()) {
+                return false;
+              } else {
+                return (this.value.ordinal() > card.value.ordinal()) ? true : false;
+              }
+            }
           } else {
+            return true;
+          }
+        } else {
+          if (card.isTrump(contract)) {
             return false;
+          } else {
+            if (this.suit == card.suit) {
+              return (this.value.ordinal() > card.value.ordinal()) ? true : false;
+            } else {
+              return false;
+            }
           }
         }
       case NULL:
