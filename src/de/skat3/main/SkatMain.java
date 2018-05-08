@@ -31,9 +31,8 @@ public class SkatMain {
   public static void main(String[] args) {
     Thread.currentThread().setName("MainThread");
     SkatMain.masterLogger = new MasterLogger();
-    // SkatMain.soundPlayer =
-    // (new SoundPlayer()).start();
-    // SkatMain.soundVolumeUtil = new SoundVolumeUtil();
+    SkatMain.soundPlayer = new SoundPlayer();
+    SkatMain.soundVolumeUtil = new SoundVolumeUtil();
     SkatMain.mainController = new MainController();
     SkatMain.guiController = new GuiController();
     SkatMain.ioController = new IoController();

@@ -1,65 +1,92 @@
 package de.skat3.io;
 
-import jaco.mp3.player.MP3Player;
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
+import java.io.InputStream;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.advanced.AdvancedPlayer;
+
 
 /**
  * Utility class that can play sounds an background music.
  * 
- * @author Jonas Bauer
+ * @author Artem Zamarajev, Jonas Bauer
  *
  */
+
 public class SoundPlayer {
 
-  private MP3Player backgroundMusicPlayer;
-  private MP3Player victorySoundPlayer;
-  private MP3Player cardDealtSoundPlayer;
+  private AdvancedPlayer backgroundMusicPlayer;
+  private AdvancedPlayer victorySoundPlayer;
+  private AdvancedPlayer cardDealtSoundPlayer;
+  private boolean backgroundMusic = false;
+  private InputStream backgroundMusicStream;
 
-  /**
-   * Initializes the mp3 players.
-   * 
-   * @author Jonas Bauer
-   */
-  public SoundPlayer() {
-    File backgroundMusicFile = new File("resources/music/Peaceful_-_Countryside.mp3");
-    File victorySoundFile = null;
-    File cardDealtSoundFile = null;
-    try {
-      backgroundMusicPlayer = new MP3Player(backgroundMusicFile);
-      victorySoundPlayer = new MP3Player(victorySoundFile);
-      cardDealtSoundPlayer = new MP3Player(cardDealtSoundFile);
-    } catch (java.lang.RuntimeException e) {
-      System.err.println("SOUND FILES NOT FOUND!");
-    }
-
-
-    backgroundMusicPlayer.setRepeat(true);
-
-
-  }
 
   public void playBackgroundMusic() {
-    backgroundMusicPlayer.play();
+    backgroundMusic = true;
+
+    new Thread() {
+      public void run() {
+        try {
+          while (backgroundMusic) {
+            backgroundMusicStream =
+                SoundPlayer.class.getResourceAsStream("/music" + "/Peaceful_-_Countryside.mp3");
+            System.out.println(backgroundMusicStream);
+            backgroundMusicPlayer = new AdvancedPlayer(backgroundMusicStream);
+
+            backgroundMusicPlayer.play();
+
+            // In case the player was stopped meanwhile
+            synchronized (this) {
+              if (backgroundMusicPlayer != null) {
+                backgroundMusicPlayer.close();
+                backgroundMusicPlayer = null;
+              }
+            }
+          }
+        } catch (JavaLayerException jle) {
+          jle.printStackTrace();
+        }
+      }
+    }.start();
   }
 
   public void playVictorySound() {
-    victorySoundPlayer.play();
+    try {
+      InputStream victorySoundStream = SoundPlayer.class.getClassLoader()
+          .getResourceAsStream(File.separator + "music" + File.separator + "winSound.mp3");
+      victorySoundPlayer = new AdvancedPlayer(victorySoundStream);
+      victorySoundPlayer.play();
+      victorySoundPlayer.stop();
+      victorySoundStream.close();
+    } catch (JavaLayerException | IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public void playCardDealtSound() {
-    cardDealtSoundPlayer.play();
+    try {
+      InputStream dealtCardStream = SoundPlayer.class.getClassLoader()
+          .getResourceAsStream(File.separator + "music" + File.separator + "dealtCard.mp3");
+      cardDealtSoundPlayer = new AdvancedPlayer(dealtCardStream);
+      cardDealtSoundPlayer.play();
+      cardDealtSoundPlayer.stop();
+      dealtCardStream.close();
+    } catch (JavaLayerException | IOException e) {
+      e.printStackTrace();
+    }
   }
 
-  public void stopBackgroundMusic() {
-    backgroundMusicPlayer.stop();
+  public synchronized void stopBackgroundMusic() {
+    if (backgroundMusic) {
+      if (backgroundMusicPlayer != null) {
+        backgroundMusicPlayer.close();
+        backgroundMusicPlayer = null;
+      }
+      backgroundMusic = false;
+    }
   }
 
-  public static void main(String[] args) {
-    SoundPlayer sp = new SoundPlayer();
-    sp.playBackgroundMusic();
-    while (true);
-  }
 
 }

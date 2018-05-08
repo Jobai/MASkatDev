@@ -44,6 +44,10 @@ import com.google.gson.annotations.SerializedName;
 import javafx.scene.image.Image;
 
 
+/**
+ * @author Artem Zamarajev
+ *
+ */
 public class Profile implements ProfileStatisticsInterface {
   private transient Image image;
 
@@ -133,11 +137,25 @@ public class Profile implements ProfileStatisticsInterface {
   @SerializedName(JSON_MULTIPLAYER_LOWEST_SCORE)
   int multiPlayerLowestScore;
 
+  /**
+   * Creates new profile with name as parameter name and initializes all statistics variables with
+   * zero.
+   * 
+   * @param name name to be setted.
+   */
   public Profile(String name) {
     this.name = name;
     initializeAllGameStatisticsVariablesWithZero();
   }
 
+  /**
+   * Creates new profile with name as parameter name and image as parameter image and initializes
+   * all statistics variables with zero.
+   * 
+   * @param name name to be setted.
+   * @param image image to be setted.
+   * @param imageFormat format of the image that is to be setted.
+   */
   public Profile(String name, Image image, String imageFormat) {
     this.name = name;
     this.setImage(image, imageFormat);

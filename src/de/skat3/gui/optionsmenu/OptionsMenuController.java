@@ -1,19 +1,13 @@
 package de.skat3.gui.optionsmenu;
 
-import java.io.File;
 import de.skat3.io.SoundVolumeUtil;
 import de.skat3.main.SkatMain;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
-import javafx.util.Duration;
 
 /**
  * Class to control the corresponding view file.
@@ -82,13 +76,13 @@ public class OptionsMenuController {
 
     if (btnMusic.isSelected()) {
       // Music on
-      btnMusic.setText("OFF");
-      SkatMain.soundPlayer.stopBackgroundMusic();
+      btnMusic.setText("ON");
+      SkatMain.soundPlayer.playBackgroundMusic();
 
     } else {
       // Music off
-      btnMusic.setText("ON");
-      SkatMain.soundPlayer.playBackgroundMusic();
+      btnMusic.setText("OFF");
+      SkatMain.soundPlayer.stopBackgroundMusic();
 
     }
 
