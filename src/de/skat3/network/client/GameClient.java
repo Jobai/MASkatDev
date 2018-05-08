@@ -191,7 +191,7 @@ public class GameClient {
         this.handleCommandAction(m, st);
         break;
       case STATE_CHANGE:
-        this.handleStateChange(m, st);
+        // do nothing
         break;
       default:
         logger.severe("Message Type not handeld!  " + mt + " --- " + st);
@@ -207,17 +207,9 @@ public class GameClient {
    * @param m the network message
    */
   void handleConnectionInfo(Message m) {
-    // TODO Auto-generated method stub
     MessageConnection mc = (MessageConnection) m;
-
     logger.info("removed disconnected player");
     SkatMain.mainController.currentLobby.removePlayer(mc.disconnectingPlayer);
-    updateLGS();
-
-  }
-
-
-  private void updateLGS() {
 
   }
 
@@ -229,33 +221,16 @@ public class GameClient {
    * @author Jonas Bauer
    * @param m the network message
    */
-  void handleOpendConnection(Message m) { // XXX
+  void handleOpendConnection(Message m) {
 
     Player p = (Player) m.payload;
     Lobby l = (Lobby) m.secondPayload;
     logger.info("Player" + p.getUuid() + "joined and was added to local Lobby!");
     SkatMain.mainController.currentLobby = l; // Lobby is set (needed for direct connect)
     SkatMain.mainController.currentLobby.addPlayer(p);
-    updateLGS();
 
   }
 
-  /**
-   * 
-   * @author Jonas Bauer
-   * @param m
-   * @param st
-   */
-  void handleStateChange(Message m, SubType st) {
-
-    String state = (String) m.payload;
-    logger.fine("GAME STATE CHANGE REGISTERED:" + state);
-    if (state.equals("START")) {
-      SkatMain.mainController.initializeLocalGameState();
-      logger.fine("SET GAME STATE");
-    }
-
-  }
 
   void handleCommandAction(Message m, SubType st) {
     CommandType ct = (CommandType) st;
@@ -265,17 +240,11 @@ public class GameClient {
       case BID_INFO:
         clh.bidInfoHandler(m);
         break;
-      case BID_REDO:
-        clh.bidRedoHandler(m);
-        break;
       case BID_REQUEST:
         clh.bidRequestHandler(m);
         break;
       case PLAY_INFO:
         clh.playInfoHandler(m);
-        break;
-      case PLAY_REDO:
-        clh.playRedoHandler(m);
         break;
       case PLAY_REQUEST:
         clh.playRequestHandler(m);
@@ -315,9 +284,6 @@ public class GameClient {
         break;
       case REKONTRA_SHOW_OPTION_INFO:
         clh.reKontraShowHandler(m);
-        break;
-      case ROUND_RESTART_INFO:
-        clh.roundRestartHandler(m);
         break;
       case ROUND_GENERAL_INFO:
         clh.roundInfoHandler(m);
