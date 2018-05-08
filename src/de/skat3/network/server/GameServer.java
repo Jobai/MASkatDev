@@ -187,7 +187,7 @@ public class GameServer extends Thread {
     synchronized (threadList) {
       for (Object gameServerProtocol : gspa) {
 
-        ((GameServerProtocol) gameServerProtocol).kickConnection(null);
+        ((GameServerProtocol) gameServerProtocol).kickConnection("SHUTDOWN");
       }
     }
   }

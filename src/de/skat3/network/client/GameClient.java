@@ -406,16 +406,24 @@ public class GameClient {
           SkatMain.mainController.showCustomAlertPormpt("Lobby is full!",
               "Sorry, the selected Lobby is already full. Please select another lobby.");
           break;
-        default:
+        case "KICK":
           SkatMain.mainController.showCustomAlertPormpt("You got kicked!",
               "The server ended you connection. ");
           break;
+        case "SHUTDOWN":
+          SkatMain.mainController.showCustomAlertPormpt("Server is shuttind down!",
+              "The game server is shutting down and closed your connection. \n"
+                  + "Please chose a different server");
+          break;
+        default:
+          SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
+              "The game server closed your connection. \n"
+                  + "You can try again later or chose a different server");
       }
-      SkatMain.mainController.showWrongPassword();
     } else {
       if (!closedByClient) {
-        SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
-            "The game server closed your connection. \n"
+        SkatMain.mainController.showCustomAlertPormpt("Lost connection to the Server!",
+            "The connection to the server failed suddenly.\n"
                 + "You can try again later or chose a different server");
       }
     }
