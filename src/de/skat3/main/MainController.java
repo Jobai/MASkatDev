@@ -5,6 +5,7 @@ import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Hand;
+import de.skat3.gamelogic.LogicAnswers;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
@@ -393,6 +394,7 @@ public class MainController implements MainControllerInterface {
    */
   @Override
   public void bidRequest(int bid) {
+    SkatMain.lgs.currentRequestState = LogicAnswers.BID;
     this.blinkAlert();
     Platform.runLater(new Runnable() {
 
@@ -419,6 +421,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void handGameRequest() {
+    SkatMain.lgs.currentRequestState = LogicAnswers.HANDGAME;
     Platform.runLater(new Runnable() {
 
       @Override
@@ -434,6 +437,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void contractRequest() {
+    SkatMain.lgs.currentRequestState = LogicAnswers.CONTRACT;
     Platform.runLater(new Runnable() {
 
       @Override
@@ -475,6 +479,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void playCardRequest() {
+    SkatMain.lgs.currentRequestState = LogicAnswers.CARD;
     this.blinkAlert();
     Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {
@@ -612,6 +617,7 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void selectSkatRequest(Card[] skat) {
+    SkatMain.lgs.currentRequestState = LogicAnswers.SKAT;
     SkatMain.lgs.setSkat(skat);
     Platform.runLater(new Runnable() {
 

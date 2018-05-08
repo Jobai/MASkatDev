@@ -4,6 +4,7 @@ import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
+import de.skat3.gamelogic.LogicAnswers;
 import de.skat3.gamelogic.Player;
 
 /**
@@ -28,6 +29,7 @@ public class LocalGameState {
   private Card[] skat;
   private int localPosition;
   private int lastDealerPositon;
+  LogicAnswers currentRequestState;
 
   /**
    * The current state of a game.

@@ -139,15 +139,19 @@ public class Lobby implements Serializable {
   }
 
   public void addPlayer(Player player) {
-    if (this.currentPlayers < this.numberOfPlayers && this.players[currentPlayers] == null) {
-      this.players[currentPlayers] = player; // XXX
-      this.currentPlayers++;
-      if (SkatMain.mainController.numberOfPlayerProperty != null) {
-        SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
+    if (this.currentPlayers < this.numberOfPlayers) {
+      for (int i = 0; i < this.numberOfPlayers; i++) {
+        if (this.players[0] == null) {
+          this.players[i] = player; // XXX
+          this.currentPlayers++;
+          if (SkatMain.mainController.numberOfPlayerProperty != null) {
+            SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
+          }
+          System.out.println("Player added " + player + " (" + this.currentPlayers + "/"
+              + this.numberOfPlayers + ")");
+          break;
+        }
       }
-      System.out.println(
-          "Player added " + player + " (" + this.currentPlayers + "/" + this.numberOfPlayers + ")");
-
       if (SkatMain.lgs == null) {
         SkatMain.mainController.setLgs();
       }
@@ -177,13 +181,11 @@ public class Lobby implements Serializable {
         }
       }
       if (i == this.numberOfPlayers - 1) {
-        if(player!=null) {
-        logger.severe("Player not found: " + player);
-        }else {
-          logger.severe("Player is null");
-          
+        try {
+          logger.severe("Player not found: " + player);
+        } catch (Exception e) {
+          System.out.println("Error in remove Player, Logger or Player null");
         }
-
       }
     }
   }
