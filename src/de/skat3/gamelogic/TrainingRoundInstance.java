@@ -140,7 +140,9 @@ public class TrainingRoundInstance extends RoundInstance {
   private void showPopUp(int currentRound) {
     filePop = "resources/trainingPopups/";
     switch (this.scenario) {
-      case 0:
+		case 0:
+			break;
+		case 1:
         switch (currentRound) {
           case 0:
             filePop += "/Skat Strategies/Scenario1/Scenario1_Popup1.html";
@@ -161,7 +163,7 @@ public class TrainingRoundInstance extends RoundInstance {
             break;
         }
         break;
-      case 1:
+		case 2:
         switch (currentRound) {
           case 0:
             filePop += "/Skat Strategies/Scenario2/Scenario2_Popup1.html";
@@ -180,7 +182,7 @@ public class TrainingRoundInstance extends RoundInstance {
             break;
         }
         break;
-      case 2:
+		case 3:
         switch (currentRound) {
           case 0:
             filePop += "/Skat Strategies/Scenario3/Scenario3_Popup1.html";
@@ -202,7 +204,7 @@ public class TrainingRoundInstance extends RoundInstance {
             break;
         }
         break;
-      case 3:
+		case 4:
         switch (currentRound) {
           case 0:
             filePop += "/Skat Strategies/Scenario4/Scenario4_Popup1.html";
@@ -224,7 +226,7 @@ public class TrainingRoundInstance extends RoundInstance {
             break;
         }
         break;
-      case 4:
+		case 5:
         switch (currentRound) {
           case 0:
             filePop += "/Skat Strategies/Scenario5/Scenario5_Popup1.html";
@@ -245,26 +247,9 @@ public class TrainingRoundInstance extends RoundInstance {
             break;
         }
         break;
-      case 5:
-        switch (currentRound) {
-          case 0:
-            break;
-          case 1:
-            break;
-          case 2:
-            break;
-          case 3:
-            break;
-          case 4:
-            break;
-          case 5:
-            break;
-          default:
-            break;
-        }
-        break;
-      default:
-        break;
+
+		default:
+			break;
 
     }
     Platform.runLater(new Runnable() {
