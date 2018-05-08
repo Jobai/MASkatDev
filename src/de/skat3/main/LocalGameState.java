@@ -39,13 +39,12 @@ public class LocalGameState {
    */
   public LocalGameState(int numberOfPlayers, int timerInSeconds, boolean singlePlayerGame) {
     for (int i = 0; i < SkatMain.mainController.currentLobby.numberOfPlayers; i++) {
-      System.out.println(i);
       if (SkatMain.mainController.currentLobby.players[i] != null) {
         if (SkatMain.mainController.currentLobby.players[i].getUuid()
             .equals(SkatMain.ioController.getLastUsedProfile().getUuid())) {
           this.localPosition = i + 1;
+          break;
         }
-        break;
       }
     }
     this.localClient =
