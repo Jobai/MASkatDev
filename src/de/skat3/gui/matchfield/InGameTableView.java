@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -33,6 +34,8 @@ public class InGameTableView {
   GuiHand rightHand;
 
   Parent[] skatPositions;
+  GuiCard[] skat;
+  Button saveSkatButton;
 
   public InGameTableView(Matchfield m) {
     this.matchfield = m;

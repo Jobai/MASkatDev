@@ -211,20 +211,47 @@ public class InGameTableController {
   /**
    * Shows the skat selection.
    */
-  void showSkatSelection() {
-    GuiCard[] skat = new GuiCard[2];
+  void showSkatSelection(boolean show) {
+    if (this.tableView.skat != null && this.tableView.skat[0] != null
+        && this.tableView.skat[1] != null && this.tableView.saveSkatButton != null) {
 
-    skat[0] = new GuiCard(SkatMain.lgs.getSkat()[0]);
-    skat[0].translateXProperty().bind(this.tableView.skatPositions[0].translateXProperty());
-    skat[0].translateYProperty().bind(this.tableView.skatPositions[0].translateYProperty());
-    skat[0].translateZProperty().bind(this.tableView.skatPositions[0].translateZProperty());
+      if (show) {
+        return;
+      } else {
+        this.tableView.table.getChildren().removeAll(this.tableView.saveSkatButton,
+            this.tableView.skat[0], this.tableView.skat[1]);
+        this.tableView.skat = null;
+        this.tableView.saveSkatButton = null;
+        this.tableView.playerHand.clear();
+        this.tableView.playerHand.addAll(SkatMain.lgs.getLocalClient().getHand().getCards(), false);
+      }
 
-    skat[1] = new GuiCard(SkatMain.lgs.getSkat()[1]);
-    skat[1].translateXProperty().bind(this.tableView.skatPositions[1].translateXProperty());
-    skat[1].translateYProperty().bind(this.tableView.skatPositions[1].translateYProperty());
-    skat[1].translateZProperty().bind(this.tableView.skatPositions[1].translateZProperty());
 
-    this.tableView.table.getChildren().addAll(skat);
+    } else {
+      if (!show) {
+        return;
+      }
+    }
+
+    this.tableView.skat = new GuiCard[2];
+
+    this.tableView.skat[0] = new GuiCard(SkatMain.lgs.getSkat()[0]);
+    this.tableView.skat[0].translateXProperty()
+        .bind(this.tableView.skatPositions[0].translateXProperty());
+    this.tableView.skat[0].translateYProperty()
+        .bind(this.tableView.skatPositions[0].translateYProperty());
+    this.tableView.skat[0].translateZProperty()
+        .bind(this.tableView.skatPositions[0].translateZProperty());
+
+    this.tableView.skat[1] = new GuiCard(SkatMain.lgs.getSkat()[1]);
+    this.tableView.skat[1].translateXProperty()
+        .bind(this.tableView.skatPositions[1].translateXProperty());
+    this.tableView.skat[1].translateYProperty()
+        .bind(this.tableView.skatPositions[1].translateYProperty());
+    this.tableView.skat[1].translateZProperty()
+        .bind(this.tableView.skatPositions[1].translateZProperty());
+
+    this.tableView.table.getChildren().addAll(this.tableView.skat);
 
     // Raise and lower cards when the cursor is hovering over them.
     this.showCardAnimationInLCHand(true);
@@ -238,9 +265,9 @@ public class InGameTableController {
       Node node = event.getPickResult().getIntersectedNode();
       try {
         // add skat card 1 to the local hand
-        if (node.getParent().equals(skat[0])) {
+        if (node.getParent().equals(this.tableView.skat[0])) {
           GuiCard card = (GuiCard) node.getParent();
-          skat[0] = null;
+          this.tableView.skat[0] = null;
           this.tableView.table.getChildren().remove(card);
           this.tableView.playerHand.add(card, true);
           if (this.selectedCard.equals(card)) {
@@ -250,9 +277,9 @@ public class InGameTableController {
           return;
         }
         // add skat card 2 to the local hand
-        if (node.getParent().equals(skat[1])) {
+        if (node.getParent().equals(this.tableView.skat[1])) {
           GuiCard card = (GuiCard) node.getParent();
-          skat[1] = null;
+          this.tableView.skat[1] = null;
           this.tableView.table.getChildren().remove(card);
           this.tableView.playerHand.add(card, true);
           if (this.selectedCard.equals(card)) {
@@ -267,23 +294,23 @@ public class InGameTableController {
             this.selectedCard = null;
           }
           // is adding the selected card from your hand to the skat in postion 1.
-          if (skat[0] == null) {
-            skat[0] = card;
+          if (this.tableView.skat[0] == null) {
+            this.tableView.skat[0] = card;
             this.tableView.playerHand.moveCardAndRemove(card, this.tableView.skatPositions[0],
                 this.tableView.table);
 
             Timeline tl = new Timeline();
             tl.getKeyFrames().add(new KeyFrame(Matchfield.animationTime, e -> {
               try {
-                skat[0].translateXProperty().unbind();
-                skat[0].translateYProperty().unbind();
-                skat[0].translateZProperty().unbind();
-                skat[0].getTransforms().clear();
-                skat[0].translateXProperty()
+                this.tableView.skat[0].translateXProperty().unbind();
+                this.tableView.skat[0].translateYProperty().unbind();
+                this.tableView.skat[0].translateZProperty().unbind();
+                this.tableView.skat[0].getTransforms().clear();
+                this.tableView.skat[0].translateXProperty()
                     .bind(this.tableView.skatPositions[0].translateXProperty());
-                skat[0].translateYProperty()
+                this.tableView.skat[0].translateYProperty()
                     .bind(this.tableView.skatPositions[0].translateYProperty());
-                skat[0].translateZProperty()
+                this.tableView.skat[0].translateZProperty()
                     .bind(this.tableView.skatPositions[0].translateZProperty());
               } catch (NullPointerException nullE) {
                 // The Card is clicked on before it is placed on the right spot.
@@ -294,22 +321,22 @@ public class InGameTableController {
             return;
           }
           // is adding the selected card from your hand to the skat in postion 2.
-          if (skat[1] == null) {
-            skat[1] = card;
+          if (this.tableView.skat[1] == null) {
+            this.tableView.skat[1] = card;
             this.tableView.playerHand.moveCardAndRemove(card, this.tableView.skatPositions[1],
                 this.tableView.table);
             Timeline tl = new Timeline();
             tl.getKeyFrames().add(new KeyFrame(Matchfield.animationTime, e -> {
               try {
-                skat[1].translateXProperty().unbind();
-                skat[1].translateYProperty().unbind();
-                skat[1].translateZProperty().unbind();
-                skat[1].getTransforms().clear();
-                skat[1].translateXProperty()
+                this.tableView.skat[1].translateXProperty().unbind();
+                this.tableView.skat[1].translateYProperty().unbind();
+                this.tableView.skat[1].translateZProperty().unbind();
+                this.tableView.skat[1].getTransforms().clear();
+                this.tableView.skat[1].translateXProperty()
                     .bind(this.tableView.skatPositions[1].translateXProperty());
-                skat[1].translateYProperty()
+                this.tableView.skat[1].translateYProperty()
                     .bind(this.tableView.skatPositions[1].translateYProperty());
-                skat[1].translateZProperty()
+                this.tableView.skat[1].translateZProperty()
                     .bind(this.tableView.skatPositions[1].translateZProperty());
               } catch (NullPointerException nullE) {
                 // The Card is clicked on before it is placed on the right spot.
@@ -328,20 +355,24 @@ public class InGameTableController {
     });
 
     // Button the Save your selection
-    Button button = new Button("Save");
-    button.setFont(Font.font(40));
-    button.setPrefSize(170, 100);
-    button.setTextFill(Color.WHITE);
-    button.setStyle("-fx-background-color: #d60202; -fx-background-radius: 30; "
-        + "-fx-border-color: #404040; -fx-border-radius: 30;");
-    button.translateXProperty().bind(this.tableView.skatPositions[0].translateXProperty().add(215));
-    button.translateYProperty().bind(this.tableView.skatPositions[0].translateYProperty().add(100));
-    button.translateZProperty().bind(this.tableView.skatPositions[0].translateZProperty());
-    button.setOnAction(e -> {
-      if (skat[0] != null && skat[1] != null) {
+    this.tableView.saveSkatButton = new Button("Save");
+    this.tableView.saveSkatButton.setFont(Font.font(40));
+    this.tableView.saveSkatButton.setPrefSize(170, 100);
+    this.tableView.saveSkatButton.setTextFill(Color.WHITE);
+    this.tableView.saveSkatButton
+        .setStyle("-fx-background-color: #d60202; -fx-background-radius: 30; "
+            + "-fx-border-color: #404040; -fx-border-radius: 30;");
+    this.tableView.saveSkatButton.translateXProperty()
+        .bind(this.tableView.skatPositions[0].translateXProperty().add(215));
+    this.tableView.saveSkatButton.translateYProperty()
+        .bind(this.tableView.skatPositions[0].translateYProperty().add(100));
+    this.tableView.saveSkatButton.translateZProperty()
+        .bind(this.tableView.skatPositions[0].translateZProperty());
+    this.tableView.saveSkatButton.setOnAction(e -> {
+      if (this.tableView.skat[0] != null && this.tableView.skat[1] != null) {
         Card[] skat2 = new Card[2];
-        skat2[0] = skat[0].getCard();
-        skat2[1] = skat[1].getCard();
+        skat2[0] = this.tableView.skat[0].getCard();
+        skat2[1] = this.tableView.skat[1].getCard();
 
         Card[] cards = new Card[this.tableView.playerHand.getCards().size()];
         int j = 0;
@@ -350,11 +381,12 @@ public class InGameTableController {
         }
         Hand hand = new Hand(cards);
         SkatMain.mainController.skatSelected(hand, skat2);
-        this.tableView.table.getChildren().removeAll(button, skat[0], skat[1]);
+        this.tableView.table.getChildren().removeAll(this.tableView.saveSkatButton,
+            this.tableView.skat[0], this.tableView.skat[1]);
         SkatMain.guiController.getInGameController().showMakeAMoveRequest(false);
       }
     });
-    this.tableView.table.getChildren().add(button);
+    this.tableView.table.getChildren().add(this.tableView.saveSkatButton);
 
   }
 

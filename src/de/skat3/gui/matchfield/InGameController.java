@@ -221,7 +221,7 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void showSkatSelectionRequest() {
     this.matchfield.tableView.trick.showBidingCards(false);
-    this.matchfield.tableController.showSkatSelection();
+    this.matchfield.tableController.showSkatSelection(true);
   }
 
   /*

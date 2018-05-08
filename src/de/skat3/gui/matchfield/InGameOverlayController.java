@@ -401,6 +401,7 @@ public class InGameOverlayController {
         this.timerLabel.setText("");
       }
     }
+    this.timerLabel.setText("");
     this.timerLabel.setVisible(value);
   }
 
@@ -431,26 +432,55 @@ public class InGameOverlayController {
 
     this.localTimer.setOnFinished(e -> {
       this.timerLabel.setVisible(false);
-      if (SkatMain.guiController.getInGameController().matchfield.tableController.isPlaying) {
-        Random rand = new Random();
-        int i;
-        ArrayList<Card> temp = new ArrayList<Card>();
-        for (Card c : SkatMain.lgs.getLocalHand().cards) {
-          if (c.isPlayable()) {
-            temp.add(c.copy());
-          }
+
+      switch (SkatMain.lgs.currentRequestState) {
+        case BID: {
+          this.popUpController.root.setVisible(false);
+          this.contractController.root.setVisible(false);
+          SkatMain.mainController.localBid(false);
+          break;
         }
-        i = rand.nextInt(temp.size());
+        case CARD:
+          if (SkatMain.guiController.getInGameController().matchfield.tableController.isPlaying) {
+            Random rand = new Random();
+            int i;
+            ArrayList<Card> temp = new ArrayList<Card>();
+            for (Card c : SkatMain.lgs.getLocalHand().cards) {
+              if (c.isPlayable()) {
+                temp.add(c.copy());
+              }
+            }
+            i = rand.nextInt(temp.size());
 
-        GuiCard card = SkatMain.guiController.getInGameController().matchfield.tableView.playerHand
-            .getGuiCard(temp.get(i));
+            GuiCard card =
+                SkatMain.guiController.getInGameController().matchfield.tableView.playerHand
+                    .getGuiCard(temp.get(i));
 
-        SkatMain.guiController.getInGameController().matchfield.tableController.playCard(card);
+            SkatMain.guiController.getInGameController().matchfield.tableController.playCard(card);
+          }
+          break;
+        case CONTRACT:
+          this.contractController.root.setVisible(false);
+          SkatMain.mainController.contractSelected(
+              Contract.values()[(int) (Math.random() * (Contract.length - 2))],
+              new AdditionalMultipliers());
+          break;
+        case HANDGAME:
+          this.popUpController.root.setVisible(false);
+          SkatMain.mainController.handGameSelected(true);
+          break;
+        case SKAT:
+          SkatMain.guiController.getInGameController().matchfield.tableController
+              .showSkatSelection(false);
+          SkatMain.mainController.skatSelected(SkatMain.lgs.getLocalHand(), SkatMain.lgs.getSkat());
+          break;
+        default:
+          break;
       }
-
     });
-
   }
+
+  private boolean isBidding;
 
   void showContractRequest() {
     this.contractController.checkIfHandgame();

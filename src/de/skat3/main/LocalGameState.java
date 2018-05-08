@@ -29,7 +29,7 @@ public class LocalGameState {
   private Card[] skat;
   private int localPosition;
   private int lastDealerPositon;
-  LogicAnswers currentRequestState;
+  public LogicAnswers currentRequestState;
 
   /**
    * The current state of a game.
