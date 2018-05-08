@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.UUID;
 import javafx.scene.image.Image;
 
+/**
+ * IoInterface declares methods that are needed for communication of IO (Input/Output) package and
+ * other components.
+ * 
+ * @author Artem Zamarajev
+ *
+ */
 public interface IoInterface {
 
   /**
@@ -48,7 +55,7 @@ public interface IoInterface {
   public boolean deleteProfile(Profile profile);
 
   /**
-   * returns last used profile
+   * Returns last used profile.
    * 
    * @return last used profile.
    */
@@ -58,7 +65,8 @@ public interface IoInterface {
    * Updates profile statistics.
    * 
    * @param profile profile whose statistics are to be saved.
-   * @throws NullPointerException if profile is not in the list of saved profiles - throws NullPointerException
+   * @throws NullPointerException if profile is not in the list of saved profiles - throws
+   *         NullPointerException
    */
   public void updateProfileStatistics(Profile profile) throws NullPointerException;
 }

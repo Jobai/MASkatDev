@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * @author Artem Zamarajev
+ * This class contains some constants relevant for io package.
  * 
- *         This class contains some constants relevant for io package.
+ * @author Artem Zamarajev
  *
  */
 public final class Utils {

@@ -21,8 +21,9 @@ import javafx.scene.image.Image;
 
 
 /**
+ * IoController defines methods declared in IoInterface.
+ * 
  * @author Artem Zamarajev
- *
  */
 public class IoController implements IoInterface {
 
@@ -33,9 +34,9 @@ public class IoController implements IoInterface {
 
 
   /**
-   * Creates IoController and checks if the data folder and profiles.json file exist. If yes - reads
-   * information from it and initializes class attributes. Otherwise creates new data folder and
-   * profiles.json file.
+   * Creates IoController and checks if the data folder and profiles.json file inside of it exist.
+   * If yes - reads information from it and initializes class attributes. Otherwise creates new data
+   * folder and profiles.json file inside of it.
    */
   public IoController() {
     File directory = new File(".");
@@ -96,11 +97,6 @@ public class IoController implements IoInterface {
     return deleted;
   }
 
-
-  /**
-   * 
-   * Throws NullPointerException if profileToSave is not in the profileList
-   */
   /*
    * (non-Javadoc)
    * 
@@ -126,15 +122,6 @@ public class IoController implements IoInterface {
     }
   }
 
-
-
-  /**
-   * toEdit is needed to produce a NullPointerException if profile is not in the profileList That
-   * should not happen, as the profile should not be showed in GUI thats why exception is not being
-   * catched
-   *
-   *
-   */
   /*
    * (non-Javadoc)
    * 
@@ -179,25 +166,19 @@ public class IoController implements IoInterface {
     return null;
   }
 
-  /**
-   * @param profileList
-   */
   public void setProfileList(ArrayList<Profile> profileList) {
     this.profileList = profileList;
   }
 
-  /**
-   * @param lastUsed
-   */
   public void setLastUsedProfile(Profile lastUsed) {
     this.lastUsed = lastUsed;
   }
 
   /**
-   * @param profile is a profile to be set as current
+   * Calls on profile passed as a parameter setLastUsed(true) and then calls setLastUsed(false) on
+   * all other profiles.
    * 
-   *        Calls at @param profile setLastUsed(true), and setLastUsed(false) for all other profiles
-   *        then calls updateProfiles()
+   * @param profile is a profile to be set as current
    */
   public void updateLastUsed(Profile profile) {
     profile.setLastUsed(true);
@@ -212,7 +193,7 @@ public class IoController implements IoInterface {
   }
 
   /**
-   * calls determine determineLastUsedProfile() and writes profile list to json file
+   * Calls determine determineLastUsedProfile() and writes profile list to json file.
    */
   private void updateProfiles() {
     determineLastUsedProfile();
@@ -227,8 +208,8 @@ public class IoController implements IoInterface {
   }
 
   /**
-   * Determines the last used profile Used to initialize and update lastUsed Is called by
-   * updateProfiles()
+   * Determines the last used profile. Used to initialize and update lastUsed. This method is only
+   * called by updateProfiles().
    */
   private void determineLastUsedProfile() {
     lastUsed = null;
@@ -249,7 +230,7 @@ public class IoController implements IoInterface {
   }
 
   /**
-   * Reads all profiles from json file Used only to initialize profileList
+   * Reads all profiles from json fil.e Used only to initialize profileList.
    * 
    * @return list of all profiles
    */
@@ -269,7 +250,7 @@ public class IoController implements IoInterface {
   }
 
   /**
-   * Converts file to JsonArray Used only in getAllProfilesAsList()
+   * Converts profiles.json file to JsonArray. Used only in getAllProfilesAsList().
    * 
    * @return JsonArray consisting of all profiles
    */
@@ -290,7 +271,9 @@ public class IoController implements IoInterface {
 
 
   /**
-   * @return
+   * Checks if folder data and profiles.json file inside of it exist.
+   * 
+   * @return returns true if both data folder and profiles.json file exist. Otherwise returns false.
    */
   private boolean checkProfilesFileExistance() {
     File yourFile = new File(jsonProfilesUrl);
@@ -308,7 +291,7 @@ public class IoController implements IoInterface {
   }
 
   /**
-   * 
+   * Creates data folder and profiles.json file inside of it.
    */
   private void createProfilesFile() {
     System.out.println("Working Directory = " + System.getProperty("user.dir"));

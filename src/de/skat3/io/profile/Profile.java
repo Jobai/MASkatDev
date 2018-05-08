@@ -45,10 +45,9 @@ import javafx.scene.image.Image;
 
 
 /**
- * @author Artem Zamarajev
+ * Represents profile of a player.
  * 
- *         Represents profile of a player.
- *
+ * @author Artem Zamarajev
  */
 public class Profile implements ProfileStatisticsInterface {
   private transient Image image;
