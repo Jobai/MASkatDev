@@ -700,6 +700,12 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().showText("Kontra announcend");
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            SkatMain.guiController.getInGameController().showKontraButton(false);
+          }
+        });
       }
     });
   }
@@ -719,7 +725,7 @@ public class MainController implements MainControllerInterface {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showKontraButton();
+        SkatMain.guiController.getInGameController().showKontraButton(true);
       }
     });
   }
