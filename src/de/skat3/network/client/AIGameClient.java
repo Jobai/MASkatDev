@@ -34,7 +34,6 @@ public class AIGameClient extends GameClient {
   public AIGameClient(String hostAdress, int port, Player player) {
     super(hostAdress, port, player);
     aiCLH = new AIClientLogicHandler(this, this.player);
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -46,7 +45,6 @@ public class AIGameClient extends GameClient {
    */
   public AIGameClient(String hostAdress, int port, Player player, String lobbyPassword) {
     super(hostAdress, port, player, lobbyPassword);
-    // TODO Auto-generated constructor stub
   }
 
   @Override
@@ -79,10 +77,6 @@ public class AIGameClient extends GameClient {
       case COMMAND_INFO:
         this.handleCommandAction(m, st);
         break;
-      case STATE_CHANGE:
-        this.handleStateChange(m, st);
-        break;
-
       default:
         logger.severe("Message Type not handeld!  " + mt + " --- " + st);
         throw new AssertionError();
@@ -115,23 +109,14 @@ public class AIGameClient extends GameClient {
       case BID_INFO:
         aiCLH.bidInfoHandler(m);
         break;
-      case BID_REDO:
-        aiCLH.bidRedoHandler(m);
-        break;
       case BID_REQUEST:
         aiCLH.bidRequestHandler(m);
         break;
       case PLAY_INFO:
         aiCLH.playInfoHandler(m);
         break;
-      case PLAY_REDO:
-        aiCLH.playRedoHandler(m);
-        break;
       case PLAY_REQUEST:
         aiCLH.playRequestHandler(m);
-        break;
-      case TRICK_INFO:
-        aiCLH.trickInfoHandler(m);
         break;
       case ROUND_START_INFO:
         aiCLH.roundInfoHandler(m);
@@ -165,9 +150,6 @@ public class AIGameClient extends GameClient {
         break;
       case REKONTRA_SHOW_OPTION_INFO:
         aiCLH.reKontraShowHandler(m);
-        break;
-      case ROUND_RESTART_INFO:
-        aiCLH.roundRestartHandler(m);
         break;
       case ROUND_GENERAL_INFO:
         aiCLH.roundInfoHandler(m);

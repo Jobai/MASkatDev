@@ -105,18 +105,6 @@ public class AIClientLogicHandler extends ClientLogicHandler {
 
 
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * de.skat3.network.client.ClientLogicHandler#trickInfoHandler(de.skat3.network.datatypes.Message)
-   */
-  @Override
-  void trickInfoHandler(Message m) {
-    // do nothing
-  }
-
-
 
   /*
    * (non-Javadoc)

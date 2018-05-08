@@ -249,9 +249,6 @@ public class GameClient {
       case PLAY_REQUEST:
         clh.playRequestHandler(m);
         break;
-      case TRICK_INFO:
-        clh.trickInfoHandler(m);
-        break;
       case ROUND_START_INFO:
         clh.roundInfoHandler(m);
         break;
