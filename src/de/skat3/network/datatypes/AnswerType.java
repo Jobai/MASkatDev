@@ -23,11 +23,11 @@ public enum AnswerType implements SubType {
    */
   CONTRACT_ANSWER,
   /**
-   * for future use reserved. /XXX
+   * for future use reserved. 
    */
   ROUND_ANSWER,
   /**
-   * for future use reserved. /XXX
+   * for future use reserved. 
    */
   MATCH_ANSWER,
   /**

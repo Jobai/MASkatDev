@@ -1,6 +1,5 @@
 package de.skat3.network.client;
 
-import java.util.logging.Logger;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -11,6 +10,8 @@ import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageCommand;
+import java.util.logging.Logger;
+
 
 /**
  * Handles messages (Information or Commands) from the network and acts on their content. Calls

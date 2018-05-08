@@ -24,12 +24,11 @@ import java.io.Serializable;
 public abstract class Message implements Serializable {
 
 
-  private static final long serialVersionUID = -2464570403601180110L;
+  
+  private static final long serialVersionUID = 6018579611122413131L;
   private MessageType messageType;
-  @Deprecated
-  private String sender;
-  @Deprecated
-  private String receiver;
+  String sender; //debug info
+  String receiver; //debug info
   public Player originSender;
   public SubType subType;
   public Object payload;
@@ -48,8 +47,8 @@ public abstract class Message implements Serializable {
 
   public Message(MessageType messageType, String sender, String receiver) {
     this.messageType = messageType;
-    this.setSender(sender);
-    this.setReceiver(receiver);
+    this.sender = sender;
+    this.receiver = receiver;
 
   }
 
@@ -68,23 +67,6 @@ public abstract class Message implements Serializable {
   public void setSubType(SubType st) {
     this.subType = st;
   }
-
-  public String getSender() {
-    return sender;
-  }
-
-  public void setSender(String sender) {
-    this.sender = sender;
-  }
-
-  public String getReceiver() {
-    return receiver;
-  }
-
-  public void setReceiver(String receiver) {
-    this.receiver = receiver;
-  }
-
 
 
 }
