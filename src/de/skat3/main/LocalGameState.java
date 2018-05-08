@@ -53,8 +53,6 @@ public class LocalGameState {
 
 
   public void addPlayer() {
-
-
     if (SkatMain.mainController.currentLobby.numberOfPlayers == 3) {
 
       if (SkatMain.mainController.currentLobby.currentPlayers == 2) {

@@ -63,7 +63,7 @@ public class GuiCard extends Parent {
       bling.setNode(this);
       bling.setDuration(Duration.seconds(0.5));
       bling.setFromValue(1);
-      bling.setToValue(0.5);
+      bling.setToValue(0.6);
       bling.setAutoReverse(true);
       bling.setCycleCount(MediaPlayer.INDEFINITE);
     }

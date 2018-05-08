@@ -375,6 +375,7 @@ public class MainController implements MainControllerInterface {
   @Override
   public void roundStarted() {
     SkatMain.lgs.clearAfterRound();
+    SkatMain.lgs.setGameActive(true);
     Platform.runLater(new Runnable() {
       @Override
       public void run() {

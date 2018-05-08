@@ -20,24 +20,43 @@ public class InGameController implements InGameControllerInterface {
     this.matchfield = matchfield;
   }
 
-  public void showKontraButton() {
-    this.matchfield.overlayController.annouceContraButton.setVisible(true);
-    this.matchfield.overlayController.annouceContraButton.setText("Announce Kontra");
-    this.matchfield.overlayController.annouceContraButton.setOnAction(e -> {
-      SkatMain.mainController.localKontraAnnounced();
+  public void showKontraButton(boolean value) {
+    if (value) {
+      this.matchfield.overlayController.annouceContraButton.setVisible(true);
+      this.matchfield.overlayController.annouceContraButton.setText("Announce Kontra");
+      this.matchfield.overlayController.annouceContraButton.setOnAction(e -> {
+        SkatMain.mainController.localKontraAnnounced();
+        this.matchfield.overlayController.annouceContraButton.setVisible(false);
+      });
+    } else {
       this.matchfield.overlayController.annouceContraButton.setVisible(false);
-    });
+    }
+
   }
 
   public void showWhoIsPlaying(Player player) {
+    if (player == null) {
+      this.matchfield.tableView.leftHand.setBlingBling(false);
+      this.matchfield.tableView.rightHand.setBlingBling(false);
+      return;
+    }
+
     if (player.equals(SkatMain.lgs.getEnemyOne())) {
       this.matchfield.tableView.leftHand.setBlingBling(true);
       this.matchfield.tableView.rightHand.setBlingBling(false);
+      return;
     }
 
     if (player.equals(SkatMain.lgs.getEnemyTwo())) {
       this.matchfield.tableView.leftHand.setBlingBling(false);
       this.matchfield.tableView.rightHand.setBlingBling(true);
+      return;
+    }
+
+    if (player.equals(SkatMain.lgs.getLocalClient())) {
+      this.matchfield.tableView.leftHand.setBlingBling(false);
+      this.matchfield.tableView.rightHand.setBlingBling(false);
+      return;
     }
   }
 
@@ -150,6 +169,7 @@ public class InGameController implements InGameControllerInterface {
       playingHand.add(index, guiCard, false);
     }
     this.matchfield.tableController.playCard(playingHand, guiCard);
+    // this.showWhoIsPlaying(null);
   }
 
   /*
@@ -212,6 +232,7 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void startRound() {
     this.matchfield.overlayController.bindChat();
+    this.matchfield.overlayController.showInMainInfo("", Duration.millis(1));
     this.matchfield.tableController.iniHands();
     this.matchfield.overlayController.iniStartRound();
     if (SkatMain.lgs.localPlayerIsDealer()) {
@@ -244,7 +265,14 @@ public class InGameController implements InGameControllerInterface {
   }
 
   public void initializePlayers() {
-
+    if (!SkatMain.lgs.isGameActive()) {
+      this.matchfield.overlayController.showInMainInfo(
+          SkatMain.mainController.currentLobby.getCurrentNumberOfPlayers() - 1 + "/"
+              + SkatMain.mainController.currentLobby.getMaximumNumberOfPlayers() + " Ready",
+          Duration.INDEFINITE);
+    } else {
+      this.matchfield.overlayController.showInMainInfo("", Duration.millis(1));
+    }
     this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.getEnemyOne());
     this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.getEnemyTwo());
     this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.getLocalClient());
