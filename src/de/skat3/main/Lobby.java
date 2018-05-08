@@ -165,6 +165,10 @@ public class Lobby implements Serializable {
   }
 
   public void removePlayer(Player player) {
+    if(player==null) {
+      System.out.println("Fehler");
+      return;
+    }
     for (int i = 0; i < this.numberOfPlayers; i++) {
       if (this.players[i] != null) {
         if (this.players[i].equals(player)) {

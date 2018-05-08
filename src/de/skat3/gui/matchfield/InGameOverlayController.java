@@ -400,6 +400,7 @@ public class InGameOverlayController {
         this.localTimer.stop();
       }
     }
+    this.timerLabel.textProperty().unbind();
     this.timerLabel.setText("");
     this.timerLabel.setVisible(value);
   }
