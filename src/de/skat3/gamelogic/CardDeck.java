@@ -25,6 +25,12 @@ public class CardDeck {
     return this.cards;
   }
 
+  /**
+   * Returns card from the deck.
+   * 
+   * @param s "VALUE OF SUIT"
+   * @return Card
+   */
   public Card getCard(String s) {
     for (Card c : this.cards) {
       if (c.toString().equals(s)) {

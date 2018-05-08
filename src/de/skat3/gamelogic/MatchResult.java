@@ -13,8 +13,6 @@ public class MatchResult implements Serializable {
 
   private PlayerHistory[] list;
 
-  // TODO
-
   /**
    * Creates the Match result with all players that are currently in the lobby.
    * 
@@ -28,6 +26,9 @@ public class MatchResult implements Serializable {
 
   }
 
+  /**
+   * Copies the MatchResult and returns it.
+   */
   public MatchResult(MatchResult matchResult) {
     list = new PlayerHistory[matchResult.list.length];
     for (int i = 0; i < this.list.length; i++) {
