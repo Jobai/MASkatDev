@@ -37,14 +37,12 @@ public class ClientLogicController {
 
   public ClientLogicController(GameClient gameClient) {
     this.gc = gameClient;
-    try{
+    try {
       userName = SkatMain.ioController.getLastUsedProfile().getName();
+    } catch (NullPointerException e) {
+      // silent for JUNIT testing purposes.
     }
-    catch(NullPointerException e)
-    {
-      //silent for JUNIT testing purposes.
-    }
-   
+
   }
 
   /**
@@ -115,6 +113,7 @@ public class ClientLogicController {
 
   /**
    * Sends a chat message to all players.
+   * 
    * @author Jonas Bauer
    * @param chatString the chat message.
    */
@@ -126,6 +125,7 @@ public class ClientLogicController {
 
   /**
    * Leave the game and send a message to inform the server and all other players.
+   * 
    * @author Jonas Bauer
    */
   public void leaveGame() {
@@ -137,6 +137,7 @@ public class ClientLogicController {
 
   /**
    * Send a kontra announcement to the server.
+   * 
    * @author Jonas Bauer
    */
   public void kontraAnswer() {
@@ -146,6 +147,7 @@ public class ClientLogicController {
 
   /**
    * Send a rekontra announcement to the server.
+   * 
    * @author Jonas Bauer
    */
   public void reKontraAnswer() {
@@ -156,6 +158,7 @@ public class ClientLogicController {
 
   /**
    * Starts the game for all players and sends out a STATE_CHANGE with game started.
+   * 
    * @author Jonas Bauer
    */
   public void announceGameStarted() {
