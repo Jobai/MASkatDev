@@ -398,7 +398,6 @@ public class InGameOverlayController {
         this.localTimer.setOnFinished(e -> {
         });
         this.localTimer.stop();
-        this.timerLabel.setText("");
       }
     }
     this.timerLabel.setText("");
@@ -436,7 +435,6 @@ public class InGameOverlayController {
       switch (SkatMain.lgs.currentRequestState) {
         case BID: {
           this.popUpController.root.setVisible(false);
-          this.contractController.root.setVisible(false);
           SkatMain.mainController.localBid(false);
           break;
         }
@@ -688,7 +686,7 @@ public class InGameOverlayController {
     this.popUpController.yesButton.setText("Bid");
 
     this.popUpController.yesButton.setOnAction(e -> {
-      this.showTimer(false);
+      this.showTimer(false); // XXX
       SkatMain.mainController.localBid(true);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
@@ -697,7 +695,7 @@ public class InGameOverlayController {
     this.popUpController.noButton.setText("Pass");
 
     this.popUpController.noButton.setOnAction(e -> {
-      this.showTimer(false);
+      this.showTimer(false); // XXX
       SkatMain.mainController.localBid(false);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);

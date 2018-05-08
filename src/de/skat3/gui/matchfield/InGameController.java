@@ -263,7 +263,6 @@ public class InGameController implements InGameControllerInterface {
       this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
     }
     this.matchfield.overlayController.showBidRequest(bid);
-
   }
 
   public void showTutorialBidRequest(int bid, boolean yes) {
