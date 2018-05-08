@@ -7,6 +7,8 @@ import de.skat3.gamelogic.Result;
 
 
 /**
+ * Interface to interact with the in game gui.
+ * 
  * @author Aljoscha Domonell
  *
  */

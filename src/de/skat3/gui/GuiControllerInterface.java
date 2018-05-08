@@ -4,6 +4,8 @@ import de.skat3.gui.matchfield.InGameControllerInterface;
 
 
 /**
+ * Interface to interact with the gui.
+ * 
  * @author Aljoscha Domonell
  *
  */
