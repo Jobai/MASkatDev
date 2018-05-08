@@ -10,7 +10,9 @@
  */
 package de.skat3.network.client;
 
+import java.io.IOException;
 import de.skat3.gamelogic.Player;
+import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
@@ -72,16 +74,16 @@ public class AIGameClient extends GameClient {
 
     switch (mt) {
       case CONNECTION_OPEN:
-        this.handleOpendConnection(m);
+//        this.handleOpendConnection(m);
         break;
       case CONNECTION_CLOSE:
         this.closeConnection(m);
         break;
       case CONNECTION_INFO:
-        this.handleConnectionInfo(m);
+//        this.handleConnectionInfo(m);
         break;
       case CHAT_MESSAGE:
-        this.handleChatMessage((MessageChat) m);
+        //Do nothing as bot
         break;
       case ANWSER_ACTION:
         throw new AssertionError();
@@ -101,6 +103,24 @@ public class AIGameClient extends GameClient {
     }
   }
 
+
+  /* (non-Javadoc)
+   * @see de.skat3.network.client.GameClient#closeConnection(de.skat3.network.datatypes.Message)
+   */
+  @Override
+  void closeConnection(Message m) {
+    // TODO Auto-generated method stub
+
+    sl.interrupt();
+    try {
+      sl.interrupt();
+      toSever.close();
+      fromServer.close();
+      socket.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   void handleCommandAction(Message m, SubType st) {
     CommandType ct = (CommandType) st;
