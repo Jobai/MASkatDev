@@ -10,6 +10,20 @@ public interface ProfileStatisticsInterface {
 
   // Singleplayer
 
+  // Games
+
+  public int getSinglePlayerTotalGames();
+
+  public int getSinglePlayerTotalGamesWon();
+
+  public int getSinglePlayerTotalGamesLost();
+
+  public void incrementSinglePlayerTotalGames();
+
+  public void incrementSinglePlayerTotalGamesWon();
+
+  public void incrementSinglePlayerTotalGamesLost();
+
   // Rounds
 
   public int getSinglePlayerTotalRounds();
@@ -60,6 +74,20 @@ public interface ProfileStatisticsInterface {
 
 
   // Multiplayer
+
+  // Games
+
+  public int getMultiPlayerTotalGames();
+
+  public int getMultiPlayerTotalGamesWon();
+
+  public int getMultiPlayerTotalGamesLost();
+
+  public void incrementMultiPlayerTotalGames();
+         
+  public void incrementMultiPlayerTotalGamesWon();
+         
+  public void incrementMultiPlayerTotalGamesLost();
 
   // Rounds
 

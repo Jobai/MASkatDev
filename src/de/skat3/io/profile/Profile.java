@@ -182,12 +182,22 @@ public class Profile implements ProfileStatisticsInterface {
     return image;
   }
 
+  /**
+   * Sets image as JavaFX Image and encodedImage as String.
+   * 
+   * @param image image to be set
+   * @param imageFormat format of the image
+   */
   public void setImage(Image image, String imageFormat) {
     ImageConverter adapter = new ImageConverter();
     this.image = image;
     this.encodedImage = adapter.imageToEncodedString(image, imageFormat);
   }
 
+  /**
+   * Sets image from encoded String
+   *
+   */
   public void setImageFromEncodedString() {
     ImageConverter adapter = new ImageConverter();
     this.image = adapter.encodedStringToImage(this.encodedImage);
@@ -289,6 +299,11 @@ public class Profile implements ProfileStatisticsInterface {
     return singlePlayerRoundsWonGrand;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsWonGrand()
+   */
   public void incrementSinglePlayerRoundsWonGrand() {
     incrementSinglePlayerTotalRoundsGrand();
     incrementSinglePlayerRoundsWon();
@@ -299,6 +314,11 @@ public class Profile implements ProfileStatisticsInterface {
     return singlePlayerRoundsWonNull;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsWonNull()
+   */
   public void incrementSinglePlayerRoundsWonNull() {
     incrementSinglePlayerTotalRoundsNull();
     incrementSinglePlayerRoundsWon();
@@ -309,6 +329,11 @@ public class Profile implements ProfileStatisticsInterface {
     return singlePlayerRoundsWonSuit;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsWonSuit()
+   */
   public void incrementSinglePlayerRoundsWonSuit() {
     incrementSinglePlayerTotalRoundsSuit();
     incrementSinglePlayerRoundsWon();
@@ -328,6 +353,11 @@ public class Profile implements ProfileStatisticsInterface {
     return singlePlayerRoundsLostGrand;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsLostGrand()
+   */
   public void incrementSinglePlayerRoundsLostGrand() {
     incrementSinglePlayerRoundsLost();
     incrementSinglePlayerTotalRoundsGrand();
@@ -338,6 +368,11 @@ public class Profile implements ProfileStatisticsInterface {
     return singlePlayerRoundsLostNull;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsLostNull()
+   */
   public void incrementSinglePlayerRoundsLostNull() {
     incrementSinglePlayerRoundsLost();
     incrementSinglePlayerTotalRoundsNull();
@@ -348,6 +383,11 @@ public class Profile implements ProfileStatisticsInterface {
     return singlePlayerRoundsLostSuit;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsLostSuit()
+   */
   public void incrementSinglePlayerRoundsLostSuit() {
     incrementSinglePlayerRoundsLost();
     incrementSinglePlayerTotalRoundsSuit();
@@ -360,6 +400,11 @@ public class Profile implements ProfileStatisticsInterface {
     return singlePlayerHighestScore;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#setSinglePlayerHighestScore(int)
+   */
   public void setSinglePlayerHighestScore(int potentiallyNewScore) {
     if (potentiallyNewScore > singlePlayerHighestScore) {
       singlePlayerHighestScore = potentiallyNewScore;
@@ -370,6 +415,11 @@ public class Profile implements ProfileStatisticsInterface {
     return singlePlayerLowestScore;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#setSinglePlayerLowestScore(int)
+   */
   public void setSinglePlayerLowestScore(int potentiallyNewScore) {
     if (potentiallyNewScore < singlePlayerLowestScore) {
       singlePlayerLowestScore = potentiallyNewScore;
@@ -402,7 +452,6 @@ public class Profile implements ProfileStatisticsInterface {
     multiPlayerTotalGamesLost++;
     multiPlayerTotalGames++;
   }
-
 
   // Rounds
 
@@ -451,6 +500,11 @@ public class Profile implements ProfileStatisticsInterface {
     return multiPlayerRoundsWonGrand;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsWonGrand()
+   */
   public void incrementMultiPlayerRoundsWonGrand() {
     incrementMultiPlayerTotalRoundsGrand();
     incrementMultiPlayerRoundsWon();
@@ -461,6 +515,11 @@ public class Profile implements ProfileStatisticsInterface {
     return multiPlayerRoundsWonNull;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsWonNull()
+   */
   public void incrementMultiPlayerRoundsWonNull() {
     incrementMultiPlayerTotalRoundsNull();
     incrementMultiPlayerRoundsWon();
@@ -471,6 +530,11 @@ public class Profile implements ProfileStatisticsInterface {
     return multiPlayerRoundsWonSuit;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsWonSuit()
+   */
   public void incrementMultiPlayerRoundsWonSuit() {
     incrementMultiPlayerTotalRoundsSuit();
     incrementMultiPlayerRoundsWon();
@@ -490,6 +554,11 @@ public class Profile implements ProfileStatisticsInterface {
     return multiPlayerRoundsLostGrand;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsLostGrand()
+   */
   public void incrementMultiPlayerRoundsLostGrand() {
     incrementMultiPlayerRoundsLost();
     incrementMultiPlayerTotalRoundsGrand();
@@ -500,6 +569,11 @@ public class Profile implements ProfileStatisticsInterface {
     return multiPlayerRoundsLostNull;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsLostNull()
+   */
   public void incrementMultiPlayerRoundsLostNull() {
     incrementMultiPlayerRoundsLost();
     incrementMultiPlayerTotalRoundsNull();
@@ -510,6 +584,11 @@ public class Profile implements ProfileStatisticsInterface {
     return multiPlayerRoundsLostSuit;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsLostSuit()
+   */
   public void incrementMultiPlayerRoundsLostSuit() {
     incrementMultiPlayerRoundsLost();
     incrementMultiPlayerTotalRoundsSuit();
@@ -522,6 +601,11 @@ public class Profile implements ProfileStatisticsInterface {
     return multiPlayerHighestScore;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#setMultiPlayerHighestScore(int)
+   */
   public void setMultiPlayerHighestScore(int potentiallyNewScore) {
     if (potentiallyNewScore > multiPlayerHighestScore) {
       multiPlayerHighestScore = potentiallyNewScore;
@@ -532,14 +616,27 @@ public class Profile implements ProfileStatisticsInterface {
     return multiPlayerLowestScore;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.skat3.io.profile.ProfileStatisticsInterface#setMultiPlayerLowestScore(int)
+   */
   public void setMultiPlayerLowestScore(int potentiallyNewScore) {
     if (potentiallyNewScore < multiPlayerLowestScore) {
       multiPlayerLowestScore = potentiallyNewScore;
     }
   }
 
+  /**
+   * Initializes all statistics related variables with zero
+   */
   public void initializeAllGameStatisticsVariablesWithZero() {
     playerGameTime = 0;
+
+    singlePlayerTotalGames = 0;
+    singlePlayerTotalGamesWon = 0;
+    singlePlayerTotalGamesLost = 0;
+
     singlePlayerTotalRounds = 0;
     singlePlayerTotalRoundsGrand = 0;
     singlePlayerTotalRoundsNull = 0;
@@ -554,6 +651,10 @@ public class Profile implements ProfileStatisticsInterface {
     singlePlayerRoundsLostSuit = 0;
     singlePlayerHighestScore = 0;
     singlePlayerLowestScore = 0;
+
+    multiPlayerTotalGames = 0;
+    multiPlayerTotalGamesWon = 0;
+    multiPlayerTotalGamesLost = 0;
 
     multiPlayerTotalRounds = 0;
     multiPlayerTotalRoundsGrand = 0;
@@ -571,7 +672,5 @@ public class Profile implements ProfileStatisticsInterface {
     multiPlayerLowestScore = 0;
   }
   // End of Block with Game Statistics Getters and Setters
-
-
 
 }
