@@ -61,7 +61,7 @@ public class SingleplayerMenuController {
       e.printStackTrace();
     }
 
-    SingleplayerController c = fxmlLoader.getController();
+    SingleplayerMenuController c = fxmlLoader.getController();
     c.setPanes(mainPane, p);
 
     p.translateXProperty()

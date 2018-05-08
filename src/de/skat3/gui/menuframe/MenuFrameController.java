@@ -40,7 +40,7 @@ import javafx.util.Duration;
 /**
  * Class to control the corresponding view file.
  * 
- * @author adomonel, tistraub
+ * @author Aljoscha Domonell, tistraub
  */
 public class MenuFrameController {
 

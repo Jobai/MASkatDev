@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Class to manage the menu frame.
  * 
- * @author adomonel
+ * @author Aljoscha Domonell
  */
 public class MenuFrame {
   private MenuFrameController controller;

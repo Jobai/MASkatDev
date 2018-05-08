@@ -11,7 +11,7 @@ import javafx.util.Duration;
 /**
  * This Controller Interface difines the methods to manipulate the GUI.
  * 
- * @author adomonel
+ * @author Aljoscha Domonell
  *
  */
 public interface InGameControllerInterface {

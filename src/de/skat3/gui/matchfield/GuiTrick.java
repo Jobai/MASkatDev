@@ -17,7 +17,7 @@ import javafx.util.Duration;
 /**
  * View class of a trick.
  * 
- * @author adomonel
+ * @author Aljoscha Domonell
  *
  */
 public class GuiTrick {

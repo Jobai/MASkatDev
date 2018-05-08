@@ -43,7 +43,7 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
- * @author adomonel
+ * @author Aljoscha Domonell
  *
  */
 public class InGameOverlayController {
@@ -465,6 +465,7 @@ public class InGameOverlayController {
               new AdditionalMultipliers());
           break;
         case HANDGAME:
+          this.isHandgame = false;
           this.popUpController.root.setVisible(false);
           SkatMain.mainController.handGameSelected(true);
           break;

@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 /**
  * Abstract class to declare a menu.
  * 
- * @author adomonel
+ * @author Aljoscha Domonell
  */
 public abstract class Menu {
   private int rank;

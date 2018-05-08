@@ -22,7 +22,7 @@ import javafx.scene.layout.Pane;
 /**
  * Controller for the main gui
  * 
- * @author adomonel, tistraub
+ * @author Aljoscha Domonell, tistraub
  *
  */
 public class GuiController implements GuiControllerInterface {
