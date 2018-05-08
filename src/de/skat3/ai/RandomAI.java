@@ -20,6 +20,7 @@ public class RandomAI extends Ai implements Serializable {
   private boolean acceptHandGame;
   private AiHelper aiHelper;
   private Hand hand;
+  private Contract contract;
 
   /**
    * Random generator for decision making.
@@ -32,6 +33,7 @@ public class RandomAI extends Ai implements Serializable {
   public RandomAI() {
     aiHelper = new AiHelper();
     setHandGame(random.nextBoolean());
+    contract = selectContract();
   }
 
   private void setHandGame(boolean handGame) {
@@ -50,18 +52,43 @@ public class RandomAI extends Ai implements Serializable {
 
   @Override
   public AdditionalMultipliers chooseAdditionalMultipliers() {
-    AdditionalMultipliers[] multipliersArray = aiHelper.getAllPossibleMultipliers(acceptHandGame);
-    int randomIndex = random.nextInt(multipliersArray.length);
+    boolean random1 = random.nextBoolean();
+    boolean random2 = random.nextBoolean();
+    boolean random3 = random.nextBoolean();
+    boolean random4 = random.nextBoolean();
+    boolean random5 = random.nextBoolean();
 
-    return multipliersArray[randomIndex];
+    if (acceptHandGame()) {
+      if (contract == Contract.NULL) {
+        if (random1 && random2 && random3 && random4) {
+          return aiHelper.getHandGameNoMultipliers();
+        } else {
+          aiHelper.getHandGameNoMultipliers();
+        }
+      } else if (contract == Contract.GRAND) {
+        if (random1 && random2 && random3 && random4) {
+          return aiHelper.getHandGameNoMultipliers();
+        } else {
+          aiHelper.getNoHandGameNoMultipliers();
+        }
+      } else {
+        if (random1 && random2 && random3 && random4 && random5) {
+          return aiHelper.getSchneider();
+        } else if (random1 && random2 && random3 && random4) {
+         return aiHelper.getHandGameNoMultipliers();
+        }else {
+          aiHelper.getNoHandGameNoMultipliers();
+        }
+      }
+    }
+    return aiHelper.getNoHandGameNoMultipliers();
   }
+
+
 
   @Override
   public Contract chooseContract() {
-    Contract[] possibleValues = Contract.class.getEnumConstants();
-    int randomIndex = random.nextInt(possibleValues.length);
-
-    return possibleValues[randomIndex];
+    return contract;
   }
 
   @Override
@@ -73,9 +100,7 @@ public class RandomAI extends Ai implements Serializable {
         temp.add(c.copy());
       }
     }
-    Random rand = new Random();
-    i = rand.nextInt(temp.size());
-    this.hand.remove(temp.get(i));
+    i = random.nextInt(temp.size());
     return temp.get(i);
   }
 
@@ -116,6 +141,13 @@ public class RandomAI extends Ai implements Serializable {
   @Override
   public Hand getHand() {
     return this.hand;
+  }
+
+  private Contract selectContract() {
+    Contract[] possibleValues = Contract.class.getEnumConstants();
+    int randomIndex = random.nextInt(possibleValues.length);
+
+    return possibleValues[randomIndex];
   }
 
 }

@@ -23,9 +23,14 @@ public class MasterLogger {
 
   public static final Logger networkGameServer = Logger.getLogger("de.skat3.network.server");
   public static final Logger networkGameClient = Logger.getLogger("de.skat3.network.client");
+  public static final Logger networkAIGameClient = 
+      Logger.getLogger("de.skat3.network.AIGameClient");
   public static final Logger networkLobbyServer =
       Logger.getLogger("de.skat3.network.server.LobbyServer");
+  public static final Logger guiLogger =
+      Logger.getLogger("de.skat3.gui");
   public static final Logger global = Logger.getGlobal();
+  public static final Logger gameLogicLogger = Logger.getLogger("de.skat3.gamelogic");
 
   /**
    * @author Jonas Bauer
@@ -34,20 +39,33 @@ public class MasterLogger {
 
     Handler handlerObj = new ConsoleHandler();
     handlerObj.setLevel(Level.ALL);
+
     networkGameServer.addHandler(handlerObj);
-    networkGameServer.setLevel(Level.ALL);
+    networkGameServer.setLevel(Level.INFO);
     networkGameServer.setUseParentHandlers(false);
 
     networkGameClient.addHandler(handlerObj);
-    networkGameClient.setLevel(Level.ALL);
+    networkGameClient.setLevel(Level.INFO);
     networkGameClient.setUseParentHandlers(false);
 
     networkLobbyServer.addHandler(handlerObj);
-    networkLobbyServer.setLevel(Level.ALL);
+    networkLobbyServer.setLevel(Level.INFO);
     networkLobbyServer.setUseParentHandlers(false);
+    
+    networkAIGameClient.addHandler(handlerObj);
+    networkAIGameClient.setLevel(Level.INFO);
+    networkAIGameClient.setUseParentHandlers(false);
+    
+    gameLogicLogger.addHandler(handlerObj);
+    gameLogicLogger.setLevel(Level.ALL);
+    gameLogicLogger.setUseParentHandlers(false);
+    
+    guiLogger.addHandler(handlerObj);
+    guiLogger.setLevel(Level.ALL);
+    guiLogger.setUseParentHandlers(false);
 
     global.addHandler(handlerObj);
-    global.setLevel(Level.ALL);
+    global.setLevel(Level.INFO);
     global.setUseParentHandlers(false);
 
     global.info("Logger initalized!");

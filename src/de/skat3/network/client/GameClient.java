@@ -76,7 +76,6 @@ public class GameClient {
     this.clh = new ClientLogicHandler(this);
     this.clc = new ClientLogicController(this);
     this.player = player;
-    logger.setLevel(Level.ALL);
     this.connect();
   }
 
@@ -96,7 +95,6 @@ public class GameClient {
     this.clh = new ClientLogicHandler(this);
     this.clc = new ClientLogicController(this);
     this.player = player;
-    logger.setLevel(Level.ALL);
     this.lobbyPassword = lobbyPassword;
     this.connect();
   }
@@ -251,17 +249,17 @@ public class GameClient {
   void handleStateChange(Message m, SubType st) {
 
     String state = (String) m.payload;
-    logger.info("GAME STATE CHANGE REGISTERED:" + state);
+    logger.fine("GAME STATE CHANGE REGISTERED:" + state);
     if (state.equals("START")) {
       SkatMain.mainController.initializeLocalGameState();
-      logger.info("SET GAME STATE");
+      logger.fine("SET GAME STATE");
     }
 
   }
 
   void handleCommandAction(Message m, SubType st) {
     CommandType ct = (CommandType) st;
-    logger.info("Handeling received message!" + ct);
+    logger.finer("Handeling received message!" + ct);
 
     switch (ct) {
       case BID_INFO:
@@ -338,6 +336,7 @@ public class GameClient {
         break;
       case SET_DEALER:
         clh.setDealerHandler(m);
+        break;
       default:
         logger.severe("Message Type not handeld!  " + " --- " + st);
         throw new AssertionError();
@@ -347,55 +346,38 @@ public class GameClient {
   }
 
   void handleChatMessage(MessageChat m) {
-    logger.log(Level.INFO, "Got Chatmessage" + m.message);
+    logger.log(Level.FINE, "Got Chatmessage" + m.message);
     SkatMain.mainController.receiveMessage(m.nick + ": " + m.message);
   }
 
 
   void closeConnection() {
+    sl.interrupt();
+    try {
+      sl.interrupt();
+      sl.closeStreamListener();
+      fromServer.close();
+      sl.interrupt();
+      toSever.close();
+      socket.close();
+      logger.info("Client: Closed connection to server!");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+
     SkatMain.mainController.goToMenu();
     if (!closedByClient) {
       SkatMain.mainController.showCustomAlertPormpt("Connection to the server failed",
           "The connection to the server failed. "
               + "Please check that a server is running and try again later");
     }
-    sl.interrupt();
-    try {
-      sl.interrupt();
-      toSever.close();
-      fromServer.close();
-      socket.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
+
 
   void closeConnection(Message m) {
 
-    MessageConnection mc = (MessageConnection) m;
-    String reason = mc.reason;
-    if (reason != null) {
-      kickedByServer = true;
-      closedByServer = true;
-      switch (reason) {
-        case "PASSWORD":
-          SkatMain.mainController.showWrongPassword();
-          break;
-        case "FULL":
-          SkatMain.mainController.showCustomAlertPormpt("Lobby is full!",
-              "Sorry, the selected Lobby is already full. Please select another lobby.");
-          break;
-        default:
-          SkatMain.mainController.showCustomAlertPormpt("You got kicked!",
-              "The server ended you connection. ");
-          break;
-      }
-      SkatMain.mainController.showWrongPassword();
-    } else {
-      SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
-          "The game server closed your connection. \n"
-              + "You can try again later or chose a different server");
-    }
+    showConnectionErro(m);
     sl.interrupt();
     logger.fine("GO to menu");
     SkatMain.mainController.goToMenu();
@@ -410,9 +392,48 @@ public class GameClient {
     }
   }
 
+  void showConnectionErro(Message m) {
+    MessageConnection mc = (MessageConnection) m;
+    String reason = mc.reason;
+    if (reason != null) {
+      kickedByServer = true;
+      closedByServer = true;
+      switch (reason) {
+        case "PASSWORD":
+          SkatMain.mainController.showWrongPassword();
+          break;
+        case "FULL":
+          SkatMain.mainController.showCustomAlertPormpt("Lobby is full!",
+              "Sorry, the selected Lobby is already full. Please select another lobby.");
+          break;
+        case "KICK":
+          SkatMain.mainController.showCustomAlertPormpt("You got kicked!",
+              "The server ended you connection. ");
+          break;
+        case "SHUTDOWN":
+          SkatMain.mainController.showCustomAlertPormpt("Server is shuttind down!",
+              "The game server is shutting down and closed your connection. \n"
+                  + "Please chose a different server.");
+          break;
+        default:
+          SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
+              "The game server closed your connection. \n"
+                  + "You can try again later or chose a different server.");
+      }
+    } else {
+      if (!closedByClient) {
+        SkatMain.mainController.showCustomAlertPormpt("Lost connection to the Server!",
+            "The connection to the server failed suddenly.\n"
+                + "You can try again later or chose a different server.");
+      }
+    }
+  }
+
   void sendToServer(Message m) {
     try {
+      toSever.flush();
       toSever.writeObject(m);
+      toSever.flush();
       logger.log(Level.FINE, "tried to send" + m.subType);
     } catch (IOException e) {
       e.printStackTrace();

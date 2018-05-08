@@ -47,8 +47,10 @@ public class HostPopupController {
     BooleanBinding b2 = Bindings.isEmpty(modeValue.textProperty());
     BooleanBinding b3 = Bindings.equal("Seeger", mode.valueProperty());
     BooleanBinding b4 = Bindings.equal("Bierlachs", mode.valueProperty());
+    // BooleanBinding b5 = Bindings.equal(0, Integer.parseInt(modeValue.textProperty().toString()) %
+    // 3);
 
-    // btnHost.disableProperty().bind(b1.or(b2).or(Bindings.when(b3).then(Bindings.d)));
+    btnHost.disableProperty().bind(b1.or(b2));
 
     timer.textProperty().addListener(new ChangeListener<String>() {
       @Override

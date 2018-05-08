@@ -7,17 +7,20 @@ import de.skat3.main.SkatMain;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
@@ -46,7 +49,9 @@ public class GuiHand extends Parent {
    */
   public GuiHand(DoubleBinding x, DoubleBinding y, DoubleBinding z, double xr, double yr, double zr,
       List<GuiCard> cards) {
-    this.cards = FXCollections.synchronizedObservableList(FXCollections.observableArrayList()); // JB
+    this.cards = FXCollections.synchronizedObservableList(FXCollections.observableArrayList());
+
+
 
     this.translateXProperty().bind(x);
     this.translateYProperty().bind(y);
@@ -230,6 +235,7 @@ public class GuiHand extends Parent {
    * 
    */
   synchronized void moveCardAndRemove(GuiCard card, Parent targetPos, Group table) {
+    card.setBlingBling(false);
     Transform t = card.getLocalToSceneTransform();
     Affine sourceTr = new Affine(t);
     sourceTr.getClass();
@@ -249,8 +255,14 @@ public class GuiHand extends Parent {
     Timeline timeline = new Timeline();
     Transform tarTr = targetPos.getLocalToSceneTransform();
 
+    double offset = 0;
+    if (!this
+        .equals(SkatMain.guiController.getInGameController().matchfield.tableView.playerHand)) {
+      offset = GuiCard.width / 2;
+    }
+
     timeline.getKeyFrames()
-        .add(new KeyFrame(time, new KeyValue(sourceTr.txProperty(), tarTr.getTx())));
+        .add(new KeyFrame(time, new KeyValue(sourceTr.txProperty(), tarTr.getTx() + offset)));
     timeline.getKeyFrames()
         .add(new KeyFrame(time, new KeyValue(sourceTr.tyProperty(), tarTr.getTy())));
     timeline.getKeyFrames()
@@ -350,6 +362,14 @@ public class GuiHand extends Parent {
 
   }
 
+  private FadeTransition bling;
+
+  void setBlingBling(boolean value) {
+    for (GuiCard c : this.cards) {
+      c.setBlingBling(value);
+    }
+  }
+
   synchronized void resetPositions() {
     if (this.cards.isEmpty()) {
       return;
@@ -439,6 +459,8 @@ public class GuiHand extends Parent {
    */
   private Parent[] caculateCardPostions(int size, double objectWidth, double xoffset,
       double yoffset, double zoffset) {
+
+    xoffset = -GuiCard.width / 2 + xoffset;
     // double maxHandWidth = 1000;
     double maxHandWidth = this.getScene().getWidth() / 2;
     if (maxHandWidth > objectWidth * (size - 1) / 1.3) {

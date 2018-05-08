@@ -70,9 +70,11 @@ public class Matchfield {
 
   private void iniBackground() {
     try {
-      URL url = Matchfield.class.getResource("xyz.jpg");
+      URL url = Matchfield.class.getResource("DSC01542_1_orginal-3.jpg");
       Image background = new Image(url.openStream());
       ImageView iv = new ImageView(background);
+      iv.fitHeightProperty().bind(this.root.widthProperty());
+      iv.fitWidthProperty().bind(this.root.widthProperty());
       this.root.getChildren().add(iv);
       iv.toBack();
     } catch (Exception e) {
@@ -95,7 +97,7 @@ public class Matchfield {
       this.overlayController.showStartButton();
     }
 
-    // this.iniBackground();
+    this.iniBackground();
     // this.overlayController.bindChat();
   }
 

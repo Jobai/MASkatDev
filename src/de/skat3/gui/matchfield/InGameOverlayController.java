@@ -1,26 +1,29 @@
 package de.skat3.gui.matchfield;
 
-import de.skat3.gamelogic.AdditionalMultipliers;
-import de.skat3.gamelogic.Card;
-import de.skat3.gamelogic.Contract;
-import de.skat3.gamelogic.Player;
-import de.skat3.main.SkatMain;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
+import de.skat3.gamelogic.AdditionalMultipliers;
+import de.skat3.gamelogic.Card;
+import de.skat3.gamelogic.Contract;
+import de.skat3.gamelogic.MatchResult;
+import de.skat3.gamelogic.Player;
+import de.skat3.gamelogic.Result;
+import de.skat3.main.SkatMain;
+import javafx.animation.Animation.Status;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.animation.Animation.Status;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -32,6 +35,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -46,125 +50,263 @@ public class InGameOverlayController {
 
   public static final String yourMove = "Your Move!";
 
-  private PopUpController popUpController;
-
-  private ScoreboardController scoreboardController;
-
-  private ChooseContractController contractController;
-
-  private TrainingModeTextController trainingModeTextController;
-
-  @FXML
-  private Label schwarzInfo;
-
-  @FXML
-  Label extraEnemyOne;
-
-  @FXML
-  private VBox addBotRightRoot;
-
-  @FXML
-  private Label nameLocalClient;
-
-  @FXML
-  private Label extra2EnemyTwo;
-
-  @FXML
-  private Button annouceContraButton;
-
-  @FXML
-  AnchorPane root;
-
-  @FXML
-  private Label nameEnemyOne;
-
-  @FXML
-  private ImageView imageEnemyTwo;
-
-  @FXML
-  private Label timerLabel;
-
-  @FXML
-  private Label extra2LocalClient;
-
-  @FXML
-  private TextArea chatArea;
-
-  @FXML
-  private Label extra2EnemyOne;
-
-  @FXML
-  private Button addEasyBotLeftButton;
-
-  @FXML
-  private Label trumpInfo;
-
-  @FXML
-  private TextField chatField;
-
-  @FXML
-  private Button addEasyBotRightButton;
-
-  @FXML
-  Label extra1LocalClient;
-
-  @FXML
-  private Label handInfo;
-
-  @FXML
-  private Label playInfo;
-
-  @FXML
-  private Label schneiderInfo;
-
-  @FXML
-  private Button addHardBotRightButton;
-
-  @FXML
-  private Button addHardBotLeftButton;
-
-  @FXML
-  private ImageView imageEnemyOne;
-
-  @FXML
-  private VBox addBotLeftRoot;
-
-  @FXML
-  private Label nameEnemyTwo;
-
-  @FXML
-  Label extraEnemyTwo;
-
-  @FXML
-  private Label openInfo;
-
-  @FXML
-  private Label mainInfoLabel;
+  private boolean isHandgame;
 
   private Timeline localTimer;
   private Timeline mainInfoFader;
+
+  private PopUpController popUpController;
+  private ScoreboardController scoreboardController;
+  private ChooseContractController contractController;
+  private TrainingModeTextController trainingModeTextController;
+  private GameResultViewController gameResultcontroller;
+  private RoundResultViewController roundResultController;
+
+  @FXML
+  private Label schwarzInfo;
+  @FXML
+  Label extraEnemyOne;
+  @FXML
+  private VBox addBotRightRoot;
+  @FXML
+  private Label nameLocalClient;
+  @FXML
+  private Label extra2EnemyTwo;
+  @FXML
+  public Button annouceContraButton;
+  @FXML
+  public AnchorPane root;
+  @FXML
+  private Label nameEnemyOne;
+  @FXML
+  private ImageView imageEnemyTwo;
+  @FXML
+  private Label timerLabel;
+  @FXML
+  private Label extra2LocalClient;
+  @FXML
+  private TextArea chatArea;
+  @FXML
+  private Label extra2EnemyOne;
+  @FXML
+  private Label extra3EnemyOne;
+  @FXML
+  private Label extra3EnemyTwo;
+  @FXML
+  private Button addEasyBotLeftButton;
+  @FXML
+  private Label trumpInfo;
+  @FXML
+  private TextField chatField;
+  @FXML
+  private Button addEasyBotRightButton;
+  @FXML
+  Label extra1LocalClient;
+  @FXML
+  private Label handInfo;
+  @FXML
+  private Label playInfo;
+  @FXML
+  private Label schneiderInfo;
+  @FXML
+  private Button addHardBotRightButton;
+  @FXML
+  private Button addHardBotLeftButton;
+  @FXML
+  private ImageView imageEnemyOne;
+  @FXML
+  private VBox addBotLeftRoot;
+  @FXML
+  private Label nameEnemyTwo;
+  @FXML
+  Label extraEnemyTwo;
+  @FXML
+  private Label openInfo;
+  @FXML
+  private Label mainInfoLabel;
+  @FXML
+  public AnchorPane rootEnemyOne;
+  @FXML
+  public AnchorPane rootEnemyTwo;
+  @FXML
+  public HBox rootLocalClient;
   // Initializing
 
+  public static final String RED = "#d60202";
+  public static final String BLACK = "#404040";
+  public static final String BORDER = "-fx-border-color: ";
+  public static final String BACKGROUND = "-fx-background-color: ";
+  public static final String BACKGROUNDRADIUS = "-fx-background-radius: ";
+  public static final String BORDERRADIUS = "-fx-border-radius: ";
 
-  void showInMainInfo(String text, Duration time) {
-    this.mainInfoLabel.setVisible(true);
-    this.mainInfoLabel.setDisable(true);
-    this.mainInfoLabel.setOpacity(1);
-    this.mainInfoLabel.setText(text);
-    FadeTransition fading = new FadeTransition();
-    fading.setNode(this.mainInfoLabel);
-    fading.setDuration(Duration.millis(500));
-    fading.setFromValue(1);
-    fading.setToValue(0);
-    if (this.mainInfoFader != null) {
-      if (this.mainInfoFader.getStatus().equals(Status.RUNNING)) {
-        this.mainInfoFader.stop();
+  public void handleSendMessage(KeyEvent e) {
+    if (e.getCode().equals(KeyCode.ENTER)) {
+
+      switch (this.chatField.getText()) {
+        case "&inihands": {
+          SkatMain.guiController.getInGameController().matchfield.tableController.iniHands();
+          break;
+        }
+
+        case "&blinglefton": {
+          SkatMain.guiController.getInGameController().matchfield.tableView.leftHand
+              .setBlingBling(true);
+          break;
+        }
+        case "&blingleftoff": {
+          SkatMain.guiController.getInGameController().matchfield.tableView.leftHand
+              .setBlingBling(false);
+          break;
+        }
+        case "&showbidcards": {
+          SkatMain.guiController.getInGameController().matchfield.tableView.trick
+              .showBidingCards(true);
+          break;
+        }
+        case "&hidebidcards": {
+          SkatMain.guiController.getInGameController().matchfield.tableView.trick
+              .showBidingCards(false);
+          break;
+        }
+
+        default: {
+          SkatMain.mainController.execCommand(this.chatField.getText());
+
+          SkatMain.mainController.sendMessage(this.chatField.getText().trim());
+        }
       }
+
+      this.chatField.clear();
+
     }
-    this.mainInfoFader = new Timeline();
-    this.mainInfoFader.getKeyFrames()
-        .add(new KeyFrame(time.subtract(Duration.millis(500)), e -> fading.play()));
-    this.mainInfoFader.play();
+  }
+
+  private void loadFXMLFiles() {
+    // GameResults
+    FXMLLoader fxmlLoader =
+        new FXMLLoader(InGameOverlayController.class.getResource("GameResultView.fxml"));
+    try {
+      fxmlLoader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    this.gameResultcontroller = fxmlLoader.getController();
+
+    // RoundResults
+    fxmlLoader = new FXMLLoader(InGameOverlayController.class.getResource("RoundResultView.fxml"));
+
+    try {
+      fxmlLoader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    this.roundResultController = fxmlLoader.getController();
+
+    // Contract
+
+    fxmlLoader =
+        new FXMLLoader(InGameOverlayController.class.getResource("ChooseContractView.fxml"));
+    try {
+      fxmlLoader.load();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    this.contractController = fxmlLoader.getController();
+
+    // Scoreboard
+
+    FXMLLoader loader =
+        new FXMLLoader(InGameOverlayController.class.getResource("ScoreboardView.fxml"));
+    try {
+      loader.load();
+      this.scoreboardController = loader.getController();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    this.addAndSetupButton(this.scoreboardController.root, null);
+    this.scoreboardController.root.setVisible(false);
+
+    // PopUp
+
+    loader = new FXMLLoader(InGameOverlayController.class.getResource("PopUpView.fxml"));
+    try {
+      this.root.getChildren().add((AnchorPane) loader.load());
+      this.popUpController = loader.getController();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    this.bindCentral(this.popUpController.root);
+
+    this.popUpController.root.setVisible(false);
+    this.popUpController.root.setDisable(true);
+
+    // TrainingModeText
+
+    loader = new FXMLLoader(InGameOverlayController.class.getResource("TrainingModeTextView.fxml"));
+    try {
+      this.root.getChildren().add((AnchorPane) loader.load());
+      this.trainingModeTextController = loader.getController();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    this.bindCentral(this.trainingModeTextController.root);
+
+    this.trainingModeTextController.root.setVisible(false);
+
+  }
+
+  private void addAndSetupButton(AnchorPane pane, Button closeButton) {
+    this.root.getChildren().add(pane);
+    if (closeButton != null) {
+      closeButton.setOnAction(e -> {
+        this.remove(pane);
+      });
+    }
+    this.bindCentral(pane);
+  }
+
+  synchronized void remove(Parent p) {
+    try {
+      this.root.getChildren().remove(p);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  synchronized void showInMainInfo(String text, Duration time) {
+    if (this.mainInfoFader == null) {
+      this.mainInfoFader = new Timeline();
+    }
+
+    if (this.mainInfoFader.getStatus().equals(Status.RUNNING)) {
+      this.mainInfoFader.setOnFinished(e -> {
+      });
+      this.mainInfoFader.stop();
+      this.mainInfoFader.getKeyFrames().clear();
+      this.showInMainInfo(text, time);
+      return;
+    } else {
+      this.mainInfoLabel.setText(text);
+      this.mainInfoLabel.setVisible(true);
+      this.mainInfoLabel.setOpacity(1);
+      this.mainInfoFader.getKeyFrames().add(new KeyFrame(time, e -> {
+      }));
+      this.mainInfoFader.setOnFinished(e -> {
+        FadeTransition fading = new FadeTransition();
+        fading.setNode(this.mainInfoLabel);
+        fading.setDuration(Duration.millis(500));
+        fading.setFromValue(1);
+        fading.setToValue(0);
+        fading.play();
+      });
+      this.mainInfoFader.playFromStart();
+    }
   }
 
   void setRoundInfos(Contract con, AdditionalMultipliers addMulti) {
@@ -197,13 +339,6 @@ public class InGameOverlayController {
     }
   }
 
-  public void handleSendMessage(KeyEvent e) {
-    if (e.getCode().equals(KeyCode.ENTER)) {
-      SkatMain.mainController.sendMessage(this.chatField.getText().trim());
-      this.chatField.clear();
-    }
-  }
-
   void iniStartRound() {
     this.root.requestFocus();
 
@@ -219,12 +354,35 @@ public class InGameOverlayController {
   }
 
   void iniComponents() {
+    this.loadFXMLFiles();
     this.root.requestFocus();
-    this.iniScoreboard();
-    this.iniPopUp();
-    this.iniContract();
-    this.iniTextPopup();
-    this.bindChat();
+  }
+
+  void showRoundResult(Result result) {
+    if (result.roundCancelled) {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("RoundCancelledView.fxml"));
+      AnchorPane p = null;
+      try {
+        p = loader.load();
+      } catch (IOException e) {
+      }
+      Button closeButton = (Button) p.getChildren().get(1);
+
+      this.addAndSetupButton(p, closeButton);
+      return;
+    }
+
+    this.addAndSetupButton(this.roundResultController.root, this.roundResultController.closeButton);
+
+    this.roundResultController.setResult(result);
+
+  }
+
+  void showMatchResult(MatchResult result) {
+
+    this.addAndSetupButton(this.gameResultcontroller.root, this.gameResultcontroller.closeButton);
+
+    this.gameResultcontroller.setResult(result);
   }
 
   private void bindCentral(AnchorPane p) {
@@ -240,15 +398,16 @@ public class InGameOverlayController {
         this.localTimer.setOnFinished(e -> {
         });
         this.localTimer.stop();
-        this.timerLabel.setText("");
       }
     }
+    this.timerLabel.textProperty().unbind();
+    this.timerLabel.setText("");
     this.timerLabel.setVisible(value);
   }
 
   void setTimer(int remainingTime) {
 
-    this.timerLabel.setVisible(true);
+    this.showTimer(true);
 
     Duration finalTime = Duration.seconds(remainingTime);
 
@@ -272,91 +431,57 @@ public class InGameOverlayController {
     this.localTimer.play();
 
     this.localTimer.setOnFinished(e -> {
-      this.timerLabel.setVisible(false);
-      if (SkatMain.guiController.getInGameController().matchfield.tableController.isPlaying) {
-        Random rand = new Random();
-        int i;
-        ArrayList<Card> temp = new ArrayList<Card>();
-        for (Card c : SkatMain.lgs.getLocalHand().cards) {
-          if (c.isPlayable()) {
-            temp.add(c.copy());
-          }
-        }
-        i = rand.nextInt(temp.size());
+      this.showTimer(false);
 
-        SkatMain.mainController.localCardPlayed(temp.get(i));
-        SkatMain.guiController.getInGameController().makeAMoveRequest(false);
+      switch (SkatMain.lgs.currentRequestState) {
+        case BID: {
+          this.popUpController.root.setVisible(false);
+          SkatMain.mainController.localBid(false);
+          break;
+        }
+        case CARD:
+          if (SkatMain.guiController.getInGameController().matchfield.tableController.isPlaying) {
+            Random rand = new Random();
+            int i;
+            ArrayList<Card> temp = new ArrayList<Card>();
+            for (Card c : SkatMain.lgs.getLocalHand().cards) {
+              if (c.isPlayable()) {
+                temp.add(c.copy());
+              }
+            }
+            i = rand.nextInt(temp.size());
+
+            GuiCard card =
+                SkatMain.guiController.getInGameController().matchfield.tableView.playerHand
+                    .getGuiCard(temp.get(i));
+
+            SkatMain.guiController.getInGameController().matchfield.tableController.playCard(card);
+          }
+          break;
+        case CONTRACT:
+          this.contractController.root.setVisible(false);
+          SkatMain.mainController.contractSelected(
+              Contract.values()[(int) (Math.random() * (Contract.length - 2))],
+              new AdditionalMultipliers());
+          break;
+        case HANDGAME:
+          this.popUpController.root.setVisible(false);
+          SkatMain.mainController.handGameSelected(true);
+          break;
+        case SKAT:
+          SkatMain.guiController.getInGameController().matchfield.tableController
+              .showSkatSelection(false);
+          SkatMain.mainController.skatSelected(SkatMain.lgs.getLocalHand(), SkatMain.lgs.getSkat());
+          break;
+        default:
+          break;
       }
     });
-
   }
 
   void showContractRequest() {
-    this.contractController.root.setVisible(true);
-    this.contractController.root.setDisable(false);
-  }
-
-  void iniContract() {
-    URL u = InGameOverlayController.class.getResource("ChooseContractView.fxml");
-    FXMLLoader loader = new FXMLLoader(u);
-    try {
-      this.root.getChildren().add((AnchorPane) loader.load());
-      this.contractController = loader.getController();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    this.bindCentral(this.contractController.root);
-
-    this.contractController.root.setVisible(false);
-  }
-
-
-  void iniTextPopup() {
-    URL u = InGameOverlayController.class.getResource("TrainingModeTextView.fxml");
-    FXMLLoader loader = new FXMLLoader(u);
-    try {
-      this.root.getChildren().add((AnchorPane) loader.load());
-      this.trainingModeTextController = loader.getController();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    this.bindCentral(this.trainingModeTextController.root);
-
-    this.trainingModeTextController.root.setVisible(false);
-  }
-
-  private void iniScoreboard() {
-    URL u = InGameOverlayController.class.getResource("ScoreboardView.fxml");
-    FXMLLoader loader = new FXMLLoader(u);
-    try {
-      this.root.getChildren().add((AnchorPane) loader.load());
-      this.scoreboardController = loader.getController();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    this.bindCentral(this.scoreboardController.root);
-
-    this.scoreboardController.root.setVisible(false);
-  }
-
-  private void iniPopUp() {
-    URL u = InGameOverlayController.class.getResource("PopUpView.fxml");
-    FXMLLoader loader = new FXMLLoader(u);
-    try {
-      this.root.getChildren().add((AnchorPane) loader.load());
-      this.popUpController = loader.getController();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    this.bindCentral(this.popUpController.root);
-
-    this.popUpController.root.setVisible(false);
-    this.popUpController.root.setDisable(true);
-
+    this.contractController.checkIfHandgame();
+    this.addAndSetupButton(this.contractController.root, null);
   }
 
   void setPlayText(String text, boolean show, boolean showAnimation) {
@@ -377,15 +502,21 @@ public class InGameOverlayController {
   }
 
   public void handleKeyPressed(KeyEvent e) {
-
     if (KeyCode.TAB.equals(e.getCode()) && !this.scoreboardController.root.isVisible()) {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
           .setDisable(true);
-      // this.root.setDisable(true);
+
       this.scoreboardController.setScores();
       this.scoreboardController.root.toFront();
       this.scoreboardController.root.setVisible(true);
+      e.consume();
       this.root.requestFocus();
+      return;
+    }
+
+    if (KeyCode.TAB.equals(e.getCode())) {
+      e.consume();
+      return;
     }
   }
 
@@ -395,16 +526,13 @@ public class InGameOverlayController {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
           .setDisable(false);
       this.scoreboardController.root.setVisible(false);
-
+      e.consume();
       this.root.requestFocus();
     }
 
     if (KeyCode.ESCAPE.equals(e.getCode())) {
 
-      boolean old =
-          SkatMain.guiController.getInGameController().matchfield.tableController.isPlaying;
-
-      SkatMain.guiController.getInGameController().makeAMoveRequest(false);
+      SkatMain.guiController.getInGameController().matchfield.root.setDisable(true);
 
       Alert alert = new Alert(AlertType.CONFIRMATION);
       alert.setTitle("Leave game");
@@ -419,22 +547,34 @@ public class InGameOverlayController {
       if (result.get() == buttonTypeYes) {
         SkatMain.mainController.exitGame();
       } else {
-        SkatMain.guiController.getInGameController().makeAMoveRequest(old);
+        SkatMain.guiController.getInGameController().matchfield.root.setDisable(false);
       }
     }
   }
 
+  private boolean chatIsBind;
+
   void bindChat() {
-    /*
-     * SkatMain.mainController.chatMessages.addListener(new ListChangeListener<String>() {
-     * 
-     * @Override public void onChanged(Change<? extends String> c) { StringBuffer newText = new
-     * StringBuffer(); c.next(); for (String addedMessage : c.getAddedSubList()) {
-     * newText.append(addedMessage); newText.append("\n"); } chatArea.setText(chatArea.getText() +
-     * newText.toString()); chatArea.setScrollTop(Double.MAX_VALUE); }
-     * 
-     * });
-     */
+    if (!this.chatIsBind) {
+      SkatMain.mainController.chatMessages.addListener(new ListChangeListener<String>() {
+
+        @Override
+        public void onChanged(Change<? extends String> c) {
+          StringBuffer newText = new StringBuffer("");
+
+          while (c.next()) {
+            for (String addedMessage : c.getAddedSubList()) {
+              newText.append(addedMessage);
+              newText.append("\n");
+            }
+            chatArea.setText(chatArea.getText() + newText.toString());
+            chatArea.setScrollTop(Double.MAX_VALUE);
+          }
+        }
+
+      });
+      this.chatIsBind = true;
+    }
   }
 
   void iniLocalClient(Player player) {
@@ -448,8 +588,7 @@ public class InGameOverlayController {
       } catch (NullPointerException e) {
         System.err.println("LocalClient: No player name given");
       }
-      this.extra1LocalClient.setText(String.valueOf(player.getPoints()));
-      this.extra2LocalClient.setText("INFO2");
+      this.extra2LocalClient.setText(String.valueOf(player.getPoints()) + " Points");
     }
   }
 
@@ -477,6 +616,7 @@ public class InGameOverlayController {
         this.addBotLeftRoot.setDisable(false);
         this.addBotLeftRoot.setVisible(true);
       }
+      this.extra3EnemyOne.setText("");
 
     } else {
 
@@ -490,7 +630,10 @@ public class InGameOverlayController {
       } catch (Exception e) {
         System.err.println("EnemyOne: Image Could not be added.");
       }
-      this.extra2EnemyOne.setText(String.valueOf(player.getPoints()));
+      this.extra2EnemyOne.setText(String.valueOf(player.getPoints()) + " Points");
+      if (player.isBot()) {
+        this.extra3EnemyOne.setText(player.isHardBot() ? "Hard Bot" : "Easy Bot");
+      }
     }
   }
 
@@ -518,6 +661,7 @@ public class InGameOverlayController {
         this.addBotRightRoot.setDisable(false);
         this.addBotRightRoot.setVisible(true);
       }
+      this.extra3EnemyTwo.setText("");
 
     } else {
 
@@ -531,7 +675,11 @@ public class InGameOverlayController {
       } catch (Exception e) {
         System.err.println("EnemyTwo: Image Could not be added.");
       }
-      this.extra2EnemyTwo.setText(String.valueOf(player.getPoints()));
+      this.extra2EnemyTwo.setText(String.valueOf(player.getPoints()) + " Points");
+
+      if (player.isBot()) {
+        this.extra3EnemyTwo.setText(player.isHardBot() ? "Hard Bot" : "Easy Bot");
+      }
     }
   }
 
@@ -539,6 +687,7 @@ public class InGameOverlayController {
     this.popUpController.yesButton.setText("Bid");
 
     this.popUpController.yesButton.setOnAction(e -> {
+      this.showTimer(false); // XXX
       SkatMain.mainController.localBid(true);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
@@ -547,10 +696,37 @@ public class InGameOverlayController {
     this.popUpController.noButton.setText("Pass");
 
     this.popUpController.noButton.setOnAction(e -> {
+      this.showTimer(false); // XXX
       SkatMain.mainController.localBid(false);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
     });
+
+    this.popUpController.textField.setText("Do you bid more than " + bid + "?");
+
+    this.popUpController.root.setVisible(true);
+    this.popUpController.root.setDisable(false);
+  }
+
+  void showBidRequest(int bid, boolean yesButton) {
+    this.popUpController.yesButton.setText("Bid");
+
+    if (yesButton) {
+      this.popUpController.yesButton.setOnAction(e -> {
+        SkatMain.mainController.localBid(true);
+        this.popUpController.root.setVisible(false);
+        this.popUpController.root.setDisable(true);
+      });
+    } else {
+      this.popUpController.noButton.setOnAction(e -> {
+        SkatMain.mainController.localBid(false);
+        this.popUpController.root.setVisible(false);
+        this.popUpController.root.setDisable(true);
+      });
+    }
+
+
+    this.popUpController.noButton.setText("Pass");
 
     this.popUpController.textField.setText("Do you bid more than " + bid + "?");
 
@@ -563,6 +739,8 @@ public class InGameOverlayController {
     this.popUpController.yesButton.setText("Yes");
 
     this.popUpController.yesButton.setOnAction(e -> {
+      this.showTimer(false);
+      isHandgame = true;
       SkatMain.mainController.handGameSelected(true);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
@@ -571,6 +749,7 @@ public class InGameOverlayController {
     this.popUpController.noButton.setText("NO");
 
     this.popUpController.noButton.setOnAction(e -> {
+      isHandgame = false;
       SkatMain.mainController.handGameSelected(false);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
@@ -609,7 +788,6 @@ public class InGameOverlayController {
     this.root.getChildren().add(button);
   }
 
-
   void toFront() {
     this.chatArea.toFront();
     this.chatField.toFront();
@@ -624,11 +802,16 @@ public class InGameOverlayController {
     this.nameLocalClient.toFront();
   }
 
-  public void showTrainingModeInfoText(String text) {
-    this.trainingModeTextController.setText(text);
+  public void showTrainingModeInfoText(String path, int width, int height) {
+    this.trainingModeTextController.setPath(path);
+    this.trainingModeTextController.setSize(width, height);
     this.trainingModeTextController.root.setVisible(true);
     this.trainingModeTextController.root.setDisable(false);
 
+  }
+
+  public boolean isHandgame() {
+    return isHandgame;
   }
 
 }

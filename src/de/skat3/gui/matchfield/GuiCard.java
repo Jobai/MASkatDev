@@ -1,9 +1,12 @@
 package de.skat3.gui.matchfield;
 
 import de.skat3.gamelogic.Card;
+import javafx.animation.FadeTransition;
 import javafx.scene.Parent;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
+import javafx.util.Duration;
 
 /**
  * View class of a hand.
@@ -50,6 +53,27 @@ public class GuiCard extends Parent {
       }
     }
     return false;
+  }
+
+  private FadeTransition bling;
+
+  void setBlingBling(boolean value) {
+    if (this.bling == null) {
+      this.bling = new FadeTransition();
+      bling.setNode(this);
+      bling.setDuration(Duration.seconds(0.5));
+      bling.setFromValue(1);
+      bling.setToValue(0.6);
+      bling.setAutoReverse(true);
+      bling.setCycleCount(MediaPlayer.INDEFINITE);
+    }
+
+    if (value) {
+      this.bling.playFromStart();
+    } else {
+      this.bling.stop();
+      this.setOpacity(1);
+    }
   }
 
   /**

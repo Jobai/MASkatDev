@@ -41,12 +41,11 @@ public class LobbyServer extends Thread {
   }
 
   private InetAddress inetAdress;
-  public int port = 2011;
+  public final int port = 2011;
 
   boolean multicast = false;
 
   public LobbyServer(Lobby lobby) {
-    logger.setLevel(Level.ALL);
     logger.fine("test fine");
     try {
       inetAdress = InetAddress.getByName("239.4.5.6");
@@ -59,7 +58,6 @@ public class LobbyServer extends Thread {
   }
 
   public LobbyServer(Lobby lobby, InetAddress iAdress) {
-    logger.setLevel(Level.ALL);
     logger.fine("test fine");
     this.lobby = lobby;
     this.inetAdress = iAdress;
@@ -68,8 +66,11 @@ public class LobbyServer extends Thread {
 
 
   public void run() {
+    Thread.currentThread().setName("LobbyServerThread");
 
     if (!multicast) {
+      logger.info(
+          "LobbyServer started on " + inetAdress + ": " + port);
 
       try (DatagramSocket ds = new DatagramSocket()) {
 
@@ -129,7 +130,7 @@ public class LobbyServer extends Thread {
 
         byte[] buff;
         buff = lobby.convertToByteArray(lobby);
-        System.out.println("Buffer lenght:"  + buff.length);
+        logger.fine("Buffer lenght:"  + buff.length);
         DatagramPacket packet = new DatagramPacket(buff, buff.length, inetAdress, port);
 
         while (!this.isInterrupted()) {
@@ -156,6 +157,7 @@ public class LobbyServer extends Thread {
    * @author Jonas Bauer
    */
   public void stopLobbyBroadcast() {
+    logger.info("Stopped LobbyServer");
     this.interrupt();
     try {
       ds.close();

@@ -9,6 +9,7 @@
 
 package de.skat3.network.client;
 
+import java.util.logging.Logger;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -26,6 +27,7 @@ import de.skat3.network.datatypes.MessageCommand;
 
 public class AIClientLogicHandler extends ClientLogicHandler {
   
+  Logger logger = Logger.getLogger("de.skat3.network.AIGameClient");
   Player aiPlayer;
 
   /**
@@ -72,7 +74,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void bidRequestHandler(Message m) {
     // TODO Auto-generated method stub
-    System.out.println("AI bidRequest received");
+    logger.finer("AI bidRequest received");
     int b = (int) ((MessageCommand) m).gameState;
     SkatMain.aiController.bidRequest(b, aiPlayer);
   }
@@ -133,7 +135,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
     //Round stated - start hand is set
     if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
       Player payloadPlayer = (Player) mc.gameState;
-      System.out.println("RIH AI:" + payloadPlayer);
+      logger.finer("RIH AI:" + payloadPlayer);
       SkatMain.aiController.updatePlayer(payloadPlayer, aiPlayer);
     }
     
@@ -185,7 +187,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void contractRequestHandler(Message m) {
-    System.out.println("AI CONTRACT REQUEST");
+    logger.fine("AI CONTRACT REQUEST");
     MessageCommand mc = (MessageCommand) m;
     Contract c = (Contract) mc.payload;
     AdditionalMultipliers am = (AdditionalMultipliers) mc.secondPayload;
@@ -203,7 +205,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void declarerInfoHander(Message m) {
     // TODO Auto-generated method stub
-    super.declarerInfoHander(m);
+//   super.declarerInfoHander(m);
   }
 
 
@@ -249,7 +251,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void kontraAnnouncedInfoHandler(Message m) {
     // TODO Auto-generated method stub
-    super.kontraAnnouncedInfoHandler(m);
+//    super.kontraAnnouncedInfoHandler(m);
   }
 
 
@@ -263,7 +265,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void reKontraAnnouncedInfoHandler(Message m) {
     // TODO Auto-generated method stub
-    super.reKontraAnnouncedInfoHandler(m);
+//    super.reKontraAnnouncedInfoHandler(m);
   }
 
 
@@ -277,7 +279,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void kontraShowHandler(Message m) {
     // TODO Auto-generated method stub
-    super.kontraShowHandler(m);
+//    super.kontraShowHandler(m);
   }
 
 
@@ -291,7 +293,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void reKontraShowHandler(Message m) {
     // TODO Auto-generated method stub
-    super.reKontraShowHandler(m);
+//    super.reKontraShowHandler(m);
   }
 
 

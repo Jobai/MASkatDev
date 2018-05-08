@@ -10,7 +10,7 @@ import java.util.Collections;
  * @author kai29
  *
  */
-class RoundInstance {
+public class RoundInstance {
 
   ServerLogicController slc;
   Player[] players;
@@ -57,13 +57,15 @@ class RoundInstance {
     this.soloPlayerStartHand = new Hand();
     for (int i = 0; i < this.players.length; i++) {
       this.players[i].shortenPlayer();
+      this.players[i].clearWonTricks();
     }
   }
 
 
 
   public RoundInstance() {
-
+    this.players = new Player[3];
+    this.trick = new Card[3];
   }
 
   /**
@@ -75,7 +77,7 @@ class RoundInstance {
     this.updatePlayer();
     this.updateEnemies();
     slc.broadcastRoundStarted();
-    Thread.sleep(2500);
+    Thread.sleep(4000);
     Player winner = this.startBidding();
     if (winner == null) {
       this.roundCancelled = true;
@@ -196,8 +198,8 @@ class RoundInstance {
    * @return Returns the winner, null if no one wins.
    */
 
-  private boolean respond;
-  private Player currentBidder;
+  protected boolean respond;
+  protected Player currentBidder;
 
   public Player startBidding() throws InterruptedException {
     synchronized (lock) {
@@ -207,8 +209,9 @@ class RoundInstance {
       respond = false;
       currentWinner = bidDuel(this.players[2], currentWinner);
       if (currentWinner.equals(this.players[0]) && this.currentBiddingValue == 0) {
-        this.slc.callForBid(this.players[0], BiddingValues.values[this.currentBiddingValue]);
         this.current = LogicAnswers.BID;
+        this.currentBidder = this.players[0];
+        this.slc.callForBid(this.players[0], BiddingValues.values[this.currentBiddingValue]);
         lock.wait();
         if (this.bidAccepted) {
           return this.players[0];
@@ -227,7 +230,7 @@ class RoundInstance {
    * @param bid the player that asks for a bid.
    * @param respond the player that responds to the bids.
    */
-  private Player bidDuel(Player bid, Player respond) throws InterruptedException {
+  Player bidDuel(Player bid, Player respond) throws InterruptedException {
 
 
     while (this.currentBiddingValue < BiddingValues.values.length) {
@@ -383,20 +386,20 @@ class RoundInstance {
   /**
    * Returns the winer of the trick.
    */
-  protected Player determineTrickWinner() {
+  public Player determineTrickWinner() {
     Contract contract = this.getContract();
 
-    if (this.getFirstCard().beats(contract, this.getSecondCard())
-        && this.getFirstCard().beats(contract, this.getThirdCard())) {
-      return this.getForehand();
-
-    } else {
-      return (this.getSecondCard().beats(contract, this.getThirdCard())) ? this.getMiddlehand()
-          : this.getRearhand();
+    if (this.getSecondCard().beats(contract, this.getFirstCard())
+        && this.getSecondCard().beats(contract, getThirdCard())) {
+      return this.getMiddlehand();
     }
-
-
+    if (this.getThirdCard().beats(contract, this.getFirstCard())
+        && this.getThirdCard().beats(contract, getSecondCard())) {
+      return this.getRearhand();
+    }
+    return this.getForehand();
   }
+
 
 
   /**
@@ -429,16 +432,27 @@ class RoundInstance {
   }
 
 
+  public void setForehand(Player player) {
+    this.players[0] = player;
+  }
 
-  Player getForehand() {
+  public void setMiddlehand(Player player) {
+    this.players[1] = player;
+  }
+
+  public void setRearhand(Player player) {
+    this.players[2] = player;
+  }
+
+  public Player getForehand() {
     return this.players[0];
   }
 
-  Player getMiddlehand() {
+  public Player getMiddlehand() {
     return this.players[1];
   }
 
-  Player getRearhand() {
+  public Player getRearhand() {
     return this.players[2];
   }
 
@@ -452,6 +466,10 @@ class RoundInstance {
 
   public Card getThirdCard() {
     return this.trick[2];
+  }
+
+  public void setContract(Contract contract) {
+    this.contract = contract;
   }
 
   Player[] getTeamPlayer() {

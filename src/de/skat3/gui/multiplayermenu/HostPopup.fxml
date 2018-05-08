@@ -23,7 +23,8 @@
 	fx:controller="de.skat3.gui.multiplayermenu.HostPopupController">
 	<children>
 		<Pane prefHeight="52.0" prefWidth="320.0"
-			style="-fx-background-color: #404040;">
+			style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
 				<Label layoutX="107.0" layoutY="11.0" text="Host Server"
 					textFill="WHITE">
@@ -34,7 +35,8 @@
 			</children>
 		</Pane>
 		<VBox layoutX="21.0" layoutY="67.0" prefHeight="247.0"
-			prefWidth="284.0" spacing="20.0">
+			prefWidth="284.0" spacing="20.0" AnchorPane.leftAnchor="21.0"
+			AnchorPane.rightAnchor="15.0">
 			<children>
 				<GridPane>
 					<columnConstraints>
@@ -154,7 +156,7 @@
 		<Button fx:id="btnHost" layoutX="18.0" layoutY="338.0"
 			mnemonicParsing="false" onAction="#hostGame" prefHeight="42.0"
 			prefWidth="284.0" style="-fx-background-color: #d60202;" text="Host"
-			textFill="WHITE">
+			textFill="WHITE" AnchorPane.bottomAnchor="14.0">
 			<font>
 				<Font size="19.0" />
 			</font>

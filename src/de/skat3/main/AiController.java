@@ -8,14 +8,14 @@ import de.skat3.gamelogic.Player;
 
 public class AiController {
 
-  int botDelay = 1500;
+  int botDelay = 1200; // 1500
   Player firstBot;
   Player secondBot;
   Player thirdBot;
 
 
   /**
-   * 
+   * Adds a bot to this object if a spot is empty.
    * @param bot
    */
   public void addBot(Player bot) {
@@ -37,6 +37,27 @@ public class AiController {
     System.err.println("Already three bots added");
   }
 
+  /**
+   * Removes the bot from this class if he exists.
+   */
+  public void removeBot(Player bot) {
+    if (this.firstBot != null) {
+      if (this.firstBot.equals(bot)) {
+        this.firstBot = null;
+      }
+    }
+    if (this.secondBot != null) {
+      if (this.secondBot.equals(bot)) {
+        this.secondBot = null;
+      }
+    }
+    if (this.thirdBot != null) {
+      if (this.thirdBot.equals(bot)) {
+        this.thirdBot = null;
+      }
+    }
+  }
+
   public Player getBot(Player bot) {
 
     if (this.firstBot.equals(bot)) {
@@ -54,6 +75,7 @@ public class AiController {
 
 
   public void updatePlayer(Player bot, Player un) {
+    
 
     this.getBot(bot).updatePlayer(bot);
     this.getBot(bot).ai.setHand(bot.getHand());

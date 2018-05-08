@@ -18,6 +18,10 @@ public class TrainingModeController {
     this.trainingMode = trainingMode;
   }
 
+  public void startSkatBasic() {
+    SkatMain.mainController.startTrainingMode(0);
+  }
+
   public void startTrumpMonopoly() {
     SkatMain.mainController.startTrainingMode(1);
   }

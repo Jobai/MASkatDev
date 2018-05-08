@@ -1,5 +1,6 @@
 package de.skat3.network.client;
 
+import java.util.logging.Logger;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -23,6 +24,7 @@ import de.skat3.network.datatypes.MessageCommand;
  */
 public class ClientLogicHandler {
 
+  Logger logger = Logger.getLogger("de.skat3.network.client");
 
   GameClient gc;
 
@@ -40,12 +42,14 @@ public class ClientLogicHandler {
   // tell GUI
   /**
    * Handels bidInfoMessages and tells the GUI to display the current bid of another player.
+   * 
    * @author Jonas Bauer
    * @param m network message
    */
   void bidInfoHandler(Message m) {
 
-    System.out.println("BID INFO HANDELD");
+
+    logger.entering(this.getClass().getName(), "bidInfoHandler(Message m)");
 
     MessageCommand mc = (MessageCommand) m;
     String message = (String) mc.gameState;
@@ -66,12 +70,14 @@ public class ClientLogicHandler {
   // tell GUI
   /**
    * Handels bidRequest message and tells the gui to ask the player for a bid.
+   * 
    * @author Jonas Bauer
    * @param m network message
    */
   void bidRequestHandler(Message m) {
 
-    System.out.println("BID REQUEST HANDELD");
+    logger.entering(this.getClass().getName(), "bidRequestHandler(Message m)");
+    logger.fine("BID REQUEST HANDLED!");
     int b = (int) ((MessageCommand) m).gameState;
     SkatMain.mainController.bidRequest(b);
 
@@ -173,7 +179,7 @@ public class ClientLogicHandler {
 
   }
 
-  
+
   /**
    * 
    * @author Jonas Bauer
@@ -193,7 +199,6 @@ public class ClientLogicHandler {
 
   }
 
- 
 
 
   /**
@@ -272,6 +277,7 @@ public class ClientLogicHandler {
 
   /**
    * Show a Kontra popup in the GUI.
+   * 
    * @author Jonas Bauer
    * @param m network message
    */
@@ -282,6 +288,7 @@ public class ClientLogicHandler {
 
   /**
    * Show a reKontra popup in the GUI.
+   * 
    * @author Jonas Bauer
    * @param m network message
    */

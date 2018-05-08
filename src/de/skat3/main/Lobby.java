@@ -10,12 +10,14 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Inet4Address;
 import java.util.UUID;
+import java.util.logging.Logger;
 import de.skat3.gamelogic.Player;
 
 public class Lobby implements Serializable {
-  
+
   private static final long serialVersionUID = 7279502331048915007L;
 
+  private transient Logger logger = Logger.getLogger("de.skat3.gamelogic");
 
   String name;
 
@@ -137,15 +139,19 @@ public class Lobby implements Serializable {
   }
 
   public void addPlayer(Player player) {
-    if (this.currentPlayers < this.numberOfPlayers && this.players[currentPlayers] == null) {
-      this.players[currentPlayers] = player;
-      this.currentPlayers++;
-      if (SkatMain.mainController.numberOfPlayerProperty != null) {
-        SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
+    if (this.currentPlayers < this.numberOfPlayers) {
+      for (int i = 0; i < this.numberOfPlayers; i++) {
+        if (this.players[i] == null) {
+          this.players[i] = player; // XXX
+          this.currentPlayers++;
+          if (SkatMain.mainController.numberOfPlayerProperty != null) {
+            SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
+          }
+          System.out.println("Player added " + player + " (" + this.currentPlayers + "/"
+              + this.numberOfPlayers + ")");
+          break;
+        }
       }
-      System.out.println(
-          "Player added " + player + " (" + this.currentPlayers + "/" + this.numberOfPlayers + ")");
-
       if (SkatMain.lgs == null) {
         SkatMain.mainController.setLgs();
       }
@@ -159,10 +165,17 @@ public class Lobby implements Serializable {
   }
 
   public void removePlayer(Player player) {
+    if(player==null) {
+      System.out.println("Fehler");
+      return;
+    }
     for (int i = 0; i < this.numberOfPlayers; i++) {
       if (this.players[i] != null) {
         if (this.players[i].equals(player)) {
           SkatMain.lgs.removePlayer(player);
+          if (player.isBot()) {
+            SkatMain.aiController.removeBot(player);
+          }
           this.players[i] = null;
           this.currentPlayers--;
           if (SkatMain.mainController.maxNumberOfPlayerProperty != null) {
@@ -172,7 +185,11 @@ public class Lobby implements Serializable {
         }
       }
       if (i == this.numberOfPlayers - 1) {
-        System.err.println("Player not found: " + player);
+        try {
+          logger.severe("Player not found: " + player);
+        } catch (Exception e) {
+          System.out.println("Error in remove Player, Logger or Player null");
+        }
       }
     }
   }

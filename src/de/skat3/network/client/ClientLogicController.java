@@ -4,6 +4,7 @@
 
 package de.skat3.network.client;
 
+import java.util.logging.Logger;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -31,11 +32,19 @@ public class ClientLogicController {
 
   GameClient gc;
   String userName;
+  Logger logger = Logger.getLogger("de.skat3.network.client");
 
 
   public ClientLogicController(GameClient gameClient) {
     this.gc = gameClient;
-    userName = SkatMain.ioController.getLastUsedProfile().getName();
+    try{
+      userName = SkatMain.ioController.getLastUsedProfile().getName();
+    }
+    catch(NullPointerException e)
+    {
+      //silent for JUNIT testing purposes.
+    }
+   
   }
 
   /**
@@ -45,7 +54,7 @@ public class ClientLogicController {
    * @param answer value if he accepts the current bid.
    */
   public void bidAnswer(boolean answer) {
-    System.out.println("BID ANSWER SEND  - " + answer);
+    logger.fine("BID ANSWER SEND  - " + answer);
     MessageAnswer ma = new MessageAnswer(userName, AnswerType.BID_ANSWER);
     ma.payload = answer;
     gc.sendToServer(ma);
@@ -150,7 +159,7 @@ public class ClientLogicController {
    * @author Jonas Bauer
    */
   public void announceGameStarted() {
-    System.out.println("START GAME SEND OUT");
+    logger.fine("START GAME SEND OUT");
     MessageCommand mc = new MessageCommand(MessageType.STATE_CHANGE, "ALL", null);
     mc.payload = "START"; // XXX
     gc.sendToServer(mc);

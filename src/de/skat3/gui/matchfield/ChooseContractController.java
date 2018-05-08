@@ -3,8 +3,13 @@ package de.skat3.gui.matchfield;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Contract;
 import de.skat3.main.SkatMain;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanExpression;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -20,8 +25,6 @@ public class ChooseContractController {
 
   @FXML
   public AnchorPane root;
-  @FXML
-  private CheckBox cbOpengame;
   @FXML
   private Label iconClub;
   @FXML
@@ -40,9 +43,12 @@ public class ChooseContractController {
   private CheckBox cbSchwarz;
   @FXML
   private CheckBox cbOuvert;
+  @FXML
+  private Button saveButton;
 
 
   private Contract currentContract;
+  private boolean contractSelected = false;
 
 
   @FXML
@@ -51,6 +57,7 @@ public class ChooseContractController {
     iconSpade.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent e) {
+        contractSelected = true;
         currentContract = Contract.SPADES;
         resetAllContracts();
         iconSpade.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
@@ -60,6 +67,7 @@ public class ChooseContractController {
     iconHeart.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent e) {
+        contractSelected = true;
         currentContract = Contract.HEARTS;
         resetAllContracts();
         iconHeart.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
@@ -69,6 +77,7 @@ public class ChooseContractController {
     iconDiamond.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent e) {
+        contractSelected = true;
         currentContract = Contract.DIAMONDS;
         resetAllContracts();
         iconDiamond
@@ -79,6 +88,7 @@ public class ChooseContractController {
     iconClub.setOnMouseClicked(new EventHandler<MouseEvent>() {
       @Override
       public void handle(MouseEvent e) {
+        contractSelected = true;
         currentContract = Contract.CLUBS;
         resetAllContracts();
         iconClub.setStyle("-fx-border-color: #d60202; -fx-border-radius: 5; -fx-border-width: 2;");
@@ -89,6 +99,7 @@ public class ChooseContractController {
       @Override
       public void handle(MouseEvent event) {
         resetAllContracts();
+        contractSelected = true;
         currentContract = Contract.GRAND;
         toggleGrand.setSelected(true);
       }
@@ -98,12 +109,32 @@ public class ChooseContractController {
       @Override
       public void handle(MouseEvent event) {
         resetAllContracts();
+        contractSelected = true;
         currentContract = Contract.NULL;
         toggleOpengame.setSelected(true);
       }
     });
 
+    // saveButton.disableProperty().bind(BooleanExpression.booleanExpression(value));
+
   }
+
+  /**
+   * .
+   */
+  public void checkIfHandgame() {
+    // If handgame disable all checkboxes
+    if (!SkatMain.guiController.getInGameController().matchfield.overlayController.isHandgame()) {
+      cbSchneider.setDisable(true);
+      cbSchwarz.setDisable(true);
+      cbOuvert.setDisable(true);
+    } else {
+      cbSchneider.setDisable(false);
+      cbSchwarz.setDisable(false);
+      cbOuvert.setDisable(false);
+    }
+  }
+
 
   /**
    * .
@@ -111,25 +142,18 @@ public class ChooseContractController {
   public void setContract() {
 
     AdditionalMultipliers additionalMultipliers = new AdditionalMultipliers(
-        cbSchneider.isSelected(), cbSchwarz.isSelected(), cbOpengame.isSelected());
+        cbSchneider.isSelected(), cbSchwarz.isSelected(), cbOuvert.isSelected());
     SkatMain.mainController.contractSelected(currentContract, additionalMultipliers);
 
-    this.root.setVisible(false);
-    this.root.setDisable(true);
+    SkatMain.guiController.getInGameController().matchfield.overlayController.showTimer(false);
+    SkatMain.guiController.getInGameController().matchfield.overlayController.remove(this.root);
 
   }
 
   private void clear() {
-    cbOpengame.setSelected(false);
     cbSchneider.setSelected(false);
     cbSchwarz.setSelected(false);
     cbOuvert.setSelected(false);
-  }
-
-  public void setOpenGame() {
-    if (!cbOpengame.isSelected()) {
-      clear();
-    }
   }
 
   /**
@@ -144,7 +168,6 @@ public class ChooseContractController {
     } else {
       cbSchneider.setSelected(true);
     }
-    cbOpengame.setSelected(true);
   }
 
   /**
@@ -160,7 +183,6 @@ public class ChooseContractController {
     }
 
     cbSchneider.setSelected(true);
-    cbOpengame.setSelected(true);
   }
 
   /**
@@ -175,7 +197,6 @@ public class ChooseContractController {
       cbOuvert.setSelected(true);
     }
     cbSchneider.setSelected(true);
-    cbOpengame.setSelected(true);
     cbSchwarz.setSelected(true);
   }
 

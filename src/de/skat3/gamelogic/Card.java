@@ -26,7 +26,7 @@ public class Card implements Serializable {
    * Creates an empty, facedown card.
    */
   public Card() {
-    this.view = "cardImages/green_back.png";
+    this.view = "cardImages/back_blue.png";
     this.suit = null;
     this.value = null;
   }
@@ -179,16 +179,17 @@ public class Card implements Serializable {
           if (this.isJack() && card.isJack()) {
             return (this.suit.ordinal() > card.suit.ordinal()) ? true : false;
           }
-          if (this.isJack()) {
+          if (this.isTrump(contract)) {
             return true;
+          } else {
+            return false;
           }
-          return !card.isTrump(contract);
         }
       case NULL:
         if (this.suit == card.suit) {
           return (this.calcNullValue() > card.calcNullValue()) ? true : false;
         } else {
-          return true;
+          return false;
         }
       default:
         System.err.println("Wrong Contract");

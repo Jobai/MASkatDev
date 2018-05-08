@@ -8,7 +8,7 @@
 
 <AnchorPane fx:id="mainPane" layoutY="141.0"
 	prefHeight="581.0" prefWidth="1280.0"
-	xmlns="http://javafx.com/javafx/9.0.1"
+	xmlns="http://javafx.com/javafx/8"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.singleplayermenu.SingleplayerMenuController">
 	<children>
@@ -20,7 +20,7 @@
 			AnchorPane.rightAnchor="709.0" AnchorPane.topAnchor="1.0">
 			<image>
 				<Image
-					url="@../../../../../resources/guifiles/single_game_button.png" />
+					url="@/guifiles/single_game_button.png" />
 			</image>
 		</ImageView>
 		<ImageView fitHeight="529.0" fitWidth="561.0"
@@ -30,7 +30,7 @@
 			AnchorPane.bottomAnchor="52.0" AnchorPane.topAnchor="1.0">
 			<image>
 				<Image
-					url="@../../../../../resources/guifiles/training_mode_button.png" />
+					url="@/guifiles/training_mode_button.png" />
 			</image>
 		</ImageView>
 	</children>

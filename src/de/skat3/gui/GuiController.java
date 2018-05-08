@@ -4,10 +4,11 @@ import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Result;
+import de.skat3.gui.matchfield.GameResultViewController;
 import de.skat3.gui.matchfield.InGameController;
-import de.skat3.gui.resultscreen.GameResultViewController;
-import de.skat3.gui.resultscreen.RoundResultViewController;
+import de.skat3.gui.matchfield.RoundResultViewController;
 import java.io.IOException;
+import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,12 +30,20 @@ public class GuiController implements GuiControllerInterface {
 
   private InGameController inGameController;
 
+  public Logger logger = Logger.getLogger("de.skat3.gui");
+
   public void goInGame() {
     this.inGameController = this.gui.showMatchfield();
   }
 
   public void goToMenu() {
+    try{
     this.gui.showMenu();
+    }
+    catch(NullPointerException e)
+    {
+      System.err.println("NO GUI Present!");
+    }
   }
 
   public InGameController getInGameController() {
@@ -75,7 +84,7 @@ public class GuiController implements GuiControllerInterface {
    * Creates and shows a custom alert prompt. Used for informing the user of a failed action.
    * 
    * @author Jonas Bauer
-   * @param title title of the alarm prompt.
+   * @param title of the alarm prompt.
    * @param prompt text of the alarm prompt.
    */
   public void showCustomAlarmPromt(String title, String prompt) {
@@ -88,6 +97,7 @@ public class GuiController implements GuiControllerInterface {
   }
 
   @Override
+  @Deprecated
   public void showRoundResult(Result result) {
 
     FXMLLoader fxmlLoader =
@@ -108,6 +118,7 @@ public class GuiController implements GuiControllerInterface {
   }
 
   @Override
+  @Deprecated
   public void showGameResult(MatchResult matchResult) {
 
     FXMLLoader fxmlLoader =

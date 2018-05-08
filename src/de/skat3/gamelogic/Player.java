@@ -1,6 +1,7 @@
 package de.skat3.gamelogic;
 
 import de.skat3.ai.Ai;
+import de.skat3.ai.AiNames;
 import de.skat3.ai.IntelligentAi;
 import de.skat3.ai.RandomAI;
 import de.skat3.io.profile.ImageConverter;
@@ -86,12 +87,14 @@ public class Player implements Serializable, Comparable<Player> {
     for (Card card : player.wonTricks) {
       this.wonTricks.add(card);
     }
+    this.position = player.position;
     this.uuid = player.uuid;
     this.image = player.image;
     this.points = player.points;
     this.setHand(player.hand);
     this.isBot = player.isBot;
     this.ai = player.ai;
+    this.isHardBot = player.isHardBot;
     this.wonGames = player.wonGames;
     this.lostGames = player.lostGames;
     this.seegerPoints = player.seegerPoints;
@@ -103,15 +106,11 @@ public class Player implements Serializable, Comparable<Player> {
    * @param hardBot true if the ai is hard.
    */
   public Player(boolean hardBot) {
-    if (hardBot) {
-      this.name = "Hard Ai";
-    } else {
-      this.name = "Easy Ai";
-    }
+    this.uuid = UUID.randomUUID();
+    this.name = AiNames.getRandomName(hardBot);
     this.isHardBot = hardBot;
     this.wonTricks = new ArrayList<Card>();
-    this.points = 0;
-    this.uuid = UUID.randomUUID();
+    this.points = 0;;
     this.hand = new Hand();
     this.isBot = true;
     this.wonGames = 0;
@@ -269,6 +268,7 @@ public class Player implements Serializable, Comparable<Player> {
    * Updates all attributes that can vary during a match.
    */
   public void updatePlayer(Player player) {
+    this.position = player.position;
     this.isSolo = player.isSolo;
     this.wonTricks = player.wonTricks;
     this.points = player.points;
@@ -342,6 +342,11 @@ public class Player implements Serializable, Comparable<Player> {
       }
     }
     return 0;
+  }
+
+
+  public void clearWonTricks() {
+    this.wonTricks.clear();
   }
 
 }

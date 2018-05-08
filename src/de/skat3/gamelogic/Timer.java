@@ -63,7 +63,7 @@ public class Timer extends Thread {
         Platform.runLater(new Runnable() {
           @Override
           public void run() {
-            SkatMain.guiController.getInGameController().makeAMoveRequest(false);
+            SkatMain.guiController.getInGameController().showMakeAMoveRequest(false);
           }
         });
         SkatMain.mainController.localCardPlayed(temp.get(i));

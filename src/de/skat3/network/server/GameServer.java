@@ -36,9 +36,9 @@ import java.util.logging.Logger;
  */
 public class GameServer extends Thread {
 
-  private static Logger logger = Logger.getLogger("de.skat3.network.server");
+  static Logger logger = Logger.getLogger("de.skat3.network.server");
   public static List<GameServerProtocol> threadList;
-  public static int port = 2018; // HARDCODED
+  public static final int port = 2018; // HARDCODED
   private ServerSocket serverSocket;
 
   private ServerLogicController slc;
@@ -49,9 +49,12 @@ public class GameServer extends Thread {
 
   public LobbyServer ls;
 
-  static Lobby lobby;
-  
+  Lobby lobbySettings;
+
   public boolean failure;
+
+  boolean stopped;
+  private boolean stoppingInProgess;
 
 
 
@@ -81,8 +84,9 @@ public class GameServer extends Thread {
     this.gc = gc;
     threadList = Collections.synchronizedList(new ArrayList<GameServerProtocol>());
     slc = new ServerLogicController(lobbysettings, this);
-    GameServer.lobby = lobbysettings;
+    lobbySettings = lobbysettings;
     this.start();
+
   }
 
   /**
@@ -103,6 +107,7 @@ public class GameServer extends Thread {
    * GameServer-Thread. Handles all new connections and starts foreach a GameServerProtocol.
    */
   public void run() {
+    Thread.currentThread().setName("GameServerThread");
     try (ServerSocket server = new ServerSocket(port)) {
       logger
           .info("Server started on " + Inet4Address.getLocalHost().getHostAddress() + ": " + port);
@@ -148,18 +153,26 @@ public class GameServer extends Thread {
    */
   public void stopServer() {
 
+    if (stoppingInProgess) {
+      logger.warning("Server already stopping!");
+      return;
+    }
+    stoppingInProgess = true;
     try {
       logger.info("Server is stopping");
+      ls.stopLobbyBroadcast();
       this.interrupt();
+      endAllClients();
       this.serverSocket.close();
       this.interrupt();
-      logger.info("Server stopped!" +  this.isInterrupted());
+      logger.info("Server stopped!" + this.isInterrupted());
+      this.stop();
     } catch (SocketException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     } catch (NullPointerException e) {
-      // just keep it
+      e.printStackTrace();
     }
 
   }
@@ -167,6 +180,17 @@ public class GameServer extends Thread {
   public ServerLogicController getSeverLogicController() {
     return this.slc;
 
+  }
+
+  private void endAllClients() {
+    logger.info("ending all clients");
+    Object[] gspa = GameServer.threadList.toArray();
+    synchronized (threadList) {
+      for (Object gameServerProtocol : gspa) {
+
+        ((GameServerProtocol) gameServerProtocol).kickConnection("SHUTDOWN");
+      }
+    }
   }
 
 
@@ -179,6 +203,9 @@ public class GameServer extends Thread {
    * @param mc message to be transmitted.
    */
   public void sendToPlayer(Player player, MessageCommand mc) {
+    if (this.isInterrupted() || stopped) {
+      return;
+    }
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       if (gameServerProtocol.playerProfile.equals(player)) {
         if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
@@ -200,6 +227,9 @@ public class GameServer extends Thread {
    * @param mc the message to be broadcasted
    */
   public void broadcastMessage(Message mc) {
+    if (isInterrupted() || stopped) {
+      return;
+    }
     synchronized (threadList) {
       for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
         gameServerProtocol.sendMessage(mc);

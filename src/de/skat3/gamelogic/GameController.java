@@ -1,5 +1,6 @@
 package de.skat3.gamelogic;
 
+import de.skat3.main.SkatMain;
 import de.skat3.network.server.ServerLogicController;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -106,6 +107,7 @@ public class GameController implements GameLogicInterface {
       this.roundInstance.startRound();
     } catch (InterruptedException e) {
       System.err.println("LOGIC: Runde konnte nicht gestartet werden: " + e);
+      this.gameThread.interrupt();
     }
 
   }
@@ -125,6 +127,8 @@ public class GameController implements GameLogicInterface {
       this.players[0] = allPlayers[(i + 1) % 4];
       this.players[1] = allPlayers[(i + 2) % 4];
       this.players[2] = allPlayers[(i + 3) % 4];
+      SkatMain.mainController.setDealer(this.dealer.copyPlayer());
+      slc.setDealer(this.dealer.copyPlayer());
     }
   }
 
@@ -243,7 +247,7 @@ public class GameController implements GameLogicInterface {
       System.err.println("LOGIC: Wrong hand or Skat send to logic.");
       return;
     }
-    this.roundInstance.solo.setHand(new Hand(hand.cards)); 
+    this.roundInstance.solo.setHand(new Hand(hand.cards));
     System.out.println("logic hand: " + hand);
     this.roundInstance.skat[0] = skat[0].copy();
     this.roundInstance.skat[1] = skat[1].copy();

@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="454.0" prefWidth="461.0"
-	xmlns="http://javafx.com/javafx/9.0.1"
+	xmlns="http://javafx.com/javafx/8"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.menuframe.ProfileController">
 	<children>
@@ -26,7 +26,7 @@
 			preserveRatio="true">
 			<image>
 				<Image
-					url="@../../../../../resources/guifiles/dummy_avatar.jpg" />
+					url="@/guifiles/dummy_avatar.jpg" />
 			</image>
 		</ImageView>
 		<Button layoutX="88.0" layoutY="382.0" fx:id="btnSave"
@@ -63,7 +63,7 @@
 						<ImageView fitHeight="19.0" fitWidth="19.0"
 							pickOnBounds="true" preserveRatio="true">
 							<image>
-								<Image url="@../../../../../resources/guifiles/delete.png" />
+								<Image url="@/guifiles/delete.png" />
 							</image>
 						</ImageView>
 					</graphic>

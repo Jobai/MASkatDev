@@ -78,7 +78,7 @@ public class LobbyDiscover extends Thread {
    * conversion to lobbys.
    */
   public void run() {
-
+    Thread.currentThread().setName("LobbyDiscoverThreat");
 
     if (!multicast) {
       broadcastingDiscovery();
@@ -92,7 +92,7 @@ public class LobbyDiscover extends Thread {
 
 
   private void broadcastingDiscovery() {
-    System.out.println("BROADCAST LOBBY MODE");
+    logger.info("BROADCAST LOBBY MODE");
 
     try (DatagramSocket dds = new DatagramSocket(port, inetAdressBroadcasting)) {
       ds = dds;

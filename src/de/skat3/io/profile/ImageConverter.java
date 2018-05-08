@@ -13,8 +13,17 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+
+
 public class ImageConverter {
 
+  /**
+   * Converts JavaFX Image to Encoded String.
+   * 
+   * @param image the image to be encoded.
+   * @param imageFormat the format of the image to encode.
+   * @return String that contains incoded image
+   */
   public String imageToEncodedString(Image image, String imageFormat) {
     if (image == null) {
       System.out.println("Image == null");
@@ -26,6 +35,12 @@ public class ImageConverter {
     }
   }
 
+  /**
+   * Converts encoded String to Image.
+   * 
+   * @param encoded the encoded String that is to be converted to Image.
+   * @return JavaFX Image that was generated from the encoded String.
+   */
   public Image encodedStringToImage(String encoded) {
     byte[] decoded;
     try {
@@ -36,12 +51,19 @@ public class ImageConverter {
     return bytesToImage(decoded);
   }
 
+  /**
+   * Converts JavaFX Image to byte array.
+   * 
+   * @param image the Image that is to be converted.
+   * @param imageFormat the format of the Image that is to be converted.
+   * @return byte array generated from the Image.
+   */
   private byte[] imageToBytes(Image image, String imageFormat) {
-    BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+    BufferedImage bufImage = SwingFXUtils.fromFXImage(image, null);
     ByteArrayOutputStream s = new ByteArrayOutputStream();
     byte[] res = null;
     try {
-      ImageIO.write(bImage, imageFormat, s);
+      ImageIO.write(bufImage, imageFormat, s);
       res = s.toByteArray();
       s.close();
     } catch (IOException e1) {
@@ -51,6 +73,13 @@ public class ImageConverter {
     return res;
   }
 
+  /**
+   * Converts syntax of decoded bytes to JavaFX Image. Unused local variables are required by JavaFX
+   * syntax rules.
+   * 
+   * @param decoded the array of the decoded bytes.
+   * @return JavaFX Image generated from array of the decoded bytes.
+   */
   private Image bytesToImage(byte[] decoded) {
     // The unused javafx components are needed to be created in order for image to work
     // It is javafx platform specific requirement

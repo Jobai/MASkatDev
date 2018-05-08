@@ -4,10 +4,13 @@ import java.io.IOException;
 import de.skat3.gui.matchfield.InGameController;
 import de.skat3.gui.matchfield.Matchfield;
 import de.skat3.gui.menuframe.MenuFrame;
-import de.skat3.gui.menuframe.ProfileController;
 import de.skat3.main.SkatMain;
 import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /*
@@ -53,7 +56,6 @@ public class Gui extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    // SkatMain.getGuiController().setGui(this);
     SkatMain.guiController.setGui(this);
     this.mainStage = primaryStage;
 
@@ -63,7 +65,7 @@ public class Gui extends Application {
 
     this.mainStage.setTitle("MA Skat");
     this.mainStage.getIcons()
-        .add(new Image(getClass().getResourceAsStream("../../../guifiles/AppIcon.png")));
+        .add(new Image(getClass().getResourceAsStream("/guifiles/AppIcon.png")));
 
     this.mainStage.setScene(this.menuFrame.getScene());
     this.mainStage.show();
@@ -73,8 +75,8 @@ public class Gui extends Application {
 
   private void initializeComponents() {
     // size stuff. These are not the max values...s
-    this.mainStage.setMinWidth(1280);
-    this.mainStage.setMinHeight(720);
+    this.mainStage.setWidth(1280);
+    this.mainStage.setHeight(720);
     this.mainStage.setMaximized(true);
     this.menuFrame = new MenuFrame();
   }

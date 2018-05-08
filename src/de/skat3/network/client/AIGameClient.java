@@ -10,7 +10,9 @@
  */
 package de.skat3.network.client;
 
+import java.io.IOException;
 import de.skat3.gamelogic.Player;
+import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageChat;
@@ -51,7 +53,7 @@ public class AIGameClient extends GameClient {
   
   @Override
   void clientProtocolHandler(Object o) {
-    logger.info("AI got a MEssage!");
+    logger.fine("AI got a MEssage!");
     Object receivedObject = o;
     Message m = (Message) receivedObject;
     MessageType mt = m.getType();
@@ -72,16 +74,16 @@ public class AIGameClient extends GameClient {
 
     switch (mt) {
       case CONNECTION_OPEN:
-        this.handleOpendConnection(m);
+//        this.handleOpendConnection(m);
         break;
       case CONNECTION_CLOSE:
         this.closeConnection(m);
         break;
       case CONNECTION_INFO:
-        this.handleConnectionInfo(m);
+//        this.handleConnectionInfo(m);
         break;
       case CHAT_MESSAGE:
-        this.handleChatMessage((MessageChat) m);
+        //Do nothing as bot
         break;
       case ANWSER_ACTION:
         throw new AssertionError();
@@ -94,6 +96,7 @@ public class AIGameClient extends GameClient {
       case STATE_CHANGE:
         this.handleStateChange(m, st);
         break;
+        
       default:
         logger.severe("Message Type not handeld!  " + mt + " --- " + st);
         throw new AssertionError();
@@ -101,9 +104,27 @@ public class AIGameClient extends GameClient {
   }
 
 
+  /* (non-Javadoc)
+   * @see de.skat3.network.client.GameClient#closeConnection(de.skat3.network.datatypes.Message)
+   */
+  @Override
+  void closeConnection(Message m) {
+    // TODO Auto-generated method stub
+
+    sl.interrupt();
+    try {
+      sl.interrupt();
+      toSever.close();
+      fromServer.close();
+      socket.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   void handleCommandAction(Message m, SubType st) {
     CommandType ct = (CommandType) st;
-    logger.info("Handeling AI received message!" + ct);
+    logger.fine("Handeling AI received message!" + ct);
 
     switch (ct) {
       case BID_INFO:
@@ -175,6 +196,12 @@ public class AIGameClient extends GameClient {
       case UPDATE_ENEMY_INFO:
         aiCLH.updateEnemyInfoHandler(m);
         break;
+      case TRAINING_CALL_FOR_SPECIFIC_PLAY:
+        aiCLH.specificPlayHandler(m);
+        break;
+      case SET_DEALER:
+        aiCLH.setDealerHandler(m);
+        break;
       default:
         logger.severe("Message Type not handeld!  " + " --- " + st);
         throw new AssertionError();
@@ -182,4 +209,15 @@ public class AIGameClient extends GameClient {
     }
 
   }
+
+  /* (non-Javadoc)
+   * @see de.skat3.network.client.GameClient#showConnectionErro(de.skat3.network.datatypes.Message)
+   */
+  @Override
+  void showConnectionErro(Message m) {
+    //Don't show ConnectionErrors for the AI in the GUI!
+    logger.warning("AI got Disconnected!");
+  }
+  
+  
 }

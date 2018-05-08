@@ -3,9 +3,14 @@ package de.skat3.io.profile;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+/**
+ * This class contains some constants relevant for io package.
+ * 
+ * @author Artem Zamarajev
+ *
+ */
 public final class Utils {
   static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-  static final String JSON_PATH_PRODUCTION = "data/profiles.json";
   // Production constant names
   static final String JSON_ID_FIELD = "id";
   static final String JSON_NAME_FIELD = "name";
@@ -14,7 +19,7 @@ public final class Utils {
   static final String JSON_LAST_USED_FIELD = "lastUsed";
   public static final String JPG = "jpg";
   public static final String PNG = "png";
-  // Image constants
+  // Image constants for testing
   public static final String IMAGE_1_PNG = "resources/profile pictures/IMAGE_1_PNG.png";
   public static final String IMAGE_1_PNG_NEW = "resources/profile pictures/image_png_new.png";
   public static final String IMAGE_1_JPG = "resources/profile pictures/IMAGE_1_JPG.jpg";
