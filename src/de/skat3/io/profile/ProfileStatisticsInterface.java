@@ -18,8 +18,6 @@ public interface ProfileStatisticsInterface {
 
   public int getSinglePlayerTotalGamesLost();
 
-  public void incrementSinglePlayerTotalGames();
-
   public void incrementSinglePlayerTotalGamesWon();
 
   public void incrementSinglePlayerTotalGamesLost();
@@ -83,8 +81,6 @@ public interface ProfileStatisticsInterface {
 
   public int getMultiPlayerTotalGamesLost();
 
-  public void incrementMultiPlayerTotalGames();
-         
   public void incrementMultiPlayerTotalGamesWon();
          
   public void incrementMultiPlayerTotalGamesLost();
