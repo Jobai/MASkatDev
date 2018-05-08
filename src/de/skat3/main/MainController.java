@@ -414,7 +414,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showAuctionWinner();
+        // SkatMain.guiController.getInGameController().showAuctionWinner();
       }
     });
   }
@@ -460,7 +460,7 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         System.out.println("wird aufgerufen showContract");
-        SkatMain.guiController.getInGameController().showSelectionInfos(true);
+        SkatMain.guiController.getInGameController().showSelectedGame(true);
       }
     });
   }
@@ -706,7 +706,7 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().showText("Kontra announcend");
-            SkatMain.guiController.getInGameController().showKontraButton(false);
+        SkatMain.guiController.getInGameController().showKontraButton(false);
       }
     });
   }

@@ -37,11 +37,9 @@ public class GuiController implements GuiControllerInterface {
   }
 
   public void goToMenu() {
-    try{
-    this.gui.showMenu();
-    }
-    catch(NullPointerException e)
-    {
+    try {
+      this.gui.showMenu();
+    } catch (NullPointerException e) {
       System.err.println("NO GUI Present!");
     }
   }
@@ -60,7 +58,6 @@ public class GuiController implements GuiControllerInterface {
 
   @Override
   public void showWrongPassword() {
-
     Alert alert = new Alert(AlertType.ERROR);
     alert.setHeaderText(null);
     alert.setTitle("Wrong Password");
@@ -76,7 +73,6 @@ public class GuiController implements GuiControllerInterface {
    * @author Jonas Bauer
    */
   public void blinkAlert() {
-
     this.gui.getMainStage().toFront();
   }
 
@@ -84,6 +80,7 @@ public class GuiController implements GuiControllerInterface {
    * Creates and shows a custom alert prompt. Used for informing the user of a failed action.
    * 
    * @author Jonas Bauer
+   * 
    * @param title of the alarm prompt.
    * @param prompt text of the alarm prompt.
    */
@@ -94,48 +91,6 @@ public class GuiController implements GuiControllerInterface {
     alert.setContentText(prompt);
     alert.showAndWait();
 
-  }
-
-  @Override
-  @Deprecated
-  public void showRoundResult(Result result) {
-
-    FXMLLoader fxmlLoader =
-        new FXMLLoader(getClass().getResource("resultscreen/RoundResultView.fxml"));
-    Parent root = null;
-    try {
-      root = fxmlLoader.load();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    Stage stage = new Stage();
-    stage.setTitle("Round Result");
-    stage.setScene(new Scene(root));
-
-    RoundResultViewController roundResultViwController = fxmlLoader.getController();
-    roundResultViwController.setResult(result);
-    stage.show();
-  }
-
-  @Override
-  @Deprecated
-  public void showGameResult(MatchResult matchResult) {
-
-    FXMLLoader fxmlLoader =
-        new FXMLLoader(getClass().getResource("resultscreen/GameResultView.fxml"));
-    Parent root = null;
-    try {
-      root = fxmlLoader.load();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    Stage stage = new Stage();
-    stage.setTitle("Game Result");
-    stage.setScene(new Scene(root));
-
-    GameResultViewController gameResultViewController = fxmlLoader.getController();
-    gameResultViewController.setResult(matchResult);
-    stage.show();
   }
 
   @Override
