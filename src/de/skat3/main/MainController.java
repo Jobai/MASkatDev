@@ -505,7 +505,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().makeAMoveRequest(true);
+        SkatMain.guiController.getInGameController().showMakeAMoveRequest(true);
       }
 
     });
@@ -524,8 +524,8 @@ public class MainController implements MainControllerInterface {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().makeAMoveRequest(true);
-        SkatMain.guiController.getInGameController().singleMakeAMoveRequest(card, true);
+        SkatMain.guiController.getInGameController().showMakeAMoveRequest(true);
+        SkatMain.guiController.getInGameController().showTutorialMakeAMoveRequest(card, true);
       }
     });
   }

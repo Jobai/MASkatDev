@@ -93,7 +93,7 @@ public class InGameTableController {
     // Play card
     SkatMain.mainController.localCardPlayed(card.getCard());
     // Disable local cards
-    SkatMain.guiController.getInGameController().makeAMoveRequest(false);
+    SkatMain.guiController.getInGameController().showMakeAMoveRequest(false);
     // hide kontra
     SkatMain.guiController.getInGameController().matchfield.overlayController.annouceContraButton
         .setVisible(false);
@@ -351,7 +351,7 @@ public class InGameTableController {
         Hand hand = new Hand(cards);
         SkatMain.mainController.skatSelected(hand, skat2);
         this.tableView.table.getChildren().removeAll(button, skat[0], skat[1]);
-        SkatMain.guiController.getInGameController().makeAMoveRequest(false);
+        SkatMain.guiController.getInGameController().showMakeAMoveRequest(false);
       }
     });
     this.tableView.table.getChildren().add(button);

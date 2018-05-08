@@ -5,15 +5,6 @@ import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.main.SkatMain;
-import java.io.IOException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -88,7 +79,7 @@ public class InGameController implements InGameControllerInterface {
    * @see de.skat3.gui.matchfield.InGameControllerInterface#makeAMove(boolean)
    */
   @Override
-  public void makeAMoveRequest(boolean value) {
+  public void showMakeAMoveRequest(boolean value) {
     this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value, true);
     this.matchfield.tableController.setCardsPlayable(value,
         SkatMain.lgs.getLocalClient().getHand().getCards());
@@ -107,7 +98,7 @@ public class InGameController implements InGameControllerInterface {
    * 
    * @param card
    */
-  public void singleMakeAMoveRequest(Card card, boolean value) {
+  public void showTutorialMakeAMoveRequest(Card card, boolean value) {
     this.matchfield.overlayController.setPlayText(InGameOverlayController.yourMove, value, true);
 
     Card[] playableRef = new Card[SkatMain.lgs.getLocalClient().getHand().getCards().length];
@@ -128,7 +119,6 @@ public class InGameController implements InGameControllerInterface {
       }
     }
     this.matchfield.tableController.setCardsPlayable(true, playableRef);
-
 
     this.matchfield.tableController.showPlayableColor(true,
         SkatMain.lgs.getLocalClient().getHand().getCards());
@@ -221,9 +211,15 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void startRound() {
+    this.matchfield.overlayController.bindChat();
     this.matchfield.tableController.iniHands();
     this.matchfield.overlayController.iniStartRound();
-    this.matchfield.tableView.trick.showBidingCards(true);
+    if (SkatMain.lgs.localPlayerIsDealer()) {
+      this.matchfield.overlayController.setPlayText("Spectating", true, false);
+    } else {
+      this.matchfield.tableView.trick.showBidingCards(true);
+    }
+
     this.showSelectionInfos(false);
   }
 
@@ -243,7 +239,12 @@ public class InGameController implements InGameControllerInterface {
 
   }
 
+  public void showTutorialBidRequest(int bid, boolean yes) {
+    this.matchfield.overlayController.showBidRequest(bid, yes);
+  }
+
   public void initializePlayers() {
+
     this.matchfield.overlayController.iniEmemyOne(SkatMain.lgs.getEnemyOne());
     this.matchfield.overlayController.iniEmemyTwo(SkatMain.lgs.getEnemyTwo());
     this.matchfield.overlayController.iniLocalClient(SkatMain.lgs.getLocalClient());

@@ -183,7 +183,8 @@ public class InGameOverlayController {
 
   private void loadFXMLFiles() {
     // GameResults
-    FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("GameResultView.fxml"));
+    FXMLLoader fxmlLoader =
+        new FXMLLoader(InGameOverlayController.class.getResource("GameResultView.fxml"));
     try {
       fxmlLoader.load();
     } catch (IOException e) {
@@ -193,7 +194,7 @@ public class InGameOverlayController {
     this.gameResultcontroller = fxmlLoader.getController();
 
     // RoundResults
-    fxmlLoader = new FXMLLoader(this.getClass().getResource("RoundResultView.fxml"));
+    fxmlLoader = new FXMLLoader(InGameOverlayController.class.getResource("RoundResultView.fxml"));
 
     try {
       fxmlLoader.load();
@@ -355,7 +356,6 @@ public class InGameOverlayController {
   void iniComponents() {
     this.loadFXMLFiles();
     this.root.requestFocus();
-    // this.bindChat();
   }
 
   void showRoundResult(Result result) {
@@ -525,24 +525,29 @@ public class InGameOverlayController {
     }
   }
 
+  private boolean chatIsBind;
+
   void bindChat() {
+    if (!this.chatIsBind) {
+      SkatMain.mainController.chatMessages.addListener(new ListChangeListener<String>() {
 
-    SkatMain.mainController.chatMessages.addListener(new ListChangeListener<String>() {
+        @Override
+        public void onChanged(Change<? extends String> c) {
+          StringBuffer newText = new StringBuffer("");
 
-      @Override
-      public void onChanged(Change<? extends String> c) {
-        StringBuffer newText = new StringBuffer();
-        c.next();
-        for (String addedMessage : c.getAddedSubList()) {
-          newText.append(addedMessage);
-          newText.append("\n");
+          while (c.next()) {
+            for (String addedMessage : c.getAddedSubList()) {
+              newText.append(addedMessage);
+              newText.append("\n");
+            }
+            chatArea.setText(chatArea.getText() + newText.toString());
+            chatArea.setScrollTop(Double.MAX_VALUE);
+          }
         }
-        chatArea.setText(chatArea.getText() + newText.toString());
-        chatArea.setScrollTop(Double.MAX_VALUE);
-      }
 
-    });
-
+      });
+      this.chatIsBind = true;
+    }
   }
 
   void iniLocalClient(Player player) {
@@ -667,6 +672,32 @@ public class InGameOverlayController {
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
     });
+
+    this.popUpController.textField.setText("Do you bid more than " + bid + "?");
+
+    this.popUpController.root.setVisible(true);
+    this.popUpController.root.setDisable(false);
+  }
+
+  void showBidRequest(int bid, boolean yesButton) {
+    this.popUpController.yesButton.setText("Bid");
+
+    if (yesButton) {
+      this.popUpController.yesButton.setOnAction(e -> {
+        SkatMain.mainController.localBid(true);
+        this.popUpController.root.setVisible(false);
+        this.popUpController.root.setDisable(true);
+      });
+    } else {
+      this.popUpController.noButton.setOnAction(e -> {
+        SkatMain.mainController.localBid(false);
+        this.popUpController.root.setVisible(false);
+        this.popUpController.root.setDisable(true);
+      });
+    }
+
+
+    this.popUpController.noButton.setText("Pass");
 
     this.popUpController.textField.setText("Do you bid more than " + bid + "?");
 
