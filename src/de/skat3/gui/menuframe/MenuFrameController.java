@@ -307,6 +307,8 @@ public class MenuFrameController {
    */
   public void handleMouseClickProfileMenu() {
     openProfile(currentProfile);
+    fillProfileMenu();
+    setCurrentProfile(SkatMain.ioController.getLastUsedProfile());
   }
 
   /**

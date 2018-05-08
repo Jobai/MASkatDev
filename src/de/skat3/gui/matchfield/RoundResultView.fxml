@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root"
+<AnchorPane fx:id="root" prefHeight="660.0"
 	style="-fx-background-color: #FFFFFF; -fx-border-width: 2; -fx-border-color: #000000;"
 	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
@@ -44,7 +44,8 @@
 		</Pane>
 		<Pane layoutX="4.0" layoutY="500.0" prefHeight="160.0"
 			prefWidth="652.0" style="-fx-background-color: F0C808;"
-			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+			AnchorPane.rightAnchor="0.0">
 			<children>
 				<Label layoutX="56.0" layoutY="13.0" prefHeight="47.0"
 					prefWidth="132.0" text="Declarer">
