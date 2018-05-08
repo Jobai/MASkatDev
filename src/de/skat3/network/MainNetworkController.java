@@ -99,7 +99,7 @@ public class MainNetworkController implements MainNetworkInterface {
   @Override
   public GameClient addAItoLocalServer(boolean hardAi) {
     Player player = new Player(hardAi);
-    AIGameClient gc = new AIGameClient("localhost", 2018, player);
+    AIGameClient gc = new AIGameClient("localhost", 2018, player, "swordfish");
     SkatMain.aiController.addBot(player);
     return gc;
 
