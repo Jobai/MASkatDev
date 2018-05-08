@@ -423,7 +423,9 @@ public class GameClient {
 
   void sendToServer(Message m) {
     try {
+      toSever.flush();
       toSever.writeObject(m);
+      toSever.flush();
       logger.log(Level.FINE, "tried to send" + m.subType);
     } catch (IOException e) {
       e.printStackTrace();

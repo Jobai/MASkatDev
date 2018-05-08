@@ -215,7 +215,9 @@ public class GameServerProtocol extends Thread {
   void sendMessage(Message message) {
     try {
 
+      toClient.flush();
       toClient.writeObject(message);
+      toClient.flush();
       logger.fine("send message");
     } catch (ClassCastException e) {
       e.printStackTrace();
@@ -268,9 +270,8 @@ public class GameServerProtocol extends Thread {
     }
     logger.info("Server closed a connection");
   }
-  
-  void closeLostConnection()
-  {
+
+  void closeLostConnection() {
     try {
       this.interrupt();
       toClient.close();

@@ -42,12 +42,13 @@ public class ClientLogicHandler {
   // tell GUI
   /**
    * Handels bidInfoMessages and tells the GUI to display the current bid of another player.
+   * 
    * @author Jonas Bauer
    * @param m network message
    */
   void bidInfoHandler(Message m) {
 
-  
+
     logger.entering(this.getClass().getName(), "bidInfoHandler(Message m)");
 
     MessageCommand mc = (MessageCommand) m;
@@ -69,6 +70,7 @@ public class ClientLogicHandler {
   // tell GUI
   /**
    * Handels bidRequest message and tells the gui to ask the player for a bid.
+   * 
    * @author Jonas Bauer
    * @param m network message
    */
@@ -177,7 +179,7 @@ public class ClientLogicHandler {
 
   }
 
-  
+
   /**
    * 
    * @author Jonas Bauer
@@ -197,7 +199,6 @@ public class ClientLogicHandler {
 
   }
 
- 
 
 
   /**
@@ -276,6 +277,7 @@ public class ClientLogicHandler {
 
   /**
    * Show a Kontra popup in the GUI.
+   * 
    * @author Jonas Bauer
    * @param m network message
    */
@@ -286,6 +288,7 @@ public class ClientLogicHandler {
 
   /**
    * Show a reKontra popup in the GUI.
+   * 
    * @author Jonas Bauer
    * @param m network message
    */
