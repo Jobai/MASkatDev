@@ -69,21 +69,28 @@
 									prefHeight="30.0" vgrow="SOMETIMES" />
 								<RowConstraints minHeight="10.0"
 									prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0"
+									prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0"
+									prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0"
+									prefHeight="30.0" vgrow="SOMETIMES" />
 							</rowConstraints>
 							<children>
-								<Label text="Total Rounds" textFill="WHITE">
+								<Label text="Total Rounds" textFill="WHITE"
+									GridPane.rowIndex="3">
 									<font>
 										<Font size="16.0" />
 									</font>
 								</Label>
 								<Label text="Rounds Won" textFill="WHITE"
-									GridPane.rowIndex="4">
+									GridPane.rowIndex="7">
 									<font>
 										<Font size="16.0" />
 									</font>
 								</Label>
 								<Label text="Grand" textFill="#ffe066"
-									GridPane.rowIndex="1">
+									GridPane.rowIndex="4">
 									<padding>
 										<Insets left="20.0" />
 									</padding>
@@ -92,24 +99,6 @@
 									</font>
 								</Label>
 								<Label text="Null" textFill="#ffe066"
-									GridPane.rowIndex="2">
-									<padding>
-										<Insets left="20.0" />
-									</padding>
-									<font>
-										<Font size="15.0" />
-									</font>
-								</Label>
-								<Label text="Suit" textFill="#ffe066"
-									GridPane.rowIndex="3">
-									<padding>
-										<Insets left="20.0" />
-									</padding>
-									<font>
-										<Font size="15.0" />
-									</font>
-								</Label>
-								<Label text="Grand" textFill="#ffe066"
 									GridPane.rowIndex="5">
 									<padding>
 										<Insets left="20.0" />
@@ -118,7 +107,7 @@
 										<Font size="15.0" />
 									</font>
 								</Label>
-								<Label text="Null" textFill="#ffe066"
+								<Label text="Suit" textFill="#ffe066"
 									GridPane.rowIndex="6">
 									<padding>
 										<Insets left="20.0" />
@@ -127,23 +116,8 @@
 										<Font size="15.0" />
 									</font>
 								</Label>
-								<Label text="Suit" textFill="#ffe066"
-									GridPane.rowIndex="7">
-									<padding>
-										<Insets left="20.0" />
-									</padding>
-									<font>
-										<Font size="15.0" />
-									</font>
-								</Label>
-								<Label text="Rounds Lost" textFill="WHITE"
-									GridPane.rowIndex="8">
-									<font>
-										<Font size="16.0" />
-									</font>
-								</Label>
 								<Label text="Grand" textFill="#ffe066"
-									GridPane.rowIndex="9">
+									GridPane.rowIndex="8">
 									<padding>
 										<Insets left="20.0" />
 									</padding>
@@ -152,7 +126,7 @@
 									</font>
 								</Label>
 								<Label text="Null" textFill="#ffe066"
-									GridPane.rowIndex="10">
+									GridPane.rowIndex="9">
 									<padding>
 										<Insets left="20.0" />
 									</padding>
@@ -161,7 +135,40 @@
 									</font>
 								</Label>
 								<Label text="Suit" textFill="#ffe066"
+									GridPane.rowIndex="10">
+									<padding>
+										<Insets left="20.0" />
+									</padding>
+									<font>
+										<Font size="15.0" />
+									</font>
+								</Label>
+								<Label text="Rounds Lost" textFill="WHITE"
 									GridPane.rowIndex="11">
+									<font>
+										<Font size="16.0" />
+									</font>
+								</Label>
+								<Label text="Grand" textFill="#ffe066"
+									GridPane.rowIndex="12">
+									<padding>
+										<Insets left="20.0" />
+									</padding>
+									<font>
+										<Font size="15.0" />
+									</font>
+								</Label>
+								<Label text="Null" textFill="#ffe066"
+									GridPane.rowIndex="13">
+									<padding>
+										<Insets left="20.0" />
+									</padding>
+									<font>
+										<Font size="15.0" />
+									</font>
+								</Label>
+								<Label text="Suit" textFill="#ffe066"
+									GridPane.rowIndex="14">
 									<padding>
 										<Insets left="20.0" />
 									</padding>
@@ -170,45 +177,73 @@
 									</font>
 								</Label>
 								<Label text="Highest Score" textFill="WHITE"
-									GridPane.rowIndex="13">
+									GridPane.rowIndex="16">
 									<font>
 										<Font size="16.0" />
 									</font>
 								</Label>
 								<Label text="Lowest Score" textFill="WHITE"
-									GridPane.rowIndex="14">
+									GridPane.rowIndex="17">
 									<font>
 										<Font size="16.0" />
 									</font>
 								</Label>
 								<Label fx:id="sTotalRounds" textFill="WHITE"
-									GridPane.columnIndex="1" />
-								<Label fx:id="sTotalRoundsGrand" textFill="WHITE"
-									GridPane.columnIndex="1" GridPane.rowIndex="1" />
-								<Label fx:id="sTotalRoundsNull" textFill="WHITE"
-									GridPane.columnIndex="1" GridPane.rowIndex="2" />
-								<Label fx:id="sTotalRoundsSuit" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="3" />
-								<Label fx:id="sRoundsWon" textFill="WHITE"
+								<Label fx:id="sTotalRoundsGrand" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="4" />
-								<Label fx:id="sRoundsWonGrand" textFill="WHITE"
+								<Label fx:id="sTotalRoundsNull" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="5" />
-								<Label fx:id="sRoundsWonNull" textFill="WHITE"
+								<Label fx:id="sTotalRoundsSuit" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="6" />
-								<Label fx:id="sRoundsWonSuit" textFill="WHITE"
+								<Label fx:id="sRoundsWon" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="7" />
-								<Label fx:id="sRoundsLost" textFill="WHITE"
+								<Label fx:id="sRoundsWonGrand" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="8" />
-								<Label fx:id="sRoundsLostGrand" textFill="WHITE"
+								<Label fx:id="sRoundsWonNull" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="9" />
-								<Label fx:id="sRoundsLostNull" textFill="WHITE"
+								<Label fx:id="sRoundsWonSuit" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="10" />
-								<Label fx:id="sRoundsLostSuit" textFill="WHITE"
+								<Label fx:id="sRoundsLost" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="11" />
-								<Label fx:id="sHighestScore" textFill="WHITE"
+								<Label fx:id="sRoundsLostGrand" textFill="WHITE"
+									GridPane.columnIndex="1" GridPane.rowIndex="12" />
+								<Label fx:id="sRoundsLostNull" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="13" />
-								<Label fx:id="sLowestScore" textFill="WHITE"
+								<Label fx:id="sRoundsLostSuit" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="14" />
+								<Label fx:id="sHighestScore" textFill="WHITE"
+									GridPane.columnIndex="1" GridPane.rowIndex="16" />
+								<Label fx:id="sLowestScore" textFill="WHITE"
+									GridPane.columnIndex="1" GridPane.rowIndex="17" />
+								<Label text="Total Games" textFill="WHITE">
+									<font>
+										<Font size="16.0" />
+									</font>
+								</Label>
+								<Label text="Won" textFill="#ffe066" GridPane.rowIndex="1">
+									<font>
+										<Font size="15.0" />
+									</font>
+									<padding>
+										<Insets left="20.0" />
+									</padding>
+								</Label>
+								<Label text="Lost" textFill="#ffe066"
+									GridPane.rowIndex="2">
+									<font>
+										<Font size="15.0" />
+									</font>
+									<padding>
+										<Insets left="20.0" />
+									</padding>
+								</Label>
+								<Label fx:id="sTotalGames" textFill="WHITE"
+									GridPane.columnIndex="1" />
+								<Label fx:id="sTotalGamesWon" textFill="WHITE"
+									GridPane.columnIndex="1" GridPane.rowIndex="1" />
+								<Label fx:id="sTotalGamesLost" textFill="WHITE"
+									GridPane.columnIndex="1" GridPane.rowIndex="2" />
 							</children>
 						</GridPane>
 						<Label layoutX="231.0" layoutY="25.0" text="Singleplayer"
@@ -246,19 +281,20 @@
 						<GridPane layoutX="28.0" layoutY="80.0"
 							prefHeight="363.0" prefWidth="560.0">
 							<children>
-								<Label text="Total Rounds" textFill="WHITE">
+								<Label text="Total Rounds" textFill="WHITE"
+									GridPane.rowIndex="3">
 									<font>
 										<Font size="16.0" />
 									</font>
 								</Label>
 								<Label text="Rounds Won" textFill="WHITE"
-									GridPane.rowIndex="4">
+									GridPane.rowIndex="7">
 									<font>
 										<Font size="16.0" />
 									</font>
 								</Label>
 								<Label text="Grand" textFill="#ffe066"
-									GridPane.rowIndex="1">
+									GridPane.rowIndex="4">
 									<padding>
 										<Insets left="20.0" />
 									</padding>
@@ -267,24 +303,6 @@
 									</font>
 								</Label>
 								<Label text="Null" textFill="#ffe066"
-									GridPane.rowIndex="2">
-									<padding>
-										<Insets left="20.0" />
-									</padding>
-									<font>
-										<Font size="15.0" />
-									</font>
-								</Label>
-								<Label text="Suit" textFill="#ffe066"
-									GridPane.rowIndex="3">
-									<padding>
-										<Insets left="20.0" />
-									</padding>
-									<font>
-										<Font size="15.0" />
-									</font>
-								</Label>
-								<Label text="Grand" textFill="#ffe066"
 									GridPane.rowIndex="5">
 									<padding>
 										<Insets left="20.0" />
@@ -293,7 +311,7 @@
 										<Font size="15.0" />
 									</font>
 								</Label>
-								<Label text="Null" textFill="#ffe066"
+								<Label text="Suit" textFill="#ffe066"
 									GridPane.rowIndex="6">
 									<padding>
 										<Insets left="20.0" />
@@ -302,23 +320,8 @@
 										<Font size="15.0" />
 									</font>
 								</Label>
-								<Label text="Suit" textFill="#ffe066"
-									GridPane.rowIndex="7">
-									<padding>
-										<Insets left="20.0" />
-									</padding>
-									<font>
-										<Font size="15.0" />
-									</font>
-								</Label>
-								<Label text="Rounds Lost" textFill="WHITE"
-									GridPane.rowIndex="8">
-									<font>
-										<Font size="16.0" />
-									</font>
-								</Label>
 								<Label text="Grand" textFill="#ffe066"
-									GridPane.rowIndex="9">
+									GridPane.rowIndex="8">
 									<padding>
 										<Insets left="20.0" />
 									</padding>
@@ -327,7 +330,7 @@
 									</font>
 								</Label>
 								<Label text="Null" textFill="#ffe066"
-									GridPane.rowIndex="10">
+									GridPane.rowIndex="9">
 									<padding>
 										<Insets left="20.0" />
 									</padding>
@@ -336,7 +339,40 @@
 									</font>
 								</Label>
 								<Label text="Suit" textFill="#ffe066"
+									GridPane.rowIndex="10">
+									<padding>
+										<Insets left="20.0" />
+									</padding>
+									<font>
+										<Font size="15.0" />
+									</font>
+								</Label>
+								<Label text="Rounds Lost" textFill="WHITE"
 									GridPane.rowIndex="11">
+									<font>
+										<Font size="16.0" />
+									</font>
+								</Label>
+								<Label text="Grand" textFill="#ffe066"
+									GridPane.rowIndex="12">
+									<padding>
+										<Insets left="20.0" />
+									</padding>
+									<font>
+										<Font size="15.0" />
+									</font>
+								</Label>
+								<Label text="Null" textFill="#ffe066"
+									GridPane.rowIndex="13">
+									<padding>
+										<Insets left="20.0" />
+									</padding>
+									<font>
+										<Font size="15.0" />
+									</font>
+								</Label>
+								<Label text="Suit" textFill="#ffe066"
+									GridPane.rowIndex="14">
 									<padding>
 										<Insets left="20.0" />
 									</padding>
@@ -345,45 +381,73 @@
 									</font>
 								</Label>
 								<Label text="Highest Score" textFill="WHITE"
-									GridPane.rowIndex="13">
+									GridPane.rowIndex="16">
 									<font>
 										<Font size="16.0" />
 									</font>
 								</Label>
 								<Label text="Lowest Score" textFill="WHITE"
-									GridPane.rowIndex="14">
+									GridPane.rowIndex="17">
 									<font>
 										<Font size="16.0" />
 									</font>
 								</Label>
 								<Label fx:id="mTotalRounds" textFill="WHITE"
-									GridPane.columnIndex="1" />
-								<Label fx:id="mTotalRoundsGrand" textFill="WHITE"
-									GridPane.columnIndex="1" GridPane.rowIndex="1" />
-								<Label fx:id="mTotalRoundsNull" textFill="WHITE"
-									GridPane.columnIndex="1" GridPane.rowIndex="2" />
-								<Label fx:id="mTotalRoundsSuit" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="3" />
-								<Label fx:id="mRoundsWon" textFill="WHITE"
+								<Label fx:id="mTotalRoundsGrand" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="4" />
-								<Label fx:id="mRoundsWonGrand" textFill="WHITE"
+								<Label fx:id="mTotalRoundsNull" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="5" />
-								<Label fx:id="mRoundsWonNull" textFill="WHITE"
+								<Label fx:id="mTotalRoundsSuit" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="6" />
-								<Label fx:id="mRoundsWonSuit" textFill="WHITE"
+								<Label fx:id="mRoundsWon" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="7" />
-								<Label fx:id="mRoundsLost" textFill="WHITE"
+								<Label fx:id="mRoundsWonGrand" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="8" />
-								<Label fx:id="mRoundsLostGrand" textFill="WHITE"
+								<Label fx:id="mRoundsWonNull" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="9" />
-								<Label fx:id="mRoundsLostNull" textFill="WHITE"
+								<Label fx:id="mRoundsWonSuit" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="10" />
-								<Label fx:id="mRoundsLostSuit" textFill="WHITE"
+								<Label fx:id="mRoundsLost" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="11" />
-								<Label fx:id="mHighestScore" textFill="WHITE"
+								<Label fx:id="mRoundsLostGrand" textFill="WHITE"
+									GridPane.columnIndex="1" GridPane.rowIndex="12" />
+								<Label fx:id="mRoundsLostNull" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="13" />
-								<Label fx:id="mLowestScore" textFill="WHITE"
+								<Label fx:id="mRoundsLostSuit" textFill="WHITE"
 									GridPane.columnIndex="1" GridPane.rowIndex="14" />
+								<Label fx:id="mHighestScore" textFill="WHITE"
+									GridPane.columnIndex="1" GridPane.rowIndex="16" />
+								<Label fx:id="mLowestScore" textFill="WHITE"
+									GridPane.columnIndex="1" GridPane.rowIndex="17" />
+								<Label text="Total Games" textFill="WHITE">
+									<font>
+										<Font size="16.0" />
+									</font>
+								</Label>
+								<Label text="Won" textFill="#ffe066" GridPane.rowIndex="1">
+									<font>
+										<Font size="15.0" />
+									</font>
+									<padding>
+										<Insets left="20.0" />
+									</padding>
+								</Label>
+								<Label text="Lost" textFill="#ffe066"
+									GridPane.rowIndex="2">
+									<font>
+										<Font size="15.0" />
+									</font>
+									<padding>
+										<Insets left="20.0" />
+									</padding>
+								</Label>
+								<Label fx:id="mTotalGames" textFill="WHITE"
+									GridPane.columnIndex="1" />
+								<Label fx:id="mTotalGamesWon" textFill="WHITE"
+									GridPane.columnIndex="1" GridPane.rowIndex="1" />
+								<Label fx:id="mTotalGamesLost" textFill="WHITE"
+									GridPane.columnIndex="1" GridPane.rowIndex="2" />
 							</children>
 							<columnConstraints>
 								<ColumnConstraints hgrow="SOMETIMES"
@@ -392,6 +456,12 @@
 									minWidth="10.0" prefWidth="100.0" />
 							</columnConstraints>
 							<rowConstraints>
+								<RowConstraints minHeight="10.0"
+									prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0"
+									prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0"
+									prefHeight="30.0" vgrow="SOMETIMES" />
 								<RowConstraints minHeight="10.0"
 									prefHeight="30.0" vgrow="SOMETIMES" />
 								<RowConstraints minHeight="10.0"
