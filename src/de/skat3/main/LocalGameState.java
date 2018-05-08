@@ -74,8 +74,8 @@ public class LocalGameState {
           }
           break;
         case 2:
-          if (SkatMain.mainController.currentLobby.players[1] != null) {
-            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[1].copyPlayer());
+          if (SkatMain.mainController.currentLobby.players[0] != null) {
+            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[0].copyPlayer());
           }
           if (SkatMain.mainController.currentLobby.players[2] != null) {
             this.setEnemyOne(SkatMain.mainController.currentLobby.players[2].copyPlayer());
