@@ -222,7 +222,7 @@ public class MultiplayerMenuController {
 
               hostListView.setCellFactory(param -> new HostCell(item));
 
-              Platform.runLater(new Runnable() { // JB
+              Platform.runLater(new Runnable() {
 
                 @Override
                 public void run() {
@@ -433,11 +433,13 @@ public class MultiplayerMenuController {
     p.setPrefSize(200, 200);
 
     p.translateXProperty()
-        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(hostListView.translateXProperty())
-            .add(hostListView.getWidth() / 2).subtract(100));
+        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(hostListView.layoutXProperty())
+            .add(hostListView.widthProperty().divide(2)).subtract(100));
+
     p.translateYProperty()
-        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(hostListView.translateYProperty())
-            .add(hostListView.getHeight() / 2).subtract(100));
+        .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(hostListView.layoutYProperty())
+            .add(hostListView.heightProperty().divide(2)).subtract(100));
+
 
     Image i1 = new Image("guifiles/loading3.gif");
     ImageView v = new ImageView(i1);
