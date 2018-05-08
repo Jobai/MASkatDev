@@ -413,18 +413,18 @@ public class GameClient {
         case "SHUTDOWN":
           SkatMain.mainController.showCustomAlertPormpt("Server is shuttind down!",
               "The game server is shutting down and closed your connection. \n"
-                  + "Please chose a different server");
+                  + "Please chose a different server.");
           break;
         default:
           SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
               "The game server closed your connection. \n"
-                  + "You can try again later or chose a different server");
+                  + "You can try again later or chose a different server.");
       }
     } else {
       if (!closedByClient) {
         SkatMain.mainController.showCustomAlertPormpt("Lost connection to the Server!",
             "The connection to the server failed suddenly.\n"
-                + "You can try again later or chose a different server");
+                + "You can try again later or chose a different server.");
       }
     }
   }

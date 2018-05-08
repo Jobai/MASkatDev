@@ -160,6 +160,7 @@ public class GameServer extends Thread {
     stoppingInProgess = true;
     try {
       logger.info("Server is stopping");
+      ls.stopLobbyBroadcast();
       this.interrupt();
       endAllClients();
       this.serverSocket.close();

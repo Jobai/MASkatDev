@@ -69,6 +69,8 @@ public class LobbyServer extends Thread {
     Thread.currentThread().setName("LobbyServerThread");
 
     if (!multicast) {
+      logger.info(
+          "LobbyServer started on " + inetAdress + ": " + port);
 
       try (DatagramSocket ds = new DatagramSocket()) {
 
@@ -155,6 +157,7 @@ public class LobbyServer extends Thread {
    * @author Jonas Bauer
    */
   public void stopLobbyBroadcast() {
+    logger.info("Stopped LobbyServer");
     this.interrupt();
     try {
       ds.close();
