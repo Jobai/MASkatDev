@@ -50,8 +50,7 @@ public class MainController implements MainControllerInterface {
         System.exit(0);
         break;
       }
-      case "/addBot":
-      {
+      case "/addBot": {
         System.out.println("addbot");
         this.addBot(false);
         break;
@@ -327,6 +326,8 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().playCard(player, card);
+        SkatMain.guiController.getInGameController()
+            .showWhoIsPlaying(SkatMain.lgs.getCurrentPlayer());
       }
     });
     SkatMain.lgs.addToTrick(card);
@@ -437,6 +438,8 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().showContractRequest();
+        SkatMain.guiController.getInGameController()
+            .showWhoIsPlaying(SkatMain.lgs.getCurrentPlayer());
       }
     });
 
@@ -479,20 +482,12 @@ public class MainController implements MainControllerInterface {
     } else {
       SkatMain.lgs.getLocalClient().getHand().setAllCardsPlayable();
     }
-    if (SkatMain.lgs.getTimerInSeconds() > 0) {
-      // new Timer(SkatMain.lgs.timerInSeconds); Replaced by -->
-      Platform.runLater(new Runnable() {
-        @Override
-        public void run() {
-          SkatMain.guiController.getInGameController().startTimer(SkatMain.lgs.getTimerInSeconds());
-        }
-      });
-    }
     Platform.runLater(new Runnable() {
 
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().showMakeAMoveRequest(true);
+
       }
 
     });
@@ -703,7 +698,7 @@ public class MainController implements MainControllerInterface {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showText("Kontra announcend by...");
+        SkatMain.guiController.getInGameController().showText("Kontra announcend");
       }
     });
   }
@@ -713,7 +708,7 @@ public class MainController implements MainControllerInterface {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showText("Kontra announced by...");
+        SkatMain.guiController.getInGameController().showText("Rekontra announced");
       }
     });
   }
@@ -723,7 +718,7 @@ public class MainController implements MainControllerInterface {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showKontraButton();;
+        SkatMain.guiController.getInGameController().showKontraButton();
       }
     });
   }
