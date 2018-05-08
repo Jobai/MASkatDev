@@ -41,7 +41,7 @@ public class LobbyServer extends Thread {
   }
 
   private InetAddress inetAdress;
-  public int port = 2011;
+  public final int port = 2011;
 
   boolean multicast = false;
 

@@ -38,7 +38,7 @@ public class GameServer extends Thread {
 
   static Logger logger = Logger.getLogger("de.skat3.network.server");
   public static List<GameServerProtocol> threadList;
-  public static int port = 2018; // HARDCODED
+  public static final int port = 2018; // HARDCODED
   private ServerSocket serverSocket;
 
   private ServerLogicController slc;

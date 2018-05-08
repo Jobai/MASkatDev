@@ -36,7 +36,7 @@ import java.util.logging.Logger;
  */
 public class GameServerProtocol extends Thread {
 
-  private static Logger logger = Logger.getLogger("de.skat3.network.server");
+  private static final Logger logger = Logger.getLogger("de.skat3.network.server");
   Socket socket;
   private ObjectOutputStream toClient;
   private ObjectInputStream fromClient;

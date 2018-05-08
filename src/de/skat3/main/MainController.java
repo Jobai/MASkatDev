@@ -51,6 +51,12 @@ public class MainController implements MainControllerInterface {
         System.exit(0);
         break;
       }
+      case "/addBot":
+      {
+        System.out.println("addbot");
+        this.addBot(false);
+        break;
+      }
 
       default: {
 

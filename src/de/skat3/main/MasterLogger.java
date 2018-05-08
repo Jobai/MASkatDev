@@ -65,7 +65,7 @@ public class MasterLogger {
     guiLogger.setUseParentHandlers(false);
 
     global.addHandler(handlerObj);
-    global.setLevel(Level.SEVERE);
+    global.setLevel(Level.INFO);
     global.setUseParentHandlers(false);
 
     global.info("Logger initalized!");
