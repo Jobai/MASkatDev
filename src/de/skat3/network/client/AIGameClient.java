@@ -77,6 +77,9 @@ public class AIGameClient extends GameClient {
       case COMMAND_INFO:
         this.handleCommandAction(m, st);
         break;
+      case STATE_CHANGE:
+        // do nothing
+        break;
       default:
         logger.severe("Message Type not handeld!  " + mt + " --- " + st);
         throw new AssertionError();
