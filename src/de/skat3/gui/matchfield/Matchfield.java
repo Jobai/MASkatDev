@@ -26,7 +26,7 @@ public class Matchfield {
   AnchorPane root;
   Scene scene;
 
-  private InGameController controller;
+  private InGameControllerInterface controller;
   InGameOverlayController overlayController;
   InGameTableController tableController;
   InGameTableView tableView;
@@ -60,7 +60,7 @@ public class Matchfield {
     this.iniComponents();
   }
 
-  public InGameController getController() {
+  public InGameControllerInterface getController() {
     return this.controller;
   }
 

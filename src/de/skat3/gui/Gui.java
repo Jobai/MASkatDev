@@ -1,7 +1,7 @@
 package de.skat3.gui;
 
 import java.io.IOException;
-import de.skat3.gui.matchfield.InGameController;
+import de.skat3.gui.matchfield.InGameControllerInterface;
 import de.skat3.gui.matchfield.Matchfield;
 import de.skat3.gui.menuframe.MenuFrame;
 import de.skat3.main.SkatMain;
@@ -42,7 +42,7 @@ public class Gui extends Application {
    * 
    * @return
    */
-  public InGameController showMatchfield() {
+  public InGameControllerInterface showMatchfield() {
     this.matchfield = new Matchfield();
     this.mainStage.setScene(this.matchfield.getScene());
     return this.matchfield.getController();

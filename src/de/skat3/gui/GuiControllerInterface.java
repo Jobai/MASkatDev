@@ -1,6 +1,6 @@
 package de.skat3.gui;
 
-import de.skat3.gui.matchfield.InGameController;
+import de.skat3.gui.matchfield.InGameControllerInterface;
 
 
 /**
@@ -24,7 +24,7 @@ public interface GuiControllerInterface {
    * 
    * @return Controller to interact with the in game view.
    */
-  public InGameController getInGameController();
+  public InGameControllerInterface getInGameController();
 
   /**
    * Block all inputs to the gui.
