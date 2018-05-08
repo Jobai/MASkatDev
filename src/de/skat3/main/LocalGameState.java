@@ -64,103 +64,88 @@ public class LocalGameState {
 
   public void addPlayer() {
     if (SkatMain.mainController.currentLobby.numberOfPlayers == 3) {
-
-      if (SkatMain.mainController.currentLobby.currentPlayers == 2) {
-        switch (this.localPosition) {
-          case 1:
+      switch (this.localPosition) {
+        case 1:
+          if (SkatMain.mainController.currentLobby.players[1] != null) {
             this.setEnemyOne(SkatMain.mainController.currentLobby.players[1].copyPlayer());
-            break;
-          case 2:
-            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[0].copyPlayer());
-            break;
-
-          default:
-            System.err.println("addPlayer klappt net ");
-            break;
-        }
-
-      }
-      if (SkatMain.mainController.currentLobby.currentPlayers == 3) {
-        switch (this.localPosition) {
-          case 1:
+          }
+          if (SkatMain.mainController.currentLobby.players[2] != null) {
             this.setEnemyTwo(SkatMain.mainController.currentLobby.players[2].copyPlayer());
-            break;
-          case 2:
-            this.setEnemyOne(SkatMain.mainController.currentLobby.players[2].copyPlayer());
-            break;
-          case 3:
-            this.setEnemyOne(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+          }
+          break;
+        case 2:
+          if (SkatMain.mainController.currentLobby.players[1] != null) {
             this.setEnemyTwo(SkatMain.mainController.currentLobby.players[1].copyPlayer());
-            break;
-          default:
-            System.err.println("addPlayer klappt net ");
-            break;
-        }
+          }
+          if (SkatMain.mainController.currentLobby.players[2] != null) {
+            this.setEnemyOne(SkatMain.mainController.currentLobby.players[2].copyPlayer());
+          }
+          break;
+        case 3:
+          if (SkatMain.mainController.currentLobby.players[0] != null) {
+            this.setEnemyOne(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+          }
+          if (SkatMain.mainController.currentLobby.players[1] != null) {
+            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[1].copyPlayer());
+          }
+          break;
+        default:
+          System.err.println("addPlayer klappt net ");
+          break;
       }
-
     } else {
-      if (SkatMain.mainController.currentLobby.currentPlayers == 2) {
-        switch (this.localPosition) {
-          case 1:
+      switch (this.localPosition) {
+        case 1:
+
+          if (SkatMain.mainController.currentLobby.players[1] != null) {
             this.setEnemyOne(SkatMain.mainController.currentLobby.players[1].copyPlayer());
-            break;
-          case 2:
-            this.setDealer(SkatMain.mainController.currentLobby.players[0].copyPlayer());
-            break;
-
-          default:
-            System.err.println("addPlayer klappt net ");
-            break;
-        }
-
-      }
-      if (SkatMain.mainController.currentLobby.currentPlayers == 3) {
-        switch (this.localPosition) {
-          case 1:
+          }
+          if (SkatMain.mainController.currentLobby.players[2] != null) {
             this.setEnemyTwo(SkatMain.mainController.currentLobby.players[2].copyPlayer());
-            break;
-          case 2:
-            this.setEnemyOne(SkatMain.mainController.currentLobby.players[2].copyPlayer());
-            break;
-          case 3:
-            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[0].copyPlayer());
-            this.setDealer(SkatMain.mainController.currentLobby.players[1].copyPlayer());
-            break;
-          default:
-            System.err.println("addPlayer klappt net ");
-            break;
-        }
-      }
-      if (SkatMain.mainController.currentLobby.currentPlayers == 4) {
-        switch (this.localPosition) {
-          case 1:
+          }
+          if (SkatMain.mainController.currentLobby.players[3] != null) {
             this.setDealer(SkatMain.mainController.currentLobby.players[3].copyPlayer());
-            break;
-          case 2:
+          }
+          break;
+        case 2:
+          if (SkatMain.mainController.currentLobby.players[0] != null) {
+            this.setDealer(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+          }
+          if (SkatMain.mainController.currentLobby.players[2] != null) {
+            this.setEnemyOne(SkatMain.mainController.currentLobby.players[2].copyPlayer());
+          }
+          if (SkatMain.mainController.currentLobby.players[3] != null) {
             this.setEnemyTwo(SkatMain.mainController.currentLobby.players[3].copyPlayer());
-            break;
-          case 3:
+          }
+          break;
+        case 3:
+          if (SkatMain.mainController.currentLobby.players[0] != null) {
+            this.setEnemyTwo(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+          }
+          if (SkatMain.mainController.currentLobby.players[1] != null) {
+            this.setDealer(SkatMain.mainController.currentLobby.players[1].copyPlayer());
+          }
+          if (SkatMain.mainController.currentLobby.players[3] != null) {
             this.setEnemyOne(SkatMain.mainController.currentLobby.players[3].copyPlayer());
-            break;
-          case 4:
+          }
+          break;
+        case 4:
+          if (SkatMain.mainController.currentLobby.players[0] != null) {
             this.setEnemyOne(SkatMain.mainController.currentLobby.players[0].copyPlayer());
+          }
+          if (SkatMain.mainController.currentLobby.players[1] != null) {
             this.setEnemyTwo(SkatMain.mainController.currentLobby.players[1].copyPlayer());
+          }
+          if (SkatMain.mainController.currentLobby.players[2] != null) {
             this.setDealer(SkatMain.mainController.currentLobby.players[2].copyPlayer());
-            break;
-          default:
-            System.err.println("addPlayer klappt net ");
-            break;
-        }
+          }
+          break;
+        default:
+          System.err.println("addPlayer klappt net ");
+          break;
       }
-
-
     }
-
-
     SkatMain.mainController.reinitializePlayers();
-
-
-
   }
 
 
