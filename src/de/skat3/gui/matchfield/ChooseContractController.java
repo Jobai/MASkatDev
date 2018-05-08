@@ -128,6 +128,10 @@ public class ChooseContractController {
       cbSchneider.setDisable(true);
       cbSchwarz.setDisable(true);
       cbOuvert.setDisable(true);
+    } else {
+      cbSchneider.setDisable(false);
+      cbSchwarz.setDisable(false);
+      cbOuvert.setDisable(false);
     }
   }
 

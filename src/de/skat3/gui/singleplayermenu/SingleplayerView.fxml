@@ -18,14 +18,14 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="root" prefHeight="345.0" prefWidth="320.0"
-	style="-fx-background-color: #FFFFFF; -fx-border-color: #000000;"
+	style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-width: 2;"
 	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.singleplayermenu.SingleplayerController">
 	<children>
 		<Pane prefHeight="52.0" prefWidth="320.0"
 			style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0"
-			AnchorPane.rightAnchor="0.0">
+			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
 				<Label layoutX="103.0" layoutY="11.0" text="Singleplayer"
 					textFill="WHITE">
@@ -59,7 +59,7 @@
 					<children>
 						<Label prefHeight="17.0" prefWidth="93.0" text="KI Player 1" />
 						<ComboBox fx:id="difficultyP1" prefHeight="25.0"
-							prefWidth="110.0" GridPane.columnIndex="1" />
+							prefWidth="140.0" GridPane.columnIndex="1" />
 					</children>
 				</GridPane>
 				<GridPane prefHeight="20.0" prefWidth="284.0">
@@ -76,7 +76,7 @@
 					<children>
 						<Label text="KI Player 2" />
 						<ComboBox fx:id="difficultyP2" prefHeight="25.0"
-							prefWidth="110.0" GridPane.columnIndex="1" />
+							prefWidth="140.0" GridPane.columnIndex="1" />
 					</children>
 				</GridPane>
 				<GridPane>
