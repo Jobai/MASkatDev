@@ -205,7 +205,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void declarerInfoHander(Message m) {
     // TODO Auto-generated method stub
-    super.declarerInfoHander(m);
+//   super.declarerInfoHander(m);
   }
 
 
@@ -251,7 +251,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void kontraAnnouncedInfoHandler(Message m) {
     // TODO Auto-generated method stub
-    super.kontraAnnouncedInfoHandler(m);
+//    super.kontraAnnouncedInfoHandler(m);
   }
 
 
@@ -265,7 +265,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void reKontraAnnouncedInfoHandler(Message m) {
     // TODO Auto-generated method stub
-    super.reKontraAnnouncedInfoHandler(m);
+//    super.reKontraAnnouncedInfoHandler(m);
   }
 
 
@@ -279,7 +279,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void kontraShowHandler(Message m) {
     // TODO Auto-generated method stub
-    super.kontraShowHandler(m);
+//    super.kontraShowHandler(m);
   }
 
 
@@ -293,7 +293,7 @@ public class AIClientLogicHandler extends ClientLogicHandler {
   @Override
   void reKontraShowHandler(Message m) {
     // TODO Auto-generated method stub
-    super.reKontraShowHandler(m);
+//    super.reKontraShowHandler(m);
   }
 
 
