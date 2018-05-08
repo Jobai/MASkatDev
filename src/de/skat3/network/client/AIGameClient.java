@@ -172,6 +172,9 @@ public class AIGameClient extends GameClient {
       case SET_DEALER:
         aiCLH.setDealerHandler(m);
         break;
+      case TRICK_INFO: 
+        //do nothing
+        break;
       default:
         logger.severe("Message Type not handeld!  " + " --- " + st);
         throw new AssertionError();

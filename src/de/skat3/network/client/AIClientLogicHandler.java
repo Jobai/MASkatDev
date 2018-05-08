@@ -105,7 +105,6 @@ public class AIClientLogicHandler extends ClientLogicHandler {
 
 
 
-
   /*
    * (non-Javadoc)
    * 
