@@ -196,7 +196,7 @@ public class Profile implements ProfileStatisticsInterface {
   }
 
   /**
-   * Sets image from encoded String
+   * Sets image from encoded String.
    *
    */
   public void setImageFromEncodedString() {
@@ -228,19 +228,22 @@ public class Profile implements ProfileStatisticsInterface {
   // Singleplayer
 
   // Games
-
+  @Override
   public int getSinglePlayerTotalGames() {
     return singlePlayerTotalGames;
   }
 
+  @Override
   public int getSinglePlayerTotalGamesWon() {
     return singlePlayerTotalGamesWon;
   }
 
+  @Override
   public int getSinglePlayerTotalGamesLost() {
     return singlePlayerTotalGamesLost;
   }
 
+  @Override
   public void incrementSinglePlayerTotalGamesWon() {
     singlePlayerTotalGamesWon++;
     singlePlayerTotalGames++;
@@ -251,10 +254,8 @@ public class Profile implements ProfileStatisticsInterface {
     singlePlayerTotalGames++;
   }
 
-
-
   // Rounds
-
+  @Override
   public int getSinglePlayerTotalRounds() {
     return singlePlayerTotalRounds;
   }
@@ -263,6 +264,7 @@ public class Profile implements ProfileStatisticsInterface {
     this.singlePlayerTotalRounds++;
   }
 
+  @Override
   public int getSinglePlayerTotalRoundsGrand() {
     return singlePlayerTotalRoundsGrand;
   }
@@ -271,6 +273,7 @@ public class Profile implements ProfileStatisticsInterface {
     this.singlePlayerTotalRoundsGrand++;
   }
 
+  @Override
   public int getSinglePlayerTotalRoundsNull() {
     return singlePlayerTotalRoundsNull;
   }
@@ -279,6 +282,7 @@ public class Profile implements ProfileStatisticsInterface {
     this.singlePlayerTotalRoundsNull++;
   }
 
+  @Override
   public int getSinglePlayerTotalRoundsSuit() {
     return singlePlayerTotalRoundsSuit;
   }
@@ -287,60 +291,56 @@ public class Profile implements ProfileStatisticsInterface {
     this.singlePlayerTotalRoundsSuit++;
   }
 
+  @Override
   public int getSinglePlayerRoundsWon() {
     return singlePlayerRoundsWon;
   }
 
+  /**
+   * Increments singlePlayerTotalRounds and singlePlayerRoundsWon.
+   */
   private void incrementSinglePlayerRoundsWon() {
     incrementSinglePlayerTotalRounds();
     this.singlePlayerRoundsWon++;
   }
 
+  @Override
   public int getSinglePlayerRoundsWonGrand() {
     return singlePlayerRoundsWonGrand;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsWonGrand()
-   */
+  @Override
   public void incrementSinglePlayerRoundsWonGrand() {
     incrementSinglePlayerTotalRoundsGrand();
     incrementSinglePlayerRoundsWon();
     this.singlePlayerRoundsWonGrand++;
   }
 
+  @Override
   public int getSinglePlayerRoundsWonNull() {
     return singlePlayerRoundsWonNull;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsWonNull()
-   */
+  @Override
   public void incrementSinglePlayerRoundsWonNull() {
     incrementSinglePlayerTotalRoundsNull();
     incrementSinglePlayerRoundsWon();
     this.singlePlayerRoundsWonNull++;
   }
 
+  @Override
   public int getSinglePlayerRoundsWonSuit() {
     return singlePlayerRoundsWonSuit;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsWonSuit()
-   */
+  @Override
   public void incrementSinglePlayerRoundsWonSuit() {
     incrementSinglePlayerTotalRoundsSuit();
     incrementSinglePlayerRoundsWon();
     this.singlePlayerRoundsWonSuit++;
   }
 
+  @Override
   public int getSinglePlayerRoundsLost() {
     return singlePlayerRoundsLost;
   }
@@ -350,45 +350,36 @@ public class Profile implements ProfileStatisticsInterface {
     this.singlePlayerRoundsLost++;
   }
 
+  @Override
   public int getSinglePlayerRoundsLostGrand() {
     return singlePlayerRoundsLostGrand;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsLostGrand()
-   */
+  @Override
   public void incrementSinglePlayerRoundsLostGrand() {
     incrementSinglePlayerRoundsLost();
     incrementSinglePlayerTotalRoundsGrand();
     this.singlePlayerRoundsLostGrand++;
   }
 
+  @Override
   public int getSinglePlayerRoundsLostNull() {
     return singlePlayerRoundsLostNull;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsLostNull()
-   */
+  @Override
   public void incrementSinglePlayerRoundsLostNull() {
     incrementSinglePlayerRoundsLost();
     incrementSinglePlayerTotalRoundsNull();
     this.singlePlayerRoundsLostNull++;
   }
 
+  @Override
   public int getSinglePlayerRoundsLostSuit() {
     return singlePlayerRoundsLostSuit;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementSinglePlayerRoundsLostSuit()
-   */
+  @Override
   public void incrementSinglePlayerRoundsLostSuit() {
     incrementSinglePlayerRoundsLost();
     incrementSinglePlayerTotalRoundsSuit();
@@ -401,26 +392,19 @@ public class Profile implements ProfileStatisticsInterface {
     return singlePlayerHighestScore;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#setSinglePlayerHighestScore(int)
-   */
+  @Override
   public void setSinglePlayerHighestScore(int potentiallyNewScore) {
     if (potentiallyNewScore > singlePlayerHighestScore) {
       singlePlayerHighestScore = potentiallyNewScore;
     }
   }
 
+  @Override
   public int getSinglePlayerLowestScore() {
     return singlePlayerLowestScore;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#setSinglePlayerLowestScore(int)
-   */
+  @Override
   public void setSinglePlayerLowestScore(int potentiallyNewScore) {
     if (potentiallyNewScore < singlePlayerLowestScore) {
       singlePlayerLowestScore = potentiallyNewScore;
@@ -431,31 +415,35 @@ public class Profile implements ProfileStatisticsInterface {
   // Multiplayer
 
   // Games
-
+  @Override
   public int getMultiPlayerTotalGames() {
     return multiPlayerTotalGames;
   }
 
+  @Override
   public int getMultiPlayerTotalGamesWon() {
     return multiPlayerTotalGamesWon;
   }
 
+  @Override
   public int getMultiPlayerTotalGamesLost() {
     return multiPlayerTotalGamesLost;
   }
 
+  @Override
   public void incrementMultiPlayerTotalGamesWon() {
     multiPlayerTotalGamesWon++;
     multiPlayerTotalGames++;
   }
 
+  @Override
   public void incrementMultiPlayerTotalGamesLost() {
     multiPlayerTotalGamesLost++;
     multiPlayerTotalGames++;
   }
 
   // Rounds
-
+  @Override
   public int getMultiPlayerTotalRounds() {
     return multiPlayerTotalRounds;
   }
@@ -464,6 +452,7 @@ public class Profile implements ProfileStatisticsInterface {
     this.multiPlayerTotalRounds++;
   }
 
+  @Override
   public int getMultiPlayerTotalRoundsGrand() {
     return multiPlayerTotalRoundsGrand;
   }
@@ -472,6 +461,7 @@ public class Profile implements ProfileStatisticsInterface {
     this.multiPlayerTotalRoundsGrand++;
   }
 
+  @Override
   public int getMultiPlayerTotalRoundsNull() {
     return multiPlayerTotalRoundsNull;
   }
@@ -480,6 +470,7 @@ public class Profile implements ProfileStatisticsInterface {
     this.multiPlayerTotalRoundsNull++;
   }
 
+  @Override
   public int getMultiPlayerTotalRoundsSuit() {
     return multiPlayerTotalRoundsSuit;
   }
@@ -488,60 +479,56 @@ public class Profile implements ProfileStatisticsInterface {
     this.multiPlayerTotalRoundsSuit++;
   }
 
+  @Override
   public int getMultiPlayerRoundsWon() {
     return multiPlayerRoundsWon;
   }
 
+  /**
+   * Increments multiPlayerTotalRounds and multiPlayerRoundsWon.
+   */
   private void incrementMultiPlayerRoundsWon() {
     incrementMultiPlayerTotalRounds();
     this.multiPlayerRoundsWon++;
   }
 
+  @Override
   public int getMultiPlayerRoundsWonGrand() {
     return multiPlayerRoundsWonGrand;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsWonGrand()
-   */
+  @Override
   public void incrementMultiPlayerRoundsWonGrand() {
     incrementMultiPlayerTotalRoundsGrand();
     incrementMultiPlayerRoundsWon();
     this.multiPlayerRoundsWonGrand++;
   }
 
+  @Override
   public int getMultiPlayerRoundsWonNull() {
     return multiPlayerRoundsWonNull;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsWonNull()
-   */
+  @Override
   public void incrementMultiPlayerRoundsWonNull() {
     incrementMultiPlayerTotalRoundsNull();
     incrementMultiPlayerRoundsWon();
     this.multiPlayerRoundsWonNull++;
   }
 
+  @Override
   public int getMultiPlayerRoundsWonSuit() {
     return multiPlayerRoundsWonSuit;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsWonSuit()
-   */
+  @Override
   public void incrementMultiPlayerRoundsWonSuit() {
     incrementMultiPlayerTotalRoundsSuit();
     incrementMultiPlayerRoundsWon();
     this.multiPlayerRoundsWonSuit++;
   }
 
+  @Override
   public int getMultiPlayerRoundsLost() {
     return multiPlayerRoundsLost;
   }
@@ -551,45 +538,36 @@ public class Profile implements ProfileStatisticsInterface {
     this.multiPlayerRoundsLost++;
   }
 
+  @Override
   public int getMultiPlayerRoundsLostGrand() {
     return multiPlayerRoundsLostGrand;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsLostGrand()
-   */
+  @Override
   public void incrementMultiPlayerRoundsLostGrand() {
     incrementMultiPlayerRoundsLost();
     incrementMultiPlayerTotalRoundsGrand();
     this.multiPlayerRoundsLostGrand++;
   }
 
+  @Override
   public int getMultiPlayerRoundsLostNull() {
     return multiPlayerRoundsLostNull;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsLostNull()
-   */
+  @Override
   public void incrementMultiPlayerRoundsLostNull() {
     incrementMultiPlayerRoundsLost();
     incrementMultiPlayerTotalRoundsNull();
     this.multiPlayerRoundsLostNull++;
   }
 
+  @Override
   public int getMultiPlayerRoundsLostSuit() {
     return multiPlayerRoundsLostSuit;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#incrementMultiPlayerRoundsLostSuit()
-   */
+  @Override
   public void incrementMultiPlayerRoundsLostSuit() {
     incrementMultiPlayerRoundsLost();
     incrementMultiPlayerTotalRoundsSuit();
@@ -597,31 +575,24 @@ public class Profile implements ProfileStatisticsInterface {
   }
 
   // Score
-
+  @Override
   public int getMultiPlayerHighestScore() {
     return multiPlayerHighestScore;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#setMultiPlayerHighestScore(int)
-   */
+  @Override
   public void setMultiPlayerHighestScore(int potentiallyNewScore) {
     if (potentiallyNewScore > multiPlayerHighestScore) {
       multiPlayerHighestScore = potentiallyNewScore;
     }
   }
 
+  @Override
   public int getMultiPlayerLowestScore() {
     return multiPlayerLowestScore;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see de.skat3.io.profile.ProfileStatisticsInterface#setMultiPlayerLowestScore(int)
-   */
+  @Override
   public void setMultiPlayerLowestScore(int potentiallyNewScore) {
     if (potentiallyNewScore < multiPlayerLowestScore) {
       multiPlayerLowestScore = potentiallyNewScore;
@@ -629,7 +600,7 @@ public class Profile implements ProfileStatisticsInterface {
   }
 
   /**
-   * Initializes all statistics related variables with zero
+   * Initializes all statistics related variables with zero.
    */
   public void initializeAllGameStatisticsVariablesWithZero() {
     playerGameTime = 0;

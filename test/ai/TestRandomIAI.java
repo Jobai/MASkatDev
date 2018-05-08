@@ -95,7 +95,7 @@ public class TestRandomIAI {
       }
 
       Hand hand = new Hand(cardArray);
-//      ai.getPlayer().setHand(hand);
+      // ai.getPlayer().setHand(hand);
 
       // check if played Card contains in a set
       Card aiChosenCard = ai.chooseCard();
