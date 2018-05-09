@@ -15,7 +15,7 @@ import de.skat3.gamelogic.Value;
 import de.skat3.main.SkatMain;
 
 /**
- * IntelligentAi represents hard bot
+ * IntelligentAi represents hard bot.
  * 
  * @author Artem Zamarajev, Emre Cura
  */

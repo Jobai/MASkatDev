@@ -4,9 +4,6 @@ package de.skat3.ai;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-/**
- * Author Emre Cura
- */
 import java.util.Random;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
@@ -15,6 +12,13 @@ import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Position;
 
 
+/**
+ * RandomAi represents easy bot. All decisions are randomly selected from the all currently
+ * possible.
+ * 
+ * @author Kai Baumann, Artem Zamarajev
+ *
+ */
 @SuppressWarnings("serial")
 public class RandomAi extends Ai implements Serializable {
   private boolean acceptHandGame;
@@ -28,7 +32,7 @@ public class RandomAi extends Ai implements Serializable {
   private final Random random = new Random();
 
   /**
-   * Creates a new instance of AIPlayer.
+   * Creates a new instance of AiPlayer.
    */
   public RandomAi() {
     aiHelper = new AiHelper();
@@ -83,8 +87,6 @@ public class RandomAi extends Ai implements Serializable {
     }
     return aiHelper.getNoHandGameNoMultipliers();
   }
-
-
 
   @Override
   public Contract chooseContract() {

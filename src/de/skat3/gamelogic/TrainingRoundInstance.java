@@ -1,5 +1,6 @@
 package de.skat3.gamelogic;
 
+import java.io.File;
 import de.skat3.main.SkatMain;
 import de.skat3.network.server.ServerLogicController;
 import javafx.application.Platform;
@@ -298,14 +299,15 @@ public class TrainingRoundInstance extends RoundInstance {
   private int currentPartInSkatBasics;
 
   private void showPopUp(int currentRound) {
-    filePop = "resources/trainingPopups/";
+    filePop = "resources" + File.separator + "trainingPopups";
     switch (this.scenario) {
       case 0:
         break;
       case 1:
         switch (currentRound) {
           case 0:
-            filePop += "/Skat Strategies/Scenario1/Scenario1_Popup1.html";
+            filePop += File.separator + "Skat Strategies" + File.separator + "Scenario1"
+                + File.separator + "Scenario1_Popup1.html";
             break;
           case 1:
             filePop += "/Skat Strategies/Scenario1/Scenario1_Popup2.html";
@@ -415,6 +417,8 @@ public class TrainingRoundInstance extends RoundInstance {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
+        System.out.println("\n" + '\n' + filePop + '\n' + '\n');
+
         SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, 600, 400);
       }
     });
