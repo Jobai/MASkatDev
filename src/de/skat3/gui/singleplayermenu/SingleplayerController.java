@@ -3,7 +3,9 @@ package de.skat3.gui.singleplayermenu;
 import java.util.Stack;
 import com.sun.prism.paint.Color;
 import de.skat3.main.SkatMain;
+import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -93,6 +95,13 @@ public class SingleplayerController {
   @FXML
   void startGame(ActionEvent event) {
 
+    this.main.setDisable(true);
+
+    Timeline t = new Timeline();
+    t.getKeyFrames().add(new KeyFrame(Duration.millis(1000), e -> {
+      showLoadingScreen();
+    }));
+
     // Check values
     int value = Integer.parseInt(modeValue.getText());
     if (mode.getSelectionModel().getSelectedItem() == "Seeger") {
@@ -113,6 +122,11 @@ public class SingleplayerController {
       }
     }
 
+
+    t.setOnFinished(e -> {
+
+    });
+
     boolean ai1Hard = false;
     boolean ai2Hard = false;
     int intScoreValue = 0;
@@ -127,14 +141,10 @@ public class SingleplayerController {
       ai2Hard = true;
     }
 
-    close();
-    startButton.setDisable(true);
-    showLoadingScreen();
 
     SkatMain.mainController.startSingleplayerGame(ai1Hard, ai2Hard, intScoreValue,
         this.kontraRekontra.isSelected());
 
-    startButton.setDisable(false);
 
   }
 
