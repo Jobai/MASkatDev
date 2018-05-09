@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -129,6 +130,10 @@ public class GameServerProtocol extends Thread {
         logger.log(Level.SEVERE, "FAIL + ASSERTION ERROR", e);
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
+      } catch (SocketException e) {
+        if (!gs.stopped) {
+          logger.warning("Socket Exception!");
+        }
       } catch (IOException e) {
         logger.log(Level.WARNING,
             "Connection Error! Possibly ungracefully closed by Client! [Client:"
@@ -149,7 +154,15 @@ public class GameServerProtocol extends Thread {
 
     MessageConnection mc = (MessageConnection) m;
     Player op = mc.originSender;
-    Profile p = SkatMain.ioController.getLastUsedProfile();
+    Profile p;
+    try{
+    p = SkatMain.ioController.getLastUsedProfile();
+    }
+    catch(NullPointerException e){
+      logger.warning("LAST USED PROFILE NOT FOUND!");
+      p = new Profile("BACKUP PROFILE!");
+      
+    }
 
 
     String serverPw = gs.lobbySettings.getPassword();

@@ -160,19 +160,19 @@ public class GameServer extends Thread {
     stoppingInProgess = true;
     try { 
       logger.info("Server is stopping");
-      ls.stopLobbyBroadcast();
       this.interrupt();
       endAllClients();
       this.serverSocket.close();
       this.interrupt();
       logger.info("Server stopped!" + this.isInterrupted());
+      ls.stopLobbyBroadcast();
       this.stop();
     } catch (SocketException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     } catch (NullPointerException e) {
-      e.printStackTrace();
+//      e.printStackTrace();
     }
 
   }
@@ -208,6 +208,7 @@ public class GameServer extends Thread {
     }
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       if (gameServerProtocol.playerProfile.equals(player)) {
+        
         if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
           logger.fine("round general info" + player.getUuid());
         }
