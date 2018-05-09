@@ -31,8 +31,8 @@ public class SoundVolumeUtil {
   @Deprecated
   public static void main(String[] args) {
 
-//    SoundPlayer sp = new SoundPlayer();
-//    sp.playBackgroundMusic();
+    SoundPlayer sp = new SoundPlayer();
+    sp.playBackgroundMusic();
     try {
       TimeUnit.SECONDS.sleep(3);
       setVolume(0.5F);
@@ -43,7 +43,6 @@ public class SoundVolumeUtil {
       TimeUnit.SECONDS.sleep(3);
       setVolume(1.0F);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     

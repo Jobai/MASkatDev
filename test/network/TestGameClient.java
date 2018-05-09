@@ -76,8 +76,8 @@ public class TestGameClient {
    */
   @After
   public void tearDown() throws Exception {
-     this.gs.stopServer();
-     TimeUnit.SECONDS.sleep(2);
+    this.gs.stopServer();
+    TimeUnit.SECONDS.sleep(2);
   }
 
   @Test
