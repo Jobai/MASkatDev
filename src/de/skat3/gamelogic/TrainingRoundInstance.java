@@ -507,15 +507,20 @@ public class TrainingRoundInstance extends RoundInstance {
     switch (this.scenario) {
       case 0:
         switch (currentPartInSkatBasics) {
+          case 0:
+            System.out.println("Case 0");
+            break;
           case 1:
             width = 600;
             height = 400;
-            filePop += "/Skat Basics/PopUp1.htm";
+            filePop += "/Skat Basics/PopUp1.html";
             break;
           case 2:
+            System.out.println("Inside");
+
             width = 600;
             height = 400;
-            filePop += "/Skat Basics/popup2.html";
+            filePop += "/Skat Basics/PopUp2.html";
             width = 200;
             height = 150;
             filePop += "/Skat Basics/Case2.1.html";
