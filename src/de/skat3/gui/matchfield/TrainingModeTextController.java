@@ -1,6 +1,5 @@
 package de.skat3.gui.matchfield;
 
-import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
@@ -26,9 +25,7 @@ public class TrainingModeTextController {
     this.root.setVisible(false);
   }
 
-  // TODO no new File
   public void setPath(String path) {
-    File f = new File(path);
     webEngine.load(TrainingModeTextController.class.getResource(path).toString());
   }
 

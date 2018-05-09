@@ -415,7 +415,7 @@ public class TrainingRoundInstance extends RoundInstance {
         @Override
         public void run() {
           SkatMain.guiController.getInGameController().showTrainingModeInfoText(
-              "/trainingPopups/Skat Strategies/Scenario1/successPopup.html", 200, 150);
+              "/trainingPopups/Skat Strategies/Scenario1/successPopUp.html", 400, 300);
         }
       });
 
@@ -574,7 +574,9 @@ public class TrainingRoundInstance extends RoundInstance {
             filePop += "/Skat Strategies/Scenario1/Scenario1_Popup2.html";
             break;
           case 2:
-            filePop = null;
+            width = 400;
+            height = 300;
+            filePop += "/Skat Strategies/Scenario1/Scenario1_Popup3.html";
             break;
           case 3:
             width = 400;
@@ -727,10 +729,14 @@ public class TrainingRoundInstance extends RoundInstance {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        System.out.println("\n" + '\n' + filePop + '\n' + '\n');
-
+        try {
         SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, width,
             height);
+        } catch (NullPointerException ex) {
+          System.out.println("known NullPointer");
+          // ex.printStackTrace();
+          System.out.println("known NullPointer");
+        }
       }
     });
   }
