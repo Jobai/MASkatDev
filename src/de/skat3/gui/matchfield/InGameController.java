@@ -30,7 +30,7 @@ public class InGameController implements InGameControllerInterface {
   public void initializePlayers() {
     if (!SkatMain.lgs.isGameActive()) {
       this.matchfield.overlayController.showInMainInfo(
-          SkatMain.mainController.currentLobby.getCurrentNumberOfPlayers() - 1 + "/"
+          SkatMain.mainController.currentLobby.getCurrentNumberOfPlayers() + "/"
               + SkatMain.mainController.currentLobby.getMaximumNumberOfPlayers() + " Ready",
           Duration.INDEFINITE);
     } else {

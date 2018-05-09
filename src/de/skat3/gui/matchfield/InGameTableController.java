@@ -212,9 +212,7 @@ public class InGameTableController {
    * Shows the skat selection.
    */
   void showSkatSelection(boolean show) {
-    if (this.tableView.skat != null && this.tableView.skat[0] != null
-        && this.tableView.skat[1] != null && this.tableView.saveSkatButton != null) {
-
+    if (this.tableView.skat != null && this.tableView.saveSkatButton != null) {
       if (show) {
         return;
       } else {

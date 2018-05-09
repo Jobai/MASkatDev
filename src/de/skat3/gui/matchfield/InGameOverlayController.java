@@ -16,7 +16,9 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -379,6 +381,9 @@ public class InGameOverlayController {
   }
 
   void showMatchResult(MatchResult result) {
+
+    this.gameResultcontroller.root.visibleProperty()
+        .bind(this.roundResultController.root.parentProperty().isNull());
 
     this.addAndSetupButton(this.gameResultcontroller.root, this.gameResultcontroller.closeButton);
 

@@ -34,6 +34,7 @@ public class Gui extends Application {
    * ASD.
    */
   public void showMenu() {
+    this.matchfield = null;
     this.mainStage.setScene(this.menuFrame.getScene());
   }
 
