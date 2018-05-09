@@ -411,8 +411,13 @@ public class TrainingRoundInstance extends RoundInstance {
         }
         slc.broadcastTrickResult(trickWinner);
       }
-      SkatMain.guiController.getInGameController().showTrainingModeInfoText(
-          "/trainingPopups/Skat Strategies/Scenario1/Scenario1_successPopup1.html", 200, 150);
+      Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+          SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+              "/trainingPopups/Skat Strategies/Scenario1/successPopup.html", 200, 150);
+        }
+      });
 
     }
   }
