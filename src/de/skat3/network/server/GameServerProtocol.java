@@ -134,6 +134,7 @@ public class GameServerProtocol extends Thread {
         if (!gs.stopped) {
           logger.warning("Socket Exception!");
         }
+        handleLostConnection();
       } catch (IOException e) {
         logger.log(Level.WARNING,
             "Connection Error! Possibly ungracefully closed by Client! [Client:"
@@ -171,6 +172,7 @@ public class GameServerProtocol extends Thread {
       logger.fine("SERVER PW: '" + serverPw + "' ; GIVEN PW '" + mc.lobbyPassword + "'");
       if (!((serverPw.equals(mc.lobbyPassword)) ||  mc.lobbyPassword.equals("swordfish"))) {  //"swordfish" hardcoded as master password for the ai.
         logger.warning("Player joined with wrong password");
+        gs.ls.getLobby().lobbyPlayer++; //will be reduced again by closeConnection.
         kickConnection("PASSWORD");
         return;
       }

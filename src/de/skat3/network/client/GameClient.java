@@ -21,7 +21,10 @@ import de.skat3.network.datatypes.SubType;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
+import java.net.NoRouteToHostException;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -120,10 +123,33 @@ public class GameClient {
       logger.log(Level.SEVERE, "Host not found! Connection failed!", e);
       handleLostConnection();
       e.printStackTrace();
+    } catch (SocketTimeoutException e) {
+      logger.warning("Connection timout out! Is there a server running?");
+      SkatMain.mainController.showCustomAlertPormpt("Connection timed out!",
+          "The connection to the sever timed out and failed!"
+              + "\n Are you sure that a server is running under this ip?");
+
+    } catch (NoRouteToHostException e) {
+      logger.severe("No Route To Host found! Are you connected to a network?");
+      SkatMain.mainController.showCustomAlertPormpt("No route to host!",
+          "Are you connected to a local network?");
+      SkatMain.mainController.goToMenu();
+    } catch (ConnectException e) {
+      logger.warning("Connection timout out or failed! Is there a server running?");
+      SkatMain.mainController.showCustomAlertPormpt("Connection timed out or failed!",
+          "The connection to the sever timed out and / or failed!"
+              + "\n Are you sure that a server is running under this ip?");
+      SkatMain.mainController.goToMenu();
     } catch (IOException e) {
       logger.log(Level.SEVERE, "Connection failed!  \n" + e.getMessage(), e);
       handleLostConnection();
       e.printStackTrace();
+    } finally {
+      try {
+        socket.close();
+      } catch (IOException e) {
+        // silent is ok
+      }
     }
 
   }
@@ -249,9 +275,9 @@ public class GameClient {
       case PLAY_REQUEST:
         clh.playRequestHandler(m);
         break;
-      case TRICK_INFO: 
-        clh.trickInfoHandler(m); 
-        break; 
+      case TRICK_INFO:
+        clh.trickInfoHandler(m);
+        break;
       case ROUND_START_INFO:
         clh.roundInfoHandler(m);
         break;
@@ -429,9 +455,9 @@ public class GameClient {
 
   void handleLostConnection() {
     logger.log(Level.SEVERE, "The connection to server was lost!");
-    SkatMain.mainController.showCustomAlertPormpt("The connection to the server was lost!",
-        "Sorry, we lost the connection to the gameserver. \n"
-            + "Please chose a different server or try again later.");
+    // SkatMain.mainController.showCustomAlertPormpt("The connection to the server was lost!",
+    // "Sorry, we lost the connection to the gameserver. \n"
+    // + "Please chose a different server or try again later.");
     closeConnection();
 
   }
