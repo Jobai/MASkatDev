@@ -46,6 +46,7 @@ public class TrainingRoundInstance extends RoundInstance {
 
       this.startBidding();
 
+      Thread.sleep(5000);
       // 1b)
       this.currentPartInSkatBasics = 1;
       this.initializeAuction();
