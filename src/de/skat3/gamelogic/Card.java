@@ -382,7 +382,7 @@ public class Card implements Serializable {
           case KING:
             return "🂬";
           case NINE:
-            return "";
+            return "🂩";
           case QUEEN:
             return "🂭";
           case SEVEN:
