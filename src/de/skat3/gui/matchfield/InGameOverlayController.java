@@ -366,7 +366,7 @@ public class InGameOverlayController {
         p = loader.load();
       } catch (IOException e) {
       }
-      Button closeButton = (Button) p.getChildren().get(1);
+      Button closeButton = (Button) p.lookup("closeButton");
 
       this.addAndSetupButton(p, closeButton);
       return;
