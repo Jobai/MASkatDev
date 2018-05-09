@@ -124,7 +124,7 @@ public class TrainingRoundInstance extends RoundInstance {
 
 
       // 3c
-      this.currentPartInSkatBasics = 5;
+      this.currentPartInSkatBasics = 6;
       this.initializeAuction();
       this.updatePlayer();
       this.updateEnemies();
@@ -147,9 +147,189 @@ public class TrainingRoundInstance extends RoundInstance {
       this.startGame();
     }
 
-    SkatMain.guiController.goToMenu();
-
   }
+
+  private boolean currentAnswer;
+
+  private Player startBiddingOne() throws InterruptedException {
+    synchronized (lock) {
+      this.current = LogicAnswers.BID;
+      Player bid = this.players[0];
+      this.currentBidder = bid;
+      this.currentAnswer = true;
+      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
+          currentAnswer);
+      lock.wait();
+
+      Player respond = this.players[1];
+      currentAnswer = true;
+      this.currentBidder = respond;
+      this.setBid(currentAnswer);
+      Thread.sleep(1000);
+      this.broadcastBid();
+
+      this.currentBiddingValue++;
+
+
+
+      this.currentBidder = bid;
+      this.currentAnswer = true;
+      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
+          currentAnswer);
+      lock.wait();
+
+
+      Thread.sleep(1000);
+      currentAnswer = true;
+      this.currentBidder = respond;
+      this.setBid(currentAnswer);
+      this.broadcastBid();
+
+      this.currentBiddingValue++;
+
+
+
+      this.currentBidder = bid;
+      this.currentAnswer = true;
+      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
+          currentAnswer);
+      lock.wait();
+
+
+      Thread.sleep(1000);
+      currentAnswer = false;
+      this.currentBidder = respond;
+      this.setBid(currentAnswer);
+      this.broadcastBid();
+
+      this.currentBiddingValue++;
+
+      bid = this.players[2];
+      respond = this.players[0];
+
+      Thread.sleep(1000);
+      currentAnswer = false;
+      this.currentBidder = bid;
+      this.setBid(currentAnswer);
+      this.broadcastBid();
+
+
+      return respond;
+
+
+    }
+  }
+
+
+  private Player startBiddingTwo() throws InterruptedException {
+    synchronized (lock) {
+
+      this.current = LogicAnswers.BID;
+      Player bid = this.players[2];
+      this.currentBidder = bid;
+      this.currentAnswer = true;
+      this.setBid(currentAnswer);
+      Thread.sleep(1000);
+      this.broadcastBid();
+
+
+      Player respond = this.players[1];
+      currentAnswer = true;
+      this.currentBidder = respond;
+      this.setBid(currentAnswer);
+      Thread.sleep(1000);
+      this.broadcastBid();
+
+      this.currentBiddingValue++;
+
+
+      respond = this.players[2];
+      bid = this.players[0];
+
+
+      this.currentBidder = bid;
+      this.currentAnswer = false;
+      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
+          currentAnswer);
+      lock.wait();
+
+
+      return respond;
+
+
+    }
+  }
+
+
+  private Player startBiddingThree() throws InterruptedException {
+    synchronized (lock) {
+      this.current = LogicAnswers.BID;
+      Player bid = this.players[0];
+      this.currentBidder = bid;
+      this.currentAnswer = true;
+      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
+          currentAnswer);
+      lock.wait();
+
+      Player respond = this.players[1];
+      currentAnswer = true;
+      this.currentBidder = respond;
+      this.setBid(currentAnswer);
+      Thread.sleep(1000);
+      this.broadcastBid();
+
+      this.currentBiddingValue++;
+
+
+
+      this.currentBidder = bid;
+      this.currentAnswer = true;
+      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
+          currentAnswer);
+      lock.wait();
+
+
+      Thread.sleep(1000);
+      currentAnswer = true;
+      this.currentBidder = respond;
+      this.setBid(currentAnswer);
+      this.broadcastBid();
+
+      this.currentBiddingValue++;
+
+
+
+      this.currentBidder = bid;
+      this.currentAnswer = true;
+      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
+          currentAnswer);
+      lock.wait();
+
+
+      Thread.sleep(1000);
+      currentAnswer = false;
+      this.currentBidder = respond;
+      this.setBid(currentAnswer);
+      this.broadcastBid();
+
+      this.currentBiddingValue++;
+
+      bid = this.players[2];
+      respond = this.players[0];
+
+      Thread.sleep(1000);
+      currentAnswer = false;
+      this.currentBidder = bid;
+      this.setBid(currentAnswer);
+      this.broadcastBid();
+
+
+      return respond;
+
+
+    }
+  }
+
 
   /**
    * Sets the player that plays the first card in the first round of the scenario.
@@ -241,26 +421,21 @@ public class TrainingRoundInstance extends RoundInstance {
 
   @Override
   public Player startBidding() throws InterruptedException {
-    synchronized (lock) {
-      this.currentBiddingValue = 0;
-      respond = false;
-      Player currentWinner = bidDuel(this.players[1], this.players[0]);
-      respond = false;
-      currentWinner = bidDuel(this.players[2], currentWinner);
-      if (currentWinner.equals(this.players[0]) && this.currentBiddingValue == 0) {
-        this.current = LogicAnswers.BID;
-        this.currentBidder = this.players[0];
-        this.slc.callForBid(this.players[0], BiddingValues.values[this.currentBiddingValue]);
-        lock.wait();
-        if (this.bidAccepted) {
-          return this.players[0];
-        } else {
-          return null;
-        }
-      } else {
-        return currentWinner;
-      }
+    Thread.sleep(5000);
+    this.currentBiddingValue = 0;
+    this.respond = false;
+    switch (this.currentPartInSkatBasics) {
+      case 0:
+        return this.startBiddingOne();
+      case 1:
+        return this.startBiddingTwo();
+      case 2:
+        return this.startBiddingThree();
+      default:
+        break;
+
     }
+    return currentBidder;
   }
 
   @Override
@@ -519,71 +694,71 @@ public class TrainingRoundInstance extends RoundInstance {
           default:
             return null;
         }
-		case 2: // Importance of Trump Card
+      case 2: // Importance of Trump Card
         switch (currentRound) {
-			case 0:
+          case 0:
             switch (player) {
               case 0:
-					return new Card(Suit.HEARTS, Value.JACK);
+                return new Card(Suit.HEARTS, Value.JACK);
               case 1:
-					return new Card(Suit.HEARTS, Value.TEN);
+                return new Card(Suit.HEARTS, Value.TEN);
               case 2:
-					return new Card(Suit.HEARTS, Value.QUEEN);
+                return new Card(Suit.HEARTS, Value.QUEEN);
               default:
                 return null;
             }
           case 1:
             switch (player) {
               case 0:
-					return new Card(Suit.HEARTS, Value.ACE);
+                return new Card(Suit.HEARTS, Value.ACE);
               case 1:
-					return new Card(Suit.HEARTS, Value.KING);
+                return new Card(Suit.HEARTS, Value.KING);
               case 2:
-					return new Card(Suit.DIAMONDS, Value.EIGHT);
+                return new Card(Suit.DIAMONDS, Value.EIGHT);
               default:
                 return null;
             }
           case 2:
             switch (player) {
               case 0:
-					return new Card(Suit.HEARTS, Value.NINE);
+                return new Card(Suit.HEARTS, Value.NINE);
               case 1:
-					return new Card(Suit.SPADES, Value.JACK);
+                return new Card(Suit.SPADES, Value.JACK);
               case 2:
-					return new Card(Suit.CLUBS, Value.ACE);
+                return new Card(Suit.CLUBS, Value.ACE);
               default:
                 return null;
             }
           case 3:
             switch (player) {
               case 0:
-					return new Card(Suit.HEARTS, Value.SEVEN);
+                return new Card(Suit.HEARTS, Value.SEVEN);
               case 1:
-					return new Card(Suit.DIAMONDS, Value.ACE);
+                return new Card(Suit.DIAMONDS, Value.ACE);
               case 2:
-					return new Card(Suit.CLUBS, Value.NINE);
+                return new Card(Suit.CLUBS, Value.NINE);
               default:
                 return null;
             }
           case 4:
             switch (player) {
               case 0:
-					return new Card(Suit.SPADES, Value.TEN);
+                return new Card(Suit.SPADES, Value.TEN);
               case 1:
-					return new Card(Suit.CLUBS, Value.EIGHT);
+                return new Card(Suit.CLUBS, Value.EIGHT);
               case 2:
-					return new Card(Suit.CLUBS, Value.ACE);
+                return new Card(Suit.CLUBS, Value.ACE);
               default:
                 return null;
             }
           case 5:
             switch (player) {
               case 0:
-					return new Card(Suit.SPADES, Value.EIGHT);
+                return new Card(Suit.SPADES, Value.EIGHT);
               case 1:
-					return new Card(Suit.DIAMONDS, Value.SEVEN);
+                return new Card(Suit.DIAMONDS, Value.SEVEN);
               case 2:
-					return new Card(Suit.DIAMONDS, Value.TEN);
+                return new Card(Suit.DIAMONDS, Value.TEN);
               default:
                 return null;
             }
@@ -594,66 +769,66 @@ public class TrainingRoundInstance extends RoundInstance {
         switch (currentRound) {
           case 0:
             switch (player) {
-				case 2:
+              case 2:
                 return new Card(Suit.CLUBS, Value.ACE);
               case 1:
                 return new Card(Suit.SPADES, Value.TEN);
-				case 0:
+              case 0:
                 return new Card(Suit.SPADES, Value.ACE);
               default:
                 return null;
             }
           case 1:
             switch (player) {
-				case 2:
+              case 2:
                 return new Card(Suit.DIAMONDS, Value.TEN);
               case 1:
                 return new Card(Suit.HEARTS, Value.NINE);
-				case 0:
+              case 0:
                 return new Card(Suit.DIAMONDS, Value.ACE);
               default:
                 return null;
             }
           case 2:
             switch (player) {
-				case 2:
+              case 2:
                 return new Card(Suit.DIAMONDS, Value.KING);
               case 1:
                 return new Card(Suit.HEARTS, Value.KING);
-				case 0:
+              case 0:
                 return new Card(Suit.HEARTS, Value.TEN);
               default:
                 return null;
             }
           case 3:
             switch (player) {
-				case 2:
+              case 2:
                 return new Card(Suit.DIAMONDS, Value.EIGHT);
               case 1:
                 return new Card(Suit.HEARTS, Value.ACE);
-				case 0:
+              case 0:
                 return new Card(Suit.DIAMONDS, Value.NINE);
               default:
                 return null;
             }
           case 4:
             switch (player) {
-				case 2:
+              case 2:
                 return new Card(Suit.CLUBS, Value.EIGHT);
               case 1:
                 return new Card(Suit.HEARTS, Value.SEVEN);
-				case 0:
+              case 0:
                 return new Card(Suit.CLUBS, Value.NINE);
               default:
                 return null;
             }
           case 5:
             switch (player) {
-				case 2:
+              case 2:
                 return new Card(Suit.HEARTS, Value.EIGHT);
               case 1:
                 return new Card(Suit.SPADES, Value.QUEEN);
-				case 0:
+              case 0:
                 return new Card(Suit.SPADES, Value.SEVEN);
               default:
                 return null;
@@ -825,12 +1000,12 @@ public class TrainingRoundInstance extends RoundInstance {
         this.contract = Contract.HEARTS;
         break;
       case 2: // Press Skat
-			this.solo = this.players[0];
-			this.solo.setSolo(true);
-			Player[] team2 = this.getTeamPlayer();
-			team2[0].setSolo(false);
-			team2[1].setSolo(false);
-			this.contract = Contract.HEARTS;
+        this.solo = this.players[0];
+        this.solo.setSolo(true);
+        Player[] team2 = this.getTeamPlayer();
+        team2[0].setSolo(false);
+        team2[1].setSolo(false);
+        this.contract = Contract.HEARTS;
         break;
       case 3:// Offer Points to player
         this.solo = this.players[2];
@@ -921,7 +1096,7 @@ public class TrainingRoundInstance extends RoundInstance {
       case 0:
         switch (this.currentPartInSkatBasics) {
           case 0:
-				// good cards
+            // good cards
             Card[] playerCards = new Card[this.startHandSize];
             playerCards[0] = new Card(Suit.HEARTS, Value.JACK);
             playerCards[1] = new Card(Suit.DIAMONDS, Value.JACK);
@@ -934,7 +1109,7 @@ public class TrainingRoundInstance extends RoundInstance {
             playerCards[8] = new Card(Suit.HEARTS, Value.ACE);
             playerCards[9] = new Card(Suit.HEARTS, Value.EIGHT);
 
-				// bad cards
+            // bad cards
             Card[] enemyOneCards = new Card[this.startHandSize];
             enemyOneCards[0] = new Card(Suit.CLUBS, Value.KING);
             enemyOneCards[1] = new Card(Suit.HEARTS, Value.TEN);
@@ -948,7 +1123,7 @@ public class TrainingRoundInstance extends RoundInstance {
             enemyOneCards[9] = new Card(Suit.CLUBS, Value.EIGHT);
 
 
-				// bad cards
+            // bad cards
             Card[] enemyTwoCards = new Card[this.startHandSize];
             enemyTwoCards[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
             enemyTwoCards[1] = new Card(Suit.HEARTS, Value.QUEEN);
@@ -956,323 +1131,323 @@ public class TrainingRoundInstance extends RoundInstance {
             enemyTwoCards[3] = new Card(Suit.CLUBS, Value.NINE);
             enemyTwoCards[4] = new Card(Suit.DIAMONDS, Value.ACE);
             enemyTwoCards[5] = new Card(Suit.SPADES, Value.NINE);
-            enemyTwoCards[6] = new Card(Suit.CLUBS,Value.SEVEN);
-            enemyTwoCards[7] = new Card(Suit.HEARTS,Value.NINE);
-            enemyTwoCards[8] = new Card(Suit.SPADES,Value.SEVEN);
-            enemyTwoCards[9] = new Card(Suit.SPADES,Value.EIGHT);
+            enemyTwoCards[6] = new Card(Suit.CLUBS, Value.SEVEN);
+            enemyTwoCards[7] = new Card(Suit.HEARTS, Value.NINE);
+            enemyTwoCards[8] = new Card(Suit.SPADES, Value.SEVEN);
+            enemyTwoCards[9] = new Card(Suit.SPADES, Value.EIGHT);
 
             this.players[0].setHand(new Hand(playerCards));
             this.players[1].setHand(new Hand(enemyOneCards));
             this.players[2].setHand(new Hand(enemyTwoCards));
             break;
-			case 1:
-				// bad cards
-				Card[] playerCards1 = new Card[this.startHandSize];
-				playerCards1[0] = new Card(Suit.CLUBS, Value.KING);
-				playerCards1[1] = new Card(Suit.HEARTS, Value.TEN);
-				playerCards1[2] = new Card(Suit.SPADES, Value.QUEEN);
-				playerCards1[3] = new Card(Suit.HEARTS, Value.SEVEN);
-				playerCards1[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
-				playerCards1[5] = new Card(Suit.CLUBS, Value.QUEEN);
-				playerCards1[6] = new Card(Suit.SPADES, Value.KING);
-				playerCards1[7] = new Card(Suit.DIAMONDS, Value.NINE);
-				playerCards1[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
-				playerCards1[9] = new Card(Suit.CLUBS, Value.EIGHT);
+          case 1:
+            // bad cards
+            Card[] playerCards1 = new Card[this.startHandSize];
+            playerCards1[0] = new Card(Suit.CLUBS, Value.KING);
+            playerCards1[1] = new Card(Suit.HEARTS, Value.TEN);
+            playerCards1[2] = new Card(Suit.SPADES, Value.QUEEN);
+            playerCards1[3] = new Card(Suit.HEARTS, Value.SEVEN);
+            playerCards1[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
+            playerCards1[5] = new Card(Suit.CLUBS, Value.QUEEN);
+            playerCards1[6] = new Card(Suit.SPADES, Value.KING);
+            playerCards1[7] = new Card(Suit.DIAMONDS, Value.NINE);
+            playerCards1[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
+            playerCards1[9] = new Card(Suit.CLUBS, Value.EIGHT);
 
-				// good cards
-				Card[] enemyOneCards1 = new Card[this.startHandSize];
-				enemyOneCards1[0] = new Card(Suit.HEARTS, Value.JACK);
-				enemyOneCards1[1] = new Card(Suit.DIAMONDS, Value.JACK);
-				enemyOneCards1[2] = new Card(Suit.CLUBS, Value.JACK);
-				enemyOneCards1[3] = new Card(Suit.SPADES, Value.JACK);
-				enemyOneCards1[4] = new Card(Suit.CLUBS, Value.ACE);
-				enemyOneCards1[5] = new Card(Suit.CLUBS, Value.TEN);
-				enemyOneCards1[6] = new Card(Suit.SPADES, Value.ACE);
-				enemyOneCards1[7] = new Card(Suit.SPADES, Value.TEN);
-				enemyOneCards1[8] = new Card(Suit.HEARTS, Value.ACE);
-				enemyOneCards1[9] = new Card(Suit.HEARTS, Value.EIGHT);
+            // good cards
+            Card[] enemyOneCards1 = new Card[this.startHandSize];
+            enemyOneCards1[0] = new Card(Suit.HEARTS, Value.JACK);
+            enemyOneCards1[1] = new Card(Suit.DIAMONDS, Value.JACK);
+            enemyOneCards1[2] = new Card(Suit.CLUBS, Value.JACK);
+            enemyOneCards1[3] = new Card(Suit.SPADES, Value.JACK);
+            enemyOneCards1[4] = new Card(Suit.CLUBS, Value.ACE);
+            enemyOneCards1[5] = new Card(Suit.CLUBS, Value.TEN);
+            enemyOneCards1[6] = new Card(Suit.SPADES, Value.ACE);
+            enemyOneCards1[7] = new Card(Suit.SPADES, Value.TEN);
+            enemyOneCards1[8] = new Card(Suit.HEARTS, Value.ACE);
+            enemyOneCards1[9] = new Card(Suit.HEARTS, Value.EIGHT);
 
-				// bad cards
-				Card[] enemyTwoCards1 = new Card[this.startHandSize];
-				enemyTwoCards1[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
-				enemyTwoCards1[1] = new Card(Suit.HEARTS, Value.QUEEN);
-				enemyTwoCards1[2] = new Card(Suit.DIAMONDS, Value.TEN);
-				enemyTwoCards1[3] = new Card(Suit.CLUBS, Value.NINE);
-				enemyTwoCards1[4] = new Card(Suit.DIAMONDS, Value.ACE);
-				enemyTwoCards1[5] = new Card(Suit.SPADES, Value.NINE);
-				enemyTwoCards1[6] = new Card(Suit.CLUBS, Value.SEVEN);
-				enemyTwoCards1[7] = new Card(Suit.HEARTS, Value.NINE);
-				enemyTwoCards1[8] = new Card(Suit.SPADES, Value.SEVEN);
-				enemyTwoCards1[9] = new Card(Suit.SPADES, Value.EIGHT);
+            // bad cards
+            Card[] enemyTwoCards1 = new Card[this.startHandSize];
+            enemyTwoCards1[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
+            enemyTwoCards1[1] = new Card(Suit.HEARTS, Value.QUEEN);
+            enemyTwoCards1[2] = new Card(Suit.DIAMONDS, Value.TEN);
+            enemyTwoCards1[3] = new Card(Suit.CLUBS, Value.NINE);
+            enemyTwoCards1[4] = new Card(Suit.DIAMONDS, Value.ACE);
+            enemyTwoCards1[5] = new Card(Suit.SPADES, Value.NINE);
+            enemyTwoCards1[6] = new Card(Suit.CLUBS, Value.SEVEN);
+            enemyTwoCards1[7] = new Card(Suit.HEARTS, Value.NINE);
+            enemyTwoCards1[8] = new Card(Suit.SPADES, Value.SEVEN);
+            enemyTwoCards1[9] = new Card(Suit.SPADES, Value.EIGHT);
 
-				this.players[0].setHand(new Hand(playerCards1));
-				this.players[1].setHand(new Hand(enemyOneCards1));
-				this.players[2].setHand(new Hand(enemyTwoCards1));
-				break;
-			case 2:
+            this.players[0].setHand(new Hand(playerCards1));
+            this.players[1].setHand(new Hand(enemyOneCards1));
+            this.players[2].setHand(new Hand(enemyTwoCards1));
+            break;
+          case 2:
 
-				Card[] playerCards2 = new Card[this.startHandSize];
-				playerCards2[0] = new Card(Suit.CLUBS, Value.KING);
-				playerCards2[1] = new Card(Suit.HEARTS, Value.TEN);
-				playerCards2[2] = new Card(Suit.SPADES, Value.QUEEN);
-				playerCards2[3] = new Card(Suit.HEARTS, Value.ACE);
-				playerCards2[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
-				playerCards2[5] = new Card(Suit.CLUBS, Value.QUEEN);
-				playerCards2[6] = new Card(Suit.SPADES, Value.KING);
-				playerCards2[7] = new Card(Suit.HEARTS, Value.JACK);
-				playerCards2[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
-				playerCards2[9] = new Card(Suit.CLUBS, Value.EIGHT);
+            Card[] playerCards2 = new Card[this.startHandSize];
+            playerCards2[0] = new Card(Suit.CLUBS, Value.KING);
+            playerCards2[1] = new Card(Suit.HEARTS, Value.TEN);
+            playerCards2[2] = new Card(Suit.SPADES, Value.QUEEN);
+            playerCards2[3] = new Card(Suit.HEARTS, Value.ACE);
+            playerCards2[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
+            playerCards2[5] = new Card(Suit.CLUBS, Value.QUEEN);
+            playerCards2[6] = new Card(Suit.SPADES, Value.KING);
+            playerCards2[7] = new Card(Suit.HEARTS, Value.JACK);
+            playerCards2[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
+            playerCards2[9] = new Card(Suit.CLUBS, Value.EIGHT);
 
-				// average cards
-				Card[] enemyOneCards2 = new Card[this.startHandSize];
-				enemyOneCards2[0] = new Card(Suit.DIAMONDS, Value.NINE);
-				enemyOneCards2[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
-				enemyOneCards2[2] = new Card(Suit.CLUBS, Value.JACK);
-				enemyOneCards2[3] = new Card(Suit.SPADES, Value.JACK);
-				enemyOneCards2[4] = new Card(Suit.CLUBS, Value.ACE);
-				enemyOneCards2[5] = new Card(Suit.CLUBS, Value.TEN);
-				enemyOneCards2[6] = new Card(Suit.SPADES, Value.NINE);
-				enemyOneCards2[7] = new Card(Suit.SPADES, Value.TEN);
-				enemyOneCards2[8] = new Card(Suit.HEARTS, Value.SEVEN);
-				enemyOneCards2[9] = new Card(Suit.HEARTS, Value.EIGHT);
+            // average cards
+            Card[] enemyOneCards2 = new Card[this.startHandSize];
+            enemyOneCards2[0] = new Card(Suit.DIAMONDS, Value.NINE);
+            enemyOneCards2[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
+            enemyOneCards2[2] = new Card(Suit.CLUBS, Value.JACK);
+            enemyOneCards2[3] = new Card(Suit.SPADES, Value.JACK);
+            enemyOneCards2[4] = new Card(Suit.CLUBS, Value.ACE);
+            enemyOneCards2[5] = new Card(Suit.CLUBS, Value.TEN);
+            enemyOneCards2[6] = new Card(Suit.SPADES, Value.NINE);
+            enemyOneCards2[7] = new Card(Suit.SPADES, Value.TEN);
+            enemyOneCards2[8] = new Card(Suit.HEARTS, Value.SEVEN);
+            enemyOneCards2[9] = new Card(Suit.HEARTS, Value.EIGHT);
 
-				// average cards
-				Card[] enemyTwoCards2 = new Card[this.startHandSize];
-				enemyTwoCards2[0] = new Card(Suit.DIAMONDS, Value.JACK);
-				enemyTwoCards2[1] = new Card(Suit.HEARTS, Value.QUEEN);
-				enemyTwoCards2[2] = new Card(Suit.DIAMONDS, Value.TEN);
-				enemyTwoCards2[3] = new Card(Suit.CLUBS, Value.NINE);
-				enemyTwoCards2[4] = new Card(Suit.DIAMONDS, Value.ACE);
-				enemyTwoCards2[5] = new Card(Suit.SPADES, Value.ACE);
-				enemyTwoCards2[6] = new Card(Suit.CLUBS, Value.SEVEN);
-				enemyTwoCards2[7] = new Card(Suit.HEARTS, Value.NINE);
-				enemyTwoCards2[8] = new Card(Suit.SPADES, Value.SEVEN);
-				enemyTwoCards2[9] = new Card(Suit.SPADES, Value.EIGHT);
+            // average cards
+            Card[] enemyTwoCards2 = new Card[this.startHandSize];
+            enemyTwoCards2[0] = new Card(Suit.DIAMONDS, Value.JACK);
+            enemyTwoCards2[1] = new Card(Suit.HEARTS, Value.QUEEN);
+            enemyTwoCards2[2] = new Card(Suit.DIAMONDS, Value.TEN);
+            enemyTwoCards2[3] = new Card(Suit.CLUBS, Value.NINE);
+            enemyTwoCards2[4] = new Card(Suit.DIAMONDS, Value.ACE);
+            enemyTwoCards2[5] = new Card(Suit.SPADES, Value.ACE);
+            enemyTwoCards2[6] = new Card(Suit.CLUBS, Value.SEVEN);
+            enemyTwoCards2[7] = new Card(Suit.HEARTS, Value.NINE);
+            enemyTwoCards2[8] = new Card(Suit.SPADES, Value.SEVEN);
+            enemyTwoCards2[9] = new Card(Suit.SPADES, Value.EIGHT);
 
-				this.players[0].setHand(new Hand(playerCards2));
-				this.players[1].setHand(new Hand(enemyOneCards2));
-				this.players[2].setHand(new Hand(enemyTwoCards2));
+            this.players[0].setHand(new Hand(playerCards2));
+            this.players[1].setHand(new Hand(enemyOneCards2));
+            this.players[2].setHand(new Hand(enemyTwoCards2));
 
-				break;
-			case 3:
-				// good cards
-				Card[] playerCards3 = new Card[this.startHandSize];
-				playerCards3[0] = new Card(Suit.HEARTS, Value.JACK);
-				playerCards3[1] = new Card(Suit.DIAMONDS, Value.JACK);
-				playerCards3[2] = new Card(Suit.CLUBS, Value.JACK);
-				playerCards3[3] = new Card(Suit.SPADES, Value.JACK);
-				playerCards3[4] = new Card(Suit.CLUBS, Value.ACE);
-				playerCards3[5] = new Card(Suit.CLUBS, Value.TEN);
-				playerCards3[6] = new Card(Suit.SPADES, Value.ACE);
-				playerCards3[7] = new Card(Suit.SPADES, Value.TEN);
-				playerCards3[8] = new Card(Suit.HEARTS, Value.ACE);
-				playerCards3[9] = new Card(Suit.HEARTS, Value.EIGHT);
+            break;
+          case 3:
+            // good cards
+            Card[] playerCards3 = new Card[this.startHandSize];
+            playerCards3[0] = new Card(Suit.HEARTS, Value.JACK);
+            playerCards3[1] = new Card(Suit.DIAMONDS, Value.JACK);
+            playerCards3[2] = new Card(Suit.CLUBS, Value.JACK);
+            playerCards3[3] = new Card(Suit.SPADES, Value.JACK);
+            playerCards3[4] = new Card(Suit.CLUBS, Value.ACE);
+            playerCards3[5] = new Card(Suit.CLUBS, Value.TEN);
+            playerCards3[6] = new Card(Suit.SPADES, Value.ACE);
+            playerCards3[7] = new Card(Suit.SPADES, Value.TEN);
+            playerCards3[8] = new Card(Suit.HEARTS, Value.ACE);
+            playerCards3[9] = new Card(Suit.HEARTS, Value.EIGHT);
 
-				// bad cards
-				Card[] enemyOneCards3 = new Card[this.startHandSize];
-				enemyOneCards3[0] = new Card(Suit.CLUBS, Value.KING);
-				enemyOneCards3[1] = new Card(Suit.HEARTS, Value.TEN);
-				enemyOneCards3[2] = new Card(Suit.SPADES, Value.QUEEN);
-				enemyOneCards3[3] = new Card(Suit.HEARTS, Value.SEVEN);
-				enemyOneCards3[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
-				enemyOneCards3[5] = new Card(Suit.CLUBS, Value.QUEEN);
-				enemyOneCards3[6] = new Card(Suit.SPADES, Value.KING);
-				enemyOneCards3[7] = new Card(Suit.DIAMONDS, Value.NINE);
-				enemyOneCards3[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
-				enemyOneCards3[9] = new Card(Suit.CLUBS, Value.EIGHT);
+            // bad cards
+            Card[] enemyOneCards3 = new Card[this.startHandSize];
+            enemyOneCards3[0] = new Card(Suit.CLUBS, Value.KING);
+            enemyOneCards3[1] = new Card(Suit.HEARTS, Value.TEN);
+            enemyOneCards3[2] = new Card(Suit.SPADES, Value.QUEEN);
+            enemyOneCards3[3] = new Card(Suit.HEARTS, Value.SEVEN);
+            enemyOneCards3[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
+            enemyOneCards3[5] = new Card(Suit.CLUBS, Value.QUEEN);
+            enemyOneCards3[6] = new Card(Suit.SPADES, Value.KING);
+            enemyOneCards3[7] = new Card(Suit.DIAMONDS, Value.NINE);
+            enemyOneCards3[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
+            enemyOneCards3[9] = new Card(Suit.CLUBS, Value.EIGHT);
 
-				// bad cards
-				Card[] enemyTwoCards3 = new Card[this.startHandSize];
-				enemyTwoCards3[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
-				enemyTwoCards3[1] = new Card(Suit.HEARTS, Value.QUEEN);
-				enemyTwoCards3[2] = new Card(Suit.DIAMONDS, Value.TEN);
-				enemyTwoCards3[3] = new Card(Suit.CLUBS, Value.NINE);
-				enemyTwoCards3[4] = new Card(Suit.DIAMONDS, Value.ACE);
-				enemyTwoCards3[5] = new Card(Suit.SPADES, Value.NINE);
-				enemyTwoCards3[6] = new Card(Suit.CLUBS, Value.SEVEN);
-				enemyTwoCards3[7] = new Card(Suit.HEARTS, Value.NINE);
-				enemyTwoCards3[8] = new Card(Suit.SPADES, Value.SEVEN);
-				enemyTwoCards3[9] = new Card(Suit.SPADES, Value.EIGHT);
-				this.players[0].setHand(new Hand(playerCards3));
-				this.players[1].setHand(new Hand(enemyOneCards3));
-				this.players[2].setHand(new Hand(enemyTwoCards3));
-				break;
-			case 4:
-				// bad cards
-				Card[] playerCards4 = new Card[this.startHandSize];
-				playerCards4[0] = new Card(Suit.CLUBS, Value.NINE);
-				playerCards4[1] = new Card(Suit.HEARTS, Value.TEN);
-				playerCards4[2] = new Card(Suit.SPADES, Value.QUEEN);
-				playerCards4[3] = new Card(Suit.HEARTS, Value.SEVEN);
-				playerCards4[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
-				playerCards4[5] = new Card(Suit.CLUBS, Value.QUEEN);
-				playerCards4[6] = new Card(Suit.SPADES, Value.SEVEN);
-				playerCards4[7] = new Card(Suit.DIAMONDS, Value.NINE);
-				playerCards4[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
-				playerCards4[9] = new Card(Suit.CLUBS, Value.EIGHT);
+            // bad cards
+            Card[] enemyTwoCards3 = new Card[this.startHandSize];
+            enemyTwoCards3[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
+            enemyTwoCards3[1] = new Card(Suit.HEARTS, Value.QUEEN);
+            enemyTwoCards3[2] = new Card(Suit.DIAMONDS, Value.TEN);
+            enemyTwoCards3[3] = new Card(Suit.CLUBS, Value.NINE);
+            enemyTwoCards3[4] = new Card(Suit.DIAMONDS, Value.ACE);
+            enemyTwoCards3[5] = new Card(Suit.SPADES, Value.NINE);
+            enemyTwoCards3[6] = new Card(Suit.CLUBS, Value.SEVEN);
+            enemyTwoCards3[7] = new Card(Suit.HEARTS, Value.NINE);
+            enemyTwoCards3[8] = new Card(Suit.SPADES, Value.SEVEN);
+            enemyTwoCards3[9] = new Card(Suit.SPADES, Value.EIGHT);
+            this.players[0].setHand(new Hand(playerCards3));
+            this.players[1].setHand(new Hand(enemyOneCards3));
+            this.players[2].setHand(new Hand(enemyTwoCards3));
+            break;
+          case 4:
+            // bad cards
+            Card[] playerCards4 = new Card[this.startHandSize];
+            playerCards4[0] = new Card(Suit.CLUBS, Value.NINE);
+            playerCards4[1] = new Card(Suit.HEARTS, Value.TEN);
+            playerCards4[2] = new Card(Suit.SPADES, Value.QUEEN);
+            playerCards4[3] = new Card(Suit.HEARTS, Value.SEVEN);
+            playerCards4[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
+            playerCards4[5] = new Card(Suit.CLUBS, Value.QUEEN);
+            playerCards4[6] = new Card(Suit.SPADES, Value.SEVEN);
+            playerCards4[7] = new Card(Suit.DIAMONDS, Value.NINE);
+            playerCards4[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
+            playerCards4[9] = new Card(Suit.CLUBS, Value.EIGHT);
 
-				// good cards
-				Card[] enemyOneCards4 = new Card[this.startHandSize];
-				enemyOneCards4[0] = new Card(Suit.HEARTS, Value.NINE);
-				enemyOneCards4[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
-				enemyOneCards4[2] = new Card(Suit.CLUBS, Value.JACK);
-				enemyOneCards4[3] = new Card(Suit.SPADES, Value.JACK);
-				enemyOneCards4[4] = new Card(Suit.CLUBS, Value.ACE);
-				enemyOneCards4[5] = new Card(Suit.CLUBS, Value.TEN);
-				enemyOneCards4[6] = new Card(Suit.SPADES, Value.ACE);
-				enemyOneCards4[7] = new Card(Suit.SPADES, Value.TEN);
-				enemyOneCards4[8] = new Card(Suit.HEARTS, Value.ACE);
-				enemyOneCards4[9] = new Card(Suit.HEARTS, Value.EIGHT);
+            // good cards
+            Card[] enemyOneCards4 = new Card[this.startHandSize];
+            enemyOneCards4[0] = new Card(Suit.HEARTS, Value.NINE);
+            enemyOneCards4[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
+            enemyOneCards4[2] = new Card(Suit.CLUBS, Value.JACK);
+            enemyOneCards4[3] = new Card(Suit.SPADES, Value.JACK);
+            enemyOneCards4[4] = new Card(Suit.CLUBS, Value.ACE);
+            enemyOneCards4[5] = new Card(Suit.CLUBS, Value.TEN);
+            enemyOneCards4[6] = new Card(Suit.SPADES, Value.ACE);
+            enemyOneCards4[7] = new Card(Suit.SPADES, Value.TEN);
+            enemyOneCards4[8] = new Card(Suit.HEARTS, Value.ACE);
+            enemyOneCards4[9] = new Card(Suit.HEARTS, Value.EIGHT);
 
-				// good cards
-				Card[] enemyTwoCards4 = new Card[this.startHandSize];
-				enemyTwoCards4[0] = new Card(Suit.DIAMONDS, Value.JACK);
-				enemyTwoCards4[1] = new Card(Suit.HEARTS, Value.QUEEN);
-				enemyTwoCards4[2] = new Card(Suit.DIAMONDS, Value.TEN);
-				enemyTwoCards4[3] = new Card(Suit.CLUBS, Value.KING);
-				enemyTwoCards4[4] = new Card(Suit.DIAMONDS, Value.ACE);
-				enemyTwoCards4[5] = new Card(Suit.SPADES, Value.NINE);
-				enemyTwoCards4[6] = new Card(Suit.CLUBS, Value.SEVEN);
-				enemyTwoCards4[7] = new Card(Suit.HEARTS, Value.JACK);
-				enemyTwoCards4[8] = new Card(Suit.SPADES, Value.KING);
-				enemyTwoCards4[9] = new Card(Suit.SPADES, Value.EIGHT);
-				this.players[0].setHand(new Hand(playerCards4));
-				this.players[1].setHand(new Hand(enemyOneCards4));
-				this.players[2].setHand(new Hand(enemyTwoCards4));
-				break;
-			case 5:
+            // good cards
+            Card[] enemyTwoCards4 = new Card[this.startHandSize];
+            enemyTwoCards4[0] = new Card(Suit.DIAMONDS, Value.JACK);
+            enemyTwoCards4[1] = new Card(Suit.HEARTS, Value.QUEEN);
+            enemyTwoCards4[2] = new Card(Suit.DIAMONDS, Value.TEN);
+            enemyTwoCards4[3] = new Card(Suit.CLUBS, Value.KING);
+            enemyTwoCards4[4] = new Card(Suit.DIAMONDS, Value.ACE);
+            enemyTwoCards4[5] = new Card(Suit.SPADES, Value.NINE);
+            enemyTwoCards4[6] = new Card(Suit.CLUBS, Value.SEVEN);
+            enemyTwoCards4[7] = new Card(Suit.HEARTS, Value.JACK);
+            enemyTwoCards4[8] = new Card(Suit.SPADES, Value.KING);
+            enemyTwoCards4[9] = new Card(Suit.SPADES, Value.EIGHT);
+            this.players[0].setHand(new Hand(playerCards4));
+            this.players[1].setHand(new Hand(enemyOneCards4));
+            this.players[2].setHand(new Hand(enemyTwoCards4));
+            break;
+          case 5:
 
-				// lots of clubs card
-				Card[] playerCards5 = new Card[this.startHandSize];
-				playerCards5[0] = new Card(Suit.CLUBS, Value.KING);
-				playerCards5[1] = new Card(Suit.CLUBS, Value.ACE);
-				playerCards5[2] = new Card(Suit.CLUBS, Value.JACK);
-				playerCards5[3] = new Card(Suit.HEARTS, Value.ACE);
-				playerCards5[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
-				playerCards5[5] = new Card(Suit.CLUBS, Value.QUEEN);
-				playerCards5[6] = new Card(Suit.SPADES, Value.KING);
-				playerCards5[7] = new Card(Suit.HEARTS, Value.JACK);
-				playerCards5[8] = new Card(Suit.CLUBS, Value.TEN);
-				playerCards5[9] = new Card(Suit.CLUBS, Value.EIGHT);
+            // lots of clubs card
+            Card[] playerCards5 = new Card[this.startHandSize];
+            playerCards5[0] = new Card(Suit.CLUBS, Value.KING);
+            playerCards5[1] = new Card(Suit.CLUBS, Value.ACE);
+            playerCards5[2] = new Card(Suit.CLUBS, Value.JACK);
+            playerCards5[3] = new Card(Suit.HEARTS, Value.ACE);
+            playerCards5[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
+            playerCards5[5] = new Card(Suit.CLUBS, Value.QUEEN);
+            playerCards5[6] = new Card(Suit.SPADES, Value.KING);
+            playerCards5[7] = new Card(Suit.HEARTS, Value.JACK);
+            playerCards5[8] = new Card(Suit.CLUBS, Value.TEN);
+            playerCards5[9] = new Card(Suit.CLUBS, Value.EIGHT);
 
-				// average cards
-				Card[] enemyOneCards5 = new Card[this.startHandSize];
-				enemyOneCards5[0] = new Card(Suit.DIAMONDS, Value.NINE);
-				enemyOneCards5[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
-				enemyOneCards5[2] = new Card(Suit.SPADES, Value.QUEEN);
-				enemyOneCards5[3] = new Card(Suit.SPADES, Value.JACK);
-				enemyOneCards5[4] = new Card(Suit.HEARTS, Value.TEN);
-				enemyOneCards5[5] = new Card(Suit.DIAMONDS, Value.QUEEN);
-				enemyOneCards5[6] = new Card(Suit.SPADES, Value.NINE);
-				enemyOneCards5[7] = new Card(Suit.SPADES, Value.TEN);
-				enemyOneCards5[8] = new Card(Suit.HEARTS, Value.SEVEN);
-				enemyOneCards5[9] = new Card(Suit.HEARTS, Value.EIGHT);
+            // average cards
+            Card[] enemyOneCards5 = new Card[this.startHandSize];
+            enemyOneCards5[0] = new Card(Suit.DIAMONDS, Value.NINE);
+            enemyOneCards5[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
+            enemyOneCards5[2] = new Card(Suit.SPADES, Value.QUEEN);
+            enemyOneCards5[3] = new Card(Suit.SPADES, Value.JACK);
+            enemyOneCards5[4] = new Card(Suit.HEARTS, Value.TEN);
+            enemyOneCards5[5] = new Card(Suit.DIAMONDS, Value.QUEEN);
+            enemyOneCards5[6] = new Card(Suit.SPADES, Value.NINE);
+            enemyOneCards5[7] = new Card(Suit.SPADES, Value.TEN);
+            enemyOneCards5[8] = new Card(Suit.HEARTS, Value.SEVEN);
+            enemyOneCards5[9] = new Card(Suit.HEARTS, Value.EIGHT);
 
-				// average cards
-				Card[] enemyTwoCards5 = new Card[this.startHandSize];
-				enemyTwoCards5[0] = new Card(Suit.DIAMONDS, Value.JACK);
-				enemyTwoCards5[1] = new Card(Suit.HEARTS, Value.QUEEN);
-				enemyTwoCards5[2] = new Card(Suit.DIAMONDS, Value.TEN);
-				enemyTwoCards5[3] = new Card(Suit.CLUBS, Value.NINE);
-				enemyTwoCards5[4] = new Card(Suit.DIAMONDS, Value.ACE);
-				enemyTwoCards5[5] = new Card(Suit.SPADES, Value.ACE);
-				enemyTwoCards5[6] = new Card(Suit.CLUBS, Value.SEVEN);
-				enemyTwoCards5[7] = new Card(Suit.HEARTS, Value.NINE);
-				enemyTwoCards5[8] = new Card(Suit.SPADES, Value.SEVEN);
-				enemyTwoCards5[9] = new Card(Suit.SPADES, Value.EIGHT);
+            // average cards
+            Card[] enemyTwoCards5 = new Card[this.startHandSize];
+            enemyTwoCards5[0] = new Card(Suit.DIAMONDS, Value.JACK);
+            enemyTwoCards5[1] = new Card(Suit.HEARTS, Value.QUEEN);
+            enemyTwoCards5[2] = new Card(Suit.DIAMONDS, Value.TEN);
+            enemyTwoCards5[3] = new Card(Suit.CLUBS, Value.NINE);
+            enemyTwoCards5[4] = new Card(Suit.DIAMONDS, Value.ACE);
+            enemyTwoCards5[5] = new Card(Suit.SPADES, Value.ACE);
+            enemyTwoCards5[6] = new Card(Suit.CLUBS, Value.SEVEN);
+            enemyTwoCards5[7] = new Card(Suit.HEARTS, Value.NINE);
+            enemyTwoCards5[8] = new Card(Suit.SPADES, Value.SEVEN);
+            enemyTwoCards5[9] = new Card(Suit.SPADES, Value.EIGHT);
 
-				this.players[0].setHand(new Hand(playerCards5));
-				this.players[1].setHand(new Hand(enemyOneCards5));
-				this.players[2].setHand(new Hand(enemyTwoCards5));
-				break;
-			case 6:
+            this.players[0].setHand(new Hand(playerCards5));
+            this.players[1].setHand(new Hand(enemyOneCards5));
+            this.players[2].setHand(new Hand(enemyTwoCards5));
+            break;
+          case 6:
 
-				// lost of jacks
-				Card[] playerCards6 = new Card[this.startHandSize];
-				playerCards6[0] = new Card(Suit.CLUBS, Value.KING);
-				playerCards6[1] = new Card(Suit.HEARTS, Value.TEN);
-				playerCards6[2] = new Card(Suit.SPADES, Value.QUEEN);
-				playerCards6[3] = new Card(Suit.HEARTS, Value.ACE);
-				playerCards6[4] = new Card(Suit.DIAMONDS, Value.JACK);
-				playerCards6[5] = new Card(Suit.CLUBS, Value.QUEEN);
-				playerCards6[6] = new Card(Suit.SPADES, Value.JACK);
-				playerCards6[7] = new Card(Suit.HEARTS, Value.JACK);
-				playerCards6[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
-				playerCards6[9] = new Card(Suit.CLUBS, Value.JACK);
+            // lost of jacks
+            Card[] playerCards6 = new Card[this.startHandSize];
+            playerCards6[0] = new Card(Suit.CLUBS, Value.KING);
+            playerCards6[1] = new Card(Suit.HEARTS, Value.TEN);
+            playerCards6[2] = new Card(Suit.SPADES, Value.QUEEN);
+            playerCards6[3] = new Card(Suit.HEARTS, Value.ACE);
+            playerCards6[4] = new Card(Suit.DIAMONDS, Value.JACK);
+            playerCards6[5] = new Card(Suit.CLUBS, Value.QUEEN);
+            playerCards6[6] = new Card(Suit.SPADES, Value.JACK);
+            playerCards6[7] = new Card(Suit.HEARTS, Value.JACK);
+            playerCards6[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
+            playerCards6[9] = new Card(Suit.CLUBS, Value.JACK);
 
-				// average cards
-				Card[] enemyOneCards6 = new Card[this.startHandSize];
-				enemyOneCards6[0] = new Card(Suit.DIAMONDS, Value.NINE);
-				enemyOneCards6[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
-				enemyOneCards6[2] = new Card(Suit.CLUBS, Value.EIGHT);
-				enemyOneCards6[3] = new Card(Suit.SPADES, Value.KING);
-				enemyOneCards6[4] = new Card(Suit.CLUBS, Value.ACE);
-				enemyOneCards6[5] = new Card(Suit.CLUBS, Value.TEN);
-				enemyOneCards6[6] = new Card(Suit.SPADES, Value.NINE);
-				enemyOneCards6[7] = new Card(Suit.SPADES, Value.TEN);
-				enemyOneCards6[8] = new Card(Suit.HEARTS, Value.SEVEN);
-				enemyOneCards6[9] = new Card(Suit.HEARTS, Value.EIGHT);
+            // average cards
+            Card[] enemyOneCards6 = new Card[this.startHandSize];
+            enemyOneCards6[0] = new Card(Suit.DIAMONDS, Value.NINE);
+            enemyOneCards6[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
+            enemyOneCards6[2] = new Card(Suit.CLUBS, Value.EIGHT);
+            enemyOneCards6[3] = new Card(Suit.SPADES, Value.KING);
+            enemyOneCards6[4] = new Card(Suit.CLUBS, Value.ACE);
+            enemyOneCards6[5] = new Card(Suit.CLUBS, Value.TEN);
+            enemyOneCards6[6] = new Card(Suit.SPADES, Value.NINE);
+            enemyOneCards6[7] = new Card(Suit.SPADES, Value.TEN);
+            enemyOneCards6[8] = new Card(Suit.HEARTS, Value.SEVEN);
+            enemyOneCards6[9] = new Card(Suit.HEARTS, Value.EIGHT);
 
-				// average cards
-				Card[] enemyTwoCards6 = new Card[this.startHandSize];
-				enemyTwoCards6[0] = new Card(Suit.DIAMONDS, Value.SEVEN);
-				enemyTwoCards6[1] = new Card(Suit.HEARTS, Value.QUEEN);
-				enemyTwoCards6[2] = new Card(Suit.DIAMONDS, Value.TEN);
-				enemyTwoCards6[3] = new Card(Suit.CLUBS, Value.NINE);
-				enemyTwoCards6[4] = new Card(Suit.DIAMONDS, Value.ACE);
-				enemyTwoCards6[5] = new Card(Suit.SPADES, Value.ACE);
-				enemyTwoCards6[6] = new Card(Suit.CLUBS, Value.SEVEN);
-				enemyTwoCards6[7] = new Card(Suit.HEARTS, Value.NINE);
-				enemyTwoCards6[8] = new Card(Suit.SPADES, Value.SEVEN);
-				enemyTwoCards6[9] = new Card(Suit.SPADES, Value.EIGHT);
+            // average cards
+            Card[] enemyTwoCards6 = new Card[this.startHandSize];
+            enemyTwoCards6[0] = new Card(Suit.DIAMONDS, Value.SEVEN);
+            enemyTwoCards6[1] = new Card(Suit.HEARTS, Value.QUEEN);
+            enemyTwoCards6[2] = new Card(Suit.DIAMONDS, Value.TEN);
+            enemyTwoCards6[3] = new Card(Suit.CLUBS, Value.NINE);
+            enemyTwoCards6[4] = new Card(Suit.DIAMONDS, Value.ACE);
+            enemyTwoCards6[5] = new Card(Suit.SPADES, Value.ACE);
+            enemyTwoCards6[6] = new Card(Suit.CLUBS, Value.SEVEN);
+            enemyTwoCards6[7] = new Card(Suit.HEARTS, Value.NINE);
+            enemyTwoCards6[8] = new Card(Suit.SPADES, Value.SEVEN);
+            enemyTwoCards6[9] = new Card(Suit.SPADES, Value.EIGHT);
 
-				this.players[0].setHand(new Hand(playerCards6));
-				this.players[1].setHand(new Hand(enemyOneCards6));
-				this.players[2].setHand(new Hand(enemyTwoCards6));
-				break;
-			case 7:
-				// bad cards
-				Card[] playerCards7 = new Card[this.startHandSize];
-				playerCards7[0] = new Card(Suit.CLUBS, Value.NINE);
-				playerCards7[1] = new Card(Suit.HEARTS, Value.TEN);
-				playerCards7[2] = new Card(Suit.SPADES, Value.QUEEN);
-				playerCards7[3] = new Card(Suit.HEARTS, Value.SEVEN);
-				playerCards7[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
-				playerCards7[5] = new Card(Suit.CLUBS, Value.QUEEN);
-				playerCards7[6] = new Card(Suit.SPADES, Value.SEVEN);
-				playerCards7[7] = new Card(Suit.DIAMONDS, Value.NINE);
-				playerCards7[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
-				playerCards7[9] = new Card(Suit.CLUBS, Value.EIGHT);
+            this.players[0].setHand(new Hand(playerCards6));
+            this.players[1].setHand(new Hand(enemyOneCards6));
+            this.players[2].setHand(new Hand(enemyTwoCards6));
+            break;
+          case 7:
+            // bad cards
+            Card[] playerCards7 = new Card[this.startHandSize];
+            playerCards7[0] = new Card(Suit.CLUBS, Value.NINE);
+            playerCards7[1] = new Card(Suit.HEARTS, Value.TEN);
+            playerCards7[2] = new Card(Suit.SPADES, Value.QUEEN);
+            playerCards7[3] = new Card(Suit.HEARTS, Value.SEVEN);
+            playerCards7[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
+            playerCards7[5] = new Card(Suit.CLUBS, Value.QUEEN);
+            playerCards7[6] = new Card(Suit.SPADES, Value.SEVEN);
+            playerCards7[7] = new Card(Suit.DIAMONDS, Value.NINE);
+            playerCards7[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
+            playerCards7[9] = new Card(Suit.CLUBS, Value.EIGHT);
 
-				// good cards
-				Card[] enemyOneCards7 = new Card[this.startHandSize];
-				enemyOneCards7[0] = new Card(Suit.HEARTS, Value.NINE);
-				enemyOneCards7[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
-				enemyOneCards7[2] = new Card(Suit.CLUBS, Value.JACK);
-				enemyOneCards7[3] = new Card(Suit.SPADES, Value.JACK);
-				enemyOneCards7[4] = new Card(Suit.CLUBS, Value.ACE);
-				enemyOneCards7[5] = new Card(Suit.CLUBS, Value.TEN);
-				enemyOneCards7[6] = new Card(Suit.SPADES, Value.ACE);
-				enemyOneCards7[7] = new Card(Suit.SPADES, Value.TEN);
-				enemyOneCards7[8] = new Card(Suit.HEARTS, Value.ACE);
-				enemyOneCards7[9] = new Card(Suit.HEARTS, Value.EIGHT);
+            // good cards
+            Card[] enemyOneCards7 = new Card[this.startHandSize];
+            enemyOneCards7[0] = new Card(Suit.HEARTS, Value.NINE);
+            enemyOneCards7[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
+            enemyOneCards7[2] = new Card(Suit.CLUBS, Value.JACK);
+            enemyOneCards7[3] = new Card(Suit.SPADES, Value.JACK);
+            enemyOneCards7[4] = new Card(Suit.CLUBS, Value.ACE);
+            enemyOneCards7[5] = new Card(Suit.CLUBS, Value.TEN);
+            enemyOneCards7[6] = new Card(Suit.SPADES, Value.ACE);
+            enemyOneCards7[7] = new Card(Suit.SPADES, Value.TEN);
+            enemyOneCards7[8] = new Card(Suit.HEARTS, Value.ACE);
+            enemyOneCards7[9] = new Card(Suit.HEARTS, Value.EIGHT);
 
-				// good cards
-				Card[] enemyTwoCards7 = new Card[this.startHandSize];
-				enemyTwoCards7[0] = new Card(Suit.DIAMONDS, Value.JACK);
-				enemyTwoCards7[1] = new Card(Suit.HEARTS, Value.QUEEN);
-				enemyTwoCards7[2] = new Card(Suit.DIAMONDS, Value.TEN);
-				enemyTwoCards7[3] = new Card(Suit.CLUBS, Value.KING);
-				enemyTwoCards7[4] = new Card(Suit.DIAMONDS, Value.ACE);
-				enemyTwoCards7[5] = new Card(Suit.SPADES, Value.NINE);
-				enemyTwoCards7[6] = new Card(Suit.CLUBS, Value.SEVEN);
-				enemyTwoCards7[7] = new Card(Suit.HEARTS, Value.JACK);
-				enemyTwoCards7[8] = new Card(Suit.SPADES, Value.KING);
-				enemyTwoCards7[9] = new Card(Suit.SPADES, Value.EIGHT);
-				this.players[0].setHand(new Hand(playerCards7));
-				this.players[1].setHand(new Hand(enemyOneCards7));
-				this.players[2].setHand(new Hand(enemyTwoCards7));
-				break;
+            // good cards
+            Card[] enemyTwoCards7 = new Card[this.startHandSize];
+            enemyTwoCards7[0] = new Card(Suit.DIAMONDS, Value.JACK);
+            enemyTwoCards7[1] = new Card(Suit.HEARTS, Value.QUEEN);
+            enemyTwoCards7[2] = new Card(Suit.DIAMONDS, Value.TEN);
+            enemyTwoCards7[3] = new Card(Suit.CLUBS, Value.KING);
+            enemyTwoCards7[4] = new Card(Suit.DIAMONDS, Value.ACE);
+            enemyTwoCards7[5] = new Card(Suit.SPADES, Value.NINE);
+            enemyTwoCards7[6] = new Card(Suit.CLUBS, Value.SEVEN);
+            enemyTwoCards7[7] = new Card(Suit.HEARTS, Value.JACK);
+            enemyTwoCards7[8] = new Card(Suit.SPADES, Value.KING);
+            enemyTwoCards7[9] = new Card(Suit.SPADES, Value.EIGHT);
+            this.players[0].setHand(new Hand(playerCards7));
+            this.players[1].setHand(new Hand(enemyOneCards7));
+            this.players[2].setHand(new Hand(enemyTwoCards7));
+            break;
         } // TODO
         break;
 
@@ -1313,41 +1488,41 @@ public class TrainingRoundInstance extends RoundInstance {
         this.players[2].setHand(new Hand(enemyTwoCards));
         break;
       case 2:
-			/*
-			 * Players Hand: Herz_Bube, Herz_9, Herz_Ass, Herz_7, Pik_8, Pik_10 Ai 1 Hand:
-			 * Herz_König, Herz_10, Pik_Ass, Pik_Bube, Karo_7, Kreuz_8 Ai 2 Hand: Karo_8,
-			 * Herz_Dame, Karo_10, Kreuz_9, Karo_Ass, Kreuz_Ass
-			 */
-			Card[] playerCards2 = new Card[this.startHandSize];
-			playerCards2[0] = new Card(Suit.HEARTS, Value.JACK);
-			playerCards2[1] = new Card(Suit.HEARTS, Value.NINE);
-			playerCards2[2] = new Card(Suit.HEARTS, Value.ACE);
-			playerCards2[3] = new Card(Suit.HEARTS, Value.SEVEN);
-			playerCards2[4] = new Card(Suit.SPADES, Value.EIGHT);
-			playerCards2[5] = new Card(Suit.SPADES, Value.TEN);
+        /*
+         * Players Hand: Herz_Bube, Herz_9, Herz_Ass, Herz_7, Pik_8, Pik_10 Ai 1 Hand: Herz_König,
+         * Herz_10, Pik_Ass, Pik_Bube, Karo_7, Kreuz_8 Ai 2 Hand: Karo_8, Herz_Dame, Karo_10,
+         * Kreuz_9, Karo_Ass, Kreuz_Ass
+         */
+        Card[] playerCards2 = new Card[this.startHandSize];
+        playerCards2[0] = new Card(Suit.HEARTS, Value.JACK);
+        playerCards2[1] = new Card(Suit.HEARTS, Value.NINE);
+        playerCards2[2] = new Card(Suit.HEARTS, Value.ACE);
+        playerCards2[3] = new Card(Suit.HEARTS, Value.SEVEN);
+        playerCards2[4] = new Card(Suit.SPADES, Value.EIGHT);
+        playerCards2[5] = new Card(Suit.SPADES, Value.TEN);
 
 
-			Card[] enemyOneCards2 = new Card[this.startHandSize];
-			enemyOneCards2[0] = new Card(Suit.HEARTS, Value.KING);
-			enemyOneCards2[1] = new Card(Suit.HEARTS, Value.TEN);
-			enemyOneCards2[2] = new Card(Suit.SPADES, Value.ACE);
-			enemyOneCards2[3] = new Card(Suit.SPADES, Value.JACK);
-			enemyOneCards2[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
-			enemyOneCards2[5] = new Card(Suit.CLUBS, Value.EIGHT);
+        Card[] enemyOneCards2 = new Card[this.startHandSize];
+        enemyOneCards2[0] = new Card(Suit.HEARTS, Value.KING);
+        enemyOneCards2[1] = new Card(Suit.HEARTS, Value.TEN);
+        enemyOneCards2[2] = new Card(Suit.SPADES, Value.ACE);
+        enemyOneCards2[3] = new Card(Suit.SPADES, Value.JACK);
+        enemyOneCards2[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
+        enemyOneCards2[5] = new Card(Suit.CLUBS, Value.EIGHT);
 
 
-			Card[] enemyTwoCards2 = new Card[this.startHandSize];
-			enemyTwoCards2[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
-			enemyTwoCards2[1] = new Card(Suit.HEARTS, Value.QUEEN);
-			enemyTwoCards2[2] = new Card(Suit.DIAMONDS, Value.TEN);
-			enemyTwoCards2[3] = new Card(Suit.CLUBS, Value.NINE);
-			enemyTwoCards2[4] = new Card(Suit.DIAMONDS, Value.ACE);
-			enemyTwoCards2[5] = new Card(Suit.CLUBS, Value.ACE);
+        Card[] enemyTwoCards2 = new Card[this.startHandSize];
+        enemyTwoCards2[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
+        enemyTwoCards2[1] = new Card(Suit.HEARTS, Value.QUEEN);
+        enemyTwoCards2[2] = new Card(Suit.DIAMONDS, Value.TEN);
+        enemyTwoCards2[3] = new Card(Suit.CLUBS, Value.NINE);
+        enemyTwoCards2[4] = new Card(Suit.DIAMONDS, Value.ACE);
+        enemyTwoCards2[5] = new Card(Suit.CLUBS, Value.ACE);
 
-			this.players[0].setHand(new Hand(playerCards2));
-			this.players[1].setHand(new Hand(enemyOneCards2));
-			this.players[2].setHand(new Hand(enemyTwoCards2));
-			break;
+        this.players[0].setHand(new Hand(playerCards2));
+        this.players[1].setHand(new Hand(enemyOneCards2));
+        this.players[2].setHand(new Hand(enemyTwoCards2));
+        break;
       case 3:
         /*
          * Ai 1 Hand: pik_7, Herz_9, Herz_König, Herz_7, Pik_Dame, Pik_10 Ai 2 Hand: Herz_Ass,
@@ -1355,33 +1530,33 @@ public class TrainingRoundInstance extends RoundInstance {
          * Kreuz_8, Karo_10, Kreuz_Ass
          * 
          */
-			Card[] enemyTwoCards3 = new Card[this.startHandSize];
-			enemyTwoCards3[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
-			enemyTwoCards3[1] = new Card(Suit.HEARTS, Value.EIGHT);
-			enemyTwoCards3[2] = new Card(Suit.DIAMONDS, Value.KING);
-			enemyTwoCards3[3] = new Card(Suit.CLUBS, Value.EIGHT);
-			enemyTwoCards3[4] = new Card(Suit.DIAMONDS, Value.TEN);
-			enemyTwoCards3[5] = new Card(Suit.CLUBS, Value.ACE);
+        Card[] enemyTwoCards3 = new Card[this.startHandSize];
+        enemyTwoCards3[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
+        enemyTwoCards3[1] = new Card(Suit.HEARTS, Value.EIGHT);
+        enemyTwoCards3[2] = new Card(Suit.DIAMONDS, Value.KING);
+        enemyTwoCards3[3] = new Card(Suit.CLUBS, Value.EIGHT);
+        enemyTwoCards3[4] = new Card(Suit.DIAMONDS, Value.TEN);
+        enemyTwoCards3[5] = new Card(Suit.CLUBS, Value.ACE);
 
         Card[] enemyOneCards3 = new Card[this.startHandSize];
-			enemyOneCards3[0] = new Card(Suit.HEARTS, Value.ACE);
+        enemyOneCards3[0] = new Card(Suit.HEARTS, Value.ACE);
         enemyOneCards3[1] = new Card(Suit.HEARTS, Value.NINE);
         enemyOneCards3[2] = new Card(Suit.HEARTS, Value.KING);
         enemyOneCards3[3] = new Card(Suit.HEARTS, Value.SEVEN);
         enemyOneCards3[4] = new Card(Suit.SPADES, Value.QUEEN);
         enemyOneCards3[5] = new Card(Suit.SPADES, Value.TEN);
 
-			Card[] playerCards3 = new Card[this.startHandSize];
-			playerCards3[0] = new Card(Suit.SPADES, Value.ACE);
-			playerCards3[1] = new Card(Suit.HEARTS, Value.TEN);
-			playerCards3[2] = new Card(Suit.SPADES, Value.SEVEN);
-			playerCards3[3] = new Card(Suit.DIAMONDS, Value.NINE);
-			playerCards3[4] = new Card(Suit.DIAMONDS, Value.ACE);
-			playerCards3[5] = new Card(Suit.CLUBS, Value.NINE);
+        Card[] playerCards3 = new Card[this.startHandSize];
+        playerCards3[0] = new Card(Suit.SPADES, Value.ACE);
+        playerCards3[1] = new Card(Suit.HEARTS, Value.TEN);
+        playerCards3[2] = new Card(Suit.SPADES, Value.SEVEN);
+        playerCards3[3] = new Card(Suit.DIAMONDS, Value.NINE);
+        playerCards3[4] = new Card(Suit.DIAMONDS, Value.ACE);
+        playerCards3[5] = new Card(Suit.CLUBS, Value.NINE);
 
         this.players[0].setHand(new Hand(playerCards3));
         this.players[1].setHand(new Hand(enemyOneCards3));
-			this.players[2].setHand(new Hand(enemyTwoCards3));
+        this.players[2].setHand(new Hand(enemyTwoCards3));
         break;
       case 4:
         /*
@@ -1454,7 +1629,7 @@ public class TrainingRoundInstance extends RoundInstance {
         break;
 
       default:
-        System.err.println(this.scenario + "th scenario does not exist.");
+        System.err.println(this.scenario + "the scenario does not exist.");
     }
 
   }

@@ -159,6 +159,12 @@ public interface MainControllerInterface {
   /**
    * Updates the local player in the local gamestate.
    */
+
+  /**
+   * Forces a bid in tutorial mode.
+   */
+  public void tutorialBidRequest(int bid, boolean shouldAccept);
+
   public void updatePlayer(Player player);
 
   /**
@@ -193,6 +199,7 @@ public interface MainControllerInterface {
 
 
   public void showBid(String bid, Player player);
+
   /**
    * Called by gui to send the locally selected contract to the server.
    */

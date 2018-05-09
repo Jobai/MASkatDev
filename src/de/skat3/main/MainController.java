@@ -408,6 +408,21 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  @Override
+  public void tutorialBidRequest(int bid, boolean shouldAccept) {
+    SkatMain.lgs.currentRequestState = LogicAnswers.BID;
+    this.blinkAlert();
+    Platform.runLater(new Runnable() {
+
+      @Override
+      public void run() {
+        System.out.println(shouldAccept);
+        SkatMain.guiController.getInGameController().showTutorialBidRequest(bid, shouldAccept);
+      }
+    });
+
+  }
+
 
   @Override
   public void showAuctionWinner(Player player) {
