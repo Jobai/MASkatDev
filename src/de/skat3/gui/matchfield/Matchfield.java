@@ -14,7 +14,7 @@ import javafx.util.Duration;
 /**
  * View class of the Matchfield.
  * 
- * @author adomonel
+ * @author Aljoscha Domonell
  *
  */
 public class Matchfield {

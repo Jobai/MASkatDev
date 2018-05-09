@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * All possible contracts in skat.
+ * 
  * @author kai29
  *
  */
@@ -15,6 +16,7 @@ public enum Contract implements Serializable {
 
   /**
    * Converts a String to the corresponding enum.
+   * 
    * @author Jonas Bauer
    * @param s String to be converted
    * @return corresponding Contract enum.
@@ -64,4 +66,8 @@ public enum Contract implements Serializable {
   }
 
   public static int length = Contract.values().length;
+
+  public String getTitleCase() {
+    return this.name().charAt(0) + this.name().substring(1, this.name().length()).toLowerCase();
+  }
 }

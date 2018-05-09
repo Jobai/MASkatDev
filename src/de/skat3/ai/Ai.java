@@ -10,11 +10,10 @@ import de.skat3.gamelogic.Position;
 @SuppressWarnings("serial")
 public abstract class Ai implements Serializable {
 
-
-
   /**
-   * Called when the Ai has to decide if it accepts a bid.
+   * Decides if the bid will be accepted.
    * 
+   * @param bid the bid that is to accept or reject.
    * @return true if Ai accepts bid, false if not.
    */
   public abstract boolean acceptBid(int bid);
@@ -27,37 +26,35 @@ public abstract class Ai implements Serializable {
   public abstract boolean acceptHandGame();
 
   /**
-   * Called when the Ai plays a handgame and has to set the contract.
+   * Chooses additional multipliers. Called only if Ai plays a handgame.
+   * 
+   * @return additional multipliers that were chosen.
    */
   public abstract AdditionalMultipliers chooseAdditionalMultipliers();
 
   /**
-   * Ai sets the Contract if he is declarer.
+   * Chooses a contract.
    * 
-   * @return
+   * @return chosen contract.
    */
   public abstract Contract chooseContract();
 
 
   /**
-   * Ai plays a card.
+   * Chooses a card to play.
+   * 
+   * @return the card to play.
    */
   public abstract Card chooseCard();
 
-  /*
-   * Ai darf folgende Methoden aufrufen: SkatMain.mainController.localKontraAnnounced();
-   * SkatMain.mainController.localRekontraAnnounced();
-   * 
-   */
-
   /**
+   * Makes a decision on selecting cards from skat.
    * 
-   * @param skat
-   * @return Card[0-9] = hand Card[10-11] = skat
+   * @param skat represents the skat on the table.
+   * @return an instance of ReturnSkat.
+   * @see ReturnSkat.
    */
   public abstract ReturnSkat selectSkat(Card[] skat);
-
-
 
   public abstract void setHand(Hand hand);
   

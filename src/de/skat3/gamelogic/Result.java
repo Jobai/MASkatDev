@@ -34,6 +34,7 @@ public class Result implements Serializable {
   public boolean roundCancelled;
   public String declarerName;
   public int pointsSoloPlayer;
+  public String skatCards;
 
   /**
    * Calculates all relevant result data.
@@ -51,6 +52,8 @@ public class Result implements Serializable {
     this.rekontra = roundInstance.rekontra;
     this.contract = roundInstance.contract;
     this.currentRound = roundInstance.gc.numberOfRounds;
+    this.skatCards = "Skat: " + roundInstance.skat[0].getTitleCase() + ", "
+        + roundInstance.skat[1].getTitleCase();
     if (!this.isBierlachs) {
       this.maxRounds = roundInstance.gc.mode;
     }
@@ -108,7 +111,6 @@ public class Result implements Serializable {
             this.gameValue = 23;
           }
         }
-        System.out.println(roundInstance.solo.wonTricks.size());
         if (roundInstance.solo.wonTricks.size() == 0) {
           this.soloWon = true;
         } else {
@@ -125,7 +127,6 @@ public class Result implements Serializable {
     int baseValue = roundInstance.soloPlayerStartHand
         .calcConsecutiveMatadors(roundInstance.contract, roundInstance.originalSkat);
     baseValue++;
-    System.out.println("baseValue: " + baseValue);
     if (roundInstance.addtionalMultipliers.isHandGame()) {
       baseValue++;
     }
@@ -138,7 +139,6 @@ public class Result implements Serializable {
     for (Card c : roundInstance.skat) {
       pointsSoloPlayer += c.getTrickValue();
     }
-    System.out.println("soloplayer points:" + pointsSoloPlayer);
     if (pointsSoloPlayer > 60) {
       won = true;
       if (pointsSoloPlayer >= 90) {
@@ -171,9 +171,7 @@ public class Result implements Serializable {
     if (roundInstance.addtionalMultipliers.isOpenHand()) {
       baseValue++;
     }
-    System.out.println("baseValue: " + baseValue + "  contractValue: " + contractValue);
     this.gameValue = baseValue * contractValue;
-    System.out.println("gameValue " + gameValue);
     if (won) {
       if (roundInstance.addtionalMultipliers.isSchneiderAnnounced() && !schneider
           || roundInstance.addtionalMultipliers.isSchneiderAnnounced() && !schwarz) {

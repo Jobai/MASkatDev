@@ -74,6 +74,18 @@ public class StatsMenuController {
   private Label mRoundsLostGrand;
   @FXML
   private Label gameTime;
+  @FXML
+  private Label mTotalGames;
+  @FXML
+  private Label mTotalGamesWon;
+  @FXML
+  private Label mTotalGamesLost;
+  @FXML
+  private Label sTotalGames;
+  @FXML
+  private Label sTotalGamesWon;
+  @FXML
+  private Label sTotalGamesLost;
 
 
   /**
@@ -96,6 +108,14 @@ public class StatsMenuController {
 
     String time = hoursForm + ":" + minutesForm;
     gameTime.setText(time);
+
+    // Total Games
+    mTotalGames.setText("" + p.getMultiPlayerTotalGames());
+    mTotalGamesWon.setText("" + p.getMultiPlayerTotalGamesWon());
+    mTotalGamesLost.setText("" + p.getMultiPlayerTotalGamesLost());
+    sTotalGames.setText("" + p.getSinglePlayerTotalGames());
+    sTotalGamesWon.setText("" + p.getSinglePlayerTotalGamesWon());
+    sTotalGamesLost.setText("" + p.getSinglePlayerTotalGamesLost());
 
     // Singleplayer
     // Rounds

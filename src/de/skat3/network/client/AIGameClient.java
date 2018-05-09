@@ -2,11 +2,9 @@
  * SKAT_3_Eclipse
  *
  * @author Jonas Bauer
- * @version 1.0
- * 30.04.2018
+ * @version 1.0 30.04.2018
  * 
- * (c) 2018 All Rights Reserved. 
- * -------------------------
+ *          (c) 2018 All Rights Reserved. -------------------------
  */
 package de.skat3.network.client;
 
@@ -24,7 +22,7 @@ import de.skat3.network.datatypes.SubType;
  *
  */
 public class AIGameClient extends GameClient {
-  
+
   AIClientLogicHandler aiCLH;
 
   /**
@@ -36,7 +34,6 @@ public class AIGameClient extends GameClient {
   public AIGameClient(String hostAdress, int port, Player player) {
     super(hostAdress, port, player);
     aiCLH = new AIClientLogicHandler(this, this.player);
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -48,9 +45,8 @@ public class AIGameClient extends GameClient {
    */
   public AIGameClient(String hostAdress, int port, Player player, String lobbyPassword) {
     super(hostAdress, port, player, lobbyPassword);
-    // TODO Auto-generated constructor stub
   }
-  
+
   @Override
   void clientProtocolHandler(Object o) {
     logger.fine("AI got a MEssage!");
@@ -60,30 +56,18 @@ public class AIGameClient extends GameClient {
     SubType st = m.getSubType();
 
 
-    if (st == CommandType.ROUND_GENERAL_INFO) {
-      // System.out
-      // .println("============= clientProtocolHandler [ROUND_GENERAL_INFO] ================");
-      //
-      // MessageCommand mc = (MessageCommand) m;
-      // System.out.println(mc.gameState);
-      // System.out.println(((Player) mc.gameState).getUuid());
-      // System.out.println(((Player) mc.gameState).getHand());
-      // System.out.println("=========================================");
-
-    }
-
     switch (mt) {
       case CONNECTION_OPEN:
-//        this.handleOpendConnection(m);
+        // Do nothing as bot
         break;
       case CONNECTION_CLOSE:
         this.closeConnection(m);
         break;
       case CONNECTION_INFO:
-//        this.handleConnectionInfo(m);
+        // Do nothing as bot
         break;
       case CHAT_MESSAGE:
-        //Do nothing as bot
+        // Do nothing as bot
         break;
       case ANWSER_ACTION:
         throw new AssertionError();
@@ -94,9 +78,8 @@ public class AIGameClient extends GameClient {
         this.handleCommandAction(m, st);
         break;
       case STATE_CHANGE:
-        this.handleStateChange(m, st);
+        // do nothing
         break;
-        
       default:
         logger.severe("Message Type not handeld!  " + mt + " --- " + st);
         throw new AssertionError();
@@ -104,13 +87,13 @@ public class AIGameClient extends GameClient {
   }
 
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.skat3.network.client.GameClient#closeConnection(de.skat3.network.datatypes.Message)
    */
   @Override
   void closeConnection(Message m) {
-    // TODO Auto-generated method stub
-
     sl.interrupt();
     try {
       sl.interrupt();
@@ -125,13 +108,9 @@ public class AIGameClient extends GameClient {
   void handleCommandAction(Message m, SubType st) {
     CommandType ct = (CommandType) st;
     logger.fine("Handeling AI received message!" + ct);
-
     switch (ct) {
       case BID_INFO:
         aiCLH.bidInfoHandler(m);
-        break;
-      case BID_REDO:
-        aiCLH.bidRedoHandler(m);
         break;
       case BID_REQUEST:
         aiCLH.bidRequestHandler(m);
@@ -139,14 +118,8 @@ public class AIGameClient extends GameClient {
       case PLAY_INFO:
         aiCLH.playInfoHandler(m);
         break;
-      case PLAY_REDO:
-        aiCLH.playRedoHandler(m);
-        break;
       case PLAY_REQUEST:
         aiCLH.playRequestHandler(m);
-        break;
-      case TRICK_INFO:
-        aiCLH.trickInfoHandler(m);
         break;
       case ROUND_START_INFO:
         aiCLH.roundInfoHandler(m);
@@ -181,9 +154,6 @@ public class AIGameClient extends GameClient {
       case REKONTRA_SHOW_OPTION_INFO:
         aiCLH.reKontraShowHandler(m);
         break;
-      case ROUND_RESTART_INFO:
-        aiCLH.roundRestartHandler(m);
-        break;
       case ROUND_GENERAL_INFO:
         aiCLH.roundInfoHandler(m);
         break;
@@ -202,6 +172,9 @@ public class AIGameClient extends GameClient {
       case SET_DEALER:
         aiCLH.setDealerHandler(m);
         break;
+      case TRICK_INFO: 
+        //do nothing
+        break;
       default:
         logger.severe("Message Type not handeld!  " + " --- " + st);
         throw new AssertionError();
@@ -210,14 +183,16 @@ public class AIGameClient extends GameClient {
 
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.skat3.network.client.GameClient#showConnectionErro(de.skat3.network.datatypes.Message)
    */
   @Override
   void showConnectionErro(Message m) {
-    //Don't show ConnectionErrors for the AI in the GUI!
+    // Don't show ConnectionErrors for the AI in the GUI!
     logger.warning("AI got Disconnected!");
   }
-  
-  
+
+
 }

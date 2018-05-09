@@ -1,7 +1,10 @@
+
 package de.skat3.gamelogic;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Provides data for the endscreen of a game.
@@ -12,8 +15,9 @@ public class MatchResult implements Serializable {
 
 
   private PlayerHistory[] list;
-
-  // TODO
+  private Player winner;
+  private Player loser;
+  private boolean isBierlachs;
 
   /**
    * Creates the Match result with all players that are currently in the lobby.
@@ -28,11 +32,20 @@ public class MatchResult implements Serializable {
 
   }
 
+  /**
+   * Copies the MatchResult and returns it.
+   */
   public MatchResult(MatchResult matchResult) {
     list = new PlayerHistory[matchResult.list.length];
     for (int i = 0; i < this.list.length; i++) {
       list[i] = new PlayerHistory(matchResult.list[i]);
     }
+    if (matchResult.isBierlachs) {
+      this.loser = matchResult.loser.copyPlayer();
+    } else {
+      this.winner = matchResult.winner.copyPlayer();
+    }
+    this.isBierlachs = matchResult.isBierlachs;
   }
 
   public PlayerHistory[] getData() {
@@ -45,6 +58,20 @@ public class MatchResult implements Serializable {
         ph.addScore(score);
         break;
       }
+    }
+  }
+
+
+  void calcWinner() {
+    Player[] playerCopy = new Player[this.list.length];
+    for (int i = 0; i < this.list.length; i++) {
+      playerCopy[i] = this.list[i].player;
+    }
+    Arrays.sort(playerCopy);
+    if (this.isBierlachs) {
+      this.loser = playerCopy[playerCopy.length - 1];
+    } else {
+      this.winner = playerCopy[0];
     }
   }
 
@@ -87,5 +114,17 @@ public class MatchResult implements Serializable {
     public ArrayList<Integer> getHistory() {
       return this.history;
     }
+  }
+
+  public Player getWinner() {
+    return this.winner;
+  }
+
+  public Player getLoser() {
+    return this.loser;
+  }
+
+  public boolean isBierlachs() {
+    return this.isBierlachs;
   }
 }

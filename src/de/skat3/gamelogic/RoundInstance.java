@@ -38,7 +38,6 @@ public class RoundInstance {
    * A single round of bidding and playing.
    * 
    * @param players the three current players
-   * @param gameThread The GameThread dictates the game flow of a match.
    * @param kontraRekontraEnabled true if kontra/Rekontra is enabled.
    * @param mode Mode is either Seeger (positive number divisible by 3) or Bierlachs (negative
    *        number between -500 and -1000)
@@ -201,6 +200,10 @@ public class RoundInstance {
   protected boolean respond;
   protected Player currentBidder;
 
+  /**
+   * Starts Bidding between all 3 Players, returns the winner, null if everyone declines at 18.
+   * 
+   */
   public Player startBidding() throws InterruptedException {
     synchronized (lock) {
       this.currentBiddingValue = 0;
@@ -343,7 +346,7 @@ public class RoundInstance {
         this.updatePlayer();
         this.updateEnemies();
         if (this.kontaRekontraAvailable) {
-          slc.kontraRequest(this.getTeamPlayer()); // XXX
+          slc.kontraRequest(this.getTeamPlayer());
         }
 
         slc.callForPlay(this.players[0].copyPlayer());
@@ -388,14 +391,16 @@ public class RoundInstance {
    */
   public Player determineTrickWinner() {
     Contract contract = this.getContract();
-
-    if (this.getSecondCard().beats(contract, this.getFirstCard())
-        && this.getSecondCard().beats(contract, getThirdCard())) {
-      return this.getMiddlehand();
-    }
-    if (this.getThirdCard().beats(contract, this.getFirstCard())
-        && this.getThirdCard().beats(contract, getSecondCard())) {
-      return this.getRearhand();
+    if (this.getSecondCard().beats(contract, getFirstCard())) {
+      if (this.getSecondCard().beats(contract, getThirdCard())) {
+        return this.getMiddlehand();
+      } else {
+        return this.getRearhand();
+      }
+    } else {
+      if (this.getThirdCard().beats(contract, getFirstCard())) {
+        return this.getRearhand();
+      }
     }
     return this.getForehand();
   }

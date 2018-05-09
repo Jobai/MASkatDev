@@ -158,7 +158,7 @@ public class GameServer extends Thread {
       return;
     }
     stoppingInProgess = true;
-    try {
+    try { 
       logger.info("Server is stopping");
       ls.stopLobbyBroadcast();
       this.interrupt();

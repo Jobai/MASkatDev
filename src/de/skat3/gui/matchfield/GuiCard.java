@@ -11,7 +11,7 @@ import javafx.util.Duration;
 /**
  * View class of a hand.
  * 
- * @author adomonel
+ * @author Aljoscha Domonell
  *
  */
 public class GuiCard extends Parent {

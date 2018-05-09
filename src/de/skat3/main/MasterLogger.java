@@ -45,11 +45,11 @@ public class MasterLogger {
     networkGameServer.setUseParentHandlers(false);
 
     networkGameClient.addHandler(handlerObj);
-    networkGameClient.setLevel(Level.INFO);
+    networkGameClient.setLevel(Level.FINE);
     networkGameClient.setUseParentHandlers(false);
 
     networkLobbyServer.addHandler(handlerObj);
-    networkLobbyServer.setLevel(Level.INFO);
+    networkLobbyServer.setLevel(Level.ALL);
     networkLobbyServer.setUseParentHandlers(false);
     
     networkAIGameClient.addHandler(handlerObj);

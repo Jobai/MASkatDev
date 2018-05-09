@@ -24,7 +24,7 @@ public class Gui extends Application {
   /**
    * Shows the GUI and waits until it is closed.
    * 
-   * @author adomonel
+   * @author Aljoscha Domonell
    */
   public static void showAndWait() {
     Application.launch(Gui.class);

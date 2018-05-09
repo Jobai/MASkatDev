@@ -1,6 +1,7 @@
 package de.skat3.gamelogic;
 
 import java.io.Serializable;
+import com.sun.xml.internal.ws.util.StringUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -173,16 +174,36 @@ public class Card implements Serializable {
       case SPADES:
       case CLUBS:
       case GRAND:
-        if (this.suit == card.suit) {
-          return (this.value.ordinal() > card.value.ordinal()) ? true : false;
-        } else {
-          if (this.isJack() && card.isJack()) {
-            return (this.suit.ordinal() > card.suit.ordinal()) ? true : false;
-          }
-          if (this.isTrump(contract)) {
-            return true;
+
+
+
+        if (this.isTrump(contract)) {
+          if (card.isTrump(contract)) {
+            if (this.isJack()) {
+              if (card.isJack()) {
+                return (this.suit.ordinal() > card.suit.ordinal()) ? true : false;
+              } else {
+                return true;
+              }
+            } else {
+              if (card.isJack()) {
+                return false;
+              } else {
+                return (this.value.ordinal() > card.value.ordinal()) ? true : false;
+              }
+            }
           } else {
+            return true;
+          }
+        } else {
+          if (card.isTrump(contract)) {
             return false;
+          } else {
+            if (this.suit == card.suit) {
+              return (this.value.ordinal() > card.value.ordinal()) ? true : false;
+            } else {
+              return false;
+            }
           }
         }
       case NULL:
@@ -260,6 +281,18 @@ public class Card implements Serializable {
   @Override
   public String toString() {
     return this.value + " OF " + this.suit;
+  }
+
+  /**
+   * Converts card to title case.
+   * 
+   * @return String: Value of Suit
+   */
+  public String getTitleCase() {
+    String value = this.value.name().substring(1, this.value.name().length()).toLowerCase();
+    String suit = this.suit.name().substring(1, this.suit.name().length()).toLowerCase();
+
+    return this.value.name().charAt(0) + value + " Of " + this.suit.name().charAt(0) + suit;
   }
 }
 

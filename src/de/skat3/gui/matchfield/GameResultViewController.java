@@ -71,11 +71,12 @@ public class GameResultViewController {
     }
 
     // Determine winner
-    int score = 0;
-    for (PlayerHistory playerHistory : history) {
-      if (playerHistory.getFinalScore() > score) {
-        winner.setText(playerHistory.getName());
-      }
+    if (matchResult.isBierlachs()) {
+      winner.setText(matchResult.getLoser().getName());
+      // TIMO TODO set text to Loser
+    } else {
+      winner.setText(matchResult.getWinner().getName());
+      // TIMO TODO set text to Winner
     }
 
     // Points histroy

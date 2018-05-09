@@ -29,7 +29,7 @@ import javafx.util.Duration;
 /**
  * View class of a hand.
  * 
- * @author adomonel
+ * @author Aljoscha Domonell
  *
  */
 public class GuiHand extends Parent {

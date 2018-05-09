@@ -31,12 +31,4 @@ public class MessageCommand extends Message implements Serializable {
     this.ct = commandType;
     super.setSubType(commandType);
   }
-
-
-  @Deprecated
-  public MessageCommand(MessageType stateChange, String string) {
-    super(stateChange, "HOST", string);
-  }
-
-
 }

@@ -8,7 +8,7 @@ import java.util.Random;
 import org.junit.Test;
 import de.skat3.ai.AiHelper;
 import de.skat3.ai.IntelligentAi;
-import de.skat3.ai.RandomAI;
+import de.skat3.ai.RandomAi;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -26,7 +26,7 @@ public class TestRandomIAI {
     for (int i = 0; i < 20; i++) {
       Profile profile = new Profile("testUser");
       Player player = new Player(profile);
-      RandomAI ai = new RandomAI(player);
+      RandomAi ai = new RandomAi();
 
       boolean handGameAccepted = ai.acceptHandGame();
       AdditionalMultipliers multiplier = ai.chooseAdditionalMultipliers();
@@ -66,7 +66,7 @@ public class TestRandomIAI {
     int suitOrdinal;
     int valueOrdinal;
 
-    IntelligentAi ai = new IntelligentAi(new Player(new Profile("testUser")));
+    IntelligentAi ai = new IntelligentAi();
 
     for (int j = 0; j < 5; j++) {
       contractOrdinal = random.nextInt(contractLength);
@@ -95,7 +95,7 @@ public class TestRandomIAI {
       }
 
       Hand hand = new Hand(cardArray);
-      ai.getPlayer().setHand(hand);
+      // ai.getPlayer().setHand(hand);
 
       // check if played Card contains in a set
       Card aiChosenCard = ai.chooseCard();

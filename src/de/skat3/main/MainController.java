@@ -414,7 +414,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showAuctionWinner();
+        // SkatMain.guiController.getInGameController().showAuctionWinner();
       }
     });
   }
@@ -460,7 +460,7 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         System.out.println("wird aufgerufen showContract");
-        SkatMain.guiController.getInGameController().showSelectionInfos(true);
+        SkatMain.guiController.getInGameController().showSelectedGame(true);
       }
     });
   }
@@ -605,9 +605,38 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showEndScreen(MatchResult matchResult) {
+    if (matchResult.isBierlachs()) {
+      if (!matchResult.getLoser().getUuid()
+          .equals(SkatMain.ioController.getLastUsedProfile().getUuid())) {
+        if (SkatMain.lgs.isSinglePlayerGame()) {
+          SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerTotalGamesWon();
+        } else {
+          SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerTotalGamesWon();
+        }
+      } else {
+        if (SkatMain.lgs.isSinglePlayerGame()) {
+          SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerTotalGamesLost();
+        } else {
+          SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerTotalGamesLost();
+        }
+      }
+    } else {
+      if (matchResult.getWinner().getUuid()
+          .equals(SkatMain.ioController.getLastUsedProfile().getUuid())) {
+        if (SkatMain.lgs.isSinglePlayerGame()) {
+          SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerTotalGamesWon();
+        } else {
+          SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerTotalGamesWon();
+        }
+      } else {
+        if (SkatMain.lgs.isSinglePlayerGame()) {
+          SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerTotalGamesLost();
+        } else {
+          SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerTotalGamesLost();
+        }
+      }
+    }
     Platform.runLater(new Runnable() {
-
-
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().showEndScreen(matchResult);
@@ -706,7 +735,7 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().showText("Kontra announcend");
-            SkatMain.guiController.getInGameController().showKontraButton(false);
+        SkatMain.guiController.getInGameController().showKontraButton(false);
       }
     });
   }
@@ -726,7 +755,7 @@ public class MainController implements MainControllerInterface {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showReKontraButton();
+        SkatMain.guiController.getInGameController().showKontraButton(true);
       }
     });
   }
@@ -744,14 +773,12 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void localKontraAnnounced() {
-    SkatMain.clc.kontraAnswer(); // FIXME
-
+    SkatMain.clc.kontraAnswer();
   }
 
   @Override
   public void localRekontraAnnounced() {
-    SkatMain.clc.reKontraAnswer(); // FIXME
-
+    SkatMain.clc.reKontraAnswer();
   }
 
   @Override

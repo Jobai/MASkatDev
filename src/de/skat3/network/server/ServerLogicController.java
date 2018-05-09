@@ -12,7 +12,6 @@ package de.skat3.network.server;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
-import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
@@ -35,23 +34,16 @@ import java.util.logging.Logger;
 public class ServerLogicController implements ServerLogicInterface {
 
   // ServerGameState
-  @Deprecated
-  int connectedPlayer;
-  @Deprecated
-  int serverMatchMode;
-  @Deprecated
   int maxPlayer;
 
   //
   GameServer gs;
-  Logger logger = gs.logger;
+  Logger logger = GameServer.logger;
 
 
   ServerLogicController(int maxPlayer, GameServer gs) {
     this.maxPlayer = maxPlayer;
     this.gs = gs;
-    this.connectedPlayer = 0;
-    this.serverMatchMode = 0;
   }
 
   public ServerLogicController(Lobby lobbysettings, GameServer gs) {
@@ -72,13 +64,13 @@ public class ServerLogicController implements ServerLogicInterface {
 
   }
 
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param player
+   */
   public void updatePlayerDuringRound(Player player) {
-    // player.secretBackupHand
-
-
     player.wonTricks = new ArrayList<Card>();
-    // System.out.println("SERVER RECEIVED: " + player.getName() + "CARDS" + player.getHand());
-    // System.out.println("UPDATEPLAYER SLC CALL:" + player.getUuid() + "\n \n" + player);
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, player.toString(),
         CommandType.ROUND_GENERAL_INFO);
     mc.gameState = player;
@@ -98,15 +90,12 @@ public class ServerLogicController implements ServerLogicInterface {
    */
   @Override
   public void callForBid(Player player, int biddingValue) {
-
-
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.BID_REQUEST);
     mc.gameState = (Integer) biddingValue;
     mc.payload = player;
     mc.playerTarget = player;
     gs.sendToPlayer(player, mc);
-
   }
 
   /*
@@ -116,10 +105,8 @@ public class ServerLogicController implements ServerLogicInterface {
    */
   @Override
   public void callForPlay(Player player) {
-
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_ACTION, player.toString(), CommandType.PLAY_REQUEST);
-
     mc.playerTarget = player;
     gs.sendToPlayer(player, mc);
   }
@@ -286,25 +273,17 @@ public class ServerLogicController implements ServerLogicInterface {
   }
 
 
+  @Deprecated
   @Override
   public void broadcastRoundRestarted() {
-    // TODO Auto-generated method stub
-
-    MessageCommand mc =
-        new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.ROUND_RESTART_INFO);
-    gs.broadcastMessage(mc);
+   //not needed
 
   }
 
   @Deprecated
   @Override
   public void broadcastServerStateChange(int serverState) {
-    // TODO Auto-generated method stub
-
-    MessageCommand mc = new MessageCommand(MessageType.STATE_CHANGE, "ALL");
-    mc.gameState = serverState;
-    mc.payload = serverState;
-    gs.broadcastMessage(mc);
+    //not needed
 
   }
 

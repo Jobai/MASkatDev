@@ -32,7 +32,7 @@ public interface IoInterface {
   /**
    * Adds profile to the list of saved profiles.
    * 
-   * @param profile profile that is to be added
+   * @param profile profile that is to be added.
    */
   public void addProfile(Profile profile);
 
@@ -66,7 +66,7 @@ public interface IoInterface {
    * 
    * @param profile profile whose statistics are to be saved.
    * @throws NullPointerException if profile is not in the list of saved profiles - throws
-   *         NullPointerException
+   *         NullPointerException.
    */
   public void updateProfileStatistics(Profile profile) throws NullPointerException;
 }

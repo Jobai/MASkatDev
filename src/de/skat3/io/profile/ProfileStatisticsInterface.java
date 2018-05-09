@@ -43,21 +43,24 @@ public interface ProfileStatisticsInterface {
   public int getSinglePlayerRoundsWonGrand();
 
   /**
-   *
+   * Increments attributes: singlePlayerRoundsWonGrand, singlePlayerTotalRoundsGrand and
+   * singlePlayerRoundsWon.
    */
   public void incrementSinglePlayerRoundsWonGrand();
 
   public int getSinglePlayerRoundsWonNull();
 
   /**
-   * 
+   * Increments attributes: singlePlayerRoundsWonNull, singlePlayerTotalRoundsNull and
+   * singlePlayerRoundsWon.
    */
   public void incrementSinglePlayerRoundsWonNull();
 
   public int getSinglePlayerRoundsWonSuit();
 
   /**
-   * 
+   * Increments attributes: singlePlayerRoundsWonSuit, singlePlayerTotalRoundsSuit and
+   * singlePlayerRoundsWon.
    */
   public void incrementSinglePlayerRoundsWonSuit();
 
@@ -65,19 +68,26 @@ public interface ProfileStatisticsInterface {
 
   public int getSinglePlayerRoundsLostGrand();
 
+
+  /**
+   * Increments attributes: singlePlayerRoundsLostGrand, singlePlayerTotalRoundsGrand and
+   * singlePlayerRoundsLost.
+   */
   public void incrementSinglePlayerRoundsLostGrand();
 
   public int getSinglePlayerRoundsLostNull();
 
   /**
-   * 
+   * Increments attributes: singlePlayerRoundsLostNull, singlePlayerTotalRoundsNull and
+   * singlePlayerRoundsLost.
    */
   public void incrementSinglePlayerRoundsLostNull();
 
   public int getSinglePlayerRoundsLostSuit();
 
   /**
-   * 
+   * Increments attributes: singlePlayerRoundsLostSuit, singlePlayerTotalRoundsSuit and
+   * singlePlayerRoundsLost.
    */
   public void incrementSinglePlayerRoundsLostSuit();
 
@@ -86,14 +96,20 @@ public interface ProfileStatisticsInterface {
   public int getSinglePlayerHighestScore();
 
   /**
-   * @param potentiallyNewScore
+   * Checks if parameter potentiallyNewScore is higher that attribute singlePlayerHighestScore and
+   * if so updates it, otherwise - nothing happens.
+   * 
+   * @param potentiallyNewScore the score that is potentially new highest singleplayer score.
    */
   public void setSinglePlayerHighestScore(int potentiallyNewScore);
 
   public int getSinglePlayerLowestScore();
 
   /**
-   * @param potentiallyNewScore
+   * Checks if parameter potentiallyNewScore is lower that attribute singlePlayerLowestScore and if
+   * so updates it, otherwise - nothing happens.
+   * 
+   * @param potentiallyNewScore the score that is potentially new lowest singleplayer score.
    */
   public void setSinglePlayerLowestScore(int potentiallyNewScore);
 
@@ -108,14 +124,8 @@ public interface ProfileStatisticsInterface {
 
   public int getMultiPlayerTotalGamesLost();
 
-  /**
-   * 
-   */
   public void incrementMultiPlayerTotalGamesWon();
 
-  /**
-   * 
-   */
   public void incrementMultiPlayerTotalGamesLost();
 
   // Rounds
@@ -133,21 +143,24 @@ public interface ProfileStatisticsInterface {
   public int getMultiPlayerRoundsWonGrand();
 
   /**
-   * 
+   * Increments attributes: multiPlayerRoundsWonGrand, multiPlayerTotalRoundsGrand and
+   * multiPlayerRoundsWon.
    */
   public void incrementMultiPlayerRoundsWonGrand();
 
   public int getMultiPlayerRoundsWonNull();
 
   /**
-   * 
+   * Increments attributes: multiPlayerRoundsWonNull, multiPlayerTotalRoundsNull and
+   * multiPlayerRoundsWon.
    */
   public void incrementMultiPlayerRoundsWonNull();
 
   public int getMultiPlayerRoundsWonSuit();
 
   /**
-   * 
+   * Increments attributes: multiPlayerRoundsWonSuit, multiPlayerTotalRoundsSuit and
+   * multiPlayerRoundsWon.
    */
   public void incrementMultiPlayerRoundsWonSuit();
 
@@ -156,21 +169,24 @@ public interface ProfileStatisticsInterface {
   public int getMultiPlayerRoundsLostGrand();
 
   /**
-   * 
+   * Increments attributes: multiPlayerRoundsLostGrand, multiPlayerTotalRoundsGrand and
+   * multiPlayerRoundsLost.
    */
   public void incrementMultiPlayerRoundsLostGrand();
 
   public int getMultiPlayerRoundsLostNull();
 
   /**
-   * 
+   * Increments attributes: multiPlayerRoundsLostNull, multiPlayerTotalRoundsNull and
+   * multiPlayerRoundsLost.
    */
   public void incrementMultiPlayerRoundsLostNull();
 
   public int getMultiPlayerRoundsLostSuit();
 
   /**
-   * 
+   * Increments attributes: multiPlayerRoundsLostSuit, multiPlayerTotalRoundsSuit and
+   * multiPlayerRoundsLost.
    */
   public void incrementMultiPlayerRoundsLostSuit();
 
@@ -179,14 +195,20 @@ public interface ProfileStatisticsInterface {
   public int getMultiPlayerHighestScore();
 
   /**
-   * @param potentiallyNewScore
+   * Checks if parameter potentiallyNewScore is higher that attribute multiPlayerHighestScore and if
+   * so updates it, otherwise - nothing happens.
+   * 
+   * @param potentiallyNewScore the score that is potentially new highest multiplayer score.
    */
   public void setMultiPlayerHighestScore(int potentiallyNewScore);
 
   public int getMultiPlayerLowestScore();
 
   /**
-   * @param potentiallyNewScore
+   * Checks if parameter potentiallyNewScore is lower that attribute multiPlayerLowestScore and if
+   * so updates it, otherwise - nothing happens.
+   * 
+   * @param potentiallyNewScore the score that is potentially new lowest multiplayer score.
    */
   public void setMultiPlayerLowestScore(int potentiallyNewScore);
 }

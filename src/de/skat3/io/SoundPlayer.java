@@ -13,7 +13,6 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
  * @author Artem Zamarajev, Jonas Bauer
  *
  */
-
 public class SoundPlayer {
 
   private AdvancedPlayer backgroundMusicPlayer;
@@ -23,6 +22,9 @@ public class SoundPlayer {
   private InputStream backgroundMusicStream;
 
 
+  /**
+   * Starts playing background music.
+   */
   public void playBackgroundMusic() {
     backgroundMusic = true;
 
@@ -52,6 +54,9 @@ public class SoundPlayer {
     }.start();
   }
 
+  /**
+   * Plays victory sound.
+   */
   public void playVictorySound() {
     try {
       InputStream victorySoundStream = SoundPlayer.class.getClassLoader()
@@ -65,6 +70,9 @@ public class SoundPlayer {
     }
   }
 
+  /**
+   * Plays card dealt sound.
+   */
   public void playCardDealtSound() {
     try {
       InputStream dealtCardStream = SoundPlayer.class.getClassLoader()
@@ -78,6 +86,9 @@ public class SoundPlayer {
     }
   }
 
+  /**
+   * Stops playing background music.
+   */
   public synchronized void stopBackgroundMusic() {
     if (backgroundMusic) {
       if (backgroundMusicPlayer != null) {

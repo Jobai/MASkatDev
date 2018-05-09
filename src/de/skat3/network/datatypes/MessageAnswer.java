@@ -11,6 +11,10 @@ import java.io.Serializable;
  */
 public class MessageAnswer extends Message implements Serializable {
 
+  public Object additionalPlayload;
+  AnswerType at;
+  private static final long serialVersionUID = 7733056034043678803L;
+  
   /**
    * Default constructor for the MessageAnswer class. Automatically sets the target as the server.
    * 
@@ -20,16 +24,10 @@ public class MessageAnswer extends Message implements Serializable {
    */
   public MessageAnswer(String sender, AnswerType answerType) {
     super(MessageType.ANWSER_ACTION, sender, "HOST");
-    this.at = answerType; // XXX
+    this.at = answerType;
     super.setSubType(answerType);
   }
 
-
-  private static final long serialVersionUID = 1L;
-  @Deprecated
-  public Object gameState;
-  @Deprecated
-  public Object additionalPlayload;
-  AnswerType at;
+  
 
 }

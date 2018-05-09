@@ -7,7 +7,7 @@ package de.skat3.ai;
  *
  */
 public enum AiNames {
-  Aljoscha(true), Kai(true), Jonas(false), Timo(false), Artem(true), Emre(true), Hildegard(
+  Aljoscha(true), Kai(true), Jonas(true), Timo(false), Artem(true), Emre(true), Hildegard(
       true), Gertrud(true), Chantal(false), Justin(false), Kevin(
           false), Albert(true), Jacqueline(true), Herbert(false), Angie(false), Siri(false);
 

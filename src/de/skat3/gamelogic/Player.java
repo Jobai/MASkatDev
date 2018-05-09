@@ -1,11 +1,5 @@
 package de.skat3.gamelogic;
 
-import de.skat3.ai.Ai;
-import de.skat3.ai.AiNames;
-import de.skat3.ai.IntelligentAi;
-import de.skat3.ai.RandomAI;
-import de.skat3.io.profile.ImageConverter;
-import de.skat3.io.profile.Profile;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,6 +10,12 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
+import de.skat3.ai.Ai;
+import de.skat3.ai.AiNames;
+import de.skat3.ai.IntelligentAi;
+import de.skat3.ai.RandomAi;
+import de.skat3.io.profile.ImageConverter;
+import de.skat3.io.profile.Profile;
 import javafx.scene.image.Image;
 
 /**
@@ -119,7 +119,7 @@ public class Player implements Serializable, Comparable<Player> {
     if (this.isHardBot) {
       this.ai = new IntelligentAi();
     } else {
-      this.ai = new RandomAI();
+      this.ai = new RandomAi();
     }
   }
 

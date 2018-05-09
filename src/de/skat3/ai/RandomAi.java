@@ -16,7 +16,7 @@ import de.skat3.gamelogic.Position;
 
 
 @SuppressWarnings("serial")
-public class RandomAI extends Ai implements Serializable {
+public class RandomAi extends Ai implements Serializable {
   private boolean acceptHandGame;
   private AiHelper aiHelper;
   private Hand hand;
@@ -30,14 +30,14 @@ public class RandomAI extends Ai implements Serializable {
   /**
    * Creates a new instance of AIPlayer.
    */
-  public RandomAI() {
+  public RandomAi() {
     aiHelper = new AiHelper();
     setHandGame(random.nextBoolean());
     contract = selectContract();
   }
 
   private void setHandGame(boolean handGame) {
-    acceptHandGame= handGame;
+    acceptHandGame = handGame;
   }
 
   @Override
@@ -75,8 +75,8 @@ public class RandomAI extends Ai implements Serializable {
         if (random1 && random2 && random3 && random4 && random5) {
           return aiHelper.getSchneider();
         } else if (random1 && random2 && random3 && random4) {
-         return aiHelper.getHandGameNoMultipliers();
-        }else {
+          return aiHelper.getHandGameNoMultipliers();
+        } else {
           aiHelper.getNoHandGameNoMultipliers();
         }
       }

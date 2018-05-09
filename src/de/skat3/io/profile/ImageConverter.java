@@ -14,7 +14,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
-
+/**
+ * ImageConverter is responsible for the conversion of JavaFx Image to bytes array to String and
+ * String to bytes array to JavaFX Image. This functionality is needed to allow sending the images
+ * within network and saving them in profiles.json file.
+ * 
+ * @author Artem Zamarajev
+ */
 public class ImageConverter {
 
   /**
@@ -26,7 +32,6 @@ public class ImageConverter {
    */
   public String imageToEncodedString(Image image, String imageFormat) {
     if (image == null) {
-      System.out.println("Image == null");
       return "";
     } else {
       byte[] imageToBytes = imageToBytes(image, imageFormat);
@@ -67,7 +72,6 @@ public class ImageConverter {
       res = s.toByteArray();
       s.close();
     } catch (IOException e1) {
-      // TODO Auto-generated catch block
       e1.printStackTrace();
     }
     return res;
