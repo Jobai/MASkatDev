@@ -3,7 +3,6 @@ package de.skat3.ai;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -14,14 +13,16 @@ import de.skat3.gamelogic.Suit;
 import de.skat3.gamelogic.Value;
 import de.skat3.main.SkatMain;
 
+/**
+ * IntelligentAi represents hard bot
+ * 
+ * @author Artem Zamarajev, Emre Cura
+ */
 @SuppressWarnings("serial")
 public class IntelligentAi extends Ai {
-  final int NINE = 0;
-  final int KING = 4;
-  final int QUEEN = 3;
-  final int ACE = 11;
-  final int TEN = 10;
-  final int JACK = 2;
+  private static final int NINE = 0;
+  private static final int KING = 4;
+  private static final int QUEEN = 3;
 
   AiHelper aiHelper = new AiHelper();
 
@@ -39,44 +40,40 @@ public class IntelligentAi extends Ai {
   private Player localClient;
 
   private void initializePlayers() {
-     enemyOne = SkatMain.lgs.getEnemyOne();
-     enemyTwo = SkatMain.lgs.getEnemyTwo();
-     localClient = SkatMain.lgs.getLocalClient();
+    enemyOne = SkatMain.lgs.getEnemyOne();
+    enemyTwo = SkatMain.lgs.getEnemyTwo();
+    localClient = SkatMain.lgs.getLocalClient();
   }
-  
+
   private void initializeTrick() {
-  trick = SkatMain.lgs.getTrick();
+    trick = SkatMain.lgs.getTrick();
   }
-  
+
   private void initializeContract() {
     contract = SkatMain.lgs.getContract();
   }
-
 
   @Override
   public void setPosition(Position position) {
     this.myPosition = position;
   }
 
-
   @Override
   public void setIsSolo(boolean isSolo) {
     this.isSolo = isSolo;
   }
-
 
   @Override
   public void setHand(Hand hand) {
     this.hand = new Hand(hand.getCards());
   }
 
-
   @Override
-	/**
-	 * This method tells Ai to choose a Contract
-	 * 
-	 * @return actual contract;
-	 */
+  /**
+   * This method tells Ai to choose a Contract
+   * 
+   * @return actual contract;
+   */
   public Contract chooseContract() {
     Contract contract;
     System.out.println("IST WIRKLICH HARD");
@@ -106,17 +103,15 @@ public class IntelligentAi extends Ai {
     }
   }
 
-	/**
-	 * 
-	 * Tells Ai Player whether to accept the bid or not
-	 * 
-	 * @param bid
-	 *            represents the actual bid in the game
-	 * @param getMaximumBid
-	 *            gives the maximum bid for the chosen contract
-	 * 
-	 * @return true if bid was accepted
-	 */
+  /**
+   * 
+   * Tells Ai Player whether to accept the bid or not
+   * 
+   * @param bid represents the actual bid in the game
+   * @param getMaximumBid gives the maximum bid for the chosen contract
+   * 
+   * @return true if bid was accepted
+   */
   @Override
   public boolean acceptBid(int bid) {
 
@@ -150,13 +145,12 @@ public class IntelligentAi extends Ai {
     }
   }
 
-	/**
-	 * Tells Ai Player which card has to be played
-	 * 
-	 * @param myPositon
-	 *            gives back Position in which Ai Player plays
-	 * @return Card represents played card
-	 */
+  /**
+   * Tells Ai Player which card has to be played
+   * 
+   * @param myPositon gives back Position in which Ai Player plays
+   * @return Card represents played card
+   */
   @Override
   public Card chooseCard() {
     initializeContract();
@@ -214,11 +208,11 @@ public class IntelligentAi extends Ai {
     return handGame;
   }
 
-	/**
-	 * Tells Ai player to choose Addtional Multipliers if hand game accepted
-	 * 
-	 * @return AdditionalMultipliers gives the selected multiplier back
-	 */
+  /**
+   * Tells Ai player to choose Addtional Multipliers if hand game accepted
+   * 
+   * @return AdditionalMultipliers gives the selected multiplier back
+   */
   @Override
   public AdditionalMultipliers chooseAdditionalMultipliers() {
     int noOfJacks = countJacks();
@@ -261,14 +255,13 @@ public class IntelligentAi extends Ai {
     return aiHelper.getNoHandGameNoMultipliers();
   }
 
-	/**
-	 * Makes a decision on selecting cards from skat.
-	 * 
-	 * @param skat
-	 *            represents the skat on the table.
-	 * @return an instance of ReturnSkat.
-	 * @see ReturnSkat.
-	 */
+  /**
+   * Makes a decision on selecting cards from skat.
+   * 
+   * @param skat represents the skat on the table.
+   * @return an instance of ReturnSkat.
+   * @see ReturnSkat.
+   */
   @Override
   public ReturnSkat selectSkat(Card[] skat) {
     Contract potentialContract = chooseContract();
@@ -439,21 +432,20 @@ public class IntelligentAi extends Ai {
     }
   }
 
-	/**
-	 * Gives the best possible Card back which is not a trump when the player is in
-	 * Forehand position
-	 * 
-	 * @return instance of Card
-	 */
+  /**
+   * Gives the best possible Card back which is not a trump when the player is in Forehand position
+   * 
+   * @return instance of Card
+   */
   private Card playForeHand() {
     return playMostExpensiveCardThatIsNotTrumpIfPossible();
   }
 
-	/**
-	 * Gives the best possible Card back when the player is in Midddlehand position
-	 * 
-	 * @return instance of Card
-	 */
+  /**
+   * Gives the best possible Card back when the player is in Midddlehand position
+   * 
+   * @return instance of Card
+   */
   private Card playMiddlehandCard() {
 
     boolean firstCardFromTeammate = isFirstCardInTrickFromTeammate();
@@ -473,11 +465,11 @@ public class IntelligentAi extends Ai {
     }
   }
 
-	/**
-	 * Gives the best possible Card back when the player is in Rearhand position
-	 * 
-	 * @return instance of Card
-	 */
+  /**
+   * Gives the best possible Card back when the player is in Rearhand position
+   * 
+   * @return instance of Card
+   */
   private Card playRearhandCard() {
 
     boolean teammateWinTrick = willTrickBeWonByTeammate();
@@ -492,48 +484,6 @@ public class IntelligentAi extends Ai {
       }
     }
   }
-
-  private Suit getMostFrequentSuitExcluding(Suit exclude) {
-    int diamondsCount = 0;
-    int heartsCount = 0;
-    int spadesCount = 0;
-    int clubsCount = 0;
-
-    for (Suit suit : Suit.values()) {
-      if (suit == exclude) {
-        continue;
-      } else {
-        switch (suit) {
-          case DIAMONDS:
-            diamondsCount++;
-            break;
-          case HEARTS:
-            heartsCount++;
-            break;
-          case SPADES:
-            spadesCount++;
-            break;
-          case CLUBS:
-            clubsCount++;
-            break;
-        }
-      }
-    }
-
-    int biggestCount =
-        Math.max(Math.max(diamondsCount, heartsCount), Math.max(spadesCount, clubsCount));
-
-    if (diamondsCount == biggestCount) {
-      return Suit.DIAMONDS;
-    } else if (heartsCount == biggestCount) {
-      return Suit.HEARTS;
-    } else if (spadesCount == biggestCount) {
-      return Suit.SPADES;
-    } else {
-      return Suit.CLUBS;
-    }
-  }
-
 
   /**
    * Gets the number of jacks in the given hand
@@ -639,12 +589,6 @@ public class IntelligentAi extends Ai {
   }
 
 
-
-  private Card getHighestCard1() {
-
-    return new Card();
-  }
-
   private Card getHighestCard() {
     Card[] cards = hand.getCards();
     Card output = null;
@@ -655,8 +599,6 @@ public class IntelligentAi extends Ai {
     }
     return output;
   }
-
-
 
   /**
    * Sorts cards increasingly by Trick Value and puts Jacks to the right
@@ -685,63 +627,12 @@ public class IntelligentAi extends Ai {
     return cards;
   }
 
-
   /**
+   * Gives the Values of Cards in the Hand back
    * 
-   * @return return an array of ints int[0] = anzahl der DIAMONDS aus cards int[1] = anzahl der
-   *         HEARTS int[2] = anzahl der SPADES int[3] = anzahl der CLUBS
-   * 
+   * @param value represents the Value of the Card
+   * @return ArrayList
    */
-  private int[] calculateSuits() {
-    Card[] cards = hand.getCards();
-    int[] suitArray = {0, 0, 0, 0};
-
-    for (int i = 0; i < cards.length; i++) {
-      switch (cards[i].getSuit()) {
-        case DIAMONDS:
-          suitArray[0]++;
-          break;
-
-        case HEARTS:
-          suitArray[1]++;
-          break;
-
-        case SPADES:
-          suitArray[2]++;
-          break;
-
-        case CLUBS:
-          suitArray[3]++;
-          break;
-      }
-    }
-    return suitArray;
-  }
-
-  private int getAmountOfCardsWithSameSuit(Card card) {
-    int[] suitArray = calculateSuits();
-    switch (card.getSuit()) {
-      case DIAMONDS:
-        return suitArray[0];
-
-      case HEARTS:
-        return suitArray[1];
-
-      case SPADES:
-        return suitArray[2];
-
-      default:
-        return suitArray[3];
-    }
-  }
-
-	/**
-	 * Gives the Values of Cards in the Hand back
-	 * 
-	 * @param value
-	 *            represents the Value of the Card
-	 * @return ArrayList
-	 */
   private ArrayList<Card> getAllCardsOfValue(Value value) {
     ArrayList<Card> jacksList = new ArrayList<Card>();
     Card[] cards = hand.getCards();
@@ -754,34 +645,11 @@ public class IntelligentAi extends Ai {
     return jacksList;
   }
 
-  private ArrayList<Card> getAllPlayableCardsOfValue(Value value) {
-    Card[] cards = hand.getCards();
-
-    ArrayList<Card> jacksList = new ArrayList<Card>();
-    for (Card card : cards) {
-      if (card.getValue() == value && card.isPlayable()) {
-        jacksList.add(card);
-      }
-    }
-    return jacksList;
-  }
-
-  private ArrayList<Card> getAllPlayableCardsOfSuit(Suit suit) {
-    Card[] cards = hand.getCards();
-    ArrayList<Card> suitList = new ArrayList<Card>();
-    for (Card card : cards) {
-      if (card.getSuit() == suit && card.isPlayable()) {
-        suitList.add(card);
-      }
-    }
-    return suitList;
-  }
-
-	/**
-	 * Gives the highest playable Card that is not a trump
-	 * 
-	 * @return instance of Card
-	 */
+  /**
+   * Gives the highest playable Card that is not a trump
+   * 
+   * @return instance of Card
+   */
   private Card getHighestPlayableCardExcludeTrumpIfPossible() {
     Card[] cards = hand.getCards();
     ArrayList<Card> cardsList = new ArrayList<Card>(Arrays.asList(cards));
@@ -809,11 +677,11 @@ public class IntelligentAi extends Ai {
     }
   }
 
-	/**
-	 * Gives the lowest playable Card that is not a trump
-	 * 
-	 * @return instance of Card
-	 */
+  /**
+   * Gives the lowest playable Card that is not a trump
+   * 
+   * @return instance of Card
+   */
   private Card getLowestPlayableCardExcludeTrumpIfPossible() {
     Card[] cards = hand.getCards();
     ArrayList<Card> cardsList = new ArrayList<Card>(Arrays.asList(cards));
@@ -841,11 +709,11 @@ public class IntelligentAi extends Ai {
     }
   }
 
-	/**
-	 * Gives a valid card back
-	 * 
-	 * @return instance of Card
-	 */
+  /**
+   * Gives a valid card back
+   * 
+   * @return instance of Card
+   */
   private Card getAnyPlayableCard() {
     Card[] cards = hand.getCards();
     for (Card card : cards) {
@@ -856,11 +724,11 @@ public class IntelligentAi extends Ai {
     return null;
   }
 
-	/**
-	 * Checks if the selected Grand should be used as Contract
-	 * 
-	 * @return true if player has good cards for this suit false if not
-	 */
+  /**
+   * Checks if the selected Grand should be used as Contract
+   * 
+   * @return true if player has good cards for this suit false if not
+   */
   private boolean checkGrand() {
     int noOfJacks = countJacks();
     int noOfAces = countAces();
@@ -875,11 +743,11 @@ public class IntelligentAi extends Ai {
     return grand;
   }
 
-	/**
-	 * Checks if the selected Null should be used as Contract
-	 * 
-	 * @return true if player has good cards for this suit false if not
-	 */
+  /**
+   * Checks if the selected Null should be used as Contract
+   * 
+   * @return true if player has good cards for this suit false if not
+   */
   private boolean checkNull() {
     int noOfAces = countAces();
     int noOfKings = countKings();
@@ -893,13 +761,12 @@ public class IntelligentAi extends Ai {
     return nullB;
   }
 
-	/**
-	 * Checks if the selected Suit Contract should be used as Contract
-	 * 
-	 * @param suit
-	 *            represents the actual contract that is checked
-	 * @return true if player has good cards for this suit false if not
-	 */
+  /**
+   * Checks if the selected Suit Contract should be used as Contract
+   * 
+   * @param suit represents the actual contract that is checked
+   * @return true if player has good cards for this suit false if not
+   */
   private boolean checkSuit(Suit suit) {
     int noOfAces = countAces();
     int noOfTens = countTens();
@@ -972,11 +839,11 @@ public class IntelligentAi extends Ai {
     return false;
   }
 
-	/**
-	 * Gives the position of the Solo player in the trick back
-	 * 
-	 * @return instance of Position
-	 */
+  /**
+   * Gives the position of the Solo player in the trick back
+   * 
+   * @return instance of Position
+   */
   private Position getSoloPosition() {
     initializePlayers();
     if (enemyOne.isSolo()) {
@@ -1016,11 +883,11 @@ public class IntelligentAi extends Ai {
     return teamMatePosition;
   }
 
-	/**
-	 * Tells player if card is first Card from Teammate
-	 * 
-	 * @return true if card is First Card in Trick from Teammate false if not
-	 */
+  /**
+   * Tells player if card is first Card from Teammate
+   * 
+   * @return true if card is First Card in Trick from Teammate false if not
+   */
   private boolean isFirstCardInTrickFromTeammate() {
     if (getTeammatePosition() == Position.FOREHAND) {
       return true;
@@ -1029,12 +896,11 @@ public class IntelligentAi extends Ai {
     }
   }
 
-	/**
-	 * Gives the most expensive Card that is not a trump back if it´s possible in
-	 * the game
-	 * 
-	 * @return instance of Card
-	 */
+  /**
+   * Gives the most expensive Card that is not a trump back if it´s possible in the game
+   * 
+   * @return instance of Card
+   */
   private Card playMostExpensiveCardThatIsNotTrumpIfPossible() {
 
     Card toPlay;
@@ -1050,12 +916,11 @@ public class IntelligentAi extends Ai {
     return toPlay;
   }
 
-	/**
-	 * Gives the least expensive Card that is not a trump back if it´s possible in
-	 * the game
-	 * 
-	 * @return instance of Card
-	 */
+  /**
+   * Gives the least expensive Card that is not a trump back if it´s possible in the game
+   * 
+   * @return instance of Card
+   */
   private Card playLeastExpensiveCardThatIsNotTrumpIfPossible() {
 
     Card toPlay;
@@ -1071,13 +936,11 @@ public class IntelligentAi extends Ai {
     return toPlay;
   }
 
-
-
-  	/**
-	 * Tells the player if this Card has a high value
-	 *
-	 * @return true if card has a high value false if not
-	 **/
+  /**
+   * Tells the player if this Card has a high value
+   *
+   * @return true if card has a high value false if not
+   **/
   private boolean isCardExpensive(Card card) {
 
     if (contract != Contract.NULL) {
@@ -1096,12 +959,11 @@ public class IntelligentAi extends Ai {
     }
   }
 
-	/**
-	 * Gives back Suit Contract
-	 * 
-	 * @param potentialContract
-	 *            represents the contract that the Ai player would maybe choose
-	 */
+  /**
+   * Gives back Suit Contract
+   * 
+   * @param potentialContract represents the contract that the Ai player would maybe choose
+   */
   private Suit convertContractToTrump() {
     Contract potentialContract = chooseContract();
     // changed contract with potentialContract for testing
@@ -1119,12 +981,12 @@ public class IntelligentAi extends Ai {
     }
   }
 
-  	/**
-	 * Position == MiddleHand!!!!!!!
-	 * 
-	 * @return instance of Card
-	 * 
-	 **/
+  /**
+   * Position == MiddleHand!!!!!!!
+   * 
+   * @return instance of Card
+   * 
+   **/
   private boolean canTrickBeBeatenByMiddleHand() {
 
     Card[] cards = hand.getCards();
@@ -1137,12 +999,12 @@ public class IntelligentAi extends Ai {
     return false;
   }
 
-  	/**
-	 * To use only after canTrickBeBeatenByMiddleHand
-	 * 
-	 * @return instance of Card
-	 * 
-	 **/
+  /**
+   * To use only after canTrickBeBeatenByMiddleHand
+   * 
+   * @return instance of Card
+   * 
+   **/
   private Card winTrickAsMiddleHand() {
 
     Card[] cards = hand.getCards();
@@ -1154,14 +1016,12 @@ public class IntelligentAi extends Ai {
     return null;
   }
 
-
-
-  	/**
-	 * Position == REARHAND!!!!!!!
-	 * 
-	 * @return instance of Card
-	 * 
-	 **/
+  /**
+   * Position == REARHAND!!!!!!!
+   * 
+   * @return instance of Card
+   * 
+   **/
   private boolean canTrickBeBeatenByRearHand() {
 
     Card[] cards = hand.getCards();
@@ -1174,12 +1034,12 @@ public class IntelligentAi extends Ai {
     return false;
   }
 
-  	/**
-	 * To use only after canTrickBeBeatenByRearHand
-	 * 
-	 * @return instance of Card
-	 * 
-	 **/
+  /**
+   * To use only after canTrickBeBeatenByRearHand
+   * 
+   * @return instance of Card
+   * 
+   **/
   private Card winTrickAsRearHand() {
     Card[] cards = hand.getCards();
     for (Card card : cards) {
