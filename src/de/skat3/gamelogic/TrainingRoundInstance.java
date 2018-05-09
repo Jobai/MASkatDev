@@ -7,13 +7,14 @@ import javafx.application.Platform;
 /**
  * A scripted scenario for the training mode.
  * 
- * @author Kai Baumann
+ * @author Kai Baumann, @author Emre Cura
  *
  */
 public class TrainingRoundInstance extends RoundInstance {
   int startHandSize = 6;
   int scenario;
   int delay;
+	int currentPartInSkatBasics;
 
   /**
    * Creates the training mode scenario.
@@ -494,9 +495,8 @@ public class TrainingRoundInstance extends RoundInstance {
   // CASES TODO ARTEM, EMRE
 
   String filePop = "/trainingPopups";
-  private int currentPartInSkatBasics;
-  private int width;
-  private int height;
+	private int width = 600;
+	private int height = 400;
 
   /**
    * Shows the Information PopUp for the specific Scenario.
@@ -508,25 +508,33 @@ public class TrainingRoundInstance extends RoundInstance {
       case 0:
         switch (currentPartInSkatBasics) {
           case 0:
-            System.out.println("Case 0");
+				width = 600;
+				height = 400;
+				filePop += "/Skat Basics/PopUp1.html";
             break;
           case 1:
-            width = 600;
-            height = 400;
-            filePop += "/Skat Basics/PopUp1.html";
+				width = 200;
+				height = 150;
+
+				filePop += "/Skat Basics/Case1.1.html";
+
+				width = 200;
+				height = 150;
+				filePop = "/trainingPopups";
+				filePop += "/Skat Basics/Case1.2.html";
             break;
           case 2:
-            System.out.println("Inside");
-
             width = 600;
             height = 400;
             filePop += "/Skat Basics/PopUp2.html";
             width = 200;
             height = 150;
+            filePop = "/trainingPopups";
             filePop += "/Skat Basics/Case2.1.html";
             width = 200;
             height = 150;
-            // TODO filePop += "/Skat Basics/Case2.2.html"; in der 2.ten bidding runde
+            filePop = "/trainingPopups";
+				filePop += "/Skat Basics/Case2.2.html";
             break;
           case 3:
             width = 200;
@@ -566,8 +574,11 @@ public class TrainingRoundInstance extends RoundInstance {
 
             width = 600;
             height = 400;
+				filePop = "/trainingPopups";
 
-            // TODO filePop += "/Skat Basics/Popup4.htm";
+				width = 200;
+				height = 150;
+				filePop += "/Skat Basics/Popup4.html";
             break;
           default:
             break;
@@ -739,6 +750,7 @@ public class TrainingRoundInstance extends RoundInstance {
         break;
 
     }
+		System.out.println("Outside" + currentPartInSkatBasics);
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
