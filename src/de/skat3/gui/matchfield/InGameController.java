@@ -65,6 +65,7 @@ public class InGameController implements InGameControllerInterface {
     if (SkatMain.lgs.localPlayerIsDealer()) {
       this.matchfield.overlayController.setPlayText("Spectating", true, false);
     } else {
+      this.matchfield.overlayController.setPlayText("", false, false);
       this.matchfield.tableView.trick.showBidingCards(true);
     }
 
