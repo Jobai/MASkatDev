@@ -118,7 +118,11 @@ public class Player implements Serializable, Comparable<Player> {
     this.seegerPoints = 0;
     if (this.isHardBot) {
       this.ai = new IntelligentAi();
+      this.image =
+          new ImageConverter().imageToEncodedString(new Image("profilePictures/HardKi.jpg"), "jpg");
     } else {
+      this.image =
+          new ImageConverter().imageToEncodedString(new Image("profilePictures/EasyKi.jpg"), "jpg");
       this.ai = new RandomAi();
     }
   }
