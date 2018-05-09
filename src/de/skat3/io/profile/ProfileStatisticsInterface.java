@@ -2,6 +2,12 @@ package de.skat3.io.profile;
 
 public interface ProfileStatisticsInterface {
 
+  // Achievement unlocked
+
+  public boolean getAchievementUnlocked();
+
+  public void setAchievementUnlocked(boolean newAchievementUnlocked);
+
   // Time
 
   public long getPlayerGameTime();

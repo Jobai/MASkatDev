@@ -1,5 +1,6 @@
 package de.skat3.io.profile;
 
+import static de.skat3.io.profile.Utils.ACHIEVEMENT_UNLOCKED;
 import static de.skat3.io.profile.Utils.JSON_ID_FIELD;
 import static de.skat3.io.profile.Utils.JSON_IMAGE_FIELD;
 import static de.skat3.io.profile.Utils.JSON_LAST_USED_FIELD;
@@ -59,8 +60,10 @@ public class Profile implements ProfileStatisticsInterface {
   @SerializedName(JSON_IMAGE_FIELD)
   private String encodedImage;
   @SerializedName(JSON_LAST_USED_FIELD)
-  boolean lastUsed;
+  private boolean lastUsed;
 
+  @SerializedName(ACHIEVEMENT_UNLOCKED)
+  private boolean achievementUnlocked;
 
   @SerializedName(JSON_SINGLEPLAYER_AND_MULTIPLAYER_TOTAL_GAMETIME)
   long playerGameTime;
@@ -161,6 +164,14 @@ public class Profile implements ProfileStatisticsInterface {
     this.name = name;
     this.setImage(image, imageFormat);
     initializeAllGameStatisticsVariablesWithZero();
+  }
+
+  public boolean getAchievementUnlocked() {
+    return achievementUnlocked;
+  }
+
+  public void setAchievementUnlocked(boolean newAchievementUnlocked) {
+    achievementUnlocked = newAchievementUnlocked;
   }
 
   public UUID getUuid() {
@@ -603,6 +614,11 @@ public class Profile implements ProfileStatisticsInterface {
    * Initializes all statistics related variables with zero.
    */
   public void initializeAllGameStatisticsVariablesWithZero() {
+
+    // Achievement
+    achievementUnlocked = false;
+
+    // Gametime
     playerGameTime = 0;
 
     // Singleplayer
