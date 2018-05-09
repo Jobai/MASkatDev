@@ -1,6 +1,7 @@
 package de.skat3.gamelogic;
 
 import java.io.File;
+
 import de.skat3.main.SkatMain;
 import de.skat3.network.server.ServerLogicController;
 import javafx.application.Platform;
@@ -310,12 +311,14 @@ public class TrainingRoundInstance extends RoundInstance {
                 + File.separator + "Scenario1_Popup1.html";
             break;
           case 1:
-            filePop += "/Skat Strategies/Scenario1/Scenario1_Popup2.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario1" + File.separator
+						+ "Scenario1_Popup2.html";
             break;
           case 2:
             break;
           case 3:
-            filePop += "/Skat Strategies/Scenario1/Scenario1_Popup4.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario1" + File.separator
+						+ "Scenario1_Popup4.html";
             break;
           case 4:
             break;
@@ -328,7 +331,8 @@ public class TrainingRoundInstance extends RoundInstance {
       case 2:
         switch (currentRound) {
           case 0:
-            filePop += "/Skat Strategies/Scenario2/Scenario2_Popup1.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario2" + File.separator
+						+ "Scenario2_Popup1.html";
             break;
           case 1:
             break;
@@ -347,16 +351,20 @@ public class TrainingRoundInstance extends RoundInstance {
       case 3:
         switch (currentRound) {
           case 0:
-            filePop += "/Skat Strategies/Scenario3/Scenario3_Popup1.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario3" + File.separator
+						+ "Scenario3_Popup1.html";
             break;
           case 1:
-            filePop += "/Skat Strategies/Scenario3/Scenario3_Popup2.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario3" + File.separator
+						+ "Scenario3_Popup2.html";
             break;
           case 2:
-            filePop += "/Skat Strategies/Scenario3/Scenario3_Popup3.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario3" + File.separator
+						+ "Scenario3_Popup3.html";
             break;
           case 3:
-            filePop += "/Skat Strategies/Scenario3/Scenario3_Popup4.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario3" + File.separator
+						+ "Scenario3_Popup4.html";
             break;
           case 4:
             break;
@@ -369,16 +377,20 @@ public class TrainingRoundInstance extends RoundInstance {
       case 4:
         switch (currentRound) {
           case 0:
-            filePop += "/Skat Strategies/Scenario4/Scenario4_Popup1.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario4" + File.separator
+						+ "Scenario4_Popup1.html";
             break;
           case 1:
-            filePop += "/Skat Strategies/Scenario4/Scenario4_Popup2.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario4" + File.separator
+						+ "Scenario4_Popup2.html";
             break;
           case 2:
-            filePop += "/Skat Strategies/Scenario4/Scenario4_Popup3.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario4" + File.separator
+						+ "Scenario4_Popup3.html";
             break;
           case 3:
-            filePop += "/Skat Strategies/Scenario4/Scenario4_Popup4.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario4" + File.separator
+						+ "Scenario4_Popup4.html";
             break;
           case 4:
             break;
@@ -391,13 +403,16 @@ public class TrainingRoundInstance extends RoundInstance {
       case 5:
         switch (currentRound) {
           case 0:
-            filePop += "/Skat Strategies/Scenario5/Scenario5_Popup1.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario5" + File.separator
+						+ "Scenario5_Popup1.html";
             break;
           case 1:
-            filePop += "/Skat Strategies/Scenario5/Scenario5_Popup2.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario5" + File.separator
+						+ "Scenario5_Popup2.html";
             break;
           case 2:
-            filePop += "/Skat Strategies/Scenario5/Scenario5_Popup3.html";
+				filePop += File.separator + "Skat Strategies" + File.separator + "Scenario5" + File.separator
+						+ "Scenario5_Popup3.html";
             break;
           case 3:
             break;
