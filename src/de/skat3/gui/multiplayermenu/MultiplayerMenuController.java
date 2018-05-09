@@ -345,6 +345,10 @@ public class MultiplayerMenuController {
 
     joinButton.setDisable(true);
 
+    // Lobby aus Liste entfernen
+    hostList.remove(currentLobby);
+    hostListView.refresh();
+
     if (!currentLobby.isHasPassword()) {
       SkatMain.mainController.joinMultiplayerGame(currentLobby);
     } else {
