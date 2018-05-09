@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 /**
  * Provides data for the endscreen of a game.
- *
+ *@author Kai Baumann
  */
 @SuppressWarnings("serial")
 public class MatchResult implements Serializable {

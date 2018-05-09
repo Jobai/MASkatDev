@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Controlls the start and end of the game and rotation of players between rounds.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 public class GameController implements GameLogicInterface {

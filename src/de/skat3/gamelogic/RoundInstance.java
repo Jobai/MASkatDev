@@ -7,7 +7,7 @@ import java.util.Collections;
 /**
  * Represents a single round of play.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 public class RoundInstance {

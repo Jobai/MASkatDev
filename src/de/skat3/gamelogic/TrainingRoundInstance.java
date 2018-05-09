@@ -7,11 +7,10 @@ import javafx.application.Platform;
 /**
  * A scripted scenario for the training mode.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 public class TrainingRoundInstance extends RoundInstance {
-
   int startHandSize = 6;
   int scenario;
   int delay;
@@ -334,7 +333,6 @@ public class TrainingRoundInstance extends RoundInstance {
    */
   private void setStartingPlayer() {
     switch (this.scenario) {
-
       case 1: // localClient starts
         break;
       case 2:// localClient starts

@@ -21,7 +21,7 @@ import javafx.scene.image.Image;
 /**
  * Represents a player in a skat match.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 @SuppressWarnings("serial")

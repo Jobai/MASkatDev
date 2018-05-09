@@ -244,6 +244,10 @@ public class LocalGameState {
     return this.contract;
   }
 
+  /**
+   * Removes a player from the gameState.
+   * 
+   */
   public void removePlayer(Player player) {
     if (this.enemyOne != null) {
       if (player.equals(this.enemyOne)) {

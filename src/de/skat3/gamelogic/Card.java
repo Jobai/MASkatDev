@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 /**
  * Represents a single Card from the skat game.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 @SuppressWarnings("serial")

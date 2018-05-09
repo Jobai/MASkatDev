@@ -3,6 +3,7 @@ package de.skat3.gamelogic;
 
 /*
  * Represents all 32 cards that exist in a skat game.
+ * @author Kai Baumann
  */
 public class CardDeck {
 

@@ -3,7 +3,7 @@ package de.skat3.gamelogic;
 /**
  * Runs while a match is played. Calls gamecontroller and roundinstance methods.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 class GameThread extends Thread {

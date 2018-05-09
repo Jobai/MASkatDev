@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Represents the player position during a round.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 public enum Position implements Serializable {

@@ -1,5 +1,11 @@
 package de.skat3.gamelogic;
 
+/**
+ * Interface for logic and network.
+ * 
+ * @author Kai Baumann
+ *
+ */
 public interface GameLogicInterface {
 
 

@@ -6,7 +6,7 @@ import java.util.Collections;
 /**
  * Represents all possible biddingValues in skat.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 public class BiddingValues {
