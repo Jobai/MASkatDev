@@ -83,10 +83,14 @@
 						<Font name="System Bold" size="22.0" />
 					</font>
 				</Label>
-				<Label fx:id="skatCards" layoutX="257.0" layoutY="119.0"
-					text="Skat">
+				<Label layoutX="257.0" layoutY="119.0" text="Skat">
 					<font>
 						<Font size="22.0" />
+					</font>
+				</Label>
+				<Label fx:id="skatCards" layoutX="340.0" layoutY="106.0">
+					<font>
+						<Font size="40.0" />
 					</font>
 				</Label>
 			</children>
