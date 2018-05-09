@@ -299,5 +299,104 @@ public class Card implements Serializable {
 
     return this.value.name().charAt(0) + value + " Of " + this.suit.name().charAt(0) + suit;
   }
+
+
+  /**
+   * Returns the corresponding Unicode Char of the Card.
+   * @author Jonas Bauer
+   * @return the unicode char as a string.
+   */
+  public String getUnicodeChar() {
+    switch (this.suit) {
+      case CLUBS:
+        switch (this.value) {
+          case ACE:
+            return "🃑";
+          case EIGHT:
+            return "🃘";
+          case JACK:
+            return "🃛";
+          case KING:
+            return "🃞";
+          case NINE:
+            return "🃙";
+          case QUEEN:
+            return "🃝";
+          case SEVEN:
+            return "🃗";
+          case TEN:
+            return "🃚";
+          default:
+            throw new AssertionError();
+        }
+      case DIAMONDS:
+        switch (this.value) {
+          case ACE:
+            return "🃁";
+          case EIGHT:
+            return "🃈";
+          case JACK:
+            return "🃋";
+          case KING:
+            return "🃎";
+          case NINE:
+            return "🃉";
+          case QUEEN:
+            return "🃍";
+          case SEVEN:
+            return "🃇";
+          case TEN:
+            return "🃊";
+          default:
+            throw new AssertionError();
+        }
+      case HEARTS:
+        switch (this.value) {
+          case ACE:
+            return "🂱";
+          case EIGHT:
+            return "🂸";
+          case JACK:
+            return "🂻";
+          case KING:
+            return "🂼";
+          case NINE:
+            return "🂹";
+          case QUEEN:
+            return "🂽";
+          case SEVEN:
+            return "🂷";
+          case TEN:
+            return "🂺";
+          default:
+            throw new AssertionError();
+        }
+      case SPADES:
+        switch (this.value) {
+          case ACE:
+            return "🂡";
+          case EIGHT:
+            return "🂨";
+          case JACK:
+            return "🂫";
+          case KING:
+            return "🂬";
+          case NINE:
+            return "";
+          case QUEEN:
+            return "🂭";
+          case SEVEN:
+            return "🂧";
+          case TEN:
+            return "🂪";
+          default:
+            throw new AssertionError();
+        }
+      default:
+        throw new AssertionError();
+    }
+  }
+
+
 }
 

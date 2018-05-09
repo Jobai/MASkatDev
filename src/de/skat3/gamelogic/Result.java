@@ -52,8 +52,8 @@ public class Result implements Serializable {
     this.rekontra = roundInstance.rekontra;
     this.contract = roundInstance.contract;
     this.currentRound = roundInstance.gc.numberOfRounds;
-    this.skatCards = "Skat: " + roundInstance.skat[0].getTitleCase() + ", "
-        + roundInstance.skat[1].getTitleCase();
+    this.skatCards = "Skat: " + roundInstance.skat[0].getUnicodeChar() + ", "
+        + roundInstance.skat[1].getUnicodeChar();
     if (!this.isBierlachs) {
       this.maxRounds = roundInstance.gc.mode;
     }
