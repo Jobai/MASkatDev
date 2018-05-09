@@ -157,14 +157,6 @@ public class SingleplayerController {
     p.setPrefSize(400, 400);
     p.setStyle("-fx-background-color: #404040;");
 
-    // p.translateXProperty()
-    // .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(hostListView.layoutXProperty())
-    // .add(hostListView.widthProperty().divide(2)).subtract(100));
-    //
-    // p.translateYProperty()
-    // .bind(ReadOnlyDoubleProperty.readOnlyDoubleProperty(hostListView.layoutYProperty())
-    // .add(hostListView.heightProperty().divide(2)).subtract(100));
-
     System.out.println("start");
     Image i1 = new Image("guifiles/loading3.gif");
     ImageView v = new ImageView(i1);

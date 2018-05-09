@@ -32,6 +32,11 @@ public class GuiCard extends Parent {
     this.getChildren().add(this.getCard().getImage());
   }
 
+  public void clear() {
+    this.getChildren().remove(this.card.getImage());
+    this.card = null;
+  }
+
   public Card getCard() {
     return card;
   }

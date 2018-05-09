@@ -9,9 +9,12 @@ import de.skat3.gui.matchfield.InGameController;
 import de.skat3.gui.matchfield.RoundResultViewController;
 import java.io.IOException;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -34,6 +37,40 @@ public class GuiController implements GuiControllerInterface {
 
   public void goInGame() {
     this.inGameController = this.gui.showMatchfield();
+  }
+
+  public void print() {
+    for (Node n : this.gui.getMainStage().getScene().getRoot().getChildrenUnmodifiable()) {
+      int i = 1;
+      System.out.println(i + " : " + n);
+
+      if (n.getClass().equals(SubScene.class)) {
+        this.printChildren(i + "", ((SubScene) n).getRoot().getChildrenUnmodifiable());
+      }
+
+      try {
+        if (!((Parent) n).getChildrenUnmodifiable().isEmpty()) {
+          this.printChildren(i + "", ((Parent) n).getChildrenUnmodifiable());
+        }
+      } catch (Exception e) {
+
+      }
+    }
+  }
+
+  public void printChildren(String s, ObservableList<Node> list) {
+    int i = 1;
+    for (Node n : list) {
+      System.out.println(s + "." + i++ + " : " + n);
+
+      try {
+        if (!((Parent) n).getChildrenUnmodifiable().isEmpty()) {
+          this.printChildren(s + "." + i + "", ((Parent) n).getChildrenUnmodifiable());
+        }
+      } catch (Exception e) {
+
+      }
+    }
   }
 
   public void goToMenu() {

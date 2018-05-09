@@ -172,6 +172,11 @@ public class InGameOverlayController {
               .showBidingCards(false);
           break;
         }
+        case "&root": {
+          SkatMain.guiController.print();
+
+          break;
+        }
 
         default: {
           SkatMain.mainController.execCommand(this.chatField.getText());
