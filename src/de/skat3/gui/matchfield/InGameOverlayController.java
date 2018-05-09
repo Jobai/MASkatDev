@@ -703,7 +703,17 @@ public class InGameOverlayController {
         System.err.println("EnemyTwo: No player name given.");
       }
       try {
-        this.imageEnemyTwo.setImage(player.convertToImage());
+        if (player.isBot()) {
+          if (player.isHardBot()) {
+            this.imageEnemyTwo
+                .setImage(new Image("profilePictures" + File.separator + "HardKi.jpg"));
+          } else {
+            this.imageEnemyTwo
+                .setImage(new Image("profilePictures" + File.separator + "EasyKi.jpg"));
+          }
+        } else {
+          this.imageEnemyTwo.setImage(player.convertToImage());
+        }
       } catch (Exception e) {
         System.err.println("EnemyTwo: Image Could not be added.");
       }
