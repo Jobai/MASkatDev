@@ -132,10 +132,6 @@ public class StatsMenuController {
     sRoundsLostNull.setText("" + p.getSinglePlayerRoundsLostNull());
     sRoundsLostSuit.setText("" + p.getSinglePlayerRoundsLostSuit());
 
-    // Score
-    sHighestScore.setText("" + p.getSinglePlayerHighestScore());
-    sLowestScore.setText("" + p.getSinglePlayerLowestScore());
-
     // Multiplayer
     // Rounds
     mTotalRounds.setText("" + p.getMultiPlayerTotalRounds());
@@ -150,10 +146,6 @@ public class StatsMenuController {
     mRoundsLostGrand.setText("" + p.getMultiPlayerRoundsLostGrand());
     mRoundsLostNull.setText("" + p.getMultiPlayerRoundsLostNull());
     mRoundsLostSuit.setText("" + p.getMultiPlayerRoundsLostSuit());
-
-    // Score
-    mHighestScore.setText("" + p.getMultiPlayerHighestScore());
-    mLowestScore.setText("" + p.getMultiPlayerLowestScore());
 
   }
 

@@ -34,40 +34,21 @@
 			<rowConstraints>
 				<RowConstraints maxHeight="70.0" minHeight="10.0"
 					prefHeight="70.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="70.0" minHeight="10.0"
-					prefHeight="70.0" vgrow="SOMETIMES" />
 				<RowConstraints maxHeight="70.0" minHeight="0.0"
-					prefHeight="70.0" vgrow="SOMETIMES" />
-				<RowConstraints maxHeight="70.0" minHeight="10.0"
 					prefHeight="70.0" vgrow="SOMETIMES" />
 				<RowConstraints maxHeight="70.0" minHeight="10.0"
 					prefHeight="70.0" vgrow="SOMETIMES" />
 			</rowConstraints>
 			<children>
-				<Label text="Volume Music" textFill="WHITE"
-					GridPane.rowIndex="2">
-					<font>
-						<Font size="18.0" />
-					</font>
-				</Label>
-				<Label text="Volume Game" textFill="WHITE"
-					GridPane.rowIndex="3">
+				<Label text="Volume" textFill="WHITE" GridPane.rowIndex="1">
 					<font>
 						<Font size="18.0" />
 					</font>
 				</Label>
 				<Slider fx:id="volumeMusic" prefHeight="16.0"
 					prefWidth="649.0" value="25.0" GridPane.columnIndex="1"
-					GridPane.rowIndex="2" />
-				<Slider fx:id="volumeGame" value="25.0"
-					GridPane.columnIndex="1" GridPane.rowIndex="3" />
+					GridPane.rowIndex="1" />
 				<Label text="Music on/off" textFill="WHITE">
-					<font>
-						<Font size="18.0" />
-					</font>
-				</Label>
-				<Label text="Game Sound on/off" textFill="WHITE"
-					GridPane.rowIndex="1">
 					<font>
 						<Font size="18.0" />
 					</font>
@@ -75,17 +56,14 @@
 				<ToggleButton fx:id="btnMusic" mnemonicParsing="false"
 					onAction="#handleMusicSwitched" selected="false" text="OFF"
 					GridPane.columnIndex="1" />
-				<ToggleButton fx:id="btnSound" mnemonicParsing="false"
-					onAction="#handleGameSoundSwitched" selected="false" text="OFF"
-					GridPane.columnIndex="1" GridPane.rowIndex="1" />
 				<Label text="Card Background" textFill="WHITE"
-					GridPane.rowIndex="4">
+					GridPane.rowIndex="2">
 					<font>
 						<Font size="18.0" />
 					</font>
 				</Label>
 				<ComboBox fx:id="comboCardBack" prefWidth="150.0"
-					GridPane.columnIndex="1" GridPane.rowIndex="4" />
+					GridPane.columnIndex="1" GridPane.rowIndex="2" />
 			</children>
 		</GridPane>
 	</children>

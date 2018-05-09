@@ -58,25 +58,6 @@ public class OptionsMenuController {
       }
     });
 
-    // Game Sound
-    volumeGame.setMax(1);
-    volumeGame.setMin(0);
-    volumeGame.setBlockIncrement(0.1);
-    volumeGame.setValue(0.25);
-
-    // Adding Listener to value property.
-    volumeGame.valueProperty().addListener(new ChangeListener<Number>() {
-
-      @Override
-      public void changed(ObservableValue<? extends Number> observable, //
-          Number oldValue, Number newValue) {
-
-        // TODO
-        // backgroundMusicPlayer.setVolume(volumeMusic.getValue());
-      }
-    });
-
-
     ObservableList<String> backside = FXCollections.observableArrayList("Blue", "Silver");
     comboCardBack.setItems(backside);
     comboCardBack.getSelectionModel().selectFirst();

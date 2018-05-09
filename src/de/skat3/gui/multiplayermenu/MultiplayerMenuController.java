@@ -90,6 +90,8 @@ public class MultiplayerMenuController {
 
   Lobby currentLobby;
   ArrayList<Lobby> hostList = new ArrayList<Lobby>();
+  ObservableList<CellItem> items = FXCollections.observableArrayList();
+  int lobbyIndex;
 
   class CellItem {
     public String name;
@@ -200,10 +202,10 @@ public class MultiplayerMenuController {
    */
   public void fillHostList() {
 
-    ObservableList<CellItem> items = FXCollections.observableArrayList();
     items.clear();
     hostList.clear();
     hostListView.setItems(items);
+    clearSelectedLobbyField();
 
     Service<String> playService;
     class PlayService extends Service<String> {
@@ -346,8 +348,10 @@ public class MultiplayerMenuController {
     joinButton.setDisable(true);
 
     // Lobby aus Liste entfernen
-    hostList.remove(currentLobby);
-    hostListView.refresh();
+    items.remove(hostListView.getSelectionModel().getSelectedIndex());
+    clearSelectedLobbyField();
+
+
 
     if (!currentLobby.isHasPassword()) {
       SkatMain.mainController.joinMultiplayerGame(currentLobby);
@@ -362,6 +366,15 @@ public class MultiplayerMenuController {
       result.ifPresent(pass -> SkatMain.mainController.joinMultiplayerGame(currentLobby, pass));
       System.out.println("Join with password");
     }
+  }
+
+  private void clearSelectedLobbyField() {
+    hostListView.setItems(items);
+    imageViewPwLock.setImage(null);
+    kontraRekontra.setText("");
+    serverName.setText("");
+    serverDomain.setText("");
+    serverIP.setText("");
   }
 
   /**
