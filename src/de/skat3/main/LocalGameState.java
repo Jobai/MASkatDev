@@ -47,13 +47,17 @@ public class LocalGameState {
         }
       }
     }
-    this.localClient =
-        SkatMain.mainController.currentLobby.players[this.localPosition - 1].copyPlayer();
-    this.setSinglePlayerGame(singlePlayerGame);
-    this.setTimerInSeconds(timerInSeconds);
-    this.setTrickcount(0);
-    this.setTrick(new Card[3]);
-    this.setSkat(new Card[2]);
+    try {
+      this.localClient =
+          SkatMain.mainController.currentLobby.players[this.localPosition - 1].copyPlayer();
+      this.setSinglePlayerGame(singlePlayerGame);
+      this.setTimerInSeconds(timerInSeconds);
+      this.setTrickcount(0);
+      this.setTrick(new Card[3]);
+      this.setSkat(new Card[2]);
+    } catch (ArrayIndexOutOfBoundsException e) {
+      SkatMain.masterLogger.global.warning("ARRAY INDEX OUT OF BOUNDS!, [Ignore if in junit test]");
+    }
     SkatMain.mainController.reinitializePlayers();
   }
 

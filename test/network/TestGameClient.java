@@ -76,24 +76,24 @@ public class TestGameClient {
    */
   @After
   public void tearDown() throws Exception {
-    // this.gs.stopServer();
-    // TimeUnit.SECONDS.sleep(2);
+     this.gs.stopServer();
+     TimeUnit.SECONDS.sleep(2);
   }
 
-//  @Test
-//  public final void testOnePlayer() {
-//    System.out.println("Join");
-//    GameClient gc = new GameClient("localhost", 2018, new Player(new Profile("Host")));
-//    try {
-//      TimeUnit.SECONDS.sleep(2);
-//    } catch (InterruptedException e) {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    }
-//    System.out.println("leave");
-//    gc.getClc().leaveGame();
-//    System.out.println("ENDE");
-//  }
+  @Test
+  public final void testOnePlayer() {
+    System.out.println("Join");
+    GameClient gc = new GameClient("localhost", 2018, new Player(new Profile("Host")));
+    try {
+      TimeUnit.SECONDS.sleep(2);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    System.out.println("leave");
+    gc.getClc().leaveGame();
+    System.out.println("ENDE");
+  }
 
   @Test
   public final void testTwoPlayer() {
@@ -103,7 +103,6 @@ public class TestGameClient {
     try {
       TimeUnit.SECONDS.sleep(2);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     System.out.println("leave");

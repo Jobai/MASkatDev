@@ -145,7 +145,7 @@ public interface MainControllerInterface {
    */
   public void handGameRequest();
 
-  /*
+  /**
    * Displays the auction winner in the gui.
    */
   public void showAuctionWinner(Player player);
@@ -286,6 +286,14 @@ public interface MainControllerInterface {
    * TODO.
    */
   public void goToMenu();
+
+
+  /**
+   * 
+   * @author Jonas Bauer
+   * @param ip
+   */
+  void directConnectMultiplayerGame(String ip);
 
 
 
