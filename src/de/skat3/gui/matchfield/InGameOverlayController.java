@@ -1,5 +1,6 @@
 package de.skat3.gui.matchfield;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -35,6 +36,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -646,7 +648,17 @@ public class InGameOverlayController {
         System.err.println("EnemyOne: No player name given.");
       }
       try {
-        this.imageEnemyOne.setImage(player.convertToImage());
+        if (player.isBot()) {
+          if (player.isHardBot()) {
+            this.imageEnemyOne
+                .setImage(new Image("profilePictures" + File.separator + "HardKi.jpg"));
+          } else {
+            this.imageEnemyOne
+                .setImage(new Image("profilePictures" + File.separator + "EasyKi.jpg"));
+          }
+        } else {
+          this.imageEnemyOne.setImage(player.convertToImage());
+        }
       } catch (Exception e) {
         System.err.println("EnemyOne: Image Could not be added.");
       }
