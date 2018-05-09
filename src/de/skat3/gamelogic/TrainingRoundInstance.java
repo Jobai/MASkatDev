@@ -15,7 +15,6 @@ public class TrainingRoundInstance extends RoundInstance {
   int startHandSize = 6;
   int scenario;
   int delay;
-  Contract contract;
 
   /**
    * Creates the training mode scenario.
