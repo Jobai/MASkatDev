@@ -104,6 +104,13 @@ public class GameClient {
 
 
 
+  /**
+   * Connect to the server. Opens and connects a socket and initializes the streams. Blocks for some
+   * time if the host is down until the connection times out (time depending on operation system
+   * settings).
+   * 
+   * @author Jonas Bauer
+   */
   private void connect() {
     try {
       socket = new Socket(hostAdress, port);
@@ -337,6 +344,12 @@ public class GameClient {
   }
 
 
+  /**
+   * Utility Method that closes the connection to the server and by closing all streams and the
+   * socket.
+   * 
+   * @author Jonas Bauer
+   */
   void closeConnection() {
     sl.interrupt();
     try {
@@ -363,9 +376,18 @@ public class GameClient {
   }
 
 
+  /**
+   * Utility Method that closes the connection to the server and by closing all streams and the
+   * socket. Also sends a popup for a error message depending on the reason for the closed
+   * connection (e.g. kicked by server).
+   * 
+   * @author Jonas Bauer
+   * @param m Close Connection Message provided by the server that includes the reason for the
+   *        closed connection by the server.
+   */
   void closeConnection(Message m) {
 
-    showConnectionErro(m);
+    showConnectionError(m);
     sl.interrupt();
     logger.fine("GO to menu");
     SkatMain.mainController.goToMenu();
@@ -380,7 +402,15 @@ public class GameClient {
     }
   }
 
-  void showConnectionErro(Message m) {
+
+  /**
+   * Shows the corresponding error popup depending on the closed connection message.
+   * 
+   * @author Jonas Bauer
+   * @param m Close Connection Message provided by the server that includes the reason for the
+   *        closed connection by the server.
+   */
+  void showConnectionError(Message m) {
     MessageConnection mc = (MessageConnection) m;
     String reason = mc.reason;
     if (reason != null) {
@@ -417,6 +447,12 @@ public class GameClient {
     }
   }
 
+  /**
+   * Utility method that sends the message over the stream.
+   * 
+   * @author Jonas Bauer
+   * @param m the message to be send
+   */
   void sendToServer(Message m) {
     try {
       toSever.flush();
@@ -449,9 +485,6 @@ public class GameClient {
 
   void handleLostConnection() {
     logger.log(Level.SEVERE, "The connection to server was lost!");
-    // SkatMain.mainController.showCustomAlertPormpt("The connection to the server was lost!",
-    // "Sorry, we lost the connection to the gameserver. \n"
-    // + "Please chose a different server or try again later.");
     closeConnection();
 
   }

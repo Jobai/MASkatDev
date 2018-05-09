@@ -4,7 +4,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.logging.Level;
-import com.sun.media.jfxmedia.logging.Logger;
 
 /**
  * Helperclass for the GameClient to listen for incoming messages from the server.

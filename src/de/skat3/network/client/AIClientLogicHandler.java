@@ -34,14 +34,14 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    * @author Jonas Bauer
    * @param gc
    */
-  public AIClientLogicHandler(AIGameClient gc) {
+  public AIClientLogicHandler(AiGameClient gc) {
     super(gc);
     // TODO Auto-generated constructor stub
   }
 
 
 
-  public AIClientLogicHandler(AIGameClient aiGameClient, Player player) {
+  public AIClientLogicHandler(AiGameClient aiGameClient, Player player) {
     // TODO Auto-generated constructor stub
     super(aiGameClient);
     this.aiPlayer = player;
