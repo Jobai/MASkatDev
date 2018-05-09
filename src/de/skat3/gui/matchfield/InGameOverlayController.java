@@ -23,8 +23,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -367,8 +369,15 @@ public class InGameOverlayController {
       try {
         p = loader.load();
       } catch (IOException e) {
+        // .
       }
-      Button closeButton = (Button) p.lookup("closeButton");
+      Button closeButton = null;
+      ObservableList<Node> childs = p.getChildren();
+      for (Node node : childs) {
+        if (node.getClass() == Button.class) {
+          closeButton = (Button) node;
+        }
+      }
 
       this.addAndSetupButton(p, closeButton);
       return;

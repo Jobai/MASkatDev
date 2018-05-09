@@ -410,7 +410,7 @@ public class LocalGameState {
       }
     }
 
-    this.lastDealerPositon = (this.lastDealerPositon + 1);
+    this.lastDealerPositon++;
     if (this.lastDealerPositon == 5) {
       this.lastDealerPositon = 1;
     }
@@ -485,6 +485,11 @@ public class LocalGameState {
     this.gameActive = gameActive;
   }
 
+  /**
+   * Returns true if the localClient is the dealer.
+   * 
+   * @return
+   */
   public boolean localPlayerIsDealer() {
     if (SkatMain.mainController.currentLobby.numberOfPlayers == 3) {
       return false;

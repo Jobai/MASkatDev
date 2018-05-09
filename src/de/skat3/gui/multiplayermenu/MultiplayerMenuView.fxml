@@ -20,7 +20,7 @@
 	<children>
 		<Button id="round-red" fx:id="refreshButton" layoutX="599.0"
 			layoutY="9.0" mnemonicParsing="false" onAction="#refresh"
-			prefHeight="34.0" prefWidth="110.0"
+			prefHeight="38.0" prefWidth="149.0"
 			stylesheets="@../singleplayermenu/ButtonStyle.css" text="Refresh"
 			AnchorPane.rightAnchor="571.0">
 			<font>

@@ -71,22 +71,27 @@
 						<Font size="22.0" />
 					</font>
 				</Label>
-				<Label fx:id="contract" layoutX="257.0" layoutY="87.0"
+				<Label fx:id="contract" layoutX="257.0" layoutY="92.0"
 					text="Contract">
 					<font>
 						<Font size="22.0" />
 					</font>
 				</Label>
-				<Label fx:id="overbid" layoutX="257.0" layoutY="152.0"
+				<Label fx:id="overbid" layoutX="257.0" layoutY="125.0"
 					text="Overbid" textFill="RED">
 					<font>
 						<Font name="System Bold" size="22.0" />
 					</font>
 				</Label>
-				<Label fx:id="skatCards" layoutX="257.0" layoutY="119.0"
-					text="Skat">
+				<Label layoutX="57.0" layoutY="140.0" text="Skat">
 					<font>
 						<Font size="22.0" />
+					</font>
+				</Label>
+				<Label fx:id="skatCards" layoutX="56.0" layoutY="83.0"
+					text="m">
+					<font>
+						<Font size="50.0" />
 					</font>
 				</Label>
 			</children>
