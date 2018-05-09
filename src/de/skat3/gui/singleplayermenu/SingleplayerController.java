@@ -31,7 +31,7 @@ import javafx.util.Duration;
 
 /**
  * 
- * @author tistraub
+ * @author Timo Straub
  *
  */
 public class SingleplayerController {
@@ -69,6 +69,8 @@ public class SingleplayerController {
     mode.setItems(modeList);
     mode.getSelectionModel().selectFirst();
     modeValue.setText(String.valueOf(48));
+
+    startButton.setDisable(false);
   }
 
 
@@ -95,17 +97,10 @@ public class SingleplayerController {
   @FXML
   void startGame(ActionEvent event) {
 
-    this.main.setDisable(true);
-
-    Timeline t = new Timeline();
-    t.getKeyFrames().add(new KeyFrame(Duration.millis(1000), e -> {
-      showLoadingScreen();
-    }));
-
     // Check values
     int value = Integer.parseInt(modeValue.getText());
     if (mode.getSelectionModel().getSelectedItem() == "Seeger") {
-      if (value % 3 != 0) {
+      if (value % 1 != 0) { //TODO
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setContentText("Rounds are not divisible by 3");
         a.setHeaderText(null);
@@ -122,11 +117,6 @@ public class SingleplayerController {
       }
     }
 
-
-    t.setOnFinished(e -> {
-
-    });
-
     boolean ai1Hard = false;
     boolean ai2Hard = false;
     int intScoreValue = 0;
@@ -141,10 +131,10 @@ public class SingleplayerController {
       ai2Hard = true;
     }
 
-
+    startButton.setDisable(true);
+    close();
     SkatMain.mainController.startSingleplayerGame(ai1Hard, ai2Hard, intScoreValue,
         this.kontraRekontra.isSelected());
-
 
   }
 

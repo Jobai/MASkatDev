@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Class to manage the stats menu.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class StatsMenu extends Menu {
   private StatsMenuController controller;

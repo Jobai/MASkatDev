@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
 /**
  * Class to control the corresponding view file.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class StatsMenuController {
 

@@ -1,6 +1,5 @@
 package de.skat3.gui.optionsmenu;
 
-import com.sun.deploy.uitoolkit.impl.fx.ui.FXConsole;
 import de.skat3.gamelogic.Card;
 import de.skat3.io.SoundVolumeUtil;
 import de.skat3.main.SkatMain;
@@ -19,7 +18,7 @@ import javafx.scene.media.MediaPlayer;
 /**
  * Class to control the corresponding view file.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class OptionsMenuController {
   @FXML
@@ -114,26 +113,14 @@ public class OptionsMenuController {
   }
 
   /**
-   * Handles event when user turn on / off game sound.
+   * Check if user had won one or more Singleplayer Game. If so then archivement "cardback" is
+   * unlocked
    */
-  public void handleGameSoundSwitched() {
-
-    if (btnSound.isSelected()) {
-      // Sound on
-      btnSound.setText("ON");
-
-      // TODO
-      // String url = getClass().getResource("../../../../music/backgroundMusic.mp3").toString();
-      // Media hit = new Media(new File(url).toString());
-      // backgroundMusicPlayer = new MediaPlayer(hit);
-      // backgroundMusicPlayer.setVolume(volumeMusic.getValue());
-      // backgroundMusicPlayer.play();
-
+  public void checkArchivment() {
+    if (SkatMain.ioController.getLastUsedProfile().getSinglePlayerTotalGamesWon() >= 1) {
+      comboCardBack.setDisable(false);
     } else {
-      // Sound off
-      btnSound.setText("OFF");
-      backgroundMusicPlayer.stop();
-
+      comboCardBack.setDisable(true);
     }
   }
 

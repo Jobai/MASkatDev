@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Class to manage the singleplayer menu.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class SingleplayerMenu extends Menu {
   private SingleplayerMenuController controller;

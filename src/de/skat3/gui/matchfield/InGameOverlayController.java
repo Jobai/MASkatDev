@@ -25,6 +25,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -401,7 +403,10 @@ public class InGameOverlayController {
     this.gameResultcontroller.root.visibleProperty()
         .bind(this.roundResultController.root.parentProperty().isNull());
 
-    this.addAndSetupButton(this.gameResultcontroller.root, this.gameResultcontroller.closeButton);
+    this.addAndSetupButton(this.gameResultcontroller.root, null);
+    this.gameResultcontroller.closeButton.setOnAction(e -> {
+      SkatMain.mainController.exitGame();
+    });
 
     this.gameResultcontroller.setResult(result);
   }

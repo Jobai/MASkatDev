@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Class to manage the options menu.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class OptionsMenu extends Menu {
   private OptionsMenuController controller;

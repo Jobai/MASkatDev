@@ -14,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Class to control the corresponding game result view file.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class GameResultViewController {
 

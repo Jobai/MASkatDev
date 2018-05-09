@@ -45,7 +45,7 @@ import javafx.util.Duration;
 /**
  * Class to control the corresponding view file.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class MultiplayerMenuController {
 

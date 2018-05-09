@@ -17,8 +17,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 /**
+ * Class handels the events of the corresponging view.
  * 
- * @author tistraub
+ * @author Timo Straub
  *
  */
 public class ChooseContractController {
@@ -50,7 +51,9 @@ public class ChooseContractController {
   private Contract currentContract;
   private boolean contractSelected = false;
 
-
+  /**
+   * This method initialize the view and set the event handlers.
+   */
   @FXML
   public void initialize() {
 
@@ -114,13 +117,10 @@ public class ChooseContractController {
         toggleOpengame.setSelected(true);
       }
     });
-
-    // saveButton.disableProperty().bind(BooleanExpression.booleanExpression(value));
-
   }
 
   /**
-   * .
+   * Check if user play handgame and if not so disable Schneider, Schwarz and Overt.
    */
   public void checkIfHandgame() {
     // If handgame disable all checkboxes
@@ -137,7 +137,7 @@ public class ChooseContractController {
 
 
   /**
-   * .
+   * 
    */
   public void setContract() {
 

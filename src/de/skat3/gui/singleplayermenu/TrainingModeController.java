@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 /**
  * Class to control the corresponding training mode view file.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class TrainingModeController {
   private AnchorPane main;

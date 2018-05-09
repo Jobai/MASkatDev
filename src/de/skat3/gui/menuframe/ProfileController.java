@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 /**
  * Controller class to handle the events of the profile popup.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class ProfileController {
   private Stage profileStage;

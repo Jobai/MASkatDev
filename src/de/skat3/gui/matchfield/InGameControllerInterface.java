@@ -139,7 +139,7 @@ public interface InGameControllerInterface {
    * Opens an round result popup. The popup contains many facts about the finished round, like
    * (Winner, points...) No further actions are taken or input is requested.
    * 
-   * @author tistraub
+   * @author Timo Straub
    * 
    * @param results Result in which the informations about the game are stored.
    */

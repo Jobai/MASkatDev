@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Controller class to handle the events of the result screen.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class RoundResultViewController {
 

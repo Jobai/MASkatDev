@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Class to manage the multiplayer menu.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class MultiplayerMenu extends Menu {
   private MultiplayerMenuController controller;

@@ -22,6 +22,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 
 
@@ -275,6 +277,12 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
+        if (SkatMain.ioController.getLastUsedProfile().getSinglePlayerTotalGamesWon() == 1) {
+          Alert a = new Alert(AlertType.CONFIRMATION);
+          a.setContentText("Archivement Cardback unlocked!\nSee option menu!");
+          a.setHeaderText(null);
+          a.showAndWait();
+        }
         SkatMain.guiController.goToMenu();
       }
     });

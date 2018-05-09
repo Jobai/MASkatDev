@@ -40,7 +40,7 @@ import javafx.util.Duration;
 /**
  * Class to control the corresponding view file.
  * 
- * @author Aljoscha Domonell, tistraub
+ * @author Aljoscha Domonell, Timo Straub
  */
 public class MenuFrameController {
 
@@ -100,6 +100,7 @@ public class MenuFrameController {
   }
 
   public void showOptionsMenu() {
+    this.optionsMenu.getController().checkArchivment();
     this.switchMenus(this.optionsMenu);
   }
 
