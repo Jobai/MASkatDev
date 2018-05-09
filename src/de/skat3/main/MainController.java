@@ -170,6 +170,7 @@ public class MainController implements MainControllerInterface {
   public void directConnectMultiplayerGame(String ip) {
     SkatMain.aiController = new AiController();
     SkatMain.lgs = null;
+    chatMessages = FXCollections.observableArrayList();
     Lobby lobby = new Lobby();
     Inet4Address i4;
     try {
