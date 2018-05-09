@@ -45,6 +45,8 @@ public class GameResultViewController {
   @FXML
   public Button closeButton;
   @FXML
+  public Label headerText;
+  @FXML
   public AnchorPane root;
 
   /**
@@ -73,10 +75,10 @@ public class GameResultViewController {
     // Determine winner
     if (matchResult.isBierlachs()) {
       winner.setText(matchResult.getLoser().getName());
-      // TIMO TODO set text to Loser
+      headerText.setText("Loser");
     } else {
       winner.setText(matchResult.getWinner().getName());
-      // TIMO TODO set text to Winner
+      headerText.setText("Winner");
     }
 
     // Points histroy

@@ -80,6 +80,7 @@ public class OptionsMenuController {
     ObservableList<String> backside = FXCollections.observableArrayList("Blue", "Silver");
     comboCardBack.setItems(backside);
     comboCardBack.getSelectionModel().selectFirst();
+    setBlueback();
 
     comboCardBack.setOnAction(new EventHandler<ActionEvent>() {
 
