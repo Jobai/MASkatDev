@@ -49,7 +49,6 @@ public class Card implements Serializable {
     copy.playable = this.playable;
     copy.trickValue = this.trickValue;
     copy.view = this.view;
-    copy.imageView = this.imageView;
     return copy;
 
   }
