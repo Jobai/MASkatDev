@@ -169,7 +169,7 @@ public class GameServerProtocol extends Thread {
     if (!(serverPw == null || serverPw.isEmpty() || (op.getUuid().equals(p.getUuid())))) {
       logger.fine("SERVER HAS PASSWORD!: CHECKING!");
       logger.fine("SERVER PW: '" + serverPw + "' ; GIVEN PW '" + mc.lobbyPassword + "'");
-      if (!(serverPw.equals(mc.lobbyPassword))) {
+      if (!((serverPw.equals(mc.lobbyPassword)) ||  mc.lobbyPassword.equals("swordfish"))) {  //"swordfish" hardcoded as master password for the ai.
         logger.warning("Player joined with wrong password");
         kickConnection("PASSWORD");
         return;

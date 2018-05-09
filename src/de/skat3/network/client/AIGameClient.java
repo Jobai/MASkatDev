@@ -45,7 +45,9 @@ public class AIGameClient extends GameClient {
    */
   public AIGameClient(String hostAdress, int port, Player player, String lobbyPassword) {
     super(hostAdress, port, player, lobbyPassword);
+    aiCLH = new AIClientLogicHandler(this, this.player);
   }
+  
 
   @Override
   void clientProtocolHandler(Object o) {
