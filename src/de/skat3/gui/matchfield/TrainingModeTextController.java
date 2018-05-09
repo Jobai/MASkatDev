@@ -28,17 +28,8 @@ public class TrainingModeTextController {
 
   // TODO no new File
   public void setPath(String path) {
-    System.out.println("\n" + "PATH:" + '\n' + path + '\n' + '\n');
-
     File f = new File(path);
-    System.out.println("\n" + "FILE:" + '\n' + path + '\n' + '\n');
-
-    // System.out.println("\n" + '\n' + f + '\n' + '\n');
-    System.out.println("\n" + "URI:" + '\n' + f.toURI() + '\n' + '\n');
-
-    System.out.println("\n" + "URI:" + '\n' + f.toURI().toString() + '\n' + '\n');
-
-    webEngine.load(f.toURI().toString());
+    webEngine.load(TrainingModeTextController.class.getResource(path).toString());
   }
 
   public void setSize(int width, int height) {
