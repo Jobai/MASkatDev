@@ -412,12 +412,10 @@ public class TrainingRoundInstance extends RoundInstance {
           trickWinner.wonTricks.add(card);
         }
         slc.broadcastTrickResult(trickWinner);
-        // exit game TODO
-      } ;
+      }
       SkatMain.guiController.getInGameController().showTrainingModeInfoText(
-          "resources" + File.separator + "trainingPopups" + File.separator + "Skat Strategies"
-              + File.separator + "Scenario1" + File.separator + "Scenario1_successPopup1.html",
-          200, 150);
+          "/trainingPopups/Skat Strategies/Scenario1/Scenario1_successPopup1.html", 200, 150);
+
     }
   }
 
