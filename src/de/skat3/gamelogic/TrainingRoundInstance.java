@@ -15,7 +15,7 @@ public class TrainingRoundInstance extends RoundInstance {
   int startHandSize = 10;
   int scenario;
   int delay;
-	Contract contract;
+  Contract contract;
 
   /**
    * Creates the training mode scenario.
@@ -35,7 +35,7 @@ public class TrainingRoundInstance extends RoundInstance {
   @Override
   void startRound() throws InterruptedException {
     if (this.scenario == 0) {
-			int startHandSize = 10;
+      this.startHandSize = 10;
 
       // 1a)
       this.currentPartInSkatBasics = 0;
@@ -138,14 +138,14 @@ public class TrainingRoundInstance extends RoundInstance {
 
     } else {
       this.initializeAuction();
-      this.setSoloAndContract();
       this.updatePlayer();
       this.updateEnemies();
-      slc.broadcastRoundStarted();
       this.setStartingPlayer();
+      slc.broadcastRoundStarted();
+      this.setSoloAndContract();
       this.startGame();
     }
-    
+
     SkatMain.guiController.goToMenu();
 
   }
@@ -161,7 +161,7 @@ public class TrainingRoundInstance extends RoundInstance {
       case 2:// localClient starts
         break;
       case 3:
-			this.setStartPlayer(2);// ai 2 starts
+        this.setStartPlayer(2);// ai 2 starts
         break;
       case 4:// localClient starts
         break;
@@ -184,6 +184,7 @@ public class TrainingRoundInstance extends RoundInstance {
         this.updatePlayer();
         this.updateEnemies();
 
+        System.out.println("isBOt: " + this.players[0].isBot);
         if (this.players[0].isBot) {
           Thread.sleep(this.delay);
           Card current = this.getScriptedCard(currentRound, 0);
@@ -198,13 +199,12 @@ public class TrainingRoundInstance extends RoundInstance {
         slc.updatePlayerDuringRound(this.players[0].copyPlayer());
         slc.sendPlayedCard(this.players[0].copyPlayer(), this.trick[0].copy());
 
-
+        System.out.println("2 is bot: " + this.players[1].isBot);
         if (this.players[1].isBot) {
           Thread.sleep(this.delay);
           Card current = this.getScriptedCard(currentRound, 1);
           this.addCardtoTrick(current);
         } else {
-          this.showPopUp(currentRound);
           this.showPopUp(currentRound);
           slc.callForSpecificPlay(this.players[1].copyPlayer(),
               this.getScriptedCard(currentRound, 1));
@@ -302,9 +302,9 @@ public class TrainingRoundInstance extends RoundInstance {
   private void showPopUp(int currentRound) {
     filePop = "resources/trainingPopups/";
     switch (this.scenario) {
-		case 0:
-			break;
-		case 1:
+      case 0:
+        break;
+      case 1:
         switch (currentRound) {
           case 0:
             filePop += "/Skat Strategies/Scenario1/Scenario1_Popup1.html";
@@ -325,7 +325,7 @@ public class TrainingRoundInstance extends RoundInstance {
             break;
         }
         break;
-		case 2:
+      case 2:
         switch (currentRound) {
           case 0:
             filePop += "/Skat Strategies/Scenario2/Scenario2_Popup1.html";
@@ -344,7 +344,7 @@ public class TrainingRoundInstance extends RoundInstance {
             break;
         }
         break;
-		case 3:
+      case 3:
         switch (currentRound) {
           case 0:
             filePop += "/Skat Strategies/Scenario3/Scenario3_Popup1.html";
@@ -366,7 +366,7 @@ public class TrainingRoundInstance extends RoundInstance {
             break;
         }
         break;
-		case 4:
+      case 4:
         switch (currentRound) {
           case 0:
             filePop += "/Skat Strategies/Scenario4/Scenario4_Popup1.html";
@@ -388,7 +388,7 @@ public class TrainingRoundInstance extends RoundInstance {
             break;
         }
         break;
-		case 5:
+      case 5:
         switch (currentRound) {
           case 0:
             filePop += "/Skat Strategies/Scenario5/Scenario5_Popup1.html";
@@ -410,8 +410,8 @@ public class TrainingRoundInstance extends RoundInstance {
         }
         break;
 
-		default:
-			break;
+      default:
+        break;
 
     }
     Platform.runLater(new Runnable() {
@@ -577,67 +577,67 @@ public class TrainingRoundInstance extends RoundInstance {
         switch (currentRound) {
           case 0:
             switch (player) {
-				case 2:
-					return new Card(Suit.CLUBS, Value.ACE);
+              case 2:
+                return new Card(Suit.CLUBS, Value.ACE);
               case 1:
-					return new Card(Suit.SPADES, Value.TEN);
-				case 0:
-					return new Card(Suit.SPADES, Value.ACE);
+                return new Card(Suit.SPADES, Value.TEN);
+              case 0:
+                return new Card(Suit.SPADES, Value.ACE);
               default:
                 return null;
             }
           case 1:
             switch (player) {
-				case 2:
+              case 2:
                 return new Card(Suit.DIAMONDS, Value.TEN);
               case 1:
                 return new Card(Suit.HEARTS, Value.NINE);
-				case 0:
+              case 0:
                 return new Card(Suit.DIAMONDS, Value.ACE);
               default:
                 return null;
             }
           case 2:
             switch (player) {
-				case 2:
-					return new Card(Suit.DIAMONDS, Value.KING);
+              case 2:
+                return new Card(Suit.DIAMONDS, Value.KING);
               case 1:
-					return new Card(Suit.HEARTS, Value.KING);
-				case 0:
-					return new Card(Suit.HEARTS, Value.TEN);
+                return new Card(Suit.HEARTS, Value.KING);
+              case 0:
+                return new Card(Suit.HEARTS, Value.TEN);
               default:
                 return null;
             }
           case 3:
             switch (player) {
-				case 2:
-					return new Card(Suit.DIAMONDS, Value.EIGHT);
+              case 2:
+                return new Card(Suit.DIAMONDS, Value.EIGHT);
               case 1:
-					return new Card(Suit.HEARTS, Value.ACE);
-				case 0:
-					return new Card(Suit.DIAMONDS, Value.NINE);
+                return new Card(Suit.HEARTS, Value.ACE);
+              case 0:
+                return new Card(Suit.DIAMONDS, Value.NINE);
               default:
                 return null;
             }
           case 4:
             switch (player) {
-				case 2:
-					return new Card(Suit.CLUBS, Value.EIGHT);
+              case 2:
+                return new Card(Suit.CLUBS, Value.EIGHT);
               case 1:
-					return new Card(Suit.HEARTS, Value.SEVEN);
-				case 0:
-					return new Card(Suit.CLUBS, Value.NINE);
+                return new Card(Suit.HEARTS, Value.SEVEN);
+              case 0:
+                return new Card(Suit.CLUBS, Value.NINE);
               default:
                 return null;
             }
           case 5:
             switch (player) {
-				case 2:
-					return new Card(Suit.HEARTS, Value.EIGHT);
+              case 2:
+                return new Card(Suit.HEARTS, Value.EIGHT);
               case 1:
-					return new Card(Suit.SPADES, Value.QUEEN);
-				case 0:
-					return new Card(Suit.SPADES, Value.SEVEN);
+                return new Card(Suit.SPADES, Value.QUEEN);
+              case 0:
+                return new Card(Suit.SPADES, Value.SEVEN);
               default:
                 return null;
             }
@@ -808,20 +808,20 @@ public class TrainingRoundInstance extends RoundInstance {
         this.contract = Contract.HEARTS;
         break;
       case 2: // Press Skat
-			this.solo = this.players[0];
-			this.solo.setSolo(true);
-			Player[] team2 = this.getTeamPlayer();
-			team2[0].setSolo(false);
-			team2[1].setSolo(false);
-			this.contract = Contract.GRAND;
+        this.solo = this.players[0];
+        this.solo.setSolo(true);
+        Player[] team2 = this.getTeamPlayer();
+        team2[0].setSolo(false);
+        team2[1].setSolo(false);
+        this.contract = Contract.GRAND;
         break;
       case 3:// Offer Points to player
-			this.solo = this.players[2];
-			this.solo.setSolo(true);
+        this.solo = this.players[2];
+        this.solo.setSolo(true);
         Player[] team3 = this.getTeamPlayer();
         team3[0].setSolo(false);
         team3[1].setSolo(false);
-			this.contract = Contract.GRAND;
+        this.contract = Contract.GRAND;
         break;
       case 4: // short to friend
         this.solo = this.players[1];
@@ -843,6 +843,7 @@ public class TrainingRoundInstance extends RoundInstance {
         break;
     }
     this.addtionalMultipliers = new AdditionalMultipliers();
+    System.out.println("contract tr = " + this.contract);
     slc.broadcastContract(this.contract, new AdditionalMultipliers());
 
   }
@@ -1331,35 +1332,35 @@ public class TrainingRoundInstance extends RoundInstance {
         this.players[2].setHand(new Hand(enemyTwoCards2));
         break;
       case 3:
-        	/*
-			 * Ai 1 Hand: pik_7, Herz_9, Herz_König, Herz_7, Pik_Dame, Pik_10 Ai 2 Hand:
-			 * Herz_Ass, Herz_10, Pik_Ass, Karo_9 Karo_Ass,, Kreuz_9 Player Hand: Karo_8,
-			 * Herz_8, Karo_König, Kreuz_8, Karo_10, Kreuz_Ass
-			 * 
-			 */
+        /*
+         * Ai 1 Hand: pik_7, Herz_9, Herz_König, Herz_7, Pik_Dame, Pik_10 Ai 2 Hand: Herz_Ass,
+         * Herz_10, Pik_Ass, Karo_9 Karo_Ass,, Kreuz_9 Player Hand: Karo_8, Herz_8, Karo_König,
+         * Kreuz_8, Karo_10, Kreuz_Ass
+         * 
+         */
         Card[] playerCards3 = new Card[this.startHandSize];
         playerCards3[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
         playerCards3[1] = new Card(Suit.HEARTS, Value.EIGHT);
         playerCards3[2] = new Card(Suit.DIAMONDS, Value.KING);
-			playerCards3[3] = new Card(Suit.CLUBS, Value.EIGHT);
+        playerCards3[3] = new Card(Suit.CLUBS, Value.EIGHT);
         playerCards3[4] = new Card(Suit.DIAMONDS, Value.TEN);
         playerCards3[5] = new Card(Suit.CLUBS, Value.ACE);
 
         Card[] enemyOneCards3 = new Card[this.startHandSize];
-			enemyOneCards3[0] = new Card(Suit.SPADES, Value.SEVEN);
+        enemyOneCards3[0] = new Card(Suit.SPADES, Value.SEVEN);
         enemyOneCards3[1] = new Card(Suit.HEARTS, Value.NINE);
-			enemyOneCards3[2] = new Card(Suit.HEARTS, Value.KING);
-			enemyOneCards3[3] = new Card(Suit.HEARTS, Value.SEVEN);
+        enemyOneCards3[2] = new Card(Suit.HEARTS, Value.KING);
+        enemyOneCards3[3] = new Card(Suit.HEARTS, Value.SEVEN);
         enemyOneCards3[4] = new Card(Suit.SPADES, Value.QUEEN);
-			enemyOneCards3[5] = new Card(Suit.SPADES, Value.TEN);
+        enemyOneCards3[5] = new Card(Suit.SPADES, Value.TEN);
 
         Card[] enemyTwoCards3 = new Card[this.startHandSize];
-			enemyTwoCards3[0] = new Card(Suit.HEARTS, Value.ACE);
-			enemyTwoCards3[1] = new Card(Suit.HEARTS, Value.TEN);/// xxx
-			enemyTwoCards3[2] = new Card(Suit.SPADES, Value.ACE);
-			enemyTwoCards3[3] = new Card(Suit.DIAMONDS, Value.NINE);
-			enemyTwoCards3[4] = new Card(Suit.DIAMONDS, Value.ACE);
-			enemyTwoCards3[5] = new Card(Suit.CLUBS, Value.NINE);
+        enemyTwoCards3[0] = new Card(Suit.HEARTS, Value.ACE);
+        enemyTwoCards3[1] = new Card(Suit.HEARTS, Value.TEN);/// xxx
+        enemyTwoCards3[2] = new Card(Suit.SPADES, Value.ACE);
+        enemyTwoCards3[3] = new Card(Suit.DIAMONDS, Value.NINE);
+        enemyTwoCards3[4] = new Card(Suit.DIAMONDS, Value.ACE);
+        enemyTwoCards3[5] = new Card(Suit.CLUBS, Value.NINE);
 
         this.players[0].setHand(new Hand(playerCards3));
         this.players[1].setHand(new Hand(enemyOneCards3));

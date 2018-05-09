@@ -460,7 +460,6 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        System.out.println("wird aufgerufen showContract");
         SkatMain.guiController.getInGameController().showSelectedGame(true);
       }
     });
@@ -514,7 +513,10 @@ public class MainController implements MainControllerInterface {
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().showMakeAMoveRequest(true);
+        System.out.println(card);
+        System.out.println(SkatMain.lgs.getLocalHand());
         SkatMain.guiController.getInGameController().showTutorialMakeAMoveRequest(card, true);
+
       }
     });
   }

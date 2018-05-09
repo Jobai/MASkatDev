@@ -301,13 +301,15 @@ public class LocalGameState {
 
   void rotatePlayers() {
     Player temp;
+    System.out.println("Local Player is Dealer: " + this.localPlayerIsDealer());
+    System.out.println("LocalPosition: " + this.localPosition);
+    System.out.println("Last Dealer pos: " + this.lastDealerPositon);
     if (this.localPlayerIsDealer()) {
       temp = this.dealer;
       this.dealer = this.enemyOne;
       this.enemyOne = this.enemyTwo;
       this.enemyTwo = this.localClient;
       this.localClient = temp;
-
     } else {
       switch (this.lastDealerPositon) {
         case 1:
@@ -408,6 +410,7 @@ public class LocalGameState {
     if (this.lastDealerPositon == 5) {
       this.lastDealerPositon = 1;
     }
+    System.out.println("new lastDealerPosition: " + this.lastDealerPositon);
   }
 
   public Card[] getSkat() {
