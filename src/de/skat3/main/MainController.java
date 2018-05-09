@@ -413,7 +413,6 @@ public class MainController implements MainControllerInterface {
     SkatMain.lgs.currentRequestState = LogicAnswers.BID;
     this.blinkAlert();
     Platform.runLater(new Runnable() {
-
       @Override
       public void run() {
         System.out.println(shouldAccept);
@@ -622,7 +621,7 @@ public class MainController implements MainControllerInterface {
   }
 
   @Override
-  public void showEndScreen(MatchResult matchResult) {
+  public void showEndScreen(MatchResult matchResult) {  
     if (matchResult.isBierlachs()) {
       if (!matchResult.getLoser().getUuid()
           .equals(SkatMain.ioController.getLastUsedProfile().getUuid())) {
