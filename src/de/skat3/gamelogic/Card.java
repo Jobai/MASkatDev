@@ -15,6 +15,11 @@ import javafx.scene.image.ImageView;
 public class Card implements Serializable {
 
 
+  public static final String SILVER = "silver2";
+  public static final String BLUE = "blue";
+
+  public static String designPath = SILVER;
+
   private Suit suit;
   private Value value;
   private String view;
@@ -27,7 +32,7 @@ public class Card implements Serializable {
    * Creates an empty, facedown card.
    */
   public Card() {
-    this.view = "cardImages/back_blue.png";
+    this.view = "cardImages/back_" + designPath + ".png";
     this.suit = null;
     this.value = null;
   }

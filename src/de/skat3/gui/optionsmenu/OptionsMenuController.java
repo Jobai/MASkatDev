@@ -1,5 +1,6 @@
 package de.skat3.gui.optionsmenu;
 
+import de.skat3.gamelogic.Card;
 import de.skat3.io.SoundVolumeUtil;
 import de.skat3.main.SkatMain;
 import javafx.beans.value.ChangeListener;
@@ -67,6 +68,14 @@ public class OptionsMenuController {
       }
     });
 
+  }
+
+  public void setBlueback() {
+    Card.designPath = Card.BLUE;
+  }
+
+  public void setSilverback() {
+    Card.designPath = Card.SILVER;
   }
 
   /**
