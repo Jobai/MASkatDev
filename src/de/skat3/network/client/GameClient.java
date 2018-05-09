@@ -144,12 +144,6 @@ public class GameClient {
       logger.log(Level.SEVERE, "Connection failed!  \n" + e.getMessage(), e);
       handleLostConnection();
       e.printStackTrace();
-    } finally {
-      try {
-        socket.close();
-      } catch (IOException e) {
-        // silent is ok
-      }
     }
 
   }
