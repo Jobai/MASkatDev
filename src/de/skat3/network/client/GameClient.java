@@ -330,6 +330,8 @@ public class GameClient {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    logger.fine("GO to menu");
+    SkatMain.mainController.goToMenu();
 
 
     SkatMain.mainController.goToMenu();
@@ -426,7 +428,10 @@ public class GameClient {
   }
 
   void handleLostConnection() {
-    logger.log(Level.SEVERE, "Connection to server failed");
+    logger.log(Level.SEVERE, "The connection to server was lost!");
+    SkatMain.mainController.showCustomAlertPormpt("The connection to the server was lost!",
+        "Sorry, we lost the connection to the gameserver. \n"
+            + "Please chose a different server or try again later.");
     closeConnection();
 
   }
