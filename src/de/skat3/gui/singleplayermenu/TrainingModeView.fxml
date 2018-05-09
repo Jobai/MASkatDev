@@ -55,8 +55,8 @@
 					</font>
 				</Button>
 				<Button mnemonicParsing="false" onAction="#startPressTheSkat"
-					style="-fx-background-color: #114B5F;" text="Press the skat"
-					textFill="WHITE">
+					style="-fx-background-color: #114B5F;"
+					text="Importance of Trump Cards" textFill="WHITE">
 					<font>
 						<Font name="System Bold" size="15.0" />
 					</font>

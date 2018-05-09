@@ -1,11 +1,17 @@
 package de.skat3.gui.optionsmenu;
 
+import com.sun.deploy.uitoolkit.impl.fx.ui.FXConsole;
 import de.skat3.gamelogic.Card;
 import de.skat3.io.SoundVolumeUtil;
 import de.skat3.main.SkatMain;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.media.MediaPlayer;
@@ -24,6 +30,8 @@ public class OptionsMenuController {
   private Slider volumeMusic;
   @FXML
   private ToggleButton btnMusic;
+  @FXML
+  private ComboBox<String> comboCardBack;
 
   private MediaPlayer backgroundMusicPlayer;
 
@@ -68,12 +76,38 @@ public class OptionsMenuController {
       }
     });
 
+
+    ObservableList<String> backside = FXCollections.observableArrayList("Blue", "Silver");
+    comboCardBack.setItems(backside);
+    comboCardBack.getSelectionModel().selectFirst();
+
+    comboCardBack.setOnAction(new EventHandler<ActionEvent>() {
+
+      @Override
+      public void handle(ActionEvent event) {
+        if (comboCardBack.getSelectionModel().getSelectedItem() == "Blue") {
+          setBlueback();
+        }
+
+        if (comboCardBack.getSelectionModel().getSelectedItem() == "Silver") {
+          setSilverback();
+        }
+
+      }
+    });
+
   }
 
+  /**
+   * Set card background to blue.
+   */
   public void setBlueback() {
     Card.designPath = Card.BLUE;
   }
 
+  /**
+   * Set card background to silver.
+   */
   public void setSilverback() {
     Card.designPath = Card.SILVER;
   }

@@ -65,6 +65,8 @@ public class RoundResultViewController {
   @FXML
   public Button closeButton;
   @FXML
+  public Label skatCards;
+  @FXML
   public AnchorPane root;
 
 
@@ -116,6 +118,10 @@ public class RoundResultViewController {
 
     contract.setText(result.contract.getTitleCase());
 
+    if (!result.skatCards.isEmpty()) {
+      skatCards.setText(result.skatCards);
+    }
+
     if (result.bidTooHigh) {
       overbid.setText("Overbid");
     } else {
@@ -139,7 +145,6 @@ public class RoundResultViewController {
         }
       }
     }
-
 
 
     // Checkboxes

@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -45,10 +46,6 @@ public class HostPopupController {
     System.out.println(mode.valueProperty());
     BooleanBinding b1 = Bindings.isEmpty(serverName.textProperty());
     BooleanBinding b2 = Bindings.isEmpty(modeValue.textProperty());
-    BooleanBinding b3 = Bindings.equal("Seeger", mode.valueProperty());
-    BooleanBinding b4 = Bindings.equal("Bierlachs", mode.valueProperty());
-    // BooleanBinding b5 = Bindings.equal(0, Integer.parseInt(modeValue.textProperty().toString()) %
-    // 3);
 
     btnHost.disableProperty().bind(b1.or(b2));
 
@@ -101,6 +98,26 @@ public class HostPopupController {
    * @throws UnknownHostException exception
    */
   public void hostGame() throws NumberFormatException, UnknownHostException {
+
+    // Check values
+    int value = Integer.parseInt(modeValue.getText());
+    if (mode.getSelectionModel().getSelectedItem() == "Seeger") {
+      if (value % 3 != 0) {
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setContentText("Rounds are not divisible by 3");
+        a.setHeaderText(null);
+        a.showAndWait();
+        return;
+      }
+    } else if (mode.getSelectionModel().getSelectedItem() == "Bierlachs") {
+      if (!(value > -1000 && value < -500)) {
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setContentText("Score is not between -500 and -1000");
+        a.setHeaderText(null);
+        a.showAndWait();
+        return;
+      }
+    }
 
     int players = playerCount.getValue();
     int intTimer;

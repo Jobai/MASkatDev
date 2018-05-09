@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="660.0"
+<AnchorPane fx:id="root" prefHeight="690.0"
 	style="-fx-background-color: #FFFFFF; -fx-border-width: 2; -fx-border-color: #000000;"
 	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
@@ -42,7 +42,7 @@
 				</Button>
 			</children>
 		</Pane>
-		<Pane layoutX="4.0" layoutY="500.0" prefHeight="160.0"
+		<Pane layoutX="4.0" layoutY="500.0" prefHeight="190.0"
 			prefWidth="652.0" style="-fx-background-color: F0C808;"
 			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 			AnchorPane.rightAnchor="0.0">
@@ -53,7 +53,7 @@
 						<Font size="32.0" />
 					</font>
 				</Label>
-				<Label fx:id="scoringPoints" layoutX="257.0" layoutY="17.0"
+				<Label fx:id="scoringPoints" layoutX="257.0" layoutY="13.0"
 					text="ScoringPoints">
 					<font>
 						<Font size="32.0" />
@@ -71,14 +71,20 @@
 						<Font size="22.0" />
 					</font>
 				</Label>
-				<Label fx:id="contract" layoutX="257.0" layoutY="85.0"
+				<Label fx:id="contract" layoutX="257.0" layoutY="87.0"
 					text="Contract">
 					<font>
 						<Font size="22.0" />
 					</font>
 				</Label>
-				<Label fx:id="overbid" layoutX="257.0" layoutY="117.0"
-					text="Overbid">
+				<Label fx:id="overbid" layoutX="257.0" layoutY="152.0"
+					text="Overbid" textFill="RED">
+					<font>
+						<Font name="System Bold" size="22.0" />
+					</font>
+				</Label>
+				<Label fx:id="skatCards" layoutX="257.0" layoutY="119.0"
+					text="Skat">
 					<font>
 						<Font size="22.0" />
 					</font>
