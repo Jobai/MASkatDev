@@ -46,6 +46,7 @@ public class TrainingRoundInstance extends RoundInstance {
 
       this.startBidding();
 
+      Thread.sleep(5000);
       // 1b)
       this.currentPartInSkatBasics = 1;
       this.initializeAuction();
@@ -154,6 +155,7 @@ public class TrainingRoundInstance extends RoundInstance {
       Player bid = this.players[0];
       this.currentBidder = bid;
       this.currentAnswer = true;
+      this.showPopUp(0);
       SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
           currentAnswer);
       lock.wait();
@@ -171,6 +173,17 @@ public class TrainingRoundInstance extends RoundInstance {
 
       this.currentBidder = bid;
       this.currentAnswer = true;
+      width = 200;
+      height = 150;
+      filePop = "/trainingPopups";
+      filePop += "/Skat Basics/Case1.1.html";
+      Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+          SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, width,
+              height);
+        }
+      });
       SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
           currentAnswer);
       lock.wait();
@@ -190,6 +203,11 @@ public class TrainingRoundInstance extends RoundInstance {
       this.currentAnswer = true;
       SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
           currentAnswer);
+      width = 200;
+      height = 150;
+
+      filePop = "/trainingPopups";
+      filePop += "/Skat Basics/Case1.2.html";
       lock.wait();
 
 
@@ -215,6 +233,7 @@ public class TrainingRoundInstance extends RoundInstance {
 
 
     }
+
   }
 
 
@@ -474,7 +493,7 @@ public class TrainingRoundInstance extends RoundInstance {
 
   // CASES TODO ARTEM, EMRE
 
-  String filePop;
+  String filePop = "/trainingPopups";
   private int currentPartInSkatBasics;
   private int width;
   private int height;
@@ -485,24 +504,13 @@ public class TrainingRoundInstance extends RoundInstance {
    * @param currentRound represents the current Round in the Scenario.
    */
   private void showPopUp(int currentRound) {
-    filePop = "/trainingPopups";
     switch (this.scenario) {
       case 0:
         switch (currentPartInSkatBasics) {
           case 1:
             width = 600;
             height = 400;
-
             filePop += "/Skat Basics/PopUp1.htm";
-
-            width = 200;
-            height = 150;
-
-            filePop += "/Skat Basics/Case1.1.html";
-
-            width = 200;
-            height = 150;
-            // TODO filePop += "/Skat Basics/Case1.2.html"; in der 2.ten bidding runde
             break;
           case 2:
             width = 600;
@@ -729,14 +737,8 @@ public class TrainingRoundInstance extends RoundInstance {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        try {
         SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, width,
             height);
-        } catch (NullPointerException ex) {
-          System.out.println("known NullPointer");
-          // ex.printStackTrace();
-          System.out.println("known NullPointer");
-        }
       }
     });
   }

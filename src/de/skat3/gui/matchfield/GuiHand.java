@@ -152,6 +152,9 @@ public class GuiHand extends Parent {
     Iterator<GuiCard> iter = cards.iterator();
     while (iter.hasNext()) {
       GuiCard c = iter.next();
+      c.translateXProperty().unbind();
+      c.translateYProperty().unbind();
+      c.translateZProperty().unbind();
       iter.remove();
       this.getChildren().remove(c);
     }
@@ -197,14 +200,21 @@ public class GuiHand extends Parent {
    * @param oldCard Card to remove.
    */
   public synchronized void remove(GuiCard oldCard) {
+    oldCard.translateXProperty().unbind();
+    oldCard.translateYProperty().unbind();
+    oldCard.translateZProperty().unbind();
     this.cards.remove(oldCard);
     this.getChildren().remove(oldCard);
     this.resetPositions();
   }
 
   public synchronized void remove(int index) {
-    this.cards.remove(index);
-    this.getChildren().remove(index);
+    GuiCard c = this.cards.get(index);
+    c.translateXProperty().unbind();
+    c.translateYProperty().unbind();
+    c.translateZProperty().unbind();
+    this.cards.remove(c);
+    this.getChildren().remove(c);
     this.resetPositions();
   }
 
@@ -240,7 +250,6 @@ public class GuiHand extends Parent {
     Affine sourceTr = new Affine(t);
     sourceTr.getClass();
 
-    cards.remove(card);
     this.remove(card);
     card.getTransforms().clear();
     card.setTranslateX(0);

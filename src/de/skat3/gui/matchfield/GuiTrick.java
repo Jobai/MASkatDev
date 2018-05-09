@@ -177,10 +177,20 @@ public class GuiTrick {
    * 
    */
   public synchronized void clear() {
-    for (GuiCard c : this.cards) {
-      c.setVisible(false);
+    for (int i = 0; i < this.cards.length; i++) {
+
+      this.cards[i].translateXProperty().unbind();
+      this.cards[i].translateYProperty().unbind();
+      this.cards[i].translateZProperty().unbind();
+
       SkatMain.guiController.getInGameController().matchfield.tableView.table.getChildren()
-          .remove(c);
+          .remove(this.cards[i].getCard().getImage());
+
+      this.cards[i].clear();
+
+      SkatMain.guiController.getInGameController().matchfield.tableView.table.getChildren()
+          .remove(this.cards[i]);
+
     }
 
     this.cards = new GuiCard[3];

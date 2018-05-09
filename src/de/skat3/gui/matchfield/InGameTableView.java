@@ -1,3 +1,4 @@
+
 package de.skat3.gui.matchfield;
 
 import de.skat3.main.SkatMain;

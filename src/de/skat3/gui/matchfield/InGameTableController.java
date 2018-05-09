@@ -382,6 +382,8 @@ public class InGameTableController {
         SkatMain.mainController.skatSelected(hand, skat2);
         this.tableView.table.getChildren().removeAll(this.tableView.saveSkatButton,
             this.tableView.skat[0], this.tableView.skat[1]);
+        this.tableView.skat = null;
+        this.tableView.saveSkatButton = null;
         SkatMain.guiController.getInGameController().showMakeAMoveRequest(false);
       }
     });
