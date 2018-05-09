@@ -277,8 +277,12 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        if (SkatMain.ioController.getLastUsedProfile().getSinglePlayerTotalGamesWon() == 1) {
-          Alert a = new Alert(AlertType.CONFIRMATION);
+        if (SkatMain.ioController.getLastUsedProfile().getSinglePlayerTotalGamesWon() == 1
+            && SkatMain.ioController.getLastUsedProfile().getAchievementUnlocked() == false) {
+          SkatMain.ioController.getLastUsedProfile().setAchievementUnlocked(true);
+          SkatMain.ioController.updateProfileStatistics(SkatMain.ioController.getLastUsedProfile());
+
+          Alert a = new Alert(AlertType.INFORMATION);
           a.setContentText("Archivement Cardback unlocked!\nSee option menu!");
           a.setHeaderText(null);
           a.showAndWait();

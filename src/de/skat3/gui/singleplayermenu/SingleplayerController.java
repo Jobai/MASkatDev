@@ -100,7 +100,7 @@ public class SingleplayerController {
     // Check values
     int value = Integer.parseInt(modeValue.getText());
     if (mode.getSelectionModel().getSelectedItem() == "Seeger") {
-      if (value % 1 != 0) { //TODO
+      if (value % 3 != 0) {
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setContentText("Rounds are not divisible by 3");
         a.setHeaderText(null);
