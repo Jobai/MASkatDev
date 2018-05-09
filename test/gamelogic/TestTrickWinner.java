@@ -16,6 +16,7 @@ import de.skat3.io.profile.IoController;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
 
+//Test requires at least 3 profiles in the json file
 public class TestTrickWinner {
 
   RoundInstance roundInstance;
@@ -100,6 +101,14 @@ public class TestTrickWinner {
     this.roundInstance.addCardtoTrick(new Card(Suit.HEARTS, Value.SEVEN));
     this.roundInstance.addCardtoTrick(new Card(Suit.SPADES, Value.EIGHT));
     assertEquals(roundInstance.getForehand(), roundInstance.determineTrickWinner());
+  }
+  @Test
+  public void testTrickWinner10() {
+    this.roundInstance.setContract(Contract.SPADES);
+    this.roundInstance.addCardtoTrick(new Card(Suit.DIAMONDS, Value.TEN));
+    this.roundInstance.addCardtoTrick(new Card(Suit.CLUBS, Value.SEVEN));
+    this.roundInstance.addCardtoTrick(new Card(Suit.DIAMONDS, Value.ACE));
+    assertEquals(roundInstance.getRearhand(), roundInstance.determineTrickWinner());
   }
 
 

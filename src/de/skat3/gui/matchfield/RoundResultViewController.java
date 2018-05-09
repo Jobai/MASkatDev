@@ -114,7 +114,7 @@ public class RoundResultViewController {
 
     declarerName.setText(result.declarerName);
 
-    contract.setText("" + result.contract);
+    contract.setText(result.contract.getTitleCase());
 
     if (result.bidTooHigh) {
       overbid.setText("Overbid");

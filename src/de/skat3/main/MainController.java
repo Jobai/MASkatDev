@@ -605,9 +605,38 @@ public class MainController implements MainControllerInterface {
 
   @Override
   public void showEndScreen(MatchResult matchResult) {
+    if (matchResult.isBierlachs()) {
+      if (!matchResult.getLoser().getUuid()
+          .equals(SkatMain.ioController.getLastUsedProfile().getUuid())) {
+        if (SkatMain.lgs.isSinglePlayerGame()) {
+          SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerTotalGamesWon();
+        } else {
+          SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerTotalGamesWon();
+        }
+      } else {
+        if (SkatMain.lgs.isSinglePlayerGame()) {
+          SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerTotalGamesLost();
+        } else {
+          SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerTotalGamesLost();
+        }
+      }
+    } else {
+      if (matchResult.getWinner().getUuid()
+          .equals(SkatMain.ioController.getLastUsedProfile().getUuid())) {
+        if (SkatMain.lgs.isSinglePlayerGame()) {
+          SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerTotalGamesWon();
+        } else {
+          SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerTotalGamesWon();
+        }
+      } else {
+        if (SkatMain.lgs.isSinglePlayerGame()) {
+          SkatMain.ioController.getLastUsedProfile().incrementSinglePlayerTotalGamesLost();
+        } else {
+          SkatMain.ioController.getLastUsedProfile().incrementMultiPlayerTotalGamesLost();
+        }
+      }
+    }
     Platform.runLater(new Runnable() {
-
-
       @Override
       public void run() {
         SkatMain.guiController.getInGameController().showEndScreen(matchResult);
