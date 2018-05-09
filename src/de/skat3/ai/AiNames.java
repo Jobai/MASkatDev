@@ -19,6 +19,14 @@ public enum AiNames {
     this.used = false;
   }
 
+	/**
+	 * Gives a Random name Back.
+	 * 
+	 * @param hard
+	 *            represents the names for the Hard AI.
+	 * 
+	 * @return String with the name in it.
+	 */
   public static String getRandomName(boolean hard) {
     AiNames person = null;
     int iteration = 0;
@@ -56,6 +64,9 @@ public enum AiNames {
     }
   }
 
+	/**
+	 * Resets the used Values.
+	 */
   public static void resetUsedValues() {
     for (int i = 0; i < AiNames.values().length; i++) {
       AiNames.values()[i].used = false;

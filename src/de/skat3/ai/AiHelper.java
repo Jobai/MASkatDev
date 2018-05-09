@@ -6,7 +6,7 @@ import de.skat3.gamelogic.AdditionalMultipliers;
 
 /**
  * 
- * @author emrecura
+ * @author Emre Cur, @author Artem Zamajerev
  *
  */
 public class AiHelper implements Serializable {
@@ -14,9 +14,9 @@ public class AiHelper implements Serializable {
   AdditionalMultipliers[] allMultipliers = createAllAdditionalMultipliers();
 
 	/**
-	 * Creates all possible multipliers that can be set in the game
+	 * Creates all possible multipliers that can be set in the game.
 	 * 
-	 * @return instance of Additional multipliers
+	 * @return Instance of Additional multipliers.
 	 */
   private AdditionalMultipliers[] createAllAdditionalMultipliers() {
     AdditionalMultipliers[] allMultipliers = new AdditionalMultipliers[8];
@@ -63,11 +63,13 @@ public class AiHelper implements Serializable {
   }
 
 	/**
-	 * Gives all possible Multipliers back
+	 * Gives all possible Multipliers back.
 	 * 
 	 * @param acceptedHandGame
-	 *            represents the the value of acceptedHand Game
-	 * @return instance of Additional multipliers
+	 * 
+	 *            The parameter tells if hand game was accepted
+	 * 
+	 * @return Instance of Additional multipliers.
 	 */
   public AdditionalMultipliers[] getAllPossibleMultipliers(boolean acceptedHandGame) {
     if (acceptedHandGame) {
