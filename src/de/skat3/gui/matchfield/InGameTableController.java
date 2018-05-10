@@ -233,7 +233,7 @@ public class InGameTableController {
 
     this.tableView.skat = new GuiCard[2];
 
-    this.tableView.skat[0] = GuiCard.GuiCard(SkatMain.lgs.getSkat()[0]);
+    this.tableView.skat[0] = new GuiCard(SkatMain.lgs.getSkat()[0]);
     this.tableView.skat[0].translateXProperty()
         .bind(this.tableView.skatPositions[0].translateXProperty());
     this.tableView.skat[0].translateYProperty()
@@ -241,7 +241,7 @@ public class InGameTableController {
     this.tableView.skat[0].translateZProperty()
         .bind(this.tableView.skatPositions[0].translateZProperty());
 
-    this.tableView.skat[1] = GuiCard.GuiCard(SkatMain.lgs.getSkat()[1]);
+    this.tableView.skat[1] = new GuiCard(SkatMain.lgs.getSkat()[1]);
     this.tableView.skat[1].translateXProperty()
         .bind(this.tableView.skatPositions[1].translateXProperty());
     this.tableView.skat[1].translateYProperty()

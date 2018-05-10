@@ -11,6 +11,7 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
+import de.skat3.gamelogic.TrainingRoundInstance;
 import de.skat3.main.SkatMain;
 import javafx.animation.Animation.Status;
 import javafx.animation.FadeTransition;
@@ -857,7 +858,10 @@ public class InGameOverlayController {
     this.nameLocalClient.toFront();
   }
 
-  public void showTrainingModeInfoText(String path, int width, int height) {
+  public void showTrainingModeInfoText(String path, int width, int height,
+      TrainingRoundInstance trInstance) {
+
+    this.trainingModeTextController.setIntance(trInstance);
     this.trainingModeTextController.setPath(path);
     this.trainingModeTextController.setSize(width, height);
     this.trainingModeTextController.root.setVisible(true);

@@ -25,19 +25,11 @@ public class GuiCard extends Parent {
    * @param card The corresponding Card for this view.
    * 
    */
-  public GuiCard(Card card, boolean b) {
+  public GuiCard(Card card) {
     this.setCard(card);
     this.getCard().getImage().setFitHeight(heigth);
     this.getCard().getImage().setFitWidth(width);
     this.getChildren().add(this.getCard().getImage());
-  }
-
-  public static GuiCard GuiCard(Card card) {
-    return GuiCardDeck.getCard(card);
-  }
-
-  private GuiCard() {
-
   }
 
   public void clear() {

@@ -118,7 +118,7 @@ public class GuiHand extends Parent {
    */
   public void addAll(Card[] cards, boolean animations) {
     for (Card card : cards) {
-      this.add(GuiCard.GuiCard(card), animations);
+      this.add(new GuiCard(card), animations);
     }
   }
 

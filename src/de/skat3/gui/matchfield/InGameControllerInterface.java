@@ -125,7 +125,7 @@ public interface InGameControllerInterface {
    * server.
    * 
    */
-  public void showSkatSelectionRequest(boolean show);
+  public void showSkatSelectionRequest();
 
   /**
    * @author emre
