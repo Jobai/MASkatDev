@@ -14,7 +14,7 @@ public class TrainingRoundInstance extends RoundInstance {
   int startHandSize = 6;
   int scenario;
   int delay;
-	int currentPartInSkatBasics;
+  int currentPartInSkatBasics;
 
   /**
    * Creates the training mode scenario.
@@ -495,8 +495,8 @@ public class TrainingRoundInstance extends RoundInstance {
   // CASES TODO ARTEM, EMRE
 
   String filePop = "/trainingPopups";
-	private int width = 600;
-	private int height = 400;
+  private int width = 600;
+  private int height = 400;
 
   /**
    * Shows the Information PopUp for the specific Scenario.
@@ -508,24 +508,26 @@ public class TrainingRoundInstance extends RoundInstance {
       case 0:
         switch (currentPartInSkatBasics) {
           case 0:
-				width = 600;
-				height = 400;
-				filePop += "/Skat Basics/PopUp1.html";
+            width = 600;
+            height = 400;
+            filePop = "/trainingPopups";
+            filePop += "/Skat Basics/PopUp1.html";
             break;
           case 1:
-				width = 200;
-				height = 150;
+            width = 200;
+            height = 150;
+            filePop = "/trainingPopups";
+            filePop += "/Skat Basics/Case1.1.html";
 
-				filePop += "/Skat Basics/Case1.1.html";
-
-				width = 200;
-				height = 150;
-				filePop = "/trainingPopups";
-				filePop += "/Skat Basics/Case1.2.html";
+            width = 200;
+            height = 150;
+            filePop = "/trainingPopups";
+            filePop += "/Skat Basics/Case1.2.html";
             break;
           case 2:
             width = 600;
             height = 400;
+            filePop = "/trainingPopups";
             filePop += "/Skat Basics/PopUp2.html";
             width = 200;
             height = 150;
@@ -534,51 +536,57 @@ public class TrainingRoundInstance extends RoundInstance {
             width = 200;
             height = 150;
             filePop = "/trainingPopups";
-				filePop += "/Skat Basics/Case2.2.html";
+            filePop += "/Skat Basics/Case2.2.html";
             break;
           case 3:
             width = 200;
             height = 150;
+            filePop = "/trainingPopups";
             filePop += "/Skat Basics/Case3html";
             break;
           case 4:
             width = 200;
             height = 150;
+            filePop = "/trainingPopups";
             filePop += "/Skat Basics/Case4.html";
             break;
           case 5:
             width = 200;
             height = 150;
+            filePop = "/trainingPopups";
             filePop += "/Skat Basics/Case5.html";
             break;
           case 6:
             width = 600;
             height = 400;
-
+            filePop = "/trainingPopups";
             filePop += "/Skat Basics/popup3.html";
 
             width = 200;
             height = 150;
+            filePop = "/trainingPopups";
             filePop += "/Skat Basics/Case6.html";
             break;
           case 7:
             width = 200;
             height = 150;
+            filePop = "/trainingPopups";
             filePop += "/Skat Basics/Case7.html";
             break;
           case 8:
             width = 200;
             height = 150;
-
+            filePop = "/trainingPopups";
             filePop += "/Skat Basics/Case8.html";
 
             width = 600;
             height = 400;
-				filePop = "/trainingPopups";
+            filePop = "/trainingPopups";
 
-				width = 200;
-				height = 150;
-				filePop += "/Skat Basics/Popup4.html";
+
+            width = 200;
+            height = 150;
+            filePop += "/Skat Basics/Popup4.html";
             break;
           default:
             break;
@@ -587,24 +595,33 @@ public class TrainingRoundInstance extends RoundInstance {
       case 1:
         switch (currentRound) {
           case 0:
+            System.out.println("1111");
             width = 400;
             height = 300;
-
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario1/Scenario1_Popup1.html";
             break;
           case 1:
+            System.out.println("2222");
+
             width = 400;
             height = 300;
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario1/Scenario1_Popup2.html";
+
+            System.out.println("filePop" + "\n" + filePop);
+
             break;
           case 2:
             width = 400;
             height = 300;
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario1/Scenario1_Popup3.html";
             break;
           case 3:
             width = 400;
             height = 300;
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario1/Scenario1_Popup4.html";
             break;
           case 4:
@@ -622,7 +639,7 @@ public class TrainingRoundInstance extends RoundInstance {
           case 0:
             width = 400;
             height = 300;
-
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario2/Scenario2_Popup1.html";
             break;
           case 1:
@@ -649,25 +666,25 @@ public class TrainingRoundInstance extends RoundInstance {
           case 0:
             width = 400;
             height = 300;
-
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario3/Scenario3_Popup1.html";
             break;
           case 1:
             width = 400;
             height = 300;
-
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario3/Scenario3_Popup2.html";
             break;
           case 2:
             width = 400;
             height = 300;
-
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario3/Scenario3_Popup3.html";
             break;
           case 3:
             width = 400;
             height = 300;
-
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario3/Scenario3_Popup4.html";
             break;
           case 4:
@@ -685,24 +702,25 @@ public class TrainingRoundInstance extends RoundInstance {
           case 0:
             width = 400;
             height = 300;
-
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario4/Scenario4_Popup1.html";
             break;
           case 1:
             width = 400;
             height = 300;
-
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario4/Scenario4_Popup2.html";
             break;
           case 2:
             width = 400;
             height = 300;
-
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario4/Scenario4_Popup3.html";
             break;
           case 3:
             width = 400;
             height = 300;
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario4/Scenario4_Popup4.html";
             break;
           case 4:
@@ -720,16 +738,19 @@ public class TrainingRoundInstance extends RoundInstance {
           case 0:
             width = 400;
             height = 300;
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario5/Scenario5_Popup1.html";
             break;
           case 1:
             width = 400;
             height = 300;
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario5/Scenario5_Popup2.html";
             break;
           case 2:
             width = 400;
             height = 300;
+            filePop = "/trainingPopups";
             filePop += "/Skat Strategies/Scenario5/Scenario5_Popup3.html";
             break;
           case 3:
@@ -750,12 +771,17 @@ public class TrainingRoundInstance extends RoundInstance {
         break;
 
     }
-		System.out.println("Outside" + currentPartInSkatBasics);
+    System.out.println("Outside" + currentPartInSkatBasics);
+
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
+        try {
         SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, width,
             height);
+        } catch (NullPointerException ex) {
+          System.err.println("No popUp shown");
+        }
       }
     });
   }
