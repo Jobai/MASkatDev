@@ -154,7 +154,7 @@ public class HostPopupController {
    */
   public void switchMode(ActionEvent e) {
     if (mode.getValue() == "Seeger") {
-      modeValue.setText("" + 48);
+      modeValue.setText("" + 9);
     } else if (mode.getValue() == "Bierlachs") {
       modeValue.setText("" + -750);
     }

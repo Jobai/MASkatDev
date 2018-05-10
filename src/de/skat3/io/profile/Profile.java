@@ -40,8 +40,9 @@ import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_ROUNDS;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_ROUNDS_GRAND;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_ROUNDS_NULL;
 import static de.skat3.io.profile.Utils.JSON_SINGLEPLAYER_TOTAL_ROUNDS_SUIT;
-import java.util.UUID;
+
 import com.google.gson.annotations.SerializedName;
+import java.util.UUID;
 import javafx.scene.image.Image;
 
 

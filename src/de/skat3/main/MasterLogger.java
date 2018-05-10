@@ -44,27 +44,27 @@ public class MasterLogger {
     handlerObj.setLevel(Level.ALL);
 
     networkGameServer.addHandler(handlerObj);
-    networkGameServer.setLevel(Level.INFO);
+    networkGameServer.setLevel(Level.WARNING);
     networkGameServer.setUseParentHandlers(false);
 
     networkGameClient.addHandler(handlerObj);
-    networkGameClient.setLevel(Level.FINE);
+    networkGameClient.setLevel(Level.WARNING);
     networkGameClient.setUseParentHandlers(false);
 
     networkLobbyServer.addHandler(handlerObj);
-    networkLobbyServer.setLevel(Level.ALL);
+    networkLobbyServer.setLevel(Level.WARNING);
     networkLobbyServer.setUseParentHandlers(false);
 
     networkAIGameClient.addHandler(handlerObj);
-    networkAIGameClient.setLevel(Level.INFO);
+    networkAIGameClient.setLevel(Level.WARNING);
     networkAIGameClient.setUseParentHandlers(false);
 
     gameLogicLogger.addHandler(handlerObj);
-    gameLogicLogger.setLevel(Level.ALL);
+    gameLogicLogger.setLevel(Level.WARNING);
     gameLogicLogger.setUseParentHandlers(false);
 
     guiLogger.addHandler(handlerObj);
-    guiLogger.setLevel(Level.ALL);
+    guiLogger.setLevel(Level.WARNING);
     guiLogger.setUseParentHandlers(false);
 
     global.addHandler(handlerObj);
@@ -72,6 +72,16 @@ public class MasterLogger {
     global.setUseParentHandlers(false);
 
     global.info("Logger initalized!");
+
+    Runtime rt = Runtime.getRuntime();
+    long totalMem = rt.totalMemory();
+    long maxMem = rt.maxMemory();
+    long freeMem = rt.freeMemory();
+    double megs = 1048576.0;
+
+    global.info("Total Memory: " + totalMem + " (" + (totalMem / megs) + " MiB)");
+    global.info("Max Memory:   " + maxMem + " (" + (maxMem / megs) + " MiB)");
+    global.info("Free Memory:  " + freeMem + " (" + (freeMem / megs) + " MiB)");
 
   }
 

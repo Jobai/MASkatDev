@@ -8,7 +8,6 @@ import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.gamelogic.TrainingRoundInstance;
 import de.skat3.main.SkatMain;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -673,11 +672,10 @@ public class InGameOverlayController {
       try {
         if (player.isBot()) {
           if (player.isHardBot()) {
-            this.imageEnemyOne
-                .setImage(new Image("profilePictures" + File.separator + "HardKi.jpg"));
+            this.imageEnemyOne.setImage(new Image("/profilePictures/HardKi.jpg"));
+            // .setImage(InGameOverlayController.class.getRessouce("/profilePictures/HardKi.jpg"));
           } else {
-            this.imageEnemyOne
-                .setImage(new Image("profilePictures" + File.separator + "EasyKi.jpg"));
+            this.imageEnemyOne.setImage(new Image("/profilePictures/EasyKi.jpg"));
           }
         } else {
           this.imageEnemyOne.setImage(player.convertToImage());
@@ -731,11 +729,9 @@ public class InGameOverlayController {
       try {
         if (player.isBot()) {
           if (player.isHardBot()) {
-            this.imageEnemyTwo
-                .setImage(new Image("profilePictures" + File.separator + "HardKi.jpg"));
+            this.imageEnemyTwo.setImage(new Image("/profilePictures/HardKi.jpg"));
           } else {
-            this.imageEnemyTwo
-                .setImage(new Image("profilePictures" + File.separator + "EasyKi.jpg"));
+            this.imageEnemyTwo.setImage(new Image("/profilePictures/EasyKi.jpg"));
           }
         } else {
           this.imageEnemyTwo.setImage(player.convertToImage());
