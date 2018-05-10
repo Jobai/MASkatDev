@@ -1,16 +1,18 @@
 package de.skat3.gui.matchfield;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
+import de.skat3.gamelogic.TrainingRoundInstance;
 import de.skat3.main.SkatMain;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Random;
 import javafx.animation.Animation.Status;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -21,8 +23,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -31,6 +35,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -43,6 +48,8 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
+ * Controls the surface of the ingame gui.
+ * 
  * @author Aljoscha Domonell
  *
  */
@@ -139,6 +146,10 @@ public class InGameOverlayController {
   public static final String BACKGROUNDRADIUS = "-fx-background-radius: ";
   public static final String BORDERRADIUS = "-fx-border-radius: ";
 
+  /**
+   * Handles chat commands.
+   * 
+   */
   public void handleSendMessage(KeyEvent e) {
     if (e.getCode().equals(KeyCode.ENTER)) {
 
@@ -168,6 +179,11 @@ public class InGameOverlayController {
               .showBidingCards(false);
           break;
         }
+        case "&root": {
+          SkatMain.guiController.print();
+
+          break;
+        }
 
         default: {
           SkatMain.mainController.execCommand(this.chatField.getText());
@@ -181,7 +197,7 @@ public class InGameOverlayController {
     }
   }
 
-  private void loadFXMLFiles() {
+  private void loadFxmlFiles() {
     // GameResults
     FXMLLoader fxmlLoader =
         new FXMLLoader(InGameOverlayController.class.getResource("GameResultView.fxml"));
@@ -354,7 +370,7 @@ public class InGameOverlayController {
   }
 
   void iniComponents() {
-    this.loadFXMLFiles();
+    this.loadFxmlFiles();
     this.root.requestFocus();
   }
 
@@ -365,8 +381,15 @@ public class InGameOverlayController {
       try {
         p = loader.load();
       } catch (IOException e) {
+        // .
       }
-      Button closeButton = (Button) p.getChildren().get(1);
+      Button closeButton = null;
+      ObservableList<Node> childs = p.getChildren();
+      for (Node node : childs) {
+        if (node.getClass() == Button.class) {
+          closeButton = (Button) node;
+        }
+      }
 
       this.addAndSetupButton(p, closeButton);
       return;
@@ -380,7 +403,13 @@ public class InGameOverlayController {
 
   void showMatchResult(MatchResult result) {
 
-    this.addAndSetupButton(this.gameResultcontroller.root, this.gameResultcontroller.closeButton);
+    this.gameResultcontroller.root.visibleProperty()
+        .bind(this.roundResultController.root.parentProperty().isNull());
+
+    this.addAndSetupButton(this.gameResultcontroller.root, null);
+    this.gameResultcontroller.closeButton.setOnAction(e -> {
+      SkatMain.mainController.exitGame();
+    });
 
     this.gameResultcontroller.setResult(result);
   }
@@ -502,6 +531,9 @@ public class InGameOverlayController {
     this.playInfo.setVisible(show);
   }
 
+  /**
+   * Shows the scoreboard if tab is pressed.
+   */
   public void handleKeyPressed(KeyEvent e) {
     if (KeyCode.TAB.equals(e.getCode()) && !this.scoreboardController.root.isVisible()) {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
@@ -521,6 +553,9 @@ public class InGameOverlayController {
     }
   }
 
+  /**
+   * Removes the scoreboard if tab is released. Leave game pop up if escape is pressed.
+   */
   public void handleKeyReleased(KeyEvent e) {
 
     if (KeyCode.TAB.equals(e.getCode())) {
@@ -532,8 +567,6 @@ public class InGameOverlayController {
     }
 
     if (KeyCode.ESCAPE.equals(e.getCode())) {
-
-      SkatMain.guiController.getInGameController().matchfield.root.setDisable(true);
 
       Alert alert = new Alert(AlertType.CONFIRMATION);
       alert.setTitle("Leave game");
@@ -550,19 +583,27 @@ public class InGameOverlayController {
       } else {
         SkatMain.guiController.getInGameController().matchfield.root.setDisable(false);
       }
+
     }
   }
 
   private boolean chatIsBind;
 
   void bindChat() {
+    if (SkatMain.lgs.isSinglePlayerGame()) {
+      chatArea.setVisible(false);
+      chatField.setVisible(false);
+      return;
+    } else {
+      chatArea.setVisible(true);
+      chatField.setVisible(true);
+    }
+
     if (!this.chatIsBind) {
       SkatMain.mainController.chatMessages.addListener(new ListChangeListener<String>() {
-
         @Override
         public void onChanged(Change<? extends String> c) {
           StringBuffer newText = new StringBuffer("");
-
           while (c.next()) {
             for (String addedMessage : c.getAddedSubList()) {
               newText.append(addedMessage);
@@ -595,15 +636,18 @@ public class InGameOverlayController {
 
   void iniEmemyOne(Player player) {
 
+
     this.addBotLeftRoot.setDisable(true);
     this.addBotLeftRoot.setVisible(false);
+
 
     if (player == null) {
       this.nameEnemyOne.setText("");
       this.extra2EnemyOne.setText("");
       this.imageEnemyOne.setImage(null);
 
-      if (SkatMain.mainController.isHost) {
+      if (SkatMain.mainController.isHost
+          && SkatMain.mainController.currentLobby.getMaximumNumberOfPlayers() < 4) {
         this.addEasyBotLeftButton.setOnAction(e -> {
           SkatMain.mainController.addBot(false);
           this.addBotLeftRoot.setDisable(true);
@@ -627,7 +671,17 @@ public class InGameOverlayController {
         System.err.println("EnemyOne: No player name given.");
       }
       try {
-        this.imageEnemyOne.setImage(player.convertToImage());
+        if (player.isBot()) {
+          if (player.isHardBot()) {
+            this.imageEnemyOne
+                .setImage(new Image("profilePictures" + File.separator + "HardKi.jpg"));
+          } else {
+            this.imageEnemyOne
+                .setImage(new Image("profilePictures" + File.separator + "EasyKi.jpg"));
+          }
+        } else {
+          this.imageEnemyOne.setImage(player.convertToImage());
+        }
       } catch (Exception e) {
         System.err.println("EnemyOne: Image Could not be added.");
       }
@@ -640,15 +694,18 @@ public class InGameOverlayController {
 
   void iniEmemyTwo(Player player) {
 
-    this.addBotRightRoot.setDisable(true);
-    this.addBotRightRoot.setVisible(false);
+    if (SkatMain.mainController.currentLobby.getMaximumNumberOfPlayers() < 4) {
+      this.addBotRightRoot.setDisable(true);
+      this.addBotRightRoot.setVisible(false);
+    }
 
     if (player == null) {
       this.nameEnemyTwo.setText("");
       this.extra2EnemyTwo.setText("");
       this.imageEnemyTwo.setImage(null);
 
-      if (SkatMain.mainController.isHost) {
+      if (SkatMain.mainController.isHost
+          && SkatMain.mainController.currentLobby.getMaximumNumberOfPlayers() < 4) {
         this.addEasyBotRightButton.setOnAction(e -> {
           SkatMain.mainController.addBot(false);
           this.addBotRightRoot.setDisable(true);
@@ -672,7 +729,17 @@ public class InGameOverlayController {
         System.err.println("EnemyTwo: No player name given.");
       }
       try {
-        this.imageEnemyTwo.setImage(player.convertToImage());
+        if (player.isBot()) {
+          if (player.isHardBot()) {
+            this.imageEnemyTwo
+                .setImage(new Image("profilePictures" + File.separator + "HardKi.jpg"));
+          } else {
+            this.imageEnemyTwo
+                .setImage(new Image("profilePictures" + File.separator + "EasyKi.jpg"));
+          }
+        } else {
+          this.imageEnemyTwo.setImage(player.convertToImage());
+        }
       } catch (Exception e) {
         System.err.println("EnemyTwo: Image Could not be added.");
       }
@@ -688,7 +755,7 @@ public class InGameOverlayController {
     this.popUpController.yesButton.setText("Bid");
 
     this.popUpController.yesButton.setOnAction(e -> {
-      this.showTimer(false); // XXX
+      this.showTimer(false);
       SkatMain.mainController.localBid(true);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
@@ -697,13 +764,13 @@ public class InGameOverlayController {
     this.popUpController.noButton.setText("Pass");
 
     this.popUpController.noButton.setOnAction(e -> {
-      this.showTimer(false); // XXX
+      this.showTimer(false);
       SkatMain.mainController.localBid(false);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
     });
 
-    this.popUpController.textField.setText("Do you bid more than " + bid + "?");
+    this.popUpController.textField.setText(bid + "");
 
     this.popUpController.root.setVisible(true);
     this.popUpController.root.setDisable(false);
@@ -718,12 +785,16 @@ public class InGameOverlayController {
         this.popUpController.root.setVisible(false);
         this.popUpController.root.setDisable(true);
       });
+      this.popUpController.yesButton.setDisable(false);
+      this.popUpController.noButton.setDisable(true);
     } else {
       this.popUpController.noButton.setOnAction(e -> {
         SkatMain.mainController.localBid(false);
         this.popUpController.root.setVisible(false);
         this.popUpController.root.setDisable(true);
       });
+      this.popUpController.noButton.setDisable(false);
+      this.popUpController.yesButton.setDisable(true);
     }
 
 
@@ -803,7 +874,13 @@ public class InGameOverlayController {
     this.nameLocalClient.toFront();
   }
 
-  public void showTrainingModeInfoText(String path, int width, int height) {
+  /**
+   * Shows a info text to help the player during the scenario.
+   */
+  public void showTrainingModeInfoText(String path, int width, int height,
+      TrainingRoundInstance trInstance) {
+
+    this.trainingModeTextController.setIntance(trInstance);
     this.trainingModeTextController.setPath(path);
     this.trainingModeTextController.setSize(width, height);
     this.trainingModeTextController.root.setVisible(true);

@@ -2,7 +2,7 @@ package de.skat3.gamelogic;
 
 /**
  * The game thread of a training scenario.
- * @author kai29
+ * @author Kai Baumann
  *
  */
 public class TrainingModeThread extends Thread {

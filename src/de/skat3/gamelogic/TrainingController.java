@@ -5,7 +5,7 @@ import de.skat3.network.server.ServerLogicController;
 /**
  * Controlls the game flow of a scenario in training mode.
  * 
- * @author kai29, TODO emre!
+ * @author Kai Baumann, TODO emre!
  *
  */
 public class TrainingController extends GameController implements GameLogicInterface {

@@ -73,6 +73,8 @@ public class ClientLogicHandler {
 
   // tell GUI
   /**
+   * Understands the network message and calls the main controller method to show a card played by
+   * another player.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -88,6 +90,8 @@ public class ClientLogicHandler {
 
   // tell GUI
   /**
+   * Understands the network message and calls the main controller method to let the user play a
+   * card.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -96,8 +100,11 @@ public class ClientLogicHandler {
     SkatMain.mainController.playCardRequest();
   }
 
-  
+
   /**
+   * Understands the network message and calls the main controller method to update round
+   * information. Depending on CommandType, starts the round, shows the round results or updates the
+   * player.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -129,6 +136,8 @@ public class ClientLogicHandler {
   }
 
   /**
+   * Understands the network message and calls the main controller method to show the end game
+   * screen with the match results.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -142,6 +151,8 @@ public class ClientLogicHandler {
 
 
   /**
+   * Understands the network message and calls the main controller method to update the player. Is
+   * called by the logic on the server side numerous times if changes occur.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -158,6 +169,8 @@ public class ClientLogicHandler {
 
 
   /**
+   * Understands the network message and calls the main controller method to show the contract
+   * popup.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -168,6 +181,7 @@ public class ClientLogicHandler {
 
 
   /**
+   * Understands the network message and calls the main controller method to show the declarer.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -180,6 +194,8 @@ public class ClientLogicHandler {
 
 
   /**
+   * Understands the network message and calls the main controller method for the handgame question
+   * popup.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -191,6 +207,8 @@ public class ClientLogicHandler {
 
 
   /**
+   * Understands the network message and shows the skat selection in the GUI via the main
+   * controller.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -204,6 +222,7 @@ public class ClientLogicHandler {
 
 
   /**
+   * Understands the network message and shows a KontraAnnounced message in the gui.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -215,6 +234,7 @@ public class ClientLogicHandler {
 
 
   /**
+   * Understands the network message and shows a reKontraAnnounced message in the gui.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -227,7 +247,7 @@ public class ClientLogicHandler {
 
 
   /**
-   * Show a Kontra popup in the GUI.
+   * Understands the network message and shows a Kontra popup in the GUI.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -238,7 +258,7 @@ public class ClientLogicHandler {
 
 
   /**
-   * Show a reKontra popup in the GUI.
+   * Understands the network message and shows a reKontra popup in the GUI.
    * 
    * @author Jonas Bauer
    * @param m network message
@@ -294,9 +314,10 @@ public class ClientLogicHandler {
 
 
   /**
+   * Understands the network message and sets the current Dealer in the GUI via the main controller.
    * 
    * @author Jonas Bauer
-   * @param m
+   * @param m network message
    */
   void setDealerHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
@@ -306,8 +327,8 @@ public class ClientLogicHandler {
 
 
   void trickInfoHandler(Message m) {
-    //not used
-    
+    // functionality not used
+
   }
 
 

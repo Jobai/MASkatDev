@@ -13,7 +13,7 @@ import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
-import de.skat3.network.client.AIGameClient;
+import de.skat3.network.client.AiGameClient;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.client.LobbyDiscover;
 import de.skat3.network.server.GameServer;
@@ -99,7 +99,7 @@ public class MainNetworkController implements MainNetworkInterface {
   @Override
   public GameClient addAItoLocalServer(boolean hardAi) {
     Player player = new Player(hardAi);
-    AIGameClient gc = new AIGameClient("localhost", 2018, player);
+    AiGameClient gc = new AiGameClient("localhost", 2018, player, "swordfish");
     SkatMain.aiController.addBot(player);
     return gc;
 

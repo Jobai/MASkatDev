@@ -1,17 +1,24 @@
 package de.skat3.ai;
 
 import java.io.Serializable;
+
 import de.skat3.gamelogic.AdditionalMultipliers;
 
 /**
  * 
- * @author emrecura
+ * @author Emre Cura, Artem Zamarajev
  *
  */
+@SuppressWarnings("serial")
 public class AiHelper implements Serializable {
 
   AdditionalMultipliers[] allMultipliers = createAllAdditionalMultipliers();
 
+  /**
+   * Creates all possible multipliers that can be set in the game.
+   * 
+   * @return Instance of Additional multipliers.
+   */
   private AdditionalMultipliers[] createAllAdditionalMultipliers() {
     AdditionalMultipliers[] allMultipliers = new AdditionalMultipliers[8];
 
@@ -56,6 +63,15 @@ public class AiHelper implements Serializable {
     return allMultipliers;
   }
 
+  /**
+   * Gives all possible Multipliers back.
+   * 
+   * @param acceptedHandGame
+   * 
+   *        The parameter tells if hand game was accepted
+   * 
+   * @return Instance of Additional multipliers.
+   */
   public AdditionalMultipliers[] getAllPossibleMultipliers(boolean acceptedHandGame) {
     if (acceptedHandGame) {
       AdditionalMultipliers[] allMultipliersNotNull = new AdditionalMultipliers[5];

@@ -1,13 +1,13 @@
 package de.skat3.gui.multiplayermenu;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
 import de.skat3.gamelogic.Player;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -45,7 +45,7 @@ import javafx.util.Duration;
 /**
  * Class to control the corresponding view file.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class MultiplayerMenuController {
 
@@ -78,7 +78,7 @@ public class MultiplayerMenuController {
   @FXML
   private Button joinButton;
   @FXML
-  private Label serverIP;
+  private Label serverIp;
   @FXML
   private Label serverDomain;
   @FXML
@@ -90,7 +90,15 @@ public class MultiplayerMenuController {
 
   Lobby currentLobby;
   ArrayList<Lobby> hostList = new ArrayList<Lobby>();
+  ObservableList<CellItem> items = FXCollections.observableArrayList();
+  int lobbyIndex;
 
+  /**
+   * Class represents a cell in the server listview.
+   * 
+   * @author Timo Straub
+   *
+   */
   class CellItem {
     public String name;
     public boolean hasPw;
@@ -116,6 +124,12 @@ public class MultiplayerMenuController {
     }
   }
 
+  /**
+   * Class extends ListCell and represents the design of a listrow.
+   * 
+   * @author Timo Straub
+   *
+   */
   private static class HostCell extends ListCell<CellItem> {
     HBox hbox = new HBox();
     Image serverImage = new Image("guifiles/AppIcon.png");
@@ -200,10 +214,10 @@ public class MultiplayerMenuController {
    */
   public void fillHostList() {
 
-    ObservableList<CellItem> items = FXCollections.observableArrayList();
     items.clear();
     hostList.clear();
     hostListView.setItems(items);
+    clearSelectedLobbyField();
 
     Service<String> playService;
     class PlayService extends Service<String> {
@@ -313,13 +327,13 @@ public class MultiplayerMenuController {
     });
 
     dialog.showAndWait().ifPresent(result -> {
-      String sIp = result.get("ip");
-      String sPw = result.get("pw");
+      String stringIp = result.get("ip");
+      String stringPw = result.get("pw");
 
-      if (sPw.isEmpty()) {
-        SkatMain.mainController.directConnectMultiplayerGame(sIp);
+      if (stringPw.isEmpty()) {
+        SkatMain.mainController.directConnectMultiplayerGame(stringIp);
       } else {
-        SkatMain.mainController.directConnectMultiplayerGame(sIp, sPw);
+        SkatMain.mainController.directConnectMultiplayerGame(stringIp, stringPw);
       }
 
     });
@@ -345,6 +359,12 @@ public class MultiplayerMenuController {
 
     joinButton.setDisable(true);
 
+    // Lobby aus Liste entfernen
+    items.remove(hostListView.getSelectionModel().getSelectedIndex());
+    clearSelectedLobbyField();
+
+
+
     if (!currentLobby.isHasPassword()) {
       SkatMain.mainController.joinMultiplayerGame(currentLobby);
     } else {
@@ -358,6 +378,18 @@ public class MultiplayerMenuController {
       result.ifPresent(pass -> SkatMain.mainController.joinMultiplayerGame(currentLobby, pass));
       System.out.println("Join with password");
     }
+  }
+
+  /**
+   * Method clears the selected lobby fields on the detail view.
+   */
+  private void clearSelectedLobbyField() {
+    hostListView.setItems(items);
+    imageViewPwLock.setImage(null);
+    kontraRekontra.setText("");
+    serverName.setText("");
+    serverDomain.setText("");
+    serverIp.setText("");
   }
 
   /**
@@ -392,7 +424,7 @@ public class MultiplayerMenuController {
 
     serverDomain.setText(currentLobby.getIp().toString().replaceAll("\\/.*$", ""));
 
-    serverIP.setText(currentLobby.getIp().toString().replace(serverDomain.getText() + "/", ""));
+    serverIp.setText(currentLobby.getIp().toString().replace(serverDomain.getText() + "/", ""));
 
     // Players
     Player[] players = currentLobby.getPlayers();

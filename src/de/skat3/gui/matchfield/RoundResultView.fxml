@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- @author tistraub -->
+<!-- @author Timo Straub -->
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="660.0"
+<AnchorPane fx:id="root" prefHeight="690.0"
 	style="-fx-background-color: #FFFFFF; -fx-border-width: 2; -fx-border-color: #000000;"
 	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
@@ -23,26 +23,40 @@
 			style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0"
 			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
-				<HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0">
+				<GridPane layoutY="5.0" prefHeight="71.0" prefWidth="652.0">
+					<columnConstraints>
+						<ColumnConstraints halignment="CENTER"
+							hgrow="SOMETIMES" maxWidth="611.5" minWidth="10.0"
+							prefWidth="611.5" />
+						<ColumnConstraints halignment="LEFT"
+							hgrow="SOMETIMES" maxWidth="320.5" minWidth="10.0"
+							prefWidth="50.0" />
+					</columnConstraints>
+					<rowConstraints>
+						<RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+					</rowConstraints>
 					<children>
 						<Label fx:id="headerLabel" alignment="CENTER" text="..."
 							textFill="WHITE">
 							<font>
 								<Font size="49.0" />
 							</font>
+							<padding>
+								<Insets left="50.0" />
+							</padding>
 						</Label>
+						<Button fx:id="closeButton" mnemonicParsing="false"
+							style="-fx-background-color: #d60202;" text="X" textFill="WHITE"
+							GridPane.columnIndex="1">
+							<font>
+								<Font name="System Bold" size="15.0" />
+							</font>
+						</Button>
 					</children>
-				</HBox>
-				<Button fx:id="closeButton" layoutX="608.0" layoutY="25.0"
-					mnemonicParsing="false" style="-fx-background-color: #d60202;"
-					text="X" textFill="WHITE">
-					<font>
-						<Font name="System Bold" size="15.0" />
-					</font>
-				</Button>
+				</GridPane>
 			</children>
 		</Pane>
-		<Pane layoutX="4.0" layoutY="500.0" prefHeight="160.0"
+		<Pane layoutX="4.0" layoutY="500.0" prefHeight="190.0"
 			prefWidth="652.0" style="-fx-background-color: F0C808;"
 			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
 			AnchorPane.rightAnchor="0.0">
@@ -53,7 +67,7 @@
 						<Font size="32.0" />
 					</font>
 				</Label>
-				<Label fx:id="scoringPoints" layoutX="257.0" layoutY="17.0"
+				<Label fx:id="scoringPoints" layoutX="257.0" layoutY="13.0"
 					text="ScoringPoints">
 					<font>
 						<Font size="32.0" />
@@ -71,16 +85,27 @@
 						<Font size="22.0" />
 					</font>
 				</Label>
-				<Label fx:id="contract" layoutX="257.0" layoutY="85.0"
+				<Label fx:id="contract" layoutX="257.0" layoutY="92.0"
 					text="Contract">
 					<font>
 						<Font size="22.0" />
 					</font>
 				</Label>
-				<Label fx:id="overbid" layoutX="257.0" layoutY="117.0"
-					text="Overbid">
+				<Label fx:id="overbid" layoutX="257.0" layoutY="125.0"
+					text="Overbid" textFill="RED">
+					<font>
+						<Font name="System Bold" size="22.0" />
+					</font>
+				</Label>
+				<Label layoutX="57.0" layoutY="152.0" text="Skat">
 					<font>
 						<Font size="22.0" />
+					</font>
+				</Label>
+				<Label fx:id="skatCards" layoutX="55.0" layoutY="78.0"
+					text="m">
+					<font>
+						<Font size="60.0" />
 					</font>
 				</Label>
 			</children>

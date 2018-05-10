@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Controller class to handle the events of the result screen.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class RoundResultViewController {
 
@@ -65,11 +65,13 @@ public class RoundResultViewController {
   @FXML
   public Button closeButton;
   @FXML
+  public Label skatCards;
+  @FXML
   public AnchorPane root;
 
 
   /**
-   * .
+   * Set result value to screen.
    * 
    * @param result Round Result
    */
@@ -116,6 +118,10 @@ public class RoundResultViewController {
 
     contract.setText(result.contract.getTitleCase());
 
+    if (!result.skatCards.isEmpty()) {
+      skatCards.setText(result.skatCards);
+    }
+
     if (result.bidTooHigh) {
       overbid.setText("Overbid");
     } else {
@@ -139,7 +145,6 @@ public class RoundResultViewController {
         }
       }
     }
-
 
 
     // Checkboxes

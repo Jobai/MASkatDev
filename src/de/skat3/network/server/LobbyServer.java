@@ -1,7 +1,6 @@
 package de.skat3.network.server;
 
 import de.skat3.main.Lobby;
-import de.skat3.main.SkatMain;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -10,8 +9,6 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -24,95 +21,77 @@ public class LobbyServer extends Thread {
 
   private Lobby lobby;
 
-  /**
-   * @author Jonas Bauer
-   * @return the lobby
-   */
-  public Lobby getLobby() {
-    return lobby;
-  }
-
-  /**
-   * @author Jonas Bauer
-   * @param lobby the lobby to set
-   */
-  public void setLobby(Lobby lobby) {
-    this.lobby = lobby;
-  }
-
   private InetAddress inetAdress;
   public final int port = 2011;
 
-  boolean multicast = false;
+  final boolean multicast = false; // never use multicasting, always broadcasting
 
+
+
+  /**
+   * Creates and starts a lobby server with the hardcoded InetAdress for multicasting in. <b>
+   * multicasting mode. </b> Hardcoded mutlicast address is: <b> 239.4.5.6 </b>
+   * 
+   * @author Jonas Bauer
+   * @param lobby lobby to broadcast
+   */
   public LobbyServer(Lobby lobby) {
-    logger.fine("test fine");
     try {
       inetAdress = InetAddress.getByName("239.4.5.6");
     } catch (UnknownHostException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     this.lobby = lobby;
     this.start();
   }
 
-  public LobbyServer(Lobby lobby, InetAddress iAdress) {
-    logger.fine("test fine");
+  /**
+   * Creates and starts a lobby server with the provided InetAdress for multicasting in <b>
+   * multicasting mode </b>.
+   * 
+   * @author Jonas Bauer
+   * @param lobby lobby to broadcast
+   */
+  public LobbyServer(Lobby lobby, InetAddress inetAdress) {
     this.lobby = lobby;
-    this.inetAdress = iAdress;
+    this.inetAdress = inetAdress;
     this.start();
   }
 
 
+  /**
+   * The central method of the lobby server. Broadcast the given lobby to all local clients in the
+   * local network. Implements Multicasting and Broadcasting, however only broadcasting should be
+   * used because of issues in some networks with Mutlicasting.
+   */
   public void run() {
+
     Thread.currentThread().setName("LobbyServerThread");
 
     if (!multicast) {
-      logger.info(
-          "LobbyServer started on " + inetAdress + ": " + port);
+      logger.info("LobbyServer started on " + inetAdress + ": " + port);
 
       try (DatagramSocket ds = new DatagramSocket()) {
-
-
-//        System.out.println(SkatMain.mainController.currentLobby.hashCode());
-//        System.out.println(lobby.hashCode());
-//        System.out.println(SkatMain.mainController.currentLobby == lobby);
         this.ds = ds;
         ds.setBroadcast(true);
         byte[] buff;
-
-        // buff = lobby.convertToByteArray(lobby);
-        // System.out.println(buff.length);
         DatagramPacket packet;
-        // packet =
-        // new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
-
         while (!this.isInterrupted()) {
-//          System.out.println(SkatMain.mainController.currentLobby.hashCode());
-//          System.out.println(lobby.hashCode());
-//          System.out.println(SkatMain.mainController.currentLobby == lobby);
-//          lobby = SkatMain.mainController.currentLobby;
-//          System.out.println(Arrays.toString(lobby.getPlayers()));
           buff = lobby.convertToByteArray(lobby);
-          // System.out.println(buff.length);
           if (buff.length > 4000) {
-            logger.severe("WARNING: BYTE ARRAY TO BIG! -  CHECK LOBBY CLASS AND LOBBY SERVER!" + buff.length);
+            logger.severe(
+                "WARNING: BYTE ARRAY TO BIG! -  CHECK LOBBY CLASS AND LOBBY SERVER!" + buff.length);
           }
           packet =
               new DatagramPacket(buff, buff.length, InetAddress.getByName("255.255.255.255"), port);
           ds.send(packet);
           sleep(5000);
-
         }
       } catch (SocketException e1) {
-        // TODO Auto-generated catch block
         e1.printStackTrace();
       } catch (UnknownHostException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (IOException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (InterruptedException e) {
         this.interrupt();
@@ -121,22 +100,24 @@ public class LobbyServer extends Thread {
 
     }
 
+    // Lobby broadcasting via mutlicasting.
+    // Completely functional but not used due to issues in some networks.
     if (multicast) {
       try (MulticastSocket server = new MulticastSocket()) {
         logger.info(
             "LobbyServer started on " + Inet4Address.getLocalHost().getHostAddress() + ": " + port);
-
         this.ms = server;
-
         byte[] buff;
         buff = lobby.convertToByteArray(lobby);
-        logger.fine("Buffer lenght:"  + buff.length);
+        if (buff.length > 4000) {
+          logger.severe(
+              "WARNING: BYTE ARRAY TO BIG! -  CHECK LOBBY CLASS AND LOBBY SERVER!" + buff.length);
+        }
+        logger.fine("Buffer lenght:" + buff.length);
         DatagramPacket packet = new DatagramPacket(buff, buff.length, inetAdress, port);
-
         while (!this.isInterrupted()) {
           ms.send(packet);
           sleep(5000);
-
         }
       } catch (SocketException e) {
         e.printStackTrace();
@@ -144,10 +125,10 @@ public class LobbyServer extends Thread {
         e.printStackTrace();
       } catch (InterruptedException e) {
         this.interrupt();
+        // silent is ok
+
       }
     }
-
-
   }
 
 
@@ -168,12 +149,25 @@ public class LobbyServer extends Thread {
 
   }
 
-  public static void main(String[] args) {
-    Lobby lb = new Lobby(null, 0, "68689", null, 3, 0, 0, false);
-    LobbyServer ls = new LobbyServer(lb);
-    // ls.start();
+
+  public Lobby getLobby() {
+    return lobby;
   }
 
 
+  public void setLobby(Lobby lobby) {
+    this.lobby = lobby;
+  }
 
+  /**
+   * Testmain.
+   * 
+   * @author Jonas Bauer
+   */
+  @Deprecated
+  public static void main(String[] args) {
+    Lobby lb = new Lobby(null, 0, "68689", null, 3, 0, 0, false);
+    LobbyServer ls = new LobbyServer(lb);
+    ls.start();
+  }
 }

@@ -7,6 +7,13 @@ import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Position;
 
+/**
+ * 
+ * 
+ * 
+ * @author Kai Baumann, Artem Zamarajev
+ *
+ */
 @SuppressWarnings("serial")
 public abstract class Ai implements Serializable {
 

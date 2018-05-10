@@ -1,9 +1,5 @@
 package de.skat3.gui.statsmenu;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import de.skat3.gui.Gui;
-import de.skat3.gui.GuiController;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
 import javafx.fxml.FXML;
@@ -12,7 +8,7 @@ import javafx.scene.control.Label;
 /**
  * Class to control the corresponding view file.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class StatsMenuController {
 
@@ -132,10 +128,6 @@ public class StatsMenuController {
     sRoundsLostNull.setText("" + p.getSinglePlayerRoundsLostNull());
     sRoundsLostSuit.setText("" + p.getSinglePlayerRoundsLostSuit());
 
-    // Score
-    sHighestScore.setText("" + p.getSinglePlayerHighestScore());
-    sLowestScore.setText("" + p.getSinglePlayerLowestScore());
-
     // Multiplayer
     // Rounds
     mTotalRounds.setText("" + p.getMultiPlayerTotalRounds());
@@ -150,10 +142,6 @@ public class StatsMenuController {
     mRoundsLostGrand.setText("" + p.getMultiPlayerRoundsLostGrand());
     mRoundsLostNull.setText("" + p.getMultiPlayerRoundsLostNull());
     mRoundsLostSuit.setText("" + p.getMultiPlayerRoundsLostSuit());
-
-    // Score
-    mHighestScore.setText("" + p.getMultiPlayerHighestScore());
-    mLowestScore.setText("" + p.getMultiPlayerLowestScore());
 
   }
 

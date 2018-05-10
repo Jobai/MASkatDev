@@ -56,6 +56,8 @@ public class GameServer extends Thread {
   boolean stopped;
   private boolean stoppingInProgess;
 
+  boolean gameAborted;
+
 
 
   /**
@@ -151,6 +153,7 @@ public class GameServer extends Thread {
    * 
    * @author Jonas Bauer
    */
+  @SuppressWarnings("deprecation")
   public void stopServer() {
 
     if (stoppingInProgess) {
@@ -158,21 +161,21 @@ public class GameServer extends Thread {
       return;
     }
     stoppingInProgess = true;
-    try { 
+    try {
       logger.info("Server is stopping");
-      ls.stopLobbyBroadcast();
       this.interrupt();
       endAllClients();
       this.serverSocket.close();
       this.interrupt();
       logger.info("Server stopped!" + this.isInterrupted());
+      ls.stopLobbyBroadcast();
       this.stop();
     } catch (SocketException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     } catch (NullPointerException e) {
-      e.printStackTrace();
+      // e.printStackTrace();
     }
 
   }
@@ -182,13 +185,23 @@ public class GameServer extends Thread {
 
   }
 
+  /**
+   *Sends Connection_Closed messages to all connected clients to force them to close their
+   * connection to the server.
+   * 
+   * @author Jonas Bauer
+   */
   private void endAllClients() {
     logger.info("ending all clients");
     Object[] gspa = GameServer.threadList.toArray();
     synchronized (threadList) {
       for (Object gameServerProtocol : gspa) {
 
-        ((GameServerProtocol) gameServerProtocol).kickConnection("SHUTDOWN");
+        if (!gameAborted) {
+          ((GameServerProtocol) gameServerProtocol).kickConnection("SHUTDOWN");
+        } else {
+          ((GameServerProtocol) gameServerProtocol).kickConnection("GAMEABORT");
+        }
       }
     }
   }
@@ -208,6 +221,7 @@ public class GameServer extends Thread {
     }
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       if (gameServerProtocol.playerProfile.equals(player)) {
+
         if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
           logger.fine("round general info" + player.getUuid());
         }

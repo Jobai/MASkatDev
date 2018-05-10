@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * All values that exist in skat.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 public enum Value implements Serializable {

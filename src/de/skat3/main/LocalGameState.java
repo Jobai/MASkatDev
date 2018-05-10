@@ -8,6 +8,7 @@ import de.skat3.gamelogic.LogicAnswers;
 import de.skat3.gamelogic.Player;
 
 /**
+ * Saves all important information for a skat match.
  * 
  * @author kai29
  *
@@ -47,17 +48,23 @@ public class LocalGameState {
         }
       }
     }
-    this.localClient =
-        SkatMain.mainController.currentLobby.players[this.localPosition - 1].copyPlayer();
-    this.setSinglePlayerGame(singlePlayerGame);
-    this.setTimerInSeconds(timerInSeconds);
-    this.setTrickcount(0);
-    this.setTrick(new Card[3]);
-    this.setSkat(new Card[2]);
+    try {
+      this.localClient =
+          SkatMain.mainController.currentLobby.players[this.localPosition - 1].copyPlayer();
+      this.setSinglePlayerGame(singlePlayerGame);
+      this.setTimerInSeconds(timerInSeconds);
+      this.setTrickcount(0);
+      this.setTrick(new Card[3]);
+      this.setSkat(new Card[2]);
+    } catch (ArrayIndexOutOfBoundsException e) {
+      MasterLogger.global.warning("ARRAY INDEX OUT OF BOUNDS!, [Ignore if in junit test]");
+    }
     SkatMain.mainController.reinitializePlayers();
   }
 
+
   /**
+   * Adds a player to the localgamestate depending on the seat at the table.
    * 
    */
 
@@ -161,6 +168,9 @@ public class LocalGameState {
     this.setTrickcount((getTrickcount() + 1) % 3);
   }
 
+  /**
+   * Returns current card in trick.
+   */
   public Card getCurrentCardInTrick() {
     for (int i = 0; i < this.getTrick().length; i++) {
       if (this.getTrick()[i] == null && i - 1 > 0) {
@@ -170,7 +180,11 @@ public class LocalGameState {
     return null;
   }
 
-
+  /**
+   * Returns the first card that was played during this trickround.
+   * 
+   * @return
+   */
   public Card getFirstCardPlayed() {
     if (this.getTrick()[0] != null && this.getTrickcount() != 0) {
       return this.getTrick()[0];
@@ -190,6 +204,7 @@ public class LocalGameState {
    */
 
   /**
+   * Returns a player if he exists in the localgamestate.
    * 
    * @return
    */
@@ -244,6 +259,10 @@ public class LocalGameState {
     return this.contract;
   }
 
+  /**
+   * Removes a player from the gameState.
+   * 
+   */
   public void removePlayer(Player player) {
     if (this.enemyOne != null) {
       if (player.equals(this.enemyOne)) {
@@ -301,13 +320,15 @@ public class LocalGameState {
 
   void rotatePlayers() {
     Player temp;
+    System.out.println("Local Player is Dealer: " + this.localPlayerIsDealer());
+    System.out.println("LocalPosition: " + this.localPosition);
+    System.out.println("Last Dealer pos: " + this.lastDealerPositon);
     if (this.localPlayerIsDealer()) {
       temp = this.dealer;
       this.dealer = this.enemyOne;
       this.enemyOne = this.enemyTwo;
       this.enemyTwo = this.localClient;
       this.localClient = temp;
-
     } else {
       switch (this.lastDealerPositon) {
         case 1:
@@ -404,10 +425,11 @@ public class LocalGameState {
       }
     }
 
-    this.lastDealerPositon = (this.lastDealerPositon + 1);
+    this.lastDealerPositon++;
     if (this.lastDealerPositon == 5) {
       this.lastDealerPositon = 1;
     }
+    System.out.println("new lastDealerPosition: " + this.lastDealerPositon);
   }
 
   public Card[] getSkat() {
@@ -478,6 +500,11 @@ public class LocalGameState {
     this.gameActive = gameActive;
   }
 
+  /**
+   * Returns true if the localClient is the dealer.
+   * 
+   * @return
+   */
   public boolean localPlayerIsDealer() {
     if (SkatMain.mainController.currentLobby.numberOfPlayers == 3) {
       return false;

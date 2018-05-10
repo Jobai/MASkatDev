@@ -114,8 +114,6 @@ public class LobbyDiscover extends Thread {
 
         addDiscoveryToLobbyList(lb);
 
-
-
       }
     } catch (SocketException e) {
       if (run) {
@@ -190,17 +188,13 @@ public class LobbyDiscover extends Thread {
 
       ms.leaveGroup(inetAdressMulticast);
       ms.close();
-      logger.finer("STOP END");
+      logger.finer("Lobby discovery stopping ended");
 
     } catch (IOException e) {
       e.printStackTrace();
     } catch (NullPointerException e) {
       // silent drop ok
-    } finally {
-      logger.finer("FINNALY stop Discovery");
-      //
     }
-    logger.finer("FINISHED stopDiscovery");
   }
 
 

@@ -7,14 +7,19 @@ public class PlayTimeTimer extends Thread {
   long playTime;
   boolean isInterrupted;
 
+  /**
+   * Increments the play time every minute.
+   * 
+   * @param playTime the playtime saved in the userprofile.
+   */
   public PlayTimeTimer(long playTime) {
-    this.playTime = playTime; // FIXME ??
+    this.playTime = playTime;
     this.isInterrupted = false;
     this.start();
   }
 
   /**
-   * 
+   * Starts the thread to increment play time.
    */
   public void run() {
     Thread.currentThread().setName("PlayTimeTimerThread");

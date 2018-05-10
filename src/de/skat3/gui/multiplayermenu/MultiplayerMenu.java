@@ -1,16 +1,15 @@
 package de.skat3.gui.multiplayermenu;
 
+import de.skat3.gui.Menu;
 import java.io.IOException;
 import java.net.URL;
-import de.skat3.gui.Menu;
-import de.skat3.main.SkatMain;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 
 /**
  * Class to manage the multiplayer menu.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class MultiplayerMenu extends Menu {
   private MultiplayerMenuController controller;

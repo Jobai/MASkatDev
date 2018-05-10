@@ -9,12 +9,15 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Class to manage the menu frame.
  * 
- * @author Aljoscha Domonell
+ * @author Timo Straub
  */
 public class MenuFrame {
   private MenuFrameController controller;
   private Scene scene;
 
+  /**
+   * Loads menu fram view and initialize the controller.
+   */
   public MenuFrame() {
     URL u = MenuFrame.class.getResource("MenuFrameView.fxml");
     FXMLLoader loader = new FXMLLoader(u);
@@ -23,14 +26,14 @@ public class MenuFrame {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    
+
     this.controller = loader.getController();
     // For the first start.
     this.controller.initialize();
   }
 
   /**
-   * returns the controller which handles the MenuFrame content.
+   * Returns the controller which handles the MenuFrame content.
    * 
    * @return the controllerClass of the corresponding Scene
    */

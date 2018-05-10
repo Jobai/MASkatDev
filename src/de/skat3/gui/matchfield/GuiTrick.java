@@ -9,7 +9,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
@@ -113,7 +112,10 @@ public class GuiTrick {
 
   }
 
-
+  /**
+   * Show skat cards in the middle.
+   * 
+   */
   void showBidingCards(boolean value) {
     this.bidingCard1.setVisible(value);
     this.bidingCard2.setVisible(value);
@@ -177,14 +179,25 @@ public class GuiTrick {
    * 
    */
   public synchronized void clear() {
-    for (GuiCard c : this.cards) {
-      c.setVisible(false);
+    for (int i = 0; i < this.cards.length; i++) {
+
+      this.cards[i].translateXProperty().unbind();
+      this.cards[i].translateYProperty().unbind();
+      this.cards[i].translateZProperty().unbind();
+
       SkatMain.guiController.getInGameController().matchfield.tableView.table.getChildren()
-          .remove(c);
+          .remove(this.cards[i].getCard().getImage());
+
+      this.cards[i].clear();
+
+      SkatMain.guiController.getInGameController().matchfield.tableView.table.getChildren()
+          .remove(this.cards[i]);
+
     }
 
     this.cards = new GuiCard[3];
     this.index = 0;
+    System.gc();
   }
 
   /**

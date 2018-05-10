@@ -37,9 +37,10 @@ public class ClientLogicController {
 
 
   /**
-   * 
+   * Default constructor that gets the playerName from the IO Controller.
+   * <b> Silently catches a Nullpointer for the IO Controller for JUNIT testing purposes </b>
    * @author Jonas Bauer
-   * @param gameClient
+   * @param gameClient the provided gameClient to use.
    */
   public ClientLogicController(GameClient gameClient) {
     this.gc = gameClient;

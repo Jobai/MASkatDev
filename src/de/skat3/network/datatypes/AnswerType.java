@@ -1,5 +1,10 @@
 package de.skat3.network.datatypes;
 
+/**
+ * ENUMS that descibe messages from the client related to the game.
+ * @author Jonas Bauer
+ *
+ */
 public enum AnswerType implements SubType {
 
   /**

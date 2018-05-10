@@ -26,52 +26,178 @@ public interface ServerLogicInterface {
 
   // Hand is in player object
 
+  /**
+   * Broadcast to all players that the round started.
+   * 
+   * @author Jonas Bauer
+   */
   public void broadcastRoundStarted();
 
-  // tells a (remote) player that he has to bid.
+  /**
+   * tells a (remote) player that he has to bid.
+   * 
+   * @author Jonas Bauer
+   * @param player target player
+   * @param biddingValue .
+   */
   public void callForBid(Player player, int biddingValue);
 
-  // tells a (remote) player that he has to play a card
+  //
+  /**
+   * Tells a (remote) player that he has to play a card.
+   * 
+   * @author Jonas Bauer
+   * @param player target player
+   */
   public void callForPlay(Player player);
 
-  // tells everyone what the contract is.
+  //
+  /**
+   * Tells everyone what the contract is.
+   * 
+   * @author Jonas Bauer
+   * @param contract chosen contract
+   * @param am AdditionalMultipliers
+   */
   void broadcastContract(Contract contract, AdditionalMultipliers am);
 
+  /**
+   * Broadcast to all Players the Matchresult (Endresults of the complete game).
+   * 
+   * @author Jonas Bauer
+   * @param mr MatchResult
+   */
   void broadcastMatchResult(MatchResult mr);
 
+  /**
+   * Broadcast played card from another player.
+   * 
+   * @author Jonas Bauer
+   * @param player player who played the card.
+   * @param card the played card.
+   */
   public void sendPlayedCard(Player player, Card card);
 
+  /**
+   * Broadcast to all player who won the last trick.
+   * 
+   * @author Jonas Bauer
+   * @param trickWinner .
+   */
   void broadcastTrickResult(Player trickWinner);
 
+  /**
+   * Ask the declarer if he wants to play a hand game.
+   * 
+   * @author Jonas Bauer
+   * @param p targetplayer (declarer)
+   */
   public void callForHandOption(Player p);
 
+  /**
+   * Ask the declarer what contract (with additional mutlipliers) he wants to play.
+   * 
+   * @author Jonas Bauer
+   * @param p targetplayer (declarer)
+   */
   public void callForContract(Player p);
 
+  /**
+   * Send the skat to the declarer if he plays not a handgame.
+   * 
+   * @author Jonas Bauer
+   * @param p delcarer
+   * @param skat the skat
+   */
   public void sendSkat(Player p, Card[] skat);
 
+  /**
+   * Broadcast the roundresults to all players.
+   * 
+   * @author Jonas Bauer
+   * @param result roundresults
+   */
   public void broadcastRoundResult(Result result);
 
-  public void broadcastRekontraAnnounced();
-
+  /**
+   * Ask the team players if they want to announce kontra.
+   * 
+   * @author Jonas Bauer
+   * @param players teamplayers
+   */
   public void kontraRequest(Player[] players);
 
+  /**
+   * Aks the solo player if he wants to announce rekontra.
+   * 
+   * @author Jonas Bauer
+   * @param player soloplayer
+   */
   public void reKontraRequest(Player player);
 
-  public void broadcastRoundRestarted();
-
-  public void broadcastServerStateChange(int serverState);
-
+  /**
+   * Broadcast a announced kontra to all players.
+   * 
+   * @author Jonas Bauer
+   */
   void broadcastKontraAnnounced();
 
+  /**
+   * Broadcast a announced rekontra to all players.
+   * 
+   * @author Jonas Bauer
+   */
+  public void broadcastRekontraAnnounced();
+
+  /**
+   * Broacast to all player who the declarer is (who won the bidding).
+   * 
+   * @author Jonas Bauer
+   * @param p the declarer
+   */
   void broadcastDeclarer(Player p);
 
+  /**
+   * Update the information about the enemy. Send to everybody except the given enemy.
+   * 
+   * @author Jonas Bauer
+   * @param p the enemy.
+   */
   void updateEnemy(Player p);
 
+  /**
+   * Broadcast a bid of a player to all players.
+   * 
+   * @author Jonas Bauer
+   * @param message the bid as a message to display directly
+   * @param p the bidding player
+   */
   void broadcastBid(String message, Player p);
 
+  /**
+   * Ask the user to play a certain card. Used in the scenarios / tutorial.
+   * 
+   * @author Jonas Bauer
+   * @param player the target player
+   * @param card the card to be played
+   */
   void callForSpecificPlay(Player player, Card card);
 
+  /**
+   * Set a player to be the dealer / spectator.
+   * 
+   * @author Jonas Bauer
+   * @param dealer player to be the dealer
+   */
   void setDealer(Player dealer);
+
+  /**
+   * Updates information about the player.
+   * 
+   * @author Jonas Bauer
+   * @param player the player.
+   */
+  void updatePlayerDuringRound(Player player);
 
 }
 

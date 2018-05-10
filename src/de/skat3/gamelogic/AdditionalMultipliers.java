@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * This class represents any additional Multiliers announced by the solo player.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 @SuppressWarnings("serial")

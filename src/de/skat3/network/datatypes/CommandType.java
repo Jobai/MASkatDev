@@ -1,5 +1,11 @@
 package de.skat3.network.datatypes;
 
+/**
+ * ENUMS that describe a sever message related to the game.
+ * 
+ * @author Jonas Bauer
+ *
+ */
 public enum CommandType implements SubType {
 
   /**
@@ -10,10 +16,6 @@ public enum CommandType implements SubType {
    * User is informed of a bid from a different player.
    */
   BID_INFO,
-  /**
-   * User is informed that is last bid was illegal and he is ordered to redo.
-   */
-
   /**
    * User is ordered to play a card.
    */
@@ -56,16 +58,16 @@ public enum CommandType implements SubType {
    * User is informed about the joining / leaving of a player and his player profile.
    */
   GAME_INFO,
-  
+
   KONTRA_ANNOUNCED_INFO,
-  
+
   REKONTRA_ANNOUNCED_INFO,
-  
+
   KONTRA_SHOW_OPTION_INFO,
-  
+
   REKONTRA_SHOW_OPTION_INFO,
-  
+
   AUCTION_WINNER_INFO,
-  
+
   CONTRACT_INFO, ROUND_GENERAL_INFO, UPDATE_ENEMY_INFO, TRAINING_CALL_FOR_SPECIFIC_PLAY, SET_DEALER;
 }

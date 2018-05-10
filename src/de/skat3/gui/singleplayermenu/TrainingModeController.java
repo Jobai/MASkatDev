@@ -5,9 +5,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 /**
- * Class to control the corresponding training mode view file.
+ * Class to control the corresponding training mode view file. (starts the selected training
+ * szenario)
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class TrainingModeController {
   private AnchorPane main;

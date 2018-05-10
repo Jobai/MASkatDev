@@ -32,6 +32,14 @@ public class GuiCard extends Parent {
     this.getChildren().add(this.getCard().getImage());
   }
 
+  /**
+   * Clear this method.
+   */
+  public void clear() {
+    this.getChildren().remove(this.card.getImage());
+    this.card = null;
+  }
+
   public Card getCard() {
     return card;
   }
@@ -40,6 +48,13 @@ public class GuiCard extends Parent {
     this.card = card;
   }
 
+  /**
+   * True if playable.
+   * 
+   * @param playableRef Context to check the cards against.
+   * @param card Card to check;
+   * @return True if playable fix.
+   */
   public boolean isPlayable(Card[] playableRef, GuiCard card) {
     for (Card c : playableRef) {
       try {
@@ -57,6 +72,11 @@ public class GuiCard extends Parent {
 
   private FadeTransition bling;
 
+  /**
+   * Apply a falshing mode.
+   * 
+   * @param value .
+   */
   void setBlingBling(boolean value) {
     if (this.bling == null) {
       this.bling = new FadeTransition();

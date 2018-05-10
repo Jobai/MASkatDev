@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 /**
+ * Saves all objects for the scoreboard during a match.
+ * 
  * @author Aljoscha Domonell
  *
  */

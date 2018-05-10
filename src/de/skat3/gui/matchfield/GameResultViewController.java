@@ -1,8 +1,8 @@
 package de.skat3.gui.matchfield;
 
-import java.util.ArrayList;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.MatchResult.PlayerHistory;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Class to control the corresponding game result view file.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class GameResultViewController {
 
@@ -45,6 +45,8 @@ public class GameResultViewController {
   @FXML
   public Button closeButton;
   @FXML
+  public Label headerText;
+  @FXML
   public AnchorPane root;
 
   /**
@@ -73,10 +75,10 @@ public class GameResultViewController {
     // Determine winner
     if (matchResult.isBierlachs()) {
       winner.setText(matchResult.getLoser().getName());
-      // TIMO TODO set text to Loser
+      headerText.setText("Loser");
     } else {
       winner.setText(matchResult.getWinner().getName());
-      // TIMO TODO set text to Winner
+      headerText.setText("Winner");
     }
 
     // Points histroy

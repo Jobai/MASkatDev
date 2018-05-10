@@ -4,6 +4,7 @@ import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
+import de.skat3.gamelogic.TrainingRoundInstance;
 import de.skat3.main.SkatMain;
 import javafx.util.Duration;
 
@@ -28,9 +29,10 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void initializePlayers() {
+    this.matchfield.overlayController.bindChat();
     if (!SkatMain.lgs.isGameActive()) {
       this.matchfield.overlayController.showInMainInfo(
-          SkatMain.mainController.currentLobby.getCurrentNumberOfPlayers() - 1 + "/"
+          SkatMain.mainController.currentLobby.getCurrentNumberOfPlayers() + "/"
               + SkatMain.mainController.currentLobby.getMaximumNumberOfPlayers() + " Ready",
           Duration.INDEFINITE);
     } else {
@@ -58,13 +60,13 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void startRound() {
-    this.matchfield.overlayController.bindChat();
     this.matchfield.overlayController.showInMainInfo("", Duration.millis(1));
     this.matchfield.tableController.iniHands();
     this.matchfield.overlayController.iniStartRound();
     if (SkatMain.lgs.localPlayerIsDealer()) {
       this.matchfield.overlayController.setPlayText("Spectating", true, false);
     } else {
+      this.matchfield.overlayController.setPlayText("", false, false);
       this.matchfield.tableView.trick.showBidingCards(true);
     }
 
@@ -298,12 +300,13 @@ public class InGameController implements InGameControllerInterface {
    * @see de.skat3.gui.matchfield.InGameControllerInterface#showSkatSelectionRequest()
    */
   @Override
-  public void showSkatSelectionRequest() {
-    if (SkatMain.lgs.getTimerInSeconds() > 0) {
+  public void showSkatSelectionRequest(boolean show) {
+    if (SkatMain.lgs.getTimerInSeconds() > 0 && show) {
       this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
     }
     this.matchfield.tableView.trick.showBidingCards(false);
-    this.matchfield.tableController.showSkatSelection(true);
+    this.matchfield.tableController.showSkatSelection(show);
+
   }
 
   /*
@@ -314,8 +317,9 @@ public class InGameController implements InGameControllerInterface {
    * int, int)
    */
   @Override
-  public void showTrainingModeInfoText(String text, int width, int height) {
-    this.matchfield.overlayController.showTrainingModeInfoText(text, width, height);
+  public void showTrainingModeInfoText(String text, int width, int height,
+      TrainingRoundInstance trInstance) {
+    this.matchfield.overlayController.showTrainingModeInfoText(text, width, height, trInstance);
   }
 
   /*

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- @author tistraub -->
+<!-- @author Timo Straub -->
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -97,8 +97,9 @@
 							onAction="#switchMode" prefHeight="25.0" prefWidth="140.0"
 							GridPane.columnIndex="1" GridPane.halignment="LEFT" />
 						<Label text="Mode" />
-						<TextField fx:id="modeValue" prefHeight="25.0"
-							prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+						<TextField fx:id="modeValue" maxWidth="140.0"
+							prefHeight="25.0" prefWidth="140.0" GridPane.columnIndex="1"
+							GridPane.rowIndex="1">
 							<tooltip>
 								<Tooltip fx:id="tooltipModeValue" />
 							</tooltip>

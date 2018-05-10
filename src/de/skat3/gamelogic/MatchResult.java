@@ -2,13 +2,12 @@
 package de.skat3.gamelogic;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
  * Provides data for the endscreen of a game.
- *
+ *@author Kai Baumann
  */
 @SuppressWarnings("serial")
 public class MatchResult implements Serializable {

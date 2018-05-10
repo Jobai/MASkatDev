@@ -4,6 +4,7 @@ import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
+import de.skat3.gamelogic.TrainingRoundInstance;
 
 
 /**
@@ -124,22 +125,22 @@ public interface InGameControllerInterface {
    * server.
    * 
    */
-  public void showSkatSelectionRequest();
+  public void showSkatSelectionRequest(boolean show);
 
   /**
+   * Shows a text to help the player during scenarios.
+   * 
    * @author emre
    * 
-   * @param text
-   * @param width
-   * @param height
    */
-  public void showTrainingModeInfoText(String text, int width, int height);
+  public void showTrainingModeInfoText(String text, int width, int height,
+      TrainingRoundInstance trInstance);
 
   /**
    * Opens an round result popup. The popup contains many facts about the finished round, like
    * (Winner, points...) No further actions are taken or input is requested.
    * 
-   * @author tistraub
+   * @author Timo Straub
    * 
    * @param results Result in which the informations about the game are stored.
    */

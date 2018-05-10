@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * All possible contracts in skat.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 public enum Contract implements Serializable {

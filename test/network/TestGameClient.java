@@ -6,16 +6,9 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
+
 package network;
 
-import static org.junit.Assert.*;
-import java.net.Inet4Address;
-import java.util.concurrent.TimeUnit;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.gui.GuiController;
@@ -31,17 +24,27 @@ import de.skat3.main.SkatMain;
 import de.skat3.network.MainNetworkController;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
+import java.net.Inet4Address;
+import java.util.concurrent.TimeUnit;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-/**
- * @author Jonas Bauer
- *
- */
+
+
 public class TestGameClient {
 
 
 
   GameServer gs;
 
+  /**
+   * sets up neeed things in the SkatMain.
+   * @author Jonas Bauer
+   * 
+   */
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     SkatMain.masterLogger = new MasterLogger();
@@ -61,8 +64,9 @@ public class TestGameClient {
 
 
   /**
+   * starts the needed GameServer.
    * @author Jonas Bauer
-   * @throws java.lang.Exception
+   * 
    */
   @Before
   public void setUp() throws Exception {
@@ -70,31 +74,29 @@ public class TestGameClient {
     TimeUnit.SECONDS.sleep(2);
   }
 
-  /**
-   * @author Jonas Bauer
-   * @throws java.lang.Exception
-   */
+
   @After
   public void tearDown() throws Exception {
-    // this.gs.stopServer();
-    // TimeUnit.SECONDS.sleep(2);
+    this.gs.stopServer();
+    TimeUnit.SECONDS.sleep(2);
   }
 
-//  @Test
-//  public final void testOnePlayer() {
-//    System.out.println("Join");
-//    GameClient gc = new GameClient("localhost", 2018, new Player(new Profile("Host")));
-//    try {
-//      TimeUnit.SECONDS.sleep(2);
-//    } catch (InterruptedException e) {
-//      // TODO Auto-generated catch block
-//      e.printStackTrace();
-//    }
-//    System.out.println("leave");
-//    gc.getClc().leaveGame();
-//    System.out.println("ENDE");
-//  }
+  @Test
+  public final void testOnePlayer() {
+    System.out.println("Join");
+    GameClient gc = new GameClient("localhost", 2018, new Player(new Profile("Host")));
+    try {
+      TimeUnit.SECONDS.sleep(2);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    System.out.println("leave");
+    gc.getClc().leaveGame();
+    System.out.println("ENDE");
+  }
 
+  @SuppressWarnings("unused")
   @Test
   public final void testTwoPlayer() {
     System.out.println("Join");
@@ -103,7 +105,6 @@ public class TestGameClient {
     try {
       TimeUnit.SECONDS.sleep(2);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     System.out.println("leave");

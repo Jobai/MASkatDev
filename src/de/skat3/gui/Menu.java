@@ -1,8 +1,6 @@
 package de.skat3.gui;
 
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 /**
  * Abstract class to declare a menu.
@@ -14,6 +12,8 @@ public abstract class Menu {
   private AnchorPane pane;
 
   /**
+   * Constructor.
+   * 
    * @param rank Postion in the menu frame starting from the left. Has to be unique.
    */
   public Menu(int rank) {
@@ -25,6 +25,8 @@ public abstract class Menu {
   }
 
   /**
+   * Get pane.
+   * 
    * @return the Pane which represents the Menu.
    */
   public AnchorPane getPane() {

@@ -12,13 +12,15 @@ import com.google.gson.GsonBuilder;
 public final class Utils {
   static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
   // Production constant names
-  static final String JSON_ID_FIELD = "id";
-  static final String JSON_NAME_FIELD = "name";
-  static final String JSON_PASSWORD_FIELD = "password";
-  static final String JSON_IMAGE_FIELD = "image";
-  static final String JSON_LAST_USED_FIELD = "lastUsed";
+  public static final String JSON_ID_FIELD = "id";
+  public static final String JSON_NAME_FIELD = "name";
+  public static final String JSON_PASSWORD_FIELD = "password";
+  public static final String JSON_IMAGE_FIELD = "image";
+  public static final String JSON_LAST_USED_FIELD = "lastUsed";
   public static final String JPG = "jpg";
   public static final String PNG = "png";
+  //
+  public static final String ACHIEVEMENT_UNLOCKED = "achievementUnlocked";
   // Image constants for testing
   public static final String IMAGE_1_PNG = "resources/profile pictures/IMAGE_1_PNG.png";
   public static final String IMAGE_1_PNG_NEW = "resources/profile pictures/image_png_new.png";

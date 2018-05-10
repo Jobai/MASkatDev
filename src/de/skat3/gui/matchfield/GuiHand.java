@@ -7,20 +7,16 @@ import de.skat3.main.SkatMain;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
@@ -152,6 +148,9 @@ public class GuiHand extends Parent {
     Iterator<GuiCard> iter = cards.iterator();
     while (iter.hasNext()) {
       GuiCard c = iter.next();
+      c.translateXProperty().unbind();
+      c.translateYProperty().unbind();
+      c.translateZProperty().unbind();
       iter.remove();
       this.getChildren().remove(c);
     }
@@ -168,10 +167,10 @@ public class GuiHand extends Parent {
   }
 
   /**
-   * ASD.
+   * get the corresponding guicard.
    * 
-   * @param card ASD.
-   * @return
+   * @param card Card.
+   * @return GuiCard.
    */
   public GuiCard getGuiCard(Card card) {
     for (GuiCard c : this.cards) {
@@ -197,14 +196,26 @@ public class GuiHand extends Parent {
    * @param oldCard Card to remove.
    */
   public synchronized void remove(GuiCard oldCard) {
+    oldCard.translateXProperty().unbind();
+    oldCard.translateYProperty().unbind();
+    oldCard.translateZProperty().unbind();
     this.cards.remove(oldCard);
     this.getChildren().remove(oldCard);
     this.resetPositions();
   }
 
+  /**
+   * Remove a card from this hand.
+   * 
+   * @param index Index to remove to remove.
+   */
   public synchronized void remove(int index) {
-    this.cards.remove(index);
-    this.getChildren().remove(index);
+    GuiCard c = this.cards.get(index);
+    c.translateXProperty().unbind();
+    c.translateYProperty().unbind();
+    c.translateZProperty().unbind();
+    this.cards.remove(c);
+    this.getChildren().remove(c);
     this.resetPositions();
   }
 
@@ -240,7 +251,6 @@ public class GuiHand extends Parent {
     Affine sourceTr = new Affine(t);
     sourceTr.getClass();
 
-    cards.remove(card);
     this.remove(card);
     card.getTransforms().clear();
     card.setTranslateX(0);
@@ -361,8 +371,6 @@ public class GuiHand extends Parent {
     }
 
   }
-
-  private FadeTransition bling;
 
   void setBlingBling(boolean value) {
     for (GuiCard c : this.cards) {

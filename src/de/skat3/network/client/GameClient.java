@@ -21,7 +21,10 @@ import de.skat3.network.datatypes.SubType;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
+import java.net.NoRouteToHostException;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -101,6 +104,13 @@ public class GameClient {
 
 
 
+  /**
+   * Connect to the server. Opens and connects a socket and initializes the streams. Blocks for some
+   * time if the host is down until the connection times out (time depending on operation system
+   * settings).
+   * 
+   * @author Jonas Bauer
+   */
   private void connect() {
     try {
       socket = new Socket(hostAdress, port);
@@ -120,6 +130,23 @@ public class GameClient {
       logger.log(Level.SEVERE, "Host not found! Connection failed!", e);
       handleLostConnection();
       e.printStackTrace();
+    } catch (SocketTimeoutException e) {
+      logger.warning("Connection timout out! Is there a server running?");
+      SkatMain.mainController.showCustomAlertPormpt("Connection timed out!",
+          "The connection to the sever timed out and failed!"
+              + "\n Are you sure that a server is running under this ip?");
+
+    } catch (NoRouteToHostException e) {
+      logger.severe("No Route To Host found! Are you connected to a network?");
+      SkatMain.mainController.showCustomAlertPormpt("No route to host!",
+          "Are you connected to a local network?");
+      SkatMain.mainController.goToMenu();
+    } catch (ConnectException e) {
+      logger.warning("Connection timout out or failed! Is there a server running?");
+      SkatMain.mainController.showCustomAlertPormpt("Connection timed out or failed!",
+          "The connection to the sever timed out and / or failed!"
+              + "\n Are you sure that a server is running under this ip?");
+      SkatMain.mainController.goToMenu();
     } catch (IOException e) {
       logger.log(Level.SEVERE, "Connection failed!  \n" + e.getMessage(), e);
       handleLostConnection();
@@ -141,6 +168,7 @@ public class GameClient {
     mc.lobbyPassword = lobbyPassword;
     mc.originSender = player;
     sendToServer(mc);
+    
 
   }
 
@@ -249,9 +277,9 @@ public class GameClient {
       case PLAY_REQUEST:
         clh.playRequestHandler(m);
         break;
-      case TRICK_INFO: 
-        clh.trickInfoHandler(m); 
-        break; 
+      case TRICK_INFO:
+        clh.trickInfoHandler(m);
+        break;
       case ROUND_START_INFO:
         clh.roundInfoHandler(m);
         break;
@@ -317,6 +345,12 @@ public class GameClient {
   }
 
 
+  /**
+   * Utility Method that closes the connection to the server and by closing all streams and the
+   * socket.
+   * 
+   * @author Jonas Bauer
+   */
   void closeConnection() {
     sl.interrupt();
     try {
@@ -330,6 +364,8 @@ public class GameClient {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    logger.fine("GO to menu");
+    SkatMain.mainController.goToMenu();
 
 
     SkatMain.mainController.goToMenu();
@@ -341,9 +377,18 @@ public class GameClient {
   }
 
 
+  /**
+   * Utility Method that closes the connection to the server and by closing all streams and the
+   * socket. Also sends a popup for a error message depending on the reason for the closed
+   * connection (e.g. kicked by server).
+   * 
+   * @author Jonas Bauer
+   * @param m Close Connection Message provided by the server that includes the reason for the
+   *        closed connection by the server.
+   */
   void closeConnection(Message m) {
 
-    showConnectionErro(m);
+    showConnectionError(m);
     sl.interrupt();
     logger.fine("GO to menu");
     SkatMain.mainController.goToMenu();
@@ -358,7 +403,15 @@ public class GameClient {
     }
   }
 
-  void showConnectionErro(Message m) {
+
+  /**
+   * Shows the corresponding error popup depending on the closed connection message.
+   * 
+   * @author Jonas Bauer
+   * @param m Close Connection Message provided by the server that includes the reason for the
+   *        closed connection by the server.
+   */
+  void showConnectionError(Message m) {
     MessageConnection mc = (MessageConnection) m;
     String reason = mc.reason;
     if (reason != null) {
@@ -381,6 +434,12 @@ public class GameClient {
               "The game server is shutting down and closed your connection. \n"
                   + "Please chose a different server.");
           break;
+        case "GAMEABORT":
+          SkatMain.mainController.showCustomAlertPormpt("Game aborted!",
+              "A player left during the game. "
+                  + "The gamesession was aborted and the server shutdown \n"
+                  + "Please chose a different server.");
+          break;
         default:
           SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
               "The game server closed your connection. \n"
@@ -395,12 +454,20 @@ public class GameClient {
     }
   }
 
+  /**
+   * Utility method that sends the message over the stream.
+   * 
+   * @author Jonas Bauer
+   * @param m the message to be send
+   */
   void sendToServer(Message m) {
     try {
       toSever.flush();
       toSever.writeObject(m);
       toSever.flush();
+      
       logger.log(Level.FINE, "tried to send" + m.subType);
+      m = null;
     } catch (IOException e) {
       e.printStackTrace();
       handleLostConnection();
@@ -426,7 +493,7 @@ public class GameClient {
   }
 
   void handleLostConnection() {
-    logger.log(Level.SEVERE, "Connection to server failed");
+    logger.log(Level.SEVERE, "The connection to server was lost!");
     closeConnection();
 
   }

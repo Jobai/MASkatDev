@@ -1,19 +1,23 @@
 package de.skat3.gamelogic;
 
 import java.io.Serializable;
-import com.sun.xml.internal.ws.util.StringUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
  * Represents a single Card from the skat game.
  * 
- * @author kai29
+ * @author Kai Baumann
  *
  */
 @SuppressWarnings("serial")
 public class Card implements Serializable {
 
+
+  public static final String SILVER = "silver2";
+  public static final String BLUE = "blue";
+
+  public static String designPath = SILVER;
 
   private Suit suit;
   private Value value;
@@ -27,7 +31,7 @@ public class Card implements Serializable {
    * Creates an empty, facedown card.
    */
   public Card() {
-    this.view = "cardImages/back_blue.png";
+    this.view = "cardImages/back_" + designPath + ".png";
     this.suit = null;
     this.value = null;
   }
@@ -44,7 +48,6 @@ public class Card implements Serializable {
     copy.playable = this.playable;
     copy.trickValue = this.trickValue;
     copy.view = this.view;
-    copy.imageView = this.imageView;
     return copy;
 
   }
@@ -294,5 +297,104 @@ public class Card implements Serializable {
 
     return this.value.name().charAt(0) + value + " Of " + this.suit.name().charAt(0) + suit;
   }
+
+
+  /**
+   * Returns the corresponding Unicode Char of the Card.
+   * @author Jonas Bauer
+   * @return the unicode char as a string.
+   */
+  public String getUnicodeChar() {
+    switch (this.suit) {
+      case CLUBS:
+        switch (this.value) {
+          case ACE:
+            return "🃑";
+          case EIGHT:
+            return "🃘";
+          case JACK:
+            return "🃛";
+          case KING:
+            return "🃞";
+          case NINE:
+            return "🃙";
+          case QUEEN:
+            return "🃝";
+          case SEVEN:
+            return "🃗";
+          case TEN:
+            return "🃚";
+          default:
+            throw new AssertionError();
+        }
+      case DIAMONDS:
+        switch (this.value) {
+          case ACE:
+            return "🃁";
+          case EIGHT:
+            return "🃈";
+          case JACK:
+            return "🃋";
+          case KING:
+            return "🃎";
+          case NINE:
+            return "🃉";
+          case QUEEN:
+            return "🃍";
+          case SEVEN:
+            return "🃇";
+          case TEN:
+            return "🃊";
+          default:
+            throw new AssertionError();
+        }
+      case HEARTS:
+        switch (this.value) {
+          case ACE:
+            return "🂱";
+          case EIGHT:
+            return "🂸";
+          case JACK:
+            return "🂻";
+          case KING:
+            return "🂼";
+          case NINE:
+            return "🂹";
+          case QUEEN:
+            return "🂽";
+          case SEVEN:
+            return "🂷";
+          case TEN:
+            return "🂺";
+          default:
+            throw new AssertionError();
+        }
+      case SPADES:
+        switch (this.value) {
+          case ACE:
+            return "🂡";
+          case EIGHT:
+            return "🂨";
+          case JACK:
+            return "🂫";
+          case KING:
+            return "🂬";
+          case NINE:
+            return "🂩";
+          case QUEEN:
+            return "🂭";
+          case SEVEN:
+            return "🂧";
+          case TEN:
+            return "🂪";
+          default:
+            throw new AssertionError();
+        }
+      default:
+        throw new AssertionError();
+    }
+  }
+
+
 }
 

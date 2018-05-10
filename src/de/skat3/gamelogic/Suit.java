@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * All existing suits in a skat game.
- * @author kai29
+ * @author Kai Baumann
  *
  */
 public enum Suit implements Serializable {

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Represents up to ten cards that a player has currently on his hand.
+ * @author Kai Baumann
  */
 @SuppressWarnings("serial")
 public class Hand implements Serializable {

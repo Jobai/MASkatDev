@@ -1,15 +1,15 @@
 package de.skat3.gui.optionsmenu;
 
+import de.skat3.gui.Menu;
 import java.io.IOException;
 import java.net.URL;
-import de.skat3.gui.Menu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 
 /**
  * Class to manage the options menu.
  * 
- * @author tistraub
+ * @author Timo Straub
  */
 public class OptionsMenu extends Menu {
   private OptionsMenuController controller;
@@ -32,7 +32,7 @@ public class OptionsMenu extends Menu {
   }
 
   /**
-   * returns the controller which handles the OptionsMenu content.
+   * Returns the controller which handles the OptionsMenu content.
    * 
    * @return the controllerClass of the corresponding Scene
    */

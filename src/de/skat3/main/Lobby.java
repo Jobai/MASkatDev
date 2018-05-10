@@ -1,5 +1,6 @@
 package de.skat3.main;
 
+import de.skat3.gamelogic.Player;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,7 +12,6 @@ import java.io.Serializable;
 import java.net.Inet4Address;
 import java.util.UUID;
 import java.util.logging.Logger;
-import de.skat3.gamelogic.Player;
 
 public class Lobby implements Serializable {
 
@@ -45,15 +45,9 @@ public class Lobby implements Serializable {
   boolean hasPassword;
 
   /**
+   * Creates a lobby with the configurations.
    * 
-   * @param ip
-   * @param serverMode
-   * @param name
-   * @param password
-   * @param numberOfPlayers
-   * @param timer
-   * @param scoringMode
-   * @param kontraRekontraEnabled
+   * @param timer 0 if not enabled.
    */
 
   public Lobby(Inet4Address ip, int serverMode, String name, String password, int numberOfPlayers,
@@ -81,12 +75,7 @@ public class Lobby implements Serializable {
   }
 
   /**
-   * 
-   * @param ip
-   * @param serverMode
-   * @param timer
-   * @param scoringMode
-   * @param kontraRekontraEnabled
+   * The lobby for the singleplayer.
    */
   public Lobby(Inet4Address ip, int serverMode, int scoringMode, boolean kontraRekontraEnabled) {
     this.numberOfPlayers = 3;
@@ -105,10 +94,6 @@ public class Lobby implements Serializable {
 
 
 
-  /**
-   * @author Jonas Bauer
-   * @return the hasPassword
-   */
   public boolean isHasPassword() {
     return hasPassword;
   }
@@ -118,9 +103,7 @@ public class Lobby implements Serializable {
   }
 
   /**
-   * 
-   * @param ip
-   * @param serverMode
+   * Lobby for directconnect.
    */
   public Lobby(Inet4Address ip, int serverMode) {
     this.numberOfPlayers = 3;
@@ -138,11 +121,14 @@ public class Lobby implements Serializable {
     return this.players;
   }
 
+  /**
+   * Adds a player to the lobby and the localgamestate.
+   */
   public void addPlayer(Player player) {
     if (this.currentPlayers < this.numberOfPlayers) {
       for (int i = 0; i < this.numberOfPlayers; i++) {
         if (this.players[i] == null) {
-          this.players[i] = player; // XXX
+          this.players[i] = player;
           this.currentPlayers++;
           if (SkatMain.mainController.numberOfPlayerProperty != null) {
             SkatMain.mainController.numberOfPlayerProperty.set(this.currentPlayers);
@@ -164,8 +150,11 @@ public class Lobby implements Serializable {
     }
   }
 
+  /**
+   * Removes player from the lobby and the localgamestate.
+   */
   public void removePlayer(Player player) {
-    if(player==null) {
+    if (player == null) {
       System.out.println("Fehler");
       return;
     }
@@ -211,6 +200,8 @@ public class Lobby implements Serializable {
 
 
   /**
+   * Returns true if the lobby equals the object.
+   * 
    * @author Jonas Bauer
    */
   @Override
@@ -269,6 +260,9 @@ public class Lobby implements Serializable {
     return name;
   }
 
+  /**
+   * Returns the string representation of the lobby with all settings.
+   */
   public String toString() {
     return "----------\nName : " + this.name + "\nPassword = " + this.password + "\nTimer = "
         + this.timer + "\nSingleplayer = " + this.singlePlayerGame + "\nServer mode = "
