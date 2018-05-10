@@ -8,7 +8,6 @@ import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.gamelogic.TrainingRoundInstance;
 import de.skat3.main.SkatMain;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
