@@ -776,8 +776,8 @@ public class TrainingRoundInstance extends RoundInstance {
       @Override
       public void run() {
         try {
-        SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, width,
-            height);
+          SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, width,
+              height);
         } catch (NullPointerException ex) {
           System.err.println("No popUp shown");
         }
@@ -1765,32 +1765,32 @@ public class TrainingRoundInstance extends RoundInstance {
 
         break;
       case 5:
-        // Player Hand: Herz_7, Herz_9, Herz_Ass, Herz_8, Pik_Dame, Pik_König
-        // Ai 2 Hand: Pik_10, Herz_10, Herz_König, Karo_9, Karo_10, Kreuz_8
-        // Ai 1 Hand: Karo_Ass, Karo_7, Karo_10, Kreuz_9, Pik_Ass, Kreuz_Ass
+        // Player Hand: Herz_Ass, Herz_10, Herz_König, Pik_Ass,Pik_König, Karo_8,
+        // Ai 1 Hand: Herz_7, Herz_8, Karo_9,Pik_Dame, Karo_7, Kreuz_9
+        // Ai 2 Hand: Herz_9, Karo_Ass, Kreuz_Ass, Pik_10, Karo_10, Kreuz_8
 
         Card[] playerCards5 = new Card[this.startHandSize];
-        playerCards5[0] = new Card(Suit.HEARTS, Value.SEVEN);
-        playerCards5[1] = new Card(Suit.HEARTS, Value.NINE);
-        playerCards5[2] = new Card(Suit.HEARTS, Value.EIGHT);
-        playerCards5[3] = new Card(Suit.SPADES, Value.QUEEN);
+        playerCards5[0] = new Card(Suit.HEARTS, Value.ACE);
+        playerCards5[1] = new Card(Suit.HEARTS, Value.TEN);
+        playerCards5[2] = new Card(Suit.HEARTS, Value.KING);
+        playerCards5[3] = new Card(Suit.SPADES, Value.ACE);
         playerCards5[4] = new Card(Suit.SPADES, Value.KING);
-        playerCards5[5] = new Card(Suit.HEARTS, Value.ACE);
+        playerCards5[5] = new Card(Suit.DIAMONDS, Value.EIGHT);
 
         Card[] enemyOneCards5 = new Card[this.startHandSize];
-        enemyOneCards5[0] = new Card(Suit.DIAMONDS, Value.ACE);
-        enemyOneCards5[1] = new Card(Suit.DIAMONDS, Value.SEVEN);
-        enemyOneCards5[2] = new Card(Suit.DIAMONDS, Value.TEN);
-        enemyOneCards5[3] = new Card(Suit.CLUBS, Value.NINE);
-        enemyOneCards5[4] = new Card(Suit.SPADES, Value.ACE);
-        enemyOneCards5[5] = new Card(Suit.CLUBS, Value.ACE);
+        enemyOneCards5[0] = new Card(Suit.HEARTS, Value.SEVEN);
+        enemyOneCards5[1] = new Card(Suit.HEARTS, Value.EIGHT);
+        enemyOneCards5[2] = new Card(Suit.DIAMONDS, Value.NINE);
+        enemyOneCards5[3] = new Card(Suit.SPADES, Value.QUEEN);
+        enemyOneCards5[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
+        enemyOneCards5[5] = new Card(Suit.CLUBS, Value.NINE);
 
         Card[] enemyTwoCards5 = new Card[this.startHandSize];
-        enemyTwoCards5[0] = new Card(Suit.SPADES, Value.TEN);
-        enemyTwoCards5[1] = new Card(Suit.HEARTS, Value.TEN);
-        enemyTwoCards5[2] = new Card(Suit.HEARTS, Value.KING);
-        enemyTwoCards5[3] = new Card(Suit.DIAMONDS, Value.NINE);
-        enemyTwoCards5[4] = new Card(Suit.DIAMONDS, Value.EIGHT);
+        enemyTwoCards5[0] = new Card(Suit.HEARTS, Value.NINE);
+        enemyTwoCards5[1] = new Card(Suit.DIAMONDS, Value.ACE);
+        enemyTwoCards5[2] = new Card(Suit.CLUBS, Value.ACE);
+        enemyTwoCards5[3] = new Card(Suit.SPADES, Value.TEN);
+        enemyTwoCards5[4] = new Card(Suit.DIAMONDS, Value.TEN);
         enemyTwoCards5[5] = new Card(Suit.CLUBS, Value.EIGHT);
 
         this.players[0].setHand(new Hand(playerCards5));
