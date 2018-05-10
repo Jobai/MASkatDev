@@ -172,17 +172,6 @@ public class TrainingRoundInstance extends RoundInstance {
 
 
 
-        Platform.runLater(new Runnable() {
-          @Override
-          public void run() {
-            SkatMain.guiController.getInGameController().showTrainingModeInfoText(
-                "/trainingPopups/SuccessPopUp.html", 400, 300,
-                TrainingRoundInstance.this);
-          }
-        });
-        lock.wait();
-
-
       } else {
         this.initializeAuction();
         this.updatePlayer();
@@ -192,7 +181,16 @@ public class TrainingRoundInstance extends RoundInstance {
         slc.broadcastRoundStarted();
         this.startGame();
       }
+      Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+          SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+              "/trainingPopups/SuccessPopUp.html", 400, 300, TrainingRoundInstance.this);
+        }
+      });
+      lock.wait();
     }
+
   }
 
   private boolean currentAnswer;
