@@ -24,8 +24,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -580,7 +578,7 @@ public class InGameOverlayController {
   private boolean chatIsBind;
 
   void bindChat() {
-    if (!SkatMain.lgs.isSinglePlayerGame()) {
+    if (SkatMain.lgs.isSinglePlayerGame()) {
       chatArea.setVisible(false);
       chatField.setVisible(false);
       return;
