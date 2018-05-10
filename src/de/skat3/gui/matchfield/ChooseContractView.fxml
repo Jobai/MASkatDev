@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="423.0" prefWidth="404.0"
+<AnchorPane fx:id="root" prefHeight="385.0" prefWidth="404.0"
 	style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-width: 2;"
 	xmlns="http://javafx.com/javafx/9.0.1"
 	xmlns:fx="http://javafx.com/fxml/1"
@@ -33,7 +33,7 @@
 				</Label>
 			</children>
 		</Pane>
-		<GridPane layoutX="14.0" layoutY="87.0" prefHeight="68.0"
+		<GridPane layoutX="14.0" layoutY="80.0" prefHeight="58.0"
 			prefWidth="373.0">
 			<columnConstraints>
 				<ColumnConstraints hgrow="SOMETIMES"
@@ -79,21 +79,21 @@
 			</children>
 		</GridPane>
 		<ToggleButton fx:id="toggleGrand" layoutX="14.0"
-			layoutY="176.0" mnemonicParsing="false" prefHeight="25.0"
+			layoutY="156.0" mnemonicParsing="false" prefHeight="25.0"
 			prefWidth="373.0" stylesheets="@toggleButton.css" text="Grand">
 			<font>
 				<Font size="20.0" />
 			</font>
 		</ToggleButton>
 		<ToggleButton fx:id="toggleOpengame" layoutX="14.0"
-			layoutY="230.0" mnemonicParsing="false" prefHeight="25.0"
+			layoutY="208.0" mnemonicParsing="false" prefHeight="25.0"
 			prefWidth="373.0" stylesheets="@toggleButton.css" text="Nullgame"
 			textFill="WHITE">
 			<font>
 				<Font size="20.0" />
 			</font>
 		</ToggleButton>
-		<HBox alignment="CENTER" layoutX="14.0" layoutY="309.0"
+		<HBox alignment="CENTER" layoutX="16.0" layoutY="275.0"
 			prefHeight="30.0" prefWidth="373.0" spacing="17.0">
 			<children>
 				<CheckBox fx:id="cbSchneider" mnemonicParsing="false"
@@ -116,7 +116,7 @@
 				</CheckBox>
 			</children>
 		</HBox>
-		<Button fx:id="saveButton" layoutX="130.0" layoutY="360.0"
+		<Button fx:id="saveButton" layoutX="130.0" layoutY="324.0"
 			mnemonicParsing="false" onAction="#setContract" prefHeight="25.0"
 			prefWidth="144.0" style="-fx-background-color: #d60202;" text="Save"
 			textFill="WHITE">

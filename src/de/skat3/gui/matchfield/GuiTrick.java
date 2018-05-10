@@ -195,6 +195,7 @@ public class GuiTrick {
 
     this.cards = new GuiCard[3];
     this.index = 0;
+    System.gc();
   }
 
   /**
