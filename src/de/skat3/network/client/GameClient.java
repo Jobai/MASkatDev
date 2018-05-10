@@ -168,6 +168,7 @@ public class GameClient {
     mc.lobbyPassword = lobbyPassword;
     mc.originSender = player;
     sendToServer(mc);
+    
 
   }
 
@@ -464,7 +465,9 @@ public class GameClient {
       toSever.flush();
       toSever.writeObject(m);
       toSever.flush();
+      
       logger.log(Level.FINE, "tried to send" + m.subType);
+      m = null;
     } catch (IOException e) {
       e.printStackTrace();
       handleLostConnection();
