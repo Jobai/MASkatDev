@@ -1,5 +1,9 @@
 package de.skat3.main;
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -13,10 +17,6 @@ import de.skat3.gamelogic.TrainingController;
 import de.skat3.io.profile.Profile;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -682,7 +682,7 @@ public class MainController implements MainControllerInterface {
 
       @Override
       public void run() {
-        SkatMain.guiController.getInGameController().showSkatSelectionRequest();
+        SkatMain.guiController.getInGameController().showSkatSelectionRequest(true);
 
 
       }
