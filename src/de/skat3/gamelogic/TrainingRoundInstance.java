@@ -179,8 +179,8 @@ public class TrainingRoundInstance extends RoundInstance {
         this.updatePlayer();
         this.updateEnemies();
         this.setStartingPlayer();
-        slc.broadcastRoundStarted();
         this.setSoloAndContract();
+        slc.broadcastRoundStarted();
         this.startGame();
       }
     }
@@ -356,7 +356,6 @@ public class TrainingRoundInstance extends RoundInstance {
         this.updatePlayer();
         this.updateEnemies();
 
-        System.out.println("isBOt: " + this.players[0].isBot);
         if (this.players[0].isBot) {
           Thread.sleep(this.delay);
           Card current = this.getScriptedCard(currentRound, 0);
@@ -470,6 +469,7 @@ public class TrainingRoundInstance extends RoundInstance {
   String filePop = "/trainingPopups";
   private int width = 600;
   private int height = 400;
+  boolean popUpShown = false;
 
   /**
    * Shows the Information PopUp for the specific Scenario.
@@ -511,13 +511,11 @@ public class TrainingRoundInstance extends RoundInstance {
             filePop += "/Skat Strategies/Scenario1/Scenario1_Popup4.html";
             break;
           case 4:
-            filePop = null;
-            break;
+            return;
           case 5:
-            filePop = null;
-            break;
+            return;
           default:
-            break;
+            return;
         }
         break;
       case 2:
@@ -529,22 +527,17 @@ public class TrainingRoundInstance extends RoundInstance {
             filePop += "/Skat Strategies/Scenario2/Scenario2_Popup1.html";
             break;
           case 1:
-            filePop = null;
-            break;
+            return;
           case 2:
-            filePop = null;
-            break;
+            return;
           case 3:
-            filePop = null;
-            break;
+            return;
           case 4:
-            filePop = null;
-            break;
+            return;
           case 5:
-            filePop = null;
-            break;
+            return;
           default:
-            break;
+            return;
         }
         break;
       case 3:
@@ -574,13 +567,11 @@ public class TrainingRoundInstance extends RoundInstance {
             filePop += "/Skat Strategies/Scenario3/Scenario3_Popup4.html";
             break;
           case 4:
-            filePop = null;
-            break;
+            return;
           case 5:
-            filePop = null;
-            break;
+            return;
           default:
-            break;
+            return;
         }
         break;
       case 4:
@@ -610,13 +601,11 @@ public class TrainingRoundInstance extends RoundInstance {
             filePop += "/Skat Strategies/Scenario4/Scenario4_Popup4.html";
             break;
           case 4:
-            filePop = null;
-            break;
+            return;
           case 5:
-            filePop = null;
-            break;
+            return;
           default:
-            break;
+            return;
         }
         break;
       case 5:
@@ -640,25 +629,21 @@ public class TrainingRoundInstance extends RoundInstance {
             filePop += "/Skat Strategies/Scenario5/Scenario5_Popup3.html";
             break;
           case 3:
-            filePop = null;
-            break;
+            return;
           case 4:
-            filePop = null;
-            break;
+            return;
           case 5:
-            filePop = null;
-            break;
+            return;
           default:
-            break;
+            return;
         }
         break;
 
       default:
-        break;
+        return;
 
     }
     synchronized (lock) {
-
       Platform.runLater(new Runnable() {
         @Override
         public void run() {
@@ -666,7 +651,8 @@ public class TrainingRoundInstance extends RoundInstance {
             SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, width,
                 height, TrainingRoundInstance.this);
           } catch (NullPointerException ex) {
-            System.err.println("No popUp shown");
+            System.err.println("No popUp shown" + ex);
+
           }
         }
       });
