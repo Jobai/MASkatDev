@@ -674,10 +674,10 @@ public class InGameOverlayController {
         if (player.isBot()) {
           if (player.isHardBot()) {
             this.imageEnemyOne
-                .setImage(new Image("profilePictures" + File.separator + "HardKi.jpg"));
+                .setImage(new Image("/profilePictures/HardKi.jpg"));
           } else {
             this.imageEnemyOne
-                .setImage(new Image("profilePictures" + File.separator + "EasyKi.jpg"));
+                .setImage(new Image("/profilePictures/EasyKi.jpg"));
           }
         } else {
           this.imageEnemyOne.setImage(player.convertToImage());
