@@ -682,8 +682,10 @@ public class InGameOverlayController {
 
   void iniEmemyTwo(Player player) {
 
-    this.addBotRightRoot.setDisable(true);
-    this.addBotRightRoot.setVisible(false);
+    if (SkatMain.mainController.currentLobby.getMaximumNumberOfPlayers() < 4) {
+      this.addBotRightRoot.setDisable(true);
+      this.addBotRightRoot.setVisible(false);
+    }
 
     if (player == null) {
       this.nameEnemyTwo.setText("");
@@ -741,7 +743,7 @@ public class InGameOverlayController {
     this.popUpController.yesButton.setText("Bid");
 
     this.popUpController.yesButton.setOnAction(e -> {
-      this.showTimer(false); // XXX
+      this.showTimer(false);
       SkatMain.mainController.localBid(true);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);
@@ -750,7 +752,7 @@ public class InGameOverlayController {
     this.popUpController.noButton.setText("Pass");
 
     this.popUpController.noButton.setOnAction(e -> {
-      this.showTimer(false); // XXX
+      this.showTimer(false);
       SkatMain.mainController.localBid(false);
       this.popUpController.root.setVisible(false);
       this.popUpController.root.setDisable(true);

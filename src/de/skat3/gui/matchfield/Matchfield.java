@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Box;
 import javafx.util.Duration;
 
 /**
@@ -60,6 +59,11 @@ public class Matchfield {
     this.iniComponents();
   }
 
+  /**
+   * Get the current controller for the in game view.
+   * 
+   * @return Current controller.
+   */
   public InGameController getController() {
     return this.controller;
   }

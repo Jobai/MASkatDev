@@ -1,6 +1,5 @@
 package de.skat3.gui.matchfield;
 
-import java.util.logging.Logger;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;

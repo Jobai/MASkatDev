@@ -9,7 +9,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
@@ -113,7 +112,11 @@ public class GuiTrick {
 
   }
 
-
+  /**
+   * Show skat cards in the middle.
+   * 
+   * @param value
+   */
   void showBidingCards(boolean value) {
     this.bidingCard1.setVisible(value);
     this.bidingCard2.setVisible(value);
