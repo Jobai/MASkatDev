@@ -305,7 +305,7 @@ public class InGameController implements InGameControllerInterface {
       this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
     }
     this.matchfield.tableView.trick.showBidingCards(false);
-    this.matchfield.tableController.showSkatSelection(false);
+    this.matchfield.tableController.showSkatSelection(show);
 
   }
 
