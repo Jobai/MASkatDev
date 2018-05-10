@@ -368,6 +368,7 @@ public class TrainingRoundInstance extends RoundInstance {
           this.lock.wait();
         }
         slc.updatePlayerDuringRound(this.players[0].copyPlayer());
+        System.out.println("trick0 : " + this.trick[0]);
         slc.sendPlayedCard(this.players[0].copyPlayer(), this.trick[0].copy());
 
         System.out.println("2 is bot: " + this.players[1].isBot);
@@ -410,7 +411,7 @@ public class TrainingRoundInstance extends RoundInstance {
         @Override
         public void run() {
           SkatMain.guiController.getInGameController().showTrainingModeInfoText(
-              "/trainingPopups/Skat Strategies/Scenario1/successPopUp.html", 400, 300,
+              "/trainingPopups/SuccessPopUp.html", 400, 300,
               TrainingRoundInstance.this);
         }
       });
@@ -991,8 +992,10 @@ public class TrainingRoundInstance extends RoundInstance {
                 return null;
             }
           case 3:
+            System.out.println("111");
             switch (player) {
               case 0:
+                System.out.println("222");
                 return new Card(Suit.SPADES, Value.ACE);
               case 1:
                 return new Card(Suit.SPADES, Value.QUEEN);
@@ -1545,8 +1548,12 @@ public class TrainingRoundInstance extends RoundInstance {
         enemyTwoCards5[5] = new Card(Suit.CLUBS, Value.EIGHT);
 
         this.players[0].setHand(new Hand(playerCards5));
+        System.out.println(players[0].getHand());
         this.players[1].setHand(new Hand(enemyOneCards5));
+        System.out.println(players[1].getHand());
         this.players[2].setHand(new Hand(enemyTwoCards5));
+        System.out.println(players[2].getHand());
+
 
         break;
 
