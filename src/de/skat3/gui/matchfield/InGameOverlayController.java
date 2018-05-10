@@ -673,11 +673,10 @@ public class InGameOverlayController {
       try {
         if (player.isBot()) {
           if (player.isHardBot()) {
-            this.imageEnemyOne
-                .setImage(new Image("/profilePictures/HardKi.jpg"));
+            this.imageEnemyOne.setImage(new Image("/profilePictures/HardKi.jpg"));
+            // .setImage(InGameOverlayController.class.getRessouce("/profilePictures/HardKi.jpg"));
           } else {
-            this.imageEnemyOne
-                .setImage(new Image("/profilePictures/EasyKi.jpg"));
+            this.imageEnemyOne.setImage(new Image("/profilePictures/EasyKi.jpg"));
           }
         } else {
           this.imageEnemyOne.setImage(player.convertToImage());
@@ -731,11 +730,9 @@ public class InGameOverlayController {
       try {
         if (player.isBot()) {
           if (player.isHardBot()) {
-            this.imageEnemyTwo
-                .setImage(new Image("profilePictures" + File.separator + "HardKi.jpg"));
+            this.imageEnemyTwo.setImage(new Image("/profilePictures/HardKi.jpg"));
           } else {
-            this.imageEnemyTwo
-                .setImage(new Image("profilePictures" + File.separator + "EasyKi.jpg"));
+            this.imageEnemyTwo.setImage(new Image("/profilePictures/EasyKi.jpg"));
           }
         } else {
           this.imageEnemyTwo.setImage(player.convertToImage());
