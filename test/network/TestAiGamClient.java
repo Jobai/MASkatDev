@@ -2,9 +2,11 @@
  * SKAT_3_Eclipse
  *
  * @author Jonas Bauer
- * @version 1.0 07.05.2018
+ * @version 1.0
+ * 09.05.2018
  * 
- *          (c) 2018 All Rights Reserved. -------------------------
+ * (c) 2018 All Rights Reserved. 
+ * -------------------------
  */
 
 package network;
@@ -22,7 +24,7 @@ import de.skat3.main.MainController;
 import de.skat3.main.MasterLogger;
 import de.skat3.main.SkatMain;
 import de.skat3.network.MainNetworkController;
-import de.skat3.network.client.GameClient;
+import de.skat3.network.client.AiGameClient;
 import de.skat3.network.server.GameServer;
 import java.net.Inet4Address;
 import java.util.concurrent.TimeUnit;
@@ -34,7 +36,7 @@ import org.junit.Test;
 
 
 
-public class TestGameClient {
+public class TestAiGamClient {
 
 
 
@@ -84,7 +86,7 @@ public class TestGameClient {
   @Test
   public final void testOnePlayer() {
     System.out.println("Join");
-    GameClient gc = new GameClient("localhost", 2018, new Player(new Profile("Host")));
+    AiGameClient gc = new AiGameClient("localhost", 2018, new Player(new Profile("Host")));
     try {
       TimeUnit.SECONDS.sleep(2);
     } catch (InterruptedException e) {
@@ -100,8 +102,8 @@ public class TestGameClient {
   @Test
   public final void testTwoPlayer() {
     System.out.println("Join");
-    GameClient gc = new GameClient("localhost", 2018, new Player(new Profile("Host")));
-    GameClient gc2 = new GameClient("localhost", 2018, new Player(new Profile("Name 1")));
+    AiGameClient gc = new AiGameClient("localhost", 2018, new Player(new Profile("Host")));
+    AiGameClient gc2 = new AiGameClient("localhost", 2018, new Player(new Profile("Name 1")));
     try {
       TimeUnit.SECONDS.sleep(2);
     } catch (InterruptedException e) {

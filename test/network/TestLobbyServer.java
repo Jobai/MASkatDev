@@ -6,29 +6,26 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
+
 package network;
 
-import static org.junit.Assert.*;
-import java.net.Inet4Address;
+import de.skat3.main.Lobby;
+import de.skat3.network.server.LobbyServer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Test;
-import de.skat3.main.Lobby;
-import de.skat3.network.server.LobbyServer;
 
-/**
- * @author Jonas Bauer
- *
- */
+
+
 public class TestLobbyServer {
 
   LobbyServer currentLobbyServer;
 
+
   /**
-   * @author Jonas Bauer
-   * @throws java.lang.Exception
+   * tear down.
    */
   @After
   public void tearDown() throws Exception {
@@ -49,9 +46,10 @@ public class TestLobbyServer {
 
   /**
    * Test method for
-   * {@link de.skat3.network.server.LobbyServer#LobbyServer(de.skat3.main.Lobby, java.net.InetAddress)}.
+   * {@link de.skat3.network.server.LobbyServer#LobbyServer
+   * (de.skat3.main.Lobby, java.net.InetAddress)}.
    * 
-   * @throws UnknownHostException
+   * 
    */
   @Test
   public final void testLobbyServerLobbyInetAddress() throws UnknownHostException {

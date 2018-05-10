@@ -6,53 +6,44 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
+
 package network;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+
+import de.skat3.main.Lobby;
+import de.skat3.network.client.LobbyDiscover;
+import de.skat3.network.server.LobbyServer;
 import java.net.Inet4Address;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import de.skat3.main.Lobby;
-import de.skat3.network.client.LobbyDiscover;
-import de.skat3.network.server.LobbyServer;
 
-/**
- * @author Jonas Bauer
- *
- */
+
+
 public class TestLobbyDiscover {
 
 
   static LobbyServer ls;
   LobbyDiscover ld;
 
-  /**
-   * @author Jonas Bauer
-   * @throws java.lang.Exception
-   */
+
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     Inet4Address inet = (Inet4Address) Inet4Address.getLocalHost();
     ls = new LobbyServer(new Lobby(inet, 0, "JUNIT test lobby", "", 3, 0, 0, false));
   }
 
-  /**
-   * @author Jonas Bauer
-   * @throws java.lang.Exception
-   */
+
   @AfterClass
   public static void tearDownAfterClass() throws Exception {
     ls.stopLobbyBroadcast();
   }
 
 
-  /**
-   * @author Jonas Bauer
-   * @throws java.lang.Exception
-   */
+
   @After
   public void tearDown() throws Exception {
     ls.stopLobbyBroadcast();

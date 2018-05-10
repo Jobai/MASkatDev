@@ -9,6 +9,8 @@
 
 package network;
 
+import static org.junit.Assert.assertFalse;
+
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Player;
 import de.skat3.gui.GuiController;
@@ -28,7 +30,6 @@ import de.skat3.network.datatypes.MessageCommand;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.server.GameServer;
 import de.skat3.network.server.LobbyServer;
-import static org.junit.Assert.*;
 import java.net.Inet4Address;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -37,16 +38,18 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-/**
- * @author Jonas Bauer
- *
- */
+
+
+
 public class TestGameServer {
 
   GameServer currentGameServer;
   Player testPlayer1 = new Player(new Profile("TestPlayer1"));
   Player testPlayer2 = new Player(new Profile("TestPlayer2"));
 
+  /**
+   * .
+   */
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     SkatMain.masterLogger = new MasterLogger();
@@ -59,7 +62,7 @@ public class TestGameServer {
     SkatMain.aiController = new AiController();
     SkatMain.mainController.currentLobby =
         new Lobby((Inet4Address) Inet4Address.getByName("localhost"), 0);
-    
+
     MasterLogger.networkGameServer.setLevel(Level.WARNING);
     MasterLogger.networkGameClient.setLevel(Level.WARNING);
   }
@@ -83,7 +86,8 @@ public class TestGameServer {
 
   /**
    * Test method for
-   * {@link de.skat3.network.server.GameServer#GameServer(de.skat3.main.Lobby, de.skat3.gamelogic.GameController)}.
+   * {@link de.skat3.network.server.GameServer#GameServer
+   * (de.skat3.main.Lobby, de.skat3.gamelogic.GameController)}.
    */
   @Test
   public final void testGameServerLobbyGameController() {
@@ -93,7 +97,8 @@ public class TestGameServer {
 
   /**
    * Test method for
-   * {@link de.skat3.network.server.GameServer#GameServer(de.skat3.main.Lobby, de.skat3.gamelogic.GameController, de.skat3.network.server.LobbyServer)}.
+   * {@link de.skat3.network.server.GameServer#GameServer
+   * (de.skat3.main.Lobby, de.skat3.gamelogic.GameController, de.skat3.network.server.LobbyServer)}.
    */
   @Test
   public final void testGameServerLobbyGameControllerLobbyServer() {
@@ -118,7 +123,8 @@ public class TestGameServer {
 
   /**
    * Test method for
-   * {@link de.skat3.network.server.GameServer#sendToPlayer(de.skat3.gamelogic.Player, de.skat3.network.datatypes.MessageCommand)}.
+   * {@link de.skat3.network.server.GameServer#sendToPlayer
+   * (de.skat3.gamelogic.Player, de.skat3.network.datatypes.MessageCommand)}.
    */
   @Test
   public final void testSendToPlayerEmpty() {
@@ -130,7 +136,8 @@ public class TestGameServer {
 
   /**
    * Test method for
-   * {@link de.skat3.network.server.GameServer#broadcastMessage(de.skat3.network.datatypes.Message)}.
+   * {@link de.skat3.network.server.GameServer#broadcastMessage
+   * (de.skat3.network.datatypes.Message)}.
    */
   @Test
   public final void testBroadcastMessageEmpty() {
@@ -158,7 +165,8 @@ public class TestGameServer {
 
   /**
    * Test method for
-   * {@link de.skat3.network.server.GameServer#broadcastMessage(de.skat3.network.datatypes.Message)}.
+   * {@link de.skat3.network.server.GameServer#broadcastMessage
+   * (de.skat3.network.datatypes.Message)}.
    */
   @Test
   public final void testBroadcastMessageFull() {
@@ -188,9 +196,8 @@ public class TestGameServer {
 
   }
 
-  /**
-   * @author Jonas Bauer
-   */
+
+  @SuppressWarnings("unused")
   private void addPlayer() {
     GameClient gc = new GameClient("localhost", 2018, testPlayer1);
     GameClient gc2 = new GameClient("localhost", 2018, testPlayer2);
@@ -201,10 +208,7 @@ public class TestGameServer {
     }
   }
 
-  /**
-   * @author Jonas Bauer
-   * @param gs
-   */
+
   private void stopServerAssertion(GameServer gs) {
     gs.stopServer();
 
