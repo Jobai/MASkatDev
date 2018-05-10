@@ -758,7 +758,7 @@ public class InGameOverlayController {
       this.popUpController.root.setDisable(true);
     });
 
-    this.popUpController.textField.setText("Do you bid more than " + bid + "?");
+    this.popUpController.textField.setText(bid + "");
 
     this.popUpController.root.setVisible(true);
     this.popUpController.root.setDisable(false);
