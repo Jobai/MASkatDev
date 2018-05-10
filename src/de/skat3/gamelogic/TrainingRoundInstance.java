@@ -33,203 +33,232 @@ public class TrainingRoundInstance extends RoundInstance {
 
   @Override
   void startRound() throws InterruptedException {
-    if (this.scenario == 0) {
-      this.startHandSize = 10;
+    synchronized (lock) {
+      if (this.scenario == 0) {
+        this.startHandSize = 10;
 
-      // 1a)
-      this.currentPartInSkatBasics = 0;
-      this.initializeAuction();
-      this.updatePlayer();
-      this.updateEnemies();
-      this.slc.broadcastRoundStarted();
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+                "/trainingPopups/SkatBasics/SkatBasicIntroduction.html", 400, 300,
+                TrainingRoundInstance.this);
+          }
+        });
+        lock.wait();
+        // 1a)
 
-      // bidding starts
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+                "/trainingPopups/SkatBasics/Bidding.html", 400, 300, TrainingRoundInstance.this);
+          }
+        });
+        lock.wait();
+        this.currentPartInSkatBasics = 0;
+        this.initializeAuction();
+        this.updatePlayer();
+        this.updateEnemies();
+        this.slc.broadcastRoundStarted();
 
-      this.startBidding();
+        // bidding starts
 
-      Thread.sleep(5000);
-      // 1b)
-      this.currentPartInSkatBasics = 1;
-      this.initializeAuction();
-      this.updatePlayer();
-      this.updateEnemies();
-      this.slc.broadcastRoundStarted();
+        this.startBidding();
 
-      // bidding starts
-
-      this.startBidding();
-
-      // 2a)
-      this.currentPartInSkatBasics = 2;
-      this.initializeAuction();
-      this.updatePlayer();
-      this.updateEnemies();
-      this.slc.broadcastRoundStarted();
-
-      // bidding starts
-
-      this.startBidding();
-      this.startGame();
+        Thread.sleep(5000);
+        // 1b)
 
 
-      // 2b)
-      this.currentPartInSkatBasics = 3;
-      this.initializeAuction();
-      this.updatePlayer();
-      this.updateEnemies();
-      this.slc.broadcastRoundStarted();
+        this.currentPartInSkatBasics = 1;
+        this.initializeAuction();
+        this.updatePlayer();
+        this.updateEnemies();
+        this.slc.broadcastRoundStarted();
 
-      // bidding starts
+        // bidding starts
 
-      this.startBidding();
-      this.startGame();
+        this.startBidding();
 
-      // 2c
-      this.currentPartInSkatBasics = 4;
-      this.initializeAuction();
-      this.updatePlayer();
-      this.updateEnemies();
-      this.slc.broadcastRoundStarted();
+        Thread.sleep(5000);
 
-      // bidding starts
-
-      this.startBidding();
-      this.startGame();
+        // 2a)
 
 
-      // 3a
-      this.currentPartInSkatBasics = 5;
-      this.initializeAuction();
-      this.updatePlayer();
-      this.updateEnemies();
-      this.slc.broadcastRoundStarted();
-
-      // bidding starts
-
-      this.startBidding();
-      this.startGame();
-
-      // 3b
-      this.currentPartInSkatBasics = 5;
-      this.initializeAuction();
-      this.updatePlayer();
-      this.updateEnemies();
-      this.slc.broadcastRoundStarted();
-
-      // bidding starts
-
-      this.startBidding();
-      this.startGame();
-
-
-      // 3c
-      this.currentPartInSkatBasics = 6;
-      this.initializeAuction();
-      this.updatePlayer();
-      this.updateEnemies();
-      this.slc.broadcastRoundStarted();
-
-      // bidding starts
-
-      this.startBidding();
-      this.startGame();
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+                "/trainingPopups/SkatBasics/Contracts+Multipliers.html", 400, 300,
+                TrainingRoundInstance.this);
+          }
+        });
+        lock.wait();
 
 
 
-    } else {
-      this.initializeAuction();
-      this.updatePlayer();
-      this.updateEnemies();
-      this.setStartingPlayer();
-      slc.broadcastRoundStarted();
-      this.setSoloAndContract();
-      this.startGame();
+        this.currentPartInSkatBasics = 2;
+        this.initializeAuction();
+        this.updatePlayer();
+        this.updateEnemies();
+        this.slc.broadcastRoundStarted();
+
+
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+                "/trainingPopups/SkatBasics/LotsOfClubs.html", 400, 300,
+                TrainingRoundInstance.this);
+          }
+        });
+        lock.wait();
+
+        // bidding starts
+
+        Thread.sleep(5000);
+
+
+        // 2b)
+        this.currentPartInSkatBasics = 3;
+        this.initializeAuction();
+        this.updatePlayer();
+        this.updateEnemies();
+        this.slc.broadcastRoundStarted();
+
+
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+                "/trainingPopups/SkatBasics/LotsOfJacks.html", 400, 300,
+                TrainingRoundInstance.this);
+          }
+        });
+        lock.wait();
+
+
+        // 2c
+
+        this.currentPartInSkatBasics = 4;
+        this.initializeAuction();
+        this.updatePlayer();
+        this.updateEnemies();
+        this.slc.broadcastRoundStarted();
+
+
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+                "/trainingPopups/SkatBasics/PlayNullOuvert.html", 400, 300,
+                TrainingRoundInstance.this);
+          }
+        });
+        lock.wait();
+
+
+
+        Thread.sleep(5000);
+
+
+
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+                "/trainingPopups/Skat Strategies/Scenario1/successPopUp.html", 400, 300,
+                TrainingRoundInstance.this);
+          }
+        });
+        lock.wait();
+
+
+      } else {
+        this.initializeAuction();
+        this.updatePlayer();
+        this.updateEnemies();
+        this.setStartingPlayer();
+        slc.broadcastRoundStarted();
+        this.setSoloAndContract();
+        this.startGame();
+      }
     }
-
   }
 
   private boolean currentAnswer;
 
   private Player startBiddingOne() throws InterruptedException {
     synchronized (lock) {
+
+      Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+          SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+              "/trainingPopups/SkatBasics/Bidding_firstBid.html", 400, 300,
+              TrainingRoundInstance.this);
+        }
+      });
+      lock.wait();
       this.current = LogicAnswers.BID;
-      Player bid = this.players[2];
+      Player bid = this.players[0];
+
       this.currentBidder = bid;
       this.currentAnswer = true;
       SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
           currentAnswer);
       lock.wait();
+
+      this.setBid(currentAnswer);
+      Thread.sleep(1000);
+      this.broadcastBid();
 
       Player respond = this.players[1];
       currentAnswer = true;
       this.currentBidder = respond;
       this.setBid(currentAnswer);
-      Thread.sleep(1000);
+      Thread.sleep(2000);
       this.broadcastBid();
 
       this.currentBiddingValue++;
 
 
-
       this.currentBidder = bid;
       this.currentAnswer = true;
-      width = 200;
-      height = 150;
-      filePop = "/trainingPopups";
-      filePop += "/Skat Basics/Case1.1.html";
+      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
+          currentAnswer);
+      lock.wait();
+
+      currentAnswer = false;
+      this.currentBidder = respond;
+      this.setBid(currentAnswer);
+      Thread.sleep(2000);
+      this.broadcastBid();
+
+      this.currentBiddingValue++;
+
+      bid = players[2];
+
+
+
+      this.currentBidder = bid;
+      this.currentAnswer = false;
+
+      this.setBid(currentAnswer);
+      Thread.sleep(2000);
+      this.broadcastBid();
+
       Platform.runLater(new Runnable() {
         @Override
         public void run() {
-          SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, width,
-              height);
+          SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+              "/trainingPopups/SkatBasics/Bidding_AfterSecondBid.html", 400, 300,
+              TrainingRoundInstance.this);
         }
       });
-      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
-          currentAnswer);
       lock.wait();
 
-
-      Thread.sleep(1000);
-      currentAnswer = true;
-      this.currentBidder = respond;
-      this.setBid(currentAnswer);
-      this.broadcastBid();
-
-      this.currentBiddingValue++;
-
-
-
-      this.currentBidder = bid;
-      this.currentAnswer = true;
-      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
-          currentAnswer);
-      width = 200;
-      height = 150;
-
-      filePop = "/trainingPopups";
-      filePop += "/Skat Basics/Case1.2.html";
-      lock.wait();
-
-
-      Thread.sleep(1000);
-      currentAnswer = false;
-      this.currentBidder = respond;
-      this.setBid(currentAnswer);
-      this.broadcastBid();
-
-      this.currentBiddingValue++;
-
-      bid = this.players[2];
-      respond = this.players[0];
-
-      Thread.sleep(1000);
-      currentAnswer = false;
-      this.currentBidder = bid;
-      this.setBid(currentAnswer);
-      this.broadcastBid();
-
-
-      return respond;
+      return bid;
 
 
     }
@@ -240,28 +269,34 @@ public class TrainingRoundInstance extends RoundInstance {
   private Player startBiddingTwo() throws InterruptedException {
     synchronized (lock) {
 
-      this.current = LogicAnswers.BID;
-      Player bid = this.players[2];
+      Player bid = players[2];
+      currentAnswer = true;
       this.currentBidder = bid;
-      this.currentAnswer = true;
       this.setBid(currentAnswer);
-      Thread.sleep(1000);
+      Thread.sleep(2000);
       this.broadcastBid();
 
 
-      Player respond = this.players[1];
-      currentAnswer = true;
+      Player respond = players[1];
+
+      currentAnswer = false;
       this.currentBidder = respond;
       this.setBid(currentAnswer);
-      Thread.sleep(1000);
+      Thread.sleep(2000);
       this.broadcastBid();
 
-      this.currentBiddingValue++;
 
 
-      respond = this.players[2];
-      bid = this.players[0];
-
+      bid = players[0];
+      Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+          SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+              "/trainingPopups/SkatBasics/Bidding_firstBidBadCards.html", 400, 300,
+              TrainingRoundInstance.this);
+        }
+      });
+      lock.wait();
 
       this.currentBidder = bid;
       this.currentAnswer = false;
@@ -270,79 +305,21 @@ public class TrainingRoundInstance extends RoundInstance {
       lock.wait();
 
 
-      return respond;
-
-
-    }
-  }
-
-
-  private Player startBiddingThree() throws InterruptedException {
-    synchronized (lock) {
-      this.current = LogicAnswers.BID;
-      Player bid = this.players[0];
-      this.currentBidder = bid;
-      this.currentAnswer = true;
-      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
-          currentAnswer);
-      lock.wait();
-
-      Player respond = this.players[1];
-      currentAnswer = true;
-      this.currentBidder = respond;
-      this.setBid(currentAnswer);
-      Thread.sleep(1000);
-      this.broadcastBid();
-
-      this.currentBiddingValue++;
-
-
-
-      this.currentBidder = bid;
-      this.currentAnswer = true;
-      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
-          currentAnswer);
+      Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+          SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+              "/trainingPopups/SkatBasics/Bidding_AfterSecondBadBid.html", 400, 300,
+              TrainingRoundInstance.this);
+        }
+      });
       lock.wait();
 
 
-      Thread.sleep(1000);
-      currentAnswer = true;
-      this.currentBidder = respond;
-      this.setBid(currentAnswer);
-      this.broadcastBid();
 
       this.currentBiddingValue++;
-
-
-
-      this.currentBidder = bid;
-      this.currentAnswer = true;
-      SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
-          currentAnswer);
-      lock.wait();
-
-
-      Thread.sleep(1000);
-      currentAnswer = false;
-      this.currentBidder = respond;
-      this.setBid(currentAnswer);
-      this.broadcastBid();
-
-      this.currentBiddingValue++;
-
-      bid = this.players[2];
-      respond = this.players[0];
-
-      Thread.sleep(1000);
-      currentAnswer = false;
-      this.currentBidder = bid;
-      this.setBid(currentAnswer);
-      this.broadcastBid();
-
 
       return respond;
-
-
     }
   }
 
@@ -386,7 +363,7 @@ public class TrainingRoundInstance extends RoundInstance {
           this.addCardtoTrick(current);
         } else {
           slc.callForSpecificPlay(this.players[0].copyPlayer(),
-              this.getScriptedCard(currentRound, 0)); // XXX
+              this.getScriptedCard(currentRound, 0));
           this.showPopUp(currentRound);
           this.current = LogicAnswers.CARD;
           this.lock.wait();
@@ -434,10 +411,11 @@ public class TrainingRoundInstance extends RoundInstance {
         @Override
         public void run() {
           SkatMain.guiController.getInGameController().showTrainingModeInfoText(
-              "/trainingPopups/Skat Strategies/Scenario1/successPopUp.html", 400, 300);
+              "/trainingPopups/Skat Strategies/Scenario1/successPopUp.html", 400, 300,
+              TrainingRoundInstance.this);
         }
       });
-
+      lock.wait();
     }
   }
 
@@ -451,8 +429,6 @@ public class TrainingRoundInstance extends RoundInstance {
         return this.startBiddingOne();
       case 1:
         return this.startBiddingTwo();
-      case 2:
-        return this.startBiddingThree();
       default:
         break;
 
@@ -491,8 +467,6 @@ public class TrainingRoundInstance extends RoundInstance {
 
 
 
-  // CASES TODO ARTEM, EMRE
-
   String filePop = "/trainingPopups";
   private int width = 600;
   private int height = 400;
@@ -501,100 +475,13 @@ public class TrainingRoundInstance extends RoundInstance {
    * Shows the Information PopUp for the specific Scenario.
    * 
    * @param currentRound represents the current Round in the Scenario.
+   * @throws InterruptedException
    */
-  private void showPopUp(int currentRound) {
+  private void showPopUp(int currentRound) throws InterruptedException {
     switch (this.scenario) {
-      case 0:
-        switch (currentPartInSkatBasics) {
-          case 0:
-            width = 600;
-            height = 400;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/PopUp1.html";
-            break;
-          case 1:
-            width = 200;
-            height = 150;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/Case1.1.html";
-
-            width = 200;
-            height = 150;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/Case1.2.html";
-            break;
-          case 2:
-            width = 600;
-            height = 400;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/PopUp2.html";
-            width = 200;
-            height = 150;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/Case2.1.html";
-            width = 200;
-            height = 150;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/Case2.2.html";
-            break;
-          case 3:
-            width = 200;
-            height = 150;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/Case3html";
-            break;
-          case 4:
-            width = 200;
-            height = 150;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/Case4.html";
-            break;
-          case 5:
-            width = 200;
-            height = 150;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/Case5.html";
-            break;
-          case 6:
-            width = 600;
-            height = 400;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/popup3.html";
-
-            width = 200;
-            height = 150;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/Case6.html";
-            break;
-          case 7:
-            width = 200;
-            height = 150;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/Case7.html";
-            break;
-          case 8:
-            width = 200;
-            height = 150;
-            filePop = "/trainingPopups";
-            filePop += "/Skat Basics/Case8.html";
-
-            width = 600;
-            height = 400;
-            filePop = "/trainingPopups";
-
-
-            width = 200;
-            height = 150;
-            filePop += "/Skat Basics/Popup4.html";
-            break;
-          default:
-            break;
-        }
-        break;
       case 1:
         switch (currentRound) {
           case 0:
-            System.out.println("1111");
             width = 400;
             height = 300;
             filePop = "/trainingPopups";
@@ -770,19 +657,21 @@ public class TrainingRoundInstance extends RoundInstance {
         break;
 
     }
-    System.out.println("Outside" + currentPartInSkatBasics);
+    synchronized (lock) {
 
-    Platform.runLater(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, width,
-              height);
-        } catch (NullPointerException ex) {
-          System.err.println("No popUp shown");
+      Platform.runLater(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            SkatMain.guiController.getInGameController().showTrainingModeInfoText(filePop, width,
+                height, TrainingRoundInstance.this);
+          } catch (NullPointerException ex) {
+            System.err.println("No popUp shown");
+          }
         }
-      }
-    });
+      });
+      lock.wait();
+    }
   }
 
   /**
@@ -1076,7 +965,10 @@ public class TrainingRoundInstance extends RoundInstance {
               default:
                 return null;
             }
+          default:
+            break;
         }
+        break;
       case 5: // play long to the enemy
         switch (currentRound) {
           case 0:
@@ -1145,12 +1037,15 @@ public class TrainingRoundInstance extends RoundInstance {
               default:
                 return null;
             }
+          default:
+            break;
 
         }
       default:
+        System.out.println("error");
         return null;
     }
-
+    return null;
   }
 
 
@@ -1255,7 +1150,6 @@ public class TrainingRoundInstance extends RoundInstance {
 
 
 
-  // CASES TODO ARTEM,EMRE
   /**
    * Deals cards to every player depending on the current scenario. No cards are dealt at random!
    */
@@ -1357,137 +1251,6 @@ public class TrainingRoundInstance extends RoundInstance {
             break;
           case 2:
 
-            Card[] playerCards2 = new Card[this.startHandSize];
-            playerCards2[0] = new Card(Suit.CLUBS, Value.KING);
-            playerCards2[1] = new Card(Suit.HEARTS, Value.TEN);
-            playerCards2[2] = new Card(Suit.SPADES, Value.QUEEN);
-            playerCards2[3] = new Card(Suit.HEARTS, Value.ACE);
-            playerCards2[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
-            playerCards2[5] = new Card(Suit.CLUBS, Value.QUEEN);
-            playerCards2[6] = new Card(Suit.SPADES, Value.KING);
-            playerCards2[7] = new Card(Suit.HEARTS, Value.JACK);
-            playerCards2[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
-            playerCards2[9] = new Card(Suit.CLUBS, Value.EIGHT);
-
-            // average cards
-            Card[] enemyOneCards2 = new Card[this.startHandSize];
-            enemyOneCards2[0] = new Card(Suit.DIAMONDS, Value.NINE);
-            enemyOneCards2[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
-            enemyOneCards2[2] = new Card(Suit.CLUBS, Value.JACK);
-            enemyOneCards2[3] = new Card(Suit.SPADES, Value.JACK);
-            enemyOneCards2[4] = new Card(Suit.CLUBS, Value.ACE);
-            enemyOneCards2[5] = new Card(Suit.CLUBS, Value.TEN);
-            enemyOneCards2[6] = new Card(Suit.SPADES, Value.NINE);
-            enemyOneCards2[7] = new Card(Suit.SPADES, Value.TEN);
-            enemyOneCards2[8] = new Card(Suit.HEARTS, Value.SEVEN);
-            enemyOneCards2[9] = new Card(Suit.HEARTS, Value.EIGHT);
-
-            // average cards
-            Card[] enemyTwoCards2 = new Card[this.startHandSize];
-            enemyTwoCards2[0] = new Card(Suit.DIAMONDS, Value.JACK);
-            enemyTwoCards2[1] = new Card(Suit.HEARTS, Value.QUEEN);
-            enemyTwoCards2[2] = new Card(Suit.DIAMONDS, Value.TEN);
-            enemyTwoCards2[3] = new Card(Suit.CLUBS, Value.NINE);
-            enemyTwoCards2[4] = new Card(Suit.DIAMONDS, Value.ACE);
-            enemyTwoCards2[5] = new Card(Suit.SPADES, Value.ACE);
-            enemyTwoCards2[6] = new Card(Suit.CLUBS, Value.SEVEN);
-            enemyTwoCards2[7] = new Card(Suit.HEARTS, Value.NINE);
-            enemyTwoCards2[8] = new Card(Suit.SPADES, Value.SEVEN);
-            enemyTwoCards2[9] = new Card(Suit.SPADES, Value.EIGHT);
-
-            this.players[0].setHand(new Hand(playerCards2));
-            this.players[1].setHand(new Hand(enemyOneCards2));
-            this.players[2].setHand(new Hand(enemyTwoCards2));
-
-            break;
-          case 3:
-            // good cards
-            Card[] playerCards3 = new Card[this.startHandSize];
-            playerCards3[0] = new Card(Suit.HEARTS, Value.JACK);
-            playerCards3[1] = new Card(Suit.DIAMONDS, Value.JACK);
-            playerCards3[2] = new Card(Suit.CLUBS, Value.JACK);
-            playerCards3[3] = new Card(Suit.SPADES, Value.JACK);
-            playerCards3[4] = new Card(Suit.CLUBS, Value.ACE);
-            playerCards3[5] = new Card(Suit.CLUBS, Value.TEN);
-            playerCards3[6] = new Card(Suit.SPADES, Value.ACE);
-            playerCards3[7] = new Card(Suit.SPADES, Value.TEN);
-            playerCards3[8] = new Card(Suit.HEARTS, Value.ACE);
-            playerCards3[9] = new Card(Suit.HEARTS, Value.EIGHT);
-
-            // bad cards
-            Card[] enemyOneCards3 = new Card[this.startHandSize];
-            enemyOneCards3[0] = new Card(Suit.CLUBS, Value.KING);
-            enemyOneCards3[1] = new Card(Suit.HEARTS, Value.TEN);
-            enemyOneCards3[2] = new Card(Suit.SPADES, Value.QUEEN);
-            enemyOneCards3[3] = new Card(Suit.HEARTS, Value.SEVEN);
-            enemyOneCards3[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
-            enemyOneCards3[5] = new Card(Suit.CLUBS, Value.QUEEN);
-            enemyOneCards3[6] = new Card(Suit.SPADES, Value.KING);
-            enemyOneCards3[7] = new Card(Suit.DIAMONDS, Value.NINE);
-            enemyOneCards3[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
-            enemyOneCards3[9] = new Card(Suit.CLUBS, Value.EIGHT);
-
-            // bad cards
-            Card[] enemyTwoCards3 = new Card[this.startHandSize];
-            enemyTwoCards3[0] = new Card(Suit.DIAMONDS, Value.EIGHT);
-            enemyTwoCards3[1] = new Card(Suit.HEARTS, Value.QUEEN);
-            enemyTwoCards3[2] = new Card(Suit.DIAMONDS, Value.TEN);
-            enemyTwoCards3[3] = new Card(Suit.CLUBS, Value.NINE);
-            enemyTwoCards3[4] = new Card(Suit.DIAMONDS, Value.ACE);
-            enemyTwoCards3[5] = new Card(Suit.SPADES, Value.NINE);
-            enemyTwoCards3[6] = new Card(Suit.CLUBS, Value.SEVEN);
-            enemyTwoCards3[7] = new Card(Suit.HEARTS, Value.NINE);
-            enemyTwoCards3[8] = new Card(Suit.SPADES, Value.SEVEN);
-            enemyTwoCards3[9] = new Card(Suit.SPADES, Value.EIGHT);
-            this.players[0].setHand(new Hand(playerCards3));
-            this.players[1].setHand(new Hand(enemyOneCards3));
-            this.players[2].setHand(new Hand(enemyTwoCards3));
-            break;
-          case 4:
-            // bad cards
-            Card[] playerCards4 = new Card[this.startHandSize];
-            playerCards4[0] = new Card(Suit.CLUBS, Value.NINE);
-            playerCards4[1] = new Card(Suit.HEARTS, Value.TEN);
-            playerCards4[2] = new Card(Suit.SPADES, Value.QUEEN);
-            playerCards4[3] = new Card(Suit.HEARTS, Value.SEVEN);
-            playerCards4[4] = new Card(Suit.DIAMONDS, Value.SEVEN);
-            playerCards4[5] = new Card(Suit.CLUBS, Value.QUEEN);
-            playerCards4[6] = new Card(Suit.SPADES, Value.SEVEN);
-            playerCards4[7] = new Card(Suit.DIAMONDS, Value.NINE);
-            playerCards4[8] = new Card(Suit.DIAMONDS, Value.QUEEN);
-            playerCards4[9] = new Card(Suit.CLUBS, Value.EIGHT);
-
-            // good cards
-            Card[] enemyOneCards4 = new Card[this.startHandSize];
-            enemyOneCards4[0] = new Card(Suit.HEARTS, Value.NINE);
-            enemyOneCards4[1] = new Card(Suit.DIAMONDS, Value.EIGHT);
-            enemyOneCards4[2] = new Card(Suit.CLUBS, Value.JACK);
-            enemyOneCards4[3] = new Card(Suit.SPADES, Value.JACK);
-            enemyOneCards4[4] = new Card(Suit.CLUBS, Value.ACE);
-            enemyOneCards4[5] = new Card(Suit.CLUBS, Value.TEN);
-            enemyOneCards4[6] = new Card(Suit.SPADES, Value.ACE);
-            enemyOneCards4[7] = new Card(Suit.SPADES, Value.TEN);
-            enemyOneCards4[8] = new Card(Suit.HEARTS, Value.ACE);
-            enemyOneCards4[9] = new Card(Suit.HEARTS, Value.EIGHT);
-
-            // good cards
-            Card[] enemyTwoCards4 = new Card[this.startHandSize];
-            enemyTwoCards4[0] = new Card(Suit.DIAMONDS, Value.JACK);
-            enemyTwoCards4[1] = new Card(Suit.HEARTS, Value.QUEEN);
-            enemyTwoCards4[2] = new Card(Suit.DIAMONDS, Value.TEN);
-            enemyTwoCards4[3] = new Card(Suit.CLUBS, Value.KING);
-            enemyTwoCards4[4] = new Card(Suit.DIAMONDS, Value.ACE);
-            enemyTwoCards4[5] = new Card(Suit.SPADES, Value.NINE);
-            enemyTwoCards4[6] = new Card(Suit.CLUBS, Value.SEVEN);
-            enemyTwoCards4[7] = new Card(Suit.HEARTS, Value.JACK);
-            enemyTwoCards4[8] = new Card(Suit.SPADES, Value.KING);
-            enemyTwoCards4[9] = new Card(Suit.SPADES, Value.EIGHT);
-            this.players[0].setHand(new Hand(playerCards4));
-            this.players[1].setHand(new Hand(enemyOneCards4));
-            this.players[2].setHand(new Hand(enemyTwoCards4));
-            break;
-          case 5:
-
             // lots of clubs card
             Card[] playerCards5 = new Card[this.startHandSize];
             playerCards5[0] = new Card(Suit.CLUBS, Value.KING);
@@ -1531,7 +1294,7 @@ public class TrainingRoundInstance extends RoundInstance {
             this.players[1].setHand(new Hand(enemyOneCards5));
             this.players[2].setHand(new Hand(enemyTwoCards5));
             break;
-          case 6:
+          case 3:
 
             // lost of jacks
             Card[] playerCards6 = new Card[this.startHandSize];
@@ -1576,7 +1339,7 @@ public class TrainingRoundInstance extends RoundInstance {
             this.players[1].setHand(new Hand(enemyOneCards6));
             this.players[2].setHand(new Hand(enemyTwoCards6));
             break;
-          case 7:
+          case 4:
             // bad cards
             Card[] playerCards7 = new Card[this.startHandSize];
             playerCards7[0] = new Card(Suit.CLUBS, Value.NINE);
@@ -1619,7 +1382,9 @@ public class TrainingRoundInstance extends RoundInstance {
             this.players[1].setHand(new Hand(enemyOneCards7));
             this.players[2].setHand(new Hand(enemyTwoCards7));
             break;
-        } // TODO
+          default:
+            break;
+        }
         break;
 
       case 1:
@@ -1803,6 +1568,13 @@ public class TrainingRoundInstance extends RoundInstance {
         System.err.println(this.scenario + "the scenario does not exist.");
     }
 
+  }
+
+  @Override
+  public void notifyRoundInstance(LogicAnswers answer) {
+    synchronized (lock) {
+      this.lock.notify();
+    }
   }
 
 }

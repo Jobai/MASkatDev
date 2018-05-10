@@ -1,5 +1,6 @@
 package de.skat3.gui.matchfield;
 
+import de.skat3.gamelogic.LogicAnswers;
 import de.skat3.gamelogic.TrainingRoundInstance;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,7 +39,7 @@ public class TrainingModeTextController {
    */
   @FXML
   void close(ActionEvent event) {
-    this.trInstance.notify();
+    this.trInstance.notifyRoundInstance(LogicAnswers.BID);
     this.root.setVisible(false);
   }
 
