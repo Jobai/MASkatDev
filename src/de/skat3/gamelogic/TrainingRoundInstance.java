@@ -153,10 +153,9 @@ public class TrainingRoundInstance extends RoundInstance {
   private Player startBiddingOne() throws InterruptedException {
     synchronized (lock) {
       this.current = LogicAnswers.BID;
-      Player bid = this.players[0];
+      Player bid = this.players[2];
       this.currentBidder = bid;
       this.currentAnswer = true;
-      this.showPopUp(0);
       SkatMain.mainController.tutorialBidRequest(BiddingValues.values[this.currentBiddingValue],
           currentAnswer);
       lock.wait();
