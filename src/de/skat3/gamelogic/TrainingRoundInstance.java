@@ -482,7 +482,6 @@ public class TrainingRoundInstance extends RoundInstance {
    * Shows the Information PopUp for the specific Scenario.
    * 
    * @param currentRound represents the current Round in the Scenario.
-   * @throws InterruptedException
    */
   private void showPopUp(int currentRound) throws InterruptedException {
     switch (this.scenario) {
@@ -1034,8 +1033,8 @@ public class TrainingRoundInstance extends RoundInstance {
             }
           default:
             break;
-
         }
+        break;
       default:
         System.out.println("error");
         return null;

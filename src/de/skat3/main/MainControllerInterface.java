@@ -266,34 +266,33 @@ public interface MainControllerInterface {
    */
   public void addBot(boolean hardBot);
 
+  /**
+   * Directly joins to a lobby.
+   * 
+   * @param ip The host ip.
+   * @author Jonas Bauer
+   */
+  void directConnectMultiplayerGame(String ip);
 
   /**
-   * TODO Jonas
+   * Directly connects to a lobby.
    * 
-   * @param ip
-   * @param password
+   * @param password The password that is set by the host. The client does not join if the password
+   *        is wrong.
    */
   public void directConnectMultiplayerGame(String ip, String password);
 
 
   /*
-   * TODO Aljo
+   * Updates all player shown in the Ingame Gui.
    */
   public void reinitializePlayers();
 
 
   /**
-   * TODO.
+   * Called to go back to the menu.
    */
   public void goToMenu();
-
-
-  /**
-   * 
-   * @author Jonas Bauer
-   * @param ip
-   */
-  void directConnectMultiplayerGame(String ip);
 
 
 

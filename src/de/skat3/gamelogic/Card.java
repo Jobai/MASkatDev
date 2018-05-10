@@ -1,7 +1,6 @@
 package de.skat3.gamelogic;
 
 import java.io.Serializable;
-import com.sun.xml.internal.ws.util.StringUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 

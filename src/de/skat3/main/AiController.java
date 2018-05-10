@@ -2,7 +2,6 @@ package de.skat3.main;
 
 import de.skat3.ai.Ai;
 import de.skat3.ai.ReturnSkat;
-import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Player;
 
@@ -16,7 +15,6 @@ public class AiController {
 
   /**
    * Adds a bot to this object if a spot is empty.
-   * @param bot
    */
   public void addBot(Player bot) {
     if (this.firstBot == null) {
@@ -58,6 +56,10 @@ public class AiController {
     }
   }
 
+  /**
+   * Gets a bot from the aicontroller if he exists.
+   */
+
   public Player getBot(Player bot) {
 
     if (this.firstBot.equals(bot)) {
@@ -74,14 +76,22 @@ public class AiController {
   }
 
 
+  /**
+   * Updates a bot in the aicontroller.
+   */
   public void updatePlayer(Player bot, Player un) {
-    
+
 
     this.getBot(bot).updatePlayer(bot);
     this.getBot(bot).ai.setHand(bot.getHand());
     this.getBot(bot).ai.setPosition(bot.getPosition());
     this.getBot(bot).ai.setIsSolo(bot.isSolo());
   }
+
+  /**
+   * Requests a skat selection from a bot.
+   * 
+   */
 
   public void selectSkatRequest(Card[] skat, Player bot) {
     ReturnSkat rs = this.getBot(bot).ai.selectSkat(skat);
@@ -90,6 +100,9 @@ public class AiController {
 
   }
 
+  /**
+   * Asks a bot to play a card.
+   */
   public void playCardRequest(Player bot) {
     Card currentCard = SkatMain.lgs.getFirstCardPlayed();
     if (currentCard != null) {
@@ -103,8 +116,7 @@ public class AiController {
   }
 
   /**
-   * 
-   * @param bot
+   * Asks a bot to select a contract.
    */
   public void contractRequest(Player bot) {
     this.delay();
@@ -118,6 +130,9 @@ public class AiController {
     SkatMain.clc.handAnswer(this.getBot(bot).ai.acceptHandGame());
   }
 
+  /**
+   * Asks a bot to accept or decline a bid.
+   */
   public void bidRequest(int bid, Player bot) {
     Player p = this.getBot(bot);
     Ai ai = p.ai;
@@ -127,22 +142,14 @@ public class AiController {
 
   }
 
-  public void kontraRequest(Player bot) {
-    // TODO
-
-  }
-
-
-  public void rekontraRequest(Player bot) {
-    // TODO
-
-  }
+  /**
+   * Delays a bot decision to make him more human.
+   */
 
   public void delay() {
     try {
       Thread.sleep(this.botDelay);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }

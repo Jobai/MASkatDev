@@ -1,9 +1,5 @@
 package de.skat3.main;
 
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -17,6 +13,10 @@ import de.skat3.gamelogic.TrainingController;
 import de.skat3.io.profile.Profile;
 import de.skat3.network.client.GameClient;
 import de.skat3.network.server.GameServer;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -82,7 +82,6 @@ public class MainController implements MainControllerInterface {
       this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0, scoringMode,
           kontraRekontraEnabled);
     } catch (UnknownHostException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     chatMessages = FXCollections.observableArrayList();
@@ -95,7 +94,6 @@ public class MainController implements MainControllerInterface {
     try {
       TimeUnit.SECONDS.sleep(1);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
@@ -106,7 +104,6 @@ public class MainController implements MainControllerInterface {
     try {
       TimeUnit.SECONDS.sleep(1);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     SkatMain.guiController.goInGame();
@@ -121,7 +118,6 @@ public class MainController implements MainControllerInterface {
     try {
       this.currentLobby = new Lobby((Inet4Address) Inet4Address.getLocalHost(), 0);
     } catch (UnknownHostException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     chatMessages = FXCollections.observableArrayList();
@@ -133,7 +129,6 @@ public class MainController implements MainControllerInterface {
     try {
       TimeUnit.SECONDS.sleep(1);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
@@ -145,7 +140,6 @@ public class MainController implements MainControllerInterface {
     try {
       TimeUnit.SECONDS.sleep(1);
     } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     SkatMain.guiController.goInGame();
@@ -166,8 +160,24 @@ public class MainController implements MainControllerInterface {
 
   }
 
+  @Override
+  public void joinMultiplayerGame(Lobby lobby, String password) {
+    SkatMain.aiController = new AiController();
+    SkatMain.lgs = null;
+    this.isHost = false;
+    System.out.println("Entered password: '" + password + "'");
+    this.currentLobby = lobby;
+    lobby.password = password;
+    chatMessages = FXCollections.observableArrayList();
+    this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
+    SkatMain.clc = gameClient.getClc();
+    SkatMain.guiController.goInGame();
+
+
+  }
+
   /**
-   * Jonas TODO.
+   * Directly connects to a ip in the network.
    */
   public void directConnectMultiplayerGame(String ip) {
     SkatMain.aiController = new AiController();
@@ -183,7 +193,7 @@ public class MainController implements MainControllerInterface {
     } catch (UnknownHostException e) {
       e.printStackTrace();
       SkatMain.mainController.showCustomAlertPormpt("Invalid IP Adress!",
-          "The entered IP Adress is invalid! Please check and try again.");; // TODO change to
+          "The entered IP Adress is invalid! Please check and try again.");
       // "invalid IP Address"
       return;
     }
@@ -211,7 +221,7 @@ public class MainController implements MainControllerInterface {
     } catch (UnknownHostException e) {
       e.printStackTrace();
       SkatMain.mainController.showCustomAlertPormpt("Invalid IP Adress!",
-          "The entered IP Adress is invalid! Please check and try again.");; // TODO change to
+          "The entered IP Adress is invalid! Please check and try again.");
       // "invalid IP Adress"
       return;
     }
@@ -224,21 +234,6 @@ public class MainController implements MainControllerInterface {
 
   }
 
-  @Override
-  public void joinMultiplayerGame(Lobby lobby, String password) {
-    SkatMain.aiController = new AiController();
-    SkatMain.lgs = null;
-    this.isHost = false;
-    System.out.println("Entered password: '" + password + "'");
-    this.currentLobby = lobby;
-    lobby.password = password;
-    chatMessages = FXCollections.observableArrayList();
-    this.gameClient = SkatMain.mainNetworkController.joinServerAsClient(lobby);
-    SkatMain.clc = gameClient.getClc();
-    SkatMain.guiController.goInGame();
-
-
-  }
 
 
   @Override
@@ -376,10 +371,7 @@ public class MainController implements MainControllerInterface {
     if (this.gameController != null) {
       this.gameController.closeThread();
     }
-    // TODO go back to the menu
-
   }
-
 
   @Override
   public void updatePlayer(Player player) {
@@ -492,7 +484,7 @@ public class MainController implements MainControllerInterface {
   }
 
   /**
-   * Jonas TODO.
+   * Used to alert the User.
    */
   public void blinkAlert() {
     Platform.runLater(new Runnable() {

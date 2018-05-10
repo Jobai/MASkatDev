@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Main logger for all console prints.
+ * 
  * @author Jonas Bauer
  *
  */
@@ -23,16 +25,17 @@ public class MasterLogger {
 
   public static final Logger networkGameServer = Logger.getLogger("de.skat3.network.server");
   public static final Logger networkGameClient = Logger.getLogger("de.skat3.network.client");
-  public static final Logger networkAIGameClient = 
+  public static final Logger networkAIGameClient =
       Logger.getLogger("de.skat3.network.AIGameClient");
   public static final Logger networkLobbyServer =
       Logger.getLogger("de.skat3.network.server.LobbyServer");
-  public static final Logger guiLogger =
-      Logger.getLogger("de.skat3.gui");
+  public static final Logger guiLogger = Logger.getLogger("de.skat3.gui");
   public static final Logger global = Logger.getGlobal();
   public static final Logger gameLogicLogger = Logger.getLogger("de.skat3.gamelogic");
 
   /**
+   * Creates a logger and initializes all logger to the ConsoleHandlers.
+   * 
    * @author Jonas Bauer
    */
   public MasterLogger() {
@@ -51,15 +54,15 @@ public class MasterLogger {
     networkLobbyServer.addHandler(handlerObj);
     networkLobbyServer.setLevel(Level.ALL);
     networkLobbyServer.setUseParentHandlers(false);
-    
+
     networkAIGameClient.addHandler(handlerObj);
     networkAIGameClient.setLevel(Level.INFO);
     networkAIGameClient.setUseParentHandlers(false);
-    
+
     gameLogicLogger.addHandler(handlerObj);
     gameLogicLogger.setLevel(Level.ALL);
     gameLogicLogger.setUseParentHandlers(false);
-    
+
     guiLogger.addHandler(handlerObj);
     guiLogger.setLevel(Level.ALL);
     guiLogger.setUseParentHandlers(false);

@@ -8,6 +8,7 @@ import de.skat3.gamelogic.LogicAnswers;
 import de.skat3.gamelogic.Player;
 
 /**
+ * Saves all important information for a skat match.
  * 
  * @author kai29
  *
@@ -56,12 +57,14 @@ public class LocalGameState {
       this.setTrick(new Card[3]);
       this.setSkat(new Card[2]);
     } catch (ArrayIndexOutOfBoundsException e) {
-      SkatMain.masterLogger.global.warning("ARRAY INDEX OUT OF BOUNDS!, [Ignore if in junit test]");
+      MasterLogger.global.warning("ARRAY INDEX OUT OF BOUNDS!, [Ignore if in junit test]");
     }
     SkatMain.mainController.reinitializePlayers();
   }
 
+
   /**
+   * Adds a player to the localgamestate depending on the seat at the table.
    * 
    */
 
@@ -165,6 +168,9 @@ public class LocalGameState {
     this.setTrickcount((getTrickcount() + 1) % 3);
   }
 
+  /**
+   * Returns current card in trick.
+   */
   public Card getCurrentCardInTrick() {
     for (int i = 0; i < this.getTrick().length; i++) {
       if (this.getTrick()[i] == null && i - 1 > 0) {
@@ -174,7 +180,11 @@ public class LocalGameState {
     return null;
   }
 
-
+  /**
+   * Returns the first card that was played during this trickround.
+   * 
+   * @return
+   */
   public Card getFirstCardPlayed() {
     if (this.getTrick()[0] != null && this.getTrickcount() != 0) {
       return this.getTrick()[0];
@@ -194,6 +204,7 @@ public class LocalGameState {
    */
 
   /**
+   * Returns a player if he exists in the localgamestate.
    * 
    * @return
    */

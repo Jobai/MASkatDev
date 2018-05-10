@@ -2,7 +2,6 @@
 package de.skat3.gamelogic;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
