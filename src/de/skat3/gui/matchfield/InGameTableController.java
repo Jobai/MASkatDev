@@ -4,9 +4,9 @@ import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Hand;
 import de.skat3.gamelogic.Player;
 import de.skat3.main.SkatMain;
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.animation.Animation.Status;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
@@ -15,6 +15,8 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
+ * Controlls the surface of the ingame gui.
+ * 
  * @author Aljoscha Domonell
  *
  */
@@ -41,10 +43,26 @@ public class InGameTableController {
   }
 
   /**
+   * Plays a card.
+   */
+  void playCard(GuiCard card) {
+    if (this.selectedCard != null && this.selectedCard.equals(card)) {
+      this.selectedCard = null;
+    }
+
+    // Play card
+    SkatMain.mainController.localCardPlayed(card.getCard());
+    // Disable local cards
+    SkatMain.guiController.getInGameController().showMakeAMoveRequest(false);
+    // hide kontra
+    SkatMain.guiController.getInGameController().matchfield.overlayController.annouceContraButton
+        .setVisible(false);
+  }
+
+  /**
    * Is refreshing the color of all cards in your hand. Only playable cards are in a normal color.
    * 
    * @param value True to show to color effect. False to disable the color effect.
-   * @param playableRef TODO
    */
   void showPlayableColor(boolean value, Card[] playableRef) {
     if (value) {
@@ -84,19 +102,7 @@ public class InGameTableController {
 
   }
 
-  void playCard(GuiCard card) {
-    if (this.selectedCard != null && this.selectedCard.equals(card)) {
-      this.selectedCard = null;
-    }
 
-    // Play card
-    SkatMain.mainController.localCardPlayed(card.getCard());
-    // Disable local cards
-    SkatMain.guiController.getInGameController().showMakeAMoveRequest(false);
-    // hide kontra
-    SkatMain.guiController.getInGameController().matchfield.overlayController.annouceContraButton
-        .setVisible(false);
-  }
 
   /**
    * Enables/Disables the option to play a card via the GUI from the local hand.
@@ -109,7 +115,7 @@ public class InGameTableController {
 
     this.showPlayableColor(value, playableRef);
 
-    this.showCardAnimationInLCHand(value);
+    this.showCardAnimationInLcHand(value);
 
     if (value) {
 
@@ -140,9 +146,8 @@ public class InGameTableController {
   /**
    * Hover a card in your localHand when the cursor is over it.
    * 
-   * @param value
    */
-  private void showCardAnimationInLCHand(boolean value) {
+  private void showCardAnimationInLcHand(boolean value) {
     if (value) {
       SkatMain.guiController.getInGameController().matchfield.root.setOnMouseMoved(event -> {
         Node node = event.getPickResult().getIntersectedNode();
@@ -251,7 +256,7 @@ public class InGameTableController {
     this.tableView.table.getChildren().addAll(this.tableView.skat);
 
     // Raise and lower cards when the cursor is hovering over them.
-    this.showCardAnimationInLCHand(true);
+    this.showCardAnimationInLcHand(true);
 
     this.tableView.table.setOnMouseClicked(event -> {
 

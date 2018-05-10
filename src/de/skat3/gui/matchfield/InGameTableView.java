@@ -12,6 +12,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.transform.Rotate;
 
 /**
+ * Saves all ingame objects.
+ * 
  * @author Aljoscha Domonell
  *
  */
@@ -33,6 +35,9 @@ public class InGameTableView {
   GuiCard[] skat;
   Button saveSkatButton;
 
+  /**
+   * Sets the ingametable.
+   */
   public InGameTableView(Matchfield m) {
     this.matchfield = m;
     this.table = new Group();

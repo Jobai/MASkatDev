@@ -1,13 +1,13 @@
 package de.skat3.gui.multiplayermenu;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
 import de.skat3.gamelogic.Player;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.Lobby;
 import de.skat3.main.SkatMain;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;

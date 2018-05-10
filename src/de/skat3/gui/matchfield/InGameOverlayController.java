@@ -1,10 +1,5 @@
 package de.skat3.gui.matchfield;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
@@ -13,6 +8,11 @@ import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
 import de.skat3.gamelogic.TrainingRoundInstance;
 import de.skat3.main.SkatMain;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Random;
 import javafx.animation.Animation.Status;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -48,6 +48,8 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 /**
+ * Controls the surface of the ingame gui.
+ * 
  * @author Aljoscha Domonell
  *
  */
@@ -144,6 +146,10 @@ public class InGameOverlayController {
   public static final String BACKGROUNDRADIUS = "-fx-background-radius: ";
   public static final String BORDERRADIUS = "-fx-border-radius: ";
 
+  /**
+   * Handles chat commands.
+   * 
+   */
   public void handleSendMessage(KeyEvent e) {
     if (e.getCode().equals(KeyCode.ENTER)) {
 
@@ -191,7 +197,7 @@ public class InGameOverlayController {
     }
   }
 
-  private void loadFXMLFiles() {
+  private void loadFxmlFiles() {
     // GameResults
     FXMLLoader fxmlLoader =
         new FXMLLoader(InGameOverlayController.class.getResource("GameResultView.fxml"));
@@ -364,7 +370,7 @@ public class InGameOverlayController {
   }
 
   void iniComponents() {
-    this.loadFXMLFiles();
+    this.loadFxmlFiles();
     this.root.requestFocus();
   }
 
@@ -525,6 +531,9 @@ public class InGameOverlayController {
     this.playInfo.setVisible(show);
   }
 
+  /**
+   * Shows the scoreboard if tab is pressed.
+   */
   public void handleKeyPressed(KeyEvent e) {
     if (KeyCode.TAB.equals(e.getCode()) && !this.scoreboardController.root.isVisible()) {
       SkatMain.guiController.getInGameController().matchfield.tableController.tableView.table
@@ -544,6 +553,9 @@ public class InGameOverlayController {
     }
   }
 
+  /**
+   * Removes the scoreboard if tab is released. Leave game pop up if escape is pressed.
+   */
   public void handleKeyReleased(KeyEvent e) {
 
     if (KeyCode.TAB.equals(e.getCode())) {
@@ -862,6 +874,9 @@ public class InGameOverlayController {
     this.nameLocalClient.toFront();
   }
 
+  /**
+   * Shows a info text to help the player during the scenario.
+   */
   public void showTrainingModeInfoText(String path, int width, int height,
       TrainingRoundInstance trInstance) {
 

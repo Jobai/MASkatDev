@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 /**
+ * Controller for general pop ups.
+ * 
  * @author Aljoscha Domonell
  *
  */

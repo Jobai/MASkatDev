@@ -115,7 +115,6 @@ public class GuiTrick {
   /**
    * Show skat cards in the middle.
    * 
-   * @param value
    */
   void showBidingCards(boolean value) {
     this.bidingCard1.setVisible(value);

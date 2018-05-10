@@ -128,11 +128,10 @@ public interface InGameControllerInterface {
   public void showSkatSelectionRequest(boolean show);
 
   /**
+   * Shows a text to help the player during scenarios.
+   * 
    * @author emre
    * 
-   * @param text
-   * @param width
-   * @param height
    */
   public void showTrainingModeInfoText(String text, int width, int height,
       TrainingRoundInstance trInstance);
