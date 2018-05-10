@@ -6,9 +6,9 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
+
 package de.skat3.io;
 
-import java.util.concurrent.TimeUnit;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Line.Info;
@@ -16,38 +16,14 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Port;
 
 /**
+ * Controls the volume of the java application.
+ * 
  * @author Jonas Bauer
  *
  */
 public class SoundVolumeUtil {
 
 
-  /**
-   * Test Method.
-   * @author Jonas Bauer
-   * @param args ar
-   * 
-   */
-  @Deprecated
-  public static void main(String[] args) {
-
-    SoundPlayer sp = new SoundPlayer();
-    sp.playBackgroundMusic();
-    try {
-      TimeUnit.SECONDS.sleep(3);
-      setVolume(0.5F);
-      TimeUnit.SECONDS.sleep(3);
-      setVolume(0.0F);
-      TimeUnit.SECONDS.sleep(3);
-      setVolume(0.5F);
-      TimeUnit.SECONDS.sleep(3);
-      setVolume(1.0F);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    
-
-  }
 
   /**
    * Sets the volume for the complete java application <b> on all possible soundOutputs </b>.

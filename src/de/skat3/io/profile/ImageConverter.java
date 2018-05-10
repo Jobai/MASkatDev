@@ -5,13 +5,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
-import javax.imageio.ImageIO;
 import javafx.embed.swing.JFXPanel;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javax.imageio.ImageIO;
+
 
 
 /**
@@ -84,6 +85,7 @@ public class ImageConverter {
    * @param decoded the array of the decoded bytes.
    * @return JavaFX Image generated from array of the decoded bytes.
    */
+  @SuppressWarnings("unused")
   private Image bytesToImage(byte[] decoded) {
     // The unused javafx components are needed to be created in order for image to work
     // It is javafx platform specific requirement
