@@ -769,6 +769,7 @@ public class InGameOverlayController {
         this.popUpController.root.setVisible(false);
         this.popUpController.root.setDisable(true);
       });
+      this.popUpController.yesButton.setDisable(false);
       this.popUpController.noButton.setDisable(true);
     } else {
       this.popUpController.noButton.setOnAction(e -> {
@@ -776,6 +777,7 @@ public class InGameOverlayController {
         this.popUpController.root.setVisible(false);
         this.popUpController.root.setDisable(true);
       });
+      this.popUpController.noButton.setDisable(false);
       this.popUpController.yesButton.setDisable(true);
     }
 
