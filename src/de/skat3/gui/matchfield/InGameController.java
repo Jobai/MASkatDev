@@ -28,6 +28,7 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void initializePlayers() {
+    this.matchfield.overlayController.bindChat();
     if (!SkatMain.lgs.isGameActive()) {
       this.matchfield.overlayController.showInMainInfo(
           SkatMain.mainController.currentLobby.getCurrentNumberOfPlayers() + "/"
@@ -58,7 +59,6 @@ public class InGameController implements InGameControllerInterface {
    */
   @Override
   public void startRound() {
-    this.matchfield.overlayController.bindChat();
     this.matchfield.overlayController.showInMainInfo("", Duration.millis(1));
     this.matchfield.tableController.iniHands();
     this.matchfield.overlayController.iniStartRound();
