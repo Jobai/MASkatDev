@@ -626,15 +626,18 @@ public class InGameOverlayController {
 
   void iniEmemyOne(Player player) {
 
+
     this.addBotLeftRoot.setDisable(true);
     this.addBotLeftRoot.setVisible(false);
+
 
     if (player == null) {
       this.nameEnemyOne.setText("");
       this.extra2EnemyOne.setText("");
       this.imageEnemyOne.setImage(null);
 
-      if (SkatMain.mainController.isHost) {
+      if (SkatMain.mainController.isHost
+          && SkatMain.mainController.currentLobby.getMaximumNumberOfPlayers() < 4) {
         this.addEasyBotLeftButton.setOnAction(e -> {
           SkatMain.mainController.addBot(false);
           this.addBotLeftRoot.setDisable(true);
@@ -689,7 +692,8 @@ public class InGameOverlayController {
       this.extra2EnemyTwo.setText("");
       this.imageEnemyTwo.setImage(null);
 
-      if (SkatMain.mainController.isHost) {
+      if (SkatMain.mainController.isHost
+          && SkatMain.mainController.currentLobby.getMaximumNumberOfPlayers() < 4) {
         this.addEasyBotRightButton.setOnAction(e -> {
           SkatMain.mainController.addBot(false);
           this.addBotRightRoot.setDisable(true);
