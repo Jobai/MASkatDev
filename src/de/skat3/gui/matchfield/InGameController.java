@@ -300,12 +300,13 @@ public class InGameController implements InGameControllerInterface {
    * @see de.skat3.gui.matchfield.InGameControllerInterface#showSkatSelectionRequest()
    */
   @Override
-  public void showSkatSelectionRequest() {
-    if (SkatMain.lgs.getTimerInSeconds() > 0) {
+  public void showSkatSelectionRequest(boolean show) {
+    if (SkatMain.lgs.getTimerInSeconds() > 0 && show) {
       this.matchfield.overlayController.setTimer(SkatMain.lgs.getTimerInSeconds());
     }
     this.matchfield.tableView.trick.showBidingCards(false);
-    this.matchfield.tableController.showSkatSelection(true);
+    this.matchfield.tableController.showSkatSelection(false);
+
   }
 
   /*
