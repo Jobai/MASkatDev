@@ -26,7 +26,8 @@ import java.util.logging.Logger;
 
 /**
  * Receives orders from the GameLogic and handles them to be send over the network to the clients.
- * Logic > this class > Server Network. IMPLEMENTs [SEND] COMMANDTYPEs.
+ * Implements the ServerLogicInterface, and is the main Bridge FROM the Logic TO the Network. Logic
+ * > this class > Server Network. IMPLEMENTs [SEND] COMMANDTYPEs.
  * 
  * @author Jonas Bauer
  *
@@ -36,7 +37,7 @@ public class ServerLogicController implements ServerLogicInterface {
   // ServerGameState
   int maxPlayer;
 
-  //
+  // GameServer & Logger
   GameServer gs;
   Logger logger = GameServer.logger;
 
@@ -64,11 +65,12 @@ public class ServerLogicController implements ServerLogicInterface {
 
   }
 
-  /**
+  /*
+   * (non-Javadoc)
    * 
-   * @author Jonas Bauer
-   * @param player
+   * @see de.skat3.network.ServerLogicInterface#updatePlayerDuringRound(de.skat3.gamelogic.Player)
    */
+  @Override
   public void updatePlayerDuringRound(Player player) {
     player.wonTricks = new ArrayList<Card>();
     MessageCommand mc = new MessageCommand(MessageType.COMMAND_INFO, player.toString(),
@@ -272,25 +274,8 @@ public class ServerLogicController implements ServerLogicInterface {
 
   }
 
-
-  @Deprecated
-  @Override
-  public void broadcastRoundRestarted() {
-   //not needed
-
-  }
-
-  @Deprecated
-  @Override
-  public void broadcastServerStateChange(int serverState) {
-    //not needed
-
-  }
-
-
   @Override
   public void broadcastDeclarer(Player p) {
-
     MessageCommand mc =
         new MessageCommand(MessageType.COMMAND_INFO, "ALL", CommandType.AUCTION_WINNER_INFO);
     mc.gameState = p;
@@ -320,7 +305,7 @@ public class ServerLogicController implements ServerLogicInterface {
         new MessageCommand(MessageType.COMMAND_INFO, dealer.toString(), CommandType.SET_DEALER);
     mc.gameState = dealer;
     gs.broadcastMessage(mc);
-    
+
   }
 
 

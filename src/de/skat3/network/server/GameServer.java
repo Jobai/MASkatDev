@@ -153,6 +153,7 @@ public class GameServer extends Thread {
    * 
    * @author Jonas Bauer
    */
+  @SuppressWarnings("deprecation")
   public void stopServer() {
 
     if (stoppingInProgess) {
@@ -184,6 +185,12 @@ public class GameServer extends Thread {
 
   }
 
+  /**
+   *Sends Connection_Closed messages to all connected clients to force them to close their
+   * connection to the server.
+   * 
+   * @author Jonas Bauer
+   */
   private void endAllClients() {
     logger.info("ending all clients");
     Object[] gspa = GameServer.threadList.toArray();

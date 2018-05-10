@@ -24,7 +24,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -97,9 +96,6 @@ public class GameServerProtocol extends Thread {
         Message m = (Message) receivedObject;
         MessageType mt = m.getType();
         SubType st = m.getSubType();
-
-
-
         switch (mt) {
           case CONNECTION_OPEN:
             this.openConnection(m);
@@ -123,8 +119,6 @@ public class GameServerProtocol extends Thread {
           default:
             logger.severe("Message Type not handeld!  " + mt + " --- " + st);
             throw new AssertionError();
-
-
         }
       } catch (AssertionError e) {
         logger.log(Level.SEVERE, "FAIL + ASSERTION ERROR", e);
@@ -145,15 +139,29 @@ public class GameServerProtocol extends Thread {
     }
   }
 
-  private void handleStateChange(Message m) {
+  /**
+   * Handles a state change of the server. Usually called when the game starts. Causes the
+   * lobby broadcasting to stop.
+   * 
+   * @author Jonas Bauer
+   * 
+   */
+  private void handleStateChange(Message networkmessage) {
     gs.ls.stopLobbyBroadcast();
-    broadcastMessage(m);
+    broadcastMessage(networkmessage);
     logger.fine("HANDELING STATE CHANGE");
   }
 
-  private void openConnection(Message m) {
+  /**
+   * Understand the openConnection (Introduction message) of the client and set the Player for the
+   * thread.
+   * 
+   * @author Jonas Bauer
+   * 
+   */
+  private void openConnection(Message networkmessage) {
 
-    MessageConnection mc = (MessageConnection) m;
+    MessageConnection mc = (MessageConnection) networkmessage;
     Player op = mc.originSender;
     Profile p;
     try {
@@ -161,7 +169,6 @@ public class GameServerProtocol extends Thread {
     } catch (NullPointerException e) {
       logger.warning("LAST USED PROFILE NOT FOUND!");
       p = new Profile("BACKUP PROFILE!");
-
     }
 
 
@@ -169,14 +176,8 @@ public class GameServerProtocol extends Thread {
     if (!(serverPw == null || serverPw.isEmpty() || (op.getUuid().equals(p.getUuid())))) {
       logger.fine("SERVER HAS PASSWORD!: CHECKING!");
       logger.fine("SERVER PW: '" + serverPw + "' ; GIVEN PW '" + mc.lobbyPassword + "'");
-      if (!((serverPw.equals(mc.lobbyPassword)) || mc.lobbyPassword.equals("swordfish"))) { // "swordfish"
-                                                                                            // hardcoded
-                                                                                            // as
-                                                                                            // master
-                                                                                            // password
-                                                                                            // for
-                                                                                            // the
-                                                                                            // ai.
+      if (!((serverPw.equals(mc.lobbyPassword)) || mc.lobbyPassword.equals("swordfish"))) {
+        // "swordfish" hardcoded as master password for the ai.
         logger.warning("Player joined with wrong password");
         gs.ls.getLobby().lobbyPlayer++; // will be reduced again by closeConnection.
         kickConnection("PASSWORD");
@@ -195,9 +196,9 @@ public class GameServerProtocol extends Thread {
       return;
     }
 
-    this.playerProfile = (Player) m.payload;
+    this.playerProfile = (Player) networkmessage.payload;
     Lobby l = SkatMain.mainController.currentLobby;
-    m.secondPayload = SkatMain.mainController.currentLobby;
+    networkmessage.secondPayload = SkatMain.mainController.currentLobby;
     byte[] b = l.convertToByteArray(l);
 
     logger.fine("LOBBY SIZE!: " + b.length);
@@ -209,19 +210,25 @@ public class GameServerProtocol extends Thread {
     }
 
     logger.info("Player" + this.playerProfile.getUuid() + "joined the server!");
-    broadcastMessage(m);
+    broadcastMessage(networkmessage);
 
   }
 
-  private void handleAnswer(Message m) {
-    glh.handleAnswer(m);
+  /**
+   * Handle a game answer of the client and pass it through the according handler.
+   * 
+   * @author Jonas Bauer
+   * 
+   */
+  private void handleAnswer(Message networkmessage) {
+    glh.handleAnswer(networkmessage);
 
   }
 
-  private void relayChat(MessageChat m) {
-    logger.log(Level.FINE, "Got ChatMessage: " + m.message);
+  private void relayChat(MessageChat chatMessage) {
+    logger.log(Level.FINE, "Got ChatMessage: " + chatMessage.message);
 
-    MessageChat oldM = (MessageChat) m;
+    MessageChat oldM = (MessageChat) chatMessage;
     MessageChat newM = new MessageChat(oldM.message, oldM.nick);
 
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
@@ -253,7 +260,6 @@ public class GameServerProtocol extends Thread {
   private void handleConnectionClose() {
     logger.info("Client is leaving!");
     Player[] connectedPlayer = SkatMain.mainController.currentLobby.getPlayers();
-    Player gspPlayer = playerProfile;
     try {
       if (connectedPlayer[0].equals(playerProfile)) {
         logger.warning("HOST LEFT THE GAME! Shutting down the server");
@@ -270,6 +276,12 @@ public class GameServerProtocol extends Thread {
 
   }
 
+  /**
+   * Closes the connection to the client of this protocol thread and removes it from the gameServer
+   * logic.
+   * 
+   * @author Jonas Bauer
+   */
   private void closeConnection() {
     try {
       this.interrupt();
@@ -292,6 +304,12 @@ public class GameServerProtocol extends Thread {
     logger.info("Server closed a connection");
   }
 
+  /**
+   * closes a Lost Connection (connection closed / failed by the client) and removes the thread from
+   * the game server.
+   * 
+   * @author Jonas Bauer
+   */
   void closeLostConnection() {
     try {
       this.interrupt();
@@ -314,13 +332,6 @@ public class GameServerProtocol extends Thread {
     logger.info("Server closed a LOST connection");
   }
 
-  @SuppressWarnings("unused")
-  private void cleanUp() {
-    GameServer.threadList.remove(this);
-    closeConnection();
-  }
-
-
   /**
    * broadcasts a message to all connected clients (including the original sender and the host!).
    * 
@@ -332,6 +343,14 @@ public class GameServerProtocol extends Thread {
     gs.broadcastMessage(mc);
   }
 
+  /**
+   * Handles a lost connection to a client. Depending on the gamestate and the client different
+   * actions are taken. If the host leaves the game server is shut down and all still connected
+   * clients kicked. If any clients leave during a active game the game is aborted, the server
+   * shutdown and all clients kicked.
+   * 
+   * @author Jonas Bauer
+   */
   void handleLostConnection() {
     Player[] connectedPlayer = SkatMain.mainController.currentLobby.getPlayers();
 
@@ -367,15 +386,18 @@ public class GameServerProtocol extends Thread {
     broadcastMessage(mc);
   }
 
-  void kickConnection(String string) {
+  /**
+   * kick a Connection by sending a Connection_Close message to the client (causing the client to
+   * end its connection to the server) and close the connection yourself.
+   * 
+   * @author Jonas Bauer
+   * @param kickReason The reason for the kick. Causes different popup messages on the client side.
+   *        <b> must be a certain phrase! </b>
+   */
+  void kickConnection(String kickReason) {
     logger.info("Kicking User: " + playerProfile + " !");
-    MessageConnection mc = new MessageConnection(MessageType.CONNECTION_CLOSE, string);
+    MessageConnection mc = new MessageConnection(MessageType.CONNECTION_CLOSE, kickReason);
     sendMessage(mc);
-    // try {
-    // sleep(1000);
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // }
     closeConnection();
   }
 }

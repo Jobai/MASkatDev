@@ -5,17 +5,13 @@ import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.GameController;
 import de.skat3.gamelogic.Hand;
-import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.AnswerType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageAnswer;
-import de.skat3.network.datatypes.SubType;
 
 /**
- * 
- * ServerNetwork > thisClass > Logic
- * 
- * I IMPLEMENT ANSWERTYPEs
+ * Handles messages from the network and informs the logic of chages and answers. ServerNetwork >
+ * thisClass > Logic IMPLEMENTs ANSWERTYPEs
  * 
  * @author Jonas
  *
@@ -29,6 +25,12 @@ public class GameLogicHandler {
     this.gc = gc;
   }
 
+  /**
+   * Handles all answer by the client and passes the message to the corresponding method.
+   * 
+   * @author Jonas Bauer
+   * @param m network message (answer) from the clients
+   */
   public void handleAnswer(Message m) {
     AnswerType at = (AnswerType) m.getSubType();
     switch (at) {
@@ -51,8 +53,10 @@ public class GameLogicHandler {
         gameHandler(m);
         break;
       case MATCH_ANSWER:
+        // do nothing - not used
         break;
       case ROUND_ANSWER:
+        // do nothing - not used
         break;
       case KONTRA_ANSWER:
         kontraHandler(m);
@@ -63,11 +67,14 @@ public class GameLogicHandler {
       default:
         throw new AssertionError();
     }
-
-
-
   }
 
+  /**
+   * Notify logic of the bid from the client.
+   * 
+   * @author Jonas Bauer
+   * @param m network message (answer) from the client.
+   */
   private void bidHandler(Message m) {
     MessageAnswer ma = (MessageAnswer) m;
     boolean accept = (boolean) ma.payload;
@@ -76,6 +83,12 @@ public class GameLogicHandler {
 
   }
 
+  /**
+   * Notify the logic of the selected contract by the delcarer.
+   * 
+   * @author Jonas Bauer
+   * @param m network message (answer) from the client.
+   */
   private void contractHandler(Message m) {
     MessageAnswer ma = (MessageAnswer) m;
     Contract con = (Contract) ma.payload;
@@ -83,17 +96,35 @@ public class GameLogicHandler {
     gc.notifyLogicofContract(con, am);
   }
 
+  /**
+   * notify the logic of the handgame option.
+   * 
+   * @author Jonas Bauer
+   * @param m network message (answer) from the client.
+   */
   private void handHandler(Message m) {
     MessageAnswer ma = (MessageAnswer) m;
     gc.notifyLogicOfHandGame((boolean) ma.payload);
   }
 
+  /**
+   * Notify the logic of a played card.
+   * 
+   * @author Jonas Bauer
+   * @param m network message (answer) from the client.
+   */
   private void playHandler(Message m) {
     MessageAnswer ma = (MessageAnswer) m;
     Card c = (Card) ma.payload;
     gc.notifyLogicofPlayedCard(c);
   }
 
+  /**
+   * Notify the logic of the current skat (after the player changed it).
+   * 
+   * @author Jonas Bauer
+   * @param m network message (answer) from the client.
+   */
   private void skatHandler(Message m) {
     MessageAnswer ma = (MessageAnswer) m;
     Card[] skat = (Card[]) ma.payload;
@@ -106,6 +137,12 @@ public class GameLogicHandler {
     // do nothing - function not needed
   }
 
+  /**
+   * Notify the logic of an announced (re)kontra.
+   * 
+   * @author Jonas Bauer
+   * @param m network message (answer) from the client.
+   */
   private void kontraHandler(Message m) {
     MessageAnswer ma = (MessageAnswer) m;
 
