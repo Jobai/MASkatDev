@@ -25,7 +25,7 @@ import de.skat3.network.datatypes.MessageCommand;
  *
  */
 
-public class AIClientLogicHandler extends ClientLogicHandler {
+public class AiClientLogicHandler extends ClientLogicHandler {
 
   Logger logger = Logger.getLogger("de.skat3.network.AIGameClient");
   Player aiPlayer;
@@ -34,14 +34,14 @@ public class AIClientLogicHandler extends ClientLogicHandler {
    * @author Jonas Bauer
    * @param gc
    */
-  public AIClientLogicHandler(AiGameClient gc) {
+  public AiClientLogicHandler(AiGameClient gc) {
     super(gc);
     // TODO Auto-generated constructor stub
   }
 
 
 
-  public AIClientLogicHandler(AiGameClient aiGameClient, Player player) {
+  public AiClientLogicHandler(AiGameClient aiGameClient, Player player) {
     // TODO Auto-generated constructor stub
     super(aiGameClient);
     this.aiPlayer = player;

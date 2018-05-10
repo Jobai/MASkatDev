@@ -21,9 +21,9 @@ import de.skat3.network.datatypes.SubType;
  * @author Jonas Bauer
  *
  */
-public class AIGameClient extends GameClient {
+public class AiGameClient extends GameClient {
 
-  AIClientLogicHandler aiCLH;
+  AiClientLogicHandler aiCLH;
 
   /**
    * @author Jonas Bauer
@@ -31,9 +31,9 @@ public class AIGameClient extends GameClient {
    * @param port
    * @param player
    */
-  public AIGameClient(String hostAdress, int port, Player player) {
+  public AiGameClient(String hostAdress, int port, Player player) {
     super(hostAdress, port, player);
-    aiCLH = new AIClientLogicHandler(this, this.player);
+    aiCLH = new AiClientLogicHandler(this, this.player);
   }
 
   /**
@@ -43,9 +43,9 @@ public class AIGameClient extends GameClient {
    * @param player
    * @param lobbyPassword
    */
-  public AIGameClient(String hostAdress, int port, Player player, String lobbyPassword) {
+  public AiGameClient(String hostAdress, int port, Player player, String lobbyPassword) {
     super(hostAdress, port, player, lobbyPassword);
-    aiCLH = new AIClientLogicHandler(this, this.player);
+    aiCLH = new AiClientLogicHandler(this, this.player);
   }
   
 
@@ -191,7 +191,7 @@ public class AIGameClient extends GameClient {
    * @see de.skat3.network.client.GameClient#showConnectionErro(de.skat3.network.datatypes.Message)
    */
   @Override
-  void showConnectionErro(Message m) {
+  void showConnectionError(Message m) {
     // Don't show ConnectionErrors for the AI in the GUI!
     logger.warning("AI got Disconnected!");
   }
