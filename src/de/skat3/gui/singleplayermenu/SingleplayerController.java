@@ -65,7 +65,7 @@ public class SingleplayerController {
     ObservableList<String> modeList = FXCollections.observableArrayList("Seeger", "Bierlachs");
     mode.setItems(modeList);
     mode.getSelectionModel().selectFirst();
-    modeValue.setText(String.valueOf(48));
+    modeValue.setText(String.valueOf(9));
 
     startButton.setDisable(false);
   }
