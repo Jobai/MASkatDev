@@ -17,9 +17,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -581,13 +579,20 @@ public class InGameOverlayController {
   private boolean chatIsBind;
 
   void bindChat() {
+    if (!SkatMain.lgs.isSinglePlayerGame()) {
+      chatArea.setVisible(false);
+      chatField.setVisible(false);
+      return;
+    } else {
+      chatArea.setVisible(true);
+      chatField.setVisible(true);
+    }
+
     if (!this.chatIsBind) {
       SkatMain.mainController.chatMessages.addListener(new ListChangeListener<String>() {
-
         @Override
         public void onChanged(Change<? extends String> c) {
           StringBuffer newText = new StringBuffer("");
-
           while (c.next()) {
             for (String addedMessage : c.getAddedSubList()) {
               newText.append(addedMessage);
@@ -763,12 +768,14 @@ public class InGameOverlayController {
         this.popUpController.root.setVisible(false);
         this.popUpController.root.setDisable(true);
       });
+      this.popUpController.noButton.setDisable(true);
     } else {
       this.popUpController.noButton.setOnAction(e -> {
         SkatMain.mainController.localBid(false);
         this.popUpController.root.setVisible(false);
         this.popUpController.root.setDisable(true);
       });
+      this.popUpController.yesButton.setDisable(true);
     }
 
 
