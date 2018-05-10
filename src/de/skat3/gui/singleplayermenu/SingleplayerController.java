@@ -133,9 +133,12 @@ public class SingleplayerController {
 
     startButton.setDisable(true);
     close();
+    // showLoadingScreen();
+
     SkatMain.mainController.startSingleplayerGame(ai1Hard, ai2Hard, intScoreValue,
         this.kontraRekontra.isSelected());
 
+    // SkatMain.guiController.goInGame();
   }
 
   /**
@@ -161,7 +164,6 @@ public class SingleplayerController {
     PauseTransition pause = new PauseTransition(Duration.seconds(10));
     pause.setOnFinished(event -> {
       this.main.getChildren().remove(p);
-      System.out.println("end!");
     });
     pause.play();
 

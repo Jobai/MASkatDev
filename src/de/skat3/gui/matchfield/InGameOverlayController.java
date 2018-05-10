@@ -559,8 +559,6 @@ public class InGameOverlayController {
 
     if (KeyCode.ESCAPE.equals(e.getCode())) {
 
-      SkatMain.guiController.getInGameController().matchfield.root.setDisable(true);
-
       Alert alert = new Alert(AlertType.CONFIRMATION);
       alert.setTitle("Leave game");
       alert.setHeaderText("Leave game. Are you sure?");
@@ -576,6 +574,7 @@ public class InGameOverlayController {
       } else {
         SkatMain.guiController.getInGameController().matchfield.root.setDisable(false);
       }
+
     }
   }
 
