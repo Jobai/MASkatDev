@@ -6,7 +6,6 @@ import de.skat3.gui.menuframe.MenuFrame;
 import de.skat3.main.SkatMain;
 import javafx.application.Application;
 import javafx.scene.image.Image;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /*
@@ -56,7 +55,7 @@ public class Gui extends Application {
     SkatMain.guiController.setGui(this);
     this.mainStage = primaryStage;
 
-    this.mainStage.setOnCloseRequest(e -> System.exit(0));
+    this.mainStage.setOnCloseRequest(e -> System.exit(0)); // TODO
 
     this.initializeComponents();
 
@@ -66,8 +65,6 @@ public class Gui extends Application {
 
     this.mainStage.setScene(this.menuFrame.getScene());
     this.mainStage.show();
-    this.mainStage.setMaxWidth(Screen.getPrimary().getVisualBounds().getWidth());
-    this.mainStage.setMaxHeight(Screen.getPrimary().getVisualBounds().getHeight());
     this.delayedInitialize();
 
   }

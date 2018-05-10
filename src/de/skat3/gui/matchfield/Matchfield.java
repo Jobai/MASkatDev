@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Screen;
 import javafx.util.Duration;
 
 /**
@@ -37,9 +36,6 @@ public class Matchfield {
   public Matchfield() {
     sceneWidth = 1280;
     sceneHeight = 720;
-
-    this.root.setMaxSize(Screen.getPrimary().getVisualBounds().getWidth(),
-        Screen.getPrimary().getVisualBounds().getHeight());
 
     this.tableView = new InGameTableView(this);
 
