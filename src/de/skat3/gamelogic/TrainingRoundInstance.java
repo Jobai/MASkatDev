@@ -158,6 +158,15 @@ public class TrainingRoundInstance extends RoundInstance {
         lock.wait();
 
 
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            SkatMain.guiController.getInGameController().showTrainingModeInfoText(
+                "/trainingPopups/SkatBasics/CalculatePoints.html", 400, 300,
+                TrainingRoundInstance.this);
+          }
+        });
+        lock.wait();
 
         Thread.sleep(5000);
 
@@ -411,8 +420,7 @@ public class TrainingRoundInstance extends RoundInstance {
         @Override
         public void run() {
           SkatMain.guiController.getInGameController().showTrainingModeInfoText(
-              "/trainingPopups/SuccessPopUp.html", 400, 300,
-              TrainingRoundInstance.this);
+              "/trainingPopups/SuccessPopUp.html", 400, 300, TrainingRoundInstance.this);
         }
       });
       lock.wait();
