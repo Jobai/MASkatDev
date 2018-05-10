@@ -156,13 +156,12 @@ public class GameServerProtocol extends Thread {
     MessageConnection mc = (MessageConnection) m;
     Player op = mc.originSender;
     Profile p;
-    try{
-    p = SkatMain.ioController.getLastUsedProfile();
-    }
-    catch(NullPointerException e){
+    try {
+      p = SkatMain.ioController.getLastUsedProfile();
+    } catch (NullPointerException e) {
       logger.warning("LAST USED PROFILE NOT FOUND!");
       p = new Profile("BACKUP PROFILE!");
-      
+
     }
 
 
@@ -170,9 +169,16 @@ public class GameServerProtocol extends Thread {
     if (!(serverPw == null || serverPw.isEmpty() || (op.getUuid().equals(p.getUuid())))) {
       logger.fine("SERVER HAS PASSWORD!: CHECKING!");
       logger.fine("SERVER PW: '" + serverPw + "' ; GIVEN PW '" + mc.lobbyPassword + "'");
-      if (!((serverPw.equals(mc.lobbyPassword)) ||  mc.lobbyPassword.equals("swordfish"))) {  //"swordfish" hardcoded as master password for the ai.
+      if (!((serverPw.equals(mc.lobbyPassword)) || mc.lobbyPassword.equals("swordfish"))) { // "swordfish"
+                                                                                            // hardcoded
+                                                                                            // as
+                                                                                            // master
+                                                                                            // password
+                                                                                            // for
+                                                                                            // the
+                                                                                            // ai.
         logger.warning("Player joined with wrong password");
-        gs.ls.getLobby().lobbyPlayer++; //will be reduced again by closeConnection.
+        gs.ls.getLobby().lobbyPlayer++; // will be reduced again by closeConnection.
         kickConnection("PASSWORD");
         return;
       }
@@ -329,7 +335,14 @@ public class GameServerProtocol extends Thread {
   void handleLostConnection() {
     Player[] connectedPlayer = SkatMain.mainController.currentLobby.getPlayers();
 
+
     try {
+      if (SkatMain.lgs.isGameActive()) {
+        // If a player during a active game leave, the game is aborted
+        logger.severe("Player LOST CONNECTION DURING GAME! Shutting down the server");
+        gs.gameAborted = true;
+        gs.stopServer();
+      }
       if (connectedPlayer[0].equals(playerProfile)) {
         logger.severe("HOST LOST CONNECTION! Shutting down the server");
         gs.stopServer();

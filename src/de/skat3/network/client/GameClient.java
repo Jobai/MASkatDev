@@ -433,6 +433,10 @@ public class GameClient {
               "The game server is shutting down and closed your connection. \n"
                   + "Please chose a different server.");
           break;
+        case "GAMEABORT":
+          SkatMain.mainController.showCustomAlertPormpt("Game aborted!",
+              "A player left during the game. The gamesession was aborted and the server shutdown \n"
+                  + "Please chose a different server.");
         default:
           SkatMain.mainController.showCustomAlertPormpt("Server closed the connection!",
               "The game server closed your connection. \n"

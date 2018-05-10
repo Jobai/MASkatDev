@@ -56,6 +56,8 @@ public class GameServer extends Thread {
   boolean stopped;
   private boolean stoppingInProgess;
 
+  boolean gameAborted;
+
 
 
   /**
@@ -158,7 +160,7 @@ public class GameServer extends Thread {
       return;
     }
     stoppingInProgess = true;
-    try { 
+    try {
       logger.info("Server is stopping");
       this.interrupt();
       endAllClients();
@@ -172,7 +174,7 @@ public class GameServer extends Thread {
     } catch (IOException e) {
       e.printStackTrace();
     } catch (NullPointerException e) {
-//      e.printStackTrace();
+      // e.printStackTrace();
     }
 
   }
@@ -188,7 +190,11 @@ public class GameServer extends Thread {
     synchronized (threadList) {
       for (Object gameServerProtocol : gspa) {
 
-        ((GameServerProtocol) gameServerProtocol).kickConnection("SHUTDOWN");
+        if (!gameAborted) {
+          ((GameServerProtocol) gameServerProtocol).kickConnection("SHUTDOWN");
+        } else {
+          ((GameServerProtocol) gameServerProtocol).kickConnection("GAMEABORT");
+        }
       }
     }
   }
@@ -208,7 +214,7 @@ public class GameServer extends Thread {
     }
     for (GameServerProtocol gameServerProtocol : GameServer.threadList) {
       if (gameServerProtocol.playerProfile.equals(player)) {
-        
+
         if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
           logger.fine("round general info" + player.getUuid());
         }
