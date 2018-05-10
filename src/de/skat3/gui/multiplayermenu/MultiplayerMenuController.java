@@ -78,7 +78,7 @@ public class MultiplayerMenuController {
   @FXML
   private Button joinButton;
   @FXML
-  private Label serverIP;
+  private Label serverIp;
   @FXML
   private Label serverDomain;
   @FXML
@@ -93,6 +93,12 @@ public class MultiplayerMenuController {
   ObservableList<CellItem> items = FXCollections.observableArrayList();
   int lobbyIndex;
 
+  /**
+   * Class represents a cell in the server listview.
+   * 
+   * @author Timo Straub
+   *
+   */
   class CellItem {
     public String name;
     public boolean hasPw;
@@ -118,6 +124,12 @@ public class MultiplayerMenuController {
     }
   }
 
+  /**
+   * Class extends ListCell and represents the design of a listrow.
+   * 
+   * @author Timo Straub
+   *
+   */
   private static class HostCell extends ListCell<CellItem> {
     HBox hbox = new HBox();
     Image serverImage = new Image("guifiles/AppIcon.png");
@@ -315,13 +327,13 @@ public class MultiplayerMenuController {
     });
 
     dialog.showAndWait().ifPresent(result -> {
-      String sIp = result.get("ip");
-      String sPw = result.get("pw");
+      String stringIp = result.get("ip");
+      String stringPw = result.get("pw");
 
-      if (sPw.isEmpty()) {
-        SkatMain.mainController.directConnectMultiplayerGame(sIp);
+      if (stringPw.isEmpty()) {
+        SkatMain.mainController.directConnectMultiplayerGame(stringIp);
       } else {
-        SkatMain.mainController.directConnectMultiplayerGame(sIp, sPw);
+        SkatMain.mainController.directConnectMultiplayerGame(stringIp, stringPw);
       }
 
     });
@@ -368,13 +380,16 @@ public class MultiplayerMenuController {
     }
   }
 
+  /**
+   * Method clears the selected lobby fields on the detail view.
+   */
   private void clearSelectedLobbyField() {
     hostListView.setItems(items);
     imageViewPwLock.setImage(null);
     kontraRekontra.setText("");
     serverName.setText("");
     serverDomain.setText("");
-    serverIP.setText("");
+    serverIp.setText("");
   }
 
   /**
@@ -409,7 +424,7 @@ public class MultiplayerMenuController {
 
     serverDomain.setText(currentLobby.getIp().toString().replaceAll("\\/.*$", ""));
 
-    serverIP.setText(currentLobby.getIp().toString().replace(serverDomain.getText() + "/", ""));
+    serverIp.setText(currentLobby.getIp().toString().replace(serverDomain.getText() + "/", ""));
 
     // Players
     Player[] players = currentLobby.getPlayers();

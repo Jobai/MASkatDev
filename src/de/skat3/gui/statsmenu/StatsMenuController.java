@@ -1,9 +1,5 @@
 package de.skat3.gui.statsmenu;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import de.skat3.gui.Gui;
-import de.skat3.gui.GuiController;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
 import javafx.fxml.FXML;

@@ -1,12 +1,7 @@
 package de.skat3.gui.singleplayermenu;
 
-import java.util.Stack;
-import com.sun.prism.paint.Color;
 import de.skat3.main.SkatMain;
-import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,14 +17,12 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
+ * Class handles the corresponding view events.
  * 
  * @author Timo Straub
  *
@@ -57,15 +50,19 @@ public class SingleplayerController {
   private Pane singleplayer;
 
 
+  /**
+   * Method initialize the screen.
+   */
   @FXML
   public void initialize() {
-    ObservableList<String> modeList = FXCollections.observableArrayList("Seeger", "Bierlachs");
     ObservableList<String> difficultyList = FXCollections.observableArrayList("Easy", "Hard");
 
     difficultyP1.setItems(difficultyList);
     difficultyP1.getSelectionModel().selectFirst();
     difficultyP2.setItems(difficultyList);
     difficultyP2.getSelectionModel().selectFirst();
+
+    ObservableList<String> modeList = FXCollections.observableArrayList("Seeger", "Bierlachs");
     mode.setItems(modeList);
     mode.getSelectionModel().selectFirst();
     modeValue.setText(String.valueOf(48));
@@ -74,6 +71,11 @@ public class SingleplayerController {
   }
 
 
+  /**
+   * Handles event, when user switch between Seeger and Bierlachs.
+   * 
+   * @param event ActionEvent
+   */
   @FXML
   void switchMode(ActionEvent event) {
     if (mode.getSelectionModel().getSelectedItem() == "Seeger") {
@@ -89,11 +91,19 @@ public class SingleplayerController {
   }
 
 
+  /**
+   * Close view.
+   */
   @FXML
   void close() {
     this.main.getChildren().remove(this.singleplayer);
   }
 
+  /**
+   * Check if inserted values are valid and starts a singleplayer game.
+   * 
+   * @param event ActionEvent
+   */
   @FXML
   void startGame(ActionEvent event) {
 
@@ -144,6 +154,7 @@ public class SingleplayerController {
   /**
    * Shows a loading screen.
    */
+  @SuppressWarnings("unused")
   private void showLoadingScreen() {
 
     Pane p = new Pane();

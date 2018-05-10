@@ -71,7 +71,7 @@ public class RoundResultViewController {
 
 
   /**
-   * .
+   * Set result value to screen.
    * 
    * @param result Round Result
    */

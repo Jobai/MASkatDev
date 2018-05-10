@@ -1,16 +1,11 @@
 package de.skat3.gui;
 
-import java.io.IOException;
 import de.skat3.gui.matchfield.InGameController;
 import de.skat3.gui.matchfield.Matchfield;
 import de.skat3.gui.menuframe.MenuFrame;
 import de.skat3.main.SkatMain;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /*
@@ -50,7 +45,7 @@ public class Gui extends Application {
   }
 
   /**
-   * (non-Javadoc)
+   * (non-Javadoc).
    * 
    * @see javafx.application.Application#start(javafx.stage.Stage)
    */

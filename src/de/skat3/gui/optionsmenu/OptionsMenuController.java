@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.media.MediaPlayer;
 
 /**
  * Class to control the corresponding view file.
@@ -32,7 +31,6 @@ public class OptionsMenuController {
   @FXML
   private ComboBox<String> comboCardBack;
 
-  private MediaPlayer backgroundMusicPlayer;
 
   /**
    * Initialize listeners and preset values.

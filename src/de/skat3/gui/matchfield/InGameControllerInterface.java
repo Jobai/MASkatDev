@@ -4,6 +4,7 @@ import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
+import de.skat3.gamelogic.TrainingRoundInstance;
 
 
 /**
@@ -133,7 +134,8 @@ public interface InGameControllerInterface {
    * @param width
    * @param height
    */
-  public void showTrainingModeInfoText(String text, int width, int height);
+  public void showTrainingModeInfoText(String text, int width, int height,
+      TrainingRoundInstance trInstance);
 
   /**
    * Opens an round result popup. The popup contains many facts about the finished round, like

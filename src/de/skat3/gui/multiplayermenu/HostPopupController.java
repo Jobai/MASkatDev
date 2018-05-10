@@ -18,6 +18,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
+/**
+ * Class to handle the corresponing view events.
+ * 
+ * @author Timo Straub
+ *
+ */
 public class HostPopupController {
 
   private Stage hostPopup;
@@ -41,6 +47,9 @@ public class HostPopupController {
   @FXML
   private Tooltip tooltipModeValue;
 
+  /**
+   * Initialize the screen.
+   */
   @FXML
   private void initialize() {
     System.out.println(mode.valueProperty());
@@ -94,8 +103,8 @@ public class HostPopupController {
   /**
    * Host a new game with the inserted values.
    * 
-   * @throws NumberFormatException exception
-   * @throws UnknownHostException exception
+   * @throws NumberFormatException Exception
+   * @throws UnknownHostException Exception
    */
   public void hostGame() throws NumberFormatException, UnknownHostException {
 

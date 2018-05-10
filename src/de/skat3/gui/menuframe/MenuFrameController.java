@@ -1,10 +1,5 @@
 package de.skat3.gui.menuframe;
 
-import java.awt.Color;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.UUID;
-import javax.swing.BorderFactory;
 import de.skat3.gui.Menu;
 import de.skat3.gui.multiplayermenu.MultiplayerMenu;
 import de.skat3.gui.optionsmenu.OptionsMenu;
@@ -13,6 +8,9 @@ import de.skat3.gui.statsmenu.StatsMenu;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.PlayTimeTimer;
 import de.skat3.main.SkatMain;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.UUID;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -48,7 +46,7 @@ public class MenuFrameController {
   @FXML
   public AnchorPane mainPane;
   @FXML
-  private HBox HBoxProfile;
+  private HBox hboxProfile;
   @FXML
   public Button singleplayerMenuButton;
   @FXML

@@ -1,8 +1,8 @@
 package de.skat3.gui.statsmenu;
 
+import de.skat3.gui.Menu;
 import java.io.IOException;
 import java.net.URL;
-import de.skat3.gui.Menu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 

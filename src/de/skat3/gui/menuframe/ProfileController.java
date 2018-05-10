@@ -1,8 +1,8 @@
 package de.skat3.gui.menuframe;
 
-import java.io.File;
 import de.skat3.io.profile.Profile;
 import de.skat3.main.SkatMain;
+import java.io.File;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -35,6 +35,9 @@ public class ProfileController {
   @FXML
   private Button btnSave;
 
+  /**
+   * Initialize the screen.
+   */
   @FXML
   public void initialize() {
     btnSave.disableProperty().bind(Bindings.isEmpty(profileName.textProperty()));
@@ -50,6 +53,7 @@ public class ProfileController {
 
   /**
    * Fills screen fields with profile data.
+   * 
    * @param p Profile which should be displayed
    */
   public void setProfile(Profile p) {

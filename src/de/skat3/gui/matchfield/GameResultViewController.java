@@ -1,8 +1,8 @@
 package de.skat3.gui.matchfield;
 
-import java.util.ArrayList;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.MatchResult.PlayerHistory;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

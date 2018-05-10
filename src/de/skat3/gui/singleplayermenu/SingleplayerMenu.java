@@ -1,8 +1,8 @@
 package de.skat3.gui.singleplayermenu;
 
+import de.skat3.gui.Menu;
 import java.io.IOException;
 import java.net.URL;
-import de.skat3.gui.Menu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 
@@ -24,7 +24,6 @@ public class SingleplayerMenu extends Menu {
     try {
       this.setPane((AnchorPane) loader.load());
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     this.controller = loader.getController();

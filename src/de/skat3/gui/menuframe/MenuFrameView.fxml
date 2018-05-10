@@ -111,7 +111,7 @@
 						<Font size="27.0" />
 					</font>
 				</MenuButton>
-				<HBox fx:id="HBoxProfile" alignment="CENTER_LEFT" layoutX="1.0"
+				<HBox fx:id="hboxProfile" alignment="CENTER_LEFT" layoutX="1.0"
 					prefHeight="56.0" prefWidth="233.0">
 					<children>
 						<ImageView fx:id="currentProfileImage" fitHeight="47.0"

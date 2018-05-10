@@ -179,7 +179,7 @@
 								<Font size="19.0" />
 							</font>
 						</Label>
-						<Label fx:id="serverIP" textFill="WHITE"
+						<Label fx:id="serverIp" textFill="WHITE"
 							GridPane.columnIndex="1" GridPane.rowIndex="2">
 							<font>
 								<Font size="19.0" />

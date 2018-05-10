@@ -4,6 +4,7 @@ import de.skat3.gamelogic.Card;
 import de.skat3.gamelogic.MatchResult;
 import de.skat3.gamelogic.Player;
 import de.skat3.gamelogic.Result;
+import de.skat3.gamelogic.TrainingRoundInstance;
 import de.skat3.main.SkatMain;
 import javafx.util.Duration;
 
@@ -315,8 +316,9 @@ public class InGameController implements InGameControllerInterface {
    * int, int)
    */
   @Override
-  public void showTrainingModeInfoText(String text, int width, int height) {
-    this.matchfield.overlayController.showTrainingModeInfoText(text, width, height);
+  public void showTrainingModeInfoText(String text, int width, int height,
+      TrainingRoundInstance trInstance) {
+    this.matchfield.overlayController.showTrainingModeInfoText(text, width, height, trInstance);
   }
 
   /*

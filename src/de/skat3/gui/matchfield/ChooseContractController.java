@@ -3,10 +3,6 @@ package de.skat3.gui.matchfield;
 import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Contract;
 import de.skat3.main.SkatMain;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanExpression;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.value.ObservableBooleanValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -49,6 +45,7 @@ public class ChooseContractController {
 
 
   private Contract currentContract;
+  @SuppressWarnings("unused")
   private boolean contractSelected = false;
 
   /**
@@ -137,7 +134,7 @@ public class ChooseContractController {
 
 
   /**
-   * 
+   * Saves the selected contract and send it to the other players.
    */
   public void setContract() {
 
@@ -150,6 +147,9 @@ public class ChooseContractController {
 
   }
 
+  /**
+   * Clear checkboxes Schneider, Schwarz, Ouvert.
+   */
   private void clear() {
     cbSchneider.setSelected(false);
     cbSchwarz.setSelected(false);
@@ -157,10 +157,9 @@ public class ChooseContractController {
   }
 
   /**
-   * .
+   * Select cotract schneider.
    */
   public void setSchneider() {
-
 
     if (!cbSchneider.isSelected()) {
       clear();
@@ -171,7 +170,7 @@ public class ChooseContractController {
   }
 
   /**
-   * .
+   * Select contract schwarz.
    */
   public void setSchwarz() {
 
@@ -186,7 +185,7 @@ public class ChooseContractController {
   }
 
   /**
-   * .
+   * Select contract ouvert.
    */
   public void setOuvert() {
 
@@ -201,7 +200,7 @@ public class ChooseContractController {
   }
 
   /**
-   * rest all gui contract fields (togglebutton, checkboxes) to default.
+   * Rest all gui contract fields (togglebutton, checkboxes) to default.
    */
   private void resetAllContracts() {
     iconClub.setStyle("");

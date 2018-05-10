@@ -1,29 +1,17 @@
 package de.skat3.gui;
 
-import de.skat3.gamelogic.AdditionalMultipliers;
-import de.skat3.gamelogic.Contract;
-import de.skat3.gamelogic.MatchResult;
-import de.skat3.gamelogic.Result;
-import de.skat3.gui.matchfield.GameResultViewController;
 import de.skat3.gui.matchfield.InGameController;
-import de.skat3.gui.matchfield.RoundResultViewController;
-import java.io.IOException;
 import java.util.logging.Logger;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Stage;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.layout.Pane;
 
 
 /**
- * Controller for the main gui
+ * Controller for the main gui.
  * 
  * @author Aljoscha Domonell, Timo Straub
  *
@@ -39,6 +27,9 @@ public class GuiController implements GuiControllerInterface {
     this.inGameController = this.gui.showMatchfield();
   }
 
+  /**
+   * Print screen.
+   */
   public void print() {
     for (Node n : this.gui.getMainStage().getScene().getRoot().getChildrenUnmodifiable()) {
       int i = 1;
@@ -53,11 +44,17 @@ public class GuiController implements GuiControllerInterface {
           this.printChildren(i + "", ((Parent) n).getChildrenUnmodifiable());
         }
       } catch (Exception e) {
-
+        // .
       }
     }
   }
 
+  /**
+   * TODO.
+   * 
+   * @param s
+   * @param list
+   */
   public void printChildren(String s, ObservableList<Node> list) {
     int i = 1;
     for (Node n : list) {
@@ -68,7 +65,7 @@ public class GuiController implements GuiControllerInterface {
           this.printChildren(s + "." + i + "", ((Parent) n).getChildrenUnmodifiable());
         }
       } catch (Exception e) {
-
+        // .
       }
     }
   }
