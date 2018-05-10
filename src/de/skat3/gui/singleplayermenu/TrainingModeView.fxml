@@ -16,20 +16,20 @@
 	xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="de.skat3.gui.singleplayermenu.TrainingModeController">
 	<children>
-		<VBox alignment="CENTER" layoutX="120.0" layoutY="99.5"
-			spacing="10.0" AnchorPane.leftAnchor="20.0"
-			AnchorPane.rightAnchor="20.0">
+		<VBox alignment="CENTER" layoutX="22.0" layoutY="83.0"
+			prefHeight="378.0" prefWidth="458.0" spacing="10.0"
+			AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0">
 			<children>
-				<Label text="Skat Basic" textFill="#456990" underline="true">
+				<Label text="Skat Basics" textFill="#456990" underline="true">
 					<font>
-						<Font name="System Bold" size="30.0" />
+						<Font name="System Bold" size="27.0" />
 					</font>
 					<opaqueInsets>
 						<Insets />
 					</opaqueInsets>
 				</Label>
 				<Button mnemonicParsing="false" onAction="#startSkatBasic"
-					style="-fx-background-color: #114B5F;" text="Skat Basic"
+					style="-fx-background-color: #114B5F;" text="Skat Basics"
 					textFill="WHITE">
 					<font>
 						<Font name="System Bold" size="15.0" />
@@ -37,7 +37,7 @@
 				</Button>
 				<Label text="Strategies" textFill="#456990" underline="true">
 					<font>
-						<Font name="System Bold" size="30.0" />
+						<Font name="System Bold" size="27.0" />
 					</font>
 					<opaqueInsets>
 						<Insets />
@@ -87,21 +87,21 @@
 				</Button>
 			</children>
 		</VBox>
-		<Pane layoutY="-1.0" prefHeight="86.0" prefWidth="602.0"
+		<Pane layoutY="-1.0" prefHeight="70.0" prefWidth="602.0"
 			style="-fx-background-color: #404040;" AnchorPane.leftAnchor="0.0"
 			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
-				<Label layoutX="139.0" layoutY="18.0" text="Training Mode"
+				<Label layoutX="155.0" layoutY="14.0" text="Training Mode"
 					textFill="WHITE">
 					<font>
-						<Font size="34.0" />
+						<Font size="29.0" />
 					</font>
 				</Label>
-				<Button layoutX="449.0" layoutY="24.0"
+				<Button layoutX="455.0" layoutY="20.0"
 					mnemonicParsing="false" onAction="#close"
 					style="-fx-background-color: d60202;" text="X" textFill="WHITE">
 					<font>
-						<Font size="18.0" />
+						<Font name="System Bold" size="15.0" />
 					</font>
 				</Button>
 			</children>
