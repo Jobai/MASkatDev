@@ -9,20 +9,24 @@
 
 package de.skat3.network.client;
 
-import java.util.logging.Logger;
-import de.skat3.gamelogic.AdditionalMultipliers;
 import de.skat3.gamelogic.Card;
-import de.skat3.gamelogic.Contract;
 import de.skat3.gamelogic.Player;
-import de.skat3.gamelogic.Result;
 import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
 import de.skat3.network.datatypes.MessageCommand;
+import java.util.logging.Logger;
+
 
 /**
- * @author Jonas Bauer
+ * Handles messages For the AI (Mostly Commands sometimes Informatio) from the network and acts on
+ * their content. Calls manly methods from the AiMainController to inform the AI of changes in the
+ * GameState or a Request to do something. <br>
+ * ClientNetwork > this Class > aiController > AI. IMPLEMENTs [UNDERSTAND] COMMANDTYPEs.
+ * 
+ * @author Jonas
  *
+ * 
  */
 
 public class AiClientLogicHandler extends ClientLogicHandler {
@@ -30,17 +34,16 @@ public class AiClientLogicHandler extends ClientLogicHandler {
   Logger logger = Logger.getLogger("de.skat3.network.AIGameClient");
   Player aiPlayer;
 
+
   /**
+   * Constructor that sets the ai Player an aiGameClient.
+   * 
+   * @see de.skat3.network.client.ClientLogicHandler#AiClientLogicHandle(de.skat3.network.client.
+   *      AiGameClient, de.skat3.gamelogic. Player)
    * @author Jonas Bauer
-   * @param gc
+   * @param aiGameClient the aiGameClient
+   * @param player aiPlayer to be set.
    */
-  public AiClientLogicHandler(AiGameClient gc) {
-    super(gc);
-    // TODO Auto-generated constructor stub
-  }
-
-
-
   public AiClientLogicHandler(AiGameClient aiGameClient, Player player) {
     // TODO Auto-generated constructor stub
     super(aiGameClient);
@@ -114,7 +117,7 @@ public class AiClientLogicHandler extends ClientLogicHandler {
   @Override
   void roundInfoHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
-    // Round stated - start hand is set
+    // Round stated - hand is set
     if (mc.getSubType() == CommandType.ROUND_GENERAL_INFO) {
       Player payloadPlayer = (Player) mc.gameState;
       logger.finer("RIH AI:" + payloadPlayer);
@@ -160,9 +163,6 @@ public class AiClientLogicHandler extends ClientLogicHandler {
   @Override
   void contractRequestHandler(Message m) {
     logger.fine("AI CONTRACT REQUEST");
-    MessageCommand mc = (MessageCommand) m;
-    Contract c = (Contract) mc.payload;
-    AdditionalMultipliers am = (AdditionalMultipliers) mc.secondPayload;
     SkatMain.aiController.contractRequest(aiPlayer);
   }
 
@@ -176,7 +176,6 @@ public class AiClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void declarerInfoHander(Message m) {
-
     // do nothing
   }
 
@@ -190,8 +189,6 @@ public class AiClientLogicHandler extends ClientLogicHandler {
    */
   @Override
   void handRequestHandler(Message m) {
-    MessageCommand mc = (MessageCommand) m;
-    Player p = (Player) mc.gameState;
     SkatMain.aiController.handGameRequest(aiPlayer);
   }
 
@@ -207,7 +204,6 @@ public class AiClientLogicHandler extends ClientLogicHandler {
   void skatRequestHandler(Message m) {
     MessageCommand mc = (MessageCommand) m;
     Card[] skat = (Card[]) mc.gameState;
-    Player p = mc.playerTarget;
     SkatMain.aiController.selectSkatRequest(skat, aiPlayer);
   }
 

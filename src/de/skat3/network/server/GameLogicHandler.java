@@ -12,6 +12,7 @@ import de.skat3.network.datatypes.MessageAnswer;
 import de.skat3.network.datatypes.SubType;
 
 /**
+ * 
  * ServerNetwork > thisClass > Logic
  * 
  * I IMPLEMENT ANSWERTYPEs
@@ -24,13 +25,11 @@ public class GameLogicHandler {
   GameController gc;
 
   public GameLogicHandler(GameController gc) {
-   
+
     this.gc = gc;
   }
 
   public void handleAnswer(Message m) {
-   
-
     AnswerType at = (AnswerType) m.getSubType();
     switch (at) {
       case BID_ANSWER:
@@ -60,7 +59,7 @@ public class GameLogicHandler {
         break;
       case REKONTRA_ANSWER:
         kontraHandler(m);
-        break; 
+        break;
       default:
         throw new AssertionError();
     }
@@ -96,28 +95,23 @@ public class GameLogicHandler {
   }
 
   private void skatHandler(Message m) {
-    // TODO Auto-generated method stub
     MessageAnswer ma = (MessageAnswer) m;
     Card[] skat = (Card[]) ma.payload;
     Hand h = (Hand) ma.additionalPlayload;
     gc.notifyLogicOfNewSkat(h, skat);
-    
+
   }
 
   private void gameHandler(Message m) {
-    // TODO Auto-generated method stub
-    MessageAnswer ma = (MessageAnswer) m;
+    // do nothing - function not needed
   }
-  
-  private void kontraHandler(Message m){
+
+  private void kontraHandler(Message m) {
     MessageAnswer ma = (MessageAnswer) m;
-    
-    if(ma.getSubType() == AnswerType.KONTRA_ANSWER)
-    {
+
+    if (ma.getSubType() == AnswerType.KONTRA_ANSWER) {
       gc.notifyLogicofKontra();
-    }
-    else if(ma.getSubType() == AnswerType.REKONTRA_ANSWER)
-    {
+    } else if (ma.getSubType() == AnswerType.REKONTRA_ANSWER) {
       gc.notifyLogicofRekontra();
     }
   }

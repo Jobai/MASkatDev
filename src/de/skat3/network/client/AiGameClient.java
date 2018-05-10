@@ -6,49 +6,70 @@
  * 
  *          (c) 2018 All Rights Reserved. -------------------------
  */
+
 package de.skat3.network.client;
 
-import java.io.IOException;
 import de.skat3.gamelogic.Player;
-import de.skat3.main.SkatMain;
 import de.skat3.network.datatypes.CommandType;
 import de.skat3.network.datatypes.Message;
-import de.skat3.network.datatypes.MessageChat;
 import de.skat3.network.datatypes.MessageType;
 import de.skat3.network.datatypes.SubType;
+import java.io.IOException;
+
 
 /**
+ * Main AI client side network handler. Handles connection and messages to and from the server for
+ * the AI Client. Necessary for any kind of Skat game with AI (single and multiplayer!). <b> Bots
+ * can ONLY be used on the local host and should never be connected to a remote host! </b>
+ * 
  * @author Jonas Bauer
  *
  */
 public class AiGameClient extends GameClient {
 
-  AiClientLogicHandler aiCLH;
+  AiClientLogicHandler aiClh;
 
   /**
+   * Constructs a AiGameClient and automatically connects to the given server. <b> only works on
+   * local clients. remote bots are NOT supported! </b>
+   * 
    * @author Jonas Bauer
-   * @param hostAdress
-   * @param port
-   * @param player
+   * @param hostAdress address of the server you want to connect to. <b> Must always be localhost!
+   *        </b>
+   * @param port port of the server you want to connect to.
+   * @param player the player (bot) instance of the connecting user.
    */
   public AiGameClient(String hostAdress, int port, Player player) {
     super(hostAdress, port, player);
-    aiCLH = new AiClientLogicHandler(this, this.player);
+    aiClh = new AiClientLogicHandler(this, this.player);
   }
 
   /**
+   * Constructs a AiGameClient and automatically connects to the given server <b> using a lobby
+   * password </b>. <b> Lobby password must always the masterpassword for bots! </b> <b> Bots only
+   * works on local clients. remote bots are NOT supported! </b>
+   * 
    * @author Jonas Bauer
-   * @param hostAdress
-   * @param port
-   * @param player
-   * @param lobbyPassword
+   * @param hostAdress Server address to connect to. <b> Must always be localhost! </b>
+   * @param port port of the server you want to connect to.
+   * @param player the player (bot) instance of the connecting user.
+   * @param lobbyPassword the lobbyPassword for the Server. <b> Should always be the master
+   *        password! </b>
    */
   public AiGameClient(String hostAdress, int port, Player player, String lobbyPassword) {
     super(hostAdress, port, player, lobbyPassword);
-    aiCLH = new AiClientLogicHandler(this, this.player);
+    aiClh = new AiClientLogicHandler(this, this.player);
   }
-  
 
+
+  /**
+   * Handles and understands the incoming messages. Relays them to the proper methods of the <b>
+   * AiClientLogicController </b> for action. Info: The AI handels some messages differently or not
+   * a all.
+   * 
+   * @author Jonas Bauer
+   * @param o received message from the server (still as object).
+   */
   @Override
   void clientProtocolHandler(Object o) {
     logger.fine("AI got a MEssage!");
@@ -112,70 +133,70 @@ public class AiGameClient extends GameClient {
     logger.fine("Handeling AI received message!" + ct);
     switch (ct) {
       case BID_INFO:
-        aiCLH.bidInfoHandler(m);
+        aiClh.bidInfoHandler(m);
         break;
       case BID_REQUEST:
-        aiCLH.bidRequestHandler(m);
+        aiClh.bidRequestHandler(m);
         break;
       case PLAY_INFO:
-        aiCLH.playInfoHandler(m);
+        aiClh.playInfoHandler(m);
         break;
       case PLAY_REQUEST:
-        aiCLH.playRequestHandler(m);
+        aiClh.playRequestHandler(m);
         break;
       case ROUND_START_INFO:
-        aiCLH.roundInfoHandler(m);
+        aiClh.roundInfoHandler(m);
         break;
       case ROUND_END_INFO:
-        aiCLH.roundInfoHandler(m);
+        aiClh.roundInfoHandler(m);
         break;
       case MATCH_INFO:
-        aiCLH.matchInfoHandler(m);
+        aiClh.matchInfoHandler(m);
         break;
       case GAME_INFO:
-        aiCLH.gameInfoHandler(m);
+        aiClh.gameInfoHandler(m);
         break;
       case HAND_REQUEST:
-        aiCLH.handRequestHandler(m);
+        aiClh.handRequestHandler(m);
         break;
       case CONTRACT_REQUEST:
-        aiCLH.contractRequestHandler(m);
+        aiClh.contractRequestHandler(m);
         break;
       case SKAT_INFO_REQUEST:
-        aiCLH.skatRequestHandler(m);
+        aiClh.skatRequestHandler(m);
         break;
       case KONTRA_ANNOUNCED_INFO:
-        aiCLH.kontraAnnouncedInfoHandler(m);
+        aiClh.kontraAnnouncedInfoHandler(m);
         break;
       case REKONTRA_ANNOUNCED_INFO:
-        aiCLH.reKontraAnnouncedInfoHandler(m);
+        aiClh.reKontraAnnouncedInfoHandler(m);
         break;
       case KONTRA_SHOW_OPTION_INFO:
-        aiCLH.kontraShowHandler(m);
+        aiClh.kontraShowHandler(m);
         break;
       case REKONTRA_SHOW_OPTION_INFO:
-        aiCLH.reKontraShowHandler(m);
+        aiClh.reKontraShowHandler(m);
         break;
       case ROUND_GENERAL_INFO:
-        aiCLH.roundInfoHandler(m);
+        aiClh.roundInfoHandler(m);
         break;
       case AUCTION_WINNER_INFO:
-        aiCLH.declarerInfoHander(m);
+        aiClh.declarerInfoHander(m);
         break;
       case CONTRACT_INFO:
-        aiCLH.contractInfoHandler(m);
+        aiClh.contractInfoHandler(m);
         break;
       case UPDATE_ENEMY_INFO:
-        aiCLH.updateEnemyInfoHandler(m);
+        aiClh.updateEnemyInfoHandler(m);
         break;
       case TRAINING_CALL_FOR_SPECIFIC_PLAY:
-        aiCLH.specificPlayHandler(m);
+        aiClh.specificPlayHandler(m);
         break;
       case SET_DEALER:
-        aiCLH.setDealerHandler(m);
+        aiClh.setDealerHandler(m);
         break;
-      case TRICK_INFO: 
-        //do nothing
+      case TRICK_INFO:
+        // do nothing
         break;
       default:
         logger.severe("Message Type not handeld!  " + " --- " + st);
