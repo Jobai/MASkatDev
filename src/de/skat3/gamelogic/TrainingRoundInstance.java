@@ -176,7 +176,7 @@ public class TrainingRoundInstance extends RoundInstance {
           @Override
           public void run() {
             SkatMain.guiController.getInGameController().showTrainingModeInfoText(
-                "/trainingPopups/Skat Strategies/Scenario1/successPopUp.html", 400, 300,
+                "/trainingPopups/SuccessPopUp.html", 400, 300,
                 TrainingRoundInstance.this);
           }
         });
