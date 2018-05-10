@@ -72,7 +72,7 @@ public class GuiTrick {
     this.postions[2].getTransforms().add(new Rotate(yr, Rotate.Y_AXIS));
     this.postions[2].getTransforms().add(new Rotate(zr + 30, Rotate.Z_AXIS));
 
-    this.bidingCard1 = new GuiCard(new Card());
+    this.bidingCard1 = GuiCard.GuiCard(new Card());
 
     Affine newTr = new Affine(this.postions[0].getLocalToParentTransform());
     this.bidingCard1.setTranslateX(newTr.getTx());
@@ -89,7 +89,7 @@ public class GuiTrick {
     this.bidingCard1.translateYProperty().bind(this.postions[0].translateYProperty());
     this.bidingCard1.translateZProperty().bind(this.postions[0].translateZProperty());
 
-    this.bidingCard2 = new GuiCard(new Card());
+    this.bidingCard2 = GuiCard.GuiCard(new Card());
 
     Affine newTr2 = new Affine(this.postions[2].getLocalToParentTransform());
     this.bidingCard2.setTranslateX(newTr2.getTx());
@@ -186,7 +186,7 @@ public class GuiTrick {
       SkatMain.guiController.getInGameController().matchfield.tableView.table.getChildren()
           .remove(this.cards[i].getCard().getImage());
 
-      this.cards[i].clear();
+      // this.cards[i].clear();
 
       SkatMain.guiController.getInGameController().matchfield.tableView.table.getChildren()
           .remove(this.cards[i]);

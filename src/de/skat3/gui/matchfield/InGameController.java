@@ -20,6 +20,7 @@ public class InGameController implements InGameControllerInterface {
 
   public InGameController(Matchfield matchfield) {
     this.matchfield = matchfield;
+    GuiCardDeck.ini();
   }
 
   /*
@@ -86,7 +87,7 @@ public class InGameController implements InGameControllerInterface {
     if (guiCard == null) {
       int index = playingHand.getCards().size() / 2;
       playingHand.remove(index);
-      guiCard = new GuiCard(card);
+      guiCard = GuiCard.GuiCard(card);
       playingHand.add(index, guiCard, false);
     }
     this.matchfield.tableController.playCard(playingHand, guiCard);
@@ -319,7 +320,7 @@ public class InGameController implements InGameControllerInterface {
   @Override
   public void showTrainingModeInfoText(String text, int width, int height,
       TrainingRoundInstance trInstance) {
-    this.matchfield.overlayController.showTrainingModeInfoText(text, width, height, trInstance);
+    this.matchfield.overlayController.showTrainingModeInfoText(text, width, height);
   }
 
   /*

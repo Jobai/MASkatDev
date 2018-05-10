@@ -240,6 +240,13 @@ public class Card implements Serializable {
       }
     }
 
+    if (this.value == null) {
+      return false;
+    }
+    if (card.value == null) {
+      return false;
+    }
+
     return (this.value == card.value && this.suit == card.suit) ? true : false;
 
   }
@@ -302,6 +309,7 @@ public class Card implements Serializable {
 
   /**
    * Returns the corresponding Unicode Char of the Card.
+   * 
    * @author Jonas Bauer
    * @return the unicode char as a string.
    */
