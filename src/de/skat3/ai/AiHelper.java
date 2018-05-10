@@ -1,6 +1,7 @@
 package de.skat3.ai;
 
 import java.io.Serializable;
+
 import de.skat3.gamelogic.AdditionalMultipliers;
 
 /**
@@ -8,6 +9,7 @@ import de.skat3.gamelogic.AdditionalMultipliers;
  * @author Emre Cura, Artem Zamarajev
  *
  */
+@SuppressWarnings("serial")
 public class AiHelper implements Serializable {
 
   AdditionalMultipliers[] allMultipliers = createAllAdditionalMultipliers();
