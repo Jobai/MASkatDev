@@ -7,6 +7,9 @@
 - Geführtes Spielen & Tutorials zum Erlernen von Skat
 - Vieles Mehr!
 
+![MA Skat Spielfeld](https://i.imgur.com/BnOHg41.png)
+
+
 ## Trailer
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=LkExUXp0lE0
