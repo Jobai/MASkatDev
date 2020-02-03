@@ -14,7 +14,7 @@
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=LkExUXp0lE0
 " target="_blank"><img src="http://img.youtube.com/vi/LkExUXp0lE0/0.jpg" 
-alt="MA Skat Trailer" width="240" height="180" border="10" /></a>
+alt="MA Skat Trailer" width="480" height="360" border="10" /></a>
 
 
-Entwicklet von: KaiBaumann, Aljodomo, timo-straub, Artem Zamarajev, ecura und Jobai
+Entwickelt von: [KaiBaumann](https://github.com/KaiBaumann), [Aljodomo](https://github.com/Aljodomo), [timo-straub](https://github.com/timo-straub), [Artem Zamarajev](https://github.com/zamarajev), [ecura](https://github.com/ecura) und [Jobai](https://github.com/Jobai)
